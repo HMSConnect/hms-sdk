@@ -1,0 +1,28 @@
+version: "3"
+services:
+
+  hms-sdk:
+    container_name: hms-sdk
+    environment: 
+      - DCP_PORT=3000
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    env_file:
+      - ./app/.env.development
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
+    volumes:
+      - ./app:/app/hms-sdk
+      - /app/hms-sdk/node_modules  # [*] Need to refer to node_modules in container of the app
+    entrypoint:
+      - sh
+      - entrypoint-dev.sh
+    restart: always
+
+networks:
+  default:
+    external:
+      name: aassdk
