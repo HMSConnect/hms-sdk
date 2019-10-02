@@ -6,7 +6,7 @@ import theme from '../src/theme';
 
 const { staticFolder } = getConfig().publicRuntimeConfig;
 
-class AASDocument extends Document {
+class HMSWidgetSDKDocument extends Document {
     static async getInitialProps(ctx) {
         const sheets = new ServerStyleSheets();
         const originalRenderPage = ctx.renderPage;
@@ -61,4 +61,4 @@ class AASDocument extends Document {
     }
 }
 
-export default AASDocument;
+export default HMSWidgetSDKDocument;

@@ -20,7 +20,7 @@ class AASApp extends App {
         return (
             <Container>
                 <Head>
-                    <title>AAS</title>
+                    <title>HMS Widget SDK</title>
                 </Head>
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}

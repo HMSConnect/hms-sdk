@@ -1,7 +1,7 @@
 FROM node:10.15-alpine
 
 # Create app directory
-WORKDIR /app/hms-sdk
+WORKDIR /app/hms-sdk-widget
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied

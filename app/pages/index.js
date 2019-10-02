@@ -48,97 +48,27 @@ const useStyles = makeStyles(theme => ({
 
 export default function App() {
 
-  const classes = useStyles();
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
-
-  const toggleDrawer = (side, open) => event => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-
-    setState({ ...state, [side]: open });
-  };
-
   const brandObjs = {
     favicon:{
-      name:"AAS",
+      name:"HMS Widget SDK",
       alt:"favicon",
       src:`${staticFolder}/static/images/favicon.png`
     },
-    aas:{
-      name:"AAS",
-      alt:"AAS",
+    hms_widget_sdk:{
+      name:"HMS Widget SDK",
+      alt:"HMS Widget SDK",
       src:`${staticFolder}/static/images/favicon.png`
     }
   }
 
-  const authMenuObjList = [
-    { 
-      text:'Register', icon:<RegisterIcon />, link:'signup'
-    },
-    // { 
-    //   text:'Sign In', icon:<InputIcon />, link:'signin'
-    // },
-    // { 
-    //   text:'Sign In via sample App', icon:<InputIcon />, link:'signin?client_id=YfaWXowVNHegc3qeLLnHXYFeQ4hJheCh&redirect_url='
-    // }
-  ]
-
-  const sideList = side => (
-    <div
-      className={classes.list}
-      role="presentation"
-      onClick={toggleDrawer(side, false)}
-      onKeyDown={toggleDrawer(side, false)}
-    >
-      <List>
-        <ListItem button key={brandObjs.aas.name}>
-          <ListItemAvatar>
-            <Avatar alt={brandObjs.aas.alt} src={brandObjs.aas.src} className={classes.bigAvatar} />
-          </ListItemAvatar>
-          <ListItemText primary={brandObjs.aas.name} />
-        </ListItem>
-      </List>
-      <List>
-        {authMenuObjList.map((menuObj, index) => (
-          <Link route={menuObj.link} key={menuObj.text}>
-            <ListItem button key={menuObj.text}>
-                <ListItemIcon>{menuObj.icon}</ListItemIcon>
-                <ListItemText primary={menuObj.text} />
-            </ListItem>
-          </Link>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {/** ANY LIST */}
-      </List>
-    </div>
-  );
-
   return (
     <React.Fragment>
       <CssBaseline />
-      <NavigationBar toggleDrawer={toggleDrawer} brand={brandObjs.favicon}/>
-      
-      {/* <MainContent>
-      </MainContent> */}
-
-      <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
-        {sideList('right')}
-      </Drawer>
 
       <Container maxWidth="lg">
-      
+        <Link href="/patient">Patient</Link>
       </Container>
 
-      <br></br>
-      <Footer/>
     </React.Fragment>
   )
 };

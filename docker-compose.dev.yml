@@ -1,8 +1,8 @@
 version: "3"
 services:
 
-  hms-sdk:
-    container_name: hms-sdk
+  hms-sdk-widget:
+    container_name: hms-sdk-widget
     environment: 
       - DCP_PORT=3000
     build:
@@ -15,8 +15,8 @@ services:
     expose:
       - 3000
     volumes:
-      - ./app:/app/hms-sdk
-      - /app/hms-sdk/node_modules  # [*] Need to refer to node_modules in container of the app
+      - ./app:/app/hms-sdk-widget
+      - /app/hms-sdk-widget/node_modules  # [*] Need to refer to node_modules in container of the app
     entrypoint:
       - sh
       - entrypoint-dev.sh
@@ -25,4 +25,4 @@ services:
 networks:
   default:
     external:
-      name: aassdk
+      name: iassdk
