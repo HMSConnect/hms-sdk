@@ -5,6 +5,19 @@ export default function SFHIRPatient(){
             this._patient = null;
             this._patient = Object.assign({}, p);
         },
+        isValid: function(data){
+            return data
+                ? data.hasOwnProperty('meta')
+                ? data.meta.hasOwnProperty('tag')
+                ? Array.isArray(data.meta.tag) && data.meta.tag[0].hasOwnProperty('code')
+                ? data.meta.tag[0].code=='smart-8-2017'
+                ? true
+                : false
+                : false
+                : false
+                : false
+                : false;
+        },
         compile: function(){
             let compileStandard;
             let patient = this._patient?Object.assign({}, this._patient):null;

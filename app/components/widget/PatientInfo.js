@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import ReactDOM from "react-dom";
 
 import Container from '@material-ui/core/Container';
@@ -59,20 +60,40 @@ class PatientInfo extends React.Component {
   }
 
   loadDataByStandard(isSFHIRStandard) {
-    let info;
+    let info = null;
+    let _this = this;
+    let sanboxEndpoint;
 
     if(!isSFHIRStandard) {
-      console.log('mockHMSPatient:', mockHMSPatient)
-      HMSPatientObj.setData(mockHMSPatient);
-      info = HMSPatientObj.compile();
+      sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/patient`;
     } else {
-      console.log('mockSFHIRPatient:', mockSFHIRPatient)
-      SFHIRPatientObj.setData(mockSFHIRPatient);
-      info = SFHIRPatientObj.compile();
+      sanboxEndpoint = 'https://r2.smarthealthit.org/Patient/smart-1551992';
     }
+    
+    this.callingAPI(
+      sanboxEndpoint, 
+      'GET',
+      null,
+      null,
+      function(data) {
+        console.log('callingAPI:', data)
 
-    console.log('info:', info)
-    this.setState({ patient:info });
+        if(HMSPatientObj.isValid(data)) {
+          HMSPatientObj.setData(data);
+          info = HMSPatientObj.compile();
+        } else if(SFHIRPatientObj.isValid(data)) {
+          SFHIRPatientObj.setData(data);
+          info = SFHIRPatientObj.compile();
+        } else {
+          alert('Sorry, we are not support current data standard!')
+        }
+          
+        if(info) {
+          console.log('info:', info)
+          _this.setState({ patient:info });
+        }
+      }
+    );
   }
 
   handleSwitchChange(e) {
@@ -82,6 +103,33 @@ class PatientInfo extends React.Component {
     this.setState(tmp);
 
     this.loadDataByStandard(event.target.checked);
+  }
+
+  callingAPI(endpoint, method, data, authToken, callback) {
+    let apiOpt = {
+        method: method,
+        url: endpoint, data: data,
+        withCredentials: false, json: true,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+
+    if(authToken) {
+        apiOpt.headers['Authorization'] = 'Bearer ' + authToken;
+    }
+    
+    axios(apiOpt).then(response => {
+        console.log('callingAPI : ', response)
+        if(typeof callback === 'function') {
+            callback(response.data)
+        }
+    }).catch(err => {
+        console.log('callingAPI error : ', err)
+        if(typeof callback === 'function') {
+            callback(err)
+        }
+    });
   }
 
   render() {

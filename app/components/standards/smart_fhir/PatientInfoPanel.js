@@ -29,16 +29,16 @@ export default function PatientInfoPanel(props) {
                     {
                         info
                         ? `${
-                            info.name.prefix
-                            ? info.name.prefix?info.name.prefix.map(v=>(v+' ')):''
+                            info.name.prefix && Array.isArray(info.name.prefix)
+                            ? info.name.prefix.join(` `)
                             : ''
-                            }${
-                            info.name.given
-                            ? info.name.given?info.name.given.map(v=>(v+' ')):''
+                            }${info.name.prefix?info.name.prefix.length>0?' ':'':''}${
+                            info.name.given && Array.isArray(info.name.given)
+                            ? info.name.given.join(` `)
                             : ''
-                            }${
-                            info.name.family
-                            ? info.name.family?info.name.family.map(v=>(v+' ')):''
+                            }${info.name.given?info.name.given.length>0?' ':'':''}${
+                            info.name.family && Array.isArray(info.name.family)
+                            ? info.name.family.map((v,i)=>`${v}${i<info.name.family.length-1?' ':''}`)
                             : ''
                             }`
                         : 'Unknown'

@@ -22,6 +22,27 @@ services:
       - entrypoint-dev.sh
     restart: always
 
+  hms-fake-data:
+    container_name: hms-fake-data
+    environment: 
+      - FAKE_PORT=3002
+    build:
+      context: ./fake
+      dockerfile: Dockerfile
+    env_file:
+      - ./fake/.env.development
+    ports:
+      - "3002:3002"
+    expose:
+      - 3002
+    volumes:
+      - ./fake:/app/hms-fake-data
+      - /app/hms-fake-data/node_modules  # [*] Need to refer to node_modules in container of the app
+    entrypoint:
+      - sh
+      - entrypoint-dev.sh
+    restart: always
+
 networks:
   default:
     external:

@@ -5,6 +5,9 @@ export default function HMSPatient(){
             this._patient = null;
             this._patient = Object.assign({}, p);
         },
+        isValid: function(data){
+            return data?data.hasOwnProperty('hn')?true:false:false
+        },
         compile: function(){
             let compileStandard;
             let patient = this._patient?Object.assign({}, this._patient):null;
