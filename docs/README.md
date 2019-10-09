@@ -1,6 +1,6 @@
 # **HMS Widget SDK**
 
-![HMS Widget SDK](./app/assets/hms-widget-sdk.gif)
+![HMS Widget SDK](./assets/hms-widget-sdk.gif)
 
 <span style="text-align:center"><strong>HMS Widget SDK</strong> is healthcare widget provider. We are a part of HMS Software Development Toolkit (HMS-SDK) will be a collection of tools that enable the efficient development of "add-on" applications. 
 GLS will host workshops to provide training on the proper use of the HMS-SDK. 
@@ -179,7 +179,7 @@ export default class Widget extends React.Component {
 }
 ```
 
-![Data flow](./app/assets/hms-widget-sdk-data-flow.png)
+![Data flow](./assets/hms-widget-sdk-data-flow.png)
 
 **note** : data standard classification is in step#3.
 
@@ -187,7 +187,7 @@ export default class Widget extends React.Component {
 
 ### **1. Fake data service**
 
-___1.1. HMSConnect___
+### ___1.1. HMSConnect___
 
    We are not allow any user to access our resources directly, it is user's privacy issue. So we provided micro-service to serve mock HMSConnect data standard via port number `3002`. In source code, you just set your target endpoint of API to :
 
@@ -206,12 +206,11 @@ HMS_SANDBOX_URL=http://localhost
 ```
 
 For the other example domain resources except `patient`, we provide :
-
- - [allergy](./fake/mock/standards/hms_connect/allergy.json)
- - [condition](./fake/mock/standards/hms_connect/condition.json)
- - [encounter](./fake/mock/standards/hms_connect/encounter.json)
- - [practitioner](./fake/mock/standards/hms_connect/practitioner.json)
- - [procedure](./fake/mock/standards/hms_connect/procedure.json)
+ - [allergy](https://github.com/HMSConnect/hms-widget-sdk/blob/master/fake/mock/standards/hms_connect/allergy.json)
+ - [condition](https://github.com/HMSConnect/hms-widget-sdk/blob/master/fake/mock/standards/hms_connect/condition.json)
+ - [encounter](https://github.com/HMSConnect/hms-widget-sdk/blob/master/fake/mock/standards/hms_connect/encounter.json)
+ - [practitioner](https://github.com/HMSConnect/hms-widget-sdk/blob/master/fake/mock/standards/hms_connect/practitioner.json)
+ - [procedure](https://github.com/HMSConnect/hms-widget-sdk/blob/master/fake/mock/standards/hms_connect/procedure.json)
 
  In your widget, you can change endpoint from `patient` to be keyword above in `lowercase` string :
 
@@ -225,7 +224,7 @@ For the other example domain resources except `patient`, we provide :
     sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/encounter`;
 ```
 
-___1.2. SmartFHIR___
+### ___1.2. SmartFHIR___
 
 They have already provided sandbox in their website. You can access via `https://[FHIR_VERSION].smarthealthit.org/Patient/[MOCK_DATA_WITH_USER_ID]`. We suggest you to find user's ID from link below to use in your development environment:
 
