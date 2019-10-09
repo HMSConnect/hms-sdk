@@ -9,4 +9,4 @@
 - Multiple themes
 
 [GitHub](https://github.com/HMSConnect/hms-widget-sdk)
-[Get Started](#hms-widget-sdk)
+[Get Started](/introduction/background)

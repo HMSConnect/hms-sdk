@@ -1,6 +1,4 @@
-# **HMS Widget SDK**
-
-### **Project Structure**
+# **Project Structure**
 
 ```bash
 ├── app

@@ -1,18 +1,6 @@
-# **Quick start**
+# **Usage**
 
-## **Installation**
-
-We required dependencies below:
-
- - [NodeJS](https://nodejs.org/en/download/)
- - [Docker](https://docs.docker.com/install/)
- - [Docker Compose](https://docs.docker.com/compose/install/)
- - [NextJS](https://nextjs.org/docs)
- - [Material-UI](https://material-ui.com/)
-
-## **Usage**
-
-### **Step 1 : Create custom external Docker network**
+## **Step 1 : Create custom external Docker network**
 
 We declare default network name `iassdk` to communicate between service in Docker compose, you can create the network via command below:
 
@@ -20,7 +8,7 @@ We declare default network name `iassdk` to communicate between service in Docke
 $ docker network create iassdk
 ```
 
-### **Step 2 : Start Docker compose with specific environment**
+## **Step 2 : Start Docker compose with specific environment**
 
 **Development environment**
 
@@ -42,7 +30,7 @@ $ docker-compose -f docker-compose.prod.yml down -v
 $ docker-compose -f docker-compose.prod.yml up --build -d
 ```
 
-### **Alternative step**
+## **Alternative step**
 
 Just run
 
@@ -56,17 +44,14 @@ $ sh run.sh dev
 $ sh run.sh prod
 ```
 
-**Note** : You can check running log via command:
-```bash
-$ docker-compose -f docker-compose.dev.yml logs
-```
+?> **note** : You can check running log via command: `$ docker-compose -f docker-compose.dev.yml logs`
 
-### **Final step**
+## **Final step**
 
 Enjoy with sample widget!
-
-**note**:port number `3000` is development environment
 
 ```http
 http://localhost:3000/patient
 ```
+
+?> **note** : port number `3000` is development environment
