@@ -2,16 +2,51 @@
 
 ## **1.1. HMSConnect**
 
-   We are not allow any user to access our resources directly, it is user's privacy issue. So we provided micro-service to serve mock HMSConnect data standard via port number `3002`. In source code, you just set your target endpoint of API to :
+We are not allow any user to access our resources directly, it is user's privacy issue. So we provided micro-service to serve mock HMSConnect data standard via port number `3002` (refer to `docker-compose.[YOUR_ENV].yml`). 
+
+For simple fake data service provider (`sandbox`) :
+
+```js
+// Ex. fake_server.js
+
+const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+const app = express();
+
+const port = process.env.FAKE_PORT || 3002;
+
+app.use(cors());
+
+app.get('/:domain_resource', (req, res) => {
+    try {
+        let fPath = path.join(__dirname, `/mock/standards/hms_connect/${req.params.domain_resource}.json`);
+        if (fs.existsSync(fPath)) {
+            res.sendFile(fPath);
+        }
+    } catch(err) {
+        console.error(err)
+        res.json({ error:err, data:null })
+    }
+})
+
+app.listen(port, function(){
+  console.log(`Providing fake patient data via port ${port}!`)
+});
+```
+
+In source code of each widget, you just set your target endpoint of the API to :
 
 ```javascript
 // Ex. your_widget.js
-    // ...
-    sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/patient`;
-    // ...
+
+// ...
+sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/patient`;
+// ...
 ```
 
-In `.env.[YOUR_ENVIRONMENT]`:
+After that your `app` should set environment in `.env.[YOUR_ENVIRONMENT]` by refer to the `sandbox`:
 
 ```
 HMS_SANDBOX_PORT=:3002
@@ -25,16 +60,35 @@ For the other example domain resources except `patient`, we provide :
  - [practitioner](https://github.com/HMSConnect/hms-widget-sdk/blob/master/fake/mock/standards/hms_connect/practitioner.json)
  - [procedure](https://github.com/HMSConnect/hms-widget-sdk/blob/master/fake/mock/standards/hms_connect/procedure.json)
 
- In your widget, you can change endpoint from `patient` to be keyword above in `lowercase` string :
+
+In your widget, you can change your endpoint from `patient` to be the domain resources (above) in `lowercase` string :
 
 ```javascript
 // Ex. your_widget.js
     
-    // Change from
-    sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/patient`;
-    
-    // Change to
-    sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/encounter`;
+// Change from
+sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/patient`;
+
+// Change to
+sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/encounter`;
+```
+
+Calling the API :
+
+```js
+// Ex. calling HMS sandbox via "axios" framework
+
+    axios({
+        method: 'GET',
+        url: sanboxEndpoint, data: null,
+        withCredentials: false, 
+        json: true,
+        headers: { 'Content-Type': 'application/json' },
+    }).then(response => {
+        // Do something
+    }).catch(err => {
+        // Warning
+    });
 ```
 
 ## **1.2. SmartFHIR**
@@ -50,9 +104,10 @@ In source code, you just call via example endpoint below:
 
 ```javascript
 // Ex. your_widget.js
-    // ...
-    sanboxEndpoint = 'https://r2.smarthealthit.org/Patient/bd7cb541-732b-4e39-ab49-ae507aa49326';
-    // ...
+
+// ...
+sanboxEndpoint = 'https://r2.smarthealthit.org/Patient/bd7cb541-732b-4e39-ab49-ae507aa49326';
+// ...
 ```
 
 **IMPORTANT** :

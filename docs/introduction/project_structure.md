@@ -1,6 +1,15 @@
 # **Project Structure**
 
 ```bash
+├── fake
+│   ├── mock
+│   │   ├── standards
+│   │   |   ├── hms_connect
+│   │   |   |   ├── ...
+│   │   |   |   └── [DOMAIN_RESOURCE_NAMEIN_LOWERCASE].json
+│   │   |   ├── smart_fhir
+│   │   |   |   └── UNUSED
+|   └── server.js             # Fake data service of HMS (simple sandbox)  
 ├── app
 │   ├── assets                # Any image files for README.md
 │   ├── components
