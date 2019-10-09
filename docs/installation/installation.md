@@ -9,3 +9,7 @@ We required dependencies below:
  - [Docker Compose](https://docs.docker.com/compose/install/)
  - [NextJS](https://nextjs.org/docs)
  - [Material-UI](https://material-ui.com/)
+
+## **Clone/Fork project**
+
+?> **note** : please refer to `https://github.com/HMSConnect/hms-widget-sdk.git`

@@ -1,5 +1,7 @@
 # **Usage**
 
+After you cloned/forked our project from `Github`, please follow our step below:
+
 ## **Step 1 : Create custom external Docker network**
 
 We declare default network name `iassdk` to communicate between service in Docker compose, you can create the network via command below:
