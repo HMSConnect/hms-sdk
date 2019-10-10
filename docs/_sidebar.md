@@ -9,6 +9,10 @@
 * **Services**
     * [Fake Data](services/fake.md)
     * [Sample App + Widget](services/sample_app.md)
+* **Widgets**
+    * [What is it?](widgets/what_is_it.md)
+    * [Sample widget](widgets/sample_widget.md)
+    * [Validator](widgets/validator.md)
 * **Contribution**
-    * [Widget](contribution/widget.md)
+    * [Widget](contribution/widget_contrib.md)
 * **[License](license/license.md)**

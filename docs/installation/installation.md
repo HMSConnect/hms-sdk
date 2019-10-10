@@ -13,3 +13,17 @@ We required dependencies below:
 ## **Clone/Fork project**
 
 ?> **note** : please refer to `https://github.com/HMSConnect/hms-widget-sdk.git`
+
+## **Start without Docker**
+
+```bash
+# Start fake data service
+$ cd ./fake
+$ npm install --save
+$ npm run dev
+
+# Start sample app
+$ cd ./app
+$ npm install --save
+$ npm run dev
+```

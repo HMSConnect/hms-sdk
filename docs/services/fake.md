@@ -1,5 +1,7 @@
 # **Fake data service**
 
+Fake data service or sandbox provides same data schema as our service in real-world. Now we have 2-sources :
+
 ## **1.1. HMSConnect**
 
 We are not allow any user to access our resources directly, it is user's privacy issue. So we provided micro-service to serve mock HMSConnect data standard via port number `3002` (refer to `docker-compose.[YOUR_ENV].yml`). 
@@ -91,6 +93,8 @@ Calling the API :
     });
 ```
 
+?> **note** : We may change the data schema any time in the future. Please check the data schema in ["Data schema"](/introduction/data_schema) topic or subscribe us.
+
 ## **1.2. SmartFHIR**
 
 They have already provided sandbox in their website. You can access via `https://[FHIR_VERSION].smarthealthit.org/Patient/[MOCK_DATA_WITH_USER_ID]`. We suggest you to find user's ID from link below to use in your development environment:
@@ -110,12 +114,11 @@ sanboxEndpoint = 'https://r2.smarthealthit.org/Patient/bd7cb541-732b-4e39-ab49-a
 // ...
 ```
 
-**IMPORTANT** :
-
-Please be aware FHIR version, they provide FHIR many version :
- - R2 (DSTU2)
- - R3 (STU3)
- - R4 (STU3)
+!> **IMPORTANT** :
+<br/> Please be aware FHIR version, they provide FHIR many version :
+<br/> - R2 (DSTU2)
+<br/> - R3 (STU3)
+<br/> - R4 (STU3)
 
 Your component should be classified FHIR version correctly.
 
