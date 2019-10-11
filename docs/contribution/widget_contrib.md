@@ -20,3 +20,11 @@ Standard component or sub-component must be `stateless` component in `JS` style.
 !> **note** : Validator should be inside same directory as sub-component too.
 
 ?> **Refer to** : [project structure](/introduction/project_structure)
+
+## **HMS Widget SDK Checklist**
+| ResourceType  | Comment  | Sample-data  |  Sample-Image1 |  Sample Image2 |
+|---|---|---|---|---|
+| Patient  | Patient Search  | patient.json   |  ![patient search](../assets/1-patient_search.png) |![patient search](../assets/2-patient_demographic.png)   |
+| Patient |Patent Summary (EHR)   | patient.json,observation,lab.json,diagnosis.json  |![EHR Summary](../assets/3-patient_summary.png)   |   |
+| Encounter  |Patient Encounter (Visit history)    | Encounter.json   | ![Encounter](../assets/4-patient_encounter.png)  | Table View Style  |
+       
