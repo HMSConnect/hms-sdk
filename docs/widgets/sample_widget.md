@@ -2,7 +2,7 @@
 
 For `<PatientInfo/>` in previous session or our sample `widget` has 4-components inside it, including :
 
-![simple patient info component](../../assets/simple-patient-info-component.png)
+![simple patient info component](../assets/simple-patient-info-component.png)
 
 ?> **note** : any component below used component's style of `Material-UI`
 

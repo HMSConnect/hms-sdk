@@ -6,9 +6,10 @@
 │   │   ├── standards
 │   │   |   ├── hms_connect
 │   │   |   |   ├── ...
-│   │   |   |   └── [DOMAIN_RESOURCE_NAMEIN_LOWERCASE].json
+│   │   |   |   └── [DOMAIN_RESOURCE_NAME_IN_LOWERCASE].json
 │   │   |   ├── smart_fhir
-│   │   |   |   └── UNUSED
+│   │   |   |   ├── ...
+│   │   |   |   └── [DOMAIN_RESOURCE_NAME_IN_LOWERCASE].ndjson
 |   └── server.js             # Fake data service of HMS (simple sandbox)  
 ├── app
 │   ├── assets                # Any image files for README.md
@@ -16,7 +17,7 @@
 │   │   ├── widget            # Stateful components which are ready to use
 │   │   |   ├── ...
 │   │   |   └── [COMPONENT_NAME].js
-│   │   ├── standards         # Stateless components to support :
+│   │   ├── standards         # Stateless components or parser to support :
 │   │   |   ├── smart_fhir    # - JSON data object in SmartFHIR standard
 │   │   |   |   ├── ...
 │   │   |   |   └── [COMPONENT_NAME].js

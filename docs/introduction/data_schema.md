@@ -9,4 +9,4 @@ We plan to use only one data schema to be main standard. But for now, `SmartFHIR
 
 Our widget (HMSConnect standard) will detect data standard from an attribute `hn` in data schema. 
 
-?> Example: If it found the attribute in data schema, it will select sub-components which are support `HMSConnect` standard and render the data on it.
+?> **Example**: If it found the attribute in data schema, it will select parser which are support `HMSConnect` standard and render the data on it.
