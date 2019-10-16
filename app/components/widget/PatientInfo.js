@@ -15,11 +15,11 @@ import Avatar from '@material-ui/core/Avatar';
 // Standard component
 import SFHIRPatient from '../standards/smart_fhir/SFHIRPatient';
 import HMSPatient from '../standards/hms_connect/HMSPatient';
-// Component of each standard
-import SFHIRPatientInfoPanel from '../standards/smart_fhir/PatientInfoPanel';
-import SFHIRPatientInfoTable from '../standards/smart_fhir/PatientInfoTable';
-import HMSPatientInfoPanel from '../standards/hms_connect/PatientInfoPanel';
-import HMSPatientInfoTable from '../standards/hms_connect/PatientInfoTable';
+
+// Base component
+import PatientInfoPanel from '../base/PatientInfoPanel';
+import PatientInfoTable from '../base/PatientInfoTable';
+
 // Mock data of each standard
 import MockSFHIRPatient from '../../src/mock/standards/smart_fhir/patient.js'
 import MockHMSPatient from '../../src/mock/standards/hms_connect/patient.js'
@@ -65,7 +65,7 @@ class PatientInfo extends React.Component {
     let sanboxEndpoint;
 
     if(!isSFHIRStandard) {
-      sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/patient`;
+      sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/hms_connect/patient`;
     } else {
       sanboxEndpoint = 'https://r2.smarthealthit.org/Patient/smart-1551992';
     }
@@ -156,9 +156,7 @@ class PatientInfo extends React.Component {
               <Grid item xs={12} sm={6}>
                 <Grid container spacing={3}>
                   {
-                    this.state.isSFHIRStandard
-                    ? <SFHIRPatientInfoPanel info={patient}/>
-                    : <HMSPatientInfoPanel info={patient}/>
+                    <PatientInfoPanel info={patient}/>
                   }
                 </Grid>
               </Grid>
@@ -188,9 +186,7 @@ class PatientInfo extends React.Component {
               <Grid item xs={12} sm={4}></Grid>
               <Grid item xs={12} sm={8}>
               {
-                this.state.isSFHIRStandard
-                ? <SFHIRPatientInfoTable info={patient} />
-                : <HMSPatientInfoTable info={patient} />
+                <PatientInfoTable info={patient} />
               }
               </Grid>
             </Grid>

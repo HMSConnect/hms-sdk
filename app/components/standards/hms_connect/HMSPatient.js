@@ -13,7 +13,18 @@ export default function HMSPatient(){
             let patient = this._patient?Object.assign({}, this._patient):null;
             if(patient) {
 
-                let name = patient.name[0];
+                let name = {
+                    "family": [
+                        patient.name[0].familyName
+                    ],
+                    "given": [
+                        patient.name[0].givenName
+                    ],
+                    "prefix": [
+                        patient.name[0].prefix
+                    ]
+                };
+
                 let age = patient
                     ? patient.birthDate
                     ? patient.deceasedDateTime
@@ -27,7 +38,7 @@ export default function HMSPatient(){
 
                 let identifier = {};
 
-                identifier['id'] = { systemCode: 'ID', value: patient.id }
+                identifier['id'] = { systemCode: 'HN', value: patient.hn }
                 patient.identifier.map((o, oIndex) => {
                     if(o.hasOwnProperty('type')) {
                         if(o.value) {

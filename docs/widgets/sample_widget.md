@@ -26,14 +26,12 @@ We plan to show overview user/patient info in info panel area.
 ```js
     <Grid container spacing={3}>
     {
-        this.state.isSFHIRStandard
-        ? <SFHIRPatientInfoPanel info={patient}/>
-        : <HMSPatientInfoPanel info={patient}/>
+    <PatientInfoPanel info={patient}/>
     }
     </Grid>
 ```
 
-?> **note** : for this area, we prepare to modify component's style of both components(`SFHIRPatientInfoPanel` and `HMSPatientInfoPanel`) and support both data standards(`SmartFHIR` and `HMSConnect`). Layout/Content in the component can be different, so we will check data schema first before rendering data in "info panel area".
+?> **note** : for this area, it supports both data standards(`SmartFHIR` and `HMSConnect`).
 
 At the top-right corner of the screen, we provide trigger to switch data source between SmartFHIR and HMSConnect. It makes developer easy to check relation between data schema and component. But we will not adding the feature in real use.
 
@@ -63,19 +61,20 @@ Info table using for show detail of user/patient info.
 ```js
     <Grid item xs={12} sm={8}>
     {
-        this.state.isSFHIRStandard
-        ? <SFHIRPatientInfoTable info={patient} />
-        : <HMSPatientInfoTable info={patient} />
+        <PatientInfoTable info={patient} />
     }
     </Grid>
 ```
 
-?> **note** : for this area, we prepare to modify component's style of both components(`SFHIRPatientInfoTable` and `HMSPatientInfoTable`) and support both data standards(`SmartFHIR` and `HMSConnect`). Layout/Content in the component can be different, so we will check data schema first before rendering data in "info table area".
+?> **note** : for this area, it supports both data standards(`SmartFHIR` and `HMSConnect`).
 
 **4. Domain resource list area**
 
-We prepare to add domain resource list. For now, the area has nothing.
+For now, the area has nothing.
 
 ```js
     <Grid item xs={12} sm={4}></Grid>
 ```
+
+!> **IMPORTANT** :
+<br/> We prepare to add domain resource list in this area.

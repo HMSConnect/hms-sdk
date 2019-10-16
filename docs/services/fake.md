@@ -21,7 +21,7 @@ const port = process.env.FAKE_PORT || 3002;
 
 app.use(cors());
 
-app.get('/:domain_resource', (req, res) => {
+app.get('/hms_connect/:domain_resource', (req, res) => {
     try {
         let fPath = path.join(__dirname, `/mock/standards/hms_connect/${req.params.domain_resource}.json`);
         if (fs.existsSync(fPath)) {
@@ -44,7 +44,7 @@ In source code of each widget, you just set your target endpoint of the API to :
 // Ex. your_widget.js
 
 // ...
-sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/patient`;
+sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/hms_connect/patient`;
 // ...
 ```
 
@@ -69,10 +69,10 @@ In your widget, you can change your endpoint from `patient` to be the domain res
 // Ex. your_widget.js
     
 // Change from
-sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/patient`;
+sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/hms_connect/patient`;
 
 // Change to
-sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/encounter`;
+sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/hms_connect/encounter`;
 ```
 
 Calling the API :
@@ -97,12 +97,20 @@ Calling the API :
 
 ## **1.2. SmartFHIR**
 
-They have already provided sandbox in their website. You can access via `https://[FHIR_VERSION].smarthealthit.org/Patient/[MOCK_DATA_WITH_USER_ID]`. We suggest you to find user's ID from link below to use in your development environment:
+We provide sandbox 2 version :
+ - Original sandbox
+ - Our sandbox
+
+### **Original sandbox**
+
+SmartFHIR have already provided sandbox in their website. You can access via `https://[FHIR_VERSION].smarthealthit.org/Patient/[MOCK_DATA_WITH_USER_ID]`. We suggest you to find user's ID from link below to use in your development environment:
 
 ```bash
 # Ex. List of patient of FHIR version 2 (R2 or DSTU2)
 https://patient-browser.smarthealthit.org/index.html?config=r2#/
 ```
+
+?> **Original** : Refer to git tag name "`WPS-ReleaseV.1`"
 
 In source code, you just call via example endpoint below:
 
@@ -123,3 +131,18 @@ sanboxEndpoint = 'https://r2.smarthealthit.org/Patient/bd7cb541-732b-4e39-ab49-a
 Your component should be classified FHIR version correctly.
 
 ?> For more detail : please refer to https://dev.smarthealthit.org/
+
+### **Our sandbox**
+
+We provide sample data via endpoint `/smart_fhir/[DOMAIN_RESOURCE_NAME]`:
+
+```javascript
+// Ex. your_widget.js
+
+// ...
+sanboxEndpoint = `${process.env.SFHIR_SANDBOX_URL}${process.env.SFHIR_SANDBOX_PORT}/smart_fhir/patient`;
+// ...
+```
+
+!> **IMPORTANT** :
+<br/> Our sandbox did't finish yet, please use original sandbox instead
