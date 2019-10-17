@@ -76,6 +76,7 @@ Enjoy with sample widget!
 ```http
 http://localhost:3000/patient
 ```
+[More details](https://hmsconnect.github.io/hms-widget-sdk)
 
 ## **Information**
 
