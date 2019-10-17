@@ -73,16 +73,5 @@ module.exports = function(){
                 }
             })
         },
-
-        // loadMockSmartFHIRData(function(key, data){
-        //     let fObj = key.split('.');
-        //     let domainNameRes = fObj.length>1?fObj[0]:null;
-
-        //     if(domainNameRes){
-        //         db[domainNameRes].upsert(data, function() {
-        //             console.log(`Upsert to ${domainNameRes} :`, data)
-        //         });
-        //     }
-        // })
     }
 }

@@ -67,7 +67,8 @@ class PatientInfo extends React.Component {
     if(!isSFHIRStandard) {
       sanboxEndpoint = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/hms_connect/patient`;
     } else {
-      sanboxEndpoint = 'https://r2.smarthealthit.org/Patient/smart-1551992';
+      // Sample patient ID "13f9b410-5436-45bc-a6d3-b4dff5391295"
+      sanboxEndpoint = `${process.env.SFHIR_SANDBOX_URL}${process.env.SFHIR_SANDBOX_PORT}/smart_fhir/patient/13f9b410-5436-45bc-a6d3-b4dff5391295`;
     }
     
     this.callingAPI(
@@ -75,8 +76,17 @@ class PatientInfo extends React.Component {
       'GET',
       null,
       null,
-      function(data) {
-        console.log('callingAPI:', data)
+      function(dataObj) {
+        console.log('callingAPI:', JSON.stringify(dataObj))
+
+        let data;
+        if(dataObj.hasOwnProperty('data')) {
+          data = dataObj.data;
+        } else {
+          data = dataObj;
+        }
+
+        console.log('Data : ', data)
 
         if(HMSPatientObj.isValid(data)) {
           HMSPatientObj.setData(data);

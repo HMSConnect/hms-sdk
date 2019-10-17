@@ -6,17 +6,7 @@ export default function SFHIRPatient(){
             this._patient = Object.assign({}, p);
         },
         isValid: function(data){
-            return data
-                ? data.hasOwnProperty('meta')
-                ? data.meta.hasOwnProperty('tag')
-                ? Array.isArray(data.meta.tag) && data.meta.tag[0].hasOwnProperty('code')
-                ? data.meta.tag[0].code=='smart-8-2017'
-                ? true
-                : false
-                : false
-                : false
-                : false
-                : false;
+            return data?data.hasOwnProperty('id')?true:false:false
         },
         compile: function(){
             let compileStandard;

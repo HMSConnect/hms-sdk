@@ -42,24 +42,19 @@ export default class Widget extends React.Component {
     componentDidMount(){
         this.callingAPI(sanboxEndpoint, 'GET', data,
             function(data) {
-                let isSFHIRStandard = false;
                 if(HMSPatientObj.isValid(data)) {
                     HMSPatientObj.setData(data);
                     info = HMSPatientObj.compile();
-                    isSFHIRStandard = false;
                 } else if(SFHIRPatientObj.isValid(data)) {
                     SFHIRPatientObj.setData(data);
                     info = SFHIRPatientObj.compile();
-                    isSFHIRStandard = true;
                 } else {
                     alert('Sorry, we are not support current data standard!')
                 }
-                    
+                
                 if(info) {
-                    this.setState({ 
-                        patient:info,
-                        isSFHIRStandard:isSFHIRStandard
-                    });
+                    console.log('info:', info)
+                    _this.setState({ patient:info });
                 }
             }
         );
@@ -72,9 +67,7 @@ export default class Widget extends React.Component {
         return (
             <div>
             {
-                isSFHIRStandard
-                ? <SFHIRPatientInfoTable info={patient} />
-                : <HMSPatientInfoTable info={patient} />
+                <PatientInfoTable info={patient} />
             }
             </div>
         )

@@ -1,3 +1,27 @@
+# **Fake Data Service Contribution**
+
+Any developer who would like to top up feature in the service. You should do following procedure below:
+
+?> **note** : Clone or fork our source first via [Github](https://github.com/HMSConnect/hms-widget-sdk)
+
+## **Introduction**
+
+We provide local database using `minimongo` library to handle query from client, including (for now) :
+
+ - Initial database
+ - Uploading raw data to the local database
+ 
+You can refer to `/fake/storage.js`. It is our database object, you can use it in `server.js` to serve data to client. `minimongo` has similar feature like `mongodb` or `mongoose` but it keep all data in memory. If you close it, you will lost the data.
+
+## **Adding more feature**
+
+We allow you to add any features to fake server `/fake/server.js` but you should create the feature to be an object in another file and then import it into `server.js`.
+
+!> **IMPORTANT** : For local database, I recommended you to use `read` only method, you should not adding any `write` feature to local database.
+
+Example our service:
+
+```js
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
@@ -43,19 +67,6 @@ initService();
 // -----------------------------------------------
 // Serv endpoint
 
-// HMS
-app.get('/hms_connect/:domain_resource', (req, res) => {
-    try {
-        let fPath = path.join(__dirname, `/mock/standards/hms_connect/${req.params.domain_resource}.json`);
-        if (fs.existsSync(fPath)) {
-            res.sendFile(fPath);
-        }
-    } catch(err) {
-        console.error(err)
-        res.json({ error:err, data:null })
-    }
-})
-
 // SmartFHIR
 app.get('/smart_fhir/:domain_resource/:id', (req, res) => {
     try {
@@ -80,3 +91,4 @@ app.get('/smart_fhir/:domain_resource/:id', (req, res) => {
 app.listen(port, function(){
   console.log(`Providing fake patient data via port ${port}!`)
 });
+```
