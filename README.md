@@ -6,6 +6,9 @@
 GLS will host workshops to provide training on the proper use of the HMS-SDK. 
 The HMS-SDK fill facilitate writing both local add-on applications and enterprise applications.</span>
 
+## **Reference Architecture Diagram**
+
+![Reference Architecture](./images/hms-sdk-arctitect-00.png)
 ## **Installation**
 
 We required dependencies below:
