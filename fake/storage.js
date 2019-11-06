@@ -59,8 +59,10 @@ module.exports = function(){
                 let stat = fs.statSync(filePath);
                 
                 if (stat.isFile()) {
-                    let fObj = fnameWithExt.split('.');
-                    let domainNameRes = fObj.length>1?fObj[0]:null;
+                    let [fObj,, expansion] = fnameWithExt.split('.');
+                    let domainNameRes = null
+                    if(expansion === "ndjson")
+                        domainNameRes = fObj
 
                     if(domainNameRes){
                         console.log(domainNameRes);
