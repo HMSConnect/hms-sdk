@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import hmsService from "../services/HmsService";
-import Patient from "../models/Patient";
+import hmsService from "../../services/HmsService";
+import Patient from "../../models/Patient";
 const usePatient = (id: string): any => {
   const [data, setData] = useState<Patient>({});
   const [isLoading, setLoading] = useState<Boolean>(true);

@@ -69,7 +69,7 @@ export default function App() {
         <Link href="/patient">Patient</Link>
       </Container>
       <Container maxWidth="lg">
-        <Link href="/patientInfo">PatientInfo</Link>
+        <Link href="/patient-info">PatientInfo</Link>
       </Container>
 
     </React.Fragment>

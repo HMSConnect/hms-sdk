@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import usePatient from "../../hooks/usePatient";
+import usePatient from "../hooks/usePatient";
 import {
   Container,
   Grid,
