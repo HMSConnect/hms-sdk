@@ -5,9 +5,8 @@ const SFHIRPatientObj = SFHIRPatient();
 class Patient {
   static parse(json: any): Patient {
     //TODO: throws exception if fail
-    // compile data
     SFHIRPatientObj.setData(json.data);
-    return SFHIRPatientObj.compile();
+    return SFHIRPatientObj.compile() || {};
   }
 }
 

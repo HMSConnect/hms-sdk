@@ -3,6 +3,8 @@ class DataAdapter {
   host: string;
 
   constructor(environment: string) {
+    this.environment = environment
+    this.host = ""
     if (environment === "development") {
       this.host = `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/smart_fhir`;
     } else {
