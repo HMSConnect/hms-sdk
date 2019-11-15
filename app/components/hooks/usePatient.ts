@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
-import hmsService from "../../services/HmsService";
-import Patient from "../../models/Patient";
+import { useEffect, useState } from 'react'
+import Patient from '../../models/Patient'
+import hmsService from '../../services/HmsService'
 const usePatient = (id: string): any => {
-  const [data, setData] = useState<Patient>({});
-  const [isLoading, setLoading] = useState<Boolean>(true);
+  const [data, setData] = useState<Patient>({})
+  const [isLoading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    (async function() {
-      let data = await hmsService.patient.get(id);
-      setData(data);
-      setLoading(false);
-    })();
-  }, [id]);
-  return { isLoading, data };
-};
+    ;(async () => {
+      const patient = await hmsService.patient.get(id)
+      setData(patient)
+      setLoading(false)
+    })()
+  }, [id])
+  return { isLoading, data }
+}
 
-export default usePatient;
+export default usePatient

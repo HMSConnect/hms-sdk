@@ -12,7 +12,6 @@ export default function SFHIRPatient(){
             let compileStandard;
             let patient = this._patient?Object.assign({}, this._patient):null;
             if(patient) {
-
                 let name = patient.name[0];
                 let age = patient
                     ? patient.birthDate
@@ -84,7 +83,7 @@ export default function SFHIRPatient(){
                     deceasedDateTime:patient.deceasedDateTime
                 };
 
-                console.log('Compile FHIR standard : ', compileStandard);
+                // console.log('Compile FHIR standard : ', compileStandard);
             }
 
             return compileStandard

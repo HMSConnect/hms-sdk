@@ -1,10 +1,18 @@
 import axios from 'axios'
-import dataAdapter from "./DataAdapter"
-
+import { stringify } from 'qs'
+import { PaginationOption } from '../components/hooks/usePatientList'
+import dataAdapter from './DataAdapter'
 class PatientDataAdaptor {
-    async get(id: string) {                
-        return axios(`${dataAdapter.host}/patient/${id}`)
-    }
+  public async get(id: string): Promise<any> {
+    return axios(`${dataAdapter.host}/patient/${id}`)
+  }
+  public async list(options: PaginationOption): Promise<any> {
+    return axios(`${dataAdapter.host}/patient/`, {
+      params: options,
+      paramsSerializer: params => stringify(params)
+    })
+  }
 }
-const patientDataAdaptor = new PatientDataAdaptor()
-export default patientDataAdaptor
+// const patientDataAdaptor = new PatientDataAdaptor()
+// export default patientDataAdaptor
+export default PatientDataAdaptor

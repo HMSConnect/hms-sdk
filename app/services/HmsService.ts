@@ -1,12 +1,14 @@
-import PatientService from "./PatientService";
+import PatientDataAdaptor from '../adapters/PatientDataAdapter'
+import PatientService from './PatientService'
 
 class HmsService {
-  patient: PatientService;
+  public patient: PatientService
   constructor(patientService: PatientService) {
-    this.patient = patientService;
+    this.patient = patientService
   }
 }
 
-const hmsService = new HmsService(new PatientService());
+const patientServiceInstance = new PatientService(new PatientDataAdaptor())
+const hmsService = new HmsService(patientServiceInstance)
 
-export default hmsService;
+export default hmsService
