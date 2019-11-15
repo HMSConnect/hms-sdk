@@ -4,18 +4,22 @@ In sprint 1, the main objective is to create the Patient Search Widget that can 
 
 ## Client Widget Component
 
-![client overview](../assets/client_widget_overview.png)
+<div style="text-align:center">
+  <img src="../assets/patient_search_overview.png" alt="client overview"/>
+</div>
 
 Overview
 In sprint 1, form client side there are two widgets that we have progress
 1. Patient Search Widget is the widget that we will release in this sprint
 2. Patient Info Widget is the widget that we will release it next sprint and we have a little progress in this widget
 
-Description of widget
+Widget detail
 
 1. Patient Search Widget
 
-![patient search widget](../assets/patient_search_widget.png)
+<div style="text-align:center">
+  <img src="../assets/patient_search_widget.png" alt="patient search widget"/>
+</div>
 
 Component | Type | Feature
 -- | -- | --
@@ -28,9 +32,19 @@ Patient Search Result | template | This template represents the list of patients
 Patient Item | template | This component using for show information of a patient also including onClick event that navigates to Patient Info widget
 Pagination | base | This base component is to handle paginate function of the list of data
 
+**type Describe**
+
+Type | Description
+-- | -- 
+base | as same as components in Material-UI library (Stateless) such as Button, Grid, Input
+template | many bases/templates combined (Stateless) such as Searchbar
+widget | many templates combined (Stateful) and ready to use such as PatientSearch
+
 2. Patient Info Widget
 
-![patient info widget](../assets/patient_info.png)
+<div style="text-align:center">
+  <img src="../assets/patient_info.png" alt="patient info widget"/>
+</div>
 
 Component | Type | Feature
 -- | -- | --
@@ -42,7 +56,12 @@ Patient Table | template | This template represents the patient information that
 
 ## Client Integration Middleware
 
-![class diagram](../assets/client_diagram.png)
+<div style="text-align:center">
+  <img src="../assets/client_diagram.png" alt="class diagram"/>
+
+  draw.io: [`link`](https://drive.google.com/open?id=17zf11FU40KpIx9lyYeRWRTIm1TxD0yCb)
+</div>
+
 
 Class | Description
 -- | --
