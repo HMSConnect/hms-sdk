@@ -3,10 +3,9 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const MockStorage = require('./storage');
+const mockStorage = require('./storage')
 
 const port = process.env.FAKE_PORT || 3002;
-const mockStorage = new MockStorage();
 let db;
 
 let initService = function(){
@@ -17,17 +16,20 @@ let initService = function(){
     db = mockStorage.getDB();
     // Upsert data to the storage
     mockStorage.loadMockSmartFHIRData(function(key, data){
-        console.log(`${key}:`, data)
+        // console.log(`${key}:`, data)
 
         let fObj = key.split('.');
         let domainNameRes = fObj.length>1?fObj[0]:null;
 
 
         if(domainNameRes){
-            console.log(`Upsert domain resource name "${domainNameRes}"...`)
-            db[domainNameRes].upsert(data, function() {
+            // console.log(`Upsert domain resource name "${domainNameRes}"...`)
+            db[domainNameRes].upsert(
+              mockStorage.processingPredata(domainNameRes, data),
+              function() {
                 // console.log(`Upsert to ${domainNameRes} :`, data)
-            });
+              }
+            )
         }
     })
 }
@@ -42,6 +44,9 @@ initService();
 
 // -----------------------------------------------
 // Serv endpoint
+// use router
+app.use("/smart_fhir/patient", require('./apis/v1/patient'))
+
 
 // HMS
 app.get('/hms_connect/:domain_resource', (req, res) => {
@@ -60,10 +65,9 @@ app.get('/hms_connect/:domain_resource', (req, res) => {
 app.get('/smart_fhir/:domain_resource/:id', (req, res) => {
     try {
         // Access the storage here
-
         if(db[req.params.domain_resource]) {
             db[req.params.domain_resource].findOne({ id:req.params.id }, {}, function(data) {
-                console.log(`${req.params.domain_resource}: ` + data);
+                // console.log(`${req.params.domain_resource}: ` + data);
                 res.json({ error:null, data:data })
             });
         } else {
@@ -80,3 +84,5 @@ app.get('/smart_fhir/:domain_resource/:id', (req, res) => {
 app.listen(port, function(){
   console.log(`Providing fake patient data via port ${port}!`)
 });
+
+exports.mockStorage = db

@@ -2,11 +2,12 @@
 const fs = require('fs');
 const path = require('path');
 const ndjson = require('ndjson');
-const minimongo = require("minimongo");
+const minimongo = require('minimongo');
 const LocalDb = minimongo.MemoryDb;
 
+const patientService = require('./services/patient');
 
-module.exports = function(){
+module.exports = (function(){
     let domainResourceList = [];
     let fileDomainRes = [];
 
@@ -65,7 +66,7 @@ module.exports = function(){
                         domainNameRes = fObj
 
                     if(domainNameRes){
-                        console.log(domainNameRes);
+                        // console.log(domainNameRes);
                         if(this.domainResourceList.indexOf(domainNameRes)<=-1) {
                             this.domainResourceList.push(domainNameRes);
                             this.fileDomainRes.push(fnameWithExt);
@@ -75,5 +76,15 @@ module.exports = function(){
                 }
             })
         },
+
+        processingPredata: function(domainName, data){
+            // use predata before insert to database for query from minimongo
+            switch (domainName) {
+                case 'patient':
+                    return patientService.processingPatientPredata(data);
+                default:
+                    return data;
+            }
+        }
     }
-}
+})()
