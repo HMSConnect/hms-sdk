@@ -14,7 +14,7 @@ exports.createPaginate = (results, paginationOption) => {
 //   [["key1", "asc"], ["key2", "desc"]]
 //   ["key1", ["key2", "desc"]]
 exports.createOptions = query => {
-  const options = { fields: { __mock_meta: 1 } }
+  const options = { fields: { __mock_meta: 0 } }
   if (query.sort) {
     const { orderBy, order } = query.sort || {}
     if (orderBy.includes('identifier')) {
