@@ -4,7 +4,7 @@ In sprint 1, the main objective is to create the Patient Search Widget that can 
 
 ## Client Widget Component
 
-![patient search widget](../assets/client_widget_overview.png)
+![client overview](../assets/client_widget_overview.png)
 
 Overview
 In sprint 1, form client side there are two widgets that we have progress
@@ -30,7 +30,7 @@ Pagination | base | This base component is to handle paginate function of the li
 
 2. Patient Info Widget
 
-![patient search widget](../assets/patient_info.png)
+![patient info widget](../assets/patient_info.png)
 
 Component | Type | Feature
 -- | -- | --
@@ -42,7 +42,7 @@ Patient Table | template | This template represents the patient information that
 
 ## Client Integration Middleware
 
-![patient search widget](../assets/client_diagram.png)
+![class diagram](../assets/client_diagram.png)
 
 Class | Description
 -- | --
