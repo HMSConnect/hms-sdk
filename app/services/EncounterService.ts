@@ -1,18 +1,18 @@
 import IAdapter from '../adapters/IAdapter'
 import DataManager from '../data-managers/DataManager'
-import PatientDataManager from '../data-managers/PatientDataManager'
+import EncounterDataManager from '../data-managers/EncounterDataManager'
 import ValidatorManager from '../validators/ValidatorManager'
 import AbstractService from './AbstractService'
 
-export default class PatientService extends AbstractService {
+class EncounterService extends AbstractService {
   createDataManager(resource: string, adapter: IAdapter): DataManager {
-    return new PatientDataManager(resource, adapter)
+    return new EncounterDataManager(resource, adapter)
   }
 
-  async resourceList(params?: any): Promise<any> {
-    console.info(`[service] loading resource resourceList`, params)
-    const dataManager = this.dataManager as PatientDataManager
-    const result = await dataManager.resourceList(params || {})
+  async typeList(params?: any): Promise<any> {
+    console.info(`[service] loading resource typeList`, params)
+    const dataManager = this.dataManager as EncounterDataManager
+    const result = await dataManager.typeList(params || {})
     const validator = ValidatorManager.compile(result.schema)
     if (validator) {
       return {
@@ -24,3 +24,5 @@ export default class PatientService extends AbstractService {
     }
   }
 }
+
+export default EncounterService

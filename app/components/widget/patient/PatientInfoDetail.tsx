@@ -18,12 +18,17 @@ const PatientInfoDetail: React.FunctionComponent<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
-  const { isLoading, data } = usePatient(
+  const { isLoading, data, error } = usePatient(
     _.get(query, 'id') || '13f9b410-5436-45bc-a6d3-b4dff5391295'
   )
   if (isLoading) {
     return <div>Loading!!!...</div>
   }
+
+  if(error){
+    return <div>{error}</div>
+  }
+
   const datas = [
     {
       label: 'Patient'

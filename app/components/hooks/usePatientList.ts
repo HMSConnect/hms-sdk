@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
-import hmsService from '../../services/HmsService'
+
+import { HMSService } from '../../services/HMSServiceFactory'
+import PatientService from '../../services/PatientService'
 
 export interface PatientResultList {
   results: any[]
   totalCount: number
 }
 export interface PatinetLoadResultList {
+  error: string | null
   data: PatientResultList
   isLoading: boolean
 }
@@ -26,19 +29,28 @@ const usePatientList = (options: PaginationOption): PatinetLoadResultList => {
     results: [],
     totalCount: 0
   })
+  const [error, setError] = useState<string | null>(null)
   const [isLoading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     ;(async () => {
-      const results: PatientResultList = await hmsService.patient.list(options)
-      setData({
-        results: results.results,
-        totalCount: results.totalCount
-      })
-      setLoading(false)
+      try {
+        const patientService = HMSService.getService(
+          'patient'
+        ) as PatientService
+        const result = await patientService.list(options)
+        setData({
+          results: result.data,
+          totalCount: result.totalCount
+        })
+        setLoading(false)
+      } catch (error) {
+        setLoading(false)
+        setError(error.message)
+      }
     })()
   }, [options])
-  return { isLoading, data }
+  return { isLoading, data, error }
 }
 
 export default usePatientList

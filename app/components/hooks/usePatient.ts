@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react'
+
 import Patient from '../../models/Patient'
-import hmsService from '../../services/HmsService'
+import { HMSService } from '../../services/HMSServiceFactory'
+import PatientService from '../../services/PatientService'
+
 const usePatient = (id: string): any => {
   const [data, setData] = useState<Patient>({})
   const [isLoading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     ;(async () => {
-      const patient = await hmsService.patient.get(id)
+      const patientService = HMSService.getService('patient') as PatientService
+      const patient = await patientService.load(id)
       setData(patient)
       setLoading(false)
     })()
