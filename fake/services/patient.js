@@ -1,6 +1,5 @@
-exports.createPatientSelector = (filter = {}) => {
+exports.createSelector = (filter = {}) => {
   //give_name , last_name , identification (Passport , MRN, HN)
-
   const selector = {}
   const andSelector = []
 
@@ -24,7 +23,7 @@ exports.createPatientSelector = (filter = {}) => {
   return selector
 }
 
-exports.createPatientOptions = (query, options) => {
+exports.createOptions = (query, options) => {
   if (query.sort) {
     const { orderBy, order } = query.sort || {}
     if (orderBy.includes('identifier')) {
@@ -34,7 +33,7 @@ exports.createPatientOptions = (query, options) => {
   return options
 }
 
-exports.processingPatientPredata = data => {
+exports.processingPredata = data => {
   const identifier = {}
 
   for (const id of data.identifier) {

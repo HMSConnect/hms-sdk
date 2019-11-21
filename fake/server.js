@@ -4,6 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const app = express()
 const mockStorage = require('./storage')
+const config = require('./config')
 
 const port = process.env.FAKE_PORT || 3002
 let db
@@ -44,10 +45,14 @@ initService()
 // -----------------------------------------------
 // Serv endpoint
 // use router
-app.use('/smart_fhir/patient', require('./apis/v1/patient'))
+
+//register router
+app.use('/smart-fhir/patient', require('./apis/v1/patient'))
+app.use('/smart-fhir/encounter', require('./apis/v1/encounter'))
+app.use('/smart-fhir/care-plan', require('./apis/v1/care_plan'))
 
 // HMS
-app.get('/hms_connect/:domain_resource', (req, res) => {
+app.get('/hms-connect/:domain_resource', (req, res) => {
   try {
     let fPath = path.join(
       __dirname,
@@ -63,7 +68,7 @@ app.get('/hms_connect/:domain_resource', (req, res) => {
 })
 
 // SmartFHIR
-app.get('/smart_fhir/:domain_resource/:id', (req, res) => {
+app.get('/smart-fhir/:domain_resource/:id', (req, res) => {
   try {
     // Access the storage here
     if (db[req.params.domain_resource]) {
@@ -75,7 +80,7 @@ app.get('/smart_fhir/:domain_resource/:id', (req, res) => {
           res.json({
             error: null,
             data: data,
-            schema: { version: 1.0, standard: 'SFHIR' }
+            schema: { ...config.defaultSchema, resourceType: 'patient' }
           })
         }
       )

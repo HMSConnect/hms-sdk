@@ -6,6 +6,7 @@ const minimongo = require('minimongo');
 const LocalDb = minimongo.MemoryDb;
 
 const patientService = require('./services/patient');
+const encounterService = require('./services/encounter');
 
 module.exports = (function(){
     let domainResourceList = [];
@@ -40,8 +41,9 @@ module.exports = (function(){
             return this.fileDomainRes;
         },
 
-        loadMockSmartFHIRData: function(callback){
-            console.log('fileDomainRes:', this.fileDomainRes)
+        loadMockSmartFHIRData: function(callback, onLoadded){
+            // console.log('fileDomainRes:', this.fileDomainRes)
+            let self = this
             this.fileDomainRes.map((dRes, dIndex) => {
                 let path = getSmartFHIRFilePath(dRes);
                 fs.createReadStream(path)
@@ -49,6 +51,11 @@ module.exports = (function(){
                 .on('data', function(obj) {
                     if(typeof callback === 'function') {
                         callback(dRes, obj)
+                    }
+                })
+                .on('end', function(){
+                    if(dIndex === self.fileDomainRes.length - 1 && onLoadded){
+                        onLoadded()
                     }
                 })
             });
@@ -81,7 +88,9 @@ module.exports = (function(){
             // use predata before insert to database for query from minimongo
             switch (domainName) {
                 case 'patient':
-                    return patientService.processingPatientPredata(data);
+                    return patientService.processingPredata(data);
+                case 'encounter':
+                    return encounterService.processingPredata(data)
                 default:
                     return data;
             }
