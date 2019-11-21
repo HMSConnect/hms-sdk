@@ -1,3 +1,5 @@
+const moment = require('moment')
+
 exports.createSelector = (filter = {}) => {
   const selector = {}
   const andSelector = []
@@ -30,7 +32,15 @@ exports.createOptions = (query, options = {}) => {
 }
 
 exports.processingPredata = data => {
+  const __mock_meta = {}
+
+  if (data.period) {
+    const periodStart = moment(data.period.start).toDate()
+    __mock_meta.period = { start: periodStart }
+  }
+
   return {
-    ...data
+    ...data,
+    __mock_meta
   }
 }
