@@ -51,7 +51,7 @@ exports.processingPredata = data => {
 
 exports.parseToTypes = (encounters = []) => {
   const groupEncounterByType = {}
-  encounters.forEach(encounter => {
+  for (const encounter of encounters) {
     const type = encounter.type[0].text
     if (!groupEncounterByType[type]) {
       groupEncounterByType[type] = {
@@ -60,6 +60,6 @@ exports.parseToTypes = (encounters = []) => {
       }
     }
     groupEncounterByType[type].totalCount += 1
-  })
+  }
   return Object.values(groupEncounterByType)
 }

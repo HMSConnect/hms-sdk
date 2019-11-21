@@ -47,8 +47,8 @@ router.get('/type', (req, res) => {
         ? encounterService.createSelector(req.query.filter)
         : {}
       const options = req.query ? encounterService.createOptions(req.query) : {}
-
-      db['encounter'].find(selector, options).fetch(
+      // force limit for find all type
+      db['encounter'].find(selector, { ...options, limit: null }).fetch(
         results => {
           res.json({
             error: null,
