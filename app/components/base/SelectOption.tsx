@@ -6,23 +6,21 @@ import {
   makeStyles,
   MenuItem,
   Select,
-  Theme
+  Theme,
+  Typography
 } from '@material-ui/core'
 
-interface OptionItem {
+interface IOptionItem {
   value: any
   label: string
 }
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {}
-}))
 
 const SelectOption: React.FunctionComponent<{
   label: string
   labelId: string
   id: string
   value: any
-  options: OptionItem[]
+  options: IOptionItem[]
   onChange: (
     event: React.ChangeEvent<{ name?: string; value: unknown }>
   ) => void
@@ -51,7 +49,7 @@ const SelectOption: React.FunctionComponent<{
           ? options.map((item, index) => {
               return (
                 <MenuItem key={index} value={item.value}>
-                  {item.label}
+                  <Typography variant='body2'>{item.label}</Typography>
                 </MenuItem>
               )
             })

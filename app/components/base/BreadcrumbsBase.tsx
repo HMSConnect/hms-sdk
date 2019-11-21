@@ -1,10 +1,16 @@
 import React, { ReactElement } from 'react'
 
-import { Breadcrumbs, Link, Paper, Theme, Typography } from '@material-ui/core'
+import {
+  Breadcrumbs as MBreadcrumbs,
+  Link,
+  Paper,
+  Theme,
+  Typography
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 import { useRouter } from 'next/router'
-interface BreadCrumbPath {
+interface IBreadcrumbPath {
   label: string
   url: string | null
   icon?: ReactElement
@@ -24,15 +30,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-const BreadCrumbsCustom: React.FunctionComponent<{
-  parentPath: BreadCrumbPath[]
+const BreadcrumbsBase: React.FunctionComponent<{
+  parentPath: IBreadcrumbPath[]
   currentPath: string
   max?: number
 }> = ({ parentPath, currentPath, max }) => {
   const classes = useStyles()
   const router = useRouter()
 
-  const handleSelect = (path: BreadCrumbPath) => {
+  const handleSelect = (path: IBreadcrumbPath) => {
     if (!path.url) {
       router.back()
     } else {
@@ -43,13 +49,14 @@ const BreadCrumbsCustom: React.FunctionComponent<{
   }
   return (
     <Paper elevation={0} className={classes.root}>
-      <Breadcrumbs aria-label='breadcrumb'>
-        {_.map(parentPath, (parent: BreadCrumbPath, index: number) => (
+      <MBreadcrumbs aria-label='breadcrumb'>
+        {_.map(parentPath, (parent: IBreadcrumbPath, index: number) => (
           <Link
             key={index}
             color='inherit'
             onClick={(event: React.MouseEvent) => handleSelect(parent)}
             className={classes.link}
+            href='#'
           >
             {_.get(parent, 'icon') || null}
             {parent.label}
@@ -58,9 +65,9 @@ const BreadCrumbsCustom: React.FunctionComponent<{
         <Typography color='textPrimary' className={classes.link}>
           {currentPath}
         </Typography>
-      </Breadcrumbs>
+      </MBreadcrumbs>
     </Paper>
   )
 }
 
-export default BreadCrumbsCustom
+export default BreadcrumbsBase

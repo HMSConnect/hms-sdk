@@ -70,7 +70,7 @@ router.get('/:id/resource-list', async (req, res) => {
       })
 
       results.push({
-        // schema: config.defaultSchema,
+        schema:  { ...config.defaultSchema, resourceType: domainResouce },
         resourceType: domainResouce,
         ...utilsService.createPaginate(entries, req.query)
       })

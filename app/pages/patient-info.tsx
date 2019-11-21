@@ -3,10 +3,9 @@ import Container from '@material-ui/core/Container'
 import HomeIcon from '@material-ui/icons/Home'
 import React from 'react'
 
-import BreadCrumbsCustom from '../components/base/BreadCrumbsCustom'
+import BreadcrumbsBase from '../components/base/BreadcrumbsBase'
 import PatientInfoDetail from '../components/widget/patient/PatientInfoDetail'
-import { StatelessPage } from './patient-search'
-
+import { IStatelessPage } from './patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -15,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-const PatientInfoView: StatelessPage<{
+const PatientInfoView: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -24,7 +23,7 @@ const PatientInfoView: StatelessPage<{
       <CssBaseline />
       <Container maxWidth='lg'>
         <Typography component='div' className={classes.root}>
-          <BreadCrumbsCustom
+          <BreadcrumbsBase
             currentPath='Patient Info'
             parentPath={[
               {
@@ -37,7 +36,7 @@ const PatientInfoView: StatelessPage<{
                 url: null
               }
             ]}
-          ></BreadCrumbsCustom>
+          ></BreadcrumbsBase>
           <PatientInfoDetail query={query} />
         </Typography>
       </Container>

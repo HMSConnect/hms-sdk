@@ -4,19 +4,19 @@ import { Grid, makeStyles, Theme } from '@material-ui/core'
 import SelectOption from '../../base/SelectOption'
 import GenderSelector from '../../widget/GenderSelecter'
 
-export interface AgeValue {
+export interface IAgeValue {
   to: number | null
   form: number | null
   isAlive: boolean | null
 }
-export interface PatientFilterValue {
+export interface IPatientFilterValue {
   searchText: string
   gender: 'male' | 'female' | 'all'
   age?: any
 }
 
 const PatientFilterBar: React.FunctionComponent<{
-  filter: PatientFilterValue
+  filter: IPatientFilterValue
   onFilterChange: (type: string, value: any) => void
 }> = ({ filter, onFilterChange }) => {
   return (

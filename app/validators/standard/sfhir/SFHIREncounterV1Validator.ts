@@ -1,6 +1,10 @@
 import IValidator from '../../IValidator'
 import validatorManager from '../../ValidatorManager'
 
+import * as _ from 'lodash'
+import * as moment from 'moment'
+import environment from '../../../config'
+
 class SFHIREncounterV1Validator implements IValidator {
   isValid(schema: any): boolean {
     return (
@@ -11,7 +15,39 @@ class SFHIREncounterV1Validator implements IValidator {
   }
 
   parse(encounter: any): any {
-    return encounter
+    const type = _.chain(_.get(encounter, 'type'))
+      .map(type => type.text)
+      .join(', ')
+      .value()
+
+    const classCode = _.get(encounter, 'class.code')
+    const reason = _.chain(_.get(encounter, 'reason'))
+      .map(reason => reason.coding[0].display)
+      .join(', ')
+      .value()
+
+    const status = _.get(encounter, 'status')
+
+    const startTime = _.get(encounter, 'period.start')
+      ? moment
+          .default(_.get(encounter, 'period.start'))
+          .toDate()
+      : 'Unknow'
+
+    const endTime = _.get(encounter, 'period.end')
+      ? moment
+          .default(_.get(encounter, 'period.end'))
+          .toDate()
+      : 'Unknow'
+
+    return {
+      classCode,
+      endTime,
+      reason,
+      startTime,
+      status,
+      type
+    }
   }
 }
 
