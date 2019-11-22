@@ -49,14 +49,14 @@ const EnhancedTableHead = ({
             style={headCell.styles}
           >
             {headCell.disableSort ? (
-              <Typography variant='h6'>{headCell.label}</Typography>
+              <Typography variant='subtitle1'><strong>{headCell.label}</strong></Typography>
             ) : (
               <TableSortLabel
                 active={orderBy === headCell.id}
                 direction={order}
                 onClick={() => createSortHandler(headCell.id)}
               >
-                <Typography>{headCell.label}</Typography>
+                <Typography><strong>{headCell.label}</strong></Typography>
               </TableSortLabel>
             )}
           </TableCell>

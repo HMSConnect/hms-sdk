@@ -1,9 +1,16 @@
 import React from 'react'
 
-import { AppBar, Badge, makeStyles, Tab, Tabs, Theme } from '@material-ui/core'
+import {
+  AppBar,
+  Badge,
+  makeStyles,
+  Tab,
+  Tabs,
+  Theme,
+  Typography
+} from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
 import * as _ from 'lodash'
-
 
 export interface ITabList {
   type: string
@@ -11,16 +18,16 @@ export interface ITabList {
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
-  circle: {
-    backgroundColor: grey[400],
-    borderColor: grey[400],
-    borderRadius: '50%',
-    borderStyle: 'solid',
-    width: '2em'
+  margin: {
+    margin: theme.spacing(1)
+  },
+
+  padding: {
+    height: '3em',
+    padding: theme.spacing(0, 2)
   },
   root: {
     backgroundColor: theme.palette.background.paper,
-    flexGrow: 1,
     width: '100%'
   }
 }))
@@ -42,36 +49,37 @@ const TabGroup: React.FunctionComponent<{
     setNavigate(newValue)
   }
   return (
-    <div className={classes.root}>
-      <AppBar position='static' color='default'>
-        <Tabs
-          value={navigate}
-          onChange={handleChange}
-          indicatorColor='primary'
-          textColor='primary'
-          variant='scrollable'
-          scrollButtons='auto'
-          aria-label='scrollable auto tabs example'
-        >
-          {_.map(tabList, (tab: any, index: number) => (
-            <Tab
-              label={
-                <Badge
-                  color='primary'
-                  badgeContent={tab.totalCount}
-                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                >
+    <AppBar position='static' color='default' className={classes.root}>
+      <Tabs
+        value={navigate}
+        onChange={handleChange}
+        indicatorColor='primary'
+        textColor='primary'
+        variant='scrollable'
+        scrollButtons='auto'
+        aria-label='scrollable auto tabs example'
+      >
+        {_.map(tabList, (tab: any, index: number) => (
+          <Tab
+            label={
+              <Badge
+                color='primary'
+                badgeContent={tab.totalCount}
+                className={classes.margin}
+                max={999}
+              >
+                <Typography className={classes.padding} variant='body2'>
                   {tab.type}
-                </Badge>
-              }
-              {...a11yProps(index)}
-              value={tab.type}
-              key={tab.type + index}
-            />
-          ))}
-        </Tabs>
-      </AppBar>
-    </div>
+                </Typography>
+              </Badge>
+            }
+            {...a11yProps(index)}
+            value={tab.type}
+            key={tab.type + index}
+          />
+        ))}
+      </Tabs>
+    </AppBar>
   )
 }
 export default TabGroup

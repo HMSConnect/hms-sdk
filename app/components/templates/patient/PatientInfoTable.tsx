@@ -16,29 +16,29 @@ export default function PatientInfoTable({ patient: info }: any) {
         <Grid item xs={12}>
           <Grid container>
             <Grid item xs={12} sm={5}>
-              <Typography variant='caption'>
+              <Typography variant='subtitle1'>
                 <strong>Identifier</strong>
               </Typography>
             </Grid>
             <Grid item xs={12} sm={3}>
-              <Typography variant='caption'>
+              <Typography variant='subtitle1'>
                 <strong>Name</strong>
               </Typography>
             </Grid>
             <Grid item xs={12} sm={2}>
-              <Typography variant='caption'>
+              <Typography variant='subtitle1'>
                 <strong>Gender</strong>
               </Typography>
             </Grid>
             <Grid item xs={12} sm={2}>
-              <Typography variant='caption'>
+              <Typography variant='subtitle1'>
                 <strong>Birth Date</strong>
               </Typography>
             </Grid>
           </Grid>
           <Grid container>
             <Grid item xs={12} sm={5}>
-              <Typography variant='caption'>
+              <Typography variant='body2'>
                 {info
                   ? info.identifier
                     ? Object.keys(info.identifier).map((keyName: any) => {
