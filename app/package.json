@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "win_dev": "set NODE_ENV=development && next",
     "dev": "export NODE_ENV=development && next -- -p 3000",
     "build": "next build",
@@ -71,14 +71,33 @@
     "@babel/core": "^7.4.0",
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.7.2",
+    "@testing-library/react": "^9.3.2",
+    "@types/jest": "^24.0.23",
     "@types/node": "^12.12.6",
+    "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "jest": "^24.9.0",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.7.2",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(j|t)sx?$": "babel-jest"
+    },
+    "collectCoverageFrom": [
+      "components/**/*.tsx"
+    ],
+    "coverageReporters": [
+      "html"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/"
+    ]
   }
 }

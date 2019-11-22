@@ -17,6 +17,7 @@ const Highlighter: React.FunctionComponent<{
               ? { color: 'blue', backgroundColor: 'yellow' }
               : {}
           }
+          data-testid={i + ''}
         >
           {part}
         </span>
