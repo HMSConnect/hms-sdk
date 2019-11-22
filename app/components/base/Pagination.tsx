@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { TablePagination } from '@material-ui/core'
 
-export interface PageOptionResult {
+export interface IPageOptionResult {
   offset: number
   page: number
   max: number
@@ -12,7 +12,7 @@ const Pagination: React.FunctionComponent<{
   totalCount: number
   page: number
   max?: number
-  onPageChange: (pageOptionResult: PageOptionResult) => void
+  onPageChange: (pageOptionResult: IPageOptionResult) => void
 }> = ({ totalCount, page, max: _max, onPageChange }) => {
   const [max, setMax] = useState(_max ? _max : 10)
 
@@ -32,7 +32,7 @@ const Pagination: React.FunctionComponent<{
     onPageChange({
       max: newMax,
       offset: newPage * newMax,
-      page: newPage,
+      page: newPage
     })
   }
 

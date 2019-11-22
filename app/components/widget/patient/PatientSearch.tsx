@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react'
 
-import { Grid, makeStyles, Theme, Typography } from '@material-ui/core'
+import {
+  CircularProgress,
+  Grid,
+  makeStyles,
+  Theme,
+  Typography
+} from '@material-ui/core'
 import * as _ from 'lodash'
 import { useRouter } from 'next/router'
 import { stringify } from 'qs'
 
-import Patient from '../../../models/Patient'
-import Pagination, { PageOptionResult } from '../../base/Pagination'
-import usePatientList, { PaginationOption, SortType } from '../../hooks/usePatientList'
-import { PatientFilterValue } from '../../templates/patient/PatientFilterBar'
+import Pagination, { IPageOptionResult } from '../../base/Pagination'
+import usePatientList, {
+  IPaginationOption,
+  ISortType
+} from '../../hooks/usePatientList'
+import { IPatientFilterValue } from '../../templates/patient/PatientFilterBar'
 import PatientSearchPanel from '../../templates/patient/PatientSearchPanel'
 import PatientSearchResult from '../../templates/patient/PatientSearchResult'
-
 
 const useStyles = makeStyles((theme: Theme) => ({
   bottom: {
@@ -23,26 +30,41 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const PatientSearch: React.FunctionComponent<{
-  query: PaginationOption
+  query: IPaginationOption
 }> = ({ query }) => {
   const classes = useStyles()
   const router = useRouter()
-  const [pagination, setPagination] = useState<PaginationOption>(query)
-  const { isLoading, data } = usePatientList(pagination)
+
+  const [pagination, setPagination] = useState<IPaginationOption>(query)
+  const [highlightText, setHighlightText] = useState<string>(
+    query.filter.searchText
+  )
+  const { isLoading, data, totalCount } = usePatientList(pagination)
   useEffect(() => {
     if (!isLoading) {
       setPagination(query)
+      setHighlightText(query.filter.searchText)
     }
   }, [query])
 
-  const handleSearchSubmit = (filter: PatientFilterValue) => {
+  const handleSearchSubmit = (filter: IPatientFilterValue) => {
     router.replace({
       pathname: '/patient-search',
-      query: { ...pagination, offset: 0, page: 0, filter: stringify(filter) }
+      query: {
+        ...pagination,
+        offset: 0,
+        page: 0,
+        filter: stringify(filter),
+        sort: stringify(pagination.sort)
+      }
     })
   }
 
-  const handleRequestSort = (sortObject: SortType) => {
+  const handleHilightChange = (value: string) => {
+    setHighlightText(value)
+  }
+
+  const handleRequestSort = (sortObject: ISortType) => {
     router.replace({
       pathname: '/patient-search',
       query: {
@@ -53,7 +75,7 @@ const PatientSearch: React.FunctionComponent<{
     })
   }
 
-  const handlePageChage = (pageOptionResult: PageOptionResult) => {
+  const handlePageChage = (pageOptionResult: IPageOptionResult) => {
     router.replace({
       pathname: '/patient-search',
       query: {
@@ -64,7 +86,7 @@ const PatientSearch: React.FunctionComponent<{
     })
   }
 
-  const handlePatientSelect = (patient: Patient) => {
+  const handlePatientSelect = (patient: any) => {
     router.push({
       pathname: '/patient-info',
       query: { id: _.get(patient, 'identifier.id.value') }
@@ -77,10 +99,6 @@ const PatientSearch: React.FunctionComponent<{
     })
   }
 
-  if (isLoading) {
-    return <Typography>Loading...!!!</Typography>
-  }
-
   return (
     <>
       <Grid container>
@@ -89,27 +107,29 @@ const PatientSearch: React.FunctionComponent<{
             initialFilter={pagination.filter}
             onSearchSubmit={handleSearchSubmit}
             onPaginationReset={handlePaginationReset}
+            onHightlightChange={handleHilightChange}
           />
         </Grid>
         <Grid item xs={12}>
           {isLoading ? (
-            'Loading...!!!'
+            <CircularProgress />
           ) : (
             <PatientSearchResult
-              patientList={data.results}
+              patientList={data}
               sort={pagination.sort}
               onPatientSelect={handlePatientSelect}
               onRequestSort={handleRequestSort}
+              highlightText={highlightText}
             />
           )}
         </Grid>
-        <Grid container item xs={12} justify='flex-end'>
+        <Grid container justify='flex-end'>
           {isLoading ? (
-            'Loading...!!!'
+            <CircularProgress />
           ) : (
             <div className={classes.bottom}>
               <Pagination
-                totalCount={data.totalCount}
+                totalCount={totalCount}
                 max={query.max}
                 page={pagination.page}
                 onPageChange={handlePageChage}

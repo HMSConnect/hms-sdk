@@ -4,12 +4,9 @@ import { Table, TableBody, TableRow, Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 
-import Patient from '../../../models/Patient'
 import EnhancedTableHead from '../../base/EnhancedTableHead'
-import { SortType } from '../../hooks/usePatientList'
+import { ISortType } from '../../hooks/usePatientList'
 import PatientItem from './PatientItem'
-
-
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -22,11 +19,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 const PatientSearchResult: React.FunctionComponent<{
+  highlightText: string
   patientList: any[]
-  sort: SortType
-  onPatientSelect: (patient: Patient) => void
-  onRequestSort: (sortObject: SortType) => void
-}> = ({ patientList, sort, onPatientSelect, onRequestSort }) => {
+  sort: ISortType
+  onPatientSelect: (patient: any) => void
+  onRequestSort: (sortObject: ISortType) => void
+}> = ({ highlightText, patientList, sort, onPatientSelect, onRequestSort }) => {
   const classes = useStyles()
   const [order, setOrder] = React.useState<'asc' | 'desc'>(
     _.get(sort, 'order') || 'asc'
@@ -39,7 +37,6 @@ const PatientSearchResult: React.FunctionComponent<{
   }, [sort])
 
   const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
     property: any
   ) => {
     const isDesc = orderBy === property && order === 'desc'
@@ -52,7 +49,7 @@ const PatientSearchResult: React.FunctionComponent<{
     })
   }
 
-  const handlePatientSelect = (event: MouseEvent, patient: Patient) => {
+  const handlePatientSelect = (event: MouseEvent, patient: any) => {
     onPatientSelect(patient)
   }
   return (
@@ -120,7 +117,7 @@ const PatientSearchResult: React.FunctionComponent<{
             ]}
           />
           <TableBody>
-            {_.map(patientList, (patient: Patient, index: number) => (
+            {_.map(patientList, (patient: any, index: number) => (
               <TableRow
                 key={index}
                 hover
@@ -129,7 +126,11 @@ const PatientSearchResult: React.FunctionComponent<{
                 }
                 className={classes.tableRow}
               >
-                <PatientItem key={index} patient={patient} />
+                <PatientItem
+                  key={index}
+                  patient={patient}
+                  highlightText={highlightText}
+                />
               </TableRow>
             ))}
           </TableBody>

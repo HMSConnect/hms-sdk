@@ -21,7 +21,10 @@ export default abstract class AbstractService implements IService {
 
     const validator = ValidatorManager.compile(result.schema)
     if (validator) {
-      return validator.parse(result.data)
+      return {
+        ...result,
+        data: validator.parse(result.data)
+      }
     } else {
       throw Error('not support this schema.')
     }
@@ -42,3 +45,4 @@ export default abstract class AbstractService implements IService {
     }
   }
 }
+

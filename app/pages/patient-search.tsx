@@ -10,9 +10,9 @@ import * as _ from 'lodash'
 import { parse } from 'qs'
 import React from 'react'
 
-import BreadCrumbsCustom from '../components/base/BreadCrumbsCustom'
-import { PaginationOption, SortType } from '../components/hooks/usePatientList'
-import { PatientFilterValue } from '../components/templates/patient/PatientFilterBar'
+import BreadcrumbsBase from '../components/base/BreadcrumbsBase'
+import { IPaginationOption, ISortType } from '../components/hooks/usePatientList'
+import { IPatientFilterValue } from '../components/templates/patient/PatientFilterBar'
 import PatientSearch from '../components/widget/patient/PatientSearch'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -22,12 +22,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-export interface StatelessPage<P = {}> extends React.SFC<P> {
+export interface IStatelessPage<P = {}> extends React.SFC<P> {
   getInitialProps?: (ctx: any) => Promise<P>
 }
 
-const PatientSearchView: StatelessPage<{
-  query: PaginationOption
+const PatientSearchView: IStatelessPage<{
+  query: IPaginationOption
 }> = ({ query }) => {
   const classes = useStyles()
   return (
@@ -35,7 +35,7 @@ const PatientSearchView: StatelessPage<{
       <CssBaseline />
       <Container maxWidth='lg' className={classes.root}>
         <Typography component='div' className={classes.body}>
-          <BreadCrumbsCustom
+          <BreadcrumbsBase
             currentPath='Patient Search'
             parentPath={[
               {
@@ -44,7 +44,7 @@ const PatientSearchView: StatelessPage<{
                 url: '/'
               }
             ]}
-          ></BreadCrumbsCustom>
+          ></BreadcrumbsBase>
           <PatientSearch query={query} />
         </Typography>
       </Container>
@@ -53,12 +53,12 @@ const PatientSearchView: StatelessPage<{
 }
 
 PatientSearchView.getInitialProps = async ({ query }) => {
-  const initialFilter: PatientFilterValue = {
+  const initialFilter: IPatientFilterValue = {
     gender: 'all',
     searchText: ''
   }
 
-  const initialSort: SortType = {
+  const initialSort: ISortType = {
     order: 'asc',
     orderBy: 'id'
   }

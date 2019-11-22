@@ -1,6 +1,6 @@
 import IValidator from './IValidator'
 
-interface ISchema {
+export interface ISchema {
   version: number
   standard: 'SFHIR' | 'HMS_CONNECT'
   resourceType: string

@@ -1,36 +1,25 @@
-import SFHIRPatient from '../components/standards/smart_fhir/SFHIRPatient'
 // TODO update interface Patient Information
-interface PatientInfoName {
+interface IPatientInfoName {
   use: string
   family: string
   given: string[]
   prefix: string[]
 }
-interface PatientInfoIdentifierCoding {
+interface IPatientInfoIdentifierCoding {
   system: string
   code: string
 }
-interface PatientInfoIdentifierType {
-  coding: PatientInfoIdentifierCoding[]
+interface IPatientInfoIdentifierType {
+  coding: IPatientInfoIdentifierCoding[]
 }
-interface PatientInfoIdentifier {
-  type: PatientInfoIdentifierType
+interface IPatientInfoIdentifier {
+  type: IPatientInfoIdentifierType
 }
-export interface PatientInfoList {
-  name: PatientInfoName[]
+export interface IPatientInfoList {
+  name: IPatientInfoName[]
   id: string
   gender: string
-  identifier: PatientInfoIdentifier[]
+  identifier: IPatientInfoIdentifier[]
   use: string
   birthDate: string
 }
-
-// Patient model
-class Patient {
-  public static parse(json: any): any {
-    // TODO: throws exception if fail
-    return SFHIRPatient.compile(json) || {}
-  }
-}
-
-export default Patient

@@ -6,13 +6,14 @@ import {
   makeStyles,
   TextField,
   Theme,
+  Typography,
   withStyles
 } from '@material-ui/core'
 import { hexToRgb } from '@material-ui/core/styles'
 import ClearIcon from '@material-ui/icons/Clear'
 import SearchIcon from '@material-ui/icons/Search'
 
-import PatientFilterBar, { PatientFilterValue } from './PatientFilterBar'
+import PatientFilterBar, { IPatientFilterValue } from './PatientFilterBar'
 
 const ColorButton = withStyles((theme: Theme) => ({
   root: {
@@ -50,12 +51,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const PatientSearchPanel: React.FunctionComponent<{
-  initialFilter: PatientFilterValue
-  onSearchSubmit: (filter: PatientFilterValue) => void
+  initialFilter: IPatientFilterValue
+  onSearchSubmit: (filter: IPatientFilterValue) => void
   onPaginationReset: (event: React.MouseEvent) => void
-}> = ({ initialFilter, onSearchSubmit, onPaginationReset }) => {
+  onHightlightChange: (value: string) => void
+}> = ({
+  initialFilter,
+  onSearchSubmit,
+  onPaginationReset,
+  onHightlightChange
+}) => {
   const classes = useStyles()
-  const [filter, setFilter] = useState<PatientFilterValue>(initialFilter)
+  const [filter, setFilter] = useState<IPatientFilterValue>(initialFilter)
   useEffect(() => {
     if (initialFilter) {
       setFilter(initialFilter)
@@ -73,6 +80,7 @@ const PatientSearchPanel: React.FunctionComponent<{
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     handleFilterChange('searchText', event.target.value)
+    onHightlightChange(event.target.value)
   }
 
   const handleSearchSubmit = (event?: React.FormEvent<HTMLFormElement>) => {
@@ -115,7 +123,7 @@ const PatientSearchPanel: React.FunctionComponent<{
               endIcon={<SearchIcon></SearchIcon>}
               className={classes.actionButton}
             >
-              Search
+              <Typography variant='body2'>Search</Typography>
             </Button>
             <ColorButton
               variant='contained'
@@ -123,7 +131,7 @@ const PatientSearchPanel: React.FunctionComponent<{
               className={classes.actionButton}
               onClick={handlePaginationReset}
             >
-              Clear
+              <Typography variant='body2'>Clear</Typography>
             </ColorButton>
           </Grid>
           <Grid container item xs={12}>

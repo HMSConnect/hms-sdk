@@ -8,7 +8,7 @@ import {
   Typography
 } from '@material-ui/core'
 import * as _ from 'lodash'
-interface HeadeCellProps {
+export interface IHeaderCellProps {
   id: string
   disablePadding: boolean // for padding in Tab
   label: string
@@ -17,26 +17,30 @@ interface HeadeCellProps {
   disableSort?: boolean
 }
 
-interface EnhancedTableProps {
+export interface IEnhancedTableProps {
   classes: any
-  onRequestSort: (event: React.MouseEvent<unknown>, property: any) => void
-  order: 'asc' | 'desc'
-  orderBy: string
-  headCells: HeadeCellProps[]
+  headCells: IHeaderCellProps[]
+  order?: 'asc' | 'desc'
+  orderBy?: string
+  onRequestSort?: (property: any) => void
 }
 
-const EnhancedTableHead = (props: EnhancedTableProps) => {
-  const { classes, order, orderBy, onRequestSort, headCells } = props
-  const createSortHandler = (property: any) => (
-    event: React.MouseEvent<unknown>
-  ) => {
-    onRequestSort(event, property)
+const EnhancedTableHead = ({
+  order,
+  orderBy,
+  onRequestSort,
+  headCells
+}: IEnhancedTableProps) => {
+  const createSortHandler = (property: any) => {
+    if (onRequestSort) {
+      onRequestSort(property)
+    }
   }
 
   return (
     <TableHead>
       <TableRow>
-        {_.map(headCells, (headCell: HeadeCellProps) => (
+        {_.map(headCells, (headCell: IHeaderCellProps) => (
           <TableCell
             key={headCell.id}
             align={headCell.align}
@@ -45,14 +49,14 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
             style={headCell.styles}
           >
             {headCell.disableSort ? (
-              <Typography>{headCell.label}</Typography>
+              <Typography variant='subtitle1'><strong>{headCell.label}</strong></Typography>
             ) : (
               <TableSortLabel
                 active={orderBy === headCell.id}
                 direction={order}
-                onClick={createSortHandler(headCell.id)}
+                onClick={() => createSortHandler(headCell.id)}
               >
-                <Typography>{headCell.label}</Typography>
+                <Typography><strong>{headCell.label}</strong></Typography>
               </TableSortLabel>
             )}
           </TableCell>

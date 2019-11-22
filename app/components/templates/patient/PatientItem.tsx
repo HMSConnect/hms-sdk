@@ -8,7 +8,7 @@ import {
   Typography
 } from '@material-ui/core'
 import * as _ from 'lodash'
-import Patient from '../../../models/Patient'
+import Highlighter from '../../base/Highlighter'
 
 const useStyles = makeStyles((theme: Theme) => ({
   avatar: {
@@ -19,10 +19,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   root: {}
 }))
+
 const PatientItem: React.FunctionComponent<{
-  patient: Patient
-}> = ({ patient }) => {
+  highlightText: string
+  patient: any
+}> = ({ highlightText, patient }) => {
   const classes = useStyles()
+
   return (
     <>
       <TableCell>
@@ -31,20 +34,36 @@ const PatientItem: React.FunctionComponent<{
       <TableCell align='center'>
         <Typography>
           <strong>
-            {_.get(patient, 'name.given[0]') || 'Unknow'}{' '}
-            {_.get(patient, 'name.family') || 'Unknow'}{' '}
+            <Highlighter
+              text={_.get(patient, 'name.given[0]')}
+              highlightText={highlightText}
+            />{' '}
+            <Highlighter
+              text={_.get(patient, 'name.family')}
+              highlightText={highlightText}
+            />
           </strong>
         </Typography>
       </TableCell>
-      <TableCell>{_.get(patient, 'gender') || 'Unknow'}</TableCell>
-      <TableCell align='center'>
-        {_.get(patient, 'birthDate') || 'Unknow'}
+      <TableCell>
+        <Typography variant='body2'>
+          {_.get(patient, 'gender') || 'Unknow'}
+        </Typography>
       </TableCell>
       <TableCell align='center'>
-        {_.get(patient, 'identifier.id.value') || 'Unknow'}
+        <Typography variant='body2'>
+          {_.get(patient, 'birthDate') || 'Unknow'}
+        </Typography>
       </TableCell>
       <TableCell align='center'>
-        {_.get(patient, 'identifier.mr.value') || 'Unknow'}
+        <Typography variant='body2'>
+          {_.get(patient, 'identifier.id.value') || 'Unknow'}
+        </Typography>
+      </TableCell>
+      <TableCell align='center'>
+        <Typography variant='body2'>
+          {_.get(patient, 'identifier.mr.value') || 'Unknow'}
+        </Typography>
       </TableCell>
     </>
   )

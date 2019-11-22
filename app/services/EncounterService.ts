@@ -13,14 +13,9 @@ class EncounterService extends AbstractService {
     console.info(`[service] loading resource typeList`, params)
     const dataManager = this.dataManager as EncounterDataManager
     const result = await dataManager.typeList(params || {})
-    const validator = ValidatorManager.compile(result.schema)
-    if (validator) {
-      return {
-        ...result,
-        data: result.data.map((result: any) => validator.parse(result))
-      }
-    } else {
-      throw Error('not support this schema.')
+    return {
+      ...result,
+      data: result.data
     }
   }
 }
