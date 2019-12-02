@@ -1,9 +1,9 @@
 {
-    "presets": [
-      "next/babel",
-      "@babel/preset-env",
-    ],
-    "plugins": [
-      "transform-class-properties"
-    ]
+  "presets": [
+    "next/babel",
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/preset-typescript"
+  ],
+  "plugins": ["transform-class-properties"]
 }
