@@ -4,9 +4,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import getConfig from 'next/config'
 import React from 'react'
 import { Link } from '../routes'
-
-
-const { staticFolder } = getConfig().publicRuntimeConfig
+console.log(getConfig())
+// const { staticFolder } = getConfig().publicRuntimeConfig
+const config = getConfig()
+const { staticFolder } = config ? config.publicRuntimeConfig : {}
 const useStyles = makeStyles(theme => ({
   card: {
     height: '100%',
@@ -41,12 +42,19 @@ export default function App() {
       src: `${staticFolder}/static/images/favicon.png`
     }
   }
-
   return (
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth='lg'>
         <Link href='/patient-search'>Patient search</Link>
+      </Container>
+      <Container maxWidth='lg'>
+        <Link
+          route='patientInfoWithEncounter'
+          params={{ patientId: '111', encounterId: '1234' }}
+        >
+          Test
+        </Link>
       </Container>
     </React.Fragment>
   )
