@@ -4,8 +4,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import getConfig from 'next/config'
 import React from 'react'
 import { Link } from '../routes'
-console.log(getConfig())
-// const { staticFolder } = getConfig().publicRuntimeConfig
 const config = getConfig()
 const { staticFolder } = config ? config.publicRuntimeConfig : {}
 const useStyles = makeStyles(theme => ({
