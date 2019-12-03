@@ -48,14 +48,7 @@ export default function App() {
       <Container maxWidth='lg'>
         <Link href='/patient-search'>Patient search</Link>
       </Container>
-      <Container maxWidth='lg'>
-        <Link
-          route='patientInfoWithEncounter'
-          params={{ patientId: '111', encounterId: '1234' }}
-        >
-          Test
-        </Link>
-      </Container>
+  
     </React.Fragment>
   )
 }
