@@ -6,8 +6,7 @@ const withStylus = require('@zeit/next-stylus')
 const path = require('path')                                                      
 const Dotenv = require('dotenv-webpack')    
 
-const env = process.env.NODE_ENV || 'development';
-
+const env = process.env.NODE_ENV.trim() || 'development';
 module.exports = withStylus({
   webpack(config, options) {
     return config

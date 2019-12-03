@@ -16,7 +16,6 @@ const useStyles = makeStyles(theme => ({
 export default function PatientInfoPanel(props) {
     const classes = useStyles();
     let { info } = props;
-
     return (
         <div className={classes.root}>
 

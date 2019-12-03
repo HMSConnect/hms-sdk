@@ -5,6 +5,8 @@ import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
 
+import '../init/bootstrap'
+
 class AASApp extends App {
     componentDidMount() {
         // Remove the server-side injected CSS.

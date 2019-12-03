@@ -2,11 +2,14 @@
 const fs = require('fs');
 const path = require('path');
 const ndjson = require('ndjson');
-const minimongo = require("minimongo");
+const minimongo = require('minimongo');
 const LocalDb = minimongo.MemoryDb;
 
+const patientService = require('./services/patient');
+const encounterService = require('./services/encounter');
+const carePlanService = require('./services/care_plan');
 
-module.exports = function(){
+module.exports = (function(){
     let domainResourceList = [];
     let fileDomainRes = [];
 
@@ -39,8 +42,9 @@ module.exports = function(){
             return this.fileDomainRes;
         },
 
-        loadMockSmartFHIRData: function(callback){
-            console.log('fileDomainRes:', this.fileDomainRes)
+        loadMockSmartFHIRData: function(callback, onLoadded){
+            // console.log('fileDomainRes:', this.fileDomainRes)
+            let self = this
             this.fileDomainRes.map((dRes, dIndex) => {
                 let path = getSmartFHIRFilePath(dRes);
                 fs.createReadStream(path)
@@ -48,6 +52,11 @@ module.exports = function(){
                 .on('data', function(obj) {
                     if(typeof callback === 'function') {
                         callback(dRes, obj)
+                    }
+                })
+                .on('end', function(){
+                    if(dIndex === self.fileDomainRes.length - 1 && onLoadded){
+                        onLoadded()
                     }
                 })
             });
@@ -65,7 +74,7 @@ module.exports = function(){
                         domainNameRes = fObj
 
                     if(domainNameRes){
-                        console.log(domainNameRes);
+                        // console.log(domainNameRes);
                         if(this.domainResourceList.indexOf(domainNameRes)<=-1) {
                             this.domainResourceList.push(domainNameRes);
                             this.fileDomainRes.push(fnameWithExt);
@@ -75,5 +84,19 @@ module.exports = function(){
                 }
             })
         },
+
+        processingPredata: function(domainName, data){
+            // use predata before insert to database for query from minimongo
+            switch (domainName) {
+                case 'patient':
+                    return patientService.processingPredata(data);
+                case 'encounter':
+                    return encounterService.processingPredata(data);
+                case 'care_plan':
+                    return carePlanService.processingPredata(data)
+                default:
+                    return data;
+            }
+        }
     }
-}
+})()
