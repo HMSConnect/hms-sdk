@@ -3,9 +3,10 @@ import Container from '@material-ui/core/Container'
 import HomeIcon from '@material-ui/icons/Home'
 import React from 'react'
 
-import BreadcrumbsBase from '../components/base/BreadcrumbsBase'
-import PatientInfoDetail from '../components/widget/patient/PatientInfoDetail'
-import { IStatelessPage } from './patient-search'
+import BreadcrumbsBase from '../../components/base/BreadcrumbsBase'
+import PatientInfoDetail from '../../components/widget/patient/PatientInfoDetail'
+import Route from '../../routes'
+import { IStatelessPage } from '../patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -28,7 +29,6 @@ const PatientInfoView: IStatelessPage<{
             parentPath={[
               {
                 icon: <HomeIcon />,
-                label: 'Home',
                 url: '/'
               },
               {
