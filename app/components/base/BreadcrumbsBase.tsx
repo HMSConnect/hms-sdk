@@ -10,9 +10,9 @@ import {
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 import { useRouter } from 'next/router'
-interface IBreadcrumbPath {
-  label: string
+export interface IBreadcrumbPath {
   url: string | null
+  label?: string
   icon?: ReactElement
 }
 
@@ -59,7 +59,7 @@ const BreadcrumbsBase: React.FunctionComponent<{
             href='#'
           >
             {_.get(parent, 'icon') || null}
-            {parent.label}
+            {parent.label || ''}
           </Link>
         ))}
         <Typography color='textPrimary' className={classes.link}>

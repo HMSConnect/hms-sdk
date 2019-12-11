@@ -76,6 +76,7 @@ const TabGroup: React.FunctionComponent<{
             {...a11yProps(index)}
             value={tab.type}
             key={tab.type + index}
+            data-testid={tab.type}
           />
         ))}
       </Tabs>

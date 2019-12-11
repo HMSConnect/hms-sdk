@@ -15,6 +15,7 @@ const useResourceList = (id: string): any => {
 
   useEffect(() => {
     ;(async () => {
+      setLoading(true)
       try {
         const patientService = HMSService.getService(
           'patient'
@@ -35,7 +36,7 @@ const useResourceList = (id: string): any => {
       } catch (error) {
         setResult((prevResult: IQueryResult) => ({
           ...prevResult,
-          error: error.message
+          error: error.message ? error.message : error
         }))
       } finally {
         setLoading(false)

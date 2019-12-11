@@ -38,7 +38,7 @@ export default function PatientInfoTable({ patient: info }: any) {
           </Grid>
           <Grid container>
             <Grid item xs={12} sm={5}>
-              <Typography variant='body2'>
+              <Typography variant='subtitle2'>
                 {info
                   ? info.identifier
                     ? Object.keys(info.identifier).map((keyName: any) => {

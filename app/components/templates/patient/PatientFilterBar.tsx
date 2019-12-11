@@ -23,7 +23,6 @@ const PatientFilterBar: React.FunctionComponent<{
     <>
       <Grid item xs={3}>
         <GenderSelector
-          name='gender'
           value={filter.gender}
           onGenderChange={onFilterChange}
         />

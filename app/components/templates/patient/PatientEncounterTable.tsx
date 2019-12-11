@@ -147,7 +147,10 @@ const PatientEncounterTable: React.FunctionComponent<{
           <Typography variant='body2'>
             Group By Type
             <Checkbox
-              onChange={(event, isGroup) => handleGroupByType(isGroup)}
+              onChange={(event, isGroup) => {
+                handleGroupByType(isGroup)
+              }}
+              data-testid='check-by-type-input'
               value={isGroup}
               inputProps={{
                 'aria-label': 'primary checkbox'
@@ -156,12 +159,7 @@ const PatientEncounterTable: React.FunctionComponent<{
           </Typography>
         </Grid>
       </Grid>
-      {isGroup && (
-        <TabGroup
-          tabList={tabList}
-          onTabChange={handleTabChange}
-        />
-      )}
+      {isGroup && <TabGroup tabList={tabList} onTabChange={handleTabChange} />}
       <div className={classes.tableWrapper}>
         <TableBase
           id='encounter'
@@ -170,6 +168,7 @@ const PatientEncounterTable: React.FunctionComponent<{
           isLoading={isLoading}
           isMore={isMore}
           onLazyLoad={handleLazyLoad}
+          data-testid='table-base'
           tableCells={[
             {
               bodyCell: {

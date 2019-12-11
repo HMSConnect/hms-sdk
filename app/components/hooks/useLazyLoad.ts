@@ -38,7 +38,7 @@ const useLazyLoad = (
         } catch (error) {
           setResult((prevResult: IQueryResult) => ({
             ...prevResult,
-            error: error.message
+            error: error.message ? error.message : error
           }))
         } finally {
           setLoading(false)
