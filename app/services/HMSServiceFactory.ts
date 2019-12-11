@@ -1,3 +1,4 @@
+import * as _ from 'lodash'
 import IAdapter from '../adapters/IAdapter'
 import IService from './IService'
 
@@ -13,7 +14,9 @@ class HMSServiceFactory {
     if (!instance) {
       const serviceCreator = this.registry.get(resource)
       if (serviceCreator) {
-        instance = new serviceCreator(resource, adapter || this.defaultAdatper)
+        instance = new serviceCreator(_.kebabCase(resource), adapter || this.defaultAdatper)
+      } else {
+        throw new Error(`service ${resource} not register`)
       }
     }
     return instance

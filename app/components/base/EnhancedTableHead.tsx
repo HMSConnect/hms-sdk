@@ -10,9 +10,9 @@ import {
 import * as _ from 'lodash'
 export interface IHeaderCellProps {
   id: string
-  disablePadding: boolean // for padding in Tab
+  disablePadding?: boolean // for padding in Tab
   label: string
-  align: 'right' | 'left' | 'center'
+  align?: 'right' | 'left' | 'center' | undefined
   styles?: any
   disableSort?: boolean
 }
@@ -43,7 +43,7 @@ const EnhancedTableHead = ({
         {_.map(headCells, (headCell: IHeaderCellProps) => (
           <TableCell
             key={headCell.id}
-            align={headCell.align}
+            align={headCell.align || 'center'}
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
             style={headCell.styles}

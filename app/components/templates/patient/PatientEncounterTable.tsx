@@ -12,6 +12,7 @@ import { IHeaderCellProps } from '../../base/EnhancedTableHead'
 import TabGroup, { ITabList } from '../../base/TabGroup'
 import TableBase from '../../base/TableBase'
 import useLazyLoad, { ILazyLoadOption } from '../../hooks/useLazyLoad'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -37,6 +38,7 @@ const PatientEncounterTable: React.FunctionComponent<{
   patient: any
 }> = ({ resourceList, patient }) => {
   const classes = useStyles()
+  const router = useRouter()
   const [lazyLoadOption, setLazyLoad] = useState<ILazyLoadOption>({
     filter: {
       patientId: _.get(patient, 'identifier.id.value')
@@ -66,6 +68,12 @@ const PatientEncounterTable: React.FunctionComponent<{
     event: React.MouseEvent,
     selectedEncounter: any
   ) => {
+    router.push({
+      pathname: `/patient-info/encounter/${selectedEncounter.id}`,
+      query: {
+        patientId: _.get(patient, 'identifier.id.value')
+      }
+    })
     // TODO handle select encounter
   }
 

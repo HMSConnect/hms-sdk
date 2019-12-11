@@ -1,4 +1,5 @@
 import Axios, { AxiosResponse } from 'axios'
+import * as _ from 'lodash'
 import { stringify } from 'qs'
 
 import AbstractAdapter from './AbstractAdapter'
@@ -9,7 +10,7 @@ export default class DevelopmentAdapter extends AbstractAdapter {
   }
 
   async doRequest(resource: string, params: any): Promise<AxiosResponse<any>> {
-    console.info(`requesting for ${resource} with params = `, params)
+    // console.info(`requesting for ${resource} with params = `, params)
     const result = await Axios.get(`${this.host}/${resource}`, {
       params,
       paramsSerializer: params => stringify(params)

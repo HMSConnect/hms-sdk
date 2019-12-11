@@ -7,7 +7,6 @@ export default abstract class AbstractService implements IService {
   dataManager: DataManager
   constructor(private resource: string, private adapter: IAdapter) {
     this.dataManager = this.createDataManager(resource, adapter)
-    console.info('dataManager', this.dataManager)
   }
   getResource(): string {
     return this.resource
@@ -16,10 +15,11 @@ export default abstract class AbstractService implements IService {
   abstract createDataManager(resource: string, adapter: IAdapter): DataManager
 
   async load(id: string): Promise<any> {
-    console.info(`[service] loading resource id = ${id}`)
+    // console.info(`[service] loading resource id = ${id}`)
     const result = await this.dataManager.load(id)
 
     const validator = ValidatorManager.compile(result.schema)
+
     if (validator) {
       return {
         ...result,
@@ -31,7 +31,7 @@ export default abstract class AbstractService implements IService {
   }
 
   async list(params: any): Promise<any> {
-    console.info(`[service] loading resource list`, params)
+    // console.info(`[service] loading resource list`, params)
     const result = await this.dataManager.list(params)
 
     const validator = ValidatorManager.compile(result.schema)
