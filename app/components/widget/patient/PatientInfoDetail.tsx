@@ -1,15 +1,15 @@
+import { Avatar, Grid, makeStyles, Paper } from '@material-ui/core'
 import * as _ from 'lodash'
 import React, { useState } from 'react'
-
-import { Avatar, Grid, makeStyles, Paper } from '@material-ui/core'
-
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import usePatient from '../../hooks/usePatient'
 import useResourceList from '../../hooks/useResourceList'
-import PatientEncounterTable from '../../templates/patient/PatientEncounterTable'
 import PatientInfoPanel from '../../templates/patient/PatientInfoPanel'
 import PatientInfoTable from '../../templates/patient/PatientInfoTable'
 import PatientMenuList from '../../templates/patient/PatientMenuList'
+import PatientEncounterDataList from '../../templates/patient/PatientEncounterDataList'
+
+
 
 export interface IPatientTableProps {
   entry: any[]
@@ -36,7 +36,7 @@ const PatientInfoDetail: React.FunctionComponent<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
-  const [menuNavigate, setMenuNavigate] = useState('patient')
+  const [menuNavigate, setMenuNavigate] = useState('encounter')
 
   const { isLoading: isPatientLoading, data: patient } = usePatient(
     _.get(query, 'id')
@@ -62,7 +62,7 @@ const PatientInfoDetail: React.FunctionComponent<{
         return <PatientInfoTable patient={patient} />
       case 'encounter':
         return (
-          <PatientEncounterTable
+          <PatientEncounterDataList
             patient={patient}
             resourceList={_.get(resource, 'data')}
           />
