@@ -3,8 +3,8 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { makeStyles } from '@material-ui/core/styles'
 import getConfig from 'next/config'
 import React from 'react'
-import { Link } from '../routes'
-console.log(getConfig())
+import { Link, Router } from '../routes'
+
 // const { staticFolder } = getConfig().publicRuntimeConfig
 const config = getConfig()
 const { staticFolder } = config ? config.publicRuntimeConfig : {}

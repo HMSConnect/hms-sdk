@@ -20,7 +20,9 @@ export default class PatientService extends AbstractService {
         if (validator) {
           return {
             ...result,
-            data: result.data.map((entry: any) => validator.parse(entry))
+            data: result.data.map((entry: any) => {
+              return validator.parse(entry)
+            })
           }
         }
         // TODO handle cannot resolve validator

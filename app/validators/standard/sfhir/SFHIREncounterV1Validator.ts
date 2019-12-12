@@ -22,7 +22,7 @@ class SFHIREncounterV1Validator implements IValidator {
 
     const classCode = _.get(encounter, 'class.code')
     const reason = _.chain(_.get(encounter, 'reason'))
-      .map(reason => reason.coding[0].display)
+      .map(reason => _.get(reason, 'coding[0].display') )
       .join(', ')
       .value()
 
@@ -30,11 +30,11 @@ class SFHIREncounterV1Validator implements IValidator {
 
     const startTime = _.get(encounter, 'period.start')
       ? moment.default(_.get(encounter, 'period.start')).toDate()
-      : 'Unknow'
+      : null
 
     const endTime = _.get(encounter, 'period.end')
       ? moment.default(_.get(encounter, 'period.end')).toDate()
-      : 'Unknow'
+      : null
 
     const organizationId = _.chain(encounter)
       .get('reference')
@@ -52,7 +52,7 @@ class SFHIREncounterV1Validator implements IValidator {
       startDateTime: startTime,
       startTime,
       status,
-      type
+      type,
     }
   }
 }

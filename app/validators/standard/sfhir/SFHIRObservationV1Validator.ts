@@ -13,16 +13,20 @@ class SFHIRObservationV1Validator implements IValidator {
   }
 
   parse(observation: any): any {
+    const valueQuantity = _.get(observation, 'valueQuantity.value')
     return {
       display: observation.display,
       unit: observation.component
-        ? observation.component[0].valueQuantity.unit
-        : observation.valueQuantity.unit,
+        ? _.get(observation, 'component[0].valueQuantity.unit')
+        : _.get(observation, 'valueQuantity.unit'),
       value: observation.component
-        ? observation.component
+        ? _.chain(observation.component)
             .map((c: any) => c.valueQuantity.value.toFixed(2))
             .join('/')
-        : observation.valueQuantity.value.toFixed(2)
+            .value()
+        : _.isNumber(valueQuantity)
+        ? Number(valueQuantity).toFixed(2)
+        : ''
     }
   }
 }
