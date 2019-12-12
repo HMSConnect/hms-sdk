@@ -3,6 +3,7 @@ import validatorManager from '../../ValidatorManager'
 
 import * as _ from 'lodash'
 import * as moment from 'moment'
+import environment from '../../../config'
 class SFHIRObservationV1Validator implements IValidator {
   isValid(schema: any): boolean {
     return (
@@ -15,7 +16,16 @@ class SFHIRObservationV1Validator implements IValidator {
   parse(observation: any): any {
     const valueQuantity = _.get(observation, 'valueQuantity.value')
     return {
+      codeText: _.get(observation, 'code.text'),
       display: observation.display,
+      issued: _.get(observation, 'issued')
+        ? moment
+            .default(_.get(observation, 'issued'))
+            .format(environment.localFormat.dateTime)
+        : '',
+      issuedDate: _.get(observation, 'issued')
+        ? moment.default(_.get(observation, 'issued')).toDate()
+        : null,
       unit: observation.component
         ? _.get(observation, 'component[0].valueQuantity.unit')
         : _.get(observation, 'valueQuantity.unit'),
@@ -26,7 +36,17 @@ class SFHIRObservationV1Validator implements IValidator {
             .value()
         : _.isNumber(valueQuantity)
         ? Number(valueQuantity).toFixed(2)
-        : ''
+        : '',
+      valueModal: observation.component
+        ? _.chain(observation.component)
+            .map((c: any) => ({
+              code: c.code.text,
+              value: c.valueQuantity.value
+            }))
+            .value()
+        : _.isNumber(valueQuantity)
+        ? Number(valueQuantity).toFixed(6)
+        : null
     }
   }
 }

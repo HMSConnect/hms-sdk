@@ -24,13 +24,17 @@ class SFHIRDiagnosticReportV1Validator implements IValidator {
         })
       }
     }
-
     return {
       codeText: _.get(data, 'code.text'),
-      issued: moment
-        .default(data.issued)
-        .format(environment.localFormat.dateTime),
-      result: data.result
+      issued: _.get(data, 'issued')
+        ? moment
+            .default(_.get(data, 'issued'))
+            .format(environment.localFormat.dateTime)
+        : '',
+      issuedDate: _.get(data, 'issued')
+        ? moment.default(_.get(data, 'issued'))
+        : null,
+      result: _.get(data, 'result')
     }
   }
 }

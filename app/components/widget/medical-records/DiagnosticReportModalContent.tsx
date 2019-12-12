@@ -5,6 +5,7 @@ import React from 'react'
 import { IDiagnosticReportFilterQuery } from '../../../data-managers/DiagnosticReportDataManager'
 import useDiagnosticReportList from '../../hooks/useDiagnosticReportList'
 import { DiagnosticReportCardView } from './DiagnosticReportCard'
+import DiagReportPatientData from '../../templates/DiagReportPatientData'
 
 const DiagnosticReportModalContent: React.FunctionComponent<any> = ({}) => {
   const { query } = useRouter()
@@ -26,7 +27,7 @@ const DiagnosticReportModalContent: React.FunctionComponent<any> = ({}) => {
     <Grid item xs={12}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={9}>
-          graph content
+          <DiagReportPatientData diagReportList={diagnosticReportList}/>
         </Grid>
         <Grid item xs={12} sm={3}>
           <Grid container spacing={3}>
