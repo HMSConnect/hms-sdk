@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { makeStyles, Theme } from '@material-ui/core'
 import * as _ from 'lodash'
 import { Responsive, WidthProvider } from 'react-grid-layout'
-import 'react-grid-layout/css/styles.css'
-import 'react-resizable/css/styles.css'
 import GridCardSelector from './GridCardSelector'
 import SelectOption from './SelectOption'
 

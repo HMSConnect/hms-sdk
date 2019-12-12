@@ -6,6 +6,8 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../src/theme'
 
 import '../init/bootstrap'
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
 
 class AASApp extends App {
   componentDidMount() {

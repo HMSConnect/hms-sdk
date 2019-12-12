@@ -8,15 +8,11 @@ import MarkdownIt from 'markdown-it'
 
 const md = MarkdownIt()
 
-// console.log('import adaptive card')
-
 ACFabric.useFabricComponents()
 AdaptiveCards.AdaptiveCard.onProcessMarkdown = (text: any, result) => {
   result.outputHtml = md.render(text)
   result.didProcess = true
 }
-
-// const initCard = _.debounce(initialize, 1000) // fixed call repeat
 
 const AdaptiveCard: React.FunctionComponent<any> = ({
   templatePayload,
@@ -34,7 +30,7 @@ const AdaptiveCard: React.FunctionComponent<any> = ({
       !_.isEmpty(templatePayload) &&
       !_.isEmpty(data)
     ) {
-        console.log('initialize...')
+      console.info('initialize adaptive card...')
       adaptiveCard = initialize(cardRef, templatePayload, data)
 
       // register callback
@@ -44,7 +40,9 @@ const AdaptiveCard: React.FunctionComponent<any> = ({
     }
 
     return () => {
+      // componentDidUnmount
       adaptiveCard = null
+      cardRef.current = null
     }
   }, [adaptiveCard, cardRef, templatePayload, data])
 
@@ -66,7 +64,6 @@ function initialize(cardRef: any, templatePayload: any, data: any) {
   // ready to render
   const card = template.expand(context)
 
-  // console.log(card)
   // Render the card
   adaptiveCard.parse(card)
 
