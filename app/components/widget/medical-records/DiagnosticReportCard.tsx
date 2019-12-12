@@ -5,12 +5,12 @@ import * as _ from 'lodash'
 import { useRouter } from 'next/router'
 import { IDiagnosticReportFilterQuery } from '../../../data-managers/DiagnosticReportDataManager'
 import AdaptiveCard from '../../base/AdaptiveCard'
+import { useModal } from '../../base/Modal'
 import useLastDiagnosticReport from '../../hooks/useLastDiagnosticReport'
 import disgnosticReportTemplate from '../../templates/adaptive-card/disgnosticReport.template.json'
+import DiagnosticReportModalContent from './DiagnosticReportModalContent'
 
-const DiagnosticReportCard: React.FunctionComponent<any> = ({
-  templatePayload
-}) => {
+const DiagnosticReportCard: React.FunctionComponent<any> = () => {
   const { query } = useRouter()
   const params = {
     encounterId: query.encounterId,
@@ -21,7 +21,33 @@ const DiagnosticReportCard: React.FunctionComponent<any> = ({
     filter: params || {},
     withObservation: true
   })
+  const { showModal, renderModal } = useModal(DiagnosticReportModalContent, {
+    // title: "Diagnostic Report List", TODO: send props title to modal
+    fullScreen: true,
+    isOpen: true
+  })
 
+  if (error) {
+    return <div>ERR: {error}.</div>
+  }
+
+  if (isLoading) {
+    return <div>loading...</div>
+  }
+
+  return (
+    <>
+      <DiagnosticReportCardView onClick={showModal} diagnostic={diagnostic} />
+      {renderModal}
+    </>
+  )
+}
+
+export const DiagnosticReportCardView: React.FunctionComponent<any> = ({
+  templatePayload,
+  diagnostic,
+  onClick
+}) => {
   const data = {
     issued: diagnostic.issued,
     results: _.map(diagnostic.result, observation => {
@@ -36,22 +62,14 @@ const DiagnosticReportCard: React.FunctionComponent<any> = ({
     title: diagnostic.codeText
   }
 
-  if (error) {
-    return <div>ERR: {error}.</div>
-  }
-
-  if (isLoading) {
-    return <div>loading...</div>
-  }
-
   return (
-    <Paper style={{ height: '100%', overflowY: 'auto' }}>
+    <Paper style={{ height: '100%', overflowY: 'auto' }} onClick={onClick}>
       <AdaptiveCard data={data} templatePayload={templatePayload} />
     </Paper>
   )
 }
 
-DiagnosticReportCard.defaultProps = {
+DiagnosticReportCardView.defaultProps = {
   templatePayload: disgnosticReportTemplate
 }
 
