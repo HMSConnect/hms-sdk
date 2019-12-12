@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
-import { Avatar, Grid, makeStyles, Paper } from '@material-ui/core'
+import { Avatar, Grid, makeStyles, Paper, CircularProgress } from '@material-ui/core'
 import * as _ from 'lodash'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import usePatient from '../../hooks/usePatient'
 import useResourceList from '../../hooks/useResourceList'
-import PatientEncounterDataList from '../../templates/patient/PatientEncounterDataList'
+import PatientEncounterTimeline from '../../templates/patient/PatientEncounterTimeline'
 import PatientInfoPanel from '../../templates/patient/PatientInfoPanel'
 import PatientInfoTable from '../../templates/patient/PatientInfoTable'
 import PatientMenuList from '../../templates/patient/PatientMenuList'
@@ -41,7 +41,7 @@ const PatientInfoDetail: React.FunctionComponent<{
   )
 
   if (isPatientLoading) {
-    return <div>Loading!!!...</div>
+    return <CircularProgress />
   }
 
   return (
@@ -52,7 +52,7 @@ const PatientInfoDetail: React.FunctionComponent<{
             <Grid item xs={12} sm={3}>
               <Avatar
                 alt='Remy Sharp'
-                src='../../static/images/mock-person-profile.png'
+                src='../../../static/images/mock-person-profile.png'
                 className={classes.bigAvatar}
               />
             </Grid>
@@ -110,7 +110,7 @@ const PatientInfoDetailSub: React.FunctionComponent<{
         return <PatientInfoTable patient={patient} />
       case 'encounter':
         return (
-          <PatientEncounterDataList
+          <PatientEncounterTimeline
             patient={patient}
             resourceList={_.get(resource, 'data')}
           />
@@ -121,7 +121,7 @@ const PatientInfoDetailSub: React.FunctionComponent<{
   }
 
   if (isGroupResourceListLoading) {
-    return <div>Loading!!!...</div>
+    return <CircularProgress />
   }
 
   return (

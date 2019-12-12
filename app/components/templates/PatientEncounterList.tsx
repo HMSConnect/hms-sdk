@@ -36,13 +36,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: '100%',
     marginLeft: '1.7em'
   },
+  listIcon: {
+    color: 'green'
+  },
   nested: {
     paddingLeft: theme.spacing(4)
   },
-  root: {},
-  listIcon: {
-    color: 'green'
-  }
+  root: {}
 }))
 
 const PatientEncounterList: React.FunctionComponent<{

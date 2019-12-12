@@ -49,15 +49,13 @@ const PatientSearch: React.FunctionComponent<{
   }, [query])
 
   const handleSearchSubmit = (filter: IPatientFilterValue) => {
-    const queryString = stringify({
+    routes.Router.replaceRoute(`patient-search`, {
       ...pagination,
       filter: stringify(filter),
       offset: 0,
       page: 0,
       sort: stringify(pagination.sort)
     })
-
-    routes.Router.replaceRoute(`/patient-search?${queryString}`)
   }
 
   const handleHilightChange = (value: string) => {
@@ -65,21 +63,19 @@ const PatientSearch: React.FunctionComponent<{
   }
 
   const handleRequestSort = (sortObject: ISortType) => {
-    const queryString = stringify({
+    routes.Router.replaceRoute(`patient-search`, {
       ...pagination,
       filter: stringify(pagination.filter),
       sort: stringify(sortObject)
     })
-    routes.Router.replaceRoute(`/patient-search?${queryString}`)
   }
 
   const handlePageChage = (pageOptionResult: IPageOptionResult) => {
-    const queryString = stringify({
+    routes.Router.replaceRoute(`patient-search`, {
       ...pageOptionResult,
       filter: stringify(pagination.filter),
       sort: stringify(pagination.sort)
     })
-    routes.Router.replaceRoute(`/patient-search?${queryString}`)
   }
 
   const handlePatientSelect = (patient: any) => {
@@ -89,7 +85,7 @@ const PatientSearch: React.FunctionComponent<{
   }
 
   const handlePaginationReset = (event: React.MouseEvent) => {
-    routes.Router.replaceRoute('/patient-search')
+    routes.Router.replaceRoute('patient-search')
   }
 
   return (
@@ -103,33 +99,31 @@ const PatientSearch: React.FunctionComponent<{
             onHightlightChange={handleHilightChange}
           />
         </Grid>
-        <Grid item xs={12}>
-          {isLoading ? (
-            <CircularProgress />
-          ) : (
-            <PatientSearchResult
-              patientList={data}
-              sort={pagination.sort}
-              onPatientSelect={handlePatientSelect}
-              onRequestSort={handleRequestSort}
-              highlightText={highlightText}
-            />
-          )}
-        </Grid>
-        <Grid container justify='flex-end'>
-          {isLoading ? (
-            <CircularProgress />
-          ) : (
-            <div className={classes.bottom}>
-              <Pagination
-                totalCount={totalCount}
-                max={query.max}
-                page={pagination.page}
-                onPageChange={handlePageChage}
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          <>
+            <Grid item xs={12}>
+              <PatientSearchResult
+                patientList={data}
+                sort={pagination.sort}
+                onPatientSelect={handlePatientSelect}
+                onRequestSort={handleRequestSort}
+                highlightText={highlightText}
               />
-            </div>
-          )}
-        </Grid>
+            </Grid>
+            <Grid container justify='flex-end'>
+              <div className={classes.bottom}>
+                <Pagination
+                  totalCount={totalCount}
+                  max={query.max}
+                  page={pagination.page}
+                  onPageChange={handlePageChage}
+                />
+              </div>
+            </Grid>
+          </>
+        )}
       </Grid>
     </>
   )

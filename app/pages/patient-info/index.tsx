@@ -5,7 +5,6 @@ import React from 'react'
 
 import BreadcrumbsBase from '../../components/base/BreadcrumbsBase'
 import PatientInfoDetail from '../../components/widget/patient/PatientInfoDetail'
-import Route from '../../routes'
 import { IStatelessPage } from '../patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
