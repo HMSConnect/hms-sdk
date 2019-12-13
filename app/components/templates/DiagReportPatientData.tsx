@@ -1,24 +1,15 @@
-// import {
-//   Chart,
-//   ArgumentAxis,
-//   ValueAxis,
-//   LineSeries,
-//   Title
-// } from '@devexpress/dx-react-chart-material-ui'
-// import {
-//   ArgumentScale,
-//   ValueScale,
-//   Animation,
-//   ScaleObject
-// } from '@devexpress/dx-react-chart'
-import { makeStyles, Paper, Theme, Typography } from '@material-ui/core'
-import * as _ from 'lodash'
-import * as moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import environment from '../../config'
+
+import { ArgumentScale, SplineSeries, ValueScale } from '@devexpress/dx-react-chart'
+import { ArgumentAxis, Chart, Legend, ValueAxis } from '@devexpress/dx-react-chart-material-ui'
+import { makeStyles, Paper, Theme, Typography } from '@material-ui/core'
+import { scaleTime } from 'd3-scale'
+import * as _ from 'lodash'
+
 import TabGroup from '../base/TabGroup'
 import TableBase from '../base/TableBase'
-// import { scaleTime } from 'd3-scale'
+
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   tableRoot: {
@@ -85,7 +76,6 @@ const DiagReportPatientData: React.FunctionComponent<{
     event: React.MouseEvent,
     selectedEncounter: any
   ) => {
-    console.log('handleEntrySelected :')
     // TODO handleEntrySelected
   }
 
@@ -110,9 +100,24 @@ const DiagReportPatientData: React.FunctionComponent<{
       })
       .value()
     newValue.push({
-      diastolicBloodPressure: 75.31,
-      issued: new Date(),
-      systolicBloodPressure: 111.33
+      diastolicBloodPressure: 70.31,
+      issued: new Date(2016, 9, 2),
+      systolicBloodPressure: 100.33
+    })
+    newValue.push({
+      diastolicBloodPressure: 85.31,
+      issued: new Date(2016, 9, 3),
+      systolicBloodPressure: 130.33
+    })
+    newValue.push({
+      diastolicBloodPressure: 80.31,
+      issued: new Date(2016, 9, 4),
+      systolicBloodPressure: 114.33
+    })
+    newValue.push({
+      diastolicBloodPressure: 90.31,
+      issued: new Date(2016, 9, 5),
+      systolicBloodPressure: 124.33
     })
     setGraph(newValue)
   }
@@ -121,124 +126,130 @@ const DiagReportPatientData: React.FunctionComponent<{
       {!loading ? (
         <>
           <TabGroup tabList={tab} onTabChange={handleTabChange} />
-          <div className={classes.tableRoot}>
-            {_.isArray(data[0].valueModal) ? (
-              //   <Paper>
-              //     <Chart data={graph}>
-              //       {/* <ArgumentScale factory={scaleTime} /> */}
-              //       <ArgumentAxis />
-              //       <ValueAxis />
+          <br />
+          {_.isArray(data[0].valueModal) ? (
+            <Paper>
+              <Chart data={graph}>
+                <ArgumentScale factory={scaleTime as any} />
+                <ValueScale modifyDomain={() => [20, 200]} />
 
-              //       <LineSeries
-              //         valueField='diastolicBloodPressure'
-              //         argumentField='issued'
-              //       />
-              //       <LineSeries
-              //         valueField='systolicBloodPressure'
-              //         argumentField='issued'
-              //       />
-              //     </Chart>
-              //   </Paper>
-              // ) : (
-              <TableBase
-                entryList={data}
-                id='dd'
-                isLoading={loading}
-                onEntrySelected={handleEntrySelected}
-                tableCells={[
-                  {
-                    bodyCell: {
-                      align: 'center',
-                      id: 'diastolic',
-                      render: (data: any) => {
-                        return (
-                          <>
-                            <Typography>
-                              {_.find(
-                                _.get(data, 'valueModal'),
-                                entry =>
-                                  _.get(entry, 'code') ===
-                                  'Diastolic Blood Pressure'
-                              )
-                                ? Number(
-                                    _.find(
-                                      _.get(data, 'valueModal'),
-                                      entry =>
-                                        _.get(entry, 'code') ===
-                                        'Diastolic Blood Pressure'
-                                    ).value
-                                  ).toFixed(6)
-                                : null}
-                            </Typography>
-                          </>
-                        )
-                      }
-                    },
-                    headCell: {
-                      align: 'center',
-                      disablePadding: false,
-                      disableSort: true,
-                      id: 'diastolic',
-                      label: 'Diastolic'
-                    }
-                  },
-                  {
-                    bodyCell: {
-                      align: 'center',
-                      id: 'sistolic',
-                      render: (data: any) => {
-                        return (
-                          <Typography>
-                            {_.find(
-                              _.get(data, 'valueModal'),
-                              entry =>
-                                _.get(entry, 'code') ===
-                                'Systolic Blood Pressure'
-                            )
-                              ? Number(
-                                  _.find(
-                                    _.get(data, 'valueModal'),
-                                    entry =>
-                                      _.get(entry, 'code') ===
-                                      'Systolic Blood Pressure'
-                                  ).value
-                                ).toFixed(6)
-                              : null}
-                          </Typography>
-                        )
-                      }
-                    },
-                    headCell: {
-                      align: 'center',
-                      disablePadding: false,
-                      disableSort: true,
-                      id: 'sistolic',
-                      label: 'Sistolic'
-                    }
-                  },
-                  {
-                    bodyCell: {
-                      align: 'center',
-                      id: 'issued',
-                      render: (data: any) => {
-                        return (
-                          <Typography>
-                            {_.get(data, 'issued') || 'Unknow'}
-                          </Typography>
-                        )
-                      }
-                    },
-                    headCell: {
-                      align: 'center',
-                      disablePadding: false,
-                      disableSort: true,
-                      id: 'issued',
-                      label: 'Issued'
-                    }
-                  }
-                ]}
-              />
-            ) : (
+                <ArgumentAxis />
+                <ValueAxis />
+
+                <SplineSeries
+                  name='Systolic'
+                  valueField='systolicBloodPressure'
+                  argumentField='issued'
+                />
+                <SplineSeries
+                  name='Diastolic'
+                  valueField='diastolicBloodPressure'
+                  argumentField='issued'
+                />
+                <Legend />
+              </Chart>
+            </Paper>
+          ) : (
+            //   <TableBase
+            //     entryList={data}
+            //     id='dd'
+            //     isLoading={loading}
+            //     onEntrySelected={handleEntrySelected}
+            //     tableCells={[
+            //       {
+            //         bodyCell: {
+            //           align: 'center',
+            //           id: 'diastolic',
+            //           render: (data: any) => {
+            //             return (
+            //               <>
+            //                 <Typography>
+            //                   {_.find(
+            //                     _.get(data, 'valueModal'),
+            //                     entry =>
+            //                       _.get(entry, 'code') ===
+            //                       'Diastolic Blood Pressure'
+            //                   )
+            //                     ? Number(
+            //                         _.find(
+            //                           _.get(data, 'valueModal'),
+            //                           entry =>
+            //                             _.get(entry, 'code') ===
+            //                             'Diastolic Blood Pressure'
+            //                         ).value
+            //                       ).toFixed(6)
+            //                     : null}
+            //                 </Typography>
+            //               </>
+            //             )
+            //           }
+            //         },
+            //         headCell: {
+            //           align: 'center',
+            //           disablePadding: false,
+            //           disableSort: true,
+            //           id: 'diastolic',
+            //           label: 'Diastolic'
+            //         }
+            //       },
+            //       {
+            //         bodyCell: {
+            //           align: 'center',
+            //           id: 'sistolic',
+            //           render: (data: any) => {
+            //             return (
+            //               <Typography>
+            //                 {_.find(
+            //                   _.get(data, 'valueModal'),
+            //                   entry =>
+            //                     _.get(entry, 'code') ===
+            //                     'Systolic Blood Pressure'
+            //                 )
+            //                   ? Number(
+            //                       _.find(
+            //                         _.get(data, 'valueModal'),
+            //                         entry =>
+            //                           _.get(entry, 'code') ===
+            //                           'Systolic Blood Pressure'
+            //                       ).value
+            //                     ).toFixed(6)
+            //                   : null}
+            //               </Typography>
+            //             )
+            //           }
+            //         },
+            //         headCell: {
+            //           align: 'center',
+            //           disablePadding: false,
+            //           disableSort: true,
+            //           id: 'sistolic',
+            //           label: 'Sistolic'
+            //         }
+            //       },
+            //       {
+            //         bodyCell: {
+            //           align: 'center',
+            //           id: 'issued',
+            //           render: (data: any) => {
+            //             return (
+            //               <Typography>
+            //                 {_.get(data, 'issued') || 'Unknow'}
+            //               </Typography>
+            //             )
+            //           }
+            //         },
+            //         headCell: {
+            //           align: 'center',
+            //           disablePadding: false,
+            //           disableSort: true,
+            //           id: 'issued',
+            //           label: 'Issued'
+            //         }
+            //       }
+            //     ]}
+            //   />
+            // ) : (
+            <Paper className={classes.tableRoot}>
               <TableBase
                 entryList={data}
                 id='dd'
@@ -288,8 +299,8 @@ const DiagReportPatientData: React.FunctionComponent<{
                   }
                 ]}
               />
-            )}
-          </div>
+            </Paper>
+          )}
         </>
       ) : null}
     </>

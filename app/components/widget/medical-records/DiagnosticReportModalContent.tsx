@@ -39,9 +39,9 @@ const DiagnosticReportModalContent: React.FunctionComponent<any> = ({}) => {
               overflowY: 'auto'
             }}
           >
-            {_.map(diagnosticReportList, diagnosticReport => {
+            {_.map(diagnosticReportList, (diagnosticReport, index) => {
               return (
-                <div style={{ margin: 8, width: '100%' }}>
+                <div style={{ margin: 8, width: '100%' }} key={index}>
                   <DiagnosticReportCardView
                     diagnostic={diagnosticReport}
                     isShowAction={false}
