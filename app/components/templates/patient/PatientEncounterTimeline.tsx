@@ -9,9 +9,7 @@ import EncounterService from '../../../services/EncounterService'
 import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
 import useLazyLoad, { ILazyLoadOption } from '../../hooks/useLazyLoad'
-import DiagReportPatientData from '../DiagReportPatientData'
 import PatientEncounterList from '../PatientEncounterList'
-import DiagnosticReportCard from '../../widget/medical-records/DiagnosticReportCard'
 
 const useStyles = makeStyles((theme: Theme) => ({
   listRoot: {
