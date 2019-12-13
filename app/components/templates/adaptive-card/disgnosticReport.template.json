@@ -26,7 +26,7 @@
               "items": [
                 {
                   "type": "TextBlock",
-                  "text": "issued : {issued}",
+                  "text": "Issued : {issued}",
                   "weight": "Lighter",
                   "horizontalAlignment": "Right"
                 }
@@ -110,6 +110,18 @@
           "horizontalAlignment": "Center"
         }
       ]
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "Show All"
+        }
+      ],
+      "horizontalAlignment": "Right",
+      "separator": true,
+      "$when": "{isShowAction}"
     }
   ],
   "version": "1.0",

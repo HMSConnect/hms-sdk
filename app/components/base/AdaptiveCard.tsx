@@ -14,11 +14,11 @@ AdaptiveCards.AdaptiveCard.onProcessMarkdown = (text: any, result) => {
   result.didProcess = true
 }
 
-const AdaptiveCard: React.FunctionComponent<any> = ({
-  templatePayload,
-  data,
-  onExecuteAction
-}) => {
+const AdaptiveCard: React.FunctionComponent<{
+  templatePayload: any
+  data: any
+  onExecuteAction?: (action: AdaptiveCards.Action) => void
+}> = ({ templatePayload, data, onExecuteAction }) => {
   const cardRef = React.useRef<null | HTMLDivElement>(null)
   let adaptiveCard = null
 
