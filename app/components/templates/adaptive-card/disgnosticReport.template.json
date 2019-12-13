@@ -46,18 +46,6 @@
           "type": "Column",
           "items": [
             {
-              "type": "Image",
-              "style": "Person",
-              "url": "{iconUrl}",
-              "size": "Small"
-            }
-          ],
-          "width": "auto"
-        },
-        {
-          "type": "Column",
-          "items": [
-            {
               "type": "ColumnSet",
               "columns": [
                 {
@@ -90,8 +78,9 @@
                             {
                               "type": "TextBlock",
                               "text": "{value}",
-                              "size": "Large",
-                              "color": "Accent"
+                              "size": "Medium",
+                              "color": "Accent",
+                              "weight": "Bolder"
                             }
                           ],
                           "horizontalAlignment": "Center"
@@ -105,7 +94,9 @@
                               "text": "{unit}",
                               "horizontalAlignment": "Right"
                             }
-                          ]
+                          ],
+                          "horizontalAlignment": "Center",
+                          "verticalContentAlignment": "Center"
                         }
                       ]
                     }
@@ -115,10 +106,12 @@
             }
           ],
           "width": "stretch",
-          "verticalContentAlignment": "Center"
+          "verticalContentAlignment": "Center",
+          "horizontalAlignment": "Center"
         }
       ]
     }
   ],
-  "version": "1.0"
+  "version": "1.0",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
 }

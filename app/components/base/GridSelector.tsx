@@ -71,7 +71,7 @@ const saveLayout = _.debounce((layout: any, dimention: string) => {
 const GridSelector: React.FunctionComponent<{
   defaultDimention?: IDimention
   componentResource: any
-}> = ({ defaultDimention = '3x3', componentResource }) => {
+}> = ({ defaultDimention = '1xN', componentResource }) => {
   const [dimention, setDimention] = useState<IDimention>(defaultDimention)
   const [layout, setLayout] = useState<any[]>(GRID_LAYOUT[dimention])
   const classes = useStyles()
