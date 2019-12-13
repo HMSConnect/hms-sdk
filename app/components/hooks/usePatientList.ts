@@ -25,7 +25,7 @@ export interface IPaginationOption {
   offset: number
   max: number
   page: number
-  sort: ISortType
+  sort?: ISortType
   filter?: any
 }
 
@@ -49,7 +49,7 @@ const usePatientList = (options: IPaginationOption): any => {
       } catch (error) {
         setResult((prevResult: IQueryResult) => ({
           ...prevResult,
-          error: error.message
+          error: error.message ? error.message : error
         }))
       } finally {
         setLoading(false)

@@ -1,0 +1,124 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "{title}",
+                  "horizontalAlignment": "Left",
+                  "size": "Medium",
+                  "weight": "Bolder"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "issued : {issued}",
+                  "weight": "Lighter",
+                  "horizontalAlignment": "Right"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "style": "good",
+      "bleed": true
+    },
+    {
+      "type": "ColumnSet",
+      "$data": "{results}",
+      "columns": [
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "Image",
+              "style": "Person",
+              "url": "{iconUrl}",
+              "size": "Small"
+            }
+          ],
+          "width": "auto"
+        },
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "ColumnSet",
+              "columns": [
+                {
+                  "type": "Column",
+                  "width": "stretch",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "{display}",
+                      "wrap": true,
+                      "horizontalAlignment": "Left",
+                      "size": "Medium"
+                    }
+                  ],
+                  "height": "stretch",
+                  "horizontalAlignment": "Left",
+                  "verticalContentAlignment": "Center"
+                },
+                {
+                  "type": "Column",
+                  "width": "stretch",
+                  "items": [
+                    {
+                      "type": "ColumnSet",
+                      "columns": [
+                        {
+                          "type": "Column",
+                          "width": "stretch",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "text": "{value}",
+                              "size": "Large",
+                              "color": "Accent"
+                            }
+                          ],
+                          "horizontalAlignment": "Center"
+                        },
+                        {
+                          "type": "Column",
+                          "width": "stretch",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "text": "{unit}",
+                              "horizontalAlignment": "Right"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "width": "stretch",
+          "verticalContentAlignment": "Center"
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}

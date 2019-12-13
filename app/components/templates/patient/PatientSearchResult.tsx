@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const PatientSearchResult: React.FunctionComponent<{
   highlightText: string
   patientList: any[]
-  sort: ISortType
+  sort?: ISortType
   onPatientSelect: (patient: any) => void
   onRequestSort: (sortObject: ISortType) => void
 }> = ({ highlightText, patientList, sort, onPatientSelect, onRequestSort }) => {

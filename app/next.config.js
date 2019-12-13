@@ -1,10 +1,9 @@
-
 require('dotenv').config()
 
 const withCSS = require('@zeit/next-css')
 const withStylus = require('@zeit/next-stylus')
-const path = require('path')                                                      
-const Dotenv = require('dotenv-webpack')    
+const path = require('path')
+const Dotenv = require('dotenv-webpack')
 
 const env = process.env.NODE_ENV.trim() || 'development';
 module.exports = withStylus({
@@ -15,7 +14,10 @@ module.exports = withStylus({
 
 module.exports = withCSS({
   cssModules: false,
-  webpack (config, options) {
+  publicRuntimeConfig: {
+    staticFolder: '/static'
+  },
+  webpack(config, options) {
     config.module.rules.push({
       test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
       use: {
@@ -37,12 +39,12 @@ module.exports = withCSS({
       }
     })
 
-    // Read the .env file   
-    config.plugins.push(                                                    
-      new Dotenv({                                                       
-        path: path.join(__dirname, ('.env.'+env)),                                       
-        systemvars: true                                                          
-      })                                               
+    // Read the .env file
+    config.plugins.push(
+      new Dotenv({
+        path: path.join(__dirname, '.env.' + env),
+        systemvars: true
+      })
     )
 
     return config

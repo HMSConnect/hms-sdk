@@ -25,7 +25,7 @@ const usePatient = (id: string): any => {
       } catch (error) {
         setResult((prevResult: IQueryResult) => ({
           ...prevResult,
-          error: error.message
+          error: error.message ? error.message : error
         }))
       } finally {
         setLoading(false)

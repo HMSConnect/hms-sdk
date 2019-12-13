@@ -11,7 +11,10 @@ import { parse } from 'qs'
 import React from 'react'
 
 import BreadcrumbsBase from '../components/base/BreadcrumbsBase'
-import { IPaginationOption, ISortType } from '../components/hooks/usePatientList'
+import {
+  IPaginationOption,
+  ISortType
+} from '../components/hooks/usePatientList'
 import { IPatientFilterValue } from '../components/templates/patient/PatientFilterBar'
 import PatientSearch from '../components/widget/patient/PatientSearch'
 

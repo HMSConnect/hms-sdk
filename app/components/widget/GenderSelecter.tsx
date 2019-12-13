@@ -11,10 +11,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const GenderSelector: React.FunctionComponent<{
-  name: string
   value: string
   onGenderChange: (type: string, value: any) => void
-}> = ({ name, value, onGenderChange }) => {
+}> = ({ value, onGenderChange }) => {
   const classes = useStyles()
   return (
     <SelectOption
@@ -30,9 +29,10 @@ const GenderSelector: React.FunctionComponent<{
       onChange={(
         event: React.ChangeEvent<{ name?: string; value: unknown }>
       ) => {
-        onGenderChange(name, event.target.value)
+        onGenderChange('gender', event.target.value)
       }}
       classOption={classes.searchFilter}
+      data-testid='genter-select-option'
     ></SelectOption>
   )
 }

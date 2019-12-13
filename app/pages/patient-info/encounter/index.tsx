@@ -1,11 +1,12 @@
-import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
-import Container from '@material-ui/core/Container'
-import HomeIcon from '@material-ui/icons/Home'
 import React from 'react'
 
-import BreadcrumbsBase from '../components/base/BreadcrumbsBase'
-import PatientInfoDetail from '../components/widget/patient/PatientInfoDetail'
-import { IStatelessPage } from './patient-search'
+import { Container, CssBaseline, Theme, Typography } from '@material-ui/core'
+import HomeIcon from '@material-ui/icons/Home'
+import { makeStyles } from '@material-ui/styles'
+
+import BreadcrumbsBase from '../../../components/base/BreadcrumbsBase'
+import PatientInfoDetail from '../../../components/widget/patient/PatientInfoDetail'
+import { IStatelessPage } from '../../patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-const PatientInfoView: IStatelessPage<{
+const EncounterPage: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -44,10 +45,10 @@ const PatientInfoView: IStatelessPage<{
   )
 }
 
-PatientInfoView.getInitialProps = async ({ req, res, query }) => {
+EncounterPage.getInitialProps = async ({ req, res, query }) => {
   return {
     query
   }
 }
 
-export default PatientInfoView
+export default EncounterPage
