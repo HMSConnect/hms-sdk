@@ -67,7 +67,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     event: React.MouseEvent,
     selectedEncounter: any
   ) => {
-    routes.Router.replaceRoute(`patient-info/encounter`, {
+    routes.Router.pushRoute(`patient-info/encounter`, {
       encounterId: _.get(selectedEncounter, 'id'),
       patientId: _.get(patient, 'identifier.id.value')
     })

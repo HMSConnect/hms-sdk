@@ -1,16 +1,16 @@
-import {
-  Chart,
-  ArgumentAxis,
-  ValueAxis,
-  LineSeries,
-  Title
-} from '@devexpress/dx-react-chart-material-ui'
-import {
-  ArgumentScale,
-  ValueScale,
-  Animation,
-  ScaleObject
-} from '@devexpress/dx-react-chart'
+// import {
+//   Chart,
+//   ArgumentAxis,
+//   ValueAxis,
+//   LineSeries,
+//   Title
+// } from '@devexpress/dx-react-chart-material-ui'
+// import {
+//   ArgumentScale,
+//   ValueScale,
+//   Animation,
+//   ScaleObject
+// } from '@devexpress/dx-react-chart'
 import { makeStyles, Paper, Theme, Typography } from '@material-ui/core'
 import * as _ from 'lodash'
 import * as moment from 'moment'
@@ -18,7 +18,7 @@ import React, { useEffect, useState } from 'react'
 import environment from '../../config'
 import TabGroup from '../base/TabGroup'
 import TableBase from '../base/TableBase'
-import { scaleTime } from 'd3-scale'
+// import { scaleTime } from 'd3-scale'
 
 const useStyles = makeStyles((theme: Theme) => ({
   tableRoot: {
@@ -125,7 +125,7 @@ const DiagReportPatientData: React.FunctionComponent<{
             {_.isArray(data[0].valueModal) ? (
               //   <Paper>
               //     <Chart data={graph}>
-              //       <ArgumentScale factory={scaleTime} />
+              //       {/* <ArgumentScale factory={scaleTime} /> */}
               //       <ArgumentAxis />
               //       <ValueAxis />
 

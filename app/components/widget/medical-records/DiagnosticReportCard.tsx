@@ -24,7 +24,6 @@ const DiagnosticReportCard: React.FunctionComponent<any> = () => {
   const { showModal, renderModal } = useModal(DiagnosticReportModalContent, {
     // title: "Diagnostic Report List", TODO: send props title to modal
     fullScreen: true,
-    isOpen: true
   })
 
   if (error) {
