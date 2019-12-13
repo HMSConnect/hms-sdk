@@ -1,11 +1,12 @@
+import React from 'react'
+
 import { Grid } from '@material-ui/core'
 import * as _ from 'lodash'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { IDiagnosticReportFilterQuery } from '../../../data-managers/DiagnosticReportDataManager'
 import useDiagnosticReportList from '../../hooks/useDiagnosticReportList'
-import { DiagnosticReportCardView } from './DiagnosticReportCard'
 import DiagReportPatientData from '../../templates/DiagReportPatientData'
+import { DiagnosticReportCardView } from './DiagnosticReportCard'
 
 const DiagnosticReportModalContent: React.FunctionComponent<any> = ({}) => {
   const { query } = useRouter()
@@ -26,14 +27,21 @@ const DiagnosticReportModalContent: React.FunctionComponent<any> = ({}) => {
   return (
     <Grid item xs={12}>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={9}>
-          <DiagReportPatientData diagReportList={diagnosticReportList}/>
+        <Grid item xs={12} sm={7}>
+          <DiagReportPatientData diagReportList={diagnosticReportList} />
         </Grid>
-        <Grid item xs={12} sm={3}>
-          <Grid container spacing={3}>
-            {_.map(diagnosticReportList, diagnosticReport => {
+        <Grid item xs={12} sm={5}>
+          <Grid
+            container
+            spacing={3}
+            style={{
+              height: '80vh',
+              overflowY: 'auto'
+            }}
+          >
+            {_.map(diagnosticReportList, (diagnosticReport, index) => {
               return (
-                <div style={{ margin: 8 }}>
+                <div style={{ margin: 8, width: '100%' }} key={index}>
                   <DiagnosticReportCardView diagnostic={diagnosticReport} />
                 </div>
               )

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { IconButton, makeStyles, Paper, Theme } from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
-import DeleteIcon from '@material-ui/icons/Delete'
+import CancelIcon from '@material-ui/icons/Cancel'
 import * as _ from 'lodash'
 import { toNaturalName } from '../../utils'
 import { ISimpleDialogItem } from './SimpleDialog'
@@ -76,7 +76,7 @@ const GridCardSelector: React.FunctionComponent<{
           aria-label='reset card'
           onClick={handleReset}
         >
-          <DeleteIcon color='action' fontSize='small' />
+          <CancelIcon color='action' fontSize='small' />
         </IconButton>
       </div>
       <Component i={i} style={{ width: '100%', height: '100%' }} />

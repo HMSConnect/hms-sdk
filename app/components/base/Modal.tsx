@@ -105,6 +105,7 @@ export default Modal
 interface IOptionModalHook {
   isOpen?: boolean | undefined
   fullScreen?: boolean
+  modalTitle?: string
   params?: any
 }
 
@@ -125,6 +126,7 @@ export const useModal = (
   const renderModal =
     isOpen === null ? null : (
       <Modal
+        modalTitle={option.modalTitle}
         isOpen={isOpen}
         onClose={handleModalClose}
         fullScreen={option.fullScreen}
