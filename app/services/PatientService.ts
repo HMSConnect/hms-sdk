@@ -13,21 +13,23 @@ export default class PatientService extends AbstractService {
     console.info(`[service] loading resource resourceList`, params)
     const dataManager = this.dataManager as PatientDataManager
     const result = await dataManager.resourceList(params || {})
-    return {
-      ...result,
-      data: result.data.map((result: any) => {
-        const validator = ValidatorManager.compile(result.schema)
-        if (validator) {
+
+    const validator = ValidatorManager.compile(result.schema)
+
+    if (validator) {
+      return {
+        ...result,
+        data: result.data.map((result: any) => {
           return {
             ...result,
             data: result.data.map((entry: any) => {
               return validator.parse(entry)
             })
           }
-        }
-        // TODO handle cannot resolve validator
-        return result
-      })
+        })
+      }
+    } else {
+      throw Error('not support this schema.')
     }
   }
 }

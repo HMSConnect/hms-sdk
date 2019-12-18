@@ -15,7 +15,7 @@ function resolvePromise(promise: any) {
 
 export default function usePromise(
   fnPromise: Promise<IQueryResult> | (() => Promise<IQueryResult>),
-  inputs: any = []
+  inputs: any[] = []
 ): IPromiseResult {
   const [result, setResult] = useState<IQueryResult>({
     data: {},

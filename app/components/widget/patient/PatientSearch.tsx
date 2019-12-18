@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from 'react'
 
-import {
-  CircularProgress,
-  Grid,
-  makeStyles,
-  Theme,
-  Typography
-} from '@material-ui/core'
+import { Grid, makeStyles, Theme } from '@material-ui/core'
 import * as _ from 'lodash'
-import { useRouter } from 'next/router'
 import { stringify } from 'qs'
 
 import routes from '../../../routes'
-
-import Pagination, { IPageOptionResult } from '../../base/Pagination'
-import usePatientList, {
-  IPaginationOption,
-  ISortType
-} from '../../hooks/usePatientList'
+import { IPageOptionResult } from '../../base/Pagination'
+import { IPaginationOption, ISortType } from '../../hooks/usePatientList'
 import { IPatientFilterValue } from '../../templates/patient/PatientFilterBar'
-import PatientSearchPanel from '../../templates/patient/PatientSearchPanel'
-import PatientSearchResult from '../../templates/patient/PatientSearchResult'
+import PatientSearchPanel from './PatientSearchPanel'
+import PatientSearchResultWithPaginate from './PatientSearchResultWithPaginate'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   bottom: {
@@ -35,16 +25,13 @@ const PatientSearch: React.FunctionComponent<{
   query: IPaginationOption
 }> = ({ query }) => {
   const classes = useStyles()
-  const [pagination, setPagination] = useState<IPaginationOption>(query)
   const [highlightText, setHighlightText] = useState<string>(
     query.filter.searchText
   )
-  const { isLoading, data, totalCount } = usePatientList(pagination)
+  const [pagination, setPagination] = useState<IPaginationOption>(query)
 
   useEffect(() => {
-    if (!isLoading) {
-      setPagination(query)
-    }
+    setPagination(query)
     setHighlightText(query.filter.searchText)
   }, [query])
 
@@ -58,7 +45,7 @@ const PatientSearch: React.FunctionComponent<{
     })
   }
 
-  const handleHilightChange = (value: string) => {
+  const handleHighlightChange = (value: string) => {
     setHighlightText(value)
   }
 
@@ -70,7 +57,7 @@ const PatientSearch: React.FunctionComponent<{
     })
   }
 
-  const handlePageChage = (pageOptionResult: IPageOptionResult) => {
+  const handlePageChange = (pageOptionResult: IPageOptionResult) => {
     routes.Router.replaceRoute(`patient-search`, {
       ...pageOptionResult,
       filter: stringify(pagination.filter),
@@ -79,6 +66,10 @@ const PatientSearch: React.FunctionComponent<{
   }
 
   const handlePatientSelect = (patient: any) => {
+    window.parent.postMessage(
+      { message: 'select Patient', entry: patient },
+      '*'
+    )
     routes.Router.pushRoute(`patient-info`, {
       id: _.get(patient, 'identifier.id.value')
     })
@@ -96,34 +87,16 @@ const PatientSearch: React.FunctionComponent<{
             initialFilter={pagination.filter}
             onSearchSubmit={handleSearchSubmit}
             onPaginationReset={handlePaginationReset}
-            onHightlightChange={handleHilightChange}
+            onHightlightChange={handleHighlightChange}
           />
         </Grid>
-        {isLoading ? (
-          <CircularProgress />
-        ) : (
-          <>
-            <Grid item xs={12}>
-              <PatientSearchResult
-                patientList={data}
-                sort={pagination.sort}
-                onPatientSelect={handlePatientSelect}
-                onRequestSort={handleRequestSort}
-                highlightText={highlightText}
-              />
-            </Grid>
-            <Grid container justify='flex-end'>
-              <div className={classes.bottom}>
-                <Pagination
-                  totalCount={totalCount}
-                  max={query.max}
-                  page={pagination.page}
-                  onPageChange={handlePageChage}
-                />
-              </div>
-            </Grid>
-          </>
-        )}
+        <PatientSearchResultWithPaginate
+        highlightText={highlightText}
+          paginationOption={pagination}
+          onPatientSelect={handlePatientSelect}
+          onPageChange={handlePageChange}
+          onRequestSort={handleRequestSort}
+        />
       </Grid>
     </>
   )

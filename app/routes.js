@@ -13,3 +13,13 @@ module.exports = nextRoutes()
     '/:patientId/encounter/:encounterId',
     'patient-info/encounter'
   )
+  .add(
+    'patient-search-bar',
+    '/embeded-widget/patient-search-bar',
+    'embeded-widget/patient-search-bar'
+  )
+  .add(
+    'patient-search-result',
+    '/embeded-widget/patient-search-result',
+    'embeded-widget/patient-search-result'
+  )

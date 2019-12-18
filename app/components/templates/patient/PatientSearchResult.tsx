@@ -19,12 +19,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 const PatientSearchResult: React.FunctionComponent<{
-  highlightText: string
   patientList: any[]
+  onPatientSelect?: (patient: any) => void
+  onRequestSort?: (sortObject: ISortType) => void
+  highlightText?: string
   sort?: ISortType
-  onPatientSelect: (patient: any) => void
-  onRequestSort: (sortObject: ISortType) => void
 }> = ({ highlightText, patientList, sort, onPatientSelect, onRequestSort }) => {
+  
   const classes = useStyles()
   const [order, setOrder] = React.useState<'asc' | 'desc'>(
     _.get(sort, 'order') || 'asc'
@@ -36,21 +37,23 @@ const PatientSearchResult: React.FunctionComponent<{
     setOrderBy(_.get(sort, 'orderBy') || '')
   }, [sort])
 
-  const handleRequestSort = (
-    property: any
-  ) => {
+  const handleRequestSort = (property: any) => {
     const isDesc = orderBy === property && order === 'desc'
     setOrder(isDesc ? 'asc' : 'desc')
     setOrderBy(property)
 
-    onRequestSort({
-      order: isDesc ? 'asc' : 'desc',
-      orderBy: property + ''
-    })
+    if (onRequestSort) {
+      onRequestSort({
+        order: isDesc ? 'asc' : 'desc',
+        orderBy: property + ''
+      })
+    }
   }
 
   const handlePatientSelect = (event: MouseEvent, patient: any) => {
-    onPatientSelect(patient)
+    if (onPatientSelect) {
+      onPatientSelect(patient)
+    }
   }
   return (
     <>
