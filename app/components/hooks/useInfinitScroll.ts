@@ -8,9 +8,10 @@ export interface ILazyLoadOption {
   filter?: any
 }
 
-const useLazyLoad = (
-  defaultList: any[],
-  fetchMoreAsync: () => Promise<any>
+const useInfinitScroll = (
+  refElement: HTMLDivElement | null,
+  fetchMoreAsync: (lastEntry: any) => Promise<any>,
+  defaultList?: any[]
 ): any => {
   const [result, setResult] = useState<IQueryResult>({
     data: [],
@@ -20,17 +21,32 @@ const useLazyLoad = (
   const [isMore, setIsMore] = useState<boolean>(true)
 
   const [isFetch, setIsFetch] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (!refElement) {
+      return
+    }
+    const myscrollRef = (refElement as any) as HTMLDivElement
+    myscrollRef.addEventListener('scroll', () => handleScroll(myscrollRef))
+
+    return () =>
+      myscrollRef.removeEventListener('scroll', () => {
+        console.info('remove infinite scorll event')
+      })
+  }, [refElement])
+
   useEffect(() => {
     ;(async () => {
-      if (isFetch) {
+      if (isFetch && isMore) {
         try {
           setLoading(true)
-          const moreDataList: any = await fetchMoreAsync()
-          // TODO: handle fetchMoreAsync isn't promise
-          if (!_.isEmpty(moreDataList)) {
+          const lastEntry = _.last(result.data)
+          const entryData: any = await fetchMoreAsync(lastEntry)
+          if (!_.isEmpty(entryData)) {
             setResult((prevData: any) => ({
               ...prevData,
-              data: _.concat(prevData.data, moreDataList)
+              data: _.concat(prevData.data, entryData),
+              error: null
             }))
           } else {
             setIsMore(false)
@@ -48,6 +64,15 @@ const useLazyLoad = (
     })()
   }, [isFetch])
 
+  function handleScroll(myscrollRef: HTMLDivElement) {
+    if (
+      myscrollRef.scrollTop + myscrollRef.clientHeight >=
+      myscrollRef.scrollHeight
+    ) {
+      setIsFetch(true)
+    }
+  }
+
   useEffect(() => {
     setResult((prevData: any) => ({
       ...prevData,
@@ -59,4 +84,4 @@ const useLazyLoad = (
   return { isLoading, ...result, setResult, isMore, setIsFetch, setIsMore }
 }
 
-export default useLazyLoad
+export default useInfinitScroll

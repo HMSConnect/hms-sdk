@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 import { useRouter } from 'next/router'
 export interface IBreadcrumbPath {
-  url: string | null
+  url?: string
   label?: string
   icon?: ReactElement
 }

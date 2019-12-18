@@ -46,7 +46,7 @@ class SFHIRObservationV1Validator implements IValidator {
             .value()
         : _.isNumber(valueQuantity)
         ? Number(valueQuantity).toFixed(6)
-        : null
+        : valueQuantity
     }
   }
 }

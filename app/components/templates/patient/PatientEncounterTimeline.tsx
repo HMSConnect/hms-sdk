@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
-import { Button, Grid, Theme, Typography } from '@material-ui/core'
+import { CircularProgress, Grid, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 
@@ -8,15 +8,11 @@ import routes from '../../../routes'
 import EncounterService from '../../../services/EncounterService'
 import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
-import useLazyLoad, { ILazyLoadOption } from '../../hooks/useLazyLoad'
+import useInfinitScroll from '../../hooks/useInfinitScroll'
 import PatientEncounterList from '../PatientEncounterList'
 
 const useStyles = makeStyles((theme: Theme) => ({
-  listRoot: {
-    height: '60vh',
-    overflowY: 'scroll',
-    width: '50em'
-  },
+  listRoot: { maxHeight: '60vh', overflow: 'auto' },
   root: {
     justifyContent: 'center'
   }
@@ -38,27 +34,34 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   patient: any
 }> = ({ resourceList, patient }) => {
   const classes = useStyles()
-  const [lazyLoadOption, setLazyLoad] = useState<ILazyLoadOption>({
-    filter: {
-      patientId: _.get(patient, 'identifier.id.value')
-    },
-    max: 10
-  })
 
-  const {
-    data,
-    isLoading,
-    setResult,
-    isMore,
-    setIsMore,
-    setIsFetch
-  } = useLazyLoad(resourceList, fetchMoreAsync)
+  const myscroll = useRef<HTMLDivElement | null>(null)
 
-  async function fetchMoreAsync() {
+  const { data, error, isLoading } = useInfinitScroll(
+    myscroll.current,
+    fetchMoreAsync,
+    resourceList
+  )
+
+  async function fetchMoreAsync(lastEntry: any) {
     const encounterService = HMSService.getService(
       'encounter'
     ) as EncounterService
-    return await encounterService.list(lazyLoadOption)
+
+    const newLazyLoad = {
+      filter: {
+        patientId: _.get(patient, 'identifier.id.value'),
+        periodStart_lt: _.get(lastEntry, 'startTime')
+      },
+      max: 10
+    }
+
+    const entryData = await encounterService.list(newLazyLoad)
+    if (_.get(entryData, 'error')) {
+      return Promise.reject(new Error(entryData.error))
+    }
+
+    return Promise.resolve(_.get(entryData, 'data'))
   }
 
   const handleEncounterSelect = async (
@@ -71,19 +74,6 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     })
   }
 
-  const handleLazyLoad = (event: any, type?: string) => {
-    const lastEntry = _.last(data)
-    setLazyLoad(prevLazyLoad => ({
-      ...prevLazyLoad,
-      filter: {
-        ...prevLazyLoad.filter,
-        periodStart_lt: _.get(lastEntry, 'startTime'),
-        type: type ? type : prevLazyLoad.filter.type
-      }
-    }))
-    setIsFetch(true)
-  }
-
   return (
     <>
       <Grid container className={classes.root}>
@@ -91,24 +81,17 @@ const PatientEncounterTimeline: React.FunctionComponent<{
           <Typography variant='h6'>Encounter</Typography>
         </Grid>
         <Grid item xs={10}>
-          <div className={classes.listRoot}>
+          <div ref={myscroll} className={classes.listRoot}>
             <PatientEncounterList
               entryList={data}
               onEntrySelected={handleEncounterSelect}
             />
           </div>
+          <div style={{ textAlign: 'center' }}>
+            {isLoading ? <CircularProgress /> : null}
+          </div>
+          {error ? <>There Have Error : {error}</> : null}
         </Grid>
-        {isMore ? (
-          <Grid item xs={3}>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={handleLazyLoad}
-            >
-              <Typography variant='body1'>Load More</Typography>
-            </Button>
-          </Grid>
-        ) : null}
       </Grid>
     </>
   )
