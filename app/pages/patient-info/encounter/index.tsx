@@ -8,6 +8,10 @@ import BreadcrumbsBase from '../../../components/base/BreadcrumbsBase'
 import PatientInfoDetail from '../../../components/widget/patient/PatientInfoDetail'
 import { IStatelessPage } from '../../patient-search'
 
+// import 'react-grid-layout/css/styles.css'
+// import 'react-resizable/css/styles.css'
+
+
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100vh',
@@ -33,8 +37,7 @@ const EncounterPage: IStatelessPage<{
                 url: '/'
               },
               {
-                label: 'Patient Search',
-                url: null
+                label: 'Patient Search'
               }
             ]}
           ></BreadcrumbsBase>
