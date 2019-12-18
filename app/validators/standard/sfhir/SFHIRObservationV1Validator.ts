@@ -51,4 +51,8 @@ class SFHIRObservationV1Validator implements IValidator {
   }
 }
 
-validatorManager.register(new SFHIRObservationV1Validator(), 5)
+validatorManager.register(
+  'SFHIR_OBSERVATION_V1',
+  new SFHIRObservationV1Validator(),
+  5
+)

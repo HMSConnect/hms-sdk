@@ -5,10 +5,7 @@ import * as _ from 'lodash'
 class SFHIRXV1Validator implements IValidator {
   // For Mock
   isValid(schema: any): boolean {
-    return (
-      schema.standard === 'SFHIRX' &&
-      schema.version === 1.0
-    )
+    return schema.standard === 'SFHIRX' && schema.version === 1.0
   }
 
   parse(x: any): any {
@@ -16,4 +13,4 @@ class SFHIRXV1Validator implements IValidator {
   }
 }
 
-validatorManager.register(new SFHIRXV1Validator(), 1)
+validatorManager.register('SFHIR_X_V1', new SFHIRXV1Validator(), 1)

@@ -1,0 +1,6 @@
+{
+  "patient-search": {
+    "services": ["patient"],
+    "validators": ["SFHIR_PATIENT_V1"]
+  }
+}

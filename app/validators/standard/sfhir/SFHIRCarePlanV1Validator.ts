@@ -15,4 +15,8 @@ class SFHIRCarePlanV1Validator implements IValidator {
   }
 }
 
-validatorManager.register(new SFHIRCarePlanV1Validator(), 1)
+validatorManager.register(
+  'SFHIR_CARE_PLAN_V1',
+  new SFHIRCarePlanV1Validator(),
+  1
+)

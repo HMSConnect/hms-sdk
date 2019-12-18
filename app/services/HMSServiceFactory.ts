@@ -9,12 +9,18 @@ class HMSServiceFactory {
   register(name: string, clazz: any) {
     this.registry.set(name, clazz)
   }
+  isExist(name: string) {
+    return !_.isEmpty(this.registry.get(name))
+  }
   getService(resource: string, adapter?: IAdapter): IService | undefined {
     let instance = this.instances.get(resource)
     if (!instance) {
       const serviceCreator = this.registry.get(resource)
       if (serviceCreator) {
-        instance = new serviceCreator(_.kebabCase(resource), adapter || this.defaultAdatper)
+        instance = new serviceCreator(
+          _.kebabCase(resource),
+          adapter || this.defaultAdatper
+        )
       } else {
         throw new Error(`service ${resource} not register`)
       }

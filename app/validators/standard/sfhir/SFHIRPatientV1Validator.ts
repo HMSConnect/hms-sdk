@@ -110,4 +110,4 @@ class SFHIRPatientV1Validator implements IValidator {
   }
 }
 
-validatorManager.register(new SFHIRPatientV1Validator(), 1)
+validatorManager.register('SFHIR_PATIENT_V1', new SFHIRPatientV1Validator(), 1)

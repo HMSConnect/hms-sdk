@@ -22,7 +22,7 @@ class SFHIREncounterV1Validator implements IValidator {
 
     const classCode = _.get(encounter, 'class.code')
     const reason = _.chain(_.get(encounter, 'reason'))
-      .map(reason => _.get(reason, 'coding[0].display') )
+      .map(reason => _.get(reason, 'coding[0].display'))
       .join(', ')
       .value()
 
@@ -52,9 +52,13 @@ class SFHIREncounterV1Validator implements IValidator {
       startDateTime: startTime,
       startTime,
       status,
-      type,
+      type
     }
   }
 }
 
-validatorManager.register(new SFHIREncounterV1Validator(), 1)
+validatorManager.register(
+  'SFHIR_ENCOUNTER_V1',
+  new SFHIREncounterV1Validator(),
+  1
+)

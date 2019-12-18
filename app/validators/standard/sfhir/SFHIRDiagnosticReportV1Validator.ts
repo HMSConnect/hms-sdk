@@ -39,4 +39,8 @@ class SFHIRDiagnosticReportV1Validator implements IValidator {
   }
 }
 
-ValidatorManager.register(new SFHIRDiagnosticReportV1Validator(), 1)
+ValidatorManager.register(
+  'SFHIR_DIAGNOSTIC_REPORT_V1',
+  new SFHIRDiagnosticReportV1Validator(),
+  1
+)

@@ -15,4 +15,8 @@ class SFHIROrganizationV1Validator implements IValidator {
   }
 }
 
-validatorManager.register(new SFHIROrganizationV1Validator(), 4)
+validatorManager.register(
+  'SFHIR_ORGANIZATION_V1',
+  new SFHIROrganizationV1Validator(),
+  4
+)
