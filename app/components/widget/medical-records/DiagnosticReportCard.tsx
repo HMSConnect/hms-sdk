@@ -45,6 +45,7 @@ const DiagnosticReportCard: React.FunctionComponent<any> = () => {
 export const DiagnosticReportCardView: React.FunctionComponent<any> = ({
   templatePayload,
   diagnostic,
+  isShowAction = true,
   onClick
 }) => {
   const data = {
@@ -60,10 +61,16 @@ export const DiagnosticReportCardView: React.FunctionComponent<any> = ({
     }),
     title: diagnostic.codeText
   }
-
   return (
-    <Paper style={{ height: '100%', overflowY: 'auto' }} onClick={onClick}>
-      <AdaptiveCard data={data} templatePayload={templatePayload} />
+    <Paper style={{ height: '100%', overflowY: 'auto' }}>
+      <AdaptiveCard
+        data={{
+          ...data,
+          isShowAction
+        }}
+        templatePayload={templatePayload}
+        onExecuteAction={onClick}
+      />
     </Paper>
   )
 }

@@ -42,7 +42,10 @@ const DiagnosticReportModalContent: React.FunctionComponent<any> = ({}) => {
             {_.map(diagnosticReportList, (diagnosticReport, index) => {
               return (
                 <div style={{ margin: 8, width: '100%' }} key={index}>
-                  <DiagnosticReportCardView diagnostic={diagnosticReport} />
+                  <DiagnosticReportCardView
+                    diagnostic={diagnosticReport}
+                    isShowAction={false}
+                  />
                 </div>
               )
             })}

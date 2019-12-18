@@ -1,12 +1,15 @@
 import React from 'react'
 
 import {
+  Button,
+  CircularProgress,
   Collapse,
   Divider,
   Grid,
   List,
   ListItem,
   ListItemIcon,
+  ListItemSecondaryAction,
   ListItemText,
   makeStyles,
   Theme,
@@ -48,18 +51,42 @@ const useStyles = makeStyles((theme: Theme) => ({
 const PatientEncounterList: React.FunctionComponent<{
   entryList: any[]
   onEntrySelected: (event: React.MouseEvent, selectedEncounter: any) => void
-}> = ({ entryList, onEntrySelected }) => {
+  isLoading?: boolean
+  isMore?: boolean
+  onLazyLoade?: (event: any, type?: string) => void
+}> = ({ entryList, onEntrySelected, isLoading, isMore, onLazyLoade }) => {
   const classes = useStyles()
 
   return (
-    <List component='nav' aria-labelledby='nested-list-subheader'>
-      {_.map(entryList, (entry, index) => (
-        <React.Fragment key={'encounterItem' + index}>
-          <EncounterListItem data={entry} onEntrySelected={onEntrySelected} />
-          <Divider variant='inset' />
-        </React.Fragment>
-      ))}
-    </List>
+    <>
+      <List component='nav' aria-labelledby='nested-list-subheader'>
+        {_.map(entryList, (entry, index) => (
+          <React.Fragment key={'encounterItem' + index}>
+            <EncounterListItem data={entry} onEntrySelected={onEntrySelected} />
+            <Divider variant='inset' />
+          </React.Fragment>
+        ))}
+        {isMore ? (
+          <ListItem>
+            {isLoading ? (
+              <ListItemSecondaryAction>
+                <CircularProgress />
+              </ListItemSecondaryAction>
+            ) : (
+              <ListItemSecondaryAction>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  onClick={onLazyLoade}
+                >
+                  <Typography variant='body1'>Load More</Typography>
+                </Button>
+              </ListItemSecondaryAction>
+            )}
+          </ListItem>
+        ) : null}
+      </List>
+    </>
   )
 }
 

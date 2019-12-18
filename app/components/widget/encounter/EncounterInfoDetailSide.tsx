@@ -24,78 +24,62 @@ const EncounterInfoDetailSide: React.FunctionComponent<any> = ({
   encounter
 }) => {
   const classes = useStyles()
+
   return (
     <Paper className={classes.root}>
       <Typography variant='h6'>{encounter.classCode}</Typography>
+      <List>
+        <ListItem>
+          <ListItemText
+            primary={
+              _.chain(encounter)
+                .get('status')
+                .toUpper()
+                .value() || 'Unknow'
+            }
+            secondary='Status'
+          />
+        </ListItem>
+        <Divider component='li' />
+        <ListItem>
+          <ListItemText
+            primary={
+              _.get(encounter, 'startDateTime')
+                ? moment
+                    .default(_.get(encounter, 'startDateTime'))
+                    .format(environment.localFormat.dateTime)
+                : 'Unknow'
+            }
+            secondary='Start Time'
+          />
+        </ListItem>
+        <Divider component='li' />
+        <ListItem>
+          <ListItemText
+            primary={
+              _.get(encounter, 'endDateTime')
+                ? moment
+                    .default(_.get(encounter, 'endDateTime'))
+                    .format(environment.localFormat.dateTime)
+                : 'Unknow'
+            }
+            secondary='End Time'
+          />
+        </ListItem>
 
-      <List component='nav' aria-label='main mailbox folders'>
-        <ListItem>
-          <ListItemText
-            primary={
-              <>
-                <Typography variant='body1'>
-                  Status: {_.get(encounter, 'status') || 'Unknow'}
-                </Typography>
-              </>
-            }
-          />
-        </ListItem>
         <Divider />
         <ListItem>
           <ListItemText
-            primary={
-              <>
-                <Typography variant='body1'>
-                  StartTime:{' '}
-                  {_.get(encounter, 'startDateTime')
-                    ? moment
-                        .default(_.get(encounter, 'startDateTime'))
-                        .format(environment.localFormat.dateTime)
-                    : 'Unknow'}
-                </Typography>
-              </>
-            }
+            primary={_.get(encounter, 'type') || 'Unknow'}
+            secondary='Type'
           />
         </ListItem>
+
         <Divider />
         <ListItem>
           <ListItemText
-            primary={
-              <>
-                <Typography variant='body1'>
-                  EndTime:{' '}
-                  {_.get(encounter, 'endDateTime')
-                    ? moment
-                        .default(_.get(encounter, 'endDateTime'))
-                        .format(environment.localFormat.dateTime)
-                    : 'Unknow'}
-                </Typography>
-              </>
-            }
-          />
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <ListItemText
-            primary={
-              <>
-                <Typography variant='body1'>
-                  Type: {_.get(encounter, 'type') || 'Unknow'}
-                </Typography>
-              </>
-            }
-          />
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <ListItemText
-            primary={
-              <>
-                <Typography variant='body1'>
-                  Reason: {_.get(encounter, 'reason') || 'Unknow'}
-                </Typography>
-              </>
-            }
+            primary={_.get(encounter, 'reason') || 'Unknow'}
+            secondary='Reason'
           />
         </ListItem>
       </List>

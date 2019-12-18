@@ -4,6 +4,7 @@ import { Checkbox, Grid, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 import * as moment from 'moment'
+import { useRouter } from 'next/router'
 
 import environment from '../../../config'
 import EncounterService from '../../../services/EncounterService'
@@ -12,7 +13,6 @@ import { IHeaderCellProps } from '../../base/EnhancedTableHead'
 import TabGroup, { ITabList } from '../../base/TabGroup'
 import TableBase from '../../base/TableBase'
 import useLazyLoad, { ILazyLoadOption } from '../../hooks/useLazyLoad'
-import { useRouter } from 'next/router'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -61,7 +61,14 @@ const PatientEncounterTable: React.FunctionComponent<{
     const encounterService = HMSService.getService(
       'encounter'
     ) as EncounterService
-    return await encounterService.list(lazyLoadOption)
+
+    const entryData = await encounterService.list(lazyLoadOption)
+    
+    if (_.get(entryData, 'error')) {
+      return Promise.reject(new Error(entryData.error))
+    }
+
+    return Promise.resolve(_.get(entryData, 'data'))
   }
 
   const handleEncounterSelect = (

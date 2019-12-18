@@ -31,8 +31,7 @@ const PatientInfoView: IStatelessPage<{
                 url: '/'
               },
               {
-                label: 'Patient Search',
-                url: null
+                label: 'Patient Search'
               }
             ]}
           ></BreadcrumbsBase>
