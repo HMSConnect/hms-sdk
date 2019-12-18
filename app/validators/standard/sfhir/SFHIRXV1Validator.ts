@@ -1,5 +1,4 @@
 import IValidator from '../../IValidator'
-import validatorManager from '../../ValidatorManager'
 
 import * as _ from 'lodash'
 class SFHIRXV1Validator implements IValidator {
@@ -13,4 +12,4 @@ class SFHIRXV1Validator implements IValidator {
   }
 }
 
-validatorManager.register('SFHIR_X_V1', new SFHIRXV1Validator(), 1)
+export default SFHIRXV1Validator

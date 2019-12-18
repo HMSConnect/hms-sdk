@@ -1,15 +1,13 @@
 import * as _ from 'lodash'
-
-import { AdapterConfig } from '../config'
+import { adapterConfig } from '../config'
 import { HMSService } from '../services/HMSServiceFactory'
 import DevelopmentAdapter from './DevelopmentAdapter'
 
 class DataAdapterManager {
   createAdapter(mode: string) {
-    // let adapter
-    const Adapter = _.get(AdapterConfig, mode)
+    const Adapter = _.get(adapterConfig, `${mode}.clazz`)
     if (Adapter) {
-      const adapter = new Adapter.clazz(
+      const adapter = new Adapter(
         `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/smart-fhir`
       )
       HMSService.setDefaultAdapter(adapter)

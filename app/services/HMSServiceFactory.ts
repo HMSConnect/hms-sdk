@@ -7,6 +7,7 @@ class HMSServiceFactory {
   instances: Map<string, IService> = new Map()
   defaultAdatper: IAdapter | null = null
   register(name: string, clazz: any) {
+    console.info('registering service..', name)
     this.registry.set(name, clazz)
   }
   isExist(name: string) {

@@ -1,9 +1,7 @@
 import IValidator from '../../IValidator'
-import validatorManager from '../../ValidatorManager'
 
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import environment from '../../../config'
 
 class SFHIREncounterV1Validator implements IValidator {
   isValid(schema: any): boolean {
@@ -57,8 +55,4 @@ class SFHIREncounterV1Validator implements IValidator {
   }
 }
 
-validatorManager.register(
-  'SFHIR_ENCOUNTER_V1',
-  new SFHIREncounterV1Validator(),
-  1
-)
+export default SFHIREncounterV1Validator

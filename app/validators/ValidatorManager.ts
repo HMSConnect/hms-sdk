@@ -6,7 +6,7 @@ export interface ISchema {
   resourceType: string
 }
 
-interface IValidatorRegistry {
+export interface IValidatorRegistry {
   name: string
   priority: number
   validator: IValidator
