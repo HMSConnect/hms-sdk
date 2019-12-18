@@ -5,11 +5,19 @@ import { ThemeProvider } from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../src/theme'
 
-import '../init/bootstrap'
+import { AdapterManager } from '../adapters/DataAdapterManager'
+import { HMSService } from '../services/HMSServiceFactory' // Initial singleton HMSService
+
+import * as _ from 'lodash'
+
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
 class AASApp extends App {
+  constructor(props) {
+    super(props)
+    AdapterManager.createAdapter(_.get(props, 'router.query.mode'))
+  }
   componentDidMount() {
     const jssStyles = document.querySelector('#jss-server-side')
     if (jssStyles) {

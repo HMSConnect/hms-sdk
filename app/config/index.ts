@@ -1,3 +1,5 @@
+import dataAdapterConfig from './dataAdapterConfig'
+
 const environment = {
   localFormat: {
     date: 'YYYY/MM/DD',
@@ -7,3 +9,4 @@ const environment = {
 }
 
 export default environment
+export const AdapterConfig = dataAdapterConfig
