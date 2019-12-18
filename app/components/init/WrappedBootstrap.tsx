@@ -6,19 +6,28 @@ import widgetDependencies from '../../config/widget_dependencies.json'
 import { HMSService } from '../../services/HMSServiceFactory'
 import ValidatorManager from '../../validators/ValidatorManager'
 
+type DependencyType =
+  | 'patient'
+  | 'encounter'
+  | 'diagnostic_report'
+  | 'observation'
+
 const WrappedBootstrapper: React.FunctionComponent<{
-  dependencies: string[]
+  dependencies: DependencyType[]
   children: React.ReactElement
 }> = ({ dependencies, children }) => {
+  const [isLoading, setIsLoading] = React.useState(true)
   React.useEffect(() => {
-    dependencies.forEach((depName: string) => {
+    for (const depName of dependencies) {
       const dependency = _.get(widgetDependencies, depName) || {}
       registerServices(dependency.services || [])
       registerValidators(dependency.validators || [])
-    })
+    }
+
+    setIsLoading(false)
 
     function registerServices(services: string[]) {
-      services.forEach(serviceName => {
+      for (const serviceName of services) {
         if (!HMSService.isExist(serviceName)) {
           const Service = _.get(serviceConfig, `${serviceName}.clazz`)
           if (Service) {
@@ -27,11 +36,11 @@ const WrappedBootstrapper: React.FunctionComponent<{
             throw new Error(`can't get service name ${serviceName}.`)
           }
         }
-      })
+      }
     }
 
     function registerValidators(validators: string[]) {
-      validators.forEach(validatorName => {
+      for (const validatorName of validators) {
         if (!ValidatorManager.isExist(validatorName)) {
           const validator = _.get(validatorConfig, validatorName)
 
@@ -47,10 +56,13 @@ const WrappedBootstrapper: React.FunctionComponent<{
             throw new Error(`can't get validator name ${validatorName}.`)
           }
         }
-      })
+      }
     }
   }, [])
 
+  if (isLoading) {
+    return <div>loading dependencies...</div>
+  }
   return <>{children}</>
 }
 

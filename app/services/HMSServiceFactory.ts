@@ -11,7 +11,7 @@ class HMSServiceFactory {
     this.registry.set(name, clazz)
   }
   isExist(name: string) {
-    return !_.isEmpty(this.registry.get(name))
+    return !_.isUndefined(this.registry.get(name))
   }
   getService(resource: string, adapter?: IAdapter): IService | undefined {
     let instance = this.instances.get(resource)

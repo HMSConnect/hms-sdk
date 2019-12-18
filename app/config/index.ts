@@ -21,6 +21,7 @@ export const serviceConfig = {
   ['patient']: { clazz: PatientService },
   ['encounter']: { clazz: EncounterService },
   ['diagnostic_report']: { clazz: DiagnosticReportService }
+  // ['observation']: { clazz: ObservationService} // TODO: uncomment when observation service
 }
 
 export const validatorConfig = {

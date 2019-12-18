@@ -1,3 +1,5 @@
+import React from 'react'
+
 import {
   Container,
   CssBaseline,
@@ -8,13 +10,12 @@ import {
 import HomeIcon from '@material-ui/icons/Home'
 import * as _ from 'lodash'
 import { parse } from 'qs'
-import React from 'react'
-
 import BreadcrumbsBase from '../components/base/BreadcrumbsBase'
 import {
   IPaginationOption,
   ISortType
 } from '../components/hooks/usePatientList'
+import WrappedBootstrapper from '../components/init/WrappedBootstrap'
 import { IPatientFilterValue } from '../components/templates/patient/PatientFilterBar'
 import PatientSearch from '../components/widget/patient/PatientSearch'
 
@@ -34,24 +35,26 @@ const PatientSearchView: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <>
-      <CssBaseline />
-      <Container maxWidth='lg' className={classes.root}>
-        <Typography component='div' className={classes.body}>
-          <BreadcrumbsBase
-            currentPath='Patient Search'
-            parentPath={[
-              {
-                icon: <HomeIcon />,
-                label: 'Home',
-                url: '/'
-              }
-            ]}
-          ></BreadcrumbsBase>
-          <PatientSearch query={query} />
-        </Typography>
-      </Container>
-    </>
+    <WrappedBootstrapper dependencies={['patient']}>
+      <>
+        <CssBaseline />
+        <Container maxWidth='lg' className={classes.root}>
+          <Typography component='div' className={classes.body}>
+            <BreadcrumbsBase
+              currentPath='Patient Search'
+              parentPath={[
+                {
+                  icon: <HomeIcon />,
+                  label: 'Home',
+                  url: '/'
+                }
+              ]}
+            ></BreadcrumbsBase>
+            <PatientSearch query={query} />
+          </Typography>
+        </Container>
+      </>
+    </WrappedBootstrapper>
   )
 }
 
