@@ -1,23 +1,14 @@
 import React from 'react'
 
-import {
-  Container,
-  CssBaseline,
-  makeStyles,
-  Theme,
-  Typography
-} from '@material-ui/core'
-import HomeIcon from '@material-ui/icons/Home'
+import { Container, CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import * as _ from 'lodash'
 import { parse } from 'qs'
-import BreadcrumbsBase from '../components/base/BreadcrumbsBase'
-import {
-  IPaginationOption,
-  ISortType
-} from '../components/hooks/usePatientList'
-import BootstrapWrapper from '../components/init/BootstrapWrapper'
-import { IPatientFilterValue } from '../components/templates/patient/PatientFilterBar'
-import PatientSearch from '../components/widget/patient/PatientSearch'
+
+import { IPaginationOption, ISortType } from '../../components/hooks/usePatientList'
+import BootstrapWrapper from '../../components/init/BootstrapWrapper'
+import { IPatientFilterValue } from '../../components/templates/patient/PatientFilterBar'
+import PatientSearch from '../../components/widget/patient/PatientSearch'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   body: {},
@@ -40,16 +31,7 @@ const PatientSearchView: IStatelessPage<{
         <CssBaseline />
         <Container maxWidth='lg' className={classes.root}>
           <Typography component='div' className={classes.body}>
-            <BreadcrumbsBase
-              currentPath='Patient Search'
-              parentPath={[
-                {
-                  icon: <HomeIcon />,
-                  label: 'Home',
-                  url: '/'
-                }
-              ]}
-            ></BreadcrumbsBase>
+        
             <PatientSearch query={query} />
           </Typography>
         </Container>

@@ -1,5 +1,4 @@
 import IValidator from '../../IValidator'
-import validatorManager from '../../ValidatorManager'
 
 class SFHIROrganizationV1Validator implements IValidator {
   isValid(schema: any): boolean {
@@ -15,4 +14,4 @@ class SFHIROrganizationV1Validator implements IValidator {
   }
 }
 
-validatorManager.register(new SFHIROrganizationV1Validator(), 4)
+export default SFHIROrganizationV1Validator

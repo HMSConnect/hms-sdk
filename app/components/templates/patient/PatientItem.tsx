@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const PatientItem: React.FunctionComponent<{
-  highlightText: string
   patient: any
+  highlightText?: string
 }> = ({ highlightText, patient }) => {
   const classes = useStyles()
 
@@ -33,16 +33,22 @@ const PatientItem: React.FunctionComponent<{
       </TableCell>
       <TableCell align='center'>
         <Typography>
-          <strong>
-            <Highlighter
-              text={_.get(patient, 'name.given[0]')}
-              highlightText={highlightText}
-            />{' '}
-            <Highlighter
-              text={_.get(patient, 'name.family')}
-              highlightText={highlightText}
-            />
-          </strong>
+          {highlightText ? (
+            <strong>
+              <Highlighter
+                text={_.get(patient, 'name.given[0]')}
+                highlightText={highlightText}
+              />{' '}
+              <Highlighter
+                text={_.get(patient, 'name.family')}
+                highlightText={highlightText}
+              />
+            </strong>
+          ) : (
+            <>
+              {_.get(patient, 'name.given[0]')} {_.get(patient, 'name.family')}
+            </>
+          )}
         </Typography>
       </TableCell>
       <TableCell>

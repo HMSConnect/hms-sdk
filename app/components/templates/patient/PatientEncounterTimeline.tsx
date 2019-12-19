@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 
 import { CircularProgress, Grid, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 
 import routes from '../../../routes'
+import RouterManager from '../../../routes/RouteManager'
 import EncounterService from '../../../services/EncounterService'
 import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
@@ -68,7 +69,8 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     event: React.MouseEvent,
     selectedEncounter: any
   ) => {
-    routes.Router.pushRoute(`patient-info/encounter`, {
+    const path = RouterManager.getPath(`patient-info/encounter`)
+    routes.Router.pushRoute(path, {
       encounterId: _.get(selectedEncounter, 'id'),
       patientId: _.get(patient, 'identifier.id.value')
     })

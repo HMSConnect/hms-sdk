@@ -39,4 +39,4 @@ class SFHIRDiagnosticReportV1Validator implements IValidator {
   }
 }
 
-ValidatorManager.register(new SFHIRDiagnosticReportV1Validator(), 1)
+export default SFHIRDiagnosticReportV1Validator

@@ -25,7 +25,7 @@ export default class PatientService extends AbstractService {
             })
           }
         }
-        // TODO handle cannot resolve validator
+        // throw Error('not support this schema.')
         return result
       })
     }

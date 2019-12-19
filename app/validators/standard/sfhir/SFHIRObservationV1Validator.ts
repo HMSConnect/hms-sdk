@@ -1,5 +1,4 @@
 import IValidator from '../../IValidator'
-import validatorManager from '../../ValidatorManager'
 
 import * as _ from 'lodash'
 import * as moment from 'moment'
@@ -51,4 +50,4 @@ class SFHIRObservationV1Validator implements IValidator {
   }
 }
 
-validatorManager.register(new SFHIRObservationV1Validator(), 5)
+export default SFHIRObservationV1Validator

@@ -6,7 +6,8 @@ export interface ISchema {
   resourceType: string
 }
 
-interface IValidatorRegistry {
+export interface IValidatorRegistry {
+  name: string
   priority: number
   validator: IValidator
 }
@@ -14,9 +15,13 @@ interface IValidatorRegistry {
 class ValidatorManager {
   instances: IValidatorRegistry[] = []
 
-  register(clazz: any, priority: number) {
+  register(name: string, clazz: any, priority: number) {
     console.info('registering validator..', clazz)
-    this.instances.push({ priority, validator: clazz })
+    this.instances.push({ name, priority, validator: clazz })
+  }
+
+  isExist(name: any) {
+    return this.instances.some(instance => instance.name === name)
   }
 
   compile(schema: ISchema): IValidator | null {
