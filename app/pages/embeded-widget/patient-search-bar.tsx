@@ -13,23 +13,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-const PatientSearchBarWrapper: IStatelessPage<{
-  query: any
-}> = ({ query }) => {
-  return (
-    <WrappedBootstrapper dependencies={['patient']}>
-      <PatientSearchBar query={query} />
-    </WrappedBootstrapper>
-  )
-}
-
 const PatientSearchBar: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
 
   const handleSearchSubmit = (filter: IPatientFilterValue) => {
-    window.parent.postMessage({ message: 'Submit search', entry: filter }, '*')
+    window.parent.postMessage(
+      {
+        action: 'REPLACE_ROUTE',
+        message: 'handleSearchSubmit',
+        params: filter,
+        path: ''
+      },
+      '*'
+    )
   }
   const handlePaginationReset = (event: React.MouseEvent) => {
     window.parent.postMessage({ message: 'reset search' }, '*')
@@ -50,7 +48,7 @@ const PatientSearchBar: IStatelessPage<{
   )
 }
 
-PatientSearchBarWrapper.getInitialProps = async ({ req, res, query }) => {
+PatientSearchBar.getInitialProps = async ({ req, res, query }) => {
   const initialFilter: IPatientFilterValue = {
     gender: 'all',
     searchText: ''
@@ -60,4 +58,4 @@ PatientSearchBarWrapper.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default PatientSearchBarWrapper
+export default PatientSearchBar

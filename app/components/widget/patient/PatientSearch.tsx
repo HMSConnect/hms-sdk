@@ -5,12 +5,12 @@ import * as _ from 'lodash'
 import { stringify } from 'qs'
 
 import routes from '../../../routes'
+import RouterManager from '../../../routes/RouteManager'
 import { IPageOptionResult } from '../../base/Pagination'
 import { IPaginationOption, ISortType } from '../../hooks/usePatientList'
 import { IPatientFilterValue } from '../../templates/patient/PatientFilterBar'
 import PatientSearchPanel from './PatientSearchPanel'
 import PatientSearchResultWithPaginate from './PatientSearchResultWithPaginate'
-
 
 const useStyles = makeStyles((theme: Theme) => ({
   bottom: {
@@ -36,7 +36,8 @@ const PatientSearch: React.FunctionComponent<{
   }, [query])
 
   const handleSearchSubmit = (filter: IPatientFilterValue) => {
-    routes.Router.replaceRoute(`patient-search`, {
+    const path = RouterManager.getPath('patient-search')
+    routes.Router.replaceRoute(path, {
       ...pagination,
       filter: stringify(filter),
       offset: 0,
@@ -50,7 +51,8 @@ const PatientSearch: React.FunctionComponent<{
   }
 
   const handleRequestSort = (sortObject: ISortType) => {
-    routes.Router.replaceRoute(`patient-search`, {
+    const path = RouterManager.getPath('patient-search')
+    routes.Router.replaceRoute(path, {
       ...pagination,
       filter: stringify(pagination.filter),
       sort: stringify(sortObject)
@@ -58,7 +60,8 @@ const PatientSearch: React.FunctionComponent<{
   }
 
   const handlePageChange = (pageOptionResult: IPageOptionResult) => {
-    routes.Router.replaceRoute(`patient-search`, {
+    const path = RouterManager.getPath('patient-search')
+    routes.Router.replaceRoute(path, {
       ...pageOptionResult,
       filter: stringify(pagination.filter),
       sort: stringify(pagination.sort)
@@ -70,13 +73,20 @@ const PatientSearch: React.FunctionComponent<{
       { message: 'select Patient', entry: patient },
       '*'
     )
-    routes.Router.pushRoute(`patient-info`, {
-      id: _.get(patient, 'identifier.id.value')
-    })
+    const path = RouterManager.getPath(
+      `patient-info/${_.get(patient, 'identifier.id.value')}`,
+      true
+    )
+    routes.Router.pushRoute(path)
   }
 
   const handlePaginationReset = (event: React.MouseEvent) => {
-    routes.Router.replaceRoute('patient-search')
+    window.parent.postMessage(
+      { message: 'reset filter' },
+      '*'
+    )
+    const path = RouterManager.getPath(`patient-search`)
+    routes.Router.replaceRoute(path)
   }
 
   return (
@@ -91,7 +101,7 @@ const PatientSearch: React.FunctionComponent<{
           />
         </Grid>
         <PatientSearchResultWithPaginate
-        highlightText={highlightText}
+          highlightText={highlightText}
           paginationOption={pagination}
           onPatientSelect={handlePatientSelect}
           onPageChange={handlePageChange}

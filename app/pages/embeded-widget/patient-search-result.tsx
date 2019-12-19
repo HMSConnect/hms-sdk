@@ -16,22 +16,14 @@ import PatientSearchResultWithPaginate from '../../components/widget/patient/Pat
 import routes from '../../routes'
 import { IStatelessPage } from '../patient-search'
 
+import RouterManager from '../../routes/RouteManager'
+
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100vh',
     paddingTop: '30px'
   }
 }))
-
-const PatientSearchResultWrapper: IStatelessPage<{
-  query: any
-}> = ({ query }) => {
-  return (
-    <WrappedBootstrapper dependencies={['patient']}>
-      <PatientSearchResultWidget query={query} />
-    </WrappedBootstrapper>
-  )
-}
 
 const PatientSearchResultWidget: IStatelessPage<{
   query: any
@@ -54,7 +46,8 @@ const PatientSearchResultWidget: IStatelessPage<{
       { message: 'Request sort', entry: newPagination },
       '*'
     )
-    routes.Router.replaceRoute(`patient-search-result`, newPagination)
+    const path = RouterManager.getPath('patient-search-result')
+    routes.Router.replaceRoute(path, newPagination)
   }
 
   const handlePageChange = (pageOptionResult: IPageOptionResult) => {
@@ -67,26 +60,41 @@ const PatientSearchResultWidget: IStatelessPage<{
       { message: 'Request sort', entry: newPagination },
       '*'
     )
-    routes.Router.replaceRoute(`patient-search-result`, newPagination)
+    const path = RouterManager.getPath('patient-search-result')
+    routes.Router.replaceRoute(path, newPagination)
+  }
+
+  const handlePatientSelect = (patient: any) => {
+    window.parent.postMessage(
+      { message: 'select Patient', entry: patient },
+      '*'
+    )
+    const path = RouterManager.getPath(`patient-info`)
+    routes.Router.pushRoute(path, {
+      id: _.get(patient, 'identifier.id.value')
+    })
   }
 
   return (
-    <>
-      <CssBaseline />
-      <Container maxWidth='lg'>
-        <Typography component='div' className={classes.root}>
-          <PatientSearchResultWithPaginate
-            paginationOption={pagination}
-            onRequestSort={handleRequestSort}
-            onPageChange={handlePageChange}
-          />
-        </Typography>
-      </Container>
-    </>
+    <WrappedBootstrapper dependencies={['patient']}>
+      <>
+        <CssBaseline />
+        <Container maxWidth='lg'>
+          <Typography component='div' className={classes.root}>
+            <PatientSearchResultWithPaginate
+              paginationOption={pagination}
+              onRequestSort={handleRequestSort}
+              onPageChange={handlePageChange}
+              onPatientSelect={handlePatientSelect}
+            />
+          </Typography>
+        </Container>
+      </>
+    </WrappedBootstrapper>
   )
 }
 
-PatientSearchResultWrapper.getInitialProps = async ({ query }) => {
+PatientSearchResultWidget.getInitialProps = async ({ query }) => {
   const initialFilter: IPatientFilterValue = {
     gender: 'all',
     searchText: ''
@@ -115,4 +123,4 @@ export function initialPagination(
   }
 }
 
-export default PatientSearchResultWrapper
+export default PatientSearchResultWidget
