@@ -1,6 +1,21 @@
 import React, { useEffect } from 'react'
 
-import { Button, Collapse, Container, createStyles, CssBaseline, Divider, Grid, IconButton, List, ListItem, ListItemText, Paper, Theme, Typography } from '@material-ui/core'
+import {
+  Button,
+  Collapse,
+  Container,
+  createStyles,
+  CssBaseline,
+  Divider,
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  Theme,
+  Typography
+} from '@material-ui/core'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
@@ -27,30 +42,61 @@ const widgetGroup = [
 ]
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    code: {
+      background: '#eeee',
+      borderRadius: 8,
+      height: '100%',
+      minHeight: '20vh',
+      padding: 16
+    },
+    eventResponse: {
+      minHeight: '30vh',
+      padding: theme.spacing(2),
+      width: '100%'
+    },
+    iframLayout: {
+      display: 'flex',
+      minHeight: '70vh'
+    },
+    iframe: {
+      flex: '1 1 auto'
+    },
     nested: {
       paddingLeft: theme.spacing(4)
     },
-    root: {
+    root: {},
+    widgetGallery: {
+      marginBottom: 16
+    },
+    widgetGalleryHeader: {
+      padding: theme.spacing(2)
+    },
+    widgetGallerySide: {
       backgroundColor: theme.palette.background.paper,
-      maxWidth: 360,
+      height: '100%',
+      padding: theme.spacing(2),
       width: '100%'
     }
   })
 )
 
 const WidgetGallery = () => {
+  const classes = useStyles()
+  const iframeRef = React.useRef<null | HTMLIFrameElement>(null)
   const [selectedWidget, setSelectedWidget] = React.useState(
     widgetGroup[0].child[0]
   )
 
-  const classes = useStyles()
   useEffect(() => {
     window.addEventListener(
       'message',
       event => {
-        if (event.origin !== 'http://localhost:3000') {
-          return
-        }
+        // if (
+        //   event.origin !==
+        //   `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}`
+        // ) {
+        //   return
+        // }
         if (!event.data.message) {
           return
         }
@@ -68,11 +114,9 @@ const WidgetGallery = () => {
     setSelectedWidget(widget)
   }
 
-  const iframeRef = React.useRef<null | HTMLIFrameElement>(null)
   const handleIFrameBack = (event: React.MouseEvent) => {
     if (iframeRef && iframeRef.current) {
       const iframeObject = iframeRef.current as any
-      console.log('iframeObject :', iframeObject.contentWindow);
       if (iframeObject) {
         iframeObject.contentWindow.history.back()
       }
@@ -94,7 +138,6 @@ const WidgetGallery = () => {
       }
     }
   }
-
   const handleIFrameReset = (event: React.MouseEvent) => {
     setSelectedWidget(prev => {
       const split = _.split(prev.path, '#')
@@ -104,15 +147,24 @@ const WidgetGallery = () => {
       }
     })
   }
+
+  console.log(
+    `${process.env.HMS_SANDBOX_URL}${process.env.APP_PORT}/${selectedWidget.path}`
+  )
+
   return (
     <>
       <CssBaseline />
-      <Container maxWidth='lg'>
-        <Typography variant='h4'>WidgetGallery</Typography>
-        <br />
-        <Grid container>
+      <Grid className={classes.root}>
+        <Grid container className={classes.widgetGallery}>
           <Grid item xs={3}>
-            <Paper className={classes.root}>
+            <Paper className={classes.widgetGallerySide}>
+              <Grid className={classes.widgetGalleryHeader}>
+                <Grid item xs>
+                  <Typography variant='h4'>Widget Gallery</Typography>
+                </Grid>
+              </Grid>
+              <Divider variant='fullWidth' />
               <List component='nav' aria-labelledby='nested-list-subheader'>
                 {_.map(widgetGroup, (widget, index) => (
                   <WidgetGroupListItem key={index} widget={widget}>
@@ -141,36 +193,45 @@ const WidgetGallery = () => {
             </Paper>
           </Grid>
           <Grid item xs={9}>
-            <IconButton aria-label='delete' onClick={handleIFrameBack}>
-              <NavigateBeforeIcon />
-            </IconButton>
-            <IconButton aria-label='delete' onClick={handleIFrameNext}>
-              <NavigateNextIcon />
-            </IconButton>
-            <IconButton aria-label='delete' onClick={handleIFrameRefresh}>
-              <RefreshIcon />
-            </IconButton>
-            <Button
-              onClick={handleIFrameReset}
-              color='primary'
-              variant='contained'
-            >
-              {' '}
-              Reset
-            </Button>
-            <iframe
-              src={`http://localhost:3000/${selectedWidget.path}`}
-              width='1024'
-              height='720'
-              ref={iframeRef}
-            ></iframe>
+            <Grid item xs={12}>
+              <IconButton aria-label='back' onClick={handleIFrameBack}>
+                <NavigateBeforeIcon />
+              </IconButton>
+              <IconButton aria-label='next' onClick={handleIFrameNext}>
+                <NavigateNextIcon />
+              </IconButton>
+              <IconButton aria-label='refresh' onClick={handleIFrameRefresh}>
+                <RefreshIcon />
+              </IconButton>
+              <Button
+                onClick={handleIFrameReset}
+                color='primary'
+                variant='contained'
+                aria-label='reset'
+              >
+                Reset
+              </Button>
+            </Grid>
+            <Grid item xs={12} className={classes.iframLayout}>
+              <iframe
+                ref={iframeRef}
+                className={classes.iframe}
+                src={`${process.env.HMS_SANDBOX_URL}:${process.env.APP_PORT}/${selectedWidget.path}`}
+              />
+            </Grid>
           </Grid>
         </Grid>
-        <div>
-          <Typography variant='h6'>Event response</Typography>
-          <div id='show-result'></div>
-        </div>
-      </Container>
+        <Paper className={classes.eventResponse}>
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography variant='h6'>Event Response</Typography>
+            </Grid>
+            <Grid className={classes.code} xs={12}>
+              <div id='show-result'></div>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Grid>
     </>
   )
 }
