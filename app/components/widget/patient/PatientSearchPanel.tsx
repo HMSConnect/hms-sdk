@@ -13,7 +13,9 @@ import { hexToRgb } from '@material-ui/core/styles'
 import ClearIcon from '@material-ui/icons/Clear'
 import SearchIcon from '@material-ui/icons/Search'
 
-import PatientFilterBar, { IPatientFilterValue } from './PatientFilterBar'
+import PatientFilterBar, {
+  IPatientFilterValue
+} from '../../templates/patient/PatientFilterBar'
 
 const ColorButton = withStyles((theme: Theme) => ({
   root: {
@@ -53,8 +55,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 const PatientSearchPanel: React.FunctionComponent<{
   initialFilter: IPatientFilterValue
   onSearchSubmit: (filter: IPatientFilterValue) => void
-  onPaginationReset: (event: React.MouseEvent) => void
-  onHightlightChange: (value: string) => void
+  onPaginationReset?: (event: React.MouseEvent) => void
+  onHightlightChange?: (value: string) => void
 }> = ({
   initialFilter,
   onSearchSubmit,
@@ -80,7 +82,10 @@ const PatientSearchPanel: React.FunctionComponent<{
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     handleFilterChange('searchText', event.target.value)
-    onHightlightChange(event.target.value)
+
+    if (onHightlightChange) {
+      onHightlightChange(event.target.value)
+    }
   }
 
   const handleSearchSubmit = (event?: React.FormEvent<HTMLFormElement>) => {
@@ -91,7 +96,9 @@ const PatientSearchPanel: React.FunctionComponent<{
   }
 
   const handlePaginationReset = (event: React.MouseEvent) => {
-    onPaginationReset(event)
+    if (onPaginationReset) {
+      onPaginationReset(event)
+    }
   }
 
   return (

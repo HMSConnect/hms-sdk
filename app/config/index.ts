@@ -20,7 +20,7 @@ const environment = {
 export const serviceConfig = {
   ['$PATIENT']: { clazz: PatientService },
   ['$ENCOUNTER']: { clazz: EncounterService },
-  ['$DIANOSTIC_REPORT']: { clazz: DiagnosticReportService }
+  ['$DIAGNOSTIC_REPORT']: { clazz: DiagnosticReportService }
   // ['$OBSERVATION']: { clazz: ObservationService} // TODO: uncomment when have observation service
 }
 

@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 
+import * as _ from 'lodash'
+
 import { HMSService } from '../../services/HMSServiceFactory'
 import PatientService from '../../services/PatientService'
 import { ISchema } from '../../validators/ValidatorManager'
+import usePromise from './utils/usePromise'
 
 export interface IPatientResultList {
   data: any[]
@@ -30,33 +33,10 @@ export interface IPaginationOption {
 }
 
 const usePatientList = (options: IPaginationOption): any => {
-  const [result, setResult] = useState<IQueryResult>({
-    data: [],
-    error: null,
-    totalCount: 0
-  })
-  const [isLoading, setLoading] = useState<boolean>(true)
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        setLoading(true)
-        const patientService = HMSService.getService(
-          'patient'
-        ) as PatientService
-        const result = await patientService.list(options)
-        setResult(result)
-      } catch (error) {
-        setResult((prevResult: IQueryResult) => ({
-          ...prevResult,
-          error: error.message ? error.message : error
-        }))
-      } finally {
-        setLoading(false)
-      }
-    })()
-  }, [options])
-  return { isLoading, ...result }
+  return usePromise(() => {
+    const patientService = HMSService.getService('patient') as PatientService
+    return patientService.list(options)
+  }, _.values(options))
 }
 
 export default usePatientList

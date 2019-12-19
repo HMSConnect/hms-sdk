@@ -1,7 +1,14 @@
 import React, { useState } from 'react'
 
-import { Avatar, Grid, makeStyles, Paper, CircularProgress } from '@material-ui/core'
+import {
+  Avatar,
+  CircularProgress,
+  Grid,
+  makeStyles,
+  Paper
+} from '@material-ui/core'
 import * as _ from 'lodash'
+
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import usePatient from '../../hooks/usePatient'
 import useResourceList from '../../hooks/useResourceList'
@@ -36,9 +43,13 @@ const PatientInfoDetail: React.FunctionComponent<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
-  const { isLoading: isPatientLoading, data: patient } = usePatient(
+  const { isLoading: isPatientLoading, data: patient, error } = usePatient(
     _.get(query, 'patientId') || _.get(query, 'id')
   )
+
+  if (error) {
+    return <>Error: {error}</>
+  }
 
   if (isPatientLoading) {
     return <CircularProgress />
@@ -92,7 +103,8 @@ const PatientInfoDetailSub: React.FunctionComponent<{
 }> = ({ patient }) => {
   const {
     isLoading: isGroupResourceListLoading,
-    data: groupResourceList
+    data: groupResourceList,
+    error
   } = useResourceList(_.get(patient, 'identifier.id.value'))
 
   const [menuNavigate, setMenuNavigate] = useState('patient')

@@ -8,7 +8,7 @@
     "validators": ["$SFHIR_ENCOUNTER_V1"]
   },
   "diagnostic_report": {
-    "services": ["$DIANOSTIC_REPORT"],
+    "services": ["$DIAGNOSTIC_REPORT"],
     "validators": ["$SFHIR_DIAGNOSTIC_REPORT_V1", "$SFHIR_OBSERVATION_V1"]
   }
 }
