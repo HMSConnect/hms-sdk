@@ -86,6 +86,7 @@ const WidgetGallery = () => {
   const [selectedWidget, setSelectedWidget] = React.useState(
     widgetGroup[0].child[0]
   )
+  const serverUrl = `http://${window.location.host}`
 
   useEffect(() => {
     window.addEventListener(
@@ -147,10 +148,6 @@ const WidgetGallery = () => {
       }
     })
   }
-
-  console.log(
-    `${process.env.HMS_SANDBOX_URL}${process.env.APP_PORT}/${selectedWidget.path}`
-  )
 
   return (
     <>
@@ -216,7 +213,7 @@ const WidgetGallery = () => {
               <iframe
                 ref={iframeRef}
                 className={classes.iframe}
-                src={`${process.env.HMS_SANDBOX_URL}:${process.env.APP_PORT}/${selectedWidget.path}`}
+                src={`${serverUrl}/${selectedWidget.path}`}
               />
             </Grid>
           </Grid>
