@@ -1,21 +1,11 @@
 import React, { useEffect } from 'react'
 
-import {
-  Collapse,
-  Container,
-  createStyles,
-  CssBaseline,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
-  Theme,
-  Typography
-} from '@material-ui/core'
+import { Button, Collapse, Container, createStyles, CssBaseline, Divider, Grid, IconButton, List, ListItem, ListItemText, Paper, Theme, Typography } from '@material-ui/core'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
+import NavigateNextIcon from '@material-ui/icons/NavigateNext'
+import RefreshIcon from '@material-ui/icons/Refresh'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 
@@ -33,10 +23,6 @@ const widgetGroup = [
       }
     ],
     label: 'Patient'
-  },
-  {
-    child: [{ label: 'encounter-list', path: 'embeded-widget/encounter-list' }],
-    label: 'Encounter'
   }
 ]
 const useStyles = makeStyles((theme: Theme) =>
@@ -81,6 +67,43 @@ const WidgetGallery = () => {
   const handleChangeWidget = (widget: any) => {
     setSelectedWidget(widget)
   }
+
+  const iframeRef = React.useRef<null | HTMLIFrameElement>(null)
+  const handleIFrameBack = (event: React.MouseEvent) => {
+    if (iframeRef && iframeRef.current) {
+      const iframeObject = iframeRef.current as any
+      console.log('iframeObject :', iframeObject.contentWindow);
+      if (iframeObject) {
+        iframeObject.contentWindow.history.back()
+      }
+    }
+  }
+  const handleIFrameNext = (event: React.MouseEvent) => {
+    if (iframeRef && iframeRef.current) {
+      const iframeObject = iframeRef.current as any
+      if (iframeObject) {
+        iframeObject.contentWindow.history.forward()
+      }
+    }
+  }
+  const handleIFrameRefresh = (event: React.MouseEvent) => {
+    if (iframeRef && iframeRef.current) {
+      const iframeObject = iframeRef.current as any
+      if (iframeObject) {
+        iframeObject.contentWindow.location.reload()
+      }
+    }
+  }
+
+  const handleIFrameReset = (event: React.MouseEvent) => {
+    setSelectedWidget(prev => {
+      const split = _.split(prev.path, '#')
+      return {
+        ...prev,
+        path: split[1] ? split[0] : split[0] + '#reset'
+      }
+    })
+  }
   return (
     <>
       <CssBaseline />
@@ -118,10 +141,28 @@ const WidgetGallery = () => {
             </Paper>
           </Grid>
           <Grid item xs={9}>
+            <IconButton aria-label='delete' onClick={handleIFrameBack}>
+              <NavigateBeforeIcon />
+            </IconButton>
+            <IconButton aria-label='delete' onClick={handleIFrameNext}>
+              <NavigateNextIcon />
+            </IconButton>
+            <IconButton aria-label='delete' onClick={handleIFrameRefresh}>
+              <RefreshIcon />
+            </IconButton>
+            <Button
+              onClick={handleIFrameReset}
+              color='primary'
+              variant='contained'
+            >
+              {' '}
+              Reset
+            </Button>
             <iframe
               src={`http://localhost:3000/${selectedWidget.path}`}
               width='1024'
               height='720'
+              ref={iframeRef}
             ></iframe>
           </Grid>
         </Grid>

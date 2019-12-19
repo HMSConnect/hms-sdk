@@ -1,9 +1,11 @@
+import React from 'react'
+
 import Container from '@material-ui/core/Container'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { makeStyles } from '@material-ui/core/styles'
 import getConfig from 'next/config'
-import React from 'react'
-import { Link, Router } from '../routes'
+
+import { Link } from '../routes'
 
 // const { staticFolder } = getConfig().publicRuntimeConfig
 const config = getConfig()
@@ -48,7 +50,9 @@ export default function App() {
       <Container maxWidth='lg'>
         <Link href='/patient-search'>Patient search</Link>
       </Container>
-  
+      <Container maxWidth='lg'>
+        <Link href='/embeded-widget'>Embeded Widget</Link>
+      </Container>
     </React.Fragment>
   )
 }

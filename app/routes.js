@@ -8,11 +8,6 @@ module.exports = nextRoutes()
     'patient-info/encounter',
     '/patient-info/:patientId/encounter/:encounterId'
   )
-  .add(
-    'patientInfoWithEncounter',
-    '/:patientId/encounter/:encounterId',
-    'patient-info/encounter'
-  )
   .add('embeded-widget')
   .add(
     'embeded-widget/patient-search-bar',
@@ -24,3 +19,7 @@ module.exports = nextRoutes()
   )
   .add('embeded-widget/patient-search')
   .add('embeded-widget/patient-info', '/embeded-widget/patient-info/:id')
+  .add(
+    'embeded-widget/patient-info/encounter',
+    '/embeded-widget/patient-info/:patientId/encounter/:encounterId'
+  )

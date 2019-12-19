@@ -13,10 +13,10 @@ import {
 import BootstrapWrapper from '../../components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '../../components/templates/patient/PatientFilterBar'
 import PatientSearchResultWithPaginate from '../../components/widget/patient/PatientSearchResultWithPaginate'
+import environment from '../../config'
 import routes from '../../routes'
-import { IStatelessPage } from '../patient-search'
-
 import RouterManager from '../../routes/RouteManager'
+import { IStatelessPage } from '../patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -37,42 +37,58 @@ const PatientSearchResultWidget: IStatelessPage<{
   }, [query])
 
   const handleRequestSort = (sortObject: ISortType) => {
+    const path = RouterManager.getPath('patient-search-result')
     const newPagination = {
       ...pagination,
       filter: stringify(pagination.filter),
       sort: stringify(sortObject)
     }
     window.parent.postMessage(
-      { message: 'Request sort', entry: newPagination },
-      '*'
+      {
+        action: 'REPLACE_ROUTE',
+        message: 'handleRequestSort',
+        params: newPagination,
+        path
+      },
+      environment.iframe.targetOrigin
     )
-    const path = RouterManager.getPath('patient-search-result')
     routes.Router.replaceRoute(path, newPagination)
   }
 
   const handlePageChange = (pageOptionResult: IPageOptionResult) => {
+    const path = RouterManager.getPath('patient-search-result')
     const newPagination = {
       ...pageOptionResult,
       filter: stringify(pagination.filter),
       sort: stringify(pagination.sort)
     }
     window.parent.postMessage(
-      { message: 'Request sort', entry: newPagination },
-      '*'
+      {
+        action: 'REPLACE_ROUTE',
+        message: 'handlePageChange',
+        params: newPagination,
+        path
+      },
+      environment.iframe.targetOrigin
     )
-    const path = RouterManager.getPath('patient-search-result')
     routes.Router.replaceRoute(path, newPagination)
   }
 
   const handlePatientSelect = (patient: any) => {
-    window.parent.postMessage(
-      { message: 'select Patient', entry: patient },
-      '*'
-    )
     const path = RouterManager.getPath(`patient-info`)
-    routes.Router.pushRoute(path, {
+    const params = {
       id: _.get(patient, 'identifier.id.value')
-    })
+    }
+    window.parent.postMessage(
+      {
+        action: 'PUSH_ROUTE',
+        message: 'handlePatientSelect',
+        params,
+        path
+      },
+      environment.iframe.targetOrigin
+    )
+    routes.Router.pushRoute(path, params)
   }
 
   return (

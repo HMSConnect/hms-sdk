@@ -10,6 +10,9 @@ import SFHIROrganizationV1Validator from '../validators/standard/sfhir/SFHIROrga
 import SFHIRPatientV1Validator from '../validators/standard/sfhir/SFHIRPatientV1Validator'
 
 const environment = {
+  iframe: {
+    targetOrigin: '*'
+  },
   localFormat: {
     date: 'YYYY/MM/DD',
     dateTime: 'YYYY/MM/DD HH:mm',

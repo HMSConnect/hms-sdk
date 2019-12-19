@@ -1,8 +1,10 @@
+import React from 'react'
+
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
-import React from 'react'
 import { IPatientFilterValue } from '../../components/templates/patient/PatientFilterBar'
 import PatientSearchPanel from '../../components/widget/patient/PatientSearchPanel'
+import environment from '../../config'
 import { IStatelessPage } from '../patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -20,16 +22,24 @@ const PatientSearchBar: IStatelessPage<{
   const handleSearchSubmit = (filter: IPatientFilterValue) => {
     window.parent.postMessage(
       {
-        action: 'REPLACE_ROUTE',
+        action: null,
         message: 'handleSearchSubmit',
         params: filter,
         path: ''
       },
-      '*'
+      environment.iframe.targetOrigin
     )
   }
   const handlePaginationReset = (event: React.MouseEvent) => {
-    window.parent.postMessage({ message: 'reset search' }, '*')
+    window.parent.postMessage(
+      {
+        action: null,
+        message: 'handlePaginationReset',
+        params: null,
+        path: ''
+      },
+      environment.iframe.targetOrigin
+    )
   }
   return (
     <>

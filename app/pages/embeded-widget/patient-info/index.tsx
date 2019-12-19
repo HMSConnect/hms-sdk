@@ -33,18 +33,6 @@ const PatientInfoView: IStatelessPage<{
         <CssBaseline />
         <Container maxWidth='lg'>
           <Typography component='div' className={classes.root}>
-            <BreadcrumbsBase
-              currentPath='Patient Info'
-              parentPath={[
-                {
-                  icon: <HomeIcon />,
-                  url: '/'
-                },
-                {
-                  label: 'Patient Search'
-                }
-              ]}
-            ></BreadcrumbsBase>
             <PatientInfoDetail query={query} />
           </Typography>
         </Container>
