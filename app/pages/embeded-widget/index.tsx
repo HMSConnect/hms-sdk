@@ -86,7 +86,10 @@ const WidgetGallery = () => {
   const [selectedWidget, setSelectedWidget] = React.useState(
     widgetGroup[0].child[0]
   )
-  const serverUrl = `http://${window.location.host}`
+  const serverUrl =
+    typeof window !== 'undefined'
+      ? `http://${window.location.host}`
+      : 'http://localhost:3000'
 
   useEffect(() => {
     window.addEventListener(
