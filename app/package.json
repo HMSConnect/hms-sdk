@@ -60,7 +60,7 @@
     "moment": "^2.24.0",
     "mui-datatables": "^2.10.1",
     "mui-layout": "^1.2.9",
-    "next": "9.0.2",
+    "next": "^9.1.5",
     "next-routes": "^1.4.2",
     "office-ui-fabric-react": "^7.67.0",
     "postcss-nested": "2.1.2",

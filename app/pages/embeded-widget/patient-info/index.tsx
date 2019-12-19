@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container'
 import HomeIcon from '@material-ui/icons/Home'
 
 import BreadcrumbsBase from '../../../components/base/BreadcrumbsBase'
-import WrappedBootstrapper from '../../../components/init/WrappedBootstrap'
+import BootstrapWrapper from '../../../components/init/BootstrapWrapper'
 import PatientInfoDetail from '../../../components/widget/patient/PatientInfoDetail'
 import { IStatelessPage } from '../../patient-search'
 
@@ -21,7 +21,7 @@ const PatientInfoView: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <WrappedBootstrapper
+    <BootstrapWrapper
       dependencies={[
         'patient',
         'encounter',
@@ -49,7 +49,7 @@ const PatientInfoView: IStatelessPage<{
           </Typography>
         </Container>
       </>
-    </WrappedBootstrapper>
+    </BootstrapWrapper>
   )
 }
 
