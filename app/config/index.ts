@@ -18,29 +18,32 @@ const environment = {
 }
 
 export const serviceConfig = {
-  ['patient']: { clazz: PatientService },
-  ['encounter']: { clazz: EncounterService },
-  ['diagnostic_report']: { clazz: DiagnosticReportService }
-  // ['observation']: { clazz: ObservationService} // TODO: uncomment when observation service
+  ['$PATIENT']: { clazz: PatientService },
+  ['$ENCOUNTER']: { clazz: EncounterService },
+  ['$DIANOSTIC_REPORT']: { clazz: DiagnosticReportService }
+  // ['$OBSERVATION']: { clazz: ObservationService} // TODO: uncomment when have observation service
 }
 
 export const validatorConfig = {
-  ['SFHIR_PATIENT_V1']: { clazz: SFHIRPatientV1Validator, priority: 1 },
-  ['SFHIR_CARE_PLAN_V1']: { clazz: SFHIRCarePlanV1Validator, priority: 1 },
-  ['SFHIR_DIAGNOSTIC_REPORT_V1']: {
+  ['$SFHIR_PATIENT_V1']: { clazz: SFHIRPatientV1Validator, priority: 1 },
+  ['$SFHIR_CARE_PLAN_V1']: { clazz: SFHIRCarePlanV1Validator, priority: 1 },
+  ['$SFHIR_DIAGNOSTIC_REPORT_V1']: {
     clazz: SFHIRDiagnosticReportV1Validator,
     priority: 1
   },
-  ['SFHIR_ENCOUNTER_V1']: { clazz: SFHIREncounterV1Validator, priority: 1 },
-  ['SFHIR_OBSERVATION_V1']: { clazz: SFHIRObservationV1Validator, priority: 1 },
-  ['SFHIR_ORGANIZATION_V1']: {
+  ['$SFHIR_ENCOUNTER_V1']: { clazz: SFHIREncounterV1Validator, priority: 1 },
+  ['$SFHIR_OBSERVATION_V1']: {
+    clazz: SFHIRObservationV1Validator,
+    priority: 1
+  },
+  ['$SFHIR_ORGANIZATION_V1']: {
     clazz: SFHIROrganizationV1Validator,
     priority: 1
   }
 }
 
 export const adapterConfig = {
-  ['develop']: { clazz: DevelopmentAdapter }
+  ['$DEVELOP']: { clazz: DevelopmentAdapter }
 }
 
 export default environment

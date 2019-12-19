@@ -15,7 +15,7 @@ import {
   IPaginationOption,
   ISortType
 } from '../components/hooks/usePatientList'
-import WrappedBootstrapper from '../components/init/WrappedBootstrap'
+import BootstrapWrapper from '../components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '../components/templates/patient/PatientFilterBar'
 import PatientSearch from '../components/widget/patient/PatientSearch'
 
@@ -35,7 +35,7 @@ const PatientSearchView: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <WrappedBootstrapper dependencies={['patient']}>
+    <BootstrapWrapper dependencies={['patient']}>
       <>
         <CssBaseline />
         <Container maxWidth='lg' className={classes.root}>
@@ -54,7 +54,7 @@ const PatientSearchView: IStatelessPage<{
           </Typography>
         </Container>
       </>
-    </WrappedBootstrapper>
+    </BootstrapWrapper>
   )
 }
 
