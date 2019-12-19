@@ -20,7 +20,14 @@ const PatientInfoView: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <WrappedBootstrapper dependencies={['patient', 'encounter']}>
+    <WrappedBootstrapper
+      dependencies={[
+        'patient',
+        'encounter',
+        'diagnostic_report',
+        'observation'
+      ]}
+    >
       <>
         <CssBaseline />
         <Container maxWidth='lg'>

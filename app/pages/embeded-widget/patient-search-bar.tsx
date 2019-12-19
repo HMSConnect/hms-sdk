@@ -6,8 +6,6 @@ import { IPatientFilterValue } from '../../components/templates/patient/PatientF
 import PatientSearchPanel from '../../components/widget/patient/PatientSearchPanel'
 import { IStatelessPage } from '../patient-search'
 
-
-
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100vh',
@@ -19,7 +17,7 @@ const PatientSearchBarWrapper: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   return (
-    <WrappedBootstrapper dependencies={['patient-search']}>
+    <WrappedBootstrapper dependencies={['patient']}>
       <PatientSearchBar query={query} />
     </WrappedBootstrapper>
   )

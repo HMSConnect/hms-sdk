@@ -27,7 +27,7 @@ export default function usePromise(
     if (typeof fnPromise === 'function') {
       resolvePromise(fnPromise)
         .then((result: any) => {
-          setResult({ ...result, data: result.data || {} })
+          setResult({ ...result, data: result.data || {}, error: null })
         })
         .catch((err: any) => {
           setResult((prevResult: IQueryResult) => ({

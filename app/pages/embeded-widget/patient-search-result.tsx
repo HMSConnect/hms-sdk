@@ -6,13 +6,15 @@ import * as _ from 'lodash'
 import { parse, stringify } from 'qs'
 
 import { IPageOptionResult } from '../../components/base/Pagination'
-import { IPaginationOption, ISortType } from '../../components/hooks/usePatientList'
+import {
+  IPaginationOption,
+  ISortType
+} from '../../components/hooks/usePatientList'
 import WrappedBootstrapper from '../../components/init/WrappedBootstrap'
 import { IPatientFilterValue } from '../../components/templates/patient/PatientFilterBar'
 import PatientSearchResultWithPaginate from '../../components/widget/patient/PatientSearchResultWithPaginate'
 import routes from '../../routes'
 import { IStatelessPage } from '../patient-search'
-
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -25,7 +27,7 @@ const PatientSearchResultWrapper: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   return (
-    <WrappedBootstrapper dependencies={['patient-search']}>
+    <WrappedBootstrapper dependencies={['patient']}>
       <PatientSearchResultWidget query={query} />
     </WrappedBootstrapper>
   )

@@ -13,23 +13,21 @@ export default class PatientService extends AbstractService {
     console.info(`[service] loading resource resourceList`, params)
     const dataManager = this.dataManager as PatientDataManager
     const result = await dataManager.resourceList(params || {})
-
-    const validator = ValidatorManager.compile(result.schema)
-
-    if (validator) {
-      return {
-        ...result,
-        data: result.data.map((result: any) => {
+    return {
+      ...result,
+      data: result.data.map((result: any) => {
+        const validator = ValidatorManager.compile(result.schema)
+        if (validator) {
           return {
             ...result,
             data: result.data.map((entry: any) => {
               return validator.parse(entry)
             })
           }
-        })
-      }
-    } else {
-      throw Error('not support this schema.')
+        }
+        // throw Error('not support this schema.')
+        return result
+      })
     }
   }
 }
