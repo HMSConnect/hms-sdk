@@ -86,10 +86,6 @@ const WidgetGallery = () => {
   const [selectedWidget, setSelectedWidget] = React.useState(
     widgetGroup[0].child[0]
   )
-  const serverUrl =
-    typeof window !== 'undefined'
-      ? `http://${window.location.host}`
-      : 'http://localhost:3000'
 
   useEffect(() => {
     window.addEventListener(
@@ -216,7 +212,7 @@ const WidgetGallery = () => {
               <iframe
                 ref={iframeRef}
                 className={classes.iframe}
-                src={`${serverUrl}/${selectedWidget.path}`}
+                src={`/${selectedWidget.path}`}
               />
             </Grid>
           </Grid>
