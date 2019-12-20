@@ -35,7 +35,11 @@ const widgetGroup = [
       {
         label: 'Patient-search-result',
         path: 'embeded-widget/patient-search-result'
-      }
+      },
+      {
+        label: 'Patient-info',
+        path: 'embeded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5'
+      },
     ],
     label: 'Patient'
   }
