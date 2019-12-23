@@ -23,15 +23,15 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
-
+import { ObjectInspector } from 'react-inspector'
 const widgetGroup = [
   {
     child: [
-      { label: 'Patient-search', path: 'embeded-widget/patient-search' },
       {
         label: 'Patient-search-bar',
         path: 'embeded-widget/patient-search-bar'
       },
+      { label: 'Patient-search', path: 'embeded-widget/patient-search' },
       {
         label: 'Patient-search-result',
         path: 'embeded-widget/patient-search-result'
@@ -39,7 +39,7 @@ const widgetGroup = [
       {
         label: 'Patient-info',
         path: 'embeded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5'
-      },
+      }
     ],
     label: 'Patient'
   }
@@ -47,7 +47,7 @@ const widgetGroup = [
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     code: {
-      background: '#eeee',
+      background: 'rgb(36, 36, 36)',
       borderRadius: 8,
       height: '100%',
       minHeight: '20vh',
@@ -90,6 +90,7 @@ const WidgetGallery = () => {
   const [selectedWidget, setSelectedWidget] = React.useState(
     widgetGroup[0].child[0]
   )
+  const [outputEventData, setOutputEventData] = React.useState({})
 
   useEffect(() => {
     window.addEventListener(
@@ -104,11 +105,13 @@ const WidgetGallery = () => {
         if (!event.data.message) {
           return
         }
-        const divElement = document.getElementById('show-result')
-        if (divElement) {
-          divElement.innerHTML =
-            '<pre>' + JSON.stringify(event.data, null, 2) + '</pre>'
-        }
+
+        setOutputEventData(event.data)
+        // const divElement = document.getElementById('show-result')
+        // if (divElement) {
+        //   divElement.appendChild()
+        //     // '<pre>' + JSON.stringify(event.data, null, 2) + '</pre>'
+        // }
       },
       false
     )
@@ -141,6 +144,7 @@ const WidgetGallery = () => {
         iframeObject.contentWindow.location.reload()
       }
     }
+    setOutputEventData({})
   }
   const handleIFrameReset = (event: React.MouseEvent) => {
     setSelectedWidget(prev => {
@@ -150,6 +154,7 @@ const WidgetGallery = () => {
         path: split[1] ? split[0] : split[0] + '#reset'
       }
     })
+    setOutputEventData({})
   }
 
   return (
@@ -227,7 +232,11 @@ const WidgetGallery = () => {
               <Typography variant='h6'>Event Response</Typography>
             </Grid>
             <Grid className={classes.code} xs={12}>
-              <div id='show-result'></div>
+              <ObjectInspector
+                data={outputEventData}
+                expandLevel={3}
+                theme={'chromeDark'}
+              />
             </Grid>
           </Grid>
         </Paper>
