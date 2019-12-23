@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import {
   Button,
   Collapse,
-  Container,
   createStyles,
   CssBaseline,
   Divider,
@@ -13,6 +12,7 @@ import {
   ListItem,
   ListItemText,
   Paper,
+  TextField,
   Theme,
   Typography
 } from '@material-ui/core'
@@ -92,6 +92,10 @@ const WidgetGallery = () => {
   )
   const [outputEventData, setOutputEventData] = React.useState({})
 
+  const [widgetURL, setWidgetURL] = React.useState('') // url for iframe
+  const [URLText, setURLText] = React.useState('') //  for text input
+  const [loading, setLoading] = React.useState(true)
+
   useEffect(() => {
     window.addEventListener(
       'message',
@@ -105,47 +109,74 @@ const WidgetGallery = () => {
         if (!event.data.message) {
           return
         }
-
         setOutputEventData(event.data)
-        // const divElement = document.getElementById('show-result')
-        // if (divElement) {
-        //   divElement.appendChild()
-        //     // '<pre>' + JSON.stringify(event.data, null, 2) + '</pre>'
-        // }
+
+        setURLText(event.data.path)
       },
       false
     )
+    setLoading(false)
+
+    return () => {
+      console.info('unregister iframe :')
+      iframeRef.current = null
+    }
   }, [])
 
+  useEffect(() => {
+    if (selectedWidget) {
+      setLoading(true)
+      setWidgetURL(selectedWidget.path)
+      setURLText(selectedWidget.path)
+      setLoading(false)
+    }
+  }, [selectedWidget])
+
+  const iframeInitial = () => {
+    const iframeObject = _.get(iframeRef, 'current')
+      ? (_.get(iframeRef, 'current') as HTMLIFrameElement)
+      : null
+    if (iframeObject && iframeObject.contentWindow) {
+      iframeObject.contentWindow.onpopstate = (event: any) => {
+        setURLText(event.state.url)
+      }
+    }
+  }
+
   const handleChangeWidget = (widget: any) => {
+    setLoading(true)
     setSelectedWidget(widget)
+    setLoading(false)
   }
 
   const handleIFrameBack = (event: React.MouseEvent) => {
-    if (iframeRef && iframeRef.current) {
-      const iframeObject = iframeRef.current as any
-      if (iframeObject) {
-        iframeObject.contentWindow.history.back()
-      }
+    const iframeObject = _.get(iframeRef, 'current')
+      ? (_.get(iframeRef, 'current') as HTMLIFrameElement)
+      : null
+    if (iframeObject && iframeObject.contentWindow) {
+      iframeObject.contentWindow.history.back()
     }
   }
+
   const handleIFrameNext = (event: React.MouseEvent) => {
-    if (iframeRef && iframeRef.current) {
-      const iframeObject = iframeRef.current as any
-      if (iframeObject) {
-        iframeObject.contentWindow.history.forward()
-      }
+    const iframeObject = _.get(iframeRef, 'current')
+      ? (_.get(iframeRef, 'current') as HTMLIFrameElement)
+      : null
+    if (iframeObject && iframeObject.contentWindow) {
+      iframeObject.contentWindow.history.forward()
     }
   }
+
   const handleIFrameRefresh = (event: React.MouseEvent) => {
-    if (iframeRef && iframeRef.current) {
-      const iframeObject = iframeRef.current as any
-      if (iframeObject) {
-        iframeObject.contentWindow.location.reload()
-      }
+    const iframeObject = _.get(iframeRef, 'current')
+      ? (_.get(iframeRef, 'current') as HTMLIFrameElement)
+      : null
+    if (iframeObject && iframeObject.contentWindow) {
+      iframeObject.contentWindow.location.reload()
     }
     setOutputEventData({})
   }
+
   const handleIFrameReset = (event: React.MouseEvent) => {
     setSelectedWidget(prev => {
       const split = _.split(prev.path, '#')
@@ -157,6 +188,17 @@ const WidgetGallery = () => {
     setOutputEventData({})
   }
 
+  const handleSubmitURL = (event?: React.FormEvent<HTMLFormElement>) => {
+    if (event) {
+      event.preventDefault()
+    }
+    setWidgetURL(URLText)
+  }
+
+  const handleURLTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setURLText(event.target.value)
+  }
+
   return (
     <>
       <CssBaseline />
@@ -165,9 +207,7 @@ const WidgetGallery = () => {
           <Grid item xs={3}>
             <Paper className={classes.widgetGallerySide}>
               <Grid className={classes.widgetGalleryHeader}>
-                <Grid item xs>
-                  <Typography variant='h4'>Widget Gallery</Typography>
-                </Grid>
+                <Typography variant='h4'>Widget Gallery</Typography>
               </Grid>
               <Divider variant='fullWidth' />
               <List component='nav' aria-labelledby='nested-list-subheader'>
@@ -198,7 +238,7 @@ const WidgetGallery = () => {
             </Paper>
           </Grid>
           <Grid item xs={9}>
-            <Grid item xs={12}>
+            <Grid item xs={4}>
               <IconButton aria-label='back' onClick={handleIFrameBack}>
                 <NavigateBeforeIcon />
               </IconButton>
@@ -217,13 +257,43 @@ const WidgetGallery = () => {
                 Reset
               </Button>
             </Grid>
-            <Grid item xs={12} className={classes.iframLayout}>
-              <iframe
-                ref={iframeRef}
-                className={classes.iframe}
-                src={`/${selectedWidget.path}`}
-              />
-            </Grid>
+            <form onSubmit={handleSubmitURL}>
+              <Grid container spacing={3}>
+                {/* <Grid item xs={1}>
+                  URL:
+                </Grid> */}
+                <Grid item xs={10}>
+                  <TextField
+                    id='url-basic'
+                    variant='outlined'
+                    fullWidth
+                    value={URLText}
+                    onChange={handleURLTextChange}
+                  />
+                </Grid>
+                <Grid item xs={1} container alignContent='center'>
+                  <Button
+                    color='primary'
+                    variant='contained'
+                    aria-label='reset'
+                    type='submit'
+                  >
+                    Go
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+            {!loading ? (
+              <Grid item xs={12} className={classes.iframLayout}>
+                <iframe
+                  key={selectedWidget.path}
+                  ref={iframeRef}
+                  className={classes.iframe}
+                  src={`/${widgetURL}`}
+                  onLoad={iframeInitial}
+                />
+              </Grid>
+            ) : null}
           </Grid>
         </Grid>
         <Paper className={classes.eventResponse}>
@@ -231,7 +301,7 @@ const WidgetGallery = () => {
             <Grid item xs={12}>
               <Typography variant='h6'>Event Response</Typography>
             </Grid>
-            <Grid className={classes.code} xs={12}>
+            <Grid className={classes.code} item xs={12}>
               <ObjectInspector
                 data={outputEventData}
                 expandLevel={3}

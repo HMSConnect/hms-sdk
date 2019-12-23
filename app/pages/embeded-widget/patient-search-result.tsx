@@ -48,7 +48,7 @@ const PatientSearchResultWidget: IStatelessPage<{
         action: 'REPLACE_ROUTE',
         message: 'handleRequestSort',
         params: newPagination,
-        path
+        path: `${path}?${stringify(newPagination)}`
       },
       environment.iframe.targetOrigin
     )
@@ -67,7 +67,7 @@ const PatientSearchResultWidget: IStatelessPage<{
         action: 'REPLACE_ROUTE',
         message: 'handlePageChange',
         params: newPagination,
-        path
+        path: `${path}?${stringify(newPagination)}`
       },
       environment.iframe.targetOrigin
     )
@@ -84,7 +84,7 @@ const PatientSearchResultWidget: IStatelessPage<{
         action: 'PUSH_ROUTE',
         message: 'handlePatientSelect',
         params,
-        path
+        path: `${path}/${_.get(patient, 'identifier.id.value')}`
       },
       environment.iframe.targetOrigin
     )
