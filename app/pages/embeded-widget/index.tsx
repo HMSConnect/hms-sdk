@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 
 import {
+  AppBar,
+  Box,
   Button,
   Collapse,
   createStyles,
@@ -12,6 +14,8 @@ import {
   ListItem,
   ListItemText,
   Paper,
+  Tab,
+  Tabs,
   TextField,
   Theme,
   Typography
@@ -23,20 +27,31 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
+import MarkdownIt from 'markdown-it'
 import { ObjectInspector } from 'react-inspector'
+
+const md = MarkdownIt({ html: true })
+
 const widgetGroup = [
   {
     child: [
       {
+        document: `# Coming soon`,
         label: 'Patient-search-bar',
         path: 'embeded-widget/patient-search-bar'
       },
-      { label: 'Patient-search', path: 'embeded-widget/patient-search' },
       {
+        document: `# Coming soon`,
+        label: 'Patient-search',
+        path: 'embeded-widget/patient-search'
+      },
+      {
+        document: `# Coming soon`,
         label: 'Patient-search-result',
         path: 'embeded-widget/patient-search-result'
       },
       {
+        document: `# Coming soon`,
         label: 'Patient-info',
         path: 'embeded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5'
       }
@@ -90,11 +105,12 @@ const WidgetGallery = () => {
   const [selectedWidget, setSelectedWidget] = React.useState(
     widgetGroup[0].child[0]
   )
-  const [outputEventData, setOutputEventData] = React.useState({})
+  const [outputEventData, setOutputEventData] = React.useState({}) // for event response
 
   const [widgetURL, setWidgetURL] = React.useState('') // url for iframe
   const [URLText, setURLText] = React.useState('') //  for text input
   const [loading, setLoading] = React.useState(true)
+  const [tabState, setTabState] = React.useState(0) // for change tab state
 
   useEffect(() => {
     window.addEventListener(
@@ -199,6 +215,10 @@ const WidgetGallery = () => {
     setURLText(event.target.value)
   }
 
+  const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setTabState(newValue)
+  }
+
   return (
     <>
       <CssBaseline />
@@ -238,62 +258,83 @@ const WidgetGallery = () => {
             </Paper>
           </Grid>
           <Grid item xs={9}>
-            <Grid item xs={4}>
-              <IconButton aria-label='back' onClick={handleIFrameBack}>
-                <NavigateBeforeIcon />
-              </IconButton>
-              <IconButton aria-label='next' onClick={handleIFrameNext}>
-                <NavigateNextIcon />
-              </IconButton>
-              <IconButton aria-label='refresh' onClick={handleIFrameRefresh}>
-                <RefreshIcon />
-              </IconButton>
-              <Button
-                onClick={handleIFrameReset}
-                color='primary'
-                variant='contained'
-                aria-label='reset'
+            <AppBar position='static' color='default'>
+              <Tabs
+                value={tabState}
+                onChange={handleTabChange}
+                indicatorColor='primary'
+                textColor='primary'
+                variant='scrollable'
+                scrollButtons='auto'
               >
-                Reset
-              </Button>
-            </Grid>
-            <form onSubmit={handleSubmitURL}>
-              <Grid container spacing={3}>
-                {/* <Grid item xs={1}>
-                  URL:
-                </Grid> */}
-                <Grid item xs={10}>
-                  <TextField
-                    id='url-basic'
-                    variant='outlined'
-                    fullWidth
-                    value={URLText}
-                    onChange={handleURLTextChange}
+                <Tab label='Playground' id='0' />
+                <Tab label='Document' id='1' />
+              </Tabs>
+            </AppBar>
+
+            <TabPanel value={tabState} index={0}>
+              <Grid item xs={4}>
+                <IconButton aria-label='back' onClick={handleIFrameBack}>
+                  <NavigateBeforeIcon />
+                </IconButton>
+                <IconButton aria-label='next' onClick={handleIFrameNext}>
+                  <NavigateNextIcon />
+                </IconButton>
+                <IconButton aria-label='refresh' onClick={handleIFrameRefresh}>
+                  <RefreshIcon />
+                </IconButton>
+                <Button
+                  onClick={handleIFrameReset}
+                  color='primary'
+                  variant='contained'
+                  aria-label='reset'
+                >
+                  Reset
+                </Button>
+              </Grid>
+              <form onSubmit={handleSubmitURL}>
+                <Grid container spacing={3}>
+                  <Grid item xs={10}>
+                    <TextField
+                      id='url-basic'
+                      variant='outlined'
+                      fullWidth
+                      value={URLText}
+                      onChange={handleURLTextChange}
+                    />
+                  </Grid>
+                  <Grid item xs={1} container alignContent='center'>
+                    <Button
+                      color='primary'
+                      variant='contained'
+                      aria-label='reset'
+                      type='submit'
+                    >
+                      Go
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+              {!loading ? (
+                <Grid item xs={12} className={classes.iframLayout}>
+                  <iframe
+                    key={selectedWidget.path}
+                    ref={iframeRef}
+                    className={classes.iframe}
+                    src={`/${widgetURL}`}
+                    onLoad={iframeInitial}
                   />
                 </Grid>
-                <Grid item xs={1} container alignContent='center'>
-                  <Button
-                    color='primary'
-                    variant='contained'
-                    aria-label='reset'
-                    type='submit'
-                  >
-                    Go
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
-            {!loading ? (
-              <Grid item xs={12} className={classes.iframLayout}>
-                <iframe
-                  key={selectedWidget.path}
-                  ref={iframeRef}
-                  className={classes.iframe}
-                  src={`/${widgetURL}`}
-                  onLoad={iframeInitial}
-                />
-              </Grid>
-            ) : null}
+              ) : null}
+            </TabPanel>
+            <TabPanel value={tabState} index={1}>
+              <div
+                className='markdown-body'
+                dangerouslySetInnerHTML={{
+                  __html: md.render(selectedWidget.document)
+                }}
+              ></div>
+            </TabPanel>
           </Grid>
         </Grid>
         <Paper className={classes.eventResponse}>
@@ -334,6 +375,23 @@ const WidgetGroupListItem: React.FunctionComponent<{
         {children}
       </Collapse>
     </React.Fragment>
+  )
+}
+
+const TabPanel: React.FunctionComponent<{
+  value: any
+  index: number
+}> = ({ value, index, children }) => {
+  return (
+    <Typography
+      component='div'
+      role='tabpanel'
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </Typography>
   )
 }
 
