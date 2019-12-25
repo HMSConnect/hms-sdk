@@ -1,37 +1,38 @@
 import React from 'react'
 
-import Container from '@material-ui/core/Container'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { makeStyles } from '@material-ui/core/styles'
 import getConfig from 'next/config'
-
-import { Link } from '../routes'
+import {
+  Grid,
+  ListItem,
+  ListItemText,
+  List,
+  Paper,
+  ListSubheader
+} from '@material-ui/core'
 
 // const { staticFolder } = getConfig().publicRuntimeConfig
 const config = getConfig()
 const { staticFolder } = config ? config.publicRuntimeConfig : {}
 const useStyles = makeStyles(theme => ({
+  root: {
+    marginTop: 18,
+    width: '100%'
+  },
   card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    color: theme.palette.text.secondary
-  },
-  cardMedia: {
-    paddingTop: '56.25%' // 16:9
-  },
-  cardContent: {
-    flexGrow: 1
-  },
-  list: {
-    width: 250
-  },
-  fullList: {
-    width: 'auto'
+    backgroundColor: theme.palette.background.paper,
+    width: '100%',
+    maxWidth: 360
   }
 }))
 
+function ListItemLink(props) {
+  return <ListItem button component='a' {...props} />
+}
+
 export default function App() {
+  const classes = useStyles()
   const brandObjs = {
     favicon: {
       name: 'HMS Widget SDK',
@@ -44,15 +45,36 @@ export default function App() {
       src: `${staticFolder}/static/images/favicon.png`
     }
   }
+
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth='lg'>
-        <Link href='/patient-search'>Patient search</Link>
-      </Container>
-      <Container maxWidth='lg'>
-        <Link href='/embeded-widget'>Embeded Widget</Link>
-      </Container>
+      <Grid
+        className={classes.root}
+        container
+        direction='row'
+        justify='center'
+        alignItems='center'
+      >
+        <Paper className={classes.card}>
+          <List
+            component='nav'
+            aria-label='main menu'
+            subheader={
+              <ListSubheader component='div' id='nested-list-subheader'>
+                Main Menu
+              </ListSubheader>
+            }
+          >
+            <ListItemLink href='/patient-search'>
+              <ListItemText primary='Demo App' />
+            </ListItemLink>
+            <ListItemLink href='/embeded-widget'>
+              <ListItemText primary='Embedded Widget' />
+            </ListItemLink>
+          </List>
+        </Paper>
+      </Grid>
     </React.Fragment>
   )
 }
