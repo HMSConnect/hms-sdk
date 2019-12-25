@@ -29,7 +29,10 @@ import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 import MarkdownIt from 'markdown-it'
 import { ObjectInspector } from 'react-inspector'
+
 import environment from '../../config'
+import routes from '../../routes'
+import { IStatelessPage } from './patient-search'
 
 const md = MarkdownIt({ html: true })
 
@@ -113,7 +116,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-const WidgetGallery = () => {
+const WidgetGallery: IStatelessPage<{
+  query: any
+}> = ({ query }) => {
   const classes = useStyles()
   const iframeRef = React.useRef<null | HTMLIFrameElement>(null)
   const [selectedWidget, setSelectedWidget] = React.useState(
@@ -153,13 +158,25 @@ const WidgetGallery = () => {
   }, [])
 
   useEffect(() => {
-    if (selectedWidget) {
+    if (query) {
       setLoading(true)
-      setWidgetURL(selectedWidget.path)
-      setURLText(selectedWidget.path)
+      const findWidget = _.chain(widgetGroup)
+        .map(widget => widget.child)
+        .flatten()
+        .find(child => _.toLower(child.label) === _.toLower(query.widget))
+        .value()
+      if (findWidget) {
+        setSelectedWidget(findWidget)
+        setWidgetURL(findWidget.path)
+        setURLText(findWidget.path)
+      } else {
+        setSelectedWidget(widgetGroup[0].child[0])
+        setWidgetURL(widgetGroup[0].child[0].path)
+        setURLText(widgetGroup[0].child[0].path)
+      }
       setLoading(false)
     }
-  }, [selectedWidget])
+  }, [query])
 
   const iframeInitial = () => {
     const iframeObject = _.get(iframeRef, 'current')
@@ -173,9 +190,9 @@ const WidgetGallery = () => {
   }
 
   const handleChangeWidget = (widget: any) => {
-    setLoading(true)
-    setSelectedWidget(widget)
-    setLoading(false)
+    routes.Router.replaceRoute(
+      `/embeded-widget?widget=${_.toLower(widget.label)}`
+    )
   }
 
   const handleIFrameBack = (event: React.MouseEvent) => {
@@ -380,7 +397,7 @@ const WidgetGallery = () => {
 const WidgetGroupListItem: React.FunctionComponent<{
   widget: any
 }> = ({ widget, children }) => {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(true)
 
   const handleClick = () => {
     setOpen(!open)
@@ -414,6 +431,13 @@ const TabPanel: React.FunctionComponent<{
       {value === index && <Box p={3}>{children}</Box>}
     </Typography>
   )
+}
+
+WidgetGallery.getInitialProps = async ({ req, res, query }) => {
+  // return { hash }
+  return {
+    query
+  }
 }
 
 export default WidgetGallery
