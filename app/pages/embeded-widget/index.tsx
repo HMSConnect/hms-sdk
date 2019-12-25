@@ -45,7 +45,8 @@ const widgetGroup = [
         path: 'embeded-widget/patient-search'
       },
       {
-        document: `# Coming soon`,
+        document: require('../../assets/embedded-widget/patient-search-bar.md')
+          .default,
         label: 'Patient-search-bar',
         path: 'embeded-widget/patient-search-bar'
       },
