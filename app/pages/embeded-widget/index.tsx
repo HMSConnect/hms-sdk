@@ -24,14 +24,16 @@ import RefreshIcon from '@material-ui/icons/Refresh'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 import { ObjectInspector } from 'react-inspector'
+import environment from '../../config'
+
 const widgetGroup = [
   {
     child: [
+      { label: 'Patient-search', path: 'embeded-widget/patient-search' },
       {
         label: 'Patient-search-bar',
         path: 'embeded-widget/patient-search-bar'
       },
-      { label: 'Patient-search', path: 'embeded-widget/patient-search' },
       {
         label: 'Patient-search-result',
         path: 'embeded-widget/patient-search-result'
@@ -44,6 +46,19 @@ const widgetGroup = [
     label: 'Patient'
   }
 ]
+
+interface IPostMessage {
+  action?: string
+  message?: string
+  path: string
+  params?: any
+  result?: any
+}
+
+export const sendMessage = (message: IPostMessage) => {
+  window.parent.postMessage(message, environment.iframe.targetOrigin)
+}
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     code: {
@@ -110,7 +125,6 @@ const WidgetGallery = () => {
           return
         }
         setOutputEventData(event.data)
-
         setURLText(event.data.path)
       },
       false
@@ -199,6 +213,14 @@ const WidgetGallery = () => {
     setURLText(event.target.value)
   }
 
+  const decodeURI = (uri: string) => {
+    if (typeof window !== 'undefined') {
+      return window.decodeURI(uri)
+    } else {
+      return uri
+    }
+  }
+
   return (
     <>
       <CssBaseline />
@@ -267,7 +289,7 @@ const WidgetGallery = () => {
                     id='url-basic'
                     variant='outlined'
                     fullWidth
-                    value={URLText}
+                    value={decodeURI(URLText)}
                     onChange={handleURLTextChange}
                   />
                 </Grid>
@@ -289,7 +311,7 @@ const WidgetGallery = () => {
                   key={selectedWidget.path}
                   ref={iframeRef}
                   className={classes.iframe}
-                  src={`/${widgetURL}`}
+                  src={widgetURL}
                   onLoad={iframeInitial}
                 />
               </Grid>

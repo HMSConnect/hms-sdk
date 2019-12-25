@@ -5,7 +5,10 @@ import { makeStyles } from '@material-ui/styles'
 import { Theme } from 'pretty-format/build/types'
 
 import Pagination, { IPageOptionResult } from '../../base/Pagination'
-import usePatientList, { IPaginationOption, ISortType } from '../../hooks/usePatientList'
+import usePatientList, {
+  IPaginationOption,
+  ISortType
+} from '../../hooks/usePatientList'
 import PatientSearchResult from '../../templates/patient/PatientSearchResult'
 
 const defaultPagination: IPaginationOption = {
