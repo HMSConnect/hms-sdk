@@ -20,8 +20,7 @@ const defaultPagination: IPaginationOption = {
 const useStyles = makeStyles((theme: Theme) => ({
   bottom: {
     bottom: '1em',
-    justifyContent: 'flex-end',
-    position: 'absolute'
+    justifyContent: 'flex-end'
   },
   root: {}
 }))

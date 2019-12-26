@@ -17,6 +17,15 @@ export function parse(s: string) {
     if (/^(\d+|\d*\.\d+)$/.test(value)) {
       return Number(value)
     }
+    const keywords: any = {
+      false: false,
+      null: null,
+      true: true
+    }
+    if (value in keywords) {
+      return keywords[value]
+    }
+
     return value
   })
 }

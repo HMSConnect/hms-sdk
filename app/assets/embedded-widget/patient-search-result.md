@@ -1,11 +1,12 @@
-# Patient Search Bar
+# Patient Search Result
 
 If you are new user, please read [Getting started with HMS Widget](/embeded-widget?widget=get-started)
 
-URL: `/embeded-widget/patient-search-bar`
+
+URL: `/embeded-widget/patient-search-result`
 
 ## Setup this widget to iframe
-Replace `/embeded-widget/patient-search-bar` url to your iframe project.
+Replace `/embeded-widget/patient-search-result` url to your iframe project.
 
 ## Request HTTP GET
 **Query Params**
@@ -20,41 +21,29 @@ Replace `/embeded-widget/patient-search-bar` url to your iframe project.
 ## Response
 - **Object Response**
     You can learn this in topic [Getting started with HMS Widget](/embeded-widget?widget=get-started)
-
-- **Avaliable Response**
-   | Action | Message               | Description                              |
-   | ------ | --------------------- | ---------------------------------------- |
-   | -      | initialize            | Event is called when initialize widget   |
-   | -      | handleSearchSubmit    | Event is called when click search button |
-   | -      | handlePaginationReset | Event is called when click reset button  |
+- **Avaliable event response**
+   | Action        | Message             | Description                              |
+   | ------------- | ------------------- | ---------------------------------------- |
+   | REPLACE_ROUTE | handlePageChange    | Event is called when page\max is changed |
+   | REPLACE_ROUTE | handleRequestSort   | Event is called when click sort button   |
+   | PUSH_ROUTE    | handlePatientSelect | Event is called when click row data      |
 
 ## Example
 
 ### Request
- - pathname: `/embeded-widget/patient-search-bar` 
+ - pathname: `/embeded-widget/patient-search-result` 
+
+### Action
+ - Click row data
 
 ### Response
 ```json
 {
-  "message": "initialize",
-  "params": {
-    "filter": {
-      "gender": "all",
-      "searchText": ""
+    "action": "PUSH_ROUTE",
+    "message": "handlePatientSelect",
+    "params": {
+        "id": "039933a0-f970-4a84-bdab-fcbd85edd343"
     },
-    "max": 10,
-    "offset": 0,
-    "page": 1
-  },
-  "path": "embeded-widget/patient-search-bar?filter%5Bgender%5D=all&filter%5BsearchText%5D=&max=10&offset=0&page=1",
-  "result": {
-    "error": null,
-    "schema": {},
-    "version": 1,
-    "standard": "SFHIR",
-    "resourceType": "patient",
-    "data": [],
-    "totalCount": 1050
-  }
+    "path": "embeded-widget/patient-info/039933a0-f970-4a84-bdab-fcbd85edd343"
 }
 ```

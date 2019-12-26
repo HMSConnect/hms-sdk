@@ -36,45 +36,93 @@ import { IStatelessPage } from './patient-search'
 
 const md = MarkdownIt({ html: true })
 
-const widgetGroup = [
+interface IPostMessage {
+  action?: string
+  message?: string
+  path?: string
+  params?: any
+  result?: any
+  error?: any
+}
+
+interface IWidgetGroup {
+  label: string
+  child: IWidgetChild[]
+  value: string
+}
+
+interface IWidgetChild {
+  label: string
+  value: string
+  document?: string
+  path?: string
+}
+const widgetGroup: IWidgetGroup[] = [
   {
     child: [
       {
-        document: `# Coming soon`,
-        label: 'Patient-search',
-        path: 'embeded-widget/patient-search'
+        document: require('../../assets/embedded-widget/get-started.md')
+          .default,
+        label: 'Get Started',
+        value: 'get-started'
+      }
+    ],
+    label: 'Get Started',
+    value: 'get-started'
+  },
+  {
+    child: [
+      {
+        document: require('../../assets/embedded-widget/patient-search.md')
+          .default,
+        label: 'Patient Search',
+        path: 'embeded-widget/patient-search',
+        value: 'patient-search'
       },
       {
         document: require('../../assets/embedded-widget/patient-search-bar.md')
           .default,
-        label: 'Patient-search-bar',
-        path: 'embeded-widget/patient-search-bar'
+        label: 'Patient Search Bar',
+        path: 'embeded-widget/patient-search-bar',
+        value: 'patient-search-bar'
       },
       {
-        document: `# Coming soon`,
-        label: 'Patient-search-result',
-        path: 'embeded-widget/patient-search-result'
+        document: require('../../assets/embedded-widget/patient-search-result.md')
+          .default,
+        label: 'Patient Search Result',
+        path: 'embeded-widget/patient-search-result',
+        value: 'patient-search-result'
       },
       {
-        document: `# Coming soon`,
-        label: 'Patient-info',
-        path: 'embeded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5'
+        document: require('../../assets/embedded-widget/patient-info.md')
+          .default,
+        label: 'Patient Info',
+        path:
+          'embeded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5',
+        value: 'patient-info'
+      },
+      {
+        document: require('../../assets/embedded-widget/patient-encounter-timeline.md')
+          .default,
+        label: 'Patine Encounter Timeline',
+        path:
+          'embeded-widget/patient-info/encounter-timeline/0debf275-d585-4897-a8eb-25726def1ed5',
+        value: 'patient-encounter-timeline'
       }
     ],
-    label: 'Patient'
+    label: 'Patient',
+    value: 'patient'
   }
 ]
 
-interface IPostMessage {
-  action?: string
-  message?: string
-  path: string
-  params?: any
-  result?: any
-}
-
 export const sendMessage = (message: IPostMessage) => {
-  window.parent.postMessage(message, environment.iframe.targetOrigin)
+  window.parent.postMessage(
+    {
+      ...message,
+      eventType: 'embedded-widget'
+    },
+    environment.iframe.targetOrigin
+  )
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -122,15 +170,16 @@ const WidgetGallery: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   const iframeRef = React.useRef<null | HTMLIFrameElement>(null)
-  const [selectedWidget, setSelectedWidget] = React.useState(
-    widgetGroup[0].child[0]
-  )
+  const [
+    selectedWidget,
+    setSelectedWidget
+  ] = React.useState<IWidgetChild | null>(null)
   const [outputEventData, setOutputEventData] = React.useState({}) // for event response
 
-  const [widgetURL, setWidgetURL] = React.useState('') // url for iframe
-  const [URLText, setURLText] = React.useState('') //  for text input
+  const [widgetURL, setWidgetURL] = React.useState<string | undefined>('') // url for iframe
+  const [URLText, setURLText] = React.useState<string | undefined>('') //  for text input
   const [loading, setLoading] = React.useState(true)
-  const [tabState, setTabState] = React.useState(0) // for change tab state
+  const [tabState, setTabState] = React.useState(0) // for change tab state 0 is Playground, 1 is document
 
   useEffect(() => {
     window.addEventListener(
@@ -142,11 +191,15 @@ const WidgetGallery: IStatelessPage<{
         // ) {
         //   return
         // }
-        if (!event.data.message) {
+        if (event.data.eventType !== 'embedded-widget') {
           return
         }
+        console.info('Event Response :', event.data)
         setOutputEventData(event.data)
-        setURLText(event.data.path)
+        if (event.data.path) {
+          setURLText(event.data.path)
+        }
+        // setWidgetURL(event.data.path)
       },
       false
     )
@@ -154,7 +207,7 @@ const WidgetGallery: IStatelessPage<{
 
     return () => {
       console.info('unregister iframe :')
-      iframeRef.current = null
+      // iframeRef.current = null
     }
   }, [])
 
@@ -164,12 +217,15 @@ const WidgetGallery: IStatelessPage<{
       const findWidget = _.chain(widgetGroup)
         .map(widget => widget.child)
         .flatten()
-        .find(child => _.toLower(child.label) === _.toLower(query.widget))
+        .find(
+          (widget: any) => _.toLower(widget.value) === _.toLower(query.widget)
+        )
         .value()
+      setTabState(findWidget && findWidget.path ? 0 : 1)
       if (findWidget) {
         setSelectedWidget(findWidget)
-        setWidgetURL(findWidget.path)
-        setURLText(findWidget.path)
+        setWidgetURL(_.get(findWidget, 'path'))
+        setURLText(_.get(findWidget, 'path'))
       } else {
         setSelectedWidget(widgetGroup[0].child[0])
         setWidgetURL(widgetGroup[0].child[0].path)
@@ -192,7 +248,7 @@ const WidgetGallery: IStatelessPage<{
 
   const handleChangeWidget = (widget: any) => {
     routes.Router.replaceRoute(
-      `/embeded-widget?widget=${_.toLower(widget.label)}`
+      `/embeded-widget?widget=${_.toLower(widget.value)}`
     )
   }
 
@@ -226,12 +282,27 @@ const WidgetGallery: IStatelessPage<{
 
   const handleIFrameReset = (event: React.MouseEvent) => {
     setSelectedWidget(prev => {
-      const split = _.split(prev.path, '#')
-      return {
-        ...prev,
-        path: split[1] ? split[0] : split[0] + '#reset'
+      if (prev) {
+        const split = _.split(_.get(prev, 'path') || '', '#')
+        return {
+          ...prev,
+          path: split[1] ? split[0] : split[0] + '#reset'
+        }
       }
+      return null
     })
+    if (selectedWidget) {
+      const test = selectedWidget.value
+        ? `?widget=${selectedWidget.value || ''}`
+        : ''
+      routes.Router.replaceRoute(
+        `/embeded-widget${
+          selectedWidget.value ? `?widget=${selectedWidget.value || ''}` : ''
+        }`
+      )
+    } else {
+      routes.Router.replaceRoute(`/embeded-widget`)
+    }
     setOutputEventData({})
   }
 
@@ -266,130 +337,156 @@ const WidgetGallery: IStatelessPage<{
           <Grid item xs={3}>
             <Paper className={classes.widgetGallerySide}>
               <Grid className={classes.widgetGalleryHeader}>
-                <Typography variant='h4'>Widget Gallery</Typography>
+                <Typography variant='h4'>Embedded Widget</Typography>
               </Grid>
               <Divider variant='fullWidth' />
               <List component='nav' aria-labelledby='nested-list-subheader'>
                 {_.map(widgetGroup, (widget, index) => (
-                  <WidgetGroupListItem key={index} widget={widget}>
-                    <List component='div' disablePadding>
-                      {_.map(widget.child, (widgetChild, index) => (
-                        <React.Fragment
-                          key={'widget ' + widget.label + ' ' + index}
-                        >
-                          <ListItem
-                            selected={
-                              selectedWidget.label === widgetChild.label
-                            }
-                            button
-                            onClick={() => handleChangeWidget(widgetChild)}
-                            className={classes.nested}
-                          >
-                            <ListItemText primary={widgetChild.label} />
-                          </ListItem>
-                          <Divider />
-                        </React.Fragment>
-                      ))}
-                    </List>
-                  </WidgetGroupListItem>
+                  <React.Fragment key={index}>
+                    {widget.child.length > 1 ? (
+                      <WidgetGroupListItem widget={widget}>
+                        <List component='div' disablePadding>
+                          {_.map(widget.child, (widgetChild, index) => (
+                            <React.Fragment
+                              key={'widget ' + widget.label + ' ' + index}
+                            >
+                              <ListItem
+                                selected={
+                                  _.get(selectedWidget, 'label') ===
+                                  widgetChild.label
+                                }
+                                button
+                                onClick={() => handleChangeWidget(widgetChild)}
+                                className={classes.nested}
+                              >
+                                <ListItemText primary={widgetChild.label} />
+                              </ListItem>
+                              <Divider />
+                            </React.Fragment>
+                          ))}
+                        </List>
+                      </WidgetGroupListItem>
+                    ) : (
+                      <ListItem
+                        selected={
+                          _.get(selectedWidget, 'label') === widget.label
+                        }
+                        button
+                        onClick={() => handleChangeWidget(widget)}
+                      >
+                        <ListItemText primary={widget.label} />
+                      </ListItem>
+                    )}
+                  </React.Fragment>
                 ))}
               </List>
             </Paper>
           </Grid>
           <Grid item xs={9}>
-            <AppBar position='static' color='default'>
-              <Tabs
-                value={tabState}
-                onChange={handleTabChange}
-                indicatorColor='primary'
-                textColor='primary'
-                variant='scrollable'
-                scrollButtons='auto'
-              >
-                <Tab label='Playground' id='0' />
-                <Tab label='Document' id='1' />
-              </Tabs>
-            </AppBar>
+            {loading ? null : (
+              <>
+                <AppBar position='static' color='default'>
+                  <Tabs
+                    value={tabState}
+                    onChange={handleTabChange}
+                    indicatorColor='primary'
+                    textColor='primary'
+                    variant='scrollable'
+                    scrollButtons='auto'
+                  >
+                    {selectedWidget && selectedWidget.path ? (
+                      <Tab label='Playground' id='0' value={0} />
+                    ) : null}
+                    <Tab label='Document' id='1' value={1} />
+                  </Tabs>
+                </AppBar>
 
-            <TabPanel value={tabState} index={0}>
-              <Grid item xs={4}>
-                <IconButton aria-label='back' onClick={handleIFrameBack}>
-                  <NavigateBeforeIcon />
-                </IconButton>
-                <IconButton aria-label='next' onClick={handleIFrameNext}>
-                  <NavigateNextIcon />
-                </IconButton>
-                <IconButton aria-label='refresh' onClick={handleIFrameRefresh}>
-                  <RefreshIcon />
-                </IconButton>
-                <Button
-                  onClick={handleIFrameReset}
-                  color='primary'
-                  variant='contained'
-                  aria-label='reset'
-                >
-                  Reset
-                </Button>
-              </Grid>
-              <form onSubmit={handleSubmitURL}>
-                <Grid container spacing={3}>
-                  <Grid item xs={10}>
-                    <TextField
-                      id='url-basic'
-                      variant='outlined'
-                      fullWidth
-                      value={decodeURI(URLText)}
-                      onChange={handleURLTextChange}
-                    />
-                  </Grid>
-                  <Grid item xs={1} container alignContent='center'>
+                <TabPanel value={tabState} index={0}>
+                  <Grid item xs={4}>
+                    <IconButton aria-label='back' onClick={handleIFrameBack}>
+                      <NavigateBeforeIcon />
+                    </IconButton>
+                    <IconButton aria-label='next' onClick={handleIFrameNext}>
+                      <NavigateNextIcon />
+                    </IconButton>
+                    <IconButton
+                      aria-label='refresh'
+                      onClick={handleIFrameRefresh}
+                    >
+                      <RefreshIcon />
+                    </IconButton>
                     <Button
+                      onClick={handleIFrameReset}
                       color='primary'
                       variant='contained'
                       aria-label='reset'
-                      type='submit'
                     >
-                      Go
+                      Reset
                     </Button>
                   </Grid>
-                </Grid>
-              </form>
-              {!loading ? (
-                <Grid item xs={12} className={classes.iframLayout}>
-                  <iframe
-                    key={selectedWidget.path}
-                    ref={iframeRef}
-                    className={classes.iframe}
-                    src={`${widgetURL}`}
-                    onLoad={iframeInitial}
-                  />
-                </Grid>
-              ) : null}
-            </TabPanel>
-            <TabPanel value={tabState} index={1}>
-              <div
-                className='markdown-body'
-                dangerouslySetInnerHTML={{
-                  __html: md.render(selectedWidget.document)
-                }}
-              ></div>
-            </TabPanel>
+                  <form onSubmit={handleSubmitURL}>
+                    <Grid container spacing={3}>
+                      <Grid item xs={10}>
+                        <TextField
+                          id='url-basic'
+                          variant='outlined'
+                          fullWidth
+                          value={decodeURI(URLText || '')}
+                          onChange={handleURLTextChange}
+                        />
+                      </Grid>
+                      <Grid item xs={1} container alignContent='center'>
+                        <Button
+                          color='primary'
+                          variant='contained'
+                          aria-label='reset'
+                          type='submit'
+                        >
+                          Go
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </form>
+                  <Grid item xs={12} className={classes.iframLayout}>
+                    <iframe
+                      key={_.get(selectedWidget, 'path')}
+                      ref={iframeRef}
+                      className={classes.iframe}
+                      src={`${widgetURL}`}
+                      onLoad={iframeInitial}
+                    />
+                  </Grid>
+                </TabPanel>
+                <TabPanel value={tabState} index={1}>
+                  <div
+                    className='markdown-body'
+                    dangerouslySetInnerHTML={{
+                      __html: md.render(
+                        _.get(selectedWidget, 'document') || `# Comming soon`
+                      )
+                    }}
+                  ></div>
+                </TabPanel>
+              </>
+            )}
           </Grid>
         </Grid>
-        <Paper className={classes.eventResponse}>
-          <Grid container>
-            <Grid item xs={12}>
-              <Typography variant='h6'>Event Response</Typography>
+        {selectedWidget && selectedWidget.path ? (
+          <Paper className={classes.eventResponse}>
+            <Grid container>
+              <Grid item xs={12}>
+                <Typography variant='h6'>Event Response</Typography>
+              </Grid>
+              <Grid className={classes.code} item xs={12}>
+                <ObjectInspector
+                  data={outputEventData}
+                  expandLevel={3}
+                  theme={'chromeDark'}
+                />
+              </Grid>
             </Grid>
-            <Grid className={classes.code} item xs={12}>
-              <ObjectInspector
-                data={outputEventData}
-                expandLevel={3}
-                theme={'chromeDark'}
-              />
-            </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
+        ) : null}
       </Grid>
     </>
   )
@@ -435,7 +532,6 @@ const TabPanel: React.FunctionComponent<{
 }
 
 WidgetGallery.getInitialProps = async ({ req, res, query }) => {
-  // return { hash }
   return {
     query
   }
