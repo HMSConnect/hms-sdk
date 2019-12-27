@@ -2,8 +2,8 @@ import { act, renderHook } from '@testing-library/react-hooks'
 
 import useLazyLoad from '../useLazyLoad'
 
-describe('useResultList', () => {
-  it('initial useResultList', () => {
+describe('useLazyLoad', () => {
+  it('initial useLazyLoad', () => {
     const mockResourceList = [
       {
         reason: 'Test1',
@@ -33,7 +33,7 @@ describe('useResultList', () => {
     ])
   })
 
-  it('fetch useResultList', async () => {
+  it('fetch useLazyLoad', async () => {
     const mockResourceList = [
       {
         reason: 'Test1',
@@ -45,19 +45,16 @@ describe('useResultList', () => {
       }
     ]
     const fetchMoreAsync = async () => {
-      return await Promise.resolve({
-        data: [
-          {
-            reason: 'Test3',
-            type: 'ADMS'
-          },
-          {
-            reason: 'Test4',
-            type: 'EECM'
-          }
-        ],
-        error: null
-      })
+      return await Promise.resolve([
+        {
+          reason: 'Test3',
+          type: 'ADMS'
+        },
+        {
+          reason: 'Test4',
+          type: 'EECM'
+        }
+      ])
     }
     const { result, waitForNextUpdate } = renderHook(() =>
       useLazyLoad(mockResourceList, fetchMoreAsync)
@@ -87,7 +84,7 @@ describe('useResultList', () => {
     ])
   })
 
-  it('fetch empty data useResultList', async () => {
+  it('fetch empty data useLazyLoad', async () => {
     const mockResourceList = [
       {
         reason: 'Test1',
@@ -99,10 +96,7 @@ describe('useResultList', () => {
       }
     ]
     const fetchMoreAsync = async () => {
-      return await Promise.resolve({
-        data: [],
-        error: null
-      })
+      return await Promise.resolve([])
     }
     const { result, waitForNextUpdate } = renderHook(() =>
       useLazyLoad(mockResourceList, fetchMoreAsync)
@@ -126,7 +120,7 @@ describe('useResultList', () => {
     expect(result.current.isMore).toBeFalsy()
   })
 
-  it('throw error useResultList', async () => {
+  it('throw error useLazyLoad', async () => {
     const mockResourceList = [
       {
         reason: 'Test1',

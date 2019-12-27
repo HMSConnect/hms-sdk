@@ -7,26 +7,25 @@ describe('<Highlighter />', () => {
   it('render <Highlighter />', () => {
     const text = 'johnDoe'
     const highlightText = 'oh'
-    const { findAllByText } = render(
-      <Highlighter highlightText={highlightText} text={text} />
+    const { queryByTestId } = render(
+      <Highlighter highlightText={highlightText} text={text} />,
     )
 
-    expect(findAllByText('john')).toBeTruthy()
-    expect(findAllByText('johnDoe')).toBeTruthy()
+    const hilightComponent = queryByTestId('1')
+    expect(hilightComponent).toBeTruthy()
   })
 
   it('highlight Correct <Highlighter text="johnDoe" highlightText="oh" />', () => {
     const text = 'johnDoe'
     const highlightText = 'oh'
-    const { findAllByText, queryByTestId } = render(
-      <Highlighter highlightText={highlightText} text={text} />
+    const { queryByTestId } = render(
+      <Highlighter highlightText={highlightText} text={text} />,
     )
 
-    expect(findAllByText('john')).toBeTruthy()
     const hilightComponent = queryByTestId('1')
     expect(hilightComponent).toBeTruthy()
     const hilightComponentStyle = window.getComputedStyle(
-      hilightComponent as HTMLElement
+      hilightComponent as HTMLElement,
     )
     expect(queryByTestId('0')).toBeTruthy()
     expect(queryByTestId('2')).toBeTruthy()
@@ -40,7 +39,7 @@ describe('<Highlighter />', () => {
     const text = 'johnDoe'
     const highlightText = 'awd'
     const { queryByTestId } = render(
-      <Highlighter highlightText={highlightText} text={text} />
+      <Highlighter highlightText={highlightText} text={text} />,
     )
 
     const hilightComponent = queryByTestId('1')
@@ -48,46 +47,43 @@ describe('<Highlighter />', () => {
     expect(queryByTestId('0')).toBeTruthy()
     expect(queryByTestId('2')).toBeNull()
     expect(queryByTestId('3')).toBeNull()
-
   })
 
   it('highlight Correct <Highlighter text="johnDoe" highlightText="johnDoe" />', () => {
     const text = 'johnDoe'
     const highlightText = 'johnDoe'
     const { queryByTestId } = render(
-      <Highlighter highlightText={highlightText} text={text} />
+      <Highlighter highlightText={highlightText} text={text} />,
     )
 
     const hilightComponent = queryByTestId('1')
     expect(hilightComponent).toBeTruthy()
     const hilightComponentStyle = window.getComputedStyle(
-      hilightComponent as HTMLElement
+      hilightComponent as HTMLElement,
     )
     expect(queryByTestId('0')).toBeTruthy()
     expect(queryByTestId('3')).toBeNull()
 
     expect(hilightComponentStyle.color).toBe('blue')
     expect(hilightComponentStyle.backgroundColor).toBe('yellow')
-
   })
 
   it('highlight Correct <Highlighter text="johnDoe" highlightText="JOhND" />', () => {
     const text = 'johnDoe'
     const highlightText = 'JOhND'
     const { queryByTestId } = render(
-      <Highlighter highlightText={highlightText} text={text} />
+      <Highlighter highlightText={highlightText} text={text} />,
     )
 
     const hilightComponent = queryByTestId('1')
     expect(hilightComponent).toBeTruthy()
     const hilightComponentStyle = window.getComputedStyle(
-      hilightComponent as HTMLElement
+      hilightComponent as HTMLElement,
     )
     expect(queryByTestId('0')).toBeTruthy()
     expect(queryByTestId('3')).toBeNull()
 
     expect(hilightComponentStyle.color).toBe('blue')
     expect(hilightComponentStyle.backgroundColor).toBe('yellow')
-
   })
 })

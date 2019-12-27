@@ -6,32 +6,30 @@ import { render } from '@testing-library/react'
 import theme from '../../../src/theme'
 import BreadcrumbsBase, { IBreadcrumbPath } from '../BreadcrumbsBase'
 
-
-
 describe('<Breadcrumbs />', () => {
   it('render <Breadcrumbs />', () => {
     const parentPath: IBreadcrumbPath[] = [
       {
         label: 'Home',
-        url: '/'
+        url: '/',
       },
       {
         label: 'Patient Search',
-        url: '/patient-search'
-      }
+        url: '/patient-search',
+      },
     ]
 
     const currentPath = 'Patient Detail'
 
-    const { findAllByText } = render(
+    const { queryByText } = render(
       <ThemeProvider theme={theme}>
         <BreadcrumbsBase parentPath={parentPath} currentPath={currentPath} />
-      </ThemeProvider>
+      </ThemeProvider>,
     )
 
-    expect(findAllByText('Home')).toBeTruthy()
-    expect(findAllByText('Patient Search')).toBeTruthy()
-    expect(findAllByText('Detail')).toBeTruthy()
+    expect(queryByText('Home')).toBeTruthy()
+    expect(queryByText('Patient Search')).toBeTruthy()
+    expect(queryByText('Patient Detail')).toBeTruthy()
   })
 
   // it('test router <Breadcrumbs />', () => {

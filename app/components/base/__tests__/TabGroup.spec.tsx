@@ -8,24 +8,24 @@ describe('<TabFroup />', () => {
   it('render <TabFroup />', () => {
     const tabList = [
       { type: 'ADMS', totalCount: 10 },
-      { type: 'CCS60', totalCount: 15 }
+      { type: 'CCS60', totalCount: 15 },
     ]
     const onChange = jest.fn()
-    const { findAllByText } = render(
-      <TabGroup tabList={tabList} onTabChange={onChange} />
+    const { queryByText } = render(
+      <TabGroup tabList={tabList} onTabChange={onChange} />,
     )
-    expect(findAllByText('ADMS')).toBeTruthy()
-    expect(findAllByText('10')).toBeTruthy()
+    expect(queryByText('ADMS')).toBeTruthy()
+    expect(queryByText('10')).toBeTruthy()
   })
 
   it('TabChange <TabFroup />', () => {
     const tabList = [
       { type: 'ADMS', totalCount: 10 },
-      { type: 'CCS60', totalCount: 15 }
+      { type: 'CCS60', totalCount: 15 },
     ]
     const onChange = jest.fn()
-    const { findAllByText, getByTestId } = render(
-      <TabGroup tabList={tabList} onTabChange={onChange} />
+    const { getByTestId } = render(
+      <TabGroup tabList={tabList} onTabChange={onChange} />,
     )
 
     fireEvent.click(getByTestId('ADMS'))

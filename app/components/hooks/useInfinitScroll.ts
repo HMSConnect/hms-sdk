@@ -24,15 +24,19 @@ const useInfinitScroll = (
 
   useEffect(() => {
     if (!refElement) {
-      return
-    }
-    const myscrollRef = (refElement as any) as HTMLDivElement
-    myscrollRef.addEventListener('scroll', () => handleScroll(myscrollRef))
+      window.addEventListener('scroll', handleWindowScroll)
+      return () => window.removeEventListener('scroll', handleWindowScroll)
+    } else {
+      const myscrollRef = (refElement as any) as HTMLDivElement
+      myscrollRef.addEventListener('scroll', () =>
+        handleElementScroll(myscrollRef)
+      )
 
-    return () =>
-      myscrollRef.removeEventListener('scroll', () => {
-        console.info('remove infinite scorll event')
-      })
+      return () =>
+        myscrollRef.removeEventListener('scroll', () => {
+          console.info('remove infinite scorll event')
+        })
+    }
   }, [refElement])
 
   useEffect(() => {
@@ -64,7 +68,7 @@ const useInfinitScroll = (
     })()
   }, [isFetch])
 
-  function handleScroll(myscrollRef: HTMLDivElement) {
+  function handleElementScroll(myscrollRef: HTMLDivElement) {
     if (
       myscrollRef.scrollTop + myscrollRef.clientHeight >=
       myscrollRef.scrollHeight
@@ -73,15 +77,38 @@ const useInfinitScroll = (
     }
   }
 
+  function handleWindowScroll() {
+    if (
+      window.innerHeight +
+        (window.pageYOffset || document.documentElement.scrollTop) +
+        200 <
+        document.documentElement.offsetHeight ||
+      isFetch
+    ) {
+      return
+    }
+    setIsFetch(true)
+  }
+
   useEffect(() => {
-    setResult((prevData: any) => ({
-      ...prevData,
-      data: defaultList
-    }))
+    if (defaultList) {
+      setResult((prevData: any) => ({
+        ...prevData,
+        data: defaultList
+      }))
+    }
     setLoading(false)
   }, [defaultList])
 
-  return { isLoading, ...result, setResult, isMore, setIsFetch, setIsMore }
+  return {
+    isLoading,
+    ...result,
+    setResult,
+    isMore,
+    setIsFetch,
+    setIsMore,
+    isFetch
+  }
 }
 
 export default useInfinitScroll
