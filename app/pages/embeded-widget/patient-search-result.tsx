@@ -80,19 +80,24 @@ const PatientSearchResultWidget: IStatelessPage<{
   }
 
   const handlePatientSelect = (patient: any) => {
-    const path = RouterManager.getPath(`patient-info`)
     const params = {
-      id: _.get(patient, 'identifier.id.value')
+      patientId: _.get(patient, 'identifier.id.value')
     }
+    const path = RouterManager.getPath(
+      `patient-info/${_.get(patient, 'identifier.id.value')}`,
+      {
+        matchBy: 'url'
+      }
+    )
 
     sendMessage({
       action: 'PUSH_ROUTE',
       message: 'handlePatientSelect',
       params,
-      path: `${path}/${_.get(patient, 'identifier.id.value')}`
+      path
     })
 
-    routes.Router.pushRoute(path, params)
+    routes.Router.pushRoute(path)
   }
 
   return (

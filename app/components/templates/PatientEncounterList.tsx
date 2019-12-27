@@ -55,8 +55,6 @@ const PatientEncounterList: React.FunctionComponent<{
   isMore?: boolean
   onLazyLoade?: (event: any, type?: string) => void
 }> = ({ entryList, onEntrySelected, isLoading, isMore, onLazyLoade }) => {
-  const classes = useStyles()
-
   return (
     <>
       <List component='nav' aria-labelledby='nested-list-subheader'>
@@ -101,6 +99,7 @@ const EncounterListItem: React.FunctionComponent<{
     setOpen(!open)
   }
   const classes = useStyles()
+
   return (
     <>
       <ListItem button onClick={handleClick}>
@@ -118,7 +117,7 @@ const EncounterListItem: React.FunctionComponent<{
                 color='textPrimary'
               >
                 {moment
-                  .default(data.startTime)
+                  .default(_.get(data, 'startTime'))
                   .format(environment.localFormat.dateTime)}
               </Typography>
             </React.Fragment>
@@ -168,6 +167,7 @@ const EncounterListItem: React.FunctionComponent<{
                       </Typography>
                       <Typography>
                         <strong>ผลการวินิจฉัย:</strong>{' '}
+                        {_.get(data, 'reason') || 'Unknow'}
                       </Typography>
                       <Typography>
                         <strong>Class Code:</strong>{' '}
