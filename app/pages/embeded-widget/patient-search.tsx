@@ -1,14 +1,22 @@
 import React from 'react'
 
-import { Container, CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
+import {
+  Container,
+  CssBaseline,
+  makeStyles,
+  Theme,
+  Typography
+} from '@material-ui/core'
 import * as _ from 'lodash'
-import { parse } from 'qs'
+import { parse } from '../../utils'
 
-import { IPaginationOption, ISortType } from '../../components/hooks/usePatientList'
+import {
+  IPaginationOption,
+  ISortType
+} from '../../components/hooks/usePatientList'
 import BootstrapWrapper from '../../components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '../../components/templates/patient/PatientFilterBar'
 import PatientSearch from '../../components/widget/patient/PatientSearch'
-
 
 const useStyles = makeStyles((theme: Theme) => ({
   body: {},
@@ -31,7 +39,6 @@ const PatientSearchView: IStatelessPage<{
         <CssBaseline />
         <Container maxWidth='lg' className={classes.root}>
           <Typography component='div' className={classes.body}>
-        
             <PatientSearch query={query} />
           </Typography>
         </Container>
@@ -41,6 +48,12 @@ const PatientSearchView: IStatelessPage<{
 }
 
 PatientSearchView.getInitialProps = async ({ query }) => {
+  return {
+    query: initialPagination(query)
+  }
+}
+
+export function initialPagination(query: any) {
   const initialFilter: IPatientFilterValue = {
     gender: 'all',
     searchText: ''
@@ -50,22 +63,15 @@ PatientSearchView.getInitialProps = async ({ query }) => {
     order: 'asc',
     orderBy: 'id'
   }
-  return {
-    query: initialPagination(query, initialFilter, initialSort)
-  }
-}
 
-export function initialPagination(
-  query: any,
-  initialFilter: any,
-  initialSort: any
-) {
+  query = parse(query)
+
   return {
-    filter: _.isEmpty(query.filter) ? initialFilter : parse(query.filter + ''),
+    filter: _.isEmpty(query.filter) ? initialFilter : query.filter,
     max: query.max ? Number(query.max) : 10,
     offset: query.offset ? Number(query.offset) : 0,
     page: query.page ? Number(query.page) : 0,
-    sort: _.isEmpty(query.sort) ? initialSort : parse(query.sort + '')
+    sort: _.isEmpty(query.sort) ? initialSort : query.sort
   }
 }
 

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 
 import { Grid, makeStyles, Theme } from '@material-ui/core'
 import * as _ from 'lodash'
-import { stringify } from 'qs'
 
-import environment from '../../../config'
+import { sendMessage } from '../../../pages/embeded-widget'
 import routes from '../../../routes'
-import RouterManager from '../../../routes/RouteManager'
+import {
+  default as RouteManager,
+  default as RouterManager
+} from '../../../routes/RouteManager'
 import { IPageOptionResult } from '../../base/Pagination'
 import { IPaginationOption, ISortType } from '../../hooks/usePatientList'
 import { IPatientFilterValue } from '../../templates/patient/PatientFilterBar'
@@ -32,29 +34,38 @@ const PatientSearch: React.FunctionComponent<{
   const [pagination, setPagination] = useState<IPaginationOption>(query)
 
   useEffect(() => {
+    const path = RouteManager.getPath('patient-search')
     setPagination(query)
     setHighlightText(query.filter.searchText)
+    // sendMessage({
+    //   message: 'initialize',
+    //   params: query,
+    //   path: `${path}?${qs.stringify(query)}`
+    // })
   }, [query])
 
   const handleSearchSubmit = (filter: IPatientFilterValue) => {
-    const path = RouterManager.getPath('patient-search')
     const newPagination = {
       ...pagination,
-      filter: stringify(filter),
+      filter,
       offset: 0,
       page: 0,
-      sort: stringify(pagination.sort)
+      sort: pagination.sort
     }
-    window.parent.postMessage(
-      {
-        action: 'REPLACE_ROUTE',
-        message: 'handleSearchSubmit',
-        params: newPagination,
-        path
-      },
-      environment.iframe.targetOrigin
-    )
-    routes.Router.replaceRoute(path, newPagination)
+
+    const path = RouterManager.getPath('patient-search', {
+      matchBy: 'url',
+      params: newPagination
+    })
+
+    sendMessage({
+      action: 'REPLACE_ROUTE',
+      message: 'handleSearchSubmit',
+      params: newPagination,
+      path
+    })
+
+    routes.Router.replaceRoute(path)
   }
 
   const handleHighlightChange = (value: string) => {
@@ -62,71 +73,80 @@ const PatientSearch: React.FunctionComponent<{
   }
 
   const handleRequestSort = (sortObject: ISortType) => {
-    const path = RouterManager.getPath('patient-search')
     const newPagination = {
       ...pagination,
-      filter: stringify(pagination.filter),
-      sort: stringify(sortObject)
+      filter: pagination.filter,
+      sort: sortObject
     }
-    window.parent.postMessage(
-      {
-        action: 'REPLACE_ROUTE',
-        message: 'handleRequestSort',
-        params: newPagination,
-        path
-      },
-      environment.iframe.targetOrigin
-    )
-    routes.Router.replaceRoute(path, newPagination)
+
+    const path = RouterManager.getPath('patient-search', {
+      matchBy: 'url',
+      params: newPagination
+    })
+
+    sendMessage({
+      action: 'REPLACE_ROUTE',
+      message: 'handleRequestSort',
+      params: newPagination,
+      path
+    })
+
+    routes.Router.replaceRoute(path)
   }
 
   const handlePageChange = (pageOptionResult: IPageOptionResult) => {
-    const path = RouterManager.getPath('patient-search')
     const newPagination = {
       ...pageOptionResult,
-      filter: stringify(pagination.filter),
-      sort: stringify(pagination.sort)
+      filter: pagination.filter,
+      sort: pagination.sort
     }
-    window.parent.postMessage(
-      {
-        action: 'REPLACE_ROUTE',
-        message: 'handlePageChange',
-        params: newPagination,
-        path
-      },
-      environment.iframe.targetOrigin
-    )
-    routes.Router.replaceRoute(path, newPagination)
+
+    const path = RouterManager.getPath('patient-search', {
+      matchBy: 'url',
+      params: newPagination
+    })
+    sendMessage({
+      action: 'REPLACE_ROUTE',
+      message: 'handlePageChange',
+      params: newPagination,
+      path
+    })
+
+    routes.Router.replaceRoute(path)
   }
 
   const handlePatientSelect = (patient: any) => {
-    const path = RouterManager.getPath(`patient-info`)
     const params = {
-      id: _.get(patient, 'identifier.id.value')
+      patientId: _.get(patient, 'identifier.id.value')
     }
-    window.parent.postMessage(
+    const path = RouterManager.getPath(
+      `patient-info/${_.get(patient, 'identifier.id.value')}`,
       {
-        action: 'PUSH_ROUTE',
-        message: 'handlePatientSelect',
-        params,
-        path
-      },
-      environment.iframe.targetOrigin
+        matchBy: 'url'
+      }
     )
-    routes.Router.pushRoute(path, params)
+    sendMessage({
+      action: 'PUSH_ROUTE',
+      message: 'handlePatientSelect',
+      params,
+      path
+    })
+
+    routes.Router.pushRoute(path)
   }
 
   const handlePaginationReset = (event: React.MouseEvent) => {
-    const path = RouterManager.getPath(`patient-search`)
-    window.parent.postMessage(
-      {
-        action: 'REPLACE_ROUTE',
-        message: 'handlePaginationReset',
-        params: null,
-        path
-      },
-      environment.iframe.targetOrigin
-    )
+    const path = RouterManager.getPath(`patient-search`, {
+      matchBy: 'url'
+    })
+
+    sendMessage({
+      action: 'REPLACE_ROUTE',
+      message: 'handlePaginationReset',
+      params: null,
+      path
+    })
+
     routes.Router.replaceRoute(path)
   }
 

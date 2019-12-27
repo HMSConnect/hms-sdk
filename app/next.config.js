@@ -5,12 +5,12 @@ const withStylus = require('@zeit/next-stylus')
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
 
-const env = process.env.NODE_ENV.trim() || 'development';
+const env = process.env.NODE_ENV.trim() || 'development'
 module.exports = withStylus({
   webpack(config, options) {
     return config
   }
-});
+})
 
 module.exports = withCSS({
   cssModules: false,
@@ -26,6 +26,11 @@ module.exports = withCSS({
           limit: 100000
         }
       }
+    })
+
+    config.module.rules.push({
+      test: /\.(txt|md|png)$/i,
+      use: 'raw-loader'
     })
 
     config.module.rules.push({
