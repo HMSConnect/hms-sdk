@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react'
-
 import {
   AppBar,
   Box,
@@ -8,7 +6,9 @@ import {
   createStyles,
   CssBaseline,
   Divider,
+  Fab,
   Grid,
+  Icon,
   IconButton,
   List,
   ListItem,
@@ -18,7 +18,7 @@ import {
   Tabs,
   TextField,
   Theme,
-  Typography
+  Typography,
 } from '@material-ui/core'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
@@ -28,8 +28,9 @@ import RefreshIcon from '@material-ui/icons/Refresh'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 import MarkdownIt from 'markdown-it'
+import React, { useEffect } from 'react'
 import { ObjectInspector } from 'react-inspector'
-
+import SideMenuWithContent from '../../components/base/SideMenuWithContent'
 import environment from '../../config'
 import routes from '../../routes'
 import { IStatelessPage } from './patient-search'
@@ -64,11 +65,11 @@ const widgetGroup: IWidgetGroup[] = [
         document: require('../../assets/embedded-widget/get-started.md')
           .default,
         label: 'Get Started',
-        value: 'get-started'
-      }
+        value: 'get-started',
+      },
     ],
     label: 'Get Started',
-    value: 'get-started'
+    value: 'get-started',
   },
   {
     child: [
@@ -77,21 +78,21 @@ const widgetGroup: IWidgetGroup[] = [
           .default,
         label: 'Patient Search',
         path: 'embeded-widget/patient-search',
-        value: 'patient-search'
+        value: 'patient-search',
       },
       {
         document: require('../../assets/embedded-widget/patient-search-bar.md')
           .default,
         label: 'Patient Search Bar',
         path: 'embeded-widget/patient-search-bar',
-        value: 'patient-search-bar'
+        value: 'patient-search-bar',
       },
       {
         document: require('../../assets/embedded-widget/patient-search-result.md')
           .default,
         label: 'Patient Search Result',
         path: 'embeded-widget/patient-search-result',
-        value: 'patient-search-result'
+        value: 'patient-search-result',
       },
       {
         document: require('../../assets/embedded-widget/patient-info.md')
@@ -99,7 +100,7 @@ const widgetGroup: IWidgetGroup[] = [
         label: 'Patient Info',
         path:
           'embeded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5',
-        value: 'patient-info'
+        value: 'patient-info',
       },
       {
         document: require('../../assets/embedded-widget/patient-encounter-timeline.md')
@@ -107,23 +108,13 @@ const widgetGroup: IWidgetGroup[] = [
         label: 'Patine Encounter Timeline',
         path:
           'embeded-widget/patient-info/encounter-timeline/0debf275-d585-4897-a8eb-25726def1ed5',
-        value: 'patient-encounter-timeline'
-      }
+        value: 'patient-encounter-timeline',
+      },
     ],
     label: 'Patient',
-    value: 'patient'
-  }
+    value: 'patient',
+  },
 ]
-
-export const sendMessage = (message: IPostMessage) => {
-  window.parent.postMessage(
-    {
-      ...message,
-      eventType: 'embedded-widget'
-    },
-    environment.iframe.targetOrigin
-  )
-}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -132,38 +123,51 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: 8,
       height: '100%',
       minHeight: '20vh',
-      padding: 16
+      padding: 16,
     },
     eventResponse: {
       minHeight: '30vh',
       padding: theme.spacing(2),
-      width: '100%'
+      width: '100%',
+    },
+    extendedIconLeft: {
+      marginLeft: theme.spacing(1),
     },
     iframLayout: {
       display: 'flex',
-      minHeight: '70vh'
+      minHeight: '55vh',
     },
     iframe: {
-      flex: '1 1 auto'
+      flex: '1 1 auto',
     },
     nested: {
-      paddingLeft: theme.spacing(4)
+      paddingLeft: theme.spacing(4),
     },
     root: {},
     widgetGallery: {
-      marginBottom: 16
+      marginBottom: 16,
     },
     widgetGalleryHeader: {
-      padding: theme.spacing(2)
+      padding: theme.spacing(2),
     },
     widgetGallerySide: {
       backgroundColor: theme.palette.background.paper,
       height: '100%',
       padding: theme.spacing(2),
-      width: '100%'
-    }
-  })
+      width: '100%',
+    },
+  }),
 )
+
+export const sendMessage = (message: IPostMessage) => {
+  window.parent.postMessage(
+    {
+      ...message,
+      eventType: 'embedded-widget',
+    },
+    environment.iframe.targetOrigin,
+  )
+}
 
 const WidgetGallery: IStatelessPage<{
   query: any
@@ -172,7 +176,7 @@ const WidgetGallery: IStatelessPage<{
   const iframeRef = React.useRef<null | HTMLIFrameElement>(null)
   const [
     selectedWidget,
-    setSelectedWidget
+    setSelectedWidget,
   ] = React.useState<IWidgetChild | null>(null)
   const [outputEventData, setOutputEventData] = React.useState({}) // for event response
 
@@ -201,7 +205,7 @@ const WidgetGallery: IStatelessPage<{
         }
         // setWidgetURL(event.data.path)
       },
-      false
+      false,
     )
     setLoading(false)
 
@@ -218,7 +222,7 @@ const WidgetGallery: IStatelessPage<{
         .map(widget => widget.child)
         .flatten()
         .find(
-          (widget: any) => _.toLower(widget.value) === _.toLower(query.widget)
+          (widget: any) => _.toLower(widget.value) === _.toLower(query.widget),
         )
         .value()
       setTabState(findWidget && findWidget.path ? 0 : 1)
@@ -248,7 +252,7 @@ const WidgetGallery: IStatelessPage<{
 
   const handleChangeWidget = (widget: any) => {
     routes.Router.replaceRoute(
-      `/embeded-widget?widget=${_.toLower(widget.value)}`
+      `/embeded-widget?widget=${_.toLower(widget.value)}`,
     )
   }
 
@@ -286,7 +290,7 @@ const WidgetGallery: IStatelessPage<{
         const split = _.split(_.get(prev, 'path') || '', '#')
         return {
           ...prev,
-          path: split[1] ? split[0] : split[0] + '#reset'
+          path: split[1] ? split[0] : split[0] + '#reset',
         }
       }
       return null
@@ -298,7 +302,7 @@ const WidgetGallery: IStatelessPage<{
       routes.Router.replaceRoute(
         `/embeded-widget${
           selectedWidget.value ? `?widget=${selectedWidget.value || ''}` : ''
-        }`
+        }`,
       )
     } else {
       routes.Router.replaceRoute(`/embeded-widget`)
@@ -332,146 +336,105 @@ const WidgetGallery: IStatelessPage<{
   return (
     <>
       <CssBaseline />
-      <Grid className={classes.root}>
-        <Grid container className={classes.widgetGallery}>
-          <Grid item xs={3}>
-            <Paper className={classes.widgetGallerySide}>
-              <Grid className={classes.widgetGalleryHeader}>
-                <Typography variant='h4'>Embedded Widget</Typography>
-              </Grid>
-              <Divider variant='fullWidth' />
-              <List component='nav' aria-labelledby='nested-list-subheader'>
-                {_.map(widgetGroup, (widget, index) => (
-                  <React.Fragment key={index}>
-                    {widget.child.length > 1 ? (
-                      <WidgetGroupListItem widget={widget}>
-                        <List component='div' disablePadding>
-                          {_.map(widget.child, (widgetChild, index) => (
-                            <React.Fragment
-                              key={'widget ' + widget.label + ' ' + index}
-                            >
-                              <ListItem
-                                selected={
-                                  _.get(selectedWidget, 'label') ===
-                                  widgetChild.label
-                                }
-                                button
-                                onClick={() => handleChangeWidget(widgetChild)}
-                                className={classes.nested}
-                              >
-                                <ListItemText primary={widgetChild.label} />
-                              </ListItem>
-                              <Divider />
-                            </React.Fragment>
-                          ))}
-                        </List>
-                      </WidgetGroupListItem>
-                    ) : (
-                      <ListItem
-                        selected={
-                          _.get(selectedWidget, 'label') === widget.label
-                        }
-                        button
-                        onClick={() => handleChangeWidget(widget)}
-                      >
-                        <ListItemText primary={widget.label} />
-                      </ListItem>
-                    )}
-                  </React.Fragment>
-                ))}
-              </List>
-            </Paper>
-          </Grid>
-          <Grid item xs={9}>
-            {loading ? null : (
-              <>
-                <AppBar position='static' color='default'>
-                  <Tabs
-                    value={tabState}
-                    onChange={handleTabChange}
-                    indicatorColor='primary'
-                    textColor='primary'
-                    variant='scrollable'
-                    scrollButtons='auto'
-                  >
-                    {selectedWidget && selectedWidget.path ? (
-                      <Tab label='Playground' id='0' value={0} />
-                    ) : null}
-                    <Tab label='Document' id='1' value={1} />
-                  </Tabs>
-                </AppBar>
+      <SideMenuWithContent
+        menuTitle='Embedded Widget'
+        appBarTitle={selectedWidget?.label}
+        renderMenuList={
+          <WigetMenuList
+            onItemClick={handleChangeWidget}
+            selectedWidget={selectedWidget}
+          />
+        }
+      >
+        {!loading && (
+          <>
+            <AppBar position='static' color='default'>
+              <Tabs
+                value={tabState}
+                onChange={handleTabChange}
+                indicatorColor='primary'
+                textColor='primary'
+                variant='scrollable'
+                scrollButtons='auto'
+              >
+                {selectedWidget && selectedWidget.path ? (
+                  <Tab label='Playground' id='0' value={0} />
+                ) : null}
+                <Tab label='Document' id='1' value={1} />
+              </Tabs>
+            </AppBar>
 
-                <TabPanel value={tabState} index={0}>
-                  <Grid item xs={4}>
-                    <IconButton aria-label='back' onClick={handleIFrameBack}>
-                      <NavigateBeforeIcon />
-                    </IconButton>
-                    <IconButton aria-label='next' onClick={handleIFrameNext}>
-                      <NavigateNextIcon />
-                    </IconButton>
-                    <IconButton
-                      aria-label='refresh'
-                      onClick={handleIFrameRefresh}
-                    >
-                      <RefreshIcon />
-                    </IconButton>
-                    <Button
-                      onClick={handleIFrameReset}
-                      color='primary'
-                      variant='contained'
-                      aria-label='reset'
-                    >
-                      Reset
-                    </Button>
-                  </Grid>
-                  <form onSubmit={handleSubmitURL}>
-                    <Grid container spacing={3}>
-                      <Grid item xs={10}>
-                        <TextField
-                          id='url-basic'
-                          variant='outlined'
-                          fullWidth
-                          value={decodeURI(URLText || '')}
-                          onChange={handleURLTextChange}
-                        />
-                      </Grid>
-                      <Grid item xs={1} container alignContent='center'>
-                        <Button
-                          color='primary'
-                          variant='contained'
-                          aria-label='reset'
-                          type='submit'
-                        >
-                          Go
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </form>
-                  <Grid item xs={12} className={classes.iframLayout}>
-                    <iframe
-                      key={_.get(selectedWidget, 'path')}
-                      ref={iframeRef}
-                      className={classes.iframe}
-                      src={`${widgetURL}`}
-                      onLoad={iframeInitial}
+            <TabPanel value={tabState} index={0}>
+              <Grid item xs={4}>
+                <IconButton aria-label='back' onClick={handleIFrameBack}>
+                  <NavigateBeforeIcon />
+                </IconButton>
+                <IconButton aria-label='next' onClick={handleIFrameNext}>
+                  <NavigateNextIcon />
+                </IconButton>
+                <IconButton aria-label='refresh' onClick={handleIFrameRefresh}>
+                  <RefreshIcon />
+                </IconButton>
+                <Button
+                  onClick={handleIFrameReset}
+                  variant='outlined'
+                  aria-label='reset'
+                >
+                  Reset
+                </Button>
+              </Grid>
+              <form onSubmit={handleSubmitURL}>
+                <Grid
+                  container
+                  xs={12}
+                  spacing={4}
+                  alignItems='center'
+                  alignContent='center'
+                >
+                  <Grid item xs={11}>
+                    <TextField
+                      id='url-basic'
+                      fullWidth
+                      variant='outlined'
+                      value={decodeURI(URLText || '')}
+                      onChange={handleURLTextChange}
                     />
                   </Grid>
-                </TabPanel>
-                <TabPanel value={tabState} index={1}>
-                  <div
-                    className='markdown-body'
-                    dangerouslySetInnerHTML={{
-                      __html: md.render(
-                        _.get(selectedWidget, 'document') || `# Comming soon`
-                      )
-                    }}
-                  ></div>
-                </TabPanel>
-              </>
-            )}
-          </Grid>
-        </Grid>
-        {selectedWidget && selectedWidget.path ? (
+                  <Fab
+                    variant='extended'
+                    size='medium'
+                    color='primary'
+                    aria-label='go'
+                    type='submit'
+                  >
+                    Go
+                    <Icon className={classes.extendedIconLeft}>send</Icon>
+                  </Fab>
+                </Grid>
+              </form>
+              <Grid item xs={12} className={classes.iframLayout}>
+                <iframe
+                  key={_.get(selectedWidget, 'path')}
+                  ref={iframeRef}
+                  className={classes.iframe}
+                  src={`${widgetURL}`}
+                  onLoad={iframeInitial}
+                />
+              </Grid>
+            </TabPanel>
+            <TabPanel value={tabState} index={1}>
+              <div
+                className='markdown-body'
+                dangerouslySetInnerHTML={{
+                  __html: md.render(
+                    _.get(selectedWidget, 'document') || `# Comming soon`,
+                  ),
+                }}
+              ></div>
+            </TabPanel>
+          </>
+        )}
+        {selectedWidget?.path && (
           <Paper className={classes.eventResponse}>
             <Grid container>
               <Grid item xs={12}>
@@ -486,9 +449,53 @@ const WidgetGallery: IStatelessPage<{
               </Grid>
             </Grid>
           </Paper>
-        ) : null}
-      </Grid>
+        )}
+      </SideMenuWithContent>
     </>
+  )
+}
+
+const WigetMenuList: React.FunctionComponent<any> = ({
+  selectedWidget,
+  onItemClick,
+}) => {
+  const classes = useStyles()
+  return (
+    <List component='nav' aria-labelledby='nested-list-subheader'>
+      {_.map(widgetGroup, (widget, index) => (
+        <React.Fragment key={index}>
+          {widget.child.length > 1 ? (
+            <WidgetGroupListItem widget={widget}>
+              <List component='div' disablePadding>
+                {_.map(widget.child, (widgetChild, index) => (
+                  <React.Fragment key={'widget ' + widget.label + ' ' + index}>
+                    <ListItem
+                      selected={
+                        _.get(selectedWidget, 'label') === widgetChild.label
+                      }
+                      button
+                      onClick={() => onItemClick(widgetChild)}
+                      className={classes.nested}
+                    >
+                      <ListItemText primary={widgetChild.label} />
+                    </ListItem>
+                    <Divider />
+                  </React.Fragment>
+                ))}
+              </List>
+            </WidgetGroupListItem>
+          ) : (
+            <ListItem
+              selected={_.get(selectedWidget, 'label') === widget.label}
+              button
+              onClick={() => onItemClick(widget)}
+            >
+              <ListItemText primary={widget.label} />
+            </ListItem>
+          )}
+        </React.Fragment>
+      ))}
+    </List>
   )
 }
 
@@ -533,7 +540,7 @@ const TabPanel: React.FunctionComponent<{
 
 WidgetGallery.getInitialProps = async ({ req, res, query }) => {
   return {
-    query
+    query,
   }
 }
 
