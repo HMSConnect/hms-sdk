@@ -6,7 +6,9 @@ export interface IPromiseResult extends IQueryResult {
   isLoading: boolean
 }
 
-function resolvePromise(promise: any) {
+export function resolvePromise(
+  promise: Promise<IQueryResult> | (() => Promise<IQueryResult>)
+) {
   if (typeof promise === 'function') {
     return promise()
   }
@@ -24,27 +26,19 @@ export default function usePromise(
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    if (typeof fnPromise === 'function') {
-      resolvePromise(fnPromise)
-        .then((result: any) => {
-          setResult({ ...result, data: result.data || {}, error: null })
-        })
-        .catch((err: any) => {
-          setResult((prevResult: IQueryResult) => ({
-            ...prevResult,
-            error: err.message
-          }))
-        })
-        .finally(() => {
-          setIsLoading(false)
-        })
-    } else {
-      setResult((prevResult: IQueryResult) => ({
-        ...prevResult,
-        error: `usePromise can't resolve promise`
-      }))
-      setIsLoading(false)
-    }
+    resolvePromise(fnPromise)
+      .then((result: any) => {
+        setResult({ ...result, data: result.data || {}, error: null })
+      })
+      .catch((err: any) => {
+        setResult((prevResult: IQueryResult) => ({
+          ...prevResult,
+          error: err.message
+        }))
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }, inputs)
 
   return { isLoading, ...result }
