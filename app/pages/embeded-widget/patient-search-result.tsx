@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
 import * as _ from 'lodash'
-import { parse, stringify } from 'qs'
-
+import { sendMessage } from '.'
 import { IPageOptionResult } from '../../components/base/Pagination'
 import {
   IPaginationOption,
@@ -13,9 +12,9 @@ import {
 import BootstrapWrapper from '../../components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '../../components/templates/patient/PatientFilterBar'
 import PatientSearchResultWithPaginate from '../../components/widget/patient/PatientSearchResultWithPaginate'
-import environment from '../../config'
 import routes from '../../routes'
 import RouterManager from '../../routes/RouteManager'
+import { parse } from '../../utils'
 import { IStatelessPage } from '../patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -37,58 +36,68 @@ const PatientSearchResultWidget: IStatelessPage<{
   }, [query])
 
   const handleRequestSort = (sortObject: ISortType) => {
-    const path = RouterManager.getPath('patient-search-result')
     const newPagination = {
       ...pagination,
-      filter: stringify(pagination.filter),
-      sort: stringify(sortObject)
+      filter: pagination.filter,
+      sort: sortObject
     }
-    window.parent.postMessage(
-      {
-        action: 'REPLACE_ROUTE',
-        message: 'handleRequestSort',
-        params: newPagination,
-        path
-      },
-      environment.iframe.targetOrigin
-    )
-    routes.Router.replaceRoute(path, newPagination)
+
+    const path = RouterManager.getPath('patient-search-result', {
+      matchBy: 'url',
+      params: newPagination
+    })
+
+    sendMessage({
+      action: 'REPLACE_ROUTE',
+      message: 'handleRequestSort',
+      params: newPagination,
+      path
+    })
+
+    routes.Router.replaceRoute(path)
   }
 
   const handlePageChange = (pageOptionResult: IPageOptionResult) => {
-    const path = RouterManager.getPath('patient-search-result')
     const newPagination = {
       ...pageOptionResult,
-      filter: stringify(pagination.filter),
-      sort: stringify(pagination.sort)
+      filter: pagination.filter,
+      sort: pagination.sort
     }
-    window.parent.postMessage(
-      {
-        action: 'REPLACE_ROUTE',
-        message: 'handlePageChange',
-        params: newPagination,
-        path
-      },
-      environment.iframe.targetOrigin
-    )
-    routes.Router.replaceRoute(path, newPagination)
+
+    const path = RouterManager.getPath('patient-search-result', {
+      matchBy: 'url',
+      params: newPagination
+    })
+
+    sendMessage({
+      action: 'REPLACE_ROUTE',
+      message: 'handlePageChange',
+      params: newPagination,
+      path
+    })
+
+    routes.Router.replaceRoute(path)
   }
 
   const handlePatientSelect = (patient: any) => {
-    const path = RouterManager.getPath(`patient-info`)
     const params = {
-      id: _.get(patient, 'identifier.id.value')
+      patientId: _.get(patient, 'identifier.id.value')
     }
-    window.parent.postMessage(
+    const path = RouterManager.getPath(
+      `patient-info/${_.get(patient, 'identifier.id.value')}`,
       {
-        action: 'PUSH_ROUTE',
-        message: 'handlePatientSelect',
-        params,
-        path
-      },
-      environment.iframe.targetOrigin
+        matchBy: 'url'
+      }
     )
-    routes.Router.pushRoute(path, params)
+
+    sendMessage({
+      action: 'PUSH_ROUTE',
+      message: 'handlePatientSelect',
+      params,
+      path
+    })
+
+    routes.Router.pushRoute(path)
   }
 
   return (
@@ -111,6 +120,12 @@ const PatientSearchResultWidget: IStatelessPage<{
 }
 
 PatientSearchResultWidget.getInitialProps = async ({ query }) => {
+  return {
+    query: initialPagination(query)
+  }
+}
+
+export function initialPagination(query: any) {
   const initialFilter: IPatientFilterValue = {
     gender: 'all',
     searchText: ''
@@ -120,22 +135,15 @@ PatientSearchResultWidget.getInitialProps = async ({ query }) => {
     order: 'asc',
     orderBy: 'id'
   }
-  return {
-    query: initialPagination(query, initialFilter, initialSort)
-  }
-}
 
-export function initialPagination(
-  query: any,
-  initialFilter: any,
-  initialSort: any
-) {
+  query = parse(query)
+
   return {
-    filter: _.isEmpty(query.filter) ? initialFilter : parse(query.filter + ''),
+    filter: _.isEmpty(query.filter) ? initialFilter : query.filter,
     max: query.max ? Number(query.max) : 10,
     offset: query.offset ? Number(query.offset) : 0,
     page: query.page ? Number(query.page) : 0,
-    sort: _.isEmpty(query.sort) ? initialSort : parse(query.sort + '')
+    sort: _.isEmpty(query.sort) ? initialSort : query.sort
   }
 }
 

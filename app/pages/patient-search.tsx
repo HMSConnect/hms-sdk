@@ -59,6 +59,12 @@ const PatientSearchView: IStatelessPage<{
 }
 
 PatientSearchView.getInitialProps = async ({ query }) => {
+  return {
+    query: initialPagination(query)
+  }
+}
+
+export function initialPagination(query: any) {
   const initialFilter: IPatientFilterValue = {
     gender: 'all',
     searchText: ''
@@ -68,23 +74,15 @@ PatientSearchView.getInitialProps = async ({ query }) => {
     order: 'asc',
     orderBy: 'id'
   }
-  return {
-    query: initialPagination(query, initialFilter, initialSort)
-  }
-}
 
-export function initialPagination(
-  query: any,
-  initialFilter: any,
-  initialSort: any
-) {
+  query = parse(query)
+
   return {
-    filter: _.isEmpty(query.filter) ? initialFilter : parse(query.filter + ''),
+    filter: _.isEmpty(query.filter) ? initialFilter : query.filter,
     max: query.max ? Number(query.max) : 10,
     offset: query.offset ? Number(query.offset) : 0,
     page: query.page ? Number(query.page) : 0,
-    sort: _.isEmpty(query.sort) ? initialSort : parse(query.sort + '')
+    sort: _.isEmpty(query.sort) ? initialSort : query.sort
   }
 }
-
 export default PatientSearchView

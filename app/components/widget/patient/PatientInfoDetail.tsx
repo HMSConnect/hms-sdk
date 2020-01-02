@@ -9,14 +9,16 @@ import {
 } from '@material-ui/core'
 import * as _ from 'lodash'
 
+import { sendMessage } from '../../../pages/embeded-widget'
+import RouteManager from '../../../routes/RouteManager'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import usePatient from '../../hooks/usePatient'
 import useResourceList from '../../hooks/useResourceList'
-import PatientEncounterTimeline from '../../templates/patient/PatientEncounterTimeline'
 import PatientInfoPanel from '../../templates/patient/PatientInfoPanel'
 import PatientInfoTable from '../../templates/patient/PatientInfoTable'
 import PatientMenuList from '../../templates/patient/PatientMenuList'
 import EncounterInfoDetail from '../encounter/EncounterInfoDetail'
+import PatientEncounterTimeline from './PatientEncounterTimeline'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -100,17 +102,33 @@ const PatientDetailSelector: React.FunctionComponent<any> = ({
 const PatientInfoDetailSub: React.FunctionComponent<{
   patient: any
   query: any
-}> = ({ patient }) => {
+}> = ({ patient, query }) => {
   const {
     isLoading: isGroupResourceListLoading,
     data: groupResourceList,
     error
   } = useResourceList(_.get(patient, 'identifier.id.value'))
-
-  const [menuNavigate, setMenuNavigate] = useState('patient')
+  const [menuNavigate, setMenuNavigate] = useState(
+    query.menuNavigate || 'patient'
+  )
 
   const handleNavigateChange = (newNavigateValue: string) => {
     if (menuNavigate !== newNavigateValue) {
+      const params = {
+        menuNavigate: newNavigateValue
+      }
+      const path = RouteManager.getPath(
+        `patient-info/${_.get(patient, 'identifier.id.value')}`,
+        {
+          matchBy: 'url',
+          params
+        }
+      )
+      sendMessage({
+        message: 'handleNavigateChange',
+        params,
+        path
+      })
       setMenuNavigate(newNavigateValue)
     }
   }
@@ -123,7 +141,7 @@ const PatientInfoDetailSub: React.FunctionComponent<{
       case 'encounter':
         return (
           <PatientEncounterTimeline
-            patient={patient}
+            patientId={_.get(patient, 'identifier.id.value')}
             resourceList={_.get(resource, 'data')}
           />
         )

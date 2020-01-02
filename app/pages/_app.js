@@ -14,6 +14,8 @@ import * as _ from 'lodash'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
+import '../github-markdown.css'
+
 class AASApp extends App {
   constructor(props) {
     super(props)
@@ -34,7 +36,7 @@ class AASApp extends App {
     const { Component, pageProps } = this.props
 
     return (
-      <Container>
+      <>
         <Head>
           <title>HMS Widget SDK</title>
         </Head>
@@ -43,7 +45,7 @@ class AASApp extends App {
           <CssBaseline />
           <Component {...pageProps} />
         </ThemeProvider>
-      </Container>
+      </>
     )
   }
 }
