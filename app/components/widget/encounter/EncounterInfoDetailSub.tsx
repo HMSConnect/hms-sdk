@@ -1,19 +1,17 @@
-import React from 'react'
-
+import GridSelection from '@components/base/GridSelector'
+import DiagnosticReportCard from '@components/widget/medical-records/DiagnosticReportCard'
 import { Paper } from '@material-ui/core'
-import * as _ from 'lodash'
-import GridSelection from '../../base/GridSelector'
-import DiagnosticReportCard from '../medical-records/DiagnosticReportCard'
+import * as React from 'react'
 
 const EncounterInfoDetailSub: React.FunctionComponent<any> = ({
-  encounter
+  encounter,
 }) => {
   return (
     <div>
       <GridSelection
         componentResource={{
           default: DefaultContent,
-          diagnostic_report: DiagnosticReportCard
+          diagnostic_report: DiagnosticReportCard,
         }}
       />
     </div>

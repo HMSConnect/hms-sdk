@@ -1,4 +1,4 @@
-import IValidator from '../../IValidator'
+import IValidator from '@validators/IValidator'
 
 class SFHIRPatientV1Validator implements IValidator {
   isValid(schema: any): boolean {
@@ -26,11 +26,11 @@ class SFHIRPatientV1Validator implements IValidator {
       geolocation: '',
       line: [],
       postalCode: '',
-      state: ''
+      state: '',
     }
     const geolocation = {
       latitude: 0,
-      longitude: 0
+      longitude: 0,
     }
 
     const identifier: any = {}
@@ -46,14 +46,14 @@ class SFHIRPatientV1Validator implements IValidator {
         if (o.value) {
           identifier[o.type.coding[0].code.toLowerCase()] = {
             systemCode: o.type.coding[0].code,
-            value: o.value ? o.value : 'Unknown'
+            value: o.value ? o.value : 'Unknown',
           }
         }
       } else {
         const code = o.system.split('/').pop()
         identifier[code] = {
           systemCode: code,
-          value: o.value
+          value: o.value,
         }
       }
     })
@@ -103,7 +103,7 @@ class SFHIRPatientV1Validator implements IValidator {
       gender: patient.gender,
       identifier,
       name,
-      telecom: patient.telecom
+      telecom: patient.telecom,
     }
     return compileStandard
   }

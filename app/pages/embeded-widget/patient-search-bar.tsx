@@ -1,24 +1,24 @@
-import React from 'react'
+import * as React from 'react'
 
+import { IPaginationOption } from '@components/hooks/usePatientList'
+import BootstrapWrapper from '@components/init/BootstrapWrapper'
+import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
+import PatientSearchPanel from '@components/widget/patient/PatientSearchPanel'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
+import { IStatelessPage } from '@pages/patient-search'
+import RouteManager from '@routes/RouteManager'
+import { HMSService } from '@services/HMSServiceFactory'
+import PatientService from '@services/PatientService'
+import { parse } from '@utils'
 import qs from 'qs'
 import { sendMessage } from '.'
-import { IPaginationOption } from '../../components/hooks/usePatientList'
-import BootstrapWrapper from '../../components/init/BootstrapWrapper'
-import { IPatientFilterValue } from '../../components/templates/patient/PatientFilterBar'
-import PatientSearchPanel from '../../components/widget/patient/PatientSearchPanel'
-import RouteManager from '../../routes/RouteManager'
-import { HMSService } from '../../services/HMSServiceFactory'
-import PatientService from '../../services/PatientService'
-import { parse } from '../../utils'
-import { IStatelessPage } from '../patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100vh',
-    paddingTop: '30px'
-  }
+    paddingTop: '30px',
+  },
 }))
 
 const PatientSearchBar: IStatelessPage<{
@@ -36,7 +36,7 @@ const PatientSearchBar: IStatelessPage<{
         message: 'initialize',
         params: query,
         path: `${path}?${qs.stringify(query)}`,
-        result
+        result,
       })
     })
     setPagination(query)
@@ -50,11 +50,11 @@ const PatientSearchBar: IStatelessPage<{
   const handleSearchSubmit = (filter: IPatientFilterValue) => {
     const newPagination = {
       ...pagination,
-      filter
+      filter,
     }
     const path = RouteManager.getPath('patient-search-bar', {
       matchBy: 'url',
-      params: newPagination
+      params: newPagination,
     })
 
     fetchPatientList(newPagination).then(result => {
@@ -62,7 +62,7 @@ const PatientSearchBar: IStatelessPage<{
         message: 'handleSearchSubmit',
         params: newPagination,
         path,
-        result
+        result,
       })
       setPagination(newPagination)
     })
@@ -72,7 +72,7 @@ const PatientSearchBar: IStatelessPage<{
     const newPagination = initialQuery
     const path = RouteManager.getPath('patient-search-bar', {
       matchBy: 'url',
-      params: newPagination
+      params: newPagination,
     })
 
     fetchPatientList(newPagination).then(result => {
@@ -80,7 +80,7 @@ const PatientSearchBar: IStatelessPage<{
         message: 'handlePaginationReset',
         params: newPagination,
         path,
-        result
+        result,
       })
       setPagination(initialQuery)
     })
@@ -107,7 +107,7 @@ const PatientSearchBar: IStatelessPage<{
 PatientSearchBar.getInitialProps = async ({ req, res, query }) => {
   const initialFilter: IPatientFilterValue = {
     gender: 'all',
-    searchText: ''
+    searchText: '',
   }
 
   const initialQuery = { filter: initialFilter, max: 10, offset: 0, page: 1 }
@@ -117,8 +117,7 @@ PatientSearchBar.getInitialProps = async ({ req, res, query }) => {
     query: {
       ...initialQuery,
       ...parse(query),
-      
-    }
+    },
   }
 }
 

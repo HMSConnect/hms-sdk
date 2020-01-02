@@ -1,23 +1,23 @@
-import React from 'react'
+import * as React from 'react'
 
+import useDiagnosticReportList from '@components/hooks/useDiagnosticReportList'
+import DiagReportPatientData from '@components/templates/DiagReportPatientData'
+import { IDiagnosticReportFilterQuery } from '@data-managers/DiagnosticReportDataManager'
 import { Grid } from '@material-ui/core'
 import * as _ from 'lodash'
 import { useRouter } from 'next/router'
-import { IDiagnosticReportFilterQuery } from '../../../data-managers/DiagnosticReportDataManager'
-import useDiagnosticReportList from '../../hooks/useDiagnosticReportList'
-import DiagReportPatientData from '../../templates/DiagReportPatientData'
 import { DiagnosticReportCardView } from './DiagnosticReportCard'
 
 const DiagnosticReportModalContent: React.FunctionComponent<any> = ({}) => {
   const { query } = useRouter()
   const params = {
     encounterId: query.encounterId,
-    patientId: query.patientId
+    patientId: query.patientId,
   } as IDiagnosticReportFilterQuery
 
   const { isLoading, data: diagnosticReportList } = useDiagnosticReportList({
     filter: params,
-    withObservation: true
+    withObservation: true,
   })
 
   if (isLoading) {
@@ -36,7 +36,7 @@ const DiagnosticReportModalContent: React.FunctionComponent<any> = ({}) => {
             spacing={3}
             style={{
               height: '80vh',
-              overflowY: 'auto'
+              overflowY: 'auto',
             }}
           >
             {_.map(diagnosticReportList, (diagnosticReport, index) => {

@@ -1,6 +1,6 @@
-import IAdapter from '../adapters/IAdapter'
-import DataManager from '../data-managers/DataManager'
-import ValidatorManager from '../validators/ValidatorManager'
+import IAdapter from '@adapters/IAdapter'
+import DataManager from '@data-managers/DataManager'
+import ValidatorManager from '@validators/ValidatorManager'
 import IService from './IService'
 
 export default abstract class AbstractService implements IService {
@@ -11,7 +11,7 @@ export default abstract class AbstractService implements IService {
   getResource(): string {
     return this.resource
   }
-  
+
   abstract createDataManager(resource: string, adapter: IAdapter): DataManager
 
   async load(id: string): Promise<any> {
@@ -23,7 +23,7 @@ export default abstract class AbstractService implements IService {
     if (validator) {
       return {
         ...result,
-        data: validator.parse(result.data)
+        data: validator.parse(result.data),
       }
     } else {
       throw Error('not support this schema.')
@@ -38,11 +38,10 @@ export default abstract class AbstractService implements IService {
     if (validator) {
       return {
         ...result,
-        data: result.data.map((result: any) => validator.parse(result))
+        data: result.data.map((result: any) => validator.parse(result)),
       }
     } else {
       throw Error('not support this schema.')
     }
   }
 }
-

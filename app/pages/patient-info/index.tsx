@@ -1,18 +1,18 @@
-import React from 'react'
+import * as React from 'react'
 
+import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
+import BootstrapWrapper from '@components/init/BootstrapWrapper'
+import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
 import HomeIcon from '@material-ui/icons/Home'
-import BreadcrumbsBase from '../../components/base/BreadcrumbsBase'
-import BootstrapWrapper from '../../components/init/BootstrapWrapper'
-import PatientInfoDetail from '../../components/widget/patient/PatientInfoDetail'
-import { IStatelessPage } from '../patient-search'
+import { IStatelessPage } from '@pages/patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100vh',
-    paddingTop: '30px'
-  }
+    paddingTop: '30px',
+  },
 }))
 
 const PatientInfoView: IStatelessPage<{
@@ -25,7 +25,7 @@ const PatientInfoView: IStatelessPage<{
         'patient',
         'encounter',
         'diagnostic_report',
-        'observation'
+        'observation',
       ]}
     >
       <>
@@ -37,11 +37,11 @@ const PatientInfoView: IStatelessPage<{
               parentPath={[
                 {
                   icon: <HomeIcon />,
-                  url: '/'
+                  url: '/',
                 },
                 {
-                  label: 'Patient Search'
-                }
+                  label: 'Patient Search',
+                },
               ]}
             ></BreadcrumbsBase>
             <PatientInfoDetail query={query} />
@@ -54,7 +54,7 @@ const PatientInfoView: IStatelessPage<{
 
 PatientInfoView.getInitialProps = async ({ req, res, query }) => {
   return {
-    query
+    query,
   }
 }
 

@@ -1,7 +1,7 @@
+import { serviceConfig, validatorConfig } from '@config'
+import { HMSService } from '@services/HMSServiceFactory'
+import ValidatorManager from '@validators/ValidatorManager'
 import * as _ from 'lodash'
-import { serviceConfig, validatorConfig } from '../config'
-import { HMSService } from '../services/HMSServiceFactory'
-import ValidatorManager from '../validators/ValidatorManager'
 
 class BootstrapHelper {
   registerServices(services: string[]) {
@@ -11,13 +11,13 @@ class BootstrapHelper {
         if (Service) {
           if (serviceName.startsWith('$')) {
             // $ = default class config
-            // TODO: discuss how to define service name? 
+            // TODO: discuss how to define service name?
             HMSService.register(
               _.chain(serviceName)
                 .replace('$', '')
                 .snakeCase()
                 .value(),
-              Service
+              Service,
             )
           } else {
             // TODO: create class from object
@@ -43,7 +43,7 @@ class BootstrapHelper {
                 .replace('$', '')
                 .value(),
               new ValidatorClazz(),
-              validator.priority
+              validator.priority,
             )
           } else {
             // TODO: create class from object

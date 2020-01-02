@@ -1,22 +1,21 @@
 import React, { MouseEvent, useEffect } from 'react'
 
+import EnhancedTableHead from '@components/base/EnhancedTableHead'
+import { ISortType } from '@components/hooks/usePatientList'
 import { Table, TableBody, TableRow, Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
-
-import EnhancedTableHead from '../../base/EnhancedTableHead'
-import { ISortType } from '../../hooks/usePatientList'
 import PatientItem from './PatientItem'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
   tableRow: {
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   tableWrapper: {
     maxHeight: '70vh',
-    overflow: 'auto'
-  }
+    overflow: 'auto',
+  },
 }))
 const PatientSearchResult: React.FunctionComponent<{
   patientList: any[]
@@ -25,10 +24,9 @@ const PatientSearchResult: React.FunctionComponent<{
   highlightText?: string
   sort?: ISortType
 }> = ({ highlightText, patientList, sort, onPatientSelect, onRequestSort }) => {
-  
   const classes = useStyles()
   const [order, setOrder] = React.useState<'asc' | 'desc'>(
-    _.get(sort, 'order') || 'asc'
+    _.get(sort, 'order') || 'asc',
   )
   const [orderBy, setOrderBy] = React.useState(_.get(sort, 'orderBy') || '')
 
@@ -45,7 +43,7 @@ const PatientSearchResult: React.FunctionComponent<{
     if (onRequestSort) {
       onRequestSort({
         order: isDesc ? 'asc' : 'desc',
-        orderBy: property + ''
+        orderBy: property + '',
       })
     }
   }
@@ -72,14 +70,14 @@ const PatientSearchResult: React.FunctionComponent<{
                 id: 'image',
                 label: '',
                 styles: {
-                  width: '5em'
-                }
+                  width: '5em',
+                },
               },
               {
                 align: 'center',
                 disablePadding: true,
                 id: 'name.given',
-                label: 'Name'
+                label: 'Name',
               },
               {
                 align: 'center',
@@ -87,8 +85,8 @@ const PatientSearchResult: React.FunctionComponent<{
                 id: 'gender',
                 label: 'Gender',
                 styles: {
-                  width: '5em'
-                }
+                  width: '5em',
+                },
               },
               {
                 align: 'center',
@@ -96,8 +94,8 @@ const PatientSearchResult: React.FunctionComponent<{
                 id: 'birthDate',
                 label: 'DOB',
                 styles: {
-                  width: '8em'
-                }
+                  width: '8em',
+                },
               },
               {
                 align: 'center',
@@ -105,8 +103,8 @@ const PatientSearchResult: React.FunctionComponent<{
                 id: 'id',
                 label: 'ID',
                 styles: {
-                  width: '25em'
-                }
+                  width: '25em',
+                },
               },
               {
                 align: 'center',
@@ -114,9 +112,9 @@ const PatientSearchResult: React.FunctionComponent<{
                 id: 'identifier.mr',
                 label: 'MRN',
                 styles: {
-                  width: '25em'
-                }
-              }
+                  width: '25em',
+                },
+              },
             ]}
           />
           <TableBody>

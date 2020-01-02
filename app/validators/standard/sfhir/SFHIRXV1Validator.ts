@@ -1,6 +1,4 @@
-import IValidator from '../../IValidator'
-
-import * as _ from 'lodash'
+import IValidator from '@validators/IValidator'
 class SFHIRXV1Validator implements IValidator {
   // For Mock
   isValid(schema: any): boolean {

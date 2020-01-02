@@ -1,18 +1,18 @@
-import React from 'react'
+import * as React from 'react'
 
+import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
+import BootstrapWrapper from '@components/init/BootstrapWrapper'
+import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
 import { Container, CssBaseline, Theme, Typography } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import { makeStyles } from '@material-ui/styles'
-import BreadcrumbsBase from '../../../components/base/BreadcrumbsBase'
-import BootstrapWrapper from '../../../components/init/BootstrapWrapper'
-import PatientInfoDetail from '../../../components/widget/patient/PatientInfoDetail'
-import { IStatelessPage } from '../../patient-search'
+import { IStatelessPage } from '@pages/patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100vh',
-    paddingTop: '30px'
-  }
+    paddingTop: '30px',
+  },
 }))
 
 const EncounterPage: IStatelessPage<{
@@ -25,7 +25,7 @@ const EncounterPage: IStatelessPage<{
         'patient',
         'encounter',
         'diagnostic_report',
-        'observation'
+        'observation',
       ]}
     >
       <>
@@ -38,11 +38,11 @@ const EncounterPage: IStatelessPage<{
                 {
                   icon: <HomeIcon />,
                   label: 'Home',
-                  url: '/'
+                  url: '/',
                 },
                 {
-                  label: 'Patient Search'
-                }
+                  label: 'Patient Search',
+                },
               ]}
             ></BreadcrumbsBase>
             <PatientInfoDetail query={query} />
@@ -55,7 +55,7 @@ const EncounterPage: IStatelessPage<{
 
 EncounterPage.getInitialProps = async ({ req, res, query }) => {
   return {
-    query
+    query,
   }
 }
 

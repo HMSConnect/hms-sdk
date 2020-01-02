@@ -1,5 +1,5 @@
+import IAdapter from '@adapters/IAdapter'
 import * as _ from 'lodash'
-import IAdapter from '../adapters/IAdapter'
 import IService from './IService'
 class HMSServiceFactory {
   registry: Map<string, any> = new Map()
@@ -19,7 +19,7 @@ class HMSServiceFactory {
       if (serviceCreator) {
         instance = new serviceCreator(
           _.kebabCase(resource),
-          adapter || this.defaultAdatper
+          adapter || this.defaultAdatper,
         ) as IService
         this.instances.set(resource, instance)
       } else {

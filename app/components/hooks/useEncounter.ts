@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 
-import EncounterService from '../../services/EncounterService'
-import { HMSService } from '../../services/HMSServiceFactory'
-import { IQueryResult } from './usePatientList'
+import EncounterService from '@services/EncounterService'
+import { HMSService } from '@services/HMSServiceFactory'
+import { IQueryResult } from '@utils/types'
 
 const useEncounter = (id: string): any => {
   const [result, setResult] = useState<IQueryResult>({
     data: {},
-    error: null
+    error: null,
   })
   const [isLoading, setLoading] = useState<boolean>(true)
 
@@ -16,14 +16,14 @@ const useEncounter = (id: string): any => {
       try {
         setLoading(true)
         const encounterService = HMSService.getService(
-          'encounter'
+          'encounter',
         ) as EncounterService
         const result = await encounterService.load(id)
         setResult(result)
       } catch (error) {
         setResult((prevResult: IQueryResult) => ({
           ...prevResult,
-          error: error.message
+          error: error.message,
         }))
       } finally {
         setLoading(false)

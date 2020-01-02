@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import MuiDialogActions from '@material-ui/core/DialogActions'
@@ -12,7 +14,6 @@ import {
 } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import CloseIcon from '@material-ui/icons/Close'
-import React from 'react'
 
 const styles = (theme: Theme) =>
   createStyles({

@@ -1,5 +1,4 @@
-import React from 'react'
-
+import environment from '@environment'
 import {
   Divider,
   List,
@@ -8,20 +7,19 @@ import {
   makeStyles,
   Paper,
   Theme,
-  Typography
+  Typography,
 } from '@material-ui/core'
 import * as _ from 'lodash'
 import * as moment from 'moment'
-
-import environment from '../../../config'
+import * as React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    padding: '1em'
-  }
+    padding: '1em',
+  },
 }))
 const EncounterInfoDetailSide: React.FunctionComponent<any> = ({
-  encounter
+  encounter,
 }) => {
   const classes = useStyles()
 

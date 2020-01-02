@@ -3,27 +3,27 @@ import React, { useState } from 'react'
 import { IconButton, makeStyles, Paper, Theme } from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import CancelIcon from '@material-ui/icons/Cancel'
+import { toNaturalName } from '@utils'
 import * as _ from 'lodash'
-import { toNaturalName } from '../../utils'
 import { ISimpleDialogItem } from './SimpleDialog'
 import SimpleDialogWithIconButton from './SimpleDialogWithIconButton'
 
 const useStyles = makeStyles((theme: Theme) => ({
   addCicleIcon: {
-    fontSize: '2em'
+    fontSize: '2em',
   },
   cardResetButton: {
     position: 'absolute',
     right: -8,
-    top: -8
+    top: -8,
   },
   selectorCardLayout: {
     alignItems: 'center',
     display: 'flex',
     height: '100%',
     justifyContent: 'center',
-    width: '100%'
-  }
+    width: '100%',
+  },
 }))
 
 const GridCardSelector: React.FunctionComponent<{
@@ -65,7 +65,7 @@ const GridCardSelector: React.FunctionComponent<{
     componentResource,
     (c: any, componentName: string) => {
       return { label: toNaturalName(componentName), value: componentName }
-    }
+    },
   )
 
   return Component ? (

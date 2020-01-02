@@ -1,8 +1,8 @@
-import React from 'react'
+import * as React from 'react'
 
+import SelectOption from '@components/base/SelectOption'
 import { Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import SelectOption from '../base/SelectOption'
 
 const useStyles = makeStyles((theme: Theme) => ({
   searchFilter: {

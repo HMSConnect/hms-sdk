@@ -1,16 +1,15 @@
-import React from 'react'
+import * as React from 'react'
 
+import environment from '@environment'
 import { Grid, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 import * as moment from 'moment'
 
-import environment from '../../../config'
-
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }))
 
 const PatientInfoPanel: React.FunctionComponent<{
@@ -70,9 +69,9 @@ const PatientInfoPanel: React.FunctionComponent<{
                         ? _.isArray(_.get(info, 'telecom'))
                           ? _.join(
                               _.map(_.get(info, 'telecom'), (tel: any) =>
-                                _.get(tel, 'value')
+                                _.get(tel, 'value'),
                               ),
-                              ' '
+                              ' ',
                             )
                           : _.get(info, 'telecom')
                         : 'Unknow'}
@@ -103,7 +102,7 @@ const PatientInfoPanel: React.FunctionComponent<{
                               : _.get(info, 'address[0].line')
                           } ${_.get(info, 'address[0].postalCode')} ${_.get(
                             info,
-                            'address[0].city'
+                            'address[0].city',
                           )} ${_.get(info, 'address[0].country')}`
                         : 'Unknow'}
                     </Typography>

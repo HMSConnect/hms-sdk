@@ -1,8 +1,7 @@
-import React from 'react'
-
+import widgetDependencies from '@config/widget_dependencies.json'
+import BootstrapHelper from '@init/BootstrapHelper'
 import * as _ from 'lodash'
-import widgetDependencies from '../../config/widget_dependencies.json'
-import BootstrapHelper from '../../init/BootstrapHelper'
+import * as React from 'react'
 
 type DependencyType =
   | 'patient'
