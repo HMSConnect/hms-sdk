@@ -9,11 +9,11 @@ import SelectOption from './SelectOption'
 const useStyles = makeStyles((theme: Theme) => ({
   gridSelectionLayout: {
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   searchFilter: {
-    width: 180
-  }
+    width: 180,
+  },
 }))
 
 const GRID_LAYOUT = {
@@ -26,7 +26,7 @@ const GRID_LAYOUT = {
     { w: 6, h: 2, x: 4, y: 10, i: 'grid-6' },
     { w: 6, h: 2, x: 0, y: 12, i: 'grid-7' },
     { w: 6, h: 2, x: 2, y: 14, i: 'grid-8' },
-    { w: 6, h: 2, x: 4, y: 16, i: 'grid-9' }
+    { w: 6, h: 2, x: 4, y: 16, i: 'grid-9' },
   ],
   '2xN': [
     { w: 3, h: 2, x: 0, y: 0, i: 'grid-1' },
@@ -37,7 +37,7 @@ const GRID_LAYOUT = {
     { w: 3, h: 2, x: 3, y: 4, i: 'grid-6' },
     { w: 3, h: 2, x: 0, y: 6, i: 'grid-7' },
     { w: 3, h: 2, x: 3, y: 6, i: 'grid-8' },
-    { w: 3, h: 2, x: 0, y: 8, i: 'grid-9' }
+    { w: 3, h: 2, x: 0, y: 8, i: 'grid-9' },
   ],
   '3x3': [
     { w: 2, h: 2, x: 0, y: 0, i: 'grid-1' },
@@ -48,8 +48,8 @@ const GRID_LAYOUT = {
     { w: 2, h: 2, x: 4, y: 2, i: 'grid-6' },
     { w: 2, h: 2, x: 0, y: 4, i: 'grid-7' },
     { w: 2, h: 2, x: 2, y: 4, i: 'grid-8' },
-    { w: 2, h: 2, x: 4, y: 4, i: 'grid-9' }
-  ]
+    { w: 2, h: 2, x: 4, y: 4, i: 'grid-9' },
+  ],
 }
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
@@ -59,11 +59,11 @@ type RestoreMedicalPanelRecord = {
   layout: any[]
 } | null
 
-const saveLayout = _.debounce((layout: any, dimention: string) => {
+export const saveLayout = _.debounce((layout: any, dimention: string) => {
   // debounce handle for call many time
   window.localStorage.setItem(
     'medicalPanelRecord',
-    JSON.stringify({ layout, dimention })
+    JSON.stringify({ layout, dimention }),
   )
   // console.log('save!!', dimention)
 }, 500)
@@ -86,7 +86,7 @@ const GridSelector: React.FunctionComponent<{
 
   const restoreLayout = (): RestoreMedicalPanelRecord => {
     const medicalPanelRecordStr = window.localStorage.getItem(
-      'medicalPanelRecord'
+      'medicalPanelRecord',
     )
     const medicalPanelRecord = medicalPanelRecordStr
       ? (JSON.parse(medicalPanelRecordStr) as RestoreMedicalPanelRecord)
@@ -114,7 +114,7 @@ const GridSelector: React.FunctionComponent<{
   }
 
   const handleDimentionChange = (
-    event: React.ChangeEvent<{ name?: string; value: any }>
+    event: React.ChangeEvent<{ name?: string; value: any }>,
   ) => {
     const dimention = event.target.value as IDimention
     setDimention(dimention)
@@ -126,7 +126,7 @@ const GridSelector: React.FunctionComponent<{
   }
 
   return (
-    <div>
+    <div data-testid='grid-selector'>
       <div className={classes.gridSelectionLayout}>
         <SelectOption
           label='Grid Selection'
@@ -136,7 +136,7 @@ const GridSelector: React.FunctionComponent<{
           options={[
             { value: '3x3', label: '3x3' },
             { value: '2xN', label: '2xN' },
-            { value: '1xN', label: '1xN' }
+            { value: '1xN', label: '1xN' },
           ]}
           onChange={handleDimentionChange}
           classOption={classes.searchFilter}

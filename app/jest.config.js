@@ -6,6 +6,7 @@ const { compilerOptions } = require('./tsconfig')
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testMatch: ['**/?(*.)+(spec|test).(js|ts|tsx)'],
   transform: {
     "^.+\\.tsx?$": "ts-jest",

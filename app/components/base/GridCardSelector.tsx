@@ -89,6 +89,7 @@ const GridCardSelector: React.FunctionComponent<{
           <AddCircleOutlineIcon
             className={classes.addCicleIcon}
             color='action'
+            data-testid='add-icon-button'
           />
         }
         onDialogClose={(item: ISimpleDialogItem) => {
