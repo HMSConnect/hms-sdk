@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core'
 import * as _ from 'lodash'
 
-import { sendMessage } from '../../../pages/embeded-widget'
+import { sendMessage } from '../../../pages/embedded-widget'
 import RouteManager from '../../../routes/RouteManager'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import usePatient from '../../hooks/usePatient'

@@ -1,11 +1,11 @@
 # Patient Search
 
-If you are new user, please read [Getting started with HMS Widget](/embeded-widget?widget=get-started)
+If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
-URL: `/embeded-widget/patient-search`
+URL: `/embedded-widget/patient-search`
 
 ## Setup this widget to iframe
-Replace `/embeded-widget/patient-search` url to your iframe project.
+Replace `/embedded-widget/patient-search` url to your iframe project.
 
 ## Request HTTP GET
 **Query Params**
@@ -19,7 +19,7 @@ Replace `/embeded-widget/patient-search` url to your iframe project.
 
 ## Response
 - **Object Response**
-    You can learn this in topic [Getting started with HMS Widget](/embeded-widget?widget=get-started)
+    You can learn this in topic [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 - **Avaliable Response**
    | Action        | Message               | Description                              |
@@ -32,7 +32,7 @@ Replace `/embeded-widget/patient-search` url to your iframe project.
 ## Example
 
 ### Request
- - pathname: `/embeded-widget/patient-search` 
+ - pathname: `/embedded-widget/patient-search` 
 
 ### Action
  - Search by 
@@ -63,7 +63,7 @@ Replace `/embeded-widget/patient-search` url to your iframe project.
             "orderBy": "id",
         },
     },
-    "path": "/embeded-widget/patient-search?filter%5Bgender%5D=female&filter%5BsearchText%5D=kai&max=10&offset=0&page=0&sort%5Border%5D=asc&sort%5BorderBy%5D=id",
+    "path": "/embedded-widget/patient-search?filter%5Bgender%5D=female&filter%5BsearchText%5D=kai&max=10&offset=0&page=0&sort%5Border%5D=asc&sort%5BorderBy%5D=id",
     "eventType": "embedded-widget",
 }
 ```

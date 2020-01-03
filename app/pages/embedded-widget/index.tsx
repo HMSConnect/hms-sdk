@@ -76,28 +76,28 @@ const widgetGroup: IWidgetGroup[] = [
       {
         document: require('@assets/embedded-widget/patient-search.md').default,
         label: 'Patient Search',
-        path: 'embeded-widget/patient-search',
+        path: 'embedded-widget/patient-search',
         value: 'patient-search',
       },
       {
         document: require('@assets/embedded-widget/patient-search-bar.md')
           .default,
         label: 'Patient Search Bar',
-        path: 'embeded-widget/patient-search-bar',
+        path: 'embedded-widget/patient-search-bar',
         value: 'patient-search-bar',
       },
       {
         document: require('@assets/embedded-widget/patient-search-result.md')
           .default,
         label: 'Patient Search Result',
-        path: 'embeded-widget/patient-search-result',
+        path: 'embedded-widget/patient-search-result',
         value: 'patient-search-result',
       },
       {
         document: require('@assets/embedded-widget/patient-info.md').default,
         label: 'Patient Info',
         path:
-          'embeded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5',
+          'embedded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5',
         value: 'patient-info',
       },
       {
@@ -105,7 +105,7 @@ const widgetGroup: IWidgetGroup[] = [
           .default,
         label: 'Patine Encounter Timeline',
         path:
-          'embeded-widget/patient-info/encounter-timeline/0debf275-d585-4897-a8eb-25726def1ed5',
+          'embedded-widget/patient-info/encounter-timeline/0debf275-d585-4897-a8eb-25726def1ed5',
         value: 'patient-encounter-timeline',
       },
     ],
@@ -250,7 +250,7 @@ const WidgetGallery: IStatelessPage<{
 
   const handleChangeWidget = (widget: any) => {
     routes.Router.replaceRoute(
-      `/embeded-widget?widget=${_.toLower(widget.value)}`,
+      `/embedded-widget?widget=${_.toLower(widget.value)}`,
     )
   }
 
@@ -298,12 +298,12 @@ const WidgetGallery: IStatelessPage<{
         ? `?widget=${selectedWidget.value || ''}`
         : ''
       routes.Router.replaceRoute(
-        `/embeded-widget${
+        `/embedded-widget${
           selectedWidget.value ? `?widget=${selectedWidget.value || ''}` : ''
         }`,
       )
     } else {
-      routes.Router.replaceRoute(`/embeded-widget`)
+      routes.Router.replaceRoute(`/embedded-widget`)
     }
     setOutputEventData({})
   }

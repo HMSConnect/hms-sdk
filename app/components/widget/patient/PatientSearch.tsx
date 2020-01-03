@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Grid, makeStyles, Theme } from '@material-ui/core'
 import * as _ from 'lodash'
 
-import { sendMessage } from '../../../pages/embeded-widget'
+import { sendMessage } from '@pages/embedded-widget'
 import routes from '../../../routes'
 import {
   default as RouteManager,

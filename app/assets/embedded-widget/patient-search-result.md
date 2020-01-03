@@ -1,12 +1,12 @@
 # Patient Search Result
 
-If you are new user, please read [Getting started with HMS Widget](/embeded-widget?widget=get-started)
+If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 
-URL: `/embeded-widget/patient-search-result`
+URL: `/embedded-widget/patient-search-result`
 
 ## Setup this widget to iframe
-Replace `/embeded-widget/patient-search-result` url to your iframe project.
+Replace `/embedded-widget/patient-search-result` url to your iframe project.
 
 ## Request HTTP GET
 **Query Params**
@@ -20,7 +20,7 @@ Replace `/embeded-widget/patient-search-result` url to your iframe project.
 
 ## Response
 - **Object Response**
-    You can learn this in topic [Getting started with HMS Widget](/embeded-widget?widget=get-started)
+    You can learn this in topic [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 - **Avaliable event response**
    | Action        | Message             | Description                              |
    | ------------- | ------------------- | ---------------------------------------- |
@@ -31,7 +31,7 @@ Replace `/embeded-widget/patient-search-result` url to your iframe project.
 ## Example
 
 ### Request
- - pathname: `/embeded-widget/patient-search-result` 
+ - pathname: `/embedded-widget/patient-search-result` 
 
 ### Action
  - Click row data
@@ -44,6 +44,6 @@ Replace `/embeded-widget/patient-search-result` url to your iframe project.
     "params": {
         "id": "039933a0-f970-4a84-bdab-fcbd85edd343"
     },
-    "path": "embeded-widget/patient-info/039933a0-f970-4a84-bdab-fcbd85edd343"
+    "path": "embedded-widget/patient-info/039933a0-f970-4a84-bdab-fcbd85edd343"
 }
 ```

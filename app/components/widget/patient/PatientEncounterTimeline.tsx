@@ -4,7 +4,7 @@ import { CircularProgress, Grid, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 
-import { sendMessage } from '../../../pages/embeded-widget'
+import { sendMessage } from '../../../pages/embedded-widget'
 import routes from '../../../routes'
 import RouterManager from '../../../routes/RouteManager'
 import EncounterService from '../../../services/EncounterService'

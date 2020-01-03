@@ -69,7 +69,7 @@ export default function App() {
             <ListItemLink href='/patient-search'>
               <ListItemText primary='Demo App' />
             </ListItemLink>
-            <ListItemLink href='/embeded-widget'>
+            <ListItemLink href='/embedded-widget'>
               <ListItemText primary='Embedded Widget' />
             </ListItemLink>
           </List>
