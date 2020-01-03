@@ -30,7 +30,7 @@ const GridCardSelector: React.FunctionComponent<{
   i: string
   restoreComponentName: string | undefined
   componentResource: any
-  onComponentSelect: any
+  onComponentSelect?: any
 }> = ({ i, restoreComponentName, componentResource, onComponentSelect }) => {
   const classes = useStyles()
   const [currentComponentName, setCurrentComponentName] = useState<
@@ -67,13 +67,13 @@ const GridCardSelector: React.FunctionComponent<{
       return { label: toNaturalName(componentName), value: componentName }
     },
   )
-
   return Component ? (
     <>
       <div className={classes.cardResetButton}>
         <IconButton
           color='primary'
           aria-label='reset card'
+          data-testid='reset-icon-button'
           onClick={handleReset}
         >
           <CancelIcon color='action' fontSize='small' />

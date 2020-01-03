@@ -78,9 +78,9 @@ const useSideMenuStyles = makeStyles((theme: Theme) =>
 )
 
 const SideMenuWithContent: React.FunctionComponent<{
+  renderMenuList: React.ReactElement
   appBarTitle?: string
   menuTitle?: string
-  renderMenuList: React.ReactElement
 }> = ({
   appBarTitle = 'Persistant Drawer',
   children,
@@ -89,7 +89,7 @@ const SideMenuWithContent: React.FunctionComponent<{
 }) => {
   const classes = useSideMenuStyles()
 
-  const [isOpen, setOpen] = React.useState(true)
+  const [isOpen, setOpen] = React.useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -127,6 +127,7 @@ const SideMenuWithContent: React.FunctionComponent<{
         menuTitle={menuTitle}
         isOpen={isOpen}
         onDrawerClose={handleDrawerClose}
+        aria-label='sidMenu'
       >
         {renderMenuList}
       </SideMenu>
@@ -160,6 +161,7 @@ export const SideMenu: React.FunctionComponent<{
       classes={{
         paper: classes.drawerPaper,
       }}
+      data-testid='Drawer'
     >
       <div className={classes.drawerHeader}>
         <Button
