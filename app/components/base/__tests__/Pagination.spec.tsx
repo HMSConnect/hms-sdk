@@ -22,7 +22,7 @@ describe('<Pagination />', () => {
 
     expect(findAllByText('1')).toBeTruthy()
 
-    fireEvent.click(getByTestId('nextPage'))
+    fireEvent.click(getByTestId('next-page'))
 
     expect(onPageChange).toBeCalled()
 
@@ -30,7 +30,7 @@ describe('<Pagination />', () => {
     rerender(
       <Pagination totalCount={30} page={1} onPageChange={onPageChange} />
     )
-    fireEvent.click(getByTestId('prevPage'))
+    fireEvent.click(getByTestId('prev-page'))
 
     expect(onPageChange.mock.calls.length).toBe(2)
 
