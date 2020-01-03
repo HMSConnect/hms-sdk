@@ -1,7 +1,9 @@
+import * as React from 'react'
+
 import { render } from '@testing-library/react'
-import Modal, { useModal } from '../Modal'
 import { act, renderHook } from '@testing-library/react-hooks'
 import ModalContentTest from '../__mocks__/ModalContentTest'
+import Modal, { useModal } from '../Modal'
 
 describe('<Modal />', () => {
   it('render <Modla />', () => {
@@ -28,7 +30,7 @@ describe('<Modal />', () => {
     expect(queryByText('OpenModal')).toBeFalsy()
     expect(queryByTestId('close-button')).toBeNull()
   })
-  
+
   it('not send onclose render <Modla isOpen={false}/>', async () => {
     const { queryByTestId } = render(<Modal isOpen={true}> OpenModal</Modal>)
 

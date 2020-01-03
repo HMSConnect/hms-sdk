@@ -1,9 +1,9 @@
-import IAdapter from '../adapters/IAdapter'
-import DataManager from '../data-managers/DataManager'
+import IAdapter from '@adapters/IAdapter'
+import DataManager from '@data-managers/DataManager'
 import DiagnosticDataManager, {
-  IDiagnosticReportLastQuery
-} from '../data-managers/DiagnosticReportDataManager'
-import ValidatorManager from '../validators/ValidatorManager'
+  IDiagnosticReportLastQuery,
+} from '@data-managers/DiagnosticReportDataManager'
+import ValidatorManager from '@validators/ValidatorManager'
 import AbstractService from './AbstractService'
 
 class DiagnosticReportService extends AbstractService {
@@ -21,7 +21,7 @@ class DiagnosticReportService extends AbstractService {
     if (validator) {
       return {
         ...result,
-        data: validator.parse(result.data)
+        data: validator.parse(result.data),
       }
     } else {
       throw Error('not support this schema.')

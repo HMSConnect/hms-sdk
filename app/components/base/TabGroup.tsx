@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 import {
   AppBar,
@@ -9,7 +9,6 @@ import {
   Theme,
   Typography
 } from '@material-ui/core'
-import { grey } from '@material-ui/core/colors'
 import * as _ from 'lodash'
 
 export interface ITabList {

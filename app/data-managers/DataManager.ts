@@ -1,4 +1,4 @@
-import IAdapter from '../adapters/IAdapter'
+import IAdapter from '@adapters/IAdapter'
 
 export default class DataManager {
   constructor(protected resource: string, protected adaptor: IAdapter) {

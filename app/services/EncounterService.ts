@@ -1,6 +1,6 @@
-import IAdapter from '../adapters/IAdapter'
-import DataManager from '../data-managers/DataManager'
-import EncounterDataManager from '../data-managers/EncounterDataManager'
+import IAdapter from '@adapters/IAdapter'
+import DataManager from '@data-managers/DataManager'
+import EncounterDataManager from '@data-managers/EncounterDataManager'
 import AbstractService from './AbstractService'
 
 class EncounterService extends AbstractService {
@@ -14,7 +14,7 @@ class EncounterService extends AbstractService {
     const result = await dataManager.typeList(params || {})
     return {
       ...result,
-      data: result.data
+      data: result.data,
     }
   }
 
@@ -24,7 +24,7 @@ class EncounterService extends AbstractService {
     const result = await dataManager.resourceList(id)
     return {
       ...result,
-      data: result.data
+      data: result.data,
     }
   }
 }

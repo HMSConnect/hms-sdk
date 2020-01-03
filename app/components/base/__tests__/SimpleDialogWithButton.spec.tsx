@@ -1,9 +1,6 @@
-import {
-  fireEvent,
-  render,
-  waitForDomChange,
-  act,
-} from '@testing-library/react'
+import * as React from 'react'
+
+import { fireEvent, render, waitForDomChange } from '@testing-library/react'
 import { ISimpleDialogItem } from '../SimpleDialog'
 import { SimpleDialogWithButton } from '../SimpleDialogWithButton'
 

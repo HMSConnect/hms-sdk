@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 import { ThemeProvider } from '@material-ui/styles'
 import { render } from '@testing-library/react'

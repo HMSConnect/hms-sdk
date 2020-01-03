@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 import { Table } from '@material-ui/core'
 import { fireEvent, render } from '@testing-library/react'

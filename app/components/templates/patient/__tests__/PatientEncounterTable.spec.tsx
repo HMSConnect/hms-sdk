@@ -1,7 +1,11 @@
-import React from 'react'
+import * as React from 'react'
 
-import { fireEvent, render, waitForDomChange } from '@testing-library/react'
-import { act } from 'react-test-renderer'
+import {
+  act,
+  fireEvent,
+  render,
+  waitForDomChange,
+} from '@testing-library/react'
 import EncounterService from '../../../../services/EncounterService'
 import { HMSService } from '../../../../services/HMSServiceFactory'
 import EncounterServiceMock from '../../../hooks/__mocks__/EncounterServiceMock'

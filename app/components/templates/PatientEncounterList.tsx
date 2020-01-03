@@ -1,5 +1,6 @@
-import React from 'react'
+import * as React from 'react'
 
+import environment from '@environment'
 import {
   Button,
   CircularProgress,
@@ -13,7 +14,7 @@ import {
   ListItemText,
   makeStyles,
   Theme,
-  Typography
+  Typography,
 } from '@material-ui/core'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
@@ -21,31 +22,29 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import * as _ from 'lodash'
 import * as moment from 'moment'
 
-import environment from '../../config'
-
 const useStyles = makeStyles((theme: Theme) => ({
   inline: {
-    display: 'inline'
+    display: 'inline',
   },
   line: {
     borderLeft: '2px solid lightgrey',
     height: '100%',
     marginLeft: '0.7em',
     position: 'absolute',
-    zIndex: -1
+    zIndex: -1,
   },
   lineColapse: {
     borderLeft: '2px solid lightgrey',
     height: '100%',
-    marginLeft: '1.7em'
+    marginLeft: '1.7em',
   },
   listIcon: {
-    color: 'green'
+    color: 'green',
   },
   nested: {
-    paddingLeft: theme.spacing(4)
+    paddingLeft: theme.spacing(4),
   },
-  root: {}
+  root: {},
 }))
 
 const PatientEncounterList: React.FunctionComponent<{

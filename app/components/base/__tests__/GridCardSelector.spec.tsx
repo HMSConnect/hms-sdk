@@ -1,4 +1,6 @@
-import { fireEvent, render, getByTestId } from '@testing-library/react'
+import * as React from 'react'
+
+import { fireEvent, render } from '@testing-library/react'
 import { DiagnosticCardMock } from '../__mocks__/GridCardSelectorMock'
 import GridCardSelector from '../GridCardSelector'
 

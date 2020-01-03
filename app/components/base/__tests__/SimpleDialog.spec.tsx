@@ -1,5 +1,7 @@
+import * as React from 'react'
+
+import { fireEvent, render, waitForDomChange } from '@testing-library/react'
 import SimpleDialog, { ISimpleDialogItem } from '../SimpleDialog'
-import { render, fireEvent, waitForDomChange } from '@testing-library/react'
 
 describe('<SimpleDialog />', () => {
   let listItem: ISimpleDialogItem[]

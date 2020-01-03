@@ -1,19 +1,18 @@
-import React from 'react'
+import * as React from 'react'
 
+import BootstrapWrapper from '@components/init/BootstrapWrapper'
+import PatientEncounterTimeline from '@components/widget/patient/PatientEncounterTimeline'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
+import { IStatelessPage } from '@pages/patient-search'
+import { parse } from '@utils'
 import { get } from 'lodash'
-
-import BootstrapWrapper from '../../../components/init/BootstrapWrapper'
-import PatientEncounterTimeline from '../../../components/widget/patient/PatientEncounterTimeline'
-import { parse } from '../../../utils'
-import { IStatelessPage } from '../../patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100vh',
-    paddingTop: '30px'
-  }
+    paddingTop: '30px',
+  },
 }))
 
 const PatientEncounterTimelineView: IStatelessPage<{
@@ -40,7 +39,7 @@ const PatientEncounterTimelineView: IStatelessPage<{
 
 PatientEncounterTimelineView.getInitialProps = async ({ req, res, query }) => {
   return {
-    query: parse(query)
+    query: parse(query),
   }
 }
 

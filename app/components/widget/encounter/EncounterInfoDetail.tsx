@@ -1,8 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 
+import useEncounter from '@components/hooks/useEncounter'
 import { Grid } from '@material-ui/core'
-
-import useEncounter from '../../hooks/useEncounter'
 import EncounterInfoDetailSide from './EncounterInfoDetailSide'
 import EncounterInfoDetailSub from './EncounterInfoDetailSub'
 

@@ -1,5 +1,4 @@
-import IValidator from '../../IValidator'
-
+import IValidator from '@validators/IValidator'
 import * as _ from 'lodash'
 import * as moment from 'moment'
 
@@ -50,7 +49,7 @@ class SFHIREncounterV1Validator implements IValidator {
       startDateTime: startTime,
       startTime,
       status,
-      type
+      type,
     }
   }
 }

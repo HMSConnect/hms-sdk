@@ -1,27 +1,24 @@
 import React, { useEffect, useState } from 'react'
 
+import { IPageOptionResult } from '@components/base/Pagination'
+import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
+import BootstrapWrapper from '@components/init/BootstrapWrapper'
+import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
+import PatientSearchResultWithPaginate from '@components/widget/patient/PatientSearchResultWithPaginate'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
+import { IStatelessPage } from '@pages/patient-search'
+import RouterManager from '@routes/RouteManager'
+import { parse } from '@utils'
 import * as _ from 'lodash'
 import { sendMessage } from '.'
-import { IPageOptionResult } from '../../components/base/Pagination'
-import {
-  IPaginationOption,
-  ISortType
-} from '../../components/hooks/usePatientList'
-import BootstrapWrapper from '../../components/init/BootstrapWrapper'
-import { IPatientFilterValue } from '../../components/templates/patient/PatientFilterBar'
-import PatientSearchResultWithPaginate from '../../components/widget/patient/PatientSearchResultWithPaginate'
 import routes from '../../routes'
-import RouterManager from '../../routes/RouteManager'
-import { parse } from '../../utils'
-import { IStatelessPage } from '../patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100vh',
-    paddingTop: '30px'
-  }
+    paddingTop: '30px',
+  },
 }))
 
 const PatientSearchResultWidget: IStatelessPage<{
@@ -39,19 +36,19 @@ const PatientSearchResultWidget: IStatelessPage<{
     const newPagination = {
       ...pagination,
       filter: pagination.filter,
-      sort: sortObject
+      sort: sortObject,
     }
 
     const path = RouterManager.getPath('patient-search-result', {
       matchBy: 'url',
-      params: newPagination
+      params: newPagination,
     })
 
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handleRequestSort',
       params: newPagination,
-      path
+      path,
     })
 
     routes.Router.replaceRoute(path)
@@ -61,19 +58,19 @@ const PatientSearchResultWidget: IStatelessPage<{
     const newPagination = {
       ...pageOptionResult,
       filter: pagination.filter,
-      sort: pagination.sort
+      sort: pagination.sort,
     }
 
     const path = RouterManager.getPath('patient-search-result', {
       matchBy: 'url',
-      params: newPagination
+      params: newPagination,
     })
 
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handlePageChange',
       params: newPagination,
-      path
+      path,
     })
 
     routes.Router.replaceRoute(path)
@@ -81,20 +78,20 @@ const PatientSearchResultWidget: IStatelessPage<{
 
   const handlePatientSelect = (patient: any) => {
     const params = {
-      patientId: _.get(patient, 'identifier.id.value')
+      patientId: _.get(patient, 'identifier.id.value'),
     }
     const path = RouterManager.getPath(
       `patient-info/${_.get(patient, 'identifier.id.value')}`,
       {
-        matchBy: 'url'
-      }
+        matchBy: 'url',
+      },
     )
 
     sendMessage({
       action: 'PUSH_ROUTE',
       message: 'handlePatientSelect',
       params,
-      path
+      path,
     })
 
     routes.Router.pushRoute(path)
@@ -121,19 +118,19 @@ const PatientSearchResultWidget: IStatelessPage<{
 
 PatientSearchResultWidget.getInitialProps = async ({ query }) => {
   return {
-    query: initialPagination(query)
+    query: initialPagination(query),
   }
 }
 
 export function initialPagination(query: any) {
   const initialFilter: IPatientFilterValue = {
     gender: 'all',
-    searchText: ''
+    searchText: '',
   }
 
   const initialSort: ISortType = {
     order: 'asc',
-    orderBy: 'id'
+    orderBy: 'id',
   }
 
   query = parse(query)
@@ -143,7 +140,7 @@ export function initialPagination(query: any) {
     max: query.max ? Number(query.max) : 10,
     offset: query.offset ? Number(query.offset) : 0,
     page: query.page ? Number(query.page) : 0,
-    sort: _.isEmpty(query.sort) ? initialSort : query.sort
+    sort: _.isEmpty(query.sort) ? initialSort : query.sort,
   }
 }
 

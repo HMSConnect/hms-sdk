@@ -1,10 +1,7 @@
+import * as React from 'react'
+
+import { fireEvent, render, waitForDomChange } from '@testing-library/react'
 import { ISimpleDialogItem } from '../SimpleDialog'
-import {
-  render,
-  fireEvent,
-  waitForDomChange,
-  queryByTestId,
-} from '@testing-library/react'
 import SimpleDialogWithIconButton from '../SimpleDialogWithIconButton'
 
 describe('<SimpleDialogWithIconButton />', () => {

@@ -1,6 +1,6 @@
+import { adapterConfig } from '@config'
+import { HMSService } from '@services/HMSServiceFactory'
 import * as _ from 'lodash'
-import { adapterConfig } from '../config'
-import { HMSService } from '../services/HMSServiceFactory'
 import DevelopmentAdapter from './DevelopmentAdapter'
 
 class DataAdapterManager {

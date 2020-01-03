@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { IQueryResult } from '../../../utils/types'
+import { IQueryResult } from '@utils/types'
 
 export interface IPromiseResult extends IQueryResult {
   isLoading: boolean

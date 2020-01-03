@@ -1,4 +1,4 @@
-import { IListDefaultQuery } from '../utils/types'
+import { IListDefaultQuery } from '@utils/types'
 import DataManager from './DataManager'
 
 export interface IDiagnosticReportLastQuery extends IListDefaultQuery {

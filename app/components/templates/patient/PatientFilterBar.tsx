@@ -1,8 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 
-import { Grid, makeStyles, Theme } from '@material-ui/core'
-import SelectOption from '../../base/SelectOption'
-import GenderSelector from '../../widget/GenderSelecter'
+import GenderSelector from '@components/widget/GenderSelecter'
+import { Grid } from '@material-ui/core'
 
 export interface IAgeValue {
   to: number | null
@@ -22,10 +21,7 @@ const PatientFilterBar: React.FunctionComponent<{
   return (
     <>
       <Grid item xs={3}>
-        <GenderSelector
-          value={filter.gender}
-          onGenderChange={onFilterChange}
-        />
+        <GenderSelector value={filter.gender} onGenderChange={onFilterChange} />
       </Grid>
     </>
   )

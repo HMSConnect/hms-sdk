@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import PatientFilterBar, { IPatientFilterValue } from '../PatientFilterBar'
 import { render } from '@testing-library/react'
 
