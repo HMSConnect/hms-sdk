@@ -5,11 +5,10 @@ import {
   CircularProgress,
   Grid,
   makeStyles,
-  Paper
+  Paper,
 } from '@material-ui/core'
+import { sendMessage } from '@utils'
 import * as _ from 'lodash'
-
-import { sendMessage } from '../../../pages/embedded-widget'
 import RouteManager from '../../../routes/RouteManager'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import usePatient from '../../hooks/usePatient'
@@ -34,11 +33,11 @@ const useStyles = makeStyles(theme => ({
   bigAvatar: {
     height: 156,
     margin: 10,
-    width: 156
+    width: 156,
   },
   panel: {
-    paddingTop: '30px'
-  }
+    paddingTop: '30px',
+  },
 }))
 
 const PatientInfoDetail: React.FunctionComponent<{
@@ -46,7 +45,7 @@ const PatientInfoDetail: React.FunctionComponent<{
 }> = ({ query }) => {
   const classes = useStyles()
   const { isLoading: isPatientLoading, data: patient, error } = usePatient(
-    _.get(query, 'patientId') || _.get(query, 'id')
+    _.get(query, 'patientId') || _.get(query, 'id'),
   )
 
   if (error) {
@@ -88,7 +87,7 @@ const PatientInfoDetail: React.FunctionComponent<{
 
 const PatientDetailSelector: React.FunctionComponent<any> = ({
   query,
-  patient
+  patient,
 }) => {
   let PatientDetail = PatientInfoDetailSub
 
@@ -106,31 +105,29 @@ const PatientInfoDetailSub: React.FunctionComponent<{
   const {
     isLoading: isGroupResourceListLoading,
     data: groupResourceList,
-    error
+    error,
   } = useResourceList(_.get(patient, 'identifier.id.value'))
   const [menuNavigate, setMenuNavigate] = useState(
-    query.menuNavigate || 'patient'
+    query.menuNavigate || 'patient',
   )
 
   const handleNavigateChange = (newNavigateValue: string) => {
-    if (menuNavigate !== newNavigateValue) {
-      const params = {
-        menuNavigate: newNavigateValue
-      }
-      const path = RouteManager.getPath(
-        `patient-info/${_.get(patient, 'identifier.id.value')}`,
-        {
-          matchBy: 'url',
-          params
-        }
-      )
-      sendMessage({
-        message: 'handleNavigateChange',
-        params,
-        path
-      })
-      setMenuNavigate(newNavigateValue)
+    const params = {
+      menuNavigate: newNavigateValue,
     }
+    const path = RouteManager.getPath(
+      `patient-info/${_.get(patient, 'identifier.id.value')}`,
+      {
+        matchBy: 'url',
+        params,
+      },
+    )
+    sendMessage({
+      message: 'handleNavigateChange',
+      params,
+      path,
+    })
+    setMenuNavigate(newNavigateValue)
   }
 
   const renderInformationTable = (navigate: string) => {

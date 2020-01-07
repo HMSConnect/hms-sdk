@@ -89,7 +89,7 @@ const SideMenuWithContent: React.FunctionComponent<{
 }) => {
   const classes = useSideMenuStyles()
 
-  const [isOpen, setOpen] = React.useState(false)
+  const [isOpen, setOpen] = React.useState(true)
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -127,7 +127,7 @@ const SideMenuWithContent: React.FunctionComponent<{
         menuTitle={menuTitle}
         isOpen={isOpen}
         onDrawerClose={handleDrawerClose}
-        aria-label='sidMenu'
+        aria-label='side-menu'
       >
         {renderMenuList}
       </SideMenu>
@@ -161,7 +161,7 @@ export const SideMenu: React.FunctionComponent<{
       classes={{
         paper: classes.drawerPaper,
       }}
-      data-testid='Drawer'
+      data-testid='drawer'
     >
       <div className={classes.drawerHeader}>
         <Button
@@ -172,7 +172,7 @@ export const SideMenu: React.FunctionComponent<{
             theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
             ) : (
-              <ChevronRightIcon />
+              null
             )
           }
         >

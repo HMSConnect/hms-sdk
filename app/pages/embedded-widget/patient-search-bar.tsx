@@ -10,9 +10,8 @@ import { IStatelessPage } from '@pages/patient-search'
 import RouteManager from '@routes/RouteManager'
 import { HMSService } from '@services/HMSServiceFactory'
 import PatientService from '@services/PatientService'
-import { parse } from '@utils'
+import { parse, sendMessage } from '@utils'
 import qs from 'qs'
-import { sendMessage } from '.'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

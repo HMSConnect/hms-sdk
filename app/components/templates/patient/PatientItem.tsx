@@ -25,7 +25,6 @@ const PatientItem: React.FunctionComponent<{
   highlightText?: string
 }> = ({ highlightText, patient }) => {
   const classes = useStyles()
-
   return (
     <>
       <TableCell>

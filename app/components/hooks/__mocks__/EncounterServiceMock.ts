@@ -16,10 +16,13 @@ class EncounterServiceMock {
     return Promise.resolve({
       data: {
         reason: 'Test1',
-        type: 'ADMS'
+        serviceProvider: {
+          name: `ServiceTest1`,
+        },
+        type: 'ADMS',
       },
       error: null,
-      totalCount: 1
+      totalCount: 1,
     })
   }
 
@@ -28,15 +31,21 @@ class EncounterServiceMock {
       data: [
         {
           reason: 'Test1',
-          type: 'ADMS'
+          serviceProvider: {
+            name: `ServiceTest1`,
+          },
+          type: 'ADMS',
         },
         {
           reason: 'Test1',
-          type: 'EECM'
-        }
+          serviceProvider: {
+            name: `ServiceTest2`,
+          },
+          type: 'EECM',
+        },
       ],
       error: null,
-      totalCount: 2
+      totalCount: 2,
     })
   }
 
@@ -45,14 +54,14 @@ class EncounterServiceMock {
       data: [
         {
           totalCount: 1,
-          type: 'ADMS'
+          type: 'ADMS',
         },
         {
           totalCount: 1,
-          type: 'EECM'
-        }
+          type: 'EECM',
+        },
       ],
-      error: null
+      error: null,
     }
   }
 }

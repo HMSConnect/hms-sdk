@@ -38,15 +38,6 @@ import routes from '../../routes'
 
 const md = MarkdownIt({ html: true })
 
-interface IPostMessage {
-  action?: string
-  message?: string
-  path?: string
-  params?: any
-  result?: any
-  error?: any
-}
-
 interface IWidgetGroup {
   label: string
   child: IWidgetChild[]
@@ -156,16 +147,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 )
-
-export const sendMessage = (message: IPostMessage) => {
-  window.parent.postMessage(
-    {
-      ...message,
-      eventType: 'embedded-widget',
-    },
-    environment.iframe.targetOrigin,
-  )
-}
 
 const WidgetGallery: IStatelessPage<{
   query: any

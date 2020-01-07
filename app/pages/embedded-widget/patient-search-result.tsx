@@ -4,14 +4,13 @@ import { IPageOptionResult } from '@components/base/Pagination'
 import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
-import PatientSearchResultWithPaginate from '@components/widget/patient/PatientSearchResultWithPaginate'
+import PatientSearchResultWithPaginate, { defaultPagination } from '@components/widget/patient/PatientSearchResultWithPaginate'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
 import { IStatelessPage } from '@pages/patient-search'
 import RouterManager from '@routes/RouteManager'
-import { parse } from '@utils'
+import { parse, sendMessage } from '@utils'
 import * as _ from 'lodash'
-import { sendMessage } from '.'
 import routes from '../../routes'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -134,12 +133,11 @@ export function initialPagination(query: any) {
   }
 
   query = parse(query)
-
-  return {
+  return {  
     filter: _.isEmpty(query.filter) ? initialFilter : query.filter,
-    max: query.max ? Number(query.max) : 10,
-    offset: query.offset ? Number(query.offset) : 0,
-    page: query.page ? Number(query.page) : 0,
+    max: query.max ? Number(query.max) : defaultPagination.max,
+    offset: query.offset ? Number(query.offset) : defaultPagination.offset,
+    page: query.page ? Number(query.page) : defaultPagination.page,
     sort: _.isEmpty(query.sort) ? initialSort : query.sort,
   }
 }

@@ -43,6 +43,19 @@ describe('<GridCardSelector />', () => {
     expect(queryByText('Diagnostic')).toBeFalsy()
     expect(onComponentSelect).toBeCalled()
   })
+  it('reset without handleComponentSelect card GridCardSelected', () => {
+    const { queryByText, getByTestId } = render(
+      <GridCardSelector
+        i='test'
+        componentResource={{ diag: DiagnosticCardMock }}
+        restoreComponentName='diag'
+      />,
+    )
+    expect(queryByText('Diagnostic')).toBeTruthy()
+    const resetButton = getByTestId('reset-icon-button')
+    fireEvent.click(resetButton)
+    expect(queryByText('Diagnostic')).toBeFalsy()
+  })
   it('select ComponentName GridCardSelected', async () => {
     const onComponentSelect = jest.fn()
     const { queryByText, getByTestId, getByText, container } = render(
@@ -64,5 +77,24 @@ describe('<GridCardSelector />', () => {
 
     fireEvent.click(getByText('Diag'))
     expect(onComponentSelect).toBeCalled()
+  })
+  it('select without handleComponentSelect ComponentName GridCardSelected', async () => {
+    const { queryByText, getByTestId, getByText, container } = render(
+      <GridCardSelector
+        i='test'
+        componentResource={{ diag: DiagnosticCardMock }}
+        restoreComponentName={undefined}
+      />,
+    )
+    const iconButtonElement = getByTestId('icon-button')
+    expect(queryByText('Diagnostic')).toBeFalsy()
+    expect(iconButtonElement).toBeTruthy()
+
+    fireEvent.click(iconButtonElement)
+
+    expect(queryByText('Diag')).toBeTruthy()
+    expect(queryByText('Choose Card')).toBeTruthy()
+
+    fireEvent.click(getByText('Diag'))
   })
 })

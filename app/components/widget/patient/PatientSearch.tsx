@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
 import { Grid, makeStyles, Theme } from '@material-ui/core'
+import { sendMessage } from '@utils'
 import * as _ from 'lodash'
-
-import { sendMessage } from '@pages/embedded-widget'
 import routes from '../../../routes'
 import {
   default as RouteManager,
-  default as RouterManager
+  default as RouterManager,
 } from '../../../routes/RouteManager'
 import { IPageOptionResult } from '../../base/Pagination'
 import { IPaginationOption, ISortType } from '../../hooks/usePatientList'
@@ -19,9 +18,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   bottom: {
     bottom: '1em',
     justifyContent: 'flex-end',
-    position: 'absolute'
+    position: 'absolute',
   },
-  root: {}
+  root: {},
 }))
 
 const PatientSearch: React.FunctionComponent<{
@@ -29,19 +28,15 @@ const PatientSearch: React.FunctionComponent<{
 }> = ({ query }) => {
   const classes = useStyles()
   const [highlightText, setHighlightText] = useState<string>(
-    query.filter.searchText
+    _.get(query, 'filter.searchText') ? _.get(query, 'filter.searchText') : '',
   )
   const [pagination, setPagination] = useState<IPaginationOption>(query)
 
   useEffect(() => {
-    const path = RouteManager.getPath('patient-search')
     setPagination(query)
-    setHighlightText(query.filter.searchText)
-    // sendMessage({
-    //   message: 'initialize',
-    //   params: query,
-    //   path: `${path}?${qs.stringify(query)}`
-    // })
+    if (_.get(query, 'filter.searchText')) {
+      setHighlightText(_.get(query, 'filter.searchText'))
+    }
   }, [query])
 
   const handleSearchSubmit = (filter: IPatientFilterValue) => {
@@ -50,19 +45,19 @@ const PatientSearch: React.FunctionComponent<{
       filter,
       offset: 0,
       page: 0,
-      sort: pagination.sort
+      sort: pagination.sort,
     }
 
     const path = RouterManager.getPath('patient-search', {
       matchBy: 'url',
-      params: newPagination
+      params: newPagination,
     })
 
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handleSearchSubmit',
       params: newPagination,
-      path
+      path,
     })
 
     routes.Router.replaceRoute(path)
@@ -76,19 +71,19 @@ const PatientSearch: React.FunctionComponent<{
     const newPagination = {
       ...pagination,
       filter: pagination.filter,
-      sort: sortObject
+      sort: sortObject,
     }
 
     const path = RouterManager.getPath('patient-search', {
       matchBy: 'url',
-      params: newPagination
+      params: newPagination,
     })
 
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handleRequestSort',
       params: newPagination,
-      path
+      path,
     })
 
     routes.Router.replaceRoute(path)
@@ -98,18 +93,18 @@ const PatientSearch: React.FunctionComponent<{
     const newPagination = {
       ...pageOptionResult,
       filter: pagination.filter,
-      sort: pagination.sort
+      sort: pagination.sort,
     }
 
     const path = RouterManager.getPath('patient-search', {
       matchBy: 'url',
-      params: newPagination
+      params: newPagination,
     })
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handlePageChange',
       params: newPagination,
-      path
+      path,
     })
 
     routes.Router.replaceRoute(path)
@@ -117,19 +112,19 @@ const PatientSearch: React.FunctionComponent<{
 
   const handlePatientSelect = (patient: any) => {
     const params = {
-      patientId: _.get(patient, 'identifier.id.value')
+      patientId: _.get(patient, 'identifier.id.value'),
     }
     const path = RouterManager.getPath(
       `patient-info/${_.get(patient, 'identifier.id.value')}`,
       {
-        matchBy: 'url'
-      }
+        matchBy: 'url',
+      },
     )
     sendMessage({
       action: 'PUSH_ROUTE',
       message: 'handlePatientSelect',
       params,
-      path
+      path,
     })
 
     routes.Router.pushRoute(path)
@@ -137,14 +132,14 @@ const PatientSearch: React.FunctionComponent<{
 
   const handlePaginationReset = (event: React.MouseEvent) => {
     const path = RouterManager.getPath(`patient-search`, {
-      matchBy: 'url'
+      matchBy: 'url',
     })
 
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handlePaginationReset',
       params: null,
-      path
+      path,
     })
 
     routes.Router.replaceRoute(path)
