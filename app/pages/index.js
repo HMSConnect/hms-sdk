@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { makeStyles } from '@material-ui/core/styles'
@@ -69,7 +69,7 @@ export default function App() {
             <ListItemLink href='/patient-search'>
               <ListItemText primary='Demo App' />
             </ListItemLink>
-            <ListItemLink href='/embeded-widget'>
+            <ListItemLink href='/embedded-widget'>
               <ListItemText primary='Embedded Widget' />
             </ListItemLink>
           </List>

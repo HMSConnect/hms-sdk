@@ -1,3 +1,7 @@
+import React, { useEffect } from 'react'
+
+import SideMenuWithContent from '@components/base/SideMenuWithContent'
+import environment from '@environment'
 import {
   AppBar,
   Box,
@@ -26,25 +30,13 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import { makeStyles } from '@material-ui/styles'
+import { IStatelessPage } from '@pages/patient-search'
 import * as _ from 'lodash'
 import MarkdownIt from 'markdown-it'
-import React, { useEffect } from 'react'
 import { ObjectInspector } from 'react-inspector'
-import SideMenuWithContent from '../../components/base/SideMenuWithContent'
-import environment from '../../config'
 import routes from '../../routes'
-import { IStatelessPage } from './patient-search'
 
 const md = MarkdownIt({ html: true })
-
-interface IPostMessage {
-  action?: string
-  message?: string
-  path?: string
-  params?: any
-  result?: any
-  error?: any
-}
 
 interface IWidgetGroup {
   label: string
@@ -62,8 +54,7 @@ const widgetGroup: IWidgetGroup[] = [
   {
     child: [
       {
-        document: require('../../assets/embedded-widget/get-started.md')
-          .default,
+        document: require('@assets/embedded-widget/get-started.md').default,
         label: 'Get Started',
         value: 'get-started',
       },
@@ -74,40 +65,38 @@ const widgetGroup: IWidgetGroup[] = [
   {
     child: [
       {
-        document: require('../../assets/embedded-widget/patient-search.md')
-          .default,
+        document: require('@assets/embedded-widget/patient-search.md').default,
         label: 'Patient Search',
-        path: 'embeded-widget/patient-search',
+        path: 'embedded-widget/patient-search',
         value: 'patient-search',
       },
       {
-        document: require('../../assets/embedded-widget/patient-search-bar.md')
+        document: require('@assets/embedded-widget/patient-search-bar.md')
           .default,
         label: 'Patient Search Bar',
-        path: 'embeded-widget/patient-search-bar',
+        path: 'embedded-widget/patient-search-bar',
         value: 'patient-search-bar',
       },
       {
-        document: require('../../assets/embedded-widget/patient-search-result.md')
+        document: require('@assets/embedded-widget/patient-search-result.md')
           .default,
         label: 'Patient Search Result',
-        path: 'embeded-widget/patient-search-result',
+        path: 'embedded-widget/patient-search-result',
         value: 'patient-search-result',
       },
       {
-        document: require('../../assets/embedded-widget/patient-info.md')
-          .default,
+        document: require('@assets/embedded-widget/patient-info.md').default,
         label: 'Patient Info',
         path:
-          'embeded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5',
+          'embedded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5',
         value: 'patient-info',
       },
       {
-        document: require('../../assets/embedded-widget/patient-encounter-timeline.md')
+        document: require('@assets/embedded-widget/patient-encounter-timeline.md')
           .default,
         label: 'Patine Encounter Timeline',
         path:
-          'embeded-widget/patient-info/encounter-timeline/0debf275-d585-4897-a8eb-25726def1ed5',
+          'embedded-widget/patient-info/encounter-timeline/0debf275-d585-4897-a8eb-25726def1ed5',
         value: 'patient-encounter-timeline',
       },
     ],
@@ -158,16 +147,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 )
-
-export const sendMessage = (message: IPostMessage) => {
-  window.parent.postMessage(
-    {
-      ...message,
-      eventType: 'embedded-widget',
-    },
-    environment.iframe.targetOrigin,
-  )
-}
 
 const WidgetGallery: IStatelessPage<{
   query: any
@@ -252,7 +231,7 @@ const WidgetGallery: IStatelessPage<{
 
   const handleChangeWidget = (widget: any) => {
     routes.Router.replaceRoute(
-      `/embeded-widget?widget=${_.toLower(widget.value)}`,
+      `/embedded-widget?widget=${_.toLower(widget.value)}`,
     )
   }
 
@@ -300,12 +279,12 @@ const WidgetGallery: IStatelessPage<{
         ? `?widget=${selectedWidget.value || ''}`
         : ''
       routes.Router.replaceRoute(
-        `/embeded-widget${
+        `/embedded-widget${
           selectedWidget.value ? `?widget=${selectedWidget.value || ''}` : ''
         }`,
       )
     } else {
-      routes.Router.replaceRoute(`/embeded-widget`)
+      routes.Router.replaceRoute(`/embedded-widget`)
     }
     setOutputEventData({})
   }

@@ -8,23 +8,23 @@ module.exports = nextRoutes()
     'patient-info/encounter',
     '/patient-info/:patientId/encounter/:encounterId'
   )
-  .add('embeded-widget')
+  .add('embedded-widget')
   .add(
-    'embeded-widget/patient-search-bar',
-    '/embeded-widget/patient-search-bar'
+    'embedded-widget/patient-search-bar',
+    '/embedded-widget/patient-search-bar'
   )
   .add(
-    'embeded-widget/patient-search-result',
-    '/embeded-widget/patient-search-result'
+    'embedded-widget/patient-search-result',
+    '/embedded-widget/patient-search-result'
   )
-  .add('embeded-widget/patient-search')
+  .add('embedded-widget/patient-search')
   .add(
-    'embeded-widget/patient-info/encounter',
-    '/embeded-widget/patient-info/:patientId/encounter/:encounterId'
+    'embedded-widget/patient-info/encounter',
+    '/embedded-widget/patient-info/:patientId/encounter/:encounterId'
   )
   .add(
-    'embeded-widget/patient-info/encounter-timeline',
-    '/embeded-widget/patient-info/encounter-timeline/:patientId',
-    'embeded-widget/patient-info/patient-encounter-timeline'
+    'embedded-widget/patient-info/encounter-timeline',
+    '/embedded-widget/patient-info/encounter-timeline/:patientId',
+    'embedded-widget/patient-info/patient-encounter-timeline'
   )
-  .add('embeded-widget/patient-info', '/embeded-widget/patient-info/:patientId')
+  .add('embedded-widget/patient-info', '/embedded-widget/patient-info/:patientId')

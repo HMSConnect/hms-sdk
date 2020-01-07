@@ -1,28 +1,24 @@
-import React from 'react'
+import * as React from 'react'
 
+import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
+import BootstrapWrapper from '@components/init/BootstrapWrapper'
+import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
+import PatientSearch from '@components/widget/patient/PatientSearch'
 import {
   Container,
   CssBaseline,
   makeStyles,
   Theme,
-  Typography
+  Typography,
 } from '@material-ui/core'
+import { parse } from '@utils'
 import * as _ from 'lodash'
-import { parse } from '../../utils'
-
-import {
-  IPaginationOption,
-  ISortType
-} from '../../components/hooks/usePatientList'
-import BootstrapWrapper from '../../components/init/BootstrapWrapper'
-import { IPatientFilterValue } from '../../components/templates/patient/PatientFilterBar'
-import PatientSearch from '../../components/widget/patient/PatientSearch'
 
 const useStyles = makeStyles((theme: Theme) => ({
   body: {},
   root: {
-    paddingTop: '30px'
-  }
+    paddingTop: '30px',
+  },
 }))
 
 export interface IStatelessPage<P = {}> extends React.SFC<P> {
@@ -49,19 +45,19 @@ const PatientSearchView: IStatelessPage<{
 
 PatientSearchView.getInitialProps = async ({ query }) => {
   return {
-    query: initialPagination(query)
+    query: initialPagination(query),
   }
 }
 
 export function initialPagination(query: any) {
   const initialFilter: IPatientFilterValue = {
     gender: 'all',
-    searchText: ''
+    searchText: '',
   }
 
   const initialSort: ISortType = {
     order: 'asc',
-    orderBy: 'id'
+    orderBy: 'id',
   }
 
   query = parse(query)
@@ -71,7 +67,7 @@ export function initialPagination(query: any) {
     max: query.max ? Number(query.max) : 10,
     offset: query.offset ? Number(query.offset) : 0,
     page: query.page ? Number(query.page) : 0,
-    sort: _.isEmpty(query.sort) ? initialSort : query.sort
+    sort: _.isEmpty(query.sort) ? initialSort : query.sort,
   }
 }
 

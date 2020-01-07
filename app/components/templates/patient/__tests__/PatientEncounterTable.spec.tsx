@@ -1,7 +1,11 @@
-import React from 'react'
+import * as React from 'react'
 
-import { fireEvent, render, waitForDomChange } from '@testing-library/react'
-import { act } from 'react-test-renderer'
+import {
+  act,
+  fireEvent,
+  render,
+  waitForDomChange,
+} from '@testing-library/react'
 import EncounterService from '../../../../services/EncounterService'
 import { HMSService } from '../../../../services/HMSServiceFactory'
 import EncounterServiceMock from '../../../hooks/__mocks__/EncounterServiceMock'
@@ -19,26 +23,26 @@ describe('<PatientEncounterTable />', () => {
         classCode: 'test1',
         reason: 'Cannot tell',
         status: 'finished',
-        type: 'ADMS'
+        type: 'ADMS',
       },
       {
         classCode: 'test1',
         reason: 'Cannot tell',
         status: 'finished',
-        type: 'CCS60'
-      }
+        type: 'CCS60',
+      },
     ]
     const patient = {
       identifier: {
         id: {
-          value: '123'
-        }
-      }
+          value: '123',
+        },
+      },
     }
-    const { findAllByText } = render(
-      <PatientEncounterTable resourceList={resourceList} patient={patient} />
+    const { queryByText } = render(
+      <PatientEncounterTable resourceList={resourceList} patient={patient} />,
     )
-    expect(findAllByText('ADMS')).toBeTruthy()
+    expect(queryByText('ADMS')).toBeTruthy()
   })
 
   it('fire groupBy Type <PatientEncounterTable />', async () => {
@@ -47,14 +51,14 @@ describe('<PatientEncounterTable />', () => {
         data: [
           {
             reason: 'test3',
-            type: 'HAM'
+            type: 'HAM',
           },
           {
             reason: 'test4',
-            type: 'HAM'
-          }
+            type: 'HAM',
+          },
         ],
-        error: null
+        error: null,
       })
     })
     const resourceList = [
@@ -62,29 +66,29 @@ describe('<PatientEncounterTable />', () => {
         classCode: 'test1',
         reason: 'Cannot tell',
         status: 'finished',
-        type: 'ADMS'
+        type: 'ADMS',
       },
       {
         classCode: 'test1',
         reason: 'Cannot tell',
         status: 'finished',
-        type: 'CCS60'
-      }
+        type: 'CCS60',
+      },
     ]
     const patient = {
       identifier: {
         id: {
-          value: '123'
-        }
-      }
+          value: '123',
+        },
+      },
     }
 
-    const { getByTestId, container, findAllByText, getByText } = render(
-      <PatientEncounterTable resourceList={resourceList} patient={patient} />
+    const { getByTestId, queryByText, queryAllByText } = render(
+      <PatientEncounterTable resourceList={resourceList} patient={patient} />,
     )
 
     const checkboxElement = getByTestId(
-      'check-by-type-input'
+      'check-by-type-input',
     ).getElementsByTagName('input')[0]
     expect(checkboxElement).toBeTruthy()
 
@@ -102,9 +106,9 @@ describe('<PatientEncounterTable />', () => {
 
     expect(checkboxElement.checked).toBeFalsy()
 
-    expect(findAllByText('test3')).toBeTruthy()
-    expect(findAllByText('HAM')).toBeTruthy()
-    expect(findAllByText('test4')).toBeTruthy()
+    expect(queryByText('test3')).toBeTruthy()
+    expect(queryAllByText('HAM')).toBeTruthy()
+    expect(queryByText('test4')).toBeTruthy()
   })
 
   it('fire loadMore Type <PatientEncounterTable />', async () => {
@@ -113,14 +117,14 @@ describe('<PatientEncounterTable />', () => {
         data: [
           {
             reason: 'test3',
-            type: 'HAM'
+            type: 'HAM',
           },
           {
             reason: 'test4',
-            type: 'HAM'
-          }
+            type: 'HAM',
+          },
         ],
-        error: null
+        error: null,
       })
     })
 
@@ -129,28 +133,32 @@ describe('<PatientEncounterTable />', () => {
         classCode: 'test1',
         reason: 'Cannot tell',
         status: 'finished',
-        type: 'ADMS'
+        type: 'ADMS',
       },
       {
         classCode: 'test1',
         reason: 'Cannot tell',
         status: 'finished',
-        type: 'CCS60'
-      }
+        type: 'CCS60',
+      },
     ]
     const patient = {
       identifier: {
         id: {
-          value: '123'
-        }
-      }
+          value: '123',
+        },
+      },
     }
 
-    const { getByTestId, container, findAllByText, getByText } = render(
-      <PatientEncounterTable resourceList={resourceList} patient={patient} />
+    const {
+      getByTestId,
+      container,
+      queryByText,
+      getByText,
+      queryAllByText,
+    } = render(
+      <PatientEncounterTable resourceList={resourceList} patient={patient} />,
     )
-
-    // await waitForDomChange()
 
     const loadButton = getByText('Load More')
     expect(loadButton).toBeTruthy()
@@ -160,11 +168,11 @@ describe('<PatientEncounterTable />', () => {
       await waitForDomChange()
     })
 
-    expect(findAllByText('CCS60')).toBeTruthy()
-    expect(findAllByText('ADMS')).toBeTruthy()
-    expect(findAllByText('test1')).toBeTruthy()
-    expect(findAllByText('test3')).toBeTruthy()
-    expect(findAllByText('HAM')).toBeTruthy()
-    expect(findAllByText('test4')).toBeTruthy()
+    expect(queryByText('CCS60')).toBeTruthy()
+    expect(queryByText('ADMS')).toBeTruthy()
+    expect(queryAllByText('test1')).toBeTruthy()
+    expect(queryByText('test3')).toBeTruthy()
+    expect(queryAllByText('HAM')).toBeTruthy()
+    expect(queryByText('test4')).toBeTruthy()
   })
 })

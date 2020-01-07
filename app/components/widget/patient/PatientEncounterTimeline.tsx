@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react'
+import routes from '../../../routes'
 
 import { CircularProgress, Grid, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import { sendMessage } from '@utils'
 import * as _ from 'lodash'
-
-import { sendMessage } from '../../../pages/embeded-widget'
-import routes from '../../../routes'
+import React, { useEffect, useRef } from 'react'
 import RouterManager from '../../../routes/RouteManager'
 import EncounterService from '../../../services/EncounterService'
 import { HMSService } from '../../../services/HMSServiceFactory'
@@ -16,8 +15,8 @@ import PatientEncounterList from '../../templates/PatientEncounterList'
 const useStyles = makeStyles((theme: Theme) => ({
   listRoot: { maxHeight: '60vh', overflow: 'auto' },
   root: {
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 }))
 
 export interface IBodyCellProp {
@@ -43,7 +42,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   const { data, error, isLoading, setIsFetch } = useInfinitScroll(
     myscroll.current,
     fetchMoreAsync,
-    resourceList
+    resourceList,
   )
 
   useEffect(() => {
@@ -54,28 +53,28 @@ const PatientEncounterTimeline: React.FunctionComponent<{
 
   async function fetchMoreAsync(lastEntry: any) {
     const encounterService = HMSService.getService(
-      'encounter'
+      'encounter',
     ) as EncounterService
 
     const newLazyLoad = {
       filter: {
         patientId,
-        periodStart_lt: _.get(lastEntry, 'startTime')
+        periodStart_lt: _.get(lastEntry, 'startTime'),
       },
-      max: 10
+      max: 10,
     }
 
     const entryData = await encounterService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
       sendMessage({
-        error: _.get(entryData, 'error')
+        error: _.get(entryData, 'error'),
       })
       return Promise.reject(new Error(entryData.error))
     }
 
     sendMessage({
       message: 'handleLoadMore',
-      params: newLazyLoad
+      params: newLazyLoad,
     })
 
     return Promise.resolve(_.get(entryData, 'data'))
@@ -83,23 +82,23 @@ const PatientEncounterTimeline: React.FunctionComponent<{
 
   const handleEncounterSelect = async (
     event: React.MouseEvent,
-    selectedEncounter: any
+    selectedEncounter: any,
   ) => {
     const newParams = {
       encounterId: _.get(selectedEncounter, 'id'),
-      patientId
+      patientId,
     }
     const path = RouterManager.getPath(
       `patient-info/${patientId}/encounter/${_.get(selectedEncounter, 'id')}`,
       {
-        matchBy: 'url'
-      }
+        matchBy: 'url',
+      },
     )
     sendMessage({
       action: 'PUSH_ROUTE',
       message: 'handleEncounterSelect',
       params: newParams,
-      path
+      path,
     })
     routes.Router.pushRoute(path, newParams)
   }
@@ -111,7 +110,11 @@ const PatientEncounterTimeline: React.FunctionComponent<{
           <Typography variant='h6'>Encounter</Typography>
         </Grid>
         <Grid item xs={10}>
-          <div ref={myscroll} className={classes.listRoot}>
+          <div
+            ref={myscroll}
+            className={classes.listRoot}
+            data-testid='scroll-container'
+          >
             <PatientEncounterList
               entryList={data}
               onEntrySelected={handleEncounterSelect}

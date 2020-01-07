@@ -1,23 +1,23 @@
-import React from 'react'
+import * as React from 'react'
 
+import Highlighter from '@components/base/Highlighter'
 import {
   Avatar,
   makeStyles,
   TableCell,
   Theme,
-  Typography
+  Typography,
 } from '@material-ui/core'
 import * as _ from 'lodash'
-import Highlighter from '../../base/Highlighter'
 
 const useStyles = makeStyles((theme: Theme) => ({
   avatar: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   content: {
-    padding: 0
+    padding: 0,
   },
-  root: {}
+  root: {},
 }))
 
 const PatientItem: React.FunctionComponent<{
@@ -25,7 +25,6 @@ const PatientItem: React.FunctionComponent<{
   highlightText?: string
 }> = ({ highlightText, patient }) => {
   const classes = useStyles()
-
   return (
     <>
       <TableCell>

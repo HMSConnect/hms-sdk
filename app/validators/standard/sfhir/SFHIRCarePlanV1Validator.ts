@@ -1,4 +1,4 @@
-import IValidator from '../../IValidator'
+import IValidator from '@validators/IValidator'
 
 class SFHIRCarePlanV1Validator implements IValidator {
   isValid(schema: any): boolean {

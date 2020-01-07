@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 import { CircularProgress, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
@@ -7,22 +7,22 @@ import { Theme } from 'pretty-format/build/types'
 import Pagination, { IPageOptionResult } from '../../base/Pagination'
 import usePatientList, {
   IPaginationOption,
-  ISortType
+  ISortType,
 } from '../../hooks/usePatientList'
 import PatientSearchResult from '../../templates/patient/PatientSearchResult'
 
-const defaultPagination: IPaginationOption = {
+export const defaultPagination: IPaginationOption = {
   max: 10,
   offset: 0,
-  page: 0
+  page: 0,
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
   bottom: {
     bottom: '1em',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
-  root: {}
+  root: {},
 }))
 
 const PatientSearchResultWithPaginate: React.FunctionComponent<{
@@ -36,10 +36,10 @@ const PatientSearchResultWithPaginate: React.FunctionComponent<{
   paginationOption = defaultPagination,
   onPatientSelect,
   onRequestSort,
-  onPageChange
+  onPageChange,
 }) => {
   const { isLoading, data, totalCount, error } = usePatientList(
-    paginationOption
+    paginationOption,
   )
 
   const classes = useStyles()

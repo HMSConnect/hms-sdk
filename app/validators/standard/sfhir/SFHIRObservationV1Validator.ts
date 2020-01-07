@@ -1,8 +1,7 @@
-import IValidator from '../../IValidator'
-
+import environment from '@environment'
+import IValidator from '@validators/IValidator'
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import environment from '../../../config'
 class SFHIRObservationV1Validator implements IValidator {
   isValid(schema: any): boolean {
     return (
@@ -40,12 +39,12 @@ class SFHIRObservationV1Validator implements IValidator {
         ? _.chain(observation.component)
             .map((c: any) => ({
               code: c.code.text,
-              value: c.valueQuantity.value
+              value: c.valueQuantity.value,
             }))
             .value()
         : _.isNumber(valueQuantity)
         ? Number(valueQuantity).toFixed(6)
-        : valueQuantity
+        : valueQuantity,
     }
   }
 }

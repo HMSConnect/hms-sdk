@@ -1,5 +1,15 @@
+import environment from '@environment'
 import * as _ from 'lodash'
 import qs from 'qs'
+
+interface IPostMessage {
+  action?: string
+  message?: string
+  path?: string
+  params?: any
+  result?: any
+  error?: any
+}
 
 export function toNaturalName(s: string) {
   return _.chain(s)
@@ -20,7 +30,7 @@ export function parse(s: string) {
     const keywords: any = {
       false: false,
       null: null,
-      true: true
+      true: true,
     }
     if (value in keywords) {
       return keywords[value]
@@ -28,4 +38,16 @@ export function parse(s: string) {
 
     return value
   })
+}
+
+export const sendMessage = (message: IPostMessage) => {
+  if (typeof window !== undefined) {
+    window.parent.postMessage(
+      {
+        ...message,
+        eventType: 'embedded-widget',
+      },
+      environment.iframe.targetOrigin,
+    )
+  }
 }

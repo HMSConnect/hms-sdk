@@ -1,11 +1,11 @@
 # Patient Search Bar
 
-If you are new user, please read [Getting started with HMS Widget](/embeded-widget?widget=get-started)
+If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
-URL: `/embeded-widget/patient-search-bar`
+URL: `/embedded-widget/patient-search-bar`
 
 ## Setup this widget to iframe
-Replace `/embeded-widget/patient-search-bar` url to your iframe project.
+Replace `/embedded-widget/patient-search-bar` url to your iframe project.
 
 ## Request HTTP GET
 **Query Params**
@@ -19,7 +19,7 @@ Replace `/embeded-widget/patient-search-bar` url to your iframe project.
 
 ## Response
 - **Object Response**
-    You can learn this in topic [Getting started with HMS Widget](/embeded-widget?widget=get-started)
+    You can learn this in topic [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 - **Avaliable Response**
    | Action | Message               | Description                              |
@@ -31,7 +31,7 @@ Replace `/embeded-widget/patient-search-bar` url to your iframe project.
 ## Example
 
 ### Request
- - pathname: `/embeded-widget/patient-search-bar` 
+ - pathname: `/embedded-widget/patient-search-bar` 
 
 ### Response
 ```json
@@ -46,7 +46,7 @@ Replace `/embeded-widget/patient-search-bar` url to your iframe project.
     "offset": 0,
     "page": 1
   },
-  "path": "embeded-widget/patient-search-bar?filter%5Bgender%5D=all&filter%5BsearchText%5D=&max=10&offset=0&page=1",
+  "path": "embedded-widget/patient-search-bar?filter%5Bgender%5D=all&filter%5BsearchText%5D=&max=10&offset=0&page=1",
   "result": {
     "error": null,
     "schema": {},

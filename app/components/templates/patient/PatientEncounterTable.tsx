@@ -1,25 +1,25 @@
 import React, { useState } from 'react'
 
+import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
+import TabGroup, { ITabList } from '@components/base/TabGroup'
+import TableBase from '@components/base/TableBase'
+import { ILazyLoadOption } from '@components/hooks/useInfinitScroll'
+import useLazyLoad from '@components/hooks/useLazyLoad'
+import environment from '@environment'
 import { Checkbox, Grid, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import EncounterService from '@services/EncounterService'
+import { HMSService } from '@services/HMSServiceFactory'
 import * as _ from 'lodash'
 import * as moment from 'moment'
 import { useRouter } from 'next/router'
-
-import environment from '../../../config'
-import EncounterService from '../../../services/EncounterService'
-import { HMSService } from '../../../services/HMSServiceFactory'
-import { IHeaderCellProps } from '../../base/EnhancedTableHead'
-import TabGroup, { ITabList } from '../../base/TabGroup'
-import TableBase from '../../base/TableBase'
-import useLazyLoad, { ILazyLoadOption } from '../../hooks/useLazyLoad'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
   tableWrapper: {
     maxHeight: '55vh',
-    overflow: 'auto'
-  }
+    overflow: 'auto',
+  },
 }))
 
 export interface IBodyCellProp {
@@ -41,9 +41,9 @@ const PatientEncounterTable: React.FunctionComponent<{
   const router = useRouter()
   const [lazyLoadOption, setLazyLoad] = useState<ILazyLoadOption>({
     filter: {
-      patientId: _.get(patient, 'identifier.id.value')
+      patientId: _.get(patient, 'identifier.id.value'),
     },
-    max: 10
+    max: 10,
   })
 
   const {
@@ -52,18 +52,18 @@ const PatientEncounterTable: React.FunctionComponent<{
     setResult,
     isMore,
     setIsMore,
-    setIsFetch
+    setIsFetch,
   } = useLazyLoad(resourceList, fetchMoreAsync)
   const [isGroup, setIsGroup] = useState<boolean | undefined>(false)
   const [tabList, setTabList] = useState<ITabList[]>([])
 
   async function fetchMoreAsync() {
     const encounterService = HMSService.getService(
-      'encounter'
+      'encounter',
     ) as EncounterService
 
     const entryData = await encounterService.list(lazyLoadOption)
-    
+
     if (_.get(entryData, 'error')) {
       return Promise.reject(new Error(entryData.error))
     }
@@ -73,24 +73,24 @@ const PatientEncounterTable: React.FunctionComponent<{
 
   const handleEncounterSelect = (
     event: React.MouseEvent,
-    selectedEncounter: any
+    selectedEncounter: any,
   ) => {
     router.push({
       pathname: `/patient-info/encounter/${selectedEncounter.id}`,
       query: {
-        patientId: _.get(patient, 'identifier.id.value')
-      }
+        patientId: _.get(patient, 'identifier.id.value'),
+      },
     })
     // TODO handle select encounter
   }
 
   const handleGroupByType = async (isGroup: boolean) => {
     const encounterService = HMSService.getService(
-      'encounter'
+      'encounter',
     ) as EncounterService
     if (isGroup) {
       const menuTabList = await encounterService.typeList({
-        filter: { patientId: lazyLoadOption.filter.patientId }
+        filter: { patientId: lazyLoadOption.filter.patientId },
       })
       setTabList(menuTabList.data)
       handleTabChange(menuTabList.data[0].type)
@@ -108,11 +108,11 @@ const PatientEncounterTable: React.FunctionComponent<{
     const filter = {
       patientId: patientIdFilter,
       periodStart_lt: undefined,
-      type: undefined
+      type: undefined,
     }
     setLazyLoad(prevLazyLoad => ({
       ...prevLazyLoad,
-      filter
+      filter,
     }))
     return filter
   }
@@ -121,18 +121,18 @@ const PatientEncounterTable: React.FunctionComponent<{
     const filter = {
       ...lazyLoadOption.filter,
       periodStart_lt: undefined,
-      type: selectedTab
+      type: selectedTab,
     }
     setLazyLoad(prevLazyLoad => ({
       ...prevLazyLoad,
       filter: {
         ...prevLazyLoad.filter,
         periodStart_lt: undefined,
-        type: selectedTab
-      }
+        type: selectedTab,
+      },
     }))
     const encounterService = HMSService.getService(
-      'encounter'
+      'encounter',
     ) as EncounterService
     const newResult = await encounterService.list({ filter })
     setResult(newResult)
@@ -146,8 +146,8 @@ const PatientEncounterTable: React.FunctionComponent<{
       filter: {
         ...prevLazyLoad.filter,
         periodStart_lt: _.get(lastEntry, 'startTime'),
-        type: type ? type : prevLazyLoad.filter.type
-      }
+        type: type ? type : prevLazyLoad.filter.type,
+      },
     }))
     setIsFetch(true)
   }
@@ -168,7 +168,7 @@ const PatientEncounterTable: React.FunctionComponent<{
               data-testid='check-by-type-input'
               value={isGroup}
               inputProps={{
-                'aria-label': 'primary checkbox'
+                'aria-label': 'primary checkbox',
               }}
             />
           </Typography>
@@ -188,20 +188,20 @@ const PatientEncounterTable: React.FunctionComponent<{
             {
               bodyCell: {
                 align: 'left',
-                id: 'type'
+                id: 'type',
               },
               headCell: {
                 align: 'center',
                 disablePadding: true,
                 disableSort: true,
                 id: 'type',
-                label: 'Type'
-              }
+                label: 'Type',
+              },
             },
             {
               bodyCell: {
                 align: 'left',
-                id: 'reason'
+                id: 'reason',
               },
               headCell: {
                 align: 'left',
@@ -210,14 +210,14 @@ const PatientEncounterTable: React.FunctionComponent<{
                 id: 'reason',
                 label: 'Reason',
                 styles: {
-                  width: '15em'
-                }
-              }
+                  width: '15em',
+                },
+              },
             },
             {
               bodyCell: {
                 align: 'center',
-                id: 'classCode'
+                id: 'classCode',
               },
               headCell: {
                 align: 'center',
@@ -226,15 +226,15 @@ const PatientEncounterTable: React.FunctionComponent<{
                 id: 'classCode',
                 label: 'ClassCode',
                 styles: {
-                  width: '5em'
-                }
-              }
+                  width: '5em',
+                },
+              },
             },
 
             {
               bodyCell: {
                 align: 'center',
-                id: 'status'
+                id: 'status',
               },
               headCell: {
                 align: 'center',
@@ -243,9 +243,9 @@ const PatientEncounterTable: React.FunctionComponent<{
                 id: 'status',
                 label: 'Status',
                 styles: {
-                  width: '5em'
-                }
-              }
+                  width: '5em',
+                },
+              },
             },
             {
               bodyCell: {
@@ -259,7 +259,7 @@ const PatientEncounterTable: React.FunctionComponent<{
                           .format(environment.localFormat.dateTime)
                       : null}
                   </>
-                )
+                ),
               },
               headCell: {
                 align: 'center',
@@ -268,9 +268,9 @@ const PatientEncounterTable: React.FunctionComponent<{
                 id: 'startTime',
                 label: 'StartTime',
                 styles: {
-                  width: '10em'
-                }
-              }
+                  width: '10em',
+                },
+              },
             },
             {
               bodyCell: {
@@ -284,7 +284,7 @@ const PatientEncounterTable: React.FunctionComponent<{
                           .format(environment.localFormat.dateTime)
                       : null}
                   </>
-                )
+                ),
               },
               headCell: {
                 align: 'center',
@@ -293,10 +293,10 @@ const PatientEncounterTable: React.FunctionComponent<{
                 id: 'endTime',
                 label: 'EndTime',
                 styles: {
-                  width: '10em'
-                }
-              }
-            }
+                  width: '10em',
+                },
+              },
+            },
           ]}
         />
       </div>

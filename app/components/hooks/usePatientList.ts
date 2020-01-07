@@ -1,10 +1,7 @@
-import { useEffect, useState } from 'react'
-
+import { HMSService } from '@services/HMSServiceFactory'
+import PatientService from '@services/PatientService'
+import { ISchema } from '@utils/types'
 import * as _ from 'lodash'
-
-import { HMSService } from '../../services/HMSServiceFactory'
-import PatientService from '../../services/PatientService'
-import { ISchema } from '../../validators/ValidatorManager'
 import usePromise from './utils/usePromise'
 
 export interface IPatientResultList {

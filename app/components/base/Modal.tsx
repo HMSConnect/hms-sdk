@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import MuiDialogActions from '@material-ui/core/DialogActions'
@@ -8,11 +10,10 @@ import {
   createStyles,
   Theme,
   withStyles,
-  WithStyles
+  WithStyles,
 } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import CloseIcon from '@material-ui/icons/Close'
-import React from 'react'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -20,18 +21,18 @@ const styles = (theme: Theme) =>
       color: theme.palette.grey[500],
       position: 'absolute',
       right: theme.spacing(1),
-      top: theme.spacing(1)
+      top: theme.spacing(1),
     },
     root: {
       margin: 0,
-      padding: theme.spacing(2)
-    }
+      padding: theme.spacing(2),
+    },
   })
 
 export interface IDialogTitleProps extends WithStyles<typeof styles> {
   id: string
   children: React.ReactNode
-  onClose: () => void
+  onClose?: () => void
 }
 
 const DialogTitle = withStyles(styles)((props: IDialogTitleProps) => {
@@ -44,6 +45,7 @@ const DialogTitle = withStyles(styles)((props: IDialogTitleProps) => {
           aria-label='close'
           className={classes.closeButton}
           onClick={onClose}
+          data-testid='close-button'
         >
           <CloseIcon />
         </IconButton>
@@ -54,15 +56,15 @@ const DialogTitle = withStyles(styles)((props: IDialogTitleProps) => {
 
 const DialogContent = withStyles((theme: Theme) => ({
   root: {
-    padding: theme.spacing(2)
-  }
+    padding: theme.spacing(2),
+  },
 }))(MuiDialogContent)
 
 const DialogActions = withStyles((theme: Theme) => ({
   root: {
     margin: 0,
-    padding: theme.spacing(1)
-  }
+    padding: theme.spacing(1),
+  },
 }))(MuiDialogActions)
 
 const Modal: React.FunctionComponent<{
@@ -70,15 +72,14 @@ const Modal: React.FunctionComponent<{
   modalTitle?: string
   isOpen: boolean
   fullScreen?: boolean
-  onClose: any
-  children: any
+  onClose?: any
 }> = ({
   id = 'customized-dialog-title',
   modalTitle = 'Modal title',
   isOpen,
   onClose,
   children,
-  fullScreen
+  fullScreen,
 }) => {
   return (
     <Dialog
@@ -111,10 +112,10 @@ interface IOptionModalHook {
 
 export const useModal = (
   ModalContenent: any,
-  option: IOptionModalHook = {}
+  option: IOptionModalHook = {},
 ) => {
   const [isOpen, setOpen] = React.useState<boolean | null>(
-    option.isOpen || null
+    option.isOpen || null,
   )
   const handleModalClose = () => {
     setOpen(false)
@@ -139,6 +140,6 @@ export const useModal = (
     closeModal: handleModalClose,
     isOpen,
     renderModal,
-    showModal: handleModalShow
+    showModal: handleModalShow,
   }
 }

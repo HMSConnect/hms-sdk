@@ -1,6 +1,6 @@
-import { HMSService } from '../../services/HMSServiceFactory'
-import PatientService from '../../services/PatientService'
 import usePromise from './utils/usePromise'
+import { HMSService } from '@services/HMSServiceFactory'
+import PatientService from '@services/PatientService'
 
 const usePatient = (id: string): any => {
   return usePromise(() => {

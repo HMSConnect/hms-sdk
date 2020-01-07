@@ -2,11 +2,11 @@
 
 # **How to use widget with iframe**
 
-1. Set attribute `src` from `<iframe>` tag to choose widget from `https://hms-widget.bonmek.com/embeded-widget` such as if you want to use Patient Search Result Widget. set `src` attribute to `https://hms-widget.bonmek.com/embeded-widget/patient-search-result`
+1. Set attribute `src` from `<iframe>` tag to choose widget from `https://hms-widget.bonmek.com/embedded-widget` such as if you want to use Patient Search Result Widget. set `src` attribute to `https://hms-widget.bonmek.com/embedded-widget/patient-search-result`
 
 ```html
 <iframe
-  src="https://hms-widget.bonmek.com/embeded-widget/patient-search-result"
+  src="https://hms-widget.bonmek.com/embedded-widget/patient-search-result"
   width="1000"
   height="720"
 />
@@ -44,7 +44,7 @@ object response
 <html>
   <body>
     <iframe
-      src="https://hms-widget.bonmek.com/embeded-widget/patient-search-result"
+      src="https://hms-widget.bonmek.com/embedded-widget/patient-search-result"
       width="1000"
       height="720"
     ></iframe>
@@ -82,7 +82,7 @@ object response
     <div style="display: flex;">
       <div style="flex: 1;text-align: center;">
         <iframe
-          src="https://hms-widget.bonmek.com/embeded-widget/patient-search-result"
+          src="https://hms-widget.bonmek.com/embedded-widget/patient-search-result"
           name="iframe_a"
           width="1000"
           height="720"

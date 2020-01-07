@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 import {
   AppBar,
@@ -78,9 +78,9 @@ const useSideMenuStyles = makeStyles((theme: Theme) =>
 )
 
 const SideMenuWithContent: React.FunctionComponent<{
+  renderMenuList: React.ReactElement
   appBarTitle?: string
   menuTitle?: string
-  renderMenuList: React.ReactElement
 }> = ({
   appBarTitle = 'Persistant Drawer',
   children,
@@ -127,6 +127,7 @@ const SideMenuWithContent: React.FunctionComponent<{
         menuTitle={menuTitle}
         isOpen={isOpen}
         onDrawerClose={handleDrawerClose}
+        aria-label='side-menu'
       >
         {renderMenuList}
       </SideMenu>
@@ -160,6 +161,7 @@ export const SideMenu: React.FunctionComponent<{
       classes={{
         paper: classes.drawerPaper,
       }}
+      data-testid='drawer'
     >
       <div className={classes.drawerHeader}>
         <Button
@@ -170,7 +172,7 @@ export const SideMenu: React.FunctionComponent<{
             theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
             ) : (
-              <ChevronRightIcon />
+              null
             )
           }
         >

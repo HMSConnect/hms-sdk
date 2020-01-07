@@ -13,7 +13,7 @@ describe('useEncounter', () => {
 
   it('initial useEncounter', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
-      useEncounter('e00001')
+      useEncounter('e00001'),
     )
     expect(result.error).toBeUndefined()
 
@@ -23,7 +23,10 @@ describe('useEncounter', () => {
 
     expect(result.current.data).toStrictEqual({
       reason: 'Test1',
-      type: 'ADMS'
+      serviceProvider: {
+        name: 'ServiceTest1',
+      },
+      type: 'ADMS',
     })
   })
 
@@ -33,7 +36,7 @@ describe('useEncounter', () => {
     })
 
     const { result, waitForNextUpdate } = renderHook(() =>
-      useEncounter('e00001')
+      useEncounter('e00001'),
     )
     expect(result.error).toBeUndefined()
 

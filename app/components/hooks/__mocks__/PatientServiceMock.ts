@@ -1,13 +1,12 @@
 class PatientServiceMock {
-
   async load(id: string): Promise<any> {
     return Promise.resolve({
       data: {
         birth: '2018/11/11',
-        name: 'test'
+        name: 'test',
       },
       error: null,
-      totalCount: 1
+      totalCount: 1,
     })
   }
 
@@ -16,15 +15,15 @@ class PatientServiceMock {
       data: [
         {
           birth: '2018/11/11',
-          name: 'test1'
+          name: 'test1',
         },
         {
           birth: '2019/01/01',
-          name: 'test2'
-        }
+          name: 'test2',
+        },
       ],
       error: null,
-      totalCount: 2
+      totalCount: 2,
     })
   }
 
@@ -35,17 +34,17 @@ class PatientServiceMock {
         {
           data: [
             {
-              type: 'ADMS'
+              type: 'ADMS',
             },
             {
-              type: 'EECM'
-            }
+              type: 'EECM',
+            },
           ],
           resourceType: 'encounter',
-          totalCount: 2
-        }
+          totalCount: 2,
+        },
       ],
-      error: null
+      error: null,
     })
   }
 }

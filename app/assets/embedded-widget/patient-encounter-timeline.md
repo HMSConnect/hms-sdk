@@ -1,12 +1,12 @@
 # Patient Encounter Timeline
 
-If you are new user, please read [Getting started with HMS Widget](/embeded-widget?widget=get-started)
+If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 
-URL: `/embeded-widget/patient-info/encounter-timeline/:patientId`
+URL: `/embedded-widget/patient-info/encounter-timeline/:patientId`
 
 ## Setup this widget to iframe
-Replace `/embeded-widget/patient-info/encounter-timeline/:patientId` url to your iframe project.
+Replace `/embedded-widget/patient-info/encounter-timeline/:patientId` url to your iframe project.
 
 ## Request HTTP GET
 **Params**
@@ -16,7 +16,7 @@ Replace `/embeded-widget/patient-info/encounter-timeline/:patientId` url to your
 
 ## Response
 - **Object Response**
-    You can learn this in topic [Getting started with HMS Widget](/embeded-widget?widget=get-started)
+    You can learn this in topic [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 - **Avaliable event response**
    | Action     | Message               | Description                                       |
    | ---------- | --------------------- | ------------------------------------------------- |
@@ -26,7 +26,7 @@ Replace `/embeded-widget/patient-info/encounter-timeline/:patientId` url to your
 ## Example
 
 ### Request
- - pathname: `/embeded-widget/patient-info/encounter-timeline/0debf275-d585-4897-a8eb-25726def1ed5` 
+ - pathname: `/embedded-widget/patient-info/encounter-timeline/0debf275-d585-4897-a8eb-25726def1ed5` 
 
 ### Action
  - Scroll to bottom of timeline

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import App, { Container } from 'next/app'
 import Head from 'next/head'
 import { ThemeProvider } from '@material-ui/styles'

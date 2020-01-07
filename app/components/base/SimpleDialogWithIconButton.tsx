@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 import { IconButton } from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
@@ -16,14 +16,14 @@ const SimpleDialogWithIconButton: React.FunctionComponent<{
   onDialogClose,
   list,
   dialogTitle,
-  iconComponent = <AddCircleOutlineIcon />
+  iconComponent = <AddCircleOutlineIcon />,
 }) => {
   const [open, setOpen] = React.useState(false)
   const handleClickOpen = () => {
     setOpen(true)
   }
 
-  const handleClose = (item: ISimpleDialogItem) => {
+  const handleClose = (item: ISimpleDialogItem | null) => {
     setOpen(false)
     if (onDialogClose) {
       onDialogClose(item)
@@ -36,6 +36,7 @@ const SimpleDialogWithIconButton: React.FunctionComponent<{
         color='primary'
         aria-label='dialog icon'
         onClick={handleClickOpen}
+        data-testid='icon-button'
       >
         {iconComponent}
       </IconButton>

@@ -12,7 +12,7 @@ class RouteManager {
   private mode: RouteMode | null = null
 
   registryMode(pathName: string) {
-    const isWidget = _.includes(pathName, 'embeded-widget')
+    const isWidget = _.includes(pathName, 'embedded-widget')
     if (isWidget) {
       this.mode = 'widget'
     } else {
@@ -29,7 +29,7 @@ class RouteManager {
     const prefixPath = matchBy === 'url' ? '/' : ''
 
     if (this.mode === 'widget') {
-      return `${prefixPath}embeded-widget/${path}${querystring}`
+      return `${prefixPath}embedded-widget/${path}${querystring}`
     }
     return `${prefixPath}${path}${querystring}`
   }

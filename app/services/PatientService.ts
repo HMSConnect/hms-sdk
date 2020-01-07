@@ -1,7 +1,7 @@
-import IAdapter from '../adapters/IAdapter'
-import DataManager from '../data-managers/DataManager'
-import PatientDataManager from '../data-managers/PatientDataManager'
-import ValidatorManager from '../validators/ValidatorManager'
+import IAdapter from '@adapters/IAdapter'
+import DataManager from '@data-managers/DataManager'
+import PatientDataManager from '@data-managers/PatientDataManager'
+import ValidatorManager from '@validators/ValidatorManager'
 import AbstractService from './AbstractService'
 
 export default class PatientService extends AbstractService {
@@ -22,12 +22,12 @@ export default class PatientService extends AbstractService {
             ...result,
             data: result.data.map((entry: any) => {
               return validator.parse(entry)
-            })
+            }),
           }
         }
         // throw Error('not support this schema.')
         return result
-      })
+      }),
     }
   }
 }

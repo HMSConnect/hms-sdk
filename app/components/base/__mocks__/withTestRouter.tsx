@@ -1,6 +1,6 @@
 import { RouterContext } from 'next-server/dist/lib/router-context'
 import { NextRouter } from 'next/router'
-import React from 'react'
+import * as React from 'react'
 
 export function withTestRouter(tree: React.ReactElement, router: Partial<NextRouter> = {}) {
   const {

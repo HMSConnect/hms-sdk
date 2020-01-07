@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react'
 
+import GraphLine from '@components/base/GraphLine'
+import TabGroup, { ITabList } from '@components/base/TabGroup'
+import TableBase from '@components/base/TableBase'
 import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
 import { makeStyles, Paper, Theme, Typography } from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
 import * as _ from 'lodash'
 
-import GraphLine from '../base/GraphLine'
-import TabGroup, { ITabList } from '../base/TabGroup'
-import TableBase from '../base/TableBase'
-
 const useStyles = makeStyles((theme: Theme) => ({
   tableRoot: {
     height: '70vh',
-    overflowY: 'scroll'
-  }
+    overflowY: 'scroll',
+  },
 }))
 const DiagReportPatientData: React.FunctionComponent<{
   diagReportList: any[]
@@ -35,7 +34,7 @@ const DiagReportPatientData: React.FunctionComponent<{
       })
       const newData = _.find(
         resultCodeGroup,
-        (value, key) => key === tabList[0].type
+        (value, key) => key === tabList[0].type,
       )
       setTab(tabList)
       setData(newData)
@@ -50,7 +49,7 @@ const DiagReportPatientData: React.FunctionComponent<{
       .value()
     const newData = _.find(
       resultCodeGroup,
-      (value, key) => key === selectedValue
+      (value, key) => key === selectedValue,
     )
     if (newData) {
       setData(newData)
@@ -59,7 +58,7 @@ const DiagReportPatientData: React.FunctionComponent<{
 
   const handleEntrySelected = (
     event: React.MouseEvent,
-    selectedEncounter: any
+    selectedEncounter: any,
   ) => {
     // TODO handleEntrySelected
   }
@@ -102,29 +101,29 @@ const DiagReportPatientData: React.FunctionComponent<{
                         {_.get(data, 'unit') || 'Unknow'}
                       </Typography>
                     )
-                  }
+                  },
                 },
                 headCell: {
                   align: 'center',
                   disablePadding: false,
                   disableSort: true,
                   id: 'value',
-                  label: 'Value'
-                }
+                  label: 'Value',
+                },
               },
               {
                 bodyCell: {
                   align: 'center',
-                  id: 'issued'
+                  id: 'issued',
                 },
                 headCell: {
                   align: 'center',
                   disablePadding: false,
                   disableSort: true,
                   id: 'issued',
-                  label: 'Issued'
-                }
-              }
+                  label: 'Issued',
+                },
+              },
             ]}
           />
         </Paper>

@@ -1,8 +1,8 @@
+import environment from '@environment'
+import IValidator from '@validators/IValidator'
+import ValidatorManager from '@validators/ValidatorManager'
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import environment from '../../../config'
-import IValidator from '../../IValidator'
-import ValidatorManager from '../../ValidatorManager'
 
 class SFHIRDiagnosticReportV1Validator implements IValidator {
   isValid(schema: any): boolean {
@@ -34,7 +34,7 @@ class SFHIRDiagnosticReportV1Validator implements IValidator {
       issuedDate: _.get(data, 'issued')
         ? moment.default(_.get(data, 'issued'))
         : null,
-      result: _.get(data, 'result')
+      result: _.get(data, 'result'),
     }
   }
 }

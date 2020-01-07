@@ -64,7 +64,7 @@ function TablePaginationActions(props: ITablePaginationActionsProps) {
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
         aria-label='first page'
-        data-testid='firstPage'
+        data-testid='first-page'
       >
         {_.get(theme, 'direction') === 'rtl' ? (
           <LastPageIcon />
@@ -76,7 +76,7 @@ function TablePaginationActions(props: ITablePaginationActionsProps) {
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label='previous page'
-        data-testid='prevPage'
+        data-testid='prev-page'
       >
         {_.get(theme, 'direction') === 'rtl' ? (
           <KeyboardArrowRight />
@@ -88,7 +88,7 @@ function TablePaginationActions(props: ITablePaginationActionsProps) {
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label='next page'
-        data-testid='nextPage'
+        data-testid='next-page'
       >
         {_.get(theme, 'direction') === 'rtl' ? (
           <KeyboardArrowLeft />
@@ -100,7 +100,7 @@ function TablePaginationActions(props: ITablePaginationActionsProps) {
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label='last page'
-        data-testid='lastPage'
+        data-testid='last-page'
       >
         {_.get(theme, 'direction') === 'rtl' ? (
           <FirstPageIcon />

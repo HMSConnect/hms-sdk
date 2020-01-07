@@ -1,11 +1,11 @@
-import React from 'react'
+import * as React from 'react'
 
 import {
   Dialog,
   DialogTitle,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
 } from '@material-ui/core'
 
 export interface ISimpleDialogItem {
@@ -14,29 +14,40 @@ export interface ISimpleDialogItem {
 }
 
 const SimpleDialog: React.FunctionComponent<{
+  list: ISimpleDialogItem[]
+  open: boolean
+  onDialogClose?: (item: null | ISimpleDialogItem) => void
   id?: string
   buttonText?: string
   dialogTitle?: string
-  list: ISimpleDialogItem[]
-  onDialogClose?: any
-  open: boolean
 }> = ({
   id = 'simple-dialog-title',
   onDialogClose,
   list,
   open,
-  dialogTitle = 'Simple Dialog'
+  dialogTitle = 'Simple Dialog',
 }) => {
   return (
     <Dialog
-      onClose={() => onDialogClose(null)}
+      onClose={() =>
+        onDialogClose ? onDialogClose(null) : console.info('Dialog Close')
+      }
       aria-labelledby={id}
       open={open}
+      data-testid='dialog'
     >
-      <DialogTitle id={id}>{dialogTitle}</DialogTitle>
+      <DialogTitle id={id} data-testid='dialog-title'>
+        {dialogTitle}
+      </DialogTitle>
       <List>
         {list.map((item: ISimpleDialogItem) => (
-          <ListItem button onClick={() => onDialogClose(item)} key={item.value}>
+          <ListItem
+            button
+            onClick={() =>
+              onDialogClose ? onDialogClose(item) : console.info('Dialog Close')
+            }
+            key={item.value}
+          >
             <ListItemText primary={item.label} />
           </ListItem>
         ))}
