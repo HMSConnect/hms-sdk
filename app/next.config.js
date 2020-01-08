@@ -1,29 +1,38 @@
-
 require('dotenv').config()
 
 const withCSS = require('@zeit/next-css')
 const withStylus = require('@zeit/next-stylus')
-const path = require('path')                                                      
-const Dotenv = require('dotenv-webpack')    
+const path = require('path')
+const Dotenv = require('dotenv-webpack')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
-const env = process.env.NODE_ENV.trim() || 'development';
+const env = process.env.NODE_ENV.trim() || 'development'
 module.exports = withStylus({
   webpack(config, options) {
     return config
-  }
-});
+  },
+})
+
 
 module.exports = withCSS({
   cssModules: false,
-  webpack (config, options) {
+  publicRuntimeConfig: {
+    staticFolder: '/static',
+  },
+  webpack(config, options) {
     config.module.rules.push({
       test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
       use: {
         loader: 'url-loader',
         options: {
-          limit: 100000
-        }
-      }
+          limit: 100000,
+        },
+      },
+    })
+
+    config.module.rules.push({
+      test: /\.(txt|md|png)$/i,
+      use: 'raw-loader',
     })
 
     config.module.rules.push({
@@ -33,18 +42,24 @@ module.exports = withCSS({
       loader: 'babel-loader',
       exclude: [/node_modules/],
       options: {
-        presets: ['@babel/preset-react']
-      }
+        presets: ['@babel/preset-react'],
+      },
     })
 
-    // Read the .env file   
-    config.plugins.push(                                                    
-      new Dotenv({                                                       
-        path: path.join(__dirname, ('.env.'+env)),                                       
-        systemvars: true                                                          
-      })                                               
+    // Read the .env file
+    config.plugins.push(
+      new Dotenv({
+        path: path.join(__dirname, '.env.' + env),
+        systemvars: true,
+      }),
     )
 
+    if (config.resolve.plugins) {
+      config.resolve.plugins.push(new TsconfigPathsPlugin());
+    } else {
+      config.resolve.plugins = [new TsconfigPathsPlugin()];
+    }
+
     return config
-  }
+  },
 })

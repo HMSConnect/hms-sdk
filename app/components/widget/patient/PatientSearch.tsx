@@ -1,102 +1,148 @@
 import React, { useEffect, useState } from 'react'
 
-import {
-  CircularProgress,
-  Grid,
-  makeStyles,
-  Theme,
-  Typography
-} from '@material-ui/core'
+import { Grid, makeStyles, Theme } from '@material-ui/core'
+import { sendMessage } from '@utils'
 import * as _ from 'lodash'
-import { useRouter } from 'next/router'
-import { stringify } from 'qs'
-
-import Pagination, { IPageOptionResult } from '../../base/Pagination'
-import usePatientList, {
-  IPaginationOption,
-  ISortType
-} from '../../hooks/usePatientList'
+import routes from '../../../routes'
+import {
+  default as RouteManager,
+  default as RouterManager,
+} from '../../../routes/RouteManager'
+import { IPageOptionResult } from '../../base/Pagination'
+import { IPaginationOption, ISortType } from '../../hooks/usePatientList'
 import { IPatientFilterValue } from '../../templates/patient/PatientFilterBar'
-import PatientSearchPanel from '../../templates/patient/PatientSearchPanel'
-import PatientSearchResult from '../../templates/patient/PatientSearchResult'
+import PatientSearchPanel from './PatientSearchPanel'
+import PatientSearchResultWithPaginate from './PatientSearchResultWithPaginate'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bottom: {
     bottom: '1em',
     justifyContent: 'flex-end',
-    position: 'absolute'
+    position: 'absolute',
   },
-  root: {}
+  root: {},
 }))
 
 const PatientSearch: React.FunctionComponent<{
   query: IPaginationOption
 }> = ({ query }) => {
   const classes = useStyles()
-  const router = useRouter()
-
-  const [pagination, setPagination] = useState<IPaginationOption>(query)
   const [highlightText, setHighlightText] = useState<string>(
-    query.filter.searchText
+    _.get(query, 'filter.searchText') ? _.get(query, 'filter.searchText') : '',
   )
-  const { isLoading, data, totalCount } = usePatientList(pagination)
+  const [pagination, setPagination] = useState<IPaginationOption>(query)
+
   useEffect(() => {
-    if (!isLoading) {
-      setPagination(query)
-      setHighlightText(query.filter.searchText)
+    setPagination(query)
+    if (_.get(query, 'filter.searchText')) {
+      setHighlightText(_.get(query, 'filter.searchText'))
     }
   }, [query])
 
   const handleSearchSubmit = (filter: IPatientFilterValue) => {
-    router.replace({
-      pathname: '/patient-search',
-      query: {
-        ...pagination,
-        offset: 0,
-        page: 0,
-        filter: stringify(filter),
-        sort: stringify(pagination.sort)
-      }
+    const newPagination = {
+      ...pagination,
+      filter,
+      offset: 0,
+      page: 0,
+      sort: pagination.sort,
+    }
+
+    const path = RouterManager.getPath('patient-search', {
+      matchBy: 'url',
+      params: newPagination,
     })
+
+    sendMessage({
+      action: 'REPLACE_ROUTE',
+      message: 'handleSearchSubmit',
+      params: newPagination,
+      path,
+    })
+
+    routes.Router.replaceRoute(path)
   }
 
-  const handleHilightChange = (value: string) => {
+  const handleHighlightChange = (value: string) => {
     setHighlightText(value)
   }
 
   const handleRequestSort = (sortObject: ISortType) => {
-    router.replace({
-      pathname: '/patient-search',
-      query: {
-        ...pagination,
-        filter: stringify(pagination.filter),
-        sort: stringify(sortObject)
-      }
+    const newPagination = {
+      ...pagination,
+      filter: pagination.filter,
+      sort: sortObject,
+    }
+
+    const path = RouterManager.getPath('patient-search', {
+      matchBy: 'url',
+      params: newPagination,
     })
+
+    sendMessage({
+      action: 'REPLACE_ROUTE',
+      message: 'handleRequestSort',
+      params: newPagination,
+      path,
+    })
+
+    routes.Router.replaceRoute(path)
   }
 
-  const handlePageChage = (pageOptionResult: IPageOptionResult) => {
-    router.replace({
-      pathname: '/patient-search',
-      query: {
-        filter: stringify(pagination.filter),
-        sort: stringify(pagination.sort),
-        ...pageOptionResult
-      }
+  const handlePageChange = (pageOptionResult: IPageOptionResult) => {
+    const newPagination = {
+      ...pageOptionResult,
+      filter: pagination.filter,
+      sort: pagination.sort,
+    }
+
+    const path = RouterManager.getPath('patient-search', {
+      matchBy: 'url',
+      params: newPagination,
     })
+    sendMessage({
+      action: 'REPLACE_ROUTE',
+      message: 'handlePageChange',
+      params: newPagination,
+      path,
+    })
+
+    routes.Router.replaceRoute(path)
   }
 
   const handlePatientSelect = (patient: any) => {
-    router.push({
-      pathname: '/patient-info',
-      query: { id: _.get(patient, 'identifier.id.value') }
+    const params = {
+      patientId: _.get(patient, 'identifier.id.value'),
+    }
+    const path = RouterManager.getPath(
+      `patient-info/${_.get(patient, 'identifier.id.value')}`,
+      {
+        matchBy: 'url',
+      },
+    )
+    sendMessage({
+      action: 'PUSH_ROUTE',
+      message: 'handlePatientSelect',
+      params,
+      path,
     })
+
+    routes.Router.pushRoute(path)
   }
 
   const handlePaginationReset = (event: React.MouseEvent) => {
-    router.push({
-      pathname: '/patient-search'
+    const path = RouterManager.getPath(`patient-search`, {
+      matchBy: 'url',
     })
+
+    sendMessage({
+      action: 'REPLACE_ROUTE',
+      message: 'handlePaginationReset',
+      params: null,
+      path,
+    })
+
+    routes.Router.replaceRoute(path)
   }
 
   return (
@@ -107,36 +153,16 @@ const PatientSearch: React.FunctionComponent<{
             initialFilter={pagination.filter}
             onSearchSubmit={handleSearchSubmit}
             onPaginationReset={handlePaginationReset}
-            onHightlightChange={handleHilightChange}
+            onHightlightChange={handleHighlightChange}
           />
         </Grid>
-        <Grid item xs={12}>
-          {isLoading ? (
-            <CircularProgress />
-          ) : (
-            <PatientSearchResult
-              patientList={data}
-              sort={pagination.sort}
-              onPatientSelect={handlePatientSelect}
-              onRequestSort={handleRequestSort}
-              highlightText={highlightText}
-            />
-          )}
-        </Grid>
-        <Grid container justify='flex-end'>
-          {isLoading ? (
-            <CircularProgress />
-          ) : (
-            <div className={classes.bottom}>
-              <Pagination
-                totalCount={totalCount}
-                max={query.max}
-                page={pagination.page}
-                onPageChange={handlePageChage}
-              />
-            </div>
-          )}
-        </Grid>
+        <PatientSearchResultWithPaginate
+          highlightText={highlightText}
+          paginationOption={pagination}
+          onPatientSelect={handlePatientSelect}
+          onPageChange={handlePageChange}
+          onRequestSort={handleRequestSort}
+        />
       </Grid>
     </>
   )

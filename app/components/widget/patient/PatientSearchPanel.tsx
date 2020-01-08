@@ -7,13 +7,15 @@ import {
   TextField,
   Theme,
   Typography,
-  withStyles
+  withStyles,
 } from '@material-ui/core'
 import { hexToRgb } from '@material-ui/core/styles'
 import ClearIcon from '@material-ui/icons/Clear'
 import SearchIcon from '@material-ui/icons/Search'
 
-import PatientFilterBar, { IPatientFilterValue } from './PatientFilterBar'
+import PatientFilterBar, {
+  IPatientFilterValue,
+} from '../../templates/patient/PatientFilterBar'
 
 const ColorButton = withStyles((theme: Theme) => ({
   root: {
@@ -26,7 +28,7 @@ const ColorButton = withStyles((theme: Theme) => ({
         hexToRgb('#000') +
         ', 0.12), 0 8px 10px -5px rgba(' +
         hexToRgb('#ff9800') +
-        ', 0.2)'
+        ', 0.2)',
     },
     backgroundColor: '#ff9800',
     boxShadow:
@@ -36,51 +38,51 @@ const ColorButton = withStyles((theme: Theme) => ({
       hexToRgb('#ff9800') +
       ', 0.2), 0 1px 5px 0 rgba(' +
       hexToRgb('#ff9800') +
-      ', 0.12)'
-  }
+      ', 0.12)',
+  },
 }))(Button)
 
 const useStyles = makeStyles((theme: Theme) => ({
   actionButton: {
-    margin: '0.5em'
+    margin: '0.5em',
   },
   resize: {
-    fontSize: 15
+    fontSize: 15,
   },
-  searchBar: {}
+  searchBar: {},
 }))
 
 const PatientSearchPanel: React.FunctionComponent<{
   initialFilter: IPatientFilterValue
   onSearchSubmit: (filter: IPatientFilterValue) => void
-  onPaginationReset: (event: React.MouseEvent) => void
-  onHightlightChange: (value: string) => void
+  onPaginationReset?: (event: React.MouseEvent) => void
+  onHightlightChange?: (value: string) => void
 }> = ({
   initialFilter,
   onSearchSubmit,
   onPaginationReset,
-  onHightlightChange
+  onHightlightChange,
 }) => {
   const classes = useStyles()
   const [filter, setFilter] = useState<IPatientFilterValue>(initialFilter)
   useEffect(() => {
-    if (initialFilter) {
-      setFilter(initialFilter)
-    }
+    setFilter(initialFilter)
   }, [initialFilter])
 
   const handleFilterChange = (type: string, value: any): void => {
     setFilter(prevFilter => ({
       ...prevFilter,
-      [type]: value
+      [type]: value,
     }))
   }
 
   const handleSearchTextChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     handleFilterChange('searchText', event.target.value)
-    onHightlightChange(event.target.value)
+    if (onHightlightChange) {
+      onHightlightChange(event.target.value)
+    }
   }
 
   const handleSearchSubmit = (event?: React.FormEvent<HTMLFormElement>) => {
@@ -91,7 +93,9 @@ const PatientSearchPanel: React.FunctionComponent<{
   }
 
   const handlePaginationReset = (event: React.MouseEvent) => {
-    onPaginationReset(event)
+    if (onPaginationReset) {
+      onPaginationReset(event)
+    }
   }
 
   return (
@@ -110,9 +114,10 @@ const PatientSearchPanel: React.FunctionComponent<{
               fullWidth
               InputProps={{
                 classes: {
-                  input: classes.resize
-                }
+                  input: classes.resize,
+                },
               }}
+              data-testid='text-field'
             />
           </Grid>
           <Grid item xs={3} container alignContent='center'>
@@ -122,6 +127,7 @@ const PatientSearchPanel: React.FunctionComponent<{
               color='primary'
               endIcon={<SearchIcon></SearchIcon>}
               className={classes.actionButton}
+              data-testid='submit-button'
             >
               <Typography variant='body2'>Search</Typography>
             </Button>
@@ -130,6 +136,7 @@ const PatientSearchPanel: React.FunctionComponent<{
               endIcon={<ClearIcon></ClearIcon>}
               className={classes.actionButton}
               onClick={handlePaginationReset}
+              data-testid='reset-button'
             >
               <Typography variant='body2'>Clear</Typography>
             </ColorButton>

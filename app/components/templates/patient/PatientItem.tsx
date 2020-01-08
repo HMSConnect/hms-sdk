@@ -1,31 +1,30 @@
-import React from 'react'
+import * as React from 'react'
 
+import Highlighter from '@components/base/Highlighter'
 import {
   Avatar,
   makeStyles,
   TableCell,
   Theme,
-  Typography
+  Typography,
 } from '@material-ui/core'
 import * as _ from 'lodash'
-import Highlighter from '../../base/Highlighter'
 
 const useStyles = makeStyles((theme: Theme) => ({
   avatar: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   content: {
-    padding: 0
+    padding: 0,
   },
-  root: {}
+  root: {},
 }))
 
 const PatientItem: React.FunctionComponent<{
-  highlightText: string
   patient: any
+  highlightText?: string
 }> = ({ highlightText, patient }) => {
   const classes = useStyles()
-
   return (
     <>
       <TableCell>
@@ -33,16 +32,22 @@ const PatientItem: React.FunctionComponent<{
       </TableCell>
       <TableCell align='center'>
         <Typography>
-          <strong>
-            <Highlighter
-              text={_.get(patient, 'name.given[0]')}
-              highlightText={highlightText}
-            />{' '}
-            <Highlighter
-              text={_.get(patient, 'name.family')}
-              highlightText={highlightText}
-            />
-          </strong>
+          {highlightText ? (
+            <strong>
+              <Highlighter
+                text={_.get(patient, 'name.given[0]')}
+                highlightText={highlightText}
+              />{' '}
+              <Highlighter
+                text={_.get(patient, 'name.family')}
+                highlightText={highlightText}
+              />
+            </strong>
+          ) : (
+            <>
+              {_.get(patient, 'name.given[0]')} {_.get(patient, 'name.family')}
+            </>
+          )}
         </Typography>
       </TableCell>
       <TableCell>

@@ -7,7 +7,7 @@ import {
   MenuItem,
   Select,
   Theme,
-  Typography
+  Typography,
 } from '@material-ui/core'
 
 interface IOptionItem {
@@ -22,7 +22,7 @@ const SelectOption: React.FunctionComponent<{
   value: any
   options: IOptionItem[]
   onChange: (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>
+    event: React.ChangeEvent<{ name?: string; value: unknown }>,
   ) => void
   classOption?: any
 }> = ({ label, value, options, labelId, id, onChange, classOption }) => {
@@ -45,15 +45,13 @@ const SelectOption: React.FunctionComponent<{
         variant='outlined'
         labelWidth={labelWidth}
       >
-        {options
-          ? options.map((item, index) => {
-              return (
-                <MenuItem key={index} value={item.value}>
-                  <Typography variant='body2'>{item.label}</Typography>
-                </MenuItem>
-              )
-            })
-          : null}
+        {options.map((item, index) => {
+          return (
+            <MenuItem key={index} value={item.value}>
+              <Typography variant='body2'>{item.label}</Typography>
+            </MenuItem>
+          )
+        })}
       </Select>
     </FormControl>
   )

@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import * as React from 'react'
 
 import {
   Divider,
@@ -7,10 +7,10 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   makeStyles,
-  Theme
+  Theme,
 } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
-import React from 'react'
+import * as _ from 'lodash'
 
 export interface IResourceMenu {
   resourceType: string
@@ -24,19 +24,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderColor: grey[400],
     borderRadius: '50%',
     borderStyle: 'solid',
-    width: '2em'
+    width: '2em',
   },
   paper: {
     marginRight: theme.spacing(2),
-    width: '100%'
+    width: '100%',
   },
   root: {
-    display: 'flex'
+    display: 'flex',
   },
   tabs: {
     marginRight: theme.spacing(2),
-    width: '100%'
-  }
+    width: '100%',
+  },
 }))
 const PatientMenuList: React.FunctionComponent<{
   menuList: IResourceMenu[]

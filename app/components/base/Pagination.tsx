@@ -1,11 +1,115 @@
 import React, { useEffect, useState } from 'react'
 
-import { TablePagination } from '@material-ui/core'
+import { IconButton, TablePagination, Theme } from '@material-ui/core'
+import FirstPageIcon from '@material-ui/icons/FirstPage'
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
+import LastPageIcon from '@material-ui/icons/LastPage'
+import { makeStyles, useTheme } from '@material-ui/styles'
+import * as _ from 'lodash'
 
 export interface IPageOptionResult {
   offset: number
   page: number
   max: number
+}
+interface ITablePaginationActionsProps {
+  count: number
+  page: number
+  rowsPerPage: number
+  onChangePage: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    newPage: number
+  ) => void
+}
+
+const useStyles1 = makeStyles((theme: Theme) => ({
+  root: {
+    flexShrink: 0
+  }
+}))
+
+function TablePaginationActions(props: ITablePaginationActionsProps) {
+  const classes = useStyles1()
+  const theme: any = useTheme()
+  const { count, page, rowsPerPage, onChangePage } = props
+
+  const handleFirstPageButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    onChangePage(event, 0)
+  }
+
+  const handleBackButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    onChangePage(event, page - 1)
+  }
+
+  const handleNextButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    onChangePage(event, page + 1)
+  }
+
+  const handleLastPageButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
+  }
+
+  return (
+    <div className={classes.root}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label='first page'
+        data-testid='first-page'
+      >
+        {_.get(theme, 'direction') === 'rtl' ? (
+          <LastPageIcon />
+        ) : (
+          <FirstPageIcon />
+        )}
+      </IconButton>
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label='previous page'
+        data-testid='prev-page'
+      >
+        {_.get(theme, 'direction') === 'rtl' ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label='next page'
+        data-testid='next-page'
+      >
+        {_.get(theme, 'direction') === 'rtl' ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label='last page'
+        data-testid='last-page'
+      >
+        {_.get(theme, 'direction') === 'rtl' ? (
+          <FirstPageIcon />
+        ) : (
+          <LastPageIcon />
+        )}
+      </IconButton>
+    </div>
+  )
 }
 
 const Pagination: React.FunctionComponent<{
@@ -39,6 +143,7 @@ const Pagination: React.FunctionComponent<{
   return (
     <TablePagination
       component='div'
+      data-testid='pagination'
       rowsPerPageOptions={[10, 25, 50, { label: 'All', value: -1 }]}
       colSpan={3}
       count={totalCount}
@@ -50,6 +155,7 @@ const Pagination: React.FunctionComponent<{
       }}
       onChangePage={(event, newPage) => handlePageChange(newPage, max)}
       onChangeRowsPerPage={handleRowsPerPageChange}
+      ActionsComponent={TablePaginationActions}
     />
   )
 }

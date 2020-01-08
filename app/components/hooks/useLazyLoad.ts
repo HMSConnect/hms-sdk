@@ -25,12 +25,12 @@ const useLazyLoad = (
       if (isFetch) {
         try {
           setLoading(true)
-          const entryData: any = await fetchMoreAsync()
+          const moreDataList: any = await fetchMoreAsync()
           // TODO: handle fetchMoreAsync isn't promise
-          if (!_.isEmpty(_.get(entryData, 'data'))) {
+          if (!_.isEmpty(moreDataList)) {
             setResult((prevData: any) => ({
               ...prevData,
-              data: _.concat(prevData.data, _.get(entryData, 'data'))
+              data: _.concat(prevData.data, moreDataList)
             }))
           } else {
             setIsMore(false)
@@ -38,7 +38,7 @@ const useLazyLoad = (
         } catch (error) {
           setResult((prevResult: IQueryResult) => ({
             ...prevResult,
-            error: error.message
+            error: error.message ? error.message : error
           }))
         } finally {
           setLoading(false)

@@ -5,14 +5,16 @@ import {
   Link,
   Paper,
   Theme,
-  Typography
+  Typography,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import RouteManager from '@routes/RouteManager'
 import * as _ from 'lodash'
-import { useRouter } from 'next/router'
-interface IBreadcrumbPath {
-  label: string
-  url: string | null
+import routes from '../../routes'
+
+export interface IBreadcrumbPath {
+  url?: string
+  label?: string
   icon?: ReactElement
 }
 
@@ -20,14 +22,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   icon: {
     height: 20,
     marginRight: theme.spacing(0.5),
-    width: 20
+    width: 20,
   },
   link: {
-    display: 'flex'
+    display: 'flex',
   },
   root: {
-    padding: theme.spacing(1, 2)
-  }
+    padding: theme.spacing(1, 2),
+  },
 }))
 
 const BreadcrumbsBase: React.FunctionComponent<{
@@ -36,15 +38,13 @@ const BreadcrumbsBase: React.FunctionComponent<{
   max?: number
 }> = ({ parentPath, currentPath, max }) => {
   const classes = useStyles()
-  const router = useRouter()
 
   const handleSelect = (path: IBreadcrumbPath) => {
     if (!path.url) {
-      router.back()
+      routes.Router.back()
     } else {
-      router.push({
-        pathname: path.url
-      })
+      const newPath = RouteManager.getPath(path.url)
+      routes.Router.pushRoute(newPath)
     }
   }
   return (
@@ -59,7 +59,7 @@ const BreadcrumbsBase: React.FunctionComponent<{
             href='#'
           >
             {_.get(parent, 'icon') || null}
-            {parent.label}
+            {parent.label || ''}
           </Link>
         ))}
         <Typography color='textPrimary' className={classes.link}>

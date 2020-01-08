@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 import * as _ from 'lodash'
 
@@ -6,7 +6,7 @@ const Highlighter: React.FunctionComponent<{
   highlightText: string
   text: string
 }> = ({ highlightText, text }) => {
-  const charecters = text.split(new RegExp(`(${highlightText})`, 'gi'))
+  const charecters = _.split(text, new RegExp(`(${highlightText})`, 'gi'))
   return (
     <>
       {_.map(charecters, (part, i) => (

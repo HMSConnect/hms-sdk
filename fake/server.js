@@ -50,6 +50,7 @@ initService()
 app.use('/smart-fhir/patient', require('./apis/v1/patient'))
 app.use('/smart-fhir/encounter', require('./apis/v1/encounter'))
 app.use('/smart-fhir/care-plan', require('./apis/v1/care_plan'))
+app.use('/smart-fhir/diagnostic-report', require('./apis/v1/diagnostic_report'))
 
 // HMS
 app.get('/hms-connect/:domain_resource', (req, res) => {
@@ -80,7 +81,7 @@ app.get('/smart-fhir/:domain_resource/:id', (req, res) => {
           res.json({
             error: null,
             data: data,
-            schema: { ...config.defaultSchema, resourceType: 'patient' }
+            schema: { ...config.defaultSchema, resourceType: req.params.domain_resource }
           })
         }
       )

@@ -5,6 +5,10 @@ class EncounterDataManager extends DataManager {
   typeList(query: any): Promise<any> {
     return this.adaptor.doRequest(`${this.resource}/type`, query)
   }
+
+  resourceList(id: string): Promise<any> {
+    return this.adaptor.doRequest(`${this.resource}/${id}/resource-list`, {})
+  }
 }
 
 export default EncounterDataManager

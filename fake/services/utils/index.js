@@ -13,6 +13,7 @@ exports.createPaginate = (results, paginationOption) => {
 //   [["key1", "asc"], ["key2", "desc"]]
 //   ["key1", ["key2", "desc"]]
 exports.createOptions = query => {
+  query = query || {}
   const options = { fields: { __mock_meta: 0 } }
   const { orderBy, order } = query.sort || {}
   options.sort = [[orderBy || 'id', order || 'desc']]

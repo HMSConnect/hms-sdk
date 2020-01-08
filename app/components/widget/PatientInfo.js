@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
 import axios from 'axios'
-import React from 'react'
+import * as React from 'react'
 import MockHMSPatient from '../../src/mock/standards/hms_connect/patient.js'
 // Mock data of each standard
 import MockSFHIRPatient from '../../src/mock/standards/smart_fhir/patient.js'

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 import {
   Button,
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export interface IBodyCellProp {
-  align: 'right' | 'left' | 'center'
+  align?: 'right' | 'left' | 'center' | undefined
   id: string
   styles?: any
   render?: any
@@ -58,6 +58,7 @@ const TableBase: React.FunctionComponent<{
   tableCells: ITableCellProp[]
   isLoading: boolean
   isMore?: boolean
+  size?: 'small' | 'medium' | undefined
   onEntrySelected: (event: React.MouseEvent, selectedEncounter: any) => void
   onLazyLoad?: (event: React.MouseEvent) => void
 }> = ({
@@ -66,6 +67,7 @@ const TableBase: React.FunctionComponent<{
   isLoading,
   tableCells,
   isMore,
+  size,
   onEntrySelected,
   onLazyLoad
 }) => {
@@ -76,7 +78,7 @@ const TableBase: React.FunctionComponent<{
   )
 
   return (
-    <Table stickyHeader>
+    <Table stickyHeader size={size}>
       <EnhancedTableHead classes={classes} headCells={headerCells} />
       <TableBody>
         {_.map(entryList, (entryData, index: number) => (
@@ -133,7 +135,7 @@ const TableRowBase: React.FunctionComponent<{
     >
       {_.map(tableCells, (tabelCell: any, tableIndex: number) => (
         <TableCell
-          align={tabelCell.bodyCell.align}
+          align={tabelCell.bodyCell.align || 'center'}
           key={id + tabelCell.bodyCell.id + index}
         >
           {tabelCell.bodyCell.render ? (

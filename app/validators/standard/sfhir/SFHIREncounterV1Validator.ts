@@ -1,15 +1,12 @@
-import IValidator from '../../IValidator'
-import validatorManager from '../../ValidatorManager'
-
+import IValidator from '@validators/IValidator'
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import environment from '../../../config'
 
 class SFHIREncounterV1Validator implements IValidator {
   isValid(schema: any): boolean {
     return (
       schema.standard === 'SFHIR' &&
-      schema.version === 1 &&
+      schema.version === 1.0 &&
       schema.resourceType === 'encounter'
     )
   }
@@ -22,33 +19,39 @@ class SFHIREncounterV1Validator implements IValidator {
 
     const classCode = _.get(encounter, 'class.code')
     const reason = _.chain(_.get(encounter, 'reason'))
-      .map(reason => reason.coding[0].display)
+      .map(reason => _.get(reason, 'coding[0].display'))
       .join(', ')
       .value()
 
     const status = _.get(encounter, 'status')
 
     const startTime = _.get(encounter, 'period.start')
-      ? moment
-          .default(_.get(encounter, 'period.start'))
-          .toDate()
-      : 'Unknow'
+      ? moment.default(_.get(encounter, 'period.start')).toDate()
+      : null
 
     const endTime = _.get(encounter, 'period.end')
-      ? moment
-          .default(_.get(encounter, 'period.end'))
-          .toDate()
-      : 'Unknow'
+      ? moment.default(_.get(encounter, 'period.end')).toDate()
+      : null
+
+    const organizationId = _.chain(encounter)
+      .get('reference')
+      .split('/')
+      .get(1)
+      .value()
 
     return {
       classCode,
+      endDateTime: endTime,
       endTime,
+      id: _.get(encounter, 'id'),
+      organizationId,
       reason,
+      startDateTime: startTime,
       startTime,
       status,
-      type
+      type,
     }
   }
 }
 
-validatorManager.register(new SFHIREncounterV1Validator(), 1)
+export default SFHIREncounterV1Validator

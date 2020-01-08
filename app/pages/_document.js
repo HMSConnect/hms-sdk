@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import getConfig from 'next/config';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/styles';
