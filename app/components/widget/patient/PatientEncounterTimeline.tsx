@@ -34,7 +34,8 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   patientId: any
   resourceList?: any[]
   isInitialize?: boolean
-}> = ({ patientId, resourceList, isInitialize }) => {
+  max?: number
+}> = ({ patientId, resourceList, isInitialize, max }) => {
   const classes = useStyles()
 
   const myscroll = useRef<HTMLDivElement | null>(null)
@@ -55,13 +56,12 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     const encounterService = HMSService.getService(
       'encounter',
     ) as EncounterService
-
     const newLazyLoad = {
       filter: {
         patientId,
         periodStart_lt: _.get(lastEntry, 'startTime'),
       },
-      max: 10,
+      max: max ? max : 10,
     }
 
     const entryData = await encounterService.list(newLazyLoad)

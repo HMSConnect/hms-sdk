@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core'
 import { sendMessage } from '@utils'
 import * as _ from 'lodash'
+import routes from '../../../routes'
 import RouteManager from '../../../routes/RouteManager'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import usePatient from '../../hooks/usePatient'
@@ -127,6 +128,7 @@ const PatientInfoDetailSub: React.FunctionComponent<{
       params,
       path,
     })
+    routes.Router.replaceRoute(path)
     setMenuNavigate(newNavigateValue)
   }
 

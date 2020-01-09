@@ -1,26 +1,39 @@
-import * as React from 'react'
-
 import AdaptiveCard from '@components/base/AdaptiveCard'
 import { useModal } from '@components/base/Modal'
+import useDiagnosticReportList from '@components/hooks/useDiagnosticReportList'
 import useLastDiagnosticReport from '@components/hooks/useLastDiagnosticReport'
+import * as React from 'react'
+
 import disgnosticReportTemplate from '@components/templates/adaptive-card/disgnosticReport.template.json'
 import { IDiagnosticReportFilterQuery } from '@data-managers/DiagnosticReportDataManager'
 import { Paper } from '@material-ui/core'
+import { parse } from '@utils'
 import * as _ from 'lodash'
 import { useRouter } from 'next/router'
+import { stringify } from 'qs'
 import DiagnosticReportModalContent from './DiagnosticReportModalContent'
 
 const DiagnosticReportCard: React.FunctionComponent<any> = () => {
-  const { query } = useRouter()
+  const { query: routerQuery } = useRouter()
+  const query = parse(stringify(routerQuery))
+
   const params = {
     encounterId: query.encounterId,
+    id: query.id,
     patientId: query.patientId,
   } as IDiagnosticReportFilterQuery
+  const useDiagnostic =
+    query.isLast === undefined
+      ? useLastDiagnosticReport
+      : query.isLast
+        ? useLastDiagnosticReport
+        : useDiagnosticReportList
 
-  const { isLoading, data: diagnostic, error } = useLastDiagnosticReport({
+  const { isLoading, data: diagnostic, error } = useDiagnostic({
     filter: params || {},
     withObservation: true,
   })
+
   const { showModal, renderModal } = useModal(DiagnosticReportModalContent, {
     fullScreen: true,
     modalTitle: 'Diagnostic Report List',
@@ -36,8 +49,46 @@ const DiagnosticReportCard: React.FunctionComponent<any> = () => {
 
   return (
     <>
-      <DiagnosticReportCardView onClick={showModal} diagnostic={diagnostic} />
+      <DiagnosticReportCardView
+        onClick={showModal}
+        diagnostic={_.isArray(diagnostic) ? diagnostic[0] : diagnostic}
+      />
       {renderModal}
+    </>
+  )
+}
+
+export const DiagnosticReportCardWithoutModal: React.FunctionComponent<any> = () => {
+  const { query: routerQuery } = useRouter()
+  const query = parse(stringify(routerQuery))
+  const params = {
+    encounterId: query.encounterId,
+    id: query.id,
+    patientId: query.patientId,
+  } as IDiagnosticReportFilterQuery
+
+  const useDiagnostic = query.isLast
+    ? useLastDiagnosticReport
+    : useDiagnosticReportList
+
+  const { isLoading, data: diagnostic, error } = useDiagnostic({
+    filter: params || {},
+    withObservation: true,
+  })
+  if (error) {
+    return <div>ERR: {error}.</div>
+  }
+
+  if (isLoading) {
+    return <div>loading...</div>
+  }
+
+  return (
+    <>
+      <DiagnosticReportCardView
+        diagnostic={_.isArray(diagnostic) ? diagnostic[0] : diagnostic}
+        isShowAction={false}
+      />
     </>
   )
 }
@@ -49,8 +100,8 @@ export const DiagnosticReportCardView: React.FunctionComponent<any> = ({
   onClick,
 }) => {
   const data = {
-    issued: diagnostic.issued,
-    results: _.map(diagnostic.result, observation => {
+    issued: _.get(diagnostic, 'issued'),
+    results: _.map(_.get(diagnostic, 'result'), observation => {
       return {
         display: observation.display,
         // iconUrl:
@@ -59,7 +110,7 @@ export const DiagnosticReportCardView: React.FunctionComponent<any> = ({
         value: `${observation.value}`,
       }
     }),
-    title: diagnostic.codeText,
+    title: _.get(diagnostic, 'codeText'),
   }
   return (
     <Paper style={{ height: '100%', overflowY: 'auto' }}>

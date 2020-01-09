@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import CloseIcon from '@material-ui/icons/Close'
+import { sendMessage } from '@utils'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -118,9 +119,21 @@ export const useModal = (
     option.isOpen || null,
   )
   const handleModalClose = () => {
+    sendMessage({
+      message: `handleModalClose: ${option.modalTitle}`,
+      params: {
+        open: false,
+      },
+    })
     setOpen(false)
   }
   const handleModalShow = () => {
+    sendMessage({
+      message: `handleModalShow: ${option.modalTitle}`,
+      params: {
+        open: true,
+      },
+    })
     setOpen(true)
   }
 

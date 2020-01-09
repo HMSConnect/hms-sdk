@@ -4,6 +4,10 @@ exports.createSelector = (filter = {}) => {
   const selector = {}
   const andSelector = []
 
+  if (filter.id) {
+    andSelector.push({ 'id': `${filter.id}` })
+  }
+
   if (filter.patientId) {
     andSelector.push({ 'subject.reference': `Patient/${filter.patientId}` })
   }

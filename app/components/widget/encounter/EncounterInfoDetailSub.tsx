@@ -5,10 +5,12 @@ import * as React from 'react'
 
 const EncounterInfoDetailSub: React.FunctionComponent<any> = ({
   encounter,
+  defaultDimention = '1xN',
 }) => {
   return (
     <div>
       <GridSelection
+        defaultDimention={defaultDimention}
         componentResource={{
           default: DefaultContent,
           diagnostic_report: DiagnosticReportCard,

@@ -28,6 +28,7 @@ const PatientEncounterTimelineView: IStatelessPage<{
           <Typography component='div' className={classes.root}>
             <PatientEncounterTimeline
               patientId={get(query, 'patientId')}
+              max={get(query, 'max')}
               isInitialize={get(query, 'isInitialize') || true}
             />
           </Typography>

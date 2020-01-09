@@ -7,6 +7,7 @@ import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
 import { makeStyles, Paper, Theme, Typography } from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
 import * as _ from 'lodash'
+import { sendMessage } from '@utils'
 
 const useStyles = makeStyles((theme: Theme) => ({
   tableRoot: {
@@ -32,12 +33,8 @@ const DiagReportPatientData: React.FunctionComponent<{
       const tabList: ITabList[] = _.map(resultCodeGroup, (value, key) => {
         return { type: key, totalCount: 0 }
       })
-      const newData = _.find(
-        resultCodeGroup,
-        (value, key) => key === tabList[0].type,
-      )
       setTab(tabList)
-      setData(newData)
+      handleTabChange(tabList[0].type)
     }
   }, [diagReportList])
 
@@ -54,6 +51,13 @@ const DiagReportPatientData: React.FunctionComponent<{
     if (newData) {
       setData(newData)
     }
+    sendMessage({
+      message: `handleTabChange:`,
+      params: {
+        data: newData,
+        tabTitle: selectedValue,
+      },
+    })
   }
 
   const handleEntrySelected = (

@@ -28,3 +28,13 @@ module.exports = nextRoutes()
     'embedded-widget/patient-info/patient-encounter-timeline'
   )
   .add('embedded-widget/patient-info', '/embedded-widget/patient-info/:patientId')
+  .add(
+    'embedded-widget/medical-records',
+    '/embedded-widget/medical-records',
+    'embedded-widget/medical-records'
+  )
+  .add(
+    'embedded-widget/medical-records/diagnostic-report-card',
+    '/embedded-widget/medical-records/diagnostic-report-card',
+    'embedded-widget/medical-records/diagnostic-report-card'
+  )

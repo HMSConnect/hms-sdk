@@ -13,9 +13,11 @@ Replace `/embedded-widget/patient-search` url to your iframe project.
 | ------------------ | ------------------- | ------- | ------------------------------------------------ |
 | filter[gender]     | ` male|female|all ` | all     | Filter patient result by gender                  |
 | filter[searchText] | string              | ""      | Filter patient result by name/surname/identifier |
+| sort[order]        | ` asc"desc`         | asc     | Order for `orderBy` query param                  |
+| sort[orderBy]      | string              | id      | Sort field                                       |
 | max                | number              | 10      | Number of total records in one page              |
 | offset             | number              | 0       | Index for lazyload                               |
-| page               | number              | 1       | Page number                                      |
+| page               | number              | 0       | Page number                                      |
 
 ## Response
 - **Object Response**
