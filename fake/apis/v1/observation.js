@@ -2,24 +2,27 @@ const router = require('express').Router()
 
 const config = require('../../config')
 const mockStorage = require('../../storage')
-const carePlanService = require('../../services/care_plan')
+const utilService = require('../../services/utils')
+const observationService = require('../../services/observation')
 const db = mockStorage.getDB()
 
 router.get('/', (req, res) => {
   try {
-    if (db['care_plan']) {
+    if (db['observation']) {
       const selector = req.query.filter
-        ? carePlanService.createSelector(req.query.filter)
+        ? observationService.createSelector(req.query.filter)
         : {}
-      const options = req.query ? carePlanService.createOptions(req.query) : {}
+      const options = req.query
+        ? observationService.createOptions(req.query)
+        : {}
 
-      db['care_plan'].find(selector, options).fetch(
+      db['observation'].find(selector, options).fetch(
         results => {
           res.json({
             error: null,
             schema: {
               ...config.defaultSchema,
-              resourceType: 'care_plan'
+              resourceType: 'observation'
             },
             data: results
           })

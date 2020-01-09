@@ -7,6 +7,7 @@ export interface IAllergyIntoleranceListQuery extends IListDefaultQuery {
 
 export interface IAllergyIntoleranceListFilterQuery {
   patientId?: string
+  issued_lt?: Date | string
 }
 
 class AllergyIntoleranceDataManager extends DataManager {}

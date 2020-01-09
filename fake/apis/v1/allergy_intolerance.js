@@ -2,7 +2,6 @@ const router = require('express').Router()
 
 const config = require('../../config')
 const mockStorage = require('../../storage')
-const utilService = require('../../services/utils')
 const allergyIntolerance = require('../../services/allergy_intolerance')
 const db = mockStorage.getDB()
 
@@ -13,10 +12,7 @@ router.get('/', (req, res) => {
         ? allergyIntolerance.createSelector(req.query.filter)
         : {}
       const options = req.query
-        ? allergyIntolerance.createOptions(
-            req.query,
-            utilService.createOptions(req.query)
-          )
+        ? allergyIntolerance.createOptions(req.query)
         : {}
 
       db['allergy_intolerance'].find(selector, options).fetch(

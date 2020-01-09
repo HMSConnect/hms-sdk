@@ -2,6 +2,7 @@ import DevelopmentAdapter from '@adapters/DevelopmentAdapter'
 import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
 import DiagnosticReportService from '@services/DiagnosticReportService'
 import EncounterService from '@services/EncounterService'
+import ObservationService from '@services/ObservationService'
 import PatientService from '@services/PatientService'
 import SFHIRAllergyIntoleranceV1Validator from '@validators/standard/sfhir/SFHIRAllergyIntoleranceV1Validator'
 import SFHIRCarePlanV1Validator from '@validators/standard/sfhir/SFHIRCarePlanV1Validator'
@@ -41,7 +42,7 @@ export const serviceConfig = {
   ['$DIAGNOSTIC_REPORT']: { clazz: DiagnosticReportService },
   ['$ENCOUNTER']: { clazz: EncounterService },
   ['$PATIENT']: { clazz: PatientService },
-  // ['$OBSERVATION']: { clazz: ObservationService} // TODO: uncomment when have observation service
+  ['$OBSERVATION']: { clazz: ObservationService },
 }
 
 export const validatorConfig = {
@@ -62,6 +63,10 @@ export const validatorConfig = {
   },
   ['$SFHIR_ORGANIZATION_V1']: {
     clazz: SFHIROrganizationV1Validator,
+    priority: 1,
+  },
+  ['SFHIR_OBSERVATION_V1']: {
+    clazz: SFHIRObservationV1Validator,
     priority: 1,
   },
 }

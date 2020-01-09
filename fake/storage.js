@@ -5,10 +5,12 @@ const ndjson = require('ndjson');
 const minimongo = require('minimongo');
 const LocalDb = minimongo.MemoryDb;
 
-const patientService = require('./services/patient');
-const encounterService = require('./services/encounter');
-const carePlanService = require('./services/care_plan');
 const allergyIntoleranceService = require('./services/allergy_intolerance')
+const carePlanService = require('./services/care_plan');
+const diagnosticReportService = require('./services/diagnostic_report')
+const encounterService = require('./services/encounter');
+const patientService = require('./services/patient');
+const observationService = require('./services/observation');
 
 module.exports = (function(){
     let domainResourceList = [];
@@ -93,10 +95,14 @@ module.exports = (function(){
                     return allergyIntoleranceService.processingPredata(data);
                 case 'care_plan':
                     return carePlanService.processingPredata(data);
+                case 'diagnostic_report':
+                    return diagnosticReportService.processingPredata(data);
                 case 'encounter':
                     return encounterService.processingPredata(data);
                 case 'patient':
                     return patientService.processingPredata(data);
+                case 'observation':
+                    return observationService.processingPredata(data);
                 default:
                     return data;
             }

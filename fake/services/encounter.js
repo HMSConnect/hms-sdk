@@ -1,4 +1,5 @@
 const moment = require('moment')
+const utilService = require('./utils')
 
 exports.createSelector = (filter = {}) => {
   const selector = {}
@@ -28,6 +29,7 @@ exports.createSelector = (filter = {}) => {
 }
 
 exports.createOptions = (query, options = {}) => {
+  options = { ...utilService.createOptions(query), ...options }
   const { orderBy, order } = query.sort || {}
 
   options.limit = query.max ? Number(query.max) : 10
