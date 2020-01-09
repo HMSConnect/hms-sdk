@@ -9,6 +9,9 @@ import {
   IWidgetPatameter,
   IWidgetChild,
   widgetGalleryEncounterConfig,
+  widgetGalleryObservationLaboratoryConfig,
+  widgetGalleryObservationVitalSignConfig,
+  widgetGalleryAllergyIntoleranceConfig,
 } from '@config'
 import {
   AppBar,
@@ -65,6 +68,9 @@ const widgetGroup: IWidgetGroup[] = [
   widgetGalleryPatientConfig,
   widgetGalleryEncounterConfig,
   widgetGalleryDiagnosticReportConfig,
+  widgetGalleryObservationLaboratoryConfig,
+  widgetGalleryObservationVitalSignConfig,
+  widgetGalleryAllergyIntoleranceConfig,
 ]
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -242,8 +248,6 @@ const WidgetGallery: IStatelessPage<{
   }
 
   const handleQueryParamChange = (type: string, value: any) => {
-    console.log('value :', typeof value)
-
     setQueryParams(prev => ({
       ...prev,
       [type]: value,

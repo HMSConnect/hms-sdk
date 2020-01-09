@@ -26,6 +26,7 @@ const EncounterPage: IStatelessPage<{
         'encounter',
         'diagnostic_report',
         'observation',
+        'allergy_intolerance',
       ]}
     >
       <>

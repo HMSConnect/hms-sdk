@@ -1,4 +1,8 @@
+import environment from '@environment'
 import IValidator from '@validators/IValidator'
+import { get, join } from 'lodash'
+import moment from 'moment'
+
 class SFHIRAllergyIntoleranceV1Validator implements IValidator {
   isValid(schema: any): boolean {
     return (
@@ -9,7 +13,20 @@ class SFHIRAllergyIntoleranceV1Validator implements IValidator {
   }
 
   parse(data: any): any {
-    return data
+    return {
+      assertedDate: get(data, 'assertedDate')
+        ? moment(get(data, 'assertedDate')).toDate()
+        : null,
+      assertedDateText: get(data, 'assertedDate')
+        ? moment(get(data, 'assertedDate')).format(
+            environment.localFormat.dateTime,
+          )
+        : null,
+      category: join(data.category, ', '),
+      criticality: data.criticality,
+      display: data.code.text,
+      type: data.type,
+    }
   }
 }
 

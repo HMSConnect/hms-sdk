@@ -330,6 +330,67 @@ export const widgetGalleryDiagnosticReportConfig: IWidgetGroup = {
   label: 'DiagnosticReport',
   value: 'diagnostic-report-card',
 }
+
+export const widgetGalleryObservationLaboratoryConfig: IWidgetGroup = {
+  child: [
+    {
+      document: `# Comming Soon ...`,
+      label: 'Observation - Laboraory',
+      path: '/embedded-widget/medical-records/observation-laboratory-card',
+      queryParams: [
+        {
+          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          label: 'Encounter Id',
+          type: 'text',
+          value: 'encounterId',
+        },
+      ],
+      value: 'observation-laboratory-card',
+    },
+  ],
+  label: 'Observation - Laboraory',
+  value: 'observation-laboratory-card',
+}
+export const widgetGalleryObservationVitalSignConfig: IWidgetGroup = {
+  child: [
+    {
+      document: `# Comming Soon ...`,
+      label: 'Observation - VitalSign',
+      path: '/embedded-widget/medical-records/observation-vital-sign-card',
+      queryParams: [
+        {
+          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          label: 'Encounter Id',
+          type: 'text',
+          value: 'encounterId',
+        },
+      ],
+      value: 'observation-vital-sign-card',
+    },
+  ],
+  label: 'Observation - VitalSign',
+  value: 'observation-vital-sign-card',
+}
+export const widgetGalleryAllergyIntoleranceConfig: IWidgetGroup = {
+  child: [
+    {
+      document: `# Comming Soon ...`,
+      label: 'AllergyIntolerance',
+      path: '/embedded-widget/medical-records/allergy-intolerance-card',
+      queryParams: [
+        {
+          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          label: 'Patient Id',
+          type: 'text',
+          value: 'patientId',
+        },
+      ],
+      value: 'allergy-intolerance-card',
+    },
+  ],
+  label: 'AllergyIntolerance',
+  value: 'allergy-intolerance-card',
+}
 export const widgetGalleryEncounterConfig: IWidgetGroup = {
   child: [
     {
