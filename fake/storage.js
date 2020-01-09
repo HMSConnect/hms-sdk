@@ -8,6 +8,7 @@ const LocalDb = minimongo.MemoryDb;
 const patientService = require('./services/patient');
 const encounterService = require('./services/encounter');
 const carePlanService = require('./services/care_plan');
+const allergyIntoleranceService = require('./services/allergy_intolerance')
 
 module.exports = (function(){
     let domainResourceList = [];
@@ -88,12 +89,14 @@ module.exports = (function(){
         processingPredata: function(domainName, data){
             // use predata before insert to database for query from minimongo
             switch (domainName) {
-                case 'patient':
-                    return patientService.processingPredata(data);
+                case 'allergy_intolerance':
+                    return allergyIntoleranceService.processingPredata(data);
+                case 'care_plan':
+                    return carePlanService.processingPredata(data);
                 case 'encounter':
                     return encounterService.processingPredata(data);
-                case 'care_plan':
-                    return carePlanService.processingPredata(data)
+                case 'patient':
+                    return patientService.processingPredata(data);
                 default:
                     return data;
             }
