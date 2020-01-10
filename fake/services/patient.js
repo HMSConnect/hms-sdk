@@ -1,3 +1,5 @@
+const utilService = require('./utils')
+
 exports.createSelector = (filter = {}) => {
   //give_name , last_name , identification (Passport , MRN, HN)
   const selector = {}
@@ -24,6 +26,7 @@ exports.createSelector = (filter = {}) => {
 }
 
 exports.createOptions = (query, options) => {
+  options = { ...utilService.createOptions(query), ...options }
   if (query.sort) {
     const { orderBy, order } = query.sort || {}
     if (orderBy.includes('identifier')) {

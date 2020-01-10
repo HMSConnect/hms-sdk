@@ -47,10 +47,12 @@ initService()
 // use router
 
 //register router
-app.use('/smart-fhir/patient', require('./apis/v1/patient'))
-app.use('/smart-fhir/encounter', require('./apis/v1/encounter'))
+app.use('/smart-fhir/allergy-intolerance', require('./apis/v1/allergy_intolerance'))
 app.use('/smart-fhir/care-plan', require('./apis/v1/care_plan'))
 app.use('/smart-fhir/diagnostic-report', require('./apis/v1/diagnostic_report'))
+app.use('/smart-fhir/encounter', require('./apis/v1/encounter'))
+app.use('/smart-fhir/observation', require('./apis/v1/observation'))
+app.use('/smart-fhir/patient', require('./apis/v1/patient'))
 
 // HMS
 app.get('/hms-connect/:domain_resource', (req, res) => {

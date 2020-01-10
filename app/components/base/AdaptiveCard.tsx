@@ -25,21 +25,20 @@ const AdaptiveCard: React.FunctionComponent<{
 
   // initial
   React.useEffect(() => {
-    if (
-      cardRef &&
-      cardRef.current &&
-      !_.isEmpty(templatePayload) &&
-      !_.isEmpty(data)
-    ) {
+    if (cardRef && cardRef.current) {
       // console.info('initialize adaptive card...')
-      adaptiveCard = initialize(cardRef, templatePayload, data)
+      if (!_.isEmpty(templatePayload) && !_.isEmpty(data)) {
+        adaptiveCard = initialize(cardRef, templatePayload, data)
 
-      // register callback
-      if (onExecuteAction) {
-        adaptiveCard.onExecuteAction = onExecuteAction
+        // register callback
+        if (onExecuteAction) {
+          adaptiveCard.onExecuteAction = onExecuteAction
+        }
+      } else {
+        setError(
+          'Something went wrong. Maybe data or templatePayload is empty.',
+        )
       }
-    } else {
-      setError('Something went wrong. Maybe data or templatePayload is empty.')
     }
 
     return () => {

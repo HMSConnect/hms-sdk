@@ -9,11 +9,19 @@ exports.createSelector = (filter = {}) => {
     andSelector.push({ 'subject.reference': `Patient/${filter.patientId}` })
   }
 
-  if (filter.periodStart_lt) {
-    //minimongo can't upsert date ? so we filter by ISO string date.
+  if (filter.encounterId) {
+    andSelector.push({ 'context.reference': `Encounter/${filter.encounterId}` })
+  }
+
+  if (filter.categoryCode) {
+    andSelector.push({ 'category.coding.code': filter.categoryCode })
+  }
+
+  if (filter.issued_lt) {
+    //minimongo can't upsert date, so I filter by ISOString date.
     andSelector.push({
-      '__mock_meta.period.start': {
-        $gt: filter.periodStart_lt
+      '__mock_meta.issued': {
+        $lt: filter.issued_lt
       }
     })
   }
@@ -26,20 +34,21 @@ exports.createSelector = (filter = {}) => {
 
 exports.createOptions = (query, options = {}) => {
   options = { ...utilService.createOptions(query), ...options }
-
   const { orderBy, order } = query.sort || {}
 
-  options.limit = query.max ? Number(query.max) : 10
-  options.sort = [[orderBy || `__mock_meta.period.start`, order || 'desc']]
+  if (query._lasted) {
+    options.limit = 1
+  }
+  options.sort = [[orderBy || `__mock_meta.issued`, order || 'desc']]
   return options
 }
 
 exports.processingPredata = data => {
   const __mock_meta = {}
 
-  if (data.period) {
-    const periodStart = moment(data.period.start).toDate()
-    __mock_meta.period = { start: periodStart }
+  if (data.issued) {
+    const issued = moment(data.issued).toDate()
+    __mock_meta.issued = issued
   }
 
   return {

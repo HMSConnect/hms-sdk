@@ -10,5 +10,13 @@
   "diagnostic_report": {
     "services": ["$DIAGNOSTIC_REPORT"],
     "validators": ["$SFHIR_DIAGNOSTIC_REPORT_V1", "$SFHIR_OBSERVATION_V1"]
+  },
+  "allergy_intolerance": {
+    "services": ["$ALLERGY_INTOLERANCE"],
+    "validators": ["$SFHIR_ALLERGY_INTOLERANCE_V1"]
+  },
+  "observation": {
+    "services": ["$OBSERVATION"],
+    "validators": ["$SFHIR_OBSERVATION_V1"]
   }
 }

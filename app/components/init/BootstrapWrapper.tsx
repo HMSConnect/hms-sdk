@@ -8,6 +8,7 @@ type DependencyType =
   | 'encounter'
   | 'diagnostic_report'
   | 'observation'
+  | 'allergy_intolerance'
 
 const BootstrapWrapper: React.FunctionComponent<{
   dependencies: DependencyType[]

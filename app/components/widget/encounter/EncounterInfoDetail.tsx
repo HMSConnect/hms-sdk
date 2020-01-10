@@ -21,7 +21,7 @@ const EncounterInfoDetail: React.FunctionComponent<any> = ({ query }) => {
         </Grid>
       </Grid>
       <Grid item xs={9}>
-        <EncounterInfoDetailSub encounter={encounter} />
+        <EncounterInfoDetailSub encounter={encounter} defaultDimention={query.dimention}/>
       </Grid>
     </Grid>
   )

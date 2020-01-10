@@ -15,12 +15,7 @@ router.get('/', (req, res) => {
       const selector = req.query.filter
         ? patientService.createSelector(req.query.filter)
         : {}
-      const options = req.query
-        ? patientService.createOptions(
-            req.query,
-            utilsService.createOptions(req.query)
-          )
-        : {}
+      const options = req.query ? patientService.createOptions(req.query) : {}
 
       db['patient'].find(selector, options).fetch(
         results => {
@@ -70,7 +65,7 @@ router.get('/:id/resource-list', async (req, res) => {
       })
 
       results.push({
-        schema:  { ...config.defaultSchema, resourceType: domainResouce },
+        schema: { ...config.defaultSchema, resourceType: domainResouce },
         resourceType: domainResouce,
         ...utilsService.createPaginate(entries, req.query)
       })

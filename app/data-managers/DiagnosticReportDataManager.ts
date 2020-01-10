@@ -8,8 +8,10 @@ export interface IDiagnosticReportLastQuery extends IListDefaultQuery {
 }
 
 export interface IDiagnosticReportFilterQuery {
-  patientId?: string
   encounterId?: string
+  id?: string
+  issued_lt?: Date | string
+  patientId?: string
 }
 
 class DiagnosticReportDataManager extends DataManager {
@@ -17,7 +19,7 @@ class DiagnosticReportDataManager extends DataManager {
   last(query: IDiagnosticReportLastQuery | {}): Promise<any> {
     return this.adaptor.doRequest(`${this.resource}`, {
       ...query,
-      _lasted: true
+      _lasted: true,
     })
   }
 }
