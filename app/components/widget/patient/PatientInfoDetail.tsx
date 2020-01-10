@@ -1,5 +1,3 @@
-import React, { useState } from 'react'
-
 import {
   Avatar,
   CircularProgress,
@@ -9,6 +7,7 @@ import {
 } from '@material-ui/core'
 import { sendMessage } from '@utils'
 import * as _ from 'lodash'
+import React, { useState } from 'react'
 import routes from '../../../routes'
 import RouteManager from '../../../routes/RouteManager'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
@@ -18,7 +17,9 @@ import PatientInfoPanel from '../../templates/patient/PatientInfoPanel'
 import PatientInfoTable from '../../templates/patient/PatientInfoTable'
 import PatientMenuList from '../../templates/patient/PatientMenuList'
 import EncounterInfoDetail from '../encounter/EncounterInfoDetail'
+import PatientConditionTable from './PatientConditionTable'
 import PatientEncounterTimeline from './PatientEncounterTimeline'
+import PatientAllergyIntolerance from './PatientAllergyIntolerance'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -140,6 +141,20 @@ const PatientInfoDetailSub: React.FunctionComponent<{
       case 'encounter':
         return (
           <PatientEncounterTimeline
+            patientId={_.get(patient, 'identifier.id.value')}
+            resourceList={_.get(resource, 'data')}
+          />
+        )
+      case 'condition':
+        return (
+          <PatientConditionTable
+            patientId={_.get(patient, 'identifier.id.value')}
+            resourceList={_.get(resource, 'data')}
+          />
+        )
+      case 'allergy_intolerance':
+        return (
+          <PatientAllergyIntolerance
             patientId={_.get(patient, 'identifier.id.value')}
             resourceList={_.get(resource, 'data')}
           />

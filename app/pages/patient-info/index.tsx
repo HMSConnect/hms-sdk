@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
@@ -7,6 +5,7 @@ import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
 import HomeIcon from '@material-ui/icons/Home'
 import { IStatelessPage } from '@pages/patient-search'
+import * as React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -22,10 +21,12 @@ const PatientInfoView: IStatelessPage<{
   return (
     <BootstrapWrapper
       dependencies={[
-        'patient',
-        'encounter',
+        'allergy_intolerance',
+        'condition',
         'diagnostic_report',
+        'encounter',
         'observation',
+        'patient',
       ]}
     >
       <>
