@@ -22,5 +22,9 @@
   "condition": {
     "services": ["$CONDITION"],
     "validators": ["$SFHIR_CONDITION_V1"]
+  },
+  "immunization": {
+    "services": ["$IMMUNIZATION"],
+    "validators": ["$SFHIR_IMMUNIZATION_V1"]
   }
 }

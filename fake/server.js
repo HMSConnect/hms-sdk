@@ -55,6 +55,7 @@ app.use('/smart-fhir/care-plan', require('./apis/v1/care_plan'))
 app.use('/smart-fhir/condition', require('./apis/v1/condition'))
 app.use('/smart-fhir/diagnostic-report', require('./apis/v1/diagnostic_report'))
 app.use('/smart-fhir/encounter', require('./apis/v1/encounter'))
+app.use('/smart-fhir/immunization', require('./apis/v1/immunization'))
 app.use('/smart-fhir/observation', require('./apis/v1/observation'))
 app.use('/smart-fhir/patient', require('./apis/v1/patient'))
 

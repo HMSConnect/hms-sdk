@@ -13,6 +13,8 @@ import SFHIROrganizationV1Validator from '@validators/standard/sfhir/SFHIROrgani
 import SFHIRPatientV1Validator from '@validators/standard/sfhir/SFHIRPatientV1Validator'
 import ConditionService from '@services/ConditionService'
 import SFHIRConditionV1Validator from '@validators/standard/sfhir/SFHIRConditionV1Validator'
+import ImmunizationService from '@services/ImmunizationService'
+import SFHIRImmunizationV1Validator from '@validators/standard/sfhir/SFHIRImmunizationV1Validator'
 
 export interface IWidgetPatameter {
   type: 'text' | 'boolean' | 'number' | 'options'
@@ -46,6 +48,7 @@ export const serviceConfig = {
   ['$PATIENT']: { clazz: PatientService },
   ['$OBSERVATION']: { clazz: ObservationService },
   ['$CONDITION']: { clazz: ConditionService },
+  ['$IMMUNIZATION']: { clazz: ImmunizationService },
 }
 
 export const validatorConfig = {
@@ -70,6 +73,10 @@ export const validatorConfig = {
   },
   ['$SFHIR_CONDITION_V1']: {
     clazz: SFHIRConditionV1Validator,
+    priority: 1,
+  },
+  ['$SFHIR_IMMUNIZATION_V1']: {
+    clazz: SFHIRImmunizationV1Validator,
     priority: 1,
   },
 }

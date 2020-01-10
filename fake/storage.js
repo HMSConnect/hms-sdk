@@ -11,6 +11,7 @@ const encounterService = require('./services/encounter')
 const patientService = require('./services/patient')
 const observationService = require('./services/observation')
 const conditionService = require('./services/condition')
+const immunizationService = require('./services/immunization')
 
 module.exports = (function() {
   let domainResourceList = []
@@ -93,16 +94,18 @@ module.exports = (function() {
           return allergyIntoleranceService.processingPredata(data)
         case 'care_plan':
           return carePlanService.processingPredata(data)
+        case 'condition':
+          return conditionService.processingPredata(data)
         case 'diagnostic_report':
           return diagnosticReportService.processingPredata(data)
         case 'encounter':
           return encounterService.processingPredata(data)
+        case 'immunization':
+          return immunizationService.processingPredata(data)
         case 'patient':
           return patientService.processingPredata(data)
         case 'observation':
           return observationService.processingPredata(data)
-        case 'condition':
-          return conditionService.processingPredata(data)
         default:
           return data
       }
