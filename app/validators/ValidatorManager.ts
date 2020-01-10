@@ -16,7 +16,7 @@ class ValidatorManager {
   instances: IValidatorRegistry[] = []
 
   register(name: string, clazz: any, priority: number) {
-    console.info('registering validator..', clazz)
+    console.info('registering validator..', name)
     this.instances.push({ name, priority, validator: clazz })
   }
 

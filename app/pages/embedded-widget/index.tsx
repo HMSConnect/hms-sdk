@@ -480,6 +480,22 @@ const WidgetGallery: IStatelessPage<{
                   </Paper>
                 </Grid>
               </Grid>
+              {selectedWidget?.path && (
+                <Paper className={classes.eventResponse}>
+                  <Grid container>
+                    <Grid item xs={12}>
+                      <Typography variant='h6'>Event Response</Typography>
+                    </Grid>
+                    <Grid className={classes.code} item xs={12}>
+                      <ObjectInspector
+                        data={outputEventData}
+                        expandLevel={3}
+                        theme={'chromeDark'}
+                      />
+                    </Grid>
+                  </Grid>
+                </Paper>
+              )}
             </TabPanel>
             <TabPanel value={tabState} index={1}>
               <div
@@ -492,22 +508,6 @@ const WidgetGallery: IStatelessPage<{
               ></div>
             </TabPanel>
           </>
-        )}
-        {selectedWidget?.path && (
-          <Paper className={classes.eventResponse}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography variant='h6'>Event Response</Typography>
-              </Grid>
-              <Grid className={classes.code} item xs={12}>
-                <ObjectInspector
-                  data={outputEventData}
-                  expandLevel={3}
-                  theme={'chromeDark'}
-                />
-              </Grid>
-            </Grid>
-          </Paper>
         )}
       </SideMenuWithContent>
     </>

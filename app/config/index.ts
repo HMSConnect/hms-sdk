@@ -288,7 +288,7 @@ export const widgetGalleryDiagnosticReportConfig: IWidgetGroup = {
   child: [
     {
       document: `# Comming Soon ...`,
-      label: 'Simple Diangnositc Report Card',
+      label: 'Simple Diagnositc Report Card',
       path: '/embedded-widget/medical-records/diagnostic-report-card',
       queryParams: [
         {
@@ -302,7 +302,7 @@ export const widgetGalleryDiagnosticReportConfig: IWidgetGroup = {
     },
     {
       document: `# Comming Soon ...`,
-      label: 'Diangnositc Report Card',
+      label: 'Diagnositc Report Card',
       path: '/embedded-widget/medical-records/diagnostic-report-card',
       queryParams: [
         {
@@ -327,7 +327,7 @@ export const widgetGalleryDiagnosticReportConfig: IWidgetGroup = {
       value: 'diagnostic-report-card',
     },
   ],
-  label: 'DiagnosticReport',
+  label: 'Diagnostic Report',
   value: 'diagnostic-report-card',
 }
 
@@ -376,7 +376,7 @@ export const widgetGalleryAllergyIntoleranceConfig: IWidgetGroup = {
     {
       document: require('@assets/embedded-widget/medical-record/allergy-intolerance-card.md')
         .default,
-      label: 'AllergyIntolerance',
+      label: 'Allergy Intolerance',
       path: '/embedded-widget/medical-records/allergy-intolerance-card',
       queryParams: [
         {
@@ -389,14 +389,14 @@ export const widgetGalleryAllergyIntoleranceConfig: IWidgetGroup = {
       value: 'allergy-intolerance-card',
     },
   ],
-  label: 'AllergyIntolerance',
+  label: 'Allergy Intolerance',
   value: 'allergy-intolerance-card',
 }
 export const widgetGalleryEncounterConfig: IWidgetGroup = {
   child: [
     {
       document: `# Comming Soon ...`,
-      label: 'Medical-records',
+      label: 'Medical Records',
       path: '/embedded-widget/medical-records',
       queryParams: [
         {

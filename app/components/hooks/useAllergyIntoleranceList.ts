@@ -9,10 +9,10 @@ const useAllergyIntoleranceList = (
   options: IAllergyIntoleranceListQuery,
 ): IServiceResult => {
   return usePromise(() => {
-    const diagnosticReportService = HMSService.getService(
+    const alleryIntoleranceService = HMSService.getService(
       'allergy_intolerance',
     ) as AllergyIntoleranceService
-    return diagnosticReportService.list(options)
+    return alleryIntoleranceService.list(options)
   }, _.values(options.filter))
 }
 

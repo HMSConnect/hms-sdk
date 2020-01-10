@@ -1,8 +1,6 @@
-import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import EncounterInfoDetail from '@components/widget/encounter/EncounterInfoDetail'
 import { Container, CssBaseline, Theme, Typography } from '@material-ui/core'
-import HomeIcon from '@material-ui/icons/Home'
 import { makeStyles } from '@material-ui/styles'
 import { IStatelessPage } from '@pages/patient-search'
 import * as React from 'react'
@@ -24,6 +22,7 @@ const EncounterMedicalRecords: IStatelessPage<{
         'encounter',
         'diagnostic_report',
         'observation',
+        'allergy_intolerance'
       ]}
     >
       <>

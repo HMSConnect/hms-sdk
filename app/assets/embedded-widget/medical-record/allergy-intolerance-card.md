@@ -1,4 +1,4 @@
-# AllergyINtolerance Card
+# Allergy Intolerance Card
 
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
