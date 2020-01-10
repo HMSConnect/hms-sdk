@@ -374,7 +374,8 @@ export const widgetGalleryObservationVitalSignConfig: IWidgetGroup = {
 export const widgetGalleryAllergyIntoleranceConfig: IWidgetGroup = {
   child: [
     {
-      document: `# Comming Soon ...`,
+      document: require('@assets/embedded-widget/medical-record/allergy-intolerance-card.md')
+        .default,
       label: 'AllergyIntolerance',
       path: '/embedded-widget/medical-records/allergy-intolerance-card',
       queryParams: [
