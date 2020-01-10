@@ -58,7 +58,12 @@ router.get('/:id/resource-list', async (req, res) => {
 
         db[domainResouce]
           .find(
-            { 'subject.reference': `Patient/${req.params.id}` },
+            {
+              $or: [
+                { 'subject.reference': `Patient/${req.params.id}` },
+                { 'patient.reference': `Patient/${req.params.id}` }
+              ]
+            },
             { ...options, limit: null } //force limit, use createPaginate slice data instead of
           )
           .fetch(resolve, reject)
