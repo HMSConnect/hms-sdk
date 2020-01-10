@@ -248,9 +248,19 @@ export const widgetGalleryPatientConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/:patientId',
       queryParams: [
         {
+          choices: [
+            { label: 'care plan', value: 'care_plan' },
+            { label: 'condition', value: 'condition' },
+            { label: 'diagnostic report', value: 'diagnostic_report' },
+            { label: 'encounter', value: 'encounter' },
+            { label: 'medication request', value: 'medication_request' },
+            { label: 'observation', value: 'observation' },
+            { label: 'patient', value: 'patient' },
+            { label: 'procedure', value: 'procedure' },
+          ],
           defaultValue: 'encounter',
           label: 'Menu Navigate',
-          type: 'text',
+          type: 'options',
           value: 'menuNavigate',
         },
       ],

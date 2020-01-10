@@ -335,6 +335,12 @@ const WidgetGallery: IStatelessPage<{
     if (event) {
       event.preventDefault()
     }
+
+    // clear specific local storage
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem('medicalPanelRecord')
+    }
+
     if (selectedWidget && selectedWidget.path) {
       const url = getCorrectURL(selectedWidget, parameters)
       const newURLText = `${url}?${stringify(queryParams)}`
