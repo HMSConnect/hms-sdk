@@ -47,8 +47,12 @@ initService()
 // use router
 
 //register router
-app.use('/smart-fhir/allergy-intolerance', require('./apis/v1/allergy_intolerance'))
+app.use(
+  '/smart-fhir/allergy-intolerance',
+  require('./apis/v1/allergy_intolerance')
+)
 app.use('/smart-fhir/care-plan', require('./apis/v1/care_plan'))
+app.use('/smart-fhir/condition', require('./apis/v1/condition'))
 app.use('/smart-fhir/diagnostic-report', require('./apis/v1/diagnostic_report'))
 app.use('/smart-fhir/encounter', require('./apis/v1/encounter'))
 app.use('/smart-fhir/observation', require('./apis/v1/observation'))
@@ -83,7 +87,10 @@ app.get('/smart-fhir/:domain_resource/:id', (req, res) => {
           res.json({
             error: null,
             data: data,
-            schema: { ...config.defaultSchema, resourceType: req.params.domain_resource }
+            schema: {
+              ...config.defaultSchema,
+              resourceType: req.params.domain_resource
+            }
           })
         }
       )

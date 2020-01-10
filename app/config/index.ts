@@ -11,6 +11,8 @@ import SFHIREncounterV1Validator from '@validators/standard/sfhir/SFHIREncounter
 import SFHIRObservationV1Validator from '@validators/standard/sfhir/SFHIRObservationV1Validator'
 import SFHIROrganizationV1Validator from '@validators/standard/sfhir/SFHIROrganizationV1Validator'
 import SFHIRPatientV1Validator from '@validators/standard/sfhir/SFHIRPatientV1Validator'
+import ConditionService from '@services/ConditionService'
+import SFHIRConditionV1Validator from '@validators/standard/sfhir/SFHIRConditionV1Validator'
 
 export interface IWidgetPatameter {
   type: 'text' | 'boolean' | 'number' | 'options'
@@ -43,6 +45,7 @@ export const serviceConfig = {
   ['$ENCOUNTER']: { clazz: EncounterService },
   ['$PATIENT']: { clazz: PatientService },
   ['$OBSERVATION']: { clazz: ObservationService },
+  ['$CONDITION']: { clazz: ConditionService },
 }
 
 export const validatorConfig = {
@@ -65,8 +68,8 @@ export const validatorConfig = {
     clazz: SFHIROrganizationV1Validator,
     priority: 1,
   },
-  ['SFHIR_OBSERVATION_V1']: {
-    clazz: SFHIRObservationV1Validator,
+  ['$SFHIR_CONDITION_V1']: {
+    clazz: SFHIRConditionV1Validator,
     priority: 1,
   },
 }
@@ -297,7 +300,8 @@ export const widgetGalleryPatientConfig: IWidgetGroup = {
 export const widgetGalleryDiagnosticReportConfig: IWidgetGroup = {
   child: [
     {
-      document: `# Comming Soon ...`,
+      document: require('@assets/embedded-widget/medical-record/simple-diagnostic-report-card.md')
+        .default,
       label: 'Simple Diagnositc Report Card',
       path: '/embedded-widget/medical-records/diagnostic-report-card',
       queryParams: [
@@ -311,7 +315,8 @@ export const widgetGalleryDiagnosticReportConfig: IWidgetGroup = {
       value: 'simple-diagnostic-report-card',
     },
     {
-      document: `# Comming Soon ...`,
+      document: require('@assets/embedded-widget/medical-record/diagnostic-report-card.md')
+        .default,
       label: 'Diagnositc Report Card',
       path: '/embedded-widget/medical-records/diagnostic-report-card',
       queryParams: [
@@ -344,7 +349,8 @@ export const widgetGalleryDiagnosticReportConfig: IWidgetGroup = {
 export const widgetGalleryObservationLaboratoryConfig: IWidgetGroup = {
   child: [
     {
-      document: `# Comming Soon ...`,
+      document: require('@assets/embedded-widget/medical-record/observation-laboratory-card.md')
+        .default,
       label: 'Observation - Laboraory',
       path: '/embedded-widget/medical-records/observation-laboratory-card',
       queryParams: [
@@ -364,7 +370,8 @@ export const widgetGalleryObservationLaboratoryConfig: IWidgetGroup = {
 export const widgetGalleryObservationVitalSignConfig: IWidgetGroup = {
   child: [
     {
-      document: `# Comming Soon ...`,
+      document: require('@assets/embedded-widget/medical-record/observation-vital-sign-card.md')
+        .default,
       label: 'Observation - VitalSign',
       path: '/embedded-widget/medical-records/observation-vital-sign-card',
       queryParams: [
@@ -405,7 +412,8 @@ export const widgetGalleryAllergyIntoleranceConfig: IWidgetGroup = {
 export const widgetGalleryEncounterConfig: IWidgetGroup = {
   child: [
     {
-      document: `# Comming Soon ...`,
+      document: require('@assets/embedded-widget/medical-record/medical-record.md')
+        .default,
       label: 'Medical Records',
       path: '/embedded-widget/medical-records',
       queryParams: [
@@ -421,7 +429,7 @@ export const widgetGalleryEncounterConfig: IWidgetGroup = {
             { value: '2xN', label: '2xN' },
             { value: '1xN', label: '1xN' },
           ],
-          defaultValue: '2xN',
+          defaultValue: '1xN',
           label: 'Dimention',
           type: 'options',
           value: 'dimention',
@@ -430,6 +438,6 @@ export const widgetGalleryEncounterConfig: IWidgetGroup = {
       value: 'encounte-medical-records',
     },
   ],
-  label: 'Encounter',
+  label: 'Medical Records',
   value: 'encounte-medical-records',
 }
