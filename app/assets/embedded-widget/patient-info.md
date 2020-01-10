@@ -9,8 +9,8 @@ Replace `/embedded-widget/patient-info/:patientId` url to your iframe project.
 
 ## Request HTTP GET
 **Params**
-| Key       | Type/Format | Description             |
-| --------- | ----------- | ----------------------- |
+| Key       | Type/Format | Description              |
+| --------- | ----------- | ------------------------ |
 | patientId | string      | `required` ID of patient |
 
 **Query Params**
