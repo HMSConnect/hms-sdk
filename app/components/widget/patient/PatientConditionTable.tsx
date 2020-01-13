@@ -1,14 +1,15 @@
+import React from 'react'
+
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
 import TableBase from '@components/base/TableBase'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
+import { IConditionListFilterQuery } from '@data-managers/ConditionDataManager'
 import { Grid, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import ConditionService from '@services/ConditionService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { sendMessage } from '@utils'
 import * as _ from 'lodash'
-import React from 'react'
-import routes from '../../../routes'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -33,25 +34,23 @@ const PatientConditionTable: React.FunctionComponent<{
   resourceList: any[]
   patientId: any
 }> = ({ resourceList, patientId }) => {
-  const classes = useStyles()
+  const [filter, setFilter] = React.useState<IConditionListFilterQuery>({
+    onsetDateTime_lt: undefined,
+    patientId,
+  })
 
-  const myscroll = React.useRef<HTMLDivElement | null>(null)
-
-  const { data, error, isLoading } = useInfinitScroll(
-    myscroll.current,
-    fetchMoreAsync,
-    resourceList,
-  )
-
-  async function fetchMoreAsync(lastEntry: any) {
+  const fetchMoreAsync = async (lastEntry: any) => {
     const conditionService = HMSService.getService(
       'condition',
     ) as ConditionService
+    const newFilter: IConditionListFilterQuery = {
+      ...filter,
+      onsetDateTime_lt: _.get(lastEntry, 'onsetDateTime'),
+      patientId,
+    }
+    setFilter(newFilter)
     const newLazyLoad = {
-      filter: {
-        onsetDateTime_lt: _.get(lastEntry, 'onsetDateTime'),
-        patientId,
-      },
+      filter: newFilter,
       max: 10,
     }
     const entryData = await conditionService.list(newLazyLoad)
@@ -69,6 +68,16 @@ const PatientConditionTable: React.FunctionComponent<{
 
     return Promise.resolve(_.get(entryData, 'data'))
   }
+
+  const classes = useStyles()
+
+  const myscroll = React.useRef<HTMLDivElement | null>(null)
+
+  const { data, error, isLoading } = useInfinitScroll(
+    myscroll.current,
+    fetchMoreAsync,
+    resourceList,
+  )
 
   const handleConditionSelect = (
     event: React.MouseEvent,

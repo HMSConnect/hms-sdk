@@ -8,6 +8,7 @@ const encounterService = require('../../services/encounter')
 const carePlanService = require('../../services/care_plan')
 const conditionService = require('../../services/condition')
 const immunizationService = require('../../services/immunization')
+const allergyIntoleranceService = require('../../services/allergy_intolerance')
 
 const db = mockStorage.getDB()
 
@@ -58,6 +59,8 @@ router.get('/:id/resource-list', async (req, res) => {
           options = conditionService.createOptions(req.query)
         } else if (domainResouce === 'immunization') {
           options = immunizationService.createOptions(req.query)
+        } else if (domainResouce === 'allergy_intolerance') {
+          options = allergyIntoleranceService.createOptions(req.query)
         } else {
           options = utilsService.createOptions(req.query)
         }

@@ -18,6 +18,10 @@ exports.createSelector = (filter = {}) => {
     })
   }
 
+  if (filter.vaccineCode) {
+    andSelector.push({ 'vaccineCode.text': filter.vaccineCode })
+  }
+
   if (andSelector.length > 0) {
     selector['$and'] = andSelector
   }
@@ -45,4 +49,19 @@ exports.processingPredata = data => {
     ...data,
     __mock_meta
   }
+}
+
+exports.parseToTypes = (immunizations = []) => {
+  const groupImmunizationByType = {}
+  for (const immunization of immunizations) {
+    const type = immunization.vaccineCode.text
+    if (!groupImmunizationByType[type]) {
+      groupImmunizationByType[type] = {
+        type: type,
+        totalCount: 0
+      }
+    }
+    groupImmunizationByType[type].totalCount += 1
+  }
+  return Object.values(groupImmunizationByType)
 }

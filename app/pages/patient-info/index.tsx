@@ -27,6 +27,7 @@ const PatientInfoView: IStatelessPage<{
         'encounter',
         'observation',
         'patient',
+        'immunization'
       ]}
     >
       <>

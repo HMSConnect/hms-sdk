@@ -7,9 +7,14 @@ export interface IImmunizationListQuery extends IListDefaultQuery {
 
 export interface IImmunizationListFilterQuery {
   patientId?: string
-  onsetDateTime_lt?: Date | string
+  date_lt?: Date | string
+  vaccineCode?: string
 }
 
-class ImmunizationDataManager extends DataManager {}
+class ImmunizationDataManager extends DataManager {
+  typeList(query: any): Promise<any> {
+    return this.adaptor.doRequest(`${this.resource}/type`, query)
+  }
+}
 
 export default ImmunizationDataManager

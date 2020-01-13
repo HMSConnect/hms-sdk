@@ -1,3 +1,5 @@
+import React, { useState } from 'react'
+
 import {
   Avatar,
   CircularProgress,
@@ -7,7 +9,6 @@ import {
 } from '@material-ui/core'
 import { sendMessage } from '@utils'
 import * as _ from 'lodash'
-import React, { useState } from 'react'
 import routes from '../../../routes'
 import RouteManager from '../../../routes/RouteManager'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
@@ -17,9 +18,10 @@ import PatientInfoPanel from '../../templates/patient/PatientInfoPanel'
 import PatientInfoTable from '../../templates/patient/PatientInfoTable'
 import PatientMenuList from '../../templates/patient/PatientMenuList'
 import EncounterInfoDetail from '../encounter/EncounterInfoDetail'
+import PatientAllergyIntoleranceTable from './PatientAllergyIntoleranceTable'
 import PatientConditionTable from './PatientConditionTable'
 import PatientEncounterTimeline from './PatientEncounterTimeline'
-import PatientAllergyIntolerance from './PatientAllergyIntolerance'
+import PatientImmunizationTable from './PatientImmunizationTable'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -154,7 +156,14 @@ const PatientInfoDetailSub: React.FunctionComponent<{
         )
       case 'allergy_intolerance':
         return (
-          <PatientAllergyIntolerance
+          <PatientAllergyIntoleranceTable
+            patientId={_.get(patient, 'identifier.id.value')}
+            resourceList={_.get(resource, 'data')}
+          />
+        )
+      case 'immunization':
+        return (
+          <PatientImmunizationTable
             patientId={_.get(patient, 'identifier.id.value')}
             resourceList={_.get(resource, 'data')}
           />
@@ -167,7 +176,6 @@ const PatientInfoDetailSub: React.FunctionComponent<{
   if (isGroupResourceListLoading) {
     return <CircularProgress />
   }
-
   return (
     <Grid item xs={12}>
       <Grid container spacing={3}>

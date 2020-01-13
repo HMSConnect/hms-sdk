@@ -141,7 +141,7 @@ const TableRowBase: React.FunctionComponent<{
           {tabelCell.bodyCell.render ? (
             tabelCell.bodyCell.render(entryData)
           ) : (
-            <Typography variant='body2'>
+            <Typography variant='body1'>
               {_.get(entryData, tabelCell.bodyCell.id) || 'Unknow'}
             </Typography>
           )}

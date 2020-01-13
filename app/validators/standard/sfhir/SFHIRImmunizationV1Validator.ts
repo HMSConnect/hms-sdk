@@ -14,7 +14,9 @@ class SFHIRImmunizationV1Validator implements IValidator {
 
   parse(data: any): any {
     return {
-      date: moment.default(data.date) ? moment.default(data.date).toDate() : null,
+      date: moment.default(data.date)
+        ? moment.default(data.date).toDate()
+        : null,
       dateText: moment.default(data.date)
         ? moment.default(data.date).format(environment.localFormat.dateTime)
         : null,

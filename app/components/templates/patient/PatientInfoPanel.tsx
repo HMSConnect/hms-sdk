@@ -47,11 +47,11 @@ const PatientInfoPanel: React.FunctionComponent<{
                       Email : {_.get(info, 'email') || 'Unknow'}
                     </Typography>
                   </Grid>
-                  <Grid item xs={12}>
+                  {/* <Grid item xs={12}>
                     <Typography variant='body1'>
                       ID : {_.get(info, 'identifier.id.value') || 'Unknow'}
                     </Typography>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Grid>
 
@@ -77,11 +77,11 @@ const PatientInfoPanel: React.FunctionComponent<{
                         : 'Unknow'}
                     </Typography>
                   </Grid>
-                  <Grid item xs={12}>
+                  {/* <Grid item xs={12}>
                     <Typography variant='body1'>
                       MRN : {_.get(info, 'identifier.dl.value') || 'Unknow'}
                     </Typography>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Grid>
 
