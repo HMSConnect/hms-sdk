@@ -49,6 +49,9 @@ const useStyles = makeStyles(theme => ({
     position: 'sticky',
     top: 0,
   },
+  patientContent: {
+    // paddingLeft: theme.spacing(1),
+  },
   root: { height: '100%', display: 'flex' },
 }))
 
@@ -95,7 +98,19 @@ const PatientInfoDetail: React.FunctionComponent<{
   )
 }
 
-const PatientDetailSelector: React.FunctionComponent<{
+const PatientDetailSelector: React.FunctionComponent<any> = ({
+  query,
+  patient,
+}) => {
+  let PatientDetail = PatientDetailSub
+
+  if (query.encounterId) {
+    PatientDetail = EncounterInfoDetail
+  }
+  return <PatientDetail patient={patient} query={query}></PatientDetail>
+}
+
+const PatientDetailSub: React.FunctionComponent<{
   patient: any
   query: any
 }> = ({ patient, query }) => {
@@ -104,7 +119,10 @@ const PatientDetailSelector: React.FunctionComponent<{
     isLoading: isGroupResourceListLoading,
     data: groupResourceList,
     error,
-  } = useResourceList(_.get(patient, 'identifier.id.value'))
+  } = useResourceList(_.get(patient, 'identifier.id.value'), {
+    ...query,
+    max: query.max || 20,
+  })
   const [menuNavigate, setMenuNavigate] = useState(
     query.menuNavigate || 'patient',
   )
@@ -213,7 +231,9 @@ const PatientDetailSelector: React.FunctionComponent<{
           width: '100%',
         }}
       >
-        <Paper>{renderInformationTable(menuNavigate)}</Paper>
+        <Paper className={classes.patientContent}>
+          {renderInformationTable(menuNavigate)}
+        </Paper>
       </Grid>
     </Grid>
   )

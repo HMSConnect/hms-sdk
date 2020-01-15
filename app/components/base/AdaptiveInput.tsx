@@ -1,13 +1,21 @@
 import * as React from 'react'
 
 import { FormControlLabel, Switch, TextField } from '@material-ui/core'
+import SelectOption, { IOptionItem } from './SelectOption'
 
-type AdaptiveInputType = 'text' | 'number' | 'choice' | 'boolean' | 'date'
+type AdaptiveInputType =
+  | 'text'
+  | 'number'
+  | 'choice'
+  | 'boolean'
+  | 'date'
+  | 'options'
 
 export interface IAdaptiveInput {
   type: AdaptiveInputType
   name: string
   label: string
+  choices?: IOptionItem[]
 }
 
 const AdaptiveInput: React.FunctionComponent<{
@@ -16,8 +24,9 @@ const AdaptiveInput: React.FunctionComponent<{
   label: string
   value: any
   id: string
+  choices?: IOptionItem[]
   onChange: (type: string, value: any) => void
-}> = ({ name, type, label, value = {}, id, onChange }) => {
+}> = ({ name, type, label, value = {}, id, onChange, choices }) => {
   switch (type) {
     case 'date':
       return null
@@ -34,6 +43,25 @@ const AdaptiveInput: React.FunctionComponent<{
     //     'aria-label': 'change date',
     //   }}
     // />
+    case 'options':
+      if (!choices) {
+        return null
+      }
+      return (
+        <SelectOption
+          label={label}
+          labelId={id}
+          id={id}
+          value={value[name]}
+          options={choices}
+          onChange={(
+            event: React.ChangeEvent<{ name?: string; value: unknown }>,
+          ) => {
+            onChange(name, event.target.value)
+          }}
+          fullwidth
+        />
+      )
     case 'boolean':
       return (
         <FormControlLabel

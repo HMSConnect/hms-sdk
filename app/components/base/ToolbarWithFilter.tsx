@@ -14,6 +14,9 @@ import { makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  additionInputLayout: {
+    flex: '3 3 100%',
+  },
   highlight:
     theme.palette.type === 'light'
       ? {
@@ -46,6 +49,7 @@ const ToolbarWithFilter: React.FC<any> = ({
   title = 'Toolbar Title',
   Icon = <FilterListIcon />,
   filterActive,
+  option = {},
 }) => {
   const classes = useStyles()
   return (
@@ -58,6 +62,9 @@ const ToolbarWithFilter: React.FC<any> = ({
         <Typography className={classes.title} variant='h6'>
           {title}
         </Typography>
+        <div className={classes.additionInputLayout}>
+          {option.additionButton}
+        </div>
         <Tooltip title='Filter list'>
           <Badge
             color='secondary'

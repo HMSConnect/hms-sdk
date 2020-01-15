@@ -8,6 +8,9 @@ export interface IConditionListQuery extends IListDefaultQuery {
 export interface IConditionListFilterQuery {
   patientId?: string
   onsetDateTime_lt?: Date | string
+  clinicalStatus?: string
+  codeText?: string
+  verificationStatus?: string
 }
 
 class ConditionDataManager extends DataManager {}

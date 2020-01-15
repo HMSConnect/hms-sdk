@@ -5,15 +5,23 @@ import ValidatorManager from '@validators/ValidatorManager'
 import * as _ from 'lodash'
 import AbstractService from './AbstractService'
 
+interface IResourceListParams {
+  id: string
+  options?: any
+}
+
 export default class PatientService extends AbstractService {
   createDataManager(resource: string, adapter: IAdapter): DataManager {
     return new PatientDataManager(resource, adapter)
   }
 
-  async resourceList(params?: any): Promise<any> {
+  async resourceList(params: IResourceListParams): Promise<any> {
     console.info(`[service] loading resource resourceList`, params)
     const dataManager = this.dataManager as PatientDataManager
-    const result = await dataManager.resourceList(params.id, params || {})
+    const result = await dataManager.resourceList(
+      params.id,
+      params.options || {},
+    )
     return {
       ...result,
       data: _.map(result.data, (result: any) => {

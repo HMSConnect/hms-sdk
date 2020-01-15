@@ -12,6 +12,29 @@ exports.createSelector = (filter = {}) => {
   if (filter.encounterId) {
     andSelector.push({ 'context.reference': `Encounter/${filter.encounterId}` })
   }
+  if (filter.type) {
+    andSelector.push({ type: `${filter.type}` })
+  }
+  if (filter.criticality) {
+    andSelector.push({ criticality: `${filter.criticality}` })
+  }
+
+  if (filter.codeText) {
+    const regExp = {
+      $regex: new RegExp(`.*${filter.codeText}.*`, 'i')
+    }
+    andSelector.push({
+      'code.coding.display': regExp
+    })
+  }
+  if (filter.category) {
+    const regExp = {
+      $regex: new RegExp(`.*${filter.category}.*`, 'i')
+    }
+    andSelector.push({
+      category: regExp
+    })
+  }
 
   if (filter.assertedDate_lt) {
     //minimongo can't upsert date, so I filter by ISOString date.

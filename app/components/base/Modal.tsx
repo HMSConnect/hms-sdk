@@ -112,6 +112,7 @@ export const FormModalContent: React.FC<{
   isOpen: boolean
   fullScreen: boolean
   id: string
+  maxWidth?: false | 'sm' | 'xs' | 'md' | 'lg' | 'xl'
 }> = ({
   id,
   isOpen,
@@ -121,6 +122,7 @@ export const FormModalContent: React.FC<{
   onReset,
   children,
   modalTitle = 'Form Modal',
+  maxWidth = 'xs',
 }) => {
   return (
     <Dialog
@@ -128,6 +130,8 @@ export const FormModalContent: React.FC<{
       aria-labelledby={id}
       open={isOpen}
       fullScreen={fullScreen}
+      maxWidth={maxWidth}
+      fullWidth={true}
     >
       <DialogTitle id={id} onClose={onClose}>
         {modalTitle}

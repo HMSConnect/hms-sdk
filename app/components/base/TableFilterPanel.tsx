@@ -29,6 +29,7 @@ const TableFilterPanel: React.FC<{
   onParameterChange,
   containerStyles,
 }) => {
+  const classes = useStyles()
   return (
     <form
       style={containerStyles}
@@ -36,7 +37,7 @@ const TableFilterPanel: React.FC<{
     >
       <Grid container>
         {_.map(filterOptions, (option, index) => (
-          <Grid item xs={12} key={index}>
+          <Grid className={classes.inputField} item xs={12} key={index}>
             <AdaptiveInput
               name={option.name}
               type={option.type}
@@ -44,6 +45,7 @@ const TableFilterPanel: React.FC<{
               value={filter}
               id={`${name} ${index}`}
               onChange={onParameterChange}
+              choices={option.choices}
             />
           </Grid>
         ))}

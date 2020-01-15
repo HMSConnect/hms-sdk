@@ -11,7 +11,7 @@ import { Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { HMSService } from '@services/HMSServiceFactory'
 import ProcedureService from '@services/ProcedureService'
-import { sendMessage } from '@utils'
+import { countFilterActive, sendMessage } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -49,7 +49,7 @@ const PatientProcedureTable: React.FunctionComponent<{
   resourceList,
   patientId,
   isInitialize,
-  max,
+  max = 20,
   initialFilter = {
     code: '',
     patientId,
@@ -75,7 +75,7 @@ const PatientProcedureTable: React.FunctionComponent<{
     setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
-      max: max || 10,
+      max,
     }
     const entryData = await procedureService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
@@ -122,8 +122,11 @@ const PatientProcedureTable: React.FunctionComponent<{
       'procedure',
     ) as ProcedureService
     const newLazyLoad = {
-      filter,
-      max: max || 10,
+      filter: {
+        ...filter,
+        periodStart_lt: undefined,
+      },
+      max,
     }
     const entryData = await procedureService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
@@ -174,29 +177,6 @@ const PatientProcedureTable: React.FunctionComponent<{
     },
   })
 
-  const countFilterActive = (
-    filter: any,
-    initialFilter: any,
-    excludeFilter?: any[],
-  ) => {
-    let filterWithoutExcludeFilter = initialFilter
-    if (_.isEmpty(excludeFilter)) {
-      filterWithoutExcludeFilter = _.omit(
-        filterWithoutExcludeFilter,
-        excludeFilter,
-      )
-    }
-
-    let count = 0
-    _.forEach(filter, (value, key) => {
-      if (value !== filterWithoutExcludeFilter[key]) {
-        count++
-      }
-    })
-
-    return count
-  }
-
   const classes = useStyles()
   if (error) {
     return <>Error: {error}</>
@@ -230,14 +210,14 @@ const PatientProcedureTable: React.FunctionComponent<{
             {
               bodyCell: {
                 align: 'left',
-                id: 'sctCode',
+                id: 'code',
               },
               headCell: {
                 align: 'center',
                 disablePadding: true,
                 disableSort: true,
-                id: 'sctCode',
-                label: 'Sct Code',
+                id: 'code',
+                label: 'Code',
                 styles: {
                   width: '5em',
                 },
@@ -246,13 +226,13 @@ const PatientProcedureTable: React.FunctionComponent<{
             {
               bodyCell: {
                 align: 'left',
-                id: 'display',
+                id: 'codeText',
               },
               headCell: {
                 align: 'left',
                 disablePadding: false,
                 disableSort: true,
-                id: 'display',
+                id: 'codeText',
                 label: 'Detail',
               },
             },

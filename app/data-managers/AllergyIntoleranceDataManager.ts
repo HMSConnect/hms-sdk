@@ -7,6 +7,10 @@ export interface IAllergyIntoleranceListQuery extends IListDefaultQuery {
 
 export interface IAllergyIntoleranceListFilterQuery {
   patientId?: string
+  codeText?: string
+  criticality?: string
+  type?: string
+  category?: string
   assertedDate_lt?: Date | string
 }
 

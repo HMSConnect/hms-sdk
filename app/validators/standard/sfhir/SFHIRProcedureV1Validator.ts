@@ -14,7 +14,8 @@ class SFHIRProcedureV1Validator implements IValidator {
 
   parse(data: any): any {
     return {
-      display: data.code.text,
+      code: _.get(data, 'code.coding[0].code'),
+      codeText: data.code.text,
       performedPeriodStart: _.get(data, 'performedPeriod.start')
         ? moment(_.get(data, 'performedPeriod.start')).toDate()
         : null,
@@ -23,7 +24,6 @@ class SFHIRProcedureV1Validator implements IValidator {
             environment.localFormat.dateTime,
           )
         : null,
-      sctCode: _.get(data, 'code.coding[0].code'),
       status: data.criticality,
     }
   }

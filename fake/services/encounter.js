@@ -8,6 +8,9 @@ exports.createSelector = (filter = {}) => {
   if (filter.patientId) {
     andSelector.push({ 'subject.reference': `Patient/${filter.patientId}` })
   }
+  if (filter.status) {
+    andSelector.push({ status: `${filter.status}` })
+  }
 
   if (filter.periodStart_lt) {
     //minimongo can't upsert date, so I filter by ISOString date.

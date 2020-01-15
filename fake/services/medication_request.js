@@ -9,8 +9,14 @@ exports.createSelector = (filter = {}) => {
     andSelector.push({ 'subject.reference': `Patient/${filter.patientId}` })
   }
 
+  if (filter.status) {
+    andSelector.push({ status: `${filter.status}` })
+  }
+
   if (filter.medicationCodeableConcept) {
-    const regExp = { $regex: new RegExp(`.*${filter.medicationCodeableConcept}.*`, 'i') }
+    const regExp = {
+      $regex: new RegExp(`.*${filter.medicationCodeableConcept}.*`, 'i')
+    }
     andSelector.push({
       'medicationCodeableConcept.coding.display': regExp
     })

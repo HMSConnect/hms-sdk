@@ -8,6 +8,7 @@ export interface IImmunizationListQuery extends IListDefaultQuery {
 export interface IImmunizationListFilterQuery {
   patientId?: string
   date_lt?: Date | string
+  status?: string
   vaccineCode?: string
 }
 

@@ -23,8 +23,8 @@ class SFHIRAllergyIntoleranceV1Validator implements IValidator {
           )
         : null,
       category: join(data.category, ', '),
+      codeText: data.code.text,
       criticality: data.criticality,
-      display: data.code.text,
       type: data.type,
     }
   }

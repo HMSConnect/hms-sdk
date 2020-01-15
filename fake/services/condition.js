@@ -8,6 +8,21 @@ exports.createSelector = (filter = {}) => {
   if (filter.patientId) {
     andSelector.push({ 'subject.reference': `Patient/${filter.patientId}` })
   }
+  if (filter.clinicalStatus) {
+    andSelector.push({ clinicalStatus: `${filter.clinicalStatus}` })
+  }
+  if (filter.verificationStatus) {
+    andSelector.push({ verificationStatus: `${filter.verificationStatus}` })
+  }
+
+  if (filter.codeText) {
+    const regExp = {
+      $regex: new RegExp(`.*${filter.codeText}.*`, 'i')
+    }
+    andSelector.push({
+      'code.coding.display': regExp
+    })
+  }
 
   if (filter.onsetDateTime_lt) {
     //minimongo can't upsert date ? so we filter by ISO string date.

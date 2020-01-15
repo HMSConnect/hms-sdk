@@ -14,9 +14,7 @@ import {
 import { blue, grey } from '@material-ui/core/colors'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
-
 import EnhancedTableHead, { IHeaderCellProps } from './EnhancedTableHead'
-import useInfinitScroll from '@components/hooks/useInfinitScroll'
 
 const useStyles = makeStyles((theme: Theme) => ({
   circle: {
@@ -155,4 +153,3 @@ const TableRowBase: React.FunctionComponent<{
 }
 
 export default TableBase
-

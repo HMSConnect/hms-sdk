@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@material-ui/core'
 
-interface IOptionItem {
+export interface IOptionItem {
   value: any
   label: string
 }

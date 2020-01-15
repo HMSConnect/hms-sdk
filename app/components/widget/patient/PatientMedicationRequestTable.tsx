@@ -11,14 +11,21 @@ import { Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { HMSService } from '@services/HMSServiceFactory'
 import MedicationRequestService from '@services/MedicationRequestService'
-import { sendMessage } from '@utils'
+import { countFilterActive, sendMessage } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
   tableWrapper: {
-    maxHeight: '55vh',
-    overflow: 'auto',
+    ['& .MuiTableCell-stickyHeader']: {
+      top: 60,
+    },
+    flex: 1,
+  },
+  toolbar: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 1000,
   },
 }))
 
@@ -43,11 +50,12 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
   resourceList,
   patientId,
   isInitialize,
-  max,
+  max = 20,
   initialFilter = {
     authoredOn_lt: undefined,
     medicationCodeableConcept: '',
     patientId,
+    status: '',
   },
 }) => {
   const [filter, setFilter] = React.useState<IMedicationRequestFilterQuery>(
@@ -68,7 +76,7 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
     setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
-      max: max || 10,
+      max,
     }
     const entryData = await medicationRequestService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
@@ -95,7 +103,7 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
     setIsFetch,
     setIsMore,
     setResult,
-  } = useInfinitScroll(myscroll.current, fetchMoreAsync, resourceList)
+  } = useInfinitScroll(null, fetchMoreAsync, resourceList)
 
   React.useEffect(() => {
     if (isInitialize) {
@@ -108,12 +116,6 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
     selectedEncounter: any,
   ) => {
     // TODO handle select AllergyIntolerance
-    // routes.Router.push({
-    //   pathname: `/patient-info/encounter/${selectedEncounter.id}`,
-    //   query: {
-    //     patientId,
-    //   },
-    // })
   }
 
   const fetchData = async (filter: any) => {
@@ -123,8 +125,11 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
       'medication_request',
     ) as MedicationRequestService
     const newLazyLoad = {
-      filter,
-      max: max || 10,
+      filter: {
+        ...filter,
+        authoredOn_lt: undefined,
+      },
+      max,
     }
     const entryData = await medicationRequestService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
@@ -175,34 +180,50 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
           name: 'medicationCodeableConcept',
           type: 'text',
         },
+        {
+          choices: [
+            {
+              label: 'Acitve',
+              value: 'active',
+            },
+            {
+              label: 'On Hold',
+              value: 'on-hold',
+            },
+            {
+              label: 'Cancelled',
+              value: 'cancelled',
+            },
+            {
+              label: 'Completed',
+              value: 'completed',
+            },
+            {
+              label: '	Entered in Error',
+              value: 'entered-in-error',
+            },
+            {
+              label: 'Stopped',
+              value: 'stopped',
+            },
+            {
+              label: 'Draft',
+              value: 'draft',
+            },
+            {
+              label: 'Unknown',
+              value: 'unknown',
+            },
+          ],
+          label: 'Status',
+          name: 'status',
+          type: 'options',
+        },
       ],
       onParameterChange: handleParameterChange,
       onSearchSubmit: handleSearchSubmit,
     },
   })
-
-  const countFilterActive = (
-    filter: any,
-    initialFilter: any,
-    excludeFilter?: any[],
-  ) => {
-    let filterWithoutExcludeFilter = initialFilter
-    if (_.isEmpty(excludeFilter)) {
-      filterWithoutExcludeFilter = _.omit(
-        filterWithoutExcludeFilter,
-        excludeFilter,
-      )
-    }
-
-    let count = 0
-    _.forEach(filter, (value, key) => {
-      if (value !== filterWithoutExcludeFilter[key]) {
-        count++
-      }
-    })
-
-    return count
-  }
 
   if (error) {
     return <>Error: {error}</>
@@ -211,15 +232,19 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
 
   return (
     <>
-      <ToolbarWithFilter
-        title={'Medical Request'}
-        onClickIcon={showModal}
-        filterActive={countFilterActive(submitedFilter, initialFilter, [
-          'patientId',
-        ])}
-      >
-        {renderModal}
-      </ToolbarWithFilter>
+      <div className={classes.toolbar}>
+        <ToolbarWithFilter
+          title={'Medical Request'}
+          onClickIcon={showModal}
+          filterActive={countFilterActive(submitedFilter, initialFilter, [
+            'patientId',
+            'authoredOn_lt',
+          ])}
+        >
+          {renderModal}
+        </ToolbarWithFilter>
+      </div>
+
       <div
         ref={myscroll}
         className={classes.tableWrapper}

@@ -1,4 +1,16 @@
+import { IListDefaultQuery } from '@utils/types'
 import DataManager from './DataManager'
+
+export interface IEncounterListQuery extends IListDefaultQuery {
+  filter?: IEncounterListFilterQuery
+}
+
+export interface IEncounterListFilterQuery {
+  patientId?: string
+  periodStart_lt?: Date | string
+  type?: string
+  status?: string
+}
 
 class EncounterDataManager extends DataManager {
   // customize operation if needed

@@ -13,8 +13,9 @@ exports.createSelector = (filter = {}) => {
     const regExp = { $regex: new RegExp(`.*${filter.code}.*`, 'i') }
     andSelector.push({ 'code.coding.code': regExp })
   }
-  if (filter.searchCode) {
-    andSelector.push({ 'context.reference': `Encounter/${filter.encounterId}` })
+  if (filter.codeText) {
+    const regExp = { $regex: new RegExp(`.*${filter.codeText}.*`, 'i') }
+    andSelector.push({ 'code.text': regExp })
   }
 
   if (filter.periodStart_lt) {

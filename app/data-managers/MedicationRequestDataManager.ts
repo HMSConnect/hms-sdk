@@ -9,7 +9,8 @@ export interface IMedicationRequestFilterQuery {
   patientId?: string
   encounterId?: string
   authoredOn_lt?: Date | string
-  medicationCodeableConcept?: ''
+  medicationCodeableConcept?: string
+  status?: string
 }
 
 class MedicationRequestDataManager extends DataManager {}
