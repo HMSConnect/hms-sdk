@@ -167,7 +167,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
     const newLazyLoad = {
       filter: {
         ...filter,
-        date_lt: undefined,
+        date_lt: filter.date_lt || initialFilter.date_lt,
       },
       max,
     }

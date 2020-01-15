@@ -16,6 +16,10 @@ import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 import EnhancedTableHead, { IHeaderCellProps } from './EnhancedTableHead'
 
+interface ITableEntireRow {
+  isCenter?: boolean
+}
+
 const useStyles = makeStyles((theme: Theme) => ({
   circle: {
     backgroundColor: grey[400],
@@ -80,16 +84,25 @@ const TableBase: React.FunctionComponent<{
     <Table stickyHeader size={size}>
       <EnhancedTableHead classes={classes} headCells={headerCells} />
       <TableBody>
-        {_.map(entryList, (entryData, index: number) => (
-          <TableRowBase
-            entryData={entryData}
-            index={index}
-            tableCells={tableCells}
-            onEntrySelected={onEntrySelected}
-            key={id + index}
-            id={id}
-          />
-        ))}
+        {_.isEmpty(entryList) ? (
+          <TableEntireRow
+            cellCount={headerCells.length}
+            option={{ isCenter: true }}
+          >
+            <Typography>No Data for display</Typography>
+          </TableEntireRow>
+        ) : (
+          _.map(entryList, (entryData, index: number) => (
+            <TableRowBase
+              entryData={entryData}
+              index={index}
+              tableCells={tableCells}
+              onEntrySelected={onEntrySelected}
+              key={id + index}
+              id={id}
+            />
+          ))
+        )}
       </TableBody>
       {isMore ? (
         <TableFooter>
@@ -148,6 +161,22 @@ const TableRowBase: React.FunctionComponent<{
           )}
         </TableCell>
       ))}
+    </TableRow>
+  )
+}
+
+const TableEntireRow: React.FunctionComponent<{
+  cellCount: number
+  option?: any
+}> = ({ cellCount, children, option = {} }) => {
+  return (
+    <TableRow>
+      <TableCell
+        colSpan={cellCount}
+        style={{ textAlign: option.isCenter ? 'center' : undefined }}
+      >
+        {children}
+      </TableCell>
     </TableRow>
   )
 }

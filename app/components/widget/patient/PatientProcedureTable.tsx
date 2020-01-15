@@ -124,7 +124,7 @@ const PatientProcedureTable: React.FunctionComponent<{
     const newLazyLoad = {
       filter: {
         ...filter,
-        periodStart_lt: undefined,
+        periodStart_lt: filter.periodStart_lt || initialFilter.periodStart_lt,
       },
       max,
     }

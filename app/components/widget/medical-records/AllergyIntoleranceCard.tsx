@@ -106,7 +106,7 @@ export const AllergyIntoleranceCardView: React.FunctionComponent<any> = ({
         assertedDate: _.get(allergy, 'assertedDateText'),
         category: _.get(allergy, 'category'),
         criticality: styleCriticality,
-        display: _.get(allergy, 'display'),
+        display: _.get(allergy, 'codeText'),
       }
     }),
     title: `Allergy`,

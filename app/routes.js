@@ -28,6 +28,31 @@ module.exports = nextRoutes()
     'embedded-widget/patient-info/patient-encounter-timeline',
   )
   .add(
+    'embedded-widget/patient-info/allergy-intolerance-table',
+    '/embedded-widget/patient-info/allergy-intolerance-table/:patientId',
+    'embedded-widget/patient-info/patient-allergy-intolerance-table',
+  )
+  .add(
+    'embedded-widget/patient-info/condition-table',
+    '/embedded-widget/patient-info/condition-table/:patientId',
+    'embedded-widget/patient-info/patient-condition-table',
+  )
+  .add(
+    'embedded-widget/patient-info/immunization-table',
+    '/embedded-widget/patient-info/immunization-table/:patientId',
+    'embedded-widget/patient-info/patient-immunization-table',
+  )
+  .add(
+    'embedded-widget/patient-info/medication-request-table',
+    '/embedded-widget/patient-info/medication-request-table/:patientId',
+    'embedded-widget/patient-info/patient-medication-request-table',
+  )
+  .add(
+    'embedded-widget/patient-info/procedure-table',
+    '/embedded-widget/patient-info/procedure-table/:patientId',
+    'embedded-widget/patient-info/patient-procedure-table',
+  )
+  .add(
     'embedded-widget/patient-info',
     '/embedded-widget/patient-info/:patientId',
   )

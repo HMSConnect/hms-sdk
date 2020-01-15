@@ -7,7 +7,7 @@ import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { IAllergyIntoleranceListFilterQuery } from '@data-managers/AllergyIntoleranceDataManager'
-import { Grid, Theme, Typography } from '@material-ui/core'
+import { CircularProgress, Grid, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
 import { HMSService } from '@services/HMSServiceFactory'
@@ -40,7 +40,7 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
-const PatientAllergyIntolerance: React.FunctionComponent<{
+const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   patientId: any
   isInitialize?: boolean
   resourceList?: any[]
@@ -136,7 +136,8 @@ const PatientAllergyIntolerance: React.FunctionComponent<{
     const newLazyLoad = {
       filter: {
         ...filter,
-        assertedDate_lt: undefined,
+        assertedDate_lt:
+          filter.assertedDate_lt || initialFilter.assertedDate_lt,
       },
       max,
     }
@@ -148,10 +149,6 @@ const PatientAllergyIntolerance: React.FunctionComponent<{
       return Promise.reject(new Error(entryData.error))
     }
 
-    sendMessage({
-      message: 'handleLoadMore',
-      params: filter,
-    })
     setResult(entryData)
     closeModal()
   }
@@ -167,11 +164,19 @@ const PatientAllergyIntolerance: React.FunctionComponent<{
     event.preventDefault()
     fetchData(filter)
     setSubmitedFilter(filter)
+    sendMessage({
+      message: 'handleSearchSubmit',
+      params: { filter, max },
+    })
   }
 
   const handleSearchReset = () => {
     fetchData(initialFilter)
     setSubmitedFilter(initialFilter)
+    sendMessage({
+      message: 'handleSearchReset',
+      params: { filter: initialFilter, max },
+    })
   }
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
@@ -215,7 +220,7 @@ const PatientAllergyIntolerance: React.FunctionComponent<{
               value: 'high',
             },
             {
-              label: 'Unable to Assess',
+              label: 'Unable to Assess Risk',
               value: 'unable-to-assess',
             },
           ],
@@ -234,6 +239,9 @@ const PatientAllergyIntolerance: React.FunctionComponent<{
   }
 
   const classes = useStyles()
+  if (isLoading) {
+    return <CircularProgress />
+  }
 
   return (
     <>
@@ -350,4 +358,4 @@ const PatientAllergyIntolerance: React.FunctionComponent<{
   )
 }
 
-export default PatientAllergyIntolerance
+export default PatientAllergyIntoleranceTable

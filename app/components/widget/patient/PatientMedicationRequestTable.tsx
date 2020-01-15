@@ -127,7 +127,7 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
     const newLazyLoad = {
       filter: {
         ...filter,
-        authoredOn_lt: undefined,
+        authoredOn_lt: filter.authoredOn_lt || initialFilter.authoredOn_lt,
       },
       max,
     }

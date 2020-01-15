@@ -3,15 +3,15 @@ import React, { useEffect } from 'react'
 import SelectOption from '@components/base/SelectOption'
 import SideMenuWithContent from '@components/base/SideMenuWithContent'
 import {
-  widgetGalleryDiagnosticReportConfig,
-  widgetGalleryPatientConfig,
+  IWidgetChild,
   IWidgetGroup,
   IWidgetPatameter,
-  IWidgetChild,
+  widgetGalleryAllergyIntoleranceConfig,
+  widgetGalleryDiagnosticReportConfig,
   widgetGalleryEncounterConfig,
   widgetGalleryObservationLaboratoryConfig,
   widgetGalleryObservationVitalSignConfig,
-  widgetGalleryAllergyIntoleranceConfig,
+  widgetGalleryPatientConfig,
 } from '@config'
 import {
   AppBar,
@@ -48,7 +48,6 @@ import * as _ from 'lodash'
 import MarkdownIt from 'markdown-it'
 import { parse, stringify } from 'qs'
 import { ObjectInspector } from 'react-inspector'
-
 import routes from '../../routes'
 
 const md = MarkdownIt({ html: true })

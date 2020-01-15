@@ -155,7 +155,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     const newLazyLoad = {
       filter: {
         ...filter,
-        assertedDate_lt: undefined,
+        periodStart_lt: filter.periodStart_lt || initialFilter.periodStart_lt,
       },
       max,
     }

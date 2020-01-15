@@ -137,7 +137,8 @@ const PatientConditionTable: React.FunctionComponent<{
     const newLazyLoad = {
       filter: {
         ...filter,
-        onsetDateTime_lt: undefined,
+        onsetDateTime_lt:
+          filter.onsetDateTime_lt || initialFilter.onsetDateTime_lt,
       },
       max,
     }
@@ -148,11 +149,6 @@ const PatientConditionTable: React.FunctionComponent<{
       })
       return Promise.reject(new Error(entryData.error))
     }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      params: filter,
-    })
     setResult(entryData)
     closeModal()
   }
@@ -168,11 +164,19 @@ const PatientConditionTable: React.FunctionComponent<{
     event.preventDefault()
     fetchData(filter)
     setSubmitedFilter(filter)
+    sendMessage({
+      message: 'handleSearchSubmit',
+      params: { filter, max },
+    })
   }
 
   const handleSearchReset = () => {
     fetchData(initialFilter)
     setSubmitedFilter(initialFilter)
+    sendMessage({
+      message: 'handleSearchReset',
+      params: { filter: initialFilter, max },
+    })
   }
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
@@ -197,7 +201,7 @@ const PatientConditionTable: React.FunctionComponent<{
               value: 'active',
             },
             {
-              label: 'provisional',
+              label: 'Recurrence',
               value: 'recurrence',
             },
             {

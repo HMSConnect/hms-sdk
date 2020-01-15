@@ -2,15 +2,11 @@ import * as React from 'react'
 
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
-import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
-import Container from '@material-ui/core/Container'
+import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    height: '100vh',
-    paddingTop: '30px',
-  },
+  root: {},
 }))
 
 const PatientInfoView: IStatelessPage<{
@@ -20,20 +16,20 @@ const PatientInfoView: IStatelessPage<{
   return (
     <BootstrapWrapper
       dependencies={[
-        'patient',
-        'encounter',
+        'allergy_intolerance',
+        'condition',
         'diagnostic_report',
+        'encounter',
         'observation',
-        'immunization'
+        'patient',
+        'immunization',
+        'procedure',
+        'medication_request',
       ]}
     >
       <>
         <CssBaseline />
-        <Container maxWidth='lg'>
-          <Typography component='div' className={classes.root}>
-            <PatientInfoDetail query={query} />
-          </Typography>
-        </Container>
+        <PatientInfoDetail query={query} />
       </>
     </BootstrapWrapper>
   )

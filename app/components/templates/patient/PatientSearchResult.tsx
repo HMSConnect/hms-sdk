@@ -13,8 +13,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     cursor: 'pointer',
   },
   tableWrapper: {
-    maxHeight: '70vh',
-    overflow: 'auto',
+    // maxHeight: '70vh',
+    // overflow: 'auto',
   },
 }))
 const PatientSearchResult: React.FunctionComponent<{

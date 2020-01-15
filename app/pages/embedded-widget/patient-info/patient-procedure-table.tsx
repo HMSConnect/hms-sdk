@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientEncounterTimeline from '@components/widget/patient/PatientEncounterTimeline'
+import PatientProcedureTable from '@components/widget/patient/PatientProcedureTable'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -11,15 +11,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const PatientEncounterTimelineView: IStatelessPage<{
+const PatientProcedureView: IStatelessPage<{
   query: any
 }> = ({ query }) => {
-  const classes = useStyles()
   return (
-    <BootstrapWrapper dependencies={['patient', 'encounter']}>
+    <BootstrapWrapper dependencies={['patient', 'procedure']}>
       <>
         <CssBaseline />
-        <PatientEncounterTimeline
+        <PatientProcedureTable
           patientId={get(query, 'patientId')}
           max={get(query, 'max')}
           isInitialize={get(query, 'isInitialize') || true}
@@ -30,10 +29,10 @@ const PatientEncounterTimelineView: IStatelessPage<{
   )
 }
 
-PatientEncounterTimelineView.getInitialProps = async ({ req, res, query }) => {
+PatientProcedureView.getInitialProps = async ({ req, res, query }) => {
   return {
     query: parse(query),
   }
 }
 
-export default PatientEncounterTimelineView
+export default PatientProcedureView
