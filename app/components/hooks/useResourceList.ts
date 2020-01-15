@@ -19,18 +19,19 @@ const useResourceList = (id: string): any => {
         const patientService = HMSService.getService(
           'patient',
         ) as PatientService
-        const entryList = await patientService.resourceList(id)
-        const resultsList = _.filter(
+        const entryList = await patientService.resourceList({id, query: "test"})
+        let resultsList = _.filter(
           entryList.data,
           entry => !_.isEmpty(entry.data),
         )
-
+        resultsList = _.concat(
+          { resourceType: 'patient', totalCount: 1, data: [] },
+          resultsList,
+        )
+       
         setResult({
           ...entryList,
-          data: [
-            { resourceType: 'patient', totalCount: 1, data: [] },
-            ...resultsList,
-          ],
+          data: resultsList,
         })
       } catch (error) {
         setResult((prevResult: IQueryResult) => ({

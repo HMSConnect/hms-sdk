@@ -9,13 +9,14 @@ import {
   TableFooter,
   TableRow,
   Theme,
-  Typography
+  Typography,
 } from '@material-ui/core'
 import { blue, grey } from '@material-ui/core/colors'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 
 import EnhancedTableHead, { IHeaderCellProps } from './EnhancedTableHead'
+import useInfinitScroll from '@components/hooks/useInfinitScroll'
 
 const useStyles = makeStyles((theme: Theme) => ({
   circle: {
@@ -24,20 +25,20 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: '50%',
     borderStyle: 'solid',
     textAlign: 'center',
-    width: '2em'
+    width: '2em',
   },
   root: {},
   tableGroupRow: {
     backgroundColor: blue[50],
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   tableRow: {
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   tableWrapper: {
     maxHeight: '60vh',
-    overflow: 'auto'
-  }
+    overflow: 'auto',
+  },
 }))
 
 export interface IBodyCellProp {
@@ -59,7 +60,7 @@ const TableBase: React.FunctionComponent<{
   isLoading: boolean
   isMore?: boolean
   size?: 'small' | 'medium' | undefined
-  onEntrySelected: (event: React.MouseEvent, selectedEncounter: any) => void
+  onEntrySelected?: (event: React.MouseEvent, selectedEncounter: any) => void
   onLazyLoad?: (event: React.MouseEvent) => void
 }> = ({
   entryList,
@@ -69,12 +70,12 @@ const TableBase: React.FunctionComponent<{
   isMore,
   size,
   onEntrySelected,
-  onLazyLoad
+  onLazyLoad,
 }) => {
   const classes = useStyles()
   const headerCells = _.map(
     tableCells,
-    (tableCell: ITableCellProp) => tableCell.headCell
+    (tableCell: ITableCellProp) => tableCell.headCell,
   )
 
   return (
@@ -123,15 +124,17 @@ const TableRowBase: React.FunctionComponent<{
   id: string
   index: string | number
   tableCells: ITableCellProp[]
-  onEntrySelected: (event: React.MouseEvent, entry: any) => void
+  onEntrySelected?: (event: React.MouseEvent, entry: any) => void
 }> = ({ entryData, id, index, tableCells, onEntrySelected }) => {
   const classes = useStyles()
   return (
     <TableRow
       hover
       key={id + index}
-      className={classes.tableRow}
-      onClick={(event: React.MouseEvent) => onEntrySelected(event, entryData)}
+      className={onEntrySelected ? classes.tableRow : ''}
+      onClick={(event: React.MouseEvent) =>
+        onEntrySelected ? onEntrySelected(event, entryData) : null
+      }
     >
       {_.map(tableCells, (tabelCell: any, tableIndex: number) => (
         <TableCell
@@ -152,3 +155,4 @@ const TableRowBase: React.FunctionComponent<{
 }
 
 export default TableBase
+

@@ -2,8 +2,10 @@ import * as React from 'react'
 
 import {
   Divider,
+  Icon,
   List,
   ListItem,
+  ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
   makeStyles,
@@ -16,6 +18,70 @@ export interface IResourceMenu {
   resourceType: string
   data: any
   totalCount: number
+}
+
+const mapMenuListWithIcon = (menuList: IResourceMenu[]) => {
+  return _.map(menuList, (value, key) => {
+    switch (value.resourceType) {
+      case 'patient':
+        return {
+          ...value,
+          iconClassName: 'fas fa-address-card',
+        }
+      case 'condition':
+        return {
+          ...value,
+          iconClassName: 'fas fa-clipboard',
+        }
+      case 'allergy_intolerance':
+        return {
+          ...value,
+          iconClassName: 'fas fa-allergies',
+        }
+      case 'diagnostic_report':
+        return {
+          ...value,
+          iconClassName: 'fas fa-diagnoses',
+        }
+      case 'medication_request':
+        return {
+          ...value,
+          iconClassName: 'fas fa-pills',
+        }
+      case 'claim':
+        return {
+          ...value,
+          iconClassName: 'fas fa-dollar-sign',
+        }
+      case 'care_plan':
+        return {
+          ...value,
+          iconClassName: 'fas fa-solar-panel',
+        }
+      case 'procedure':
+        return {
+          ...value,
+          iconClassName: 'fas fa-procedures',
+        }
+      case 'immunization':
+        return {
+          ...value,
+          iconClassName: 'fas fa-syringe',
+        }
+      case 'encounter':
+        return {
+          ...value,
+          iconClassName: 'fas fa-book-reader',
+        }
+      case 'observation':
+        return {
+          ...value,
+          iconClassName: 'fas fa-poll',
+        }
+      default:
+        return value
+    }
+  })
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -48,6 +114,20 @@ const PatientMenuList: React.FunctionComponent<{
     onNavigateChange(newValue)
   }
 
+  const menuListWithIcon: any = React.useMemo<any>(() => {
+    return mapMenuListWithIcon(menuList)
+  }, [menuList])
+
+  const renderIcon = (menu: any) => {
+    if (menu.iconClassName) {
+      return (
+        <ListItemIcon>
+          <Icon className={menu.iconClassName} color='primary' />
+        </ListItemIcon>
+      )
+    }
+  }
+
   return (
     <div className={classes.root}>
       <List
@@ -55,7 +135,7 @@ const PatientMenuList: React.FunctionComponent<{
         aria-label='main mailbox folders'
         className={classes.paper}
       >
-        {_.map(menuList, (menu: any) => (
+        {_.map(menuListWithIcon, (menu: any) => (
           <div key={menu.resourceType}>
             <Divider />
             <ListItem
@@ -63,6 +143,8 @@ const PatientMenuList: React.FunctionComponent<{
               selected={navigate === menu.resourceType}
               onClick={event => handleChange(event, menu.resourceType)}
             >
+              {renderIcon(menu)}
+
               <ListItemText primary={_.startCase(menu.resourceType)} />
               <ListItemSecondaryAction className={classes.circle}>
                 <div style={{ textAlign: 'center' }}>{menu.totalCount}</div>

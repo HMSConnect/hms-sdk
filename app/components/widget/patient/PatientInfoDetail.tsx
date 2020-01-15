@@ -22,6 +22,8 @@ import PatientAllergyIntoleranceTable from './PatientAllergyIntoleranceTable'
 import PatientConditionTable from './PatientConditionTable'
 import PatientEncounterTimeline from './PatientEncounterTimeline'
 import PatientImmunizationTable from './PatientImmunizationTable'
+import PatientMedicationRequestTable from './PatientMedicationRequestTable'
+import PatientProcedureTable from './PatientProcedureTable'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -145,6 +147,7 @@ const PatientInfoDetailSub: React.FunctionComponent<{
           <PatientEncounterTimeline
             patientId={_.get(patient, 'identifier.id.value')}
             resourceList={_.get(resource, 'data')}
+            max={query.max}
           />
         )
       case 'condition':
@@ -152,6 +155,7 @@ const PatientInfoDetailSub: React.FunctionComponent<{
           <PatientConditionTable
             patientId={_.get(patient, 'identifier.id.value')}
             resourceList={_.get(resource, 'data')}
+            max={query.max}
           />
         )
       case 'allergy_intolerance':
@@ -159,6 +163,7 @@ const PatientInfoDetailSub: React.FunctionComponent<{
           <PatientAllergyIntoleranceTable
             patientId={_.get(patient, 'identifier.id.value')}
             resourceList={_.get(resource, 'data')}
+            max={query.max}
           />
         )
       case 'immunization':
@@ -166,6 +171,23 @@ const PatientInfoDetailSub: React.FunctionComponent<{
           <PatientImmunizationTable
             patientId={_.get(patient, 'identifier.id.value')}
             resourceList={_.get(resource, 'data')}
+            max={query.max}
+          />
+        )
+      case 'procedure':
+        return (
+          <PatientProcedureTable
+            patientId={_.get(patient, 'identifier.id.value')}
+            resourceList={_.get(resource, 'data')}
+            max={query.max}
+          />
+        )
+      case 'medication_request':
+        return (
+          <PatientMedicationRequestTable
+            patientId={_.get(patient, 'identifier.id.value')}
+            resourceList={_.get(resource, 'data')}
+            max={query.max}
           />
         )
       default:

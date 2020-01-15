@@ -101,13 +101,13 @@ const useInfinitScroll = (
   }, [defaultList])
 
   return {
+    isFetch,
     isLoading,
-    ...result,
-    setResult,
     isMore,
+    ...result,
     setIsFetch,
     setIsMore,
-    isFetch,
+    setResult,
   }
 }
 

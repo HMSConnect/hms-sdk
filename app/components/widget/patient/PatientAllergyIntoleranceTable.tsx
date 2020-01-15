@@ -31,9 +31,11 @@ export interface ITableCellProp {
 }
 
 const PatientAllergyIntolerance: React.FunctionComponent<{
-  resourceList: any[]
   patientId: any
-}> = ({ resourceList, patientId }) => {
+  isInitialize?: boolean
+  resourceList?: any[]
+  max?: number
+}> = ({ resourceList, patientId, max, isInitialize }) => {
   const [filter, setFilter] = React.useState<
     IAllergyIntoleranceListFilterQuery
   >({
@@ -53,7 +55,7 @@ const PatientAllergyIntolerance: React.FunctionComponent<{
     setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
-      max: 10,
+      max: max || 10,
     }
     const entryData = await allergyIntoleranceService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
@@ -71,21 +73,24 @@ const PatientAllergyIntolerance: React.FunctionComponent<{
     return Promise.resolve(_.get(entryData, 'data'))
   }
 
-  const classes = useStyles()
-
   const myscroll = React.useRef<HTMLDivElement | null>(null)
-
-  const { data, error, isLoading } = useInfinitScroll(
+  const { data, error, isLoading, setIsFetch } = useInfinitScroll(
     myscroll.current,
     fetchMoreAsync,
     resourceList,
   )
 
-  const handleConditionSelect = (
+  React.useEffect(() => {
+    if (isInitialize) {
+      setIsFetch(true)
+    }
+  }, [isInitialize])
+
+  const handleAllergyIntoleranceSelect = (
     event: React.MouseEvent,
     selectedEncounter: any,
   ) => {
-    // TODO handle select condition
+    // TODO handle select AllergyIntolerance
     // routes.Router.push({
     //   pathname: `/patient-info/encounter/${selectedEncounter.id}`,
     //   query: {
@@ -98,11 +103,13 @@ const PatientAllergyIntolerance: React.FunctionComponent<{
     return <>Error: {error}</>
   }
 
+  const classes = useStyles()
+
   return (
     <>
       <Grid container>
         <Grid item xs={10}>
-          <Typography variant='h6'>Condition</Typography>
+          <Typography variant='h6'>Allergy Intolerance</Typography>
         </Grid>
       </Grid>
       <div
@@ -111,8 +118,7 @@ const PatientAllergyIntolerance: React.FunctionComponent<{
         data-testid='scroll-container'
       >
         <TableBase
-          id='condition'
-          onEntrySelected={handleConditionSelect}
+          id='allergyIntolerance'
           entryList={data}
           isLoading={isLoading}
           data-testid='table-base'
@@ -174,7 +180,7 @@ const PatientAllergyIntolerance: React.FunctionComponent<{
                 id: 'assertedDateText',
                 label: 'asserted Date',
                 styles: {
-                  width: '10em',
+                  width: '15em',
                 },
               },
             },

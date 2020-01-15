@@ -32,15 +32,17 @@ export interface ITableCellProp {
 }
 
 const PatientImmunizationTable: React.FunctionComponent<{
-  resourceList: any[]
   patientId: any
-}> = ({ resourceList, patientId }) => {
+  isInitialize?: boolean
+  resourceList?: any[]
+  max?: number
+}> = ({ resourceList, patientId, max, isInitialize }) => {
   const [filter, setFilter] = React.useState<IImmunizationListFilterQuery>({
     date_lt: undefined,
     patientId,
     vaccineCode: undefined,
   })
-  
+
   const fetchMoreAsync = async (lastEntry: any) => {
     const immunizationService = HMSService.getService(
       'immunization',
@@ -54,7 +56,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
     setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
-      max: 10,
+      max: max || 10,
     }
     const entryData = await immunizationService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
@@ -72,18 +74,24 @@ const PatientImmunizationTable: React.FunctionComponent<{
     return Promise.resolve(_.get(entryData, 'data'))
   }
 
-  const classes = useStyles()
-
   const myscroll = React.useRef<HTMLDivElement | null>(null)
+  const {
+    data,
+    error,
+    isLoading,
+    setResult,
+    setIsMore,
+    setIsFetch,
+  } = useInfinitScroll(myscroll.current, fetchMoreAsync, resourceList)
+
+  React.useEffect(() => {
+    if (isInitialize) {
+      setIsFetch(true)
+    }
+  }, [isInitialize])
 
   const [isGroup, setIsGroup] = React.useState<boolean | undefined>(false)
   const [tabList, setTabList] = React.useState<ITabList[]>([])
-
-  const { data, error, isLoading, setResult, setIsMore } = useInfinitScroll(
-    myscroll.current,
-    fetchMoreAsync,
-    resourceList,
-  )
 
   const handleimmunizationSelect = (
     event: React.MouseEvent,
@@ -136,6 +144,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
     setIsMore(true)
   }
 
+  const classes = useStyles()
   if (error) {
     return <>Error: {error}</>
   }
@@ -144,7 +153,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
     <>
       <Grid container>
         <Grid item xs={10}>
-          <Typography variant='h6'>immunization</Typography>
+          <Typography variant='h6'>Immunization</Typography>
         </Grid>
         <Grid item xs={2}>
           <Typography variant='body2'>
@@ -170,7 +179,6 @@ const PatientImmunizationTable: React.FunctionComponent<{
       >
         <TableBase
           id='immunization'
-          onEntrySelected={handleimmunizationSelect}
           entryList={data}
           isLoading={isLoading}
           data-testid='table-base'
@@ -216,7 +224,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
                 id: 'dateText',
                 label: 'Date',
                 styles: {
-                  width: '20em',
+                  width: '15em',
                 },
               },
             },

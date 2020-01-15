@@ -31,9 +31,11 @@ export interface ITableCellProp {
 }
 
 const PatientConditionTable: React.FunctionComponent<{
-  resourceList: any[]
   patientId: any
-}> = ({ resourceList, patientId }) => {
+  isInitialize?: boolean
+  resourceList?: any[]
+  max?: number
+}> = ({ resourceList, patientId, max, isInitialize }) => {
   const [filter, setFilter] = React.useState<IConditionListFilterQuery>({
     onsetDateTime_lt: undefined,
     patientId,
@@ -51,7 +53,7 @@ const PatientConditionTable: React.FunctionComponent<{
     setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
-      max: 10,
+      max: max || 10,
     }
     const entryData = await conditionService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
@@ -69,15 +71,21 @@ const PatientConditionTable: React.FunctionComponent<{
     return Promise.resolve(_.get(entryData, 'data'))
   }
 
-  const classes = useStyles()
-
   const myscroll = React.useRef<HTMLDivElement | null>(null)
 
-  const { data, error, isLoading } = useInfinitScroll(
+  const { data, error, isLoading, setIsFetch } = useInfinitScroll(
     myscroll.current,
     fetchMoreAsync,
     resourceList,
   )
+
+  React.useEffect(() => {
+    if (isInitialize) {
+      setIsFetch(true)
+    }
+  }, [isInitialize])
+
+  const classes = useStyles()
 
   const handleConditionSelect = (
     event: React.MouseEvent,
@@ -110,7 +118,6 @@ const PatientConditionTable: React.FunctionComponent<{
       >
         <TableBase
           id='condition'
-          onEntrySelected={handleConditionSelect}
           entryList={data}
           isLoading={isLoading}
           data-testid='table-base'
@@ -172,7 +179,7 @@ const PatientConditionTable: React.FunctionComponent<{
                 id: 'onset',
                 label: 'Onset Date',
                 styles: {
-                  width: '10em',
+                  width: '15em',
                 },
               },
             },
