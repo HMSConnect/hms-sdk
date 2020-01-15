@@ -41,9 +41,15 @@ const useStyles = makeStyles(theme => ({
     margin: 10,
     width: 156,
   },
-  panel: {
-    paddingTop: '30px',
+  detailSelector: {
+    flex: 1,
   },
+  infoPanel: {},
+  menuList: {
+    position: 'sticky',
+    top: 0,
+  },
+  root: { height: '100%', display: 'flex' },
 }))
 
 const PatientInfoDetail: React.FunctionComponent<{
@@ -64,50 +70,36 @@ const PatientInfoDetail: React.FunctionComponent<{
 
   return (
     <>
-      <div className={classes.panel}>
-        <Grid item xs={12}>
+      <div className={classes.infoPanel}>
+        <Paper style={{ padding: 16 }}>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={3}>
-              <Avatar
-                alt='Remy Sharp'
-                src='../../../static/images/mock-person-profile.png'
-                className={classes.bigAvatar}
-              />
-            </Grid>
-            <Grid item xs={12} sm={9}>
-              <Grid container spacing={3}>
-                <Paper style={{ padding: '1em' }}>
-                  <PatientInfoPanel patient={patient} />
-                </Paper>
+            <Grid item sm={3}>
+              <Grid container justify='center' alignContent='center'>
+                <Avatar
+                  alt='Remy Sharp'
+                  src='../../../static/images/mock-person-profile.png'
+                  className={classes.bigAvatar}
+                />
               </Grid>
             </Grid>
+            <Grid item sm={9}>
+              <PatientInfoPanel patient={patient} />
+            </Grid>
           </Grid>
-        </Grid>
+        </Paper>
       </div>
-      <div className={classes.panel}>
+      <div className={classes.detailSelector}>
         <PatientDetailSelector patient={patient} query={query} />
       </div>
     </>
   )
 }
 
-const PatientDetailSelector: React.FunctionComponent<any> = ({
-  query,
-  patient,
-}) => {
-  let PatientDetail = PatientInfoDetailSub
-
-  if (query.encounterId) {
-    PatientDetail = EncounterInfoDetail
-  }
-
-  return <PatientDetail patient={patient} query={query} />
-}
-
-const PatientInfoDetailSub: React.FunctionComponent<{
+const PatientDetailSelector: React.FunctionComponent<{
   patient: any
   query: any
 }> = ({ patient, query }) => {
+  const classes = useStyles()
   const {
     isLoading: isGroupResourceListLoading,
     data: groupResourceList,
@@ -198,19 +190,30 @@ const PatientInfoDetailSub: React.FunctionComponent<{
   if (isGroupResourceListLoading) {
     return <CircularProgress />
   }
+
   return (
-    <Grid item xs={12}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={3}>
+    <Grid container className={classes.root}>
+      <Grid item xs={12} sm={3}>
+        <Paper className={classes.menuList}>
           <PatientMenuList
             menuList={groupResourceList}
             navigate={menuNavigate}
             onNavigateChange={handleNavigateChange}
           />
-        </Grid>
-        <Grid item xs={12} sm={9}>
-          {renderInformationTable(menuNavigate)}
-        </Grid>
+        </Paper>
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        sm={9}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          width: '100%',
+        }}
+      >
+        <Paper>{renderInformationTable(menuNavigate)}</Paper>
       </Grid>
     </Grid>
   )

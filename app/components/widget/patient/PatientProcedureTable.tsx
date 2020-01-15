@@ -16,8 +16,15 @@ import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
   tableWrapper: {
-    maxHeight: '55vh',
-    overflow: 'auto',
+    ['& .MuiTableCell-stickyHeader']: {
+      top: 60,
+    },
+    flex: 1,
+  },
+  toolbar: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 1000,
   },
 }))
 
@@ -94,7 +101,7 @@ const PatientProcedureTable: React.FunctionComponent<{
     setIsFetch,
     setResult,
     setIsMore,
-  } = useInfinitScroll(myscroll.current, fetchMoreAsync, resourceList)
+  } = useInfinitScroll(null, fetchMoreAsync, resourceList)
   React.useEffect(() => {
     if (isInitialize) {
       setIsFetch(true)
@@ -197,16 +204,18 @@ const PatientProcedureTable: React.FunctionComponent<{
 
   return (
     <>
-      <ToolbarWithFilter
-        title={'Procedure'}
-        onClickIcon={showModal}
-        filterActive={countFilterActive(submitedFilter, initialFilter, [
-          'patientId',
-          'periodStart_lt',
-        ])}
-      >
-        {renderModal}
-      </ToolbarWithFilter>
+      <div className={classes.toolbar}>
+        <ToolbarWithFilter
+          title={'Procedure'}
+          onClickIcon={showModal}
+          filterActive={countFilterActive(submitedFilter, initialFilter, [
+            'patientId',
+            'periodStart_lt',
+          ])}
+        >
+          {renderModal}
+        </ToolbarWithFilter>
+      </div>
       <div
         ref={myscroll}
         className={classes.tableWrapper}

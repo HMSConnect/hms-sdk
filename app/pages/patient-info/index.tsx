@@ -9,8 +9,9 @@ import * as React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
     height: '100vh',
-    paddingTop: '30px',
   },
 }))
 
@@ -34,23 +35,21 @@ const PatientInfoView: IStatelessPage<{
     >
       <>
         <CssBaseline />
-        <Container maxWidth='lg'>
-          <Typography component='div' className={classes.root}>
-            <BreadcrumbsBase
-              currentPath='Patient Info'
-              parentPath={[
-                {
-                  icon: <HomeIcon />,
-                  url: '/',
-                },
-                {
-                  label: 'Patient Search',
-                },
-              ]}
-            ></BreadcrumbsBase>
-            <PatientInfoDetail query={query} />
-          </Typography>
-        </Container>
+        <Typography component='div' className={classes.root}>
+          <BreadcrumbsBase
+            currentPath='Patient Info'
+            parentPath={[
+              {
+                icon: <HomeIcon />,
+                url: '/',
+              },
+              {
+                label: 'Patient Search',
+              },
+            ]}
+          />
+          <PatientInfoDetail query={query} />
+        </Typography>
       </>
     </BootstrapWrapper>
   )
