@@ -2,26 +2,26 @@ const router = require('express').Router()
 
 const config = require('../../config')
 const mockStorage = require('../../storage')
-const allergyIntoleranceService = require('../../services/allergy_intolerance')
+const procedure = require('../../services/procedure')
 const db = mockStorage.getDB()
 
 router.get('/', (req, res) => {
   try {
-    if (db['allergy_intolerance']) {
+    if (db['procedure']) {
       const selector = req.query.filter
-        ? allergyIntoleranceService.createSelector(req.query.filter)
+        ? procedure.createSelector(req.query.filter)
         : {}
       const options = req.query
-        ? allergyIntoleranceService.createOptions(req.query)
+        ? procedure.createOptions(req.query)
         : {}
 
-      db['allergy_intolerance'].find(selector, options).fetch(
+      db['procedure'].find(selector, options).fetch(
         results => {
           res.json({
             error: null,
             schema: {
               ...config.defaultSchema,
-              resourceType: 'allergy_intolerance'
+              resourceType: 'procedure'
             },
             data: results
           })

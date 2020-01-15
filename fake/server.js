@@ -58,6 +58,11 @@ app.use('/smart-fhir/encounter', require('./apis/v1/encounter'))
 app.use('/smart-fhir/immunization', require('./apis/v1/immunization'))
 app.use('/smart-fhir/observation', require('./apis/v1/observation'))
 app.use('/smart-fhir/patient', require('./apis/v1/patient'))
+app.use('/smart-fhir/procedure', require('./apis/v1/procedure'))
+app.use(
+  '/smart-fhir/medication-request',
+  require('./apis/v1/medication_request')
+)
 
 // HMS
 app.get('/hms-connect/:domain_resource', (req, res) => {

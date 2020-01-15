@@ -12,6 +12,8 @@ const patientService = require('./services/patient')
 const observationService = require('./services/observation')
 const conditionService = require('./services/condition')
 const immunizationService = require('./services/immunization')
+const procedureService = require('./services/procedure')
+const medicationRequestService = require('./services/medication_request')
 
 module.exports = (function() {
   let domainResourceList = []
@@ -106,6 +108,10 @@ module.exports = (function() {
           return patientService.processingPredata(data)
         case 'observation':
           return observationService.processingPredata(data)
+        case 'procedure':
+          return procedureService.processingPredata(data)
+        case 'medication_request':
+          return medicationRequestService.processingPredata(data)
         default:
           return data
       }

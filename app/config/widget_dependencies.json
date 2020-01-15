@@ -26,5 +26,13 @@
   "immunization": {
     "services": ["$IMMUNIZATION"],
     "validators": ["$SFHIR_IMMUNIZATION_V1"]
+  },
+  "procedure": {
+    "services": ["$PROCEDURE"],
+    "validators": ["$SFHIR_PROCEDURE_V1"]
+  },
+  "medication_request": {
+    "services": ["$MEDICATION_REQUEST"],
+    "validators": ["$SFHIR_MEDICATION_REQUEST_V1"]
   }
 }

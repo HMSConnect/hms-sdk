@@ -15,12 +15,16 @@ import ConditionService from '@services/ConditionService'
 import SFHIRConditionV1Validator from '@validators/standard/sfhir/SFHIRConditionV1Validator'
 import ImmunizationService from '@services/ImmunizationService'
 import SFHIRImmunizationV1Validator from '@validators/standard/sfhir/SFHIRImmunizationV1Validator'
+import ProcedureService from '@services/ProcedureService'
+import SFHIRProcedureV1Validator from '@validators/standard/sfhir/SFHIRProcedureV1Validator'
+import SFHIRMedicationRequestV1Validator from '@validators/standard/sfhir/SFHIRMedicationRequestV1Validator'
+import MedicationRequestService from '@services/MedicationRequestService'
 
 export interface IWidgetPatameter {
   type: 'text' | 'boolean' | 'number' | 'options'
   label: string
   value: any
-  defaultValue: any
+  defaultValue?: any
   choices?: any[]
 }
 
@@ -49,6 +53,8 @@ export const serviceConfig = {
   ['$OBSERVATION']: { clazz: ObservationService },
   ['$CONDITION']: { clazz: ConditionService },
   ['$IMMUNIZATION']: { clazz: ImmunizationService },
+  ['$PROCEDURE']: { clazz: ProcedureService },
+  ['$MEDICATION_REQUEST']: { clazz: MedicationRequestService },
 }
 
 export const validatorConfig = {
@@ -77,6 +83,14 @@ export const validatorConfig = {
   },
   ['$SFHIR_IMMUNIZATION_V1']: {
     clazz: SFHIRImmunizationV1Validator,
+    priority: 1,
+  },
+  ['$SFHIR_PROCEDURE_V1']: {
+    clazz: SFHIRProcedureV1Validator,
+    priority: 1,
+  },
+  ['$SFHIR_MEDICATION_REQUEST_V1']: {
+    clazz: SFHIRMedicationRequestV1Validator,
     priority: 1,
   },
 }
