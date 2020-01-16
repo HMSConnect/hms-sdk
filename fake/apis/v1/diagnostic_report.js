@@ -26,7 +26,8 @@ router.get('/', async (req, res) => {
         db['diagnostic_report'].find(selector, options).fetch(resolve, reject)
       })
 
-      if (req.query.withObservation) {
+      if (req.query.withObservation == 'true') {
+        // query not cast boolean
         for (const diagnosticReport of diagnosticReports) {
           diagnosticReport.result = await createObservationByDianosticReportResult(
             diagnosticReport.result

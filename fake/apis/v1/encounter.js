@@ -7,7 +7,7 @@ const encounterService = require('../../services/encounter')
 const carePlanService = require('../../services/care_plan')
 const db = mockStorage.getDB()
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
     if (db['encounter']) {
       const selector = req.query.filter
@@ -20,18 +20,35 @@ router.get('/', (req, res) => {
           )
         : {}
 
-      db['encounter'].find(selector, options).fetch(
-        results => {
-          res.json({
-            error: null,
-            schema: { ...config.defaultSchema, resourceType: 'encounter' },
-            data: results
-          })
-        },
-        error => {
-          throw error
+      const encounterResults = await new Promise((resolve, reject) => {
+        db['encounter'].find(selector, options).fetch(resolve, reject)
+      })
+
+      let results = []
+      if (req.query.withOrganization == 'true') {
+        // query not cast boolean
+        for (const encounterResult of encounterResults) {
+          if (encounterResult.serviceProvider.reference) {
+            const organizationId = encounterResult.serviceProvider.reference.split(
+              '/'
+            )[1]
+            encounterResult.organization = await createOrganization(
+              organizationId
+            )
+          } else {
+            encounterResult.organization = {}
+          }
+          results.push(encounterResult)
         }
-      )
+      } else {
+        results = encounterResults
+      }
+
+      res.json({
+        error: null,
+        schema: { ...config.defaultSchema, resourceType: 'encounter' },
+        data: results
+      })
     } else {
       throw new Error("The domain resource doesn't exist")
     }
@@ -69,6 +86,21 @@ router.get('/type', (req, res) => {
     res.json({ error: error.message, data: null })
   }
 })
+
+async function createOrganization(organizationId) {
+  const organization = await new Promise((resolve, reject) => {
+    db['organization'].findOne(
+      { id: { $regex: organizationId, $options: 'i' } },
+      {},
+      resolve,
+      reject
+    )
+  })
+  return {
+    schema: { ...config.defaultSchema, resourceType: 'observation' },
+    ...organization
+  }
+}
 
 // router.get('/resource-list', async (req, res) => {
 //   const domainResources = mockStorage
