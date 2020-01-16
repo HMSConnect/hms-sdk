@@ -44,13 +44,17 @@ const useStyles = makeStyles(theme => ({
   detailSelector: {
     flex: 1,
   },
-  infoPanel: {},
+  infoPanel: {
+    padding: 8,
+  },
   menuList: {
+    margin: 8,
     position: 'sticky',
     top: 0,
   },
   patientContent: {
-    // paddingLeft: theme.spacing(1),
+    flex: 1,
+    margin: 8,
   },
   root: { height: '100%', display: 'flex' },
 }))
@@ -74,7 +78,7 @@ const PatientInfoDetail: React.FunctionComponent<{
   return (
     <>
       <div className={classes.infoPanel}>
-        <Paper style={{ padding: 16 }}>
+        <Paper>
           <Grid container spacing={3}>
             <Grid item sm={3}>
               <Grid container justify='center' alignContent='center'>
@@ -201,7 +205,7 @@ const PatientDetailSub: React.FunctionComponent<{
           />
         )
       default:
-        return <div> Comming soon </div>
+        return <div style={{ padding: 8 }}> Comming soon </div>
     }
   }
 
@@ -220,17 +224,7 @@ const PatientDetailSub: React.FunctionComponent<{
           />
         </Paper>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        sm={9}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
-          width: '100%',
-        }}
-      >
+      <Grid item xs={12} sm={9}>
         <Paper className={classes.patientContent}>
           {renderInformationTable(menuNavigate)}
         </Paper>

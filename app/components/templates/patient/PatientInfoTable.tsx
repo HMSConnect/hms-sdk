@@ -1,18 +1,56 @@
+import {
+  Theme,
+  Toolbar,
+  Table,
+  TableHead,
+  TableRow,
+  TableBody,
+} from '@material-ui/core'
+import Grid from '@material-ui/core/Grid'
+import { lighten } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/styles'
+import clsx from 'clsx'
 import * as React from 'react'
 
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+const useStyles = makeStyles((theme: Theme) => ({
+  highlight:
+    theme.palette.type === 'light'
+      ? {
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+          color: theme.palette.secondary.main,
+        }
+      : {
+          backgroundColor: theme.palette.secondary.dark,
+          color: theme.palette.text.primary,
+        },
+  margin: {
+    margin: theme.spacing(1),
+  },
+  root: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(1),
+    width: '100%',
+  },
+  title: {
+    flex: '1 1 100%',
+  },
+}))
 
 export default function PatientInfoTable({ patient: info }: any) {
-
+  const classes = useStyles()
   return (
     <>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Typography variant='h6'>
-            <strong>Patient</strong>
-          </Typography>
-        </Grid>
+      <Toolbar
+        className={clsx(classes.root, {
+          [classes.highlight]: true,
+        })}
+      >
+        <Typography className={classes.title} variant='h6'>
+          Patient
+        </Typography>
+      </Toolbar>
+      <Grid container style={{ padding: 16 }}>
         <Grid item xs={12}>
           <Grid container>
             <Grid item xs={12} sm={5}>
@@ -81,7 +119,7 @@ export default function PatientInfoTable({ patient: info }: any) {
                             (v: any, i: any) =>
                               `${v}${
                                 i < info.name.family.length - 1 ? ' ' : ''
-                              }`
+                              }`,
                           )
                         : ''
                     }`
