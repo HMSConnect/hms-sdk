@@ -41,7 +41,8 @@ function a11yProps(index: number) {
 const TabGroup: React.FunctionComponent<{
   tabList: ITabList[]
   onTabChange: (selectedValue: string) => void
-}> = ({ tabList, onTabChange }) => {
+  keyField?: string
+}> = ({ tabList, onTabChange, keyField = 'type' }) => {
   const classes = useStyles()
   const [navigate, setNavigate] = React.useState<string>(tabList[0].type)
   const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
@@ -68,13 +69,13 @@ const TabGroup: React.FunctionComponent<{
                 className={classes.margin}
                 max={999}
               >
-                <Truncate className={classes.padding}>{tab.type}</Truncate>
+                <Truncate className={classes.padding}>{tab[keyField]}</Truncate>
               </Badge>
             }
             {...a11yProps(index)}
-            value={tab.type}
-            key={tab.type + index}
-            data-testid={tab.type}
+            value={tab[keyField]}
+            key={tab[keyField] + index}
+            data-testid={tab[keyField]}
           />
         ))}
       </Tabs>

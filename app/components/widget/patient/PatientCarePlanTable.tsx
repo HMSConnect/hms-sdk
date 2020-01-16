@@ -2,19 +2,21 @@ import React from 'react'
 
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
 import { FormModalContent, useModal } from '@components/base/Modal'
+import TabGroup, { ITabList } from '@components/base/TabGroup'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { noneOption, selectOptions } from '@config'
 import {
-  IAllergyIntoleranceListFilterQuery,
-  mergeWithAllergyIntoleranceInitialFilterQuery,
-} from '@data-managers/AllergyIntoleranceDataManager'
-import { CircularProgress, Grid, Theme, Typography } from '@material-ui/core'
+  ICarePlanListFilterQuery,
+  mergeWithCarePlanInitialFilterQuery,
+} from '@data-managers/CarePlanDataManager'
+import { Checkbox, FormControlLabel, Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
+import CarePlanService from '@services/CarePlanService'
 import { HMSService } from '@services/HMSServiceFactory'
+import ImmunizationService from '@services/ImmunizationService'
 import { countFilterActive, sendMessage } from '@utils'
 import * as _ from 'lodash'
 
@@ -44,54 +46,51 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
-const PatientAllergyIntoleranceTable: React.FunctionComponent<{
+const PatientCarePlanTable: React.FunctionComponent<{
   patientId: any
   isInitialize?: boolean
   resourceList?: any[]
   max?: number
-  initialFilter?: IAllergyIntoleranceListFilterQuery
+  initialFilter?: ICarePlanListFilterQuery
 }> = ({
   resourceList,
   patientId,
   max = 20,
   isInitialize,
   initialFilter: customInitialFilter = {
-    assertedDate_lt: undefined,
-    category: undefined,
-    codeText: undefined,
-    criticality: '',
     patientId,
-    type: '',
+    periodStart_lt: undefined,
+    status: '',
   },
 }) => {
   const initialFilter = React.useMemo(() => {
-    return mergeWithAllergyIntoleranceInitialFilterQuery(customInitialFilter, {
+    return mergeWithCarePlanInitialFilterQuery(customInitialFilter, {
       patientId,
     })
   }, [customInitialFilter])
-  const [filter, setFilter] = React.useState<
-    IAllergyIntoleranceListFilterQuery
-  >(initialFilter)
-
+  const [filter, setFilter] = React.useState<ICarePlanListFilterQuery>(
+    initialFilter,
+  )
   const [submitedFilter, setSubmitedFilter] = React.useState<
-    IAllergyIntoleranceListFilterQuery
+    ICarePlanListFilterQuery
   >(initialFilter)
 
   const fetchMoreAsync = async (lastEntry: any) => {
-    const allergyIntoleranceService = HMSService.getService(
-      'allergy_intolerance',
-    ) as AllergyIntoleranceService
-    const newFilter: IAllergyIntoleranceListFilterQuery = {
+    const carePlanService = HMSService.getService(
+      'care_plan',
+    ) as CarePlanService
+
+    const newFilter: ICarePlanListFilterQuery = {
       ...filter,
-      assertedDate_lt: _.get(lastEntry, 'assertedDate'),
       patientId,
+      periodStart_lt: _.get(lastEntry, 'periodStart'),
     }
     setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,
     }
-    const entryData = await allergyIntoleranceService.list(newLazyLoad)
+    const entryData = await carePlanService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
@@ -112,9 +111,9 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     data,
     error,
     isLoading,
-    setIsFetch,
-    setIsMore,
     setResult,
+    setIsMore,
+    setIsFetch,
     isMore,
   } = useInfinitScroll(null, fetchMoreAsync, resourceList)
 
@@ -127,18 +126,17 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   const fetchData = async (filter: any) => {
     setFilter(filter)
     setIsMore(true)
-    const allergyIntoleranceService = HMSService.getService(
-      'allergy_intolerance',
-    ) as AllergyIntoleranceService
+    const carePlanService = HMSService.getService(
+      'care_plan',
+    ) as CarePlanService
     const newLazyLoad = {
       filter: {
         ...filter,
-        assertedDate_lt:
-          filter.assertedDate_lt || initialFilter.assertedDate_lt,
+        periodStart_lt: filter.periodStart_lt || initialFilter.periodStart_lt,
       },
       max,
     }
-    const entryData = await allergyIntoleranceService.list(newLazyLoad)
+    const entryData = await carePlanService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
@@ -146,6 +144,10 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
       return Promise.reject(new Error(entryData.error))
     }
 
+    sendMessage({
+      message: 'handleLoadMore',
+      params: filter,
+    })
     setResult(entryData)
     closeModal()
   }
@@ -161,23 +163,16 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     event.preventDefault()
     fetchData(filter)
     setSubmitedFilter(filter)
-    sendMessage({
-      message: 'handleSearchSubmit',
-      params: { filter, max },
-    })
   }
 
   const handleSearchReset = () => {
     fetchData(initialFilter)
     setSubmitedFilter(initialFilter)
-    sendMessage({
-      message: 'handleSearchReset',
-      params: { filter: initialFilter, max },
-    })
   }
+
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
-    modalTitle: 'Procedure Filter',
+    modalTitle: 'Care Plan Filter',
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -186,26 +181,12 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
       filter,
       filterOptions: [
         {
-          label: 'Name',
-          name: 'codeText',
-          type: 'text',
-        },
-        {
-          choices: _.concat(
-            [noneOption],
-            selectOptions.patient.allergyIntoleranceTypeOption,
-          ),
-          label: 'Type',
-          name: 'type',
-          type: 'options',
-        },
-        {
           choices: _.concat(
             [noneOption],
             selectOptions.patient.carePlanStatusOption,
           ),
-          label: 'Criticality',
-          name: 'criticality',
+          label: 'Status',
+          name: 'status',
           type: 'options',
         },
       ],
@@ -214,42 +195,32 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     },
   })
 
+  const classes = useStyles()
   if (error) {
     return <>Error: {error}</>
   }
-
-  const classes = useStyles()
-  // if (isLoading) {
-  //   return <CircularProgress />
-  // }
 
   return (
     <>
       <div className={classes.toolbar}>
         <ToolbarWithFilter
-          title={'Allergy Intolerance'}
+          title={'Care Plan'}
           onClickIcon={showModal}
           filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'assertedDate_lt',
+            'periodStart_lt',
             'patientId',
           ])}
         >
           {renderModal}
         </ToolbarWithFilter>
       </div>
-
-      <Grid container>
-        <Grid item xs={10}>
-          <Typography variant='h6'></Typography>
-        </Grid>
-      </Grid>
       <div
         ref={myscroll}
         className={classes.tableWrapper}
         data-testid='scroll-container'
       >
         <TableBase
-          id='allergyIntolerance'
+          id='carePlan'
           entryList={data}
           isLoading={isLoading}
           isMore={isMore}
@@ -258,75 +229,71 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
             {
               bodyCell: {
                 align: 'left',
-                id: 'codeText',
+                id: 'activity',
+                render: (carePlan: any) => {
+                  return (
+                    <ul>
+                      {_.map(carePlan.activity, activity => (
+                        <li>
+                          {_.get(activity, 'detail.code.text') || 'Unknow'} (
+                          {_.get(activity, 'detail.status') || 'Unknkow'})
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                },
               },
               headCell: {
                 align: 'left',
                 disablePadding: false,
                 disableSort: true,
-                id: 'codeText',
-                label: 'Name',
+                id: 'activity',
+                label: 'Activity',
               },
             },
             {
               bodyCell: {
-                align: 'center',
-                id: 'type',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'type',
-                label: 'Type',
-                styles: {
-                  width: '5em',
-                },
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'criticality',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'criticality',
-                label: 'Criticality',
-                styles: {
-                  width: '5em',
-                },
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
+                align: 'left',
                 id: 'category',
               },
               headCell: {
-                align: 'center',
+                align: 'left',
                 disablePadding: false,
                 disableSort: true,
                 id: 'category',
                 label: 'Category',
                 styles: {
-                  width: '10em',
+                  width: '15em',
                 },
               },
             },
             {
               bodyCell: {
                 align: 'center',
-                id: 'assertedDateText',
+                id: 'status',
               },
               headCell: {
                 align: 'center',
-                disablePadding: true,
+                disablePadding: false,
                 disableSort: true,
-                id: 'assertedDateText',
-                label: 'Asserted Date',
+                id: 'status',
+                label: 'Status',
+                styles: {
+                  width: '5em',
+                },
+              },
+            },
+            {
+              bodyCell: {
+                align: 'center',
+                id: 'periodStartText',
+              },
+              headCell: {
+                align: 'center',
+                disablePadding: false,
+                disableSort: true,
+                id: 'periodStartText',
+                label: 'Period Start',
                 styles: {
                   width: '15em',
                 },
@@ -339,4 +306,4 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   )
 }
 
-export default PatientAllergyIntoleranceTable
+export default PatientCarePlanTable

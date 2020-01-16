@@ -6,7 +6,10 @@ import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
-import { IProcedureListFilterQuery } from '@data-managers/ProcedureDataManager'
+import {
+  IProcedureListFilterQuery,
+  mergeWithProcedureInitialFilterQuery,
+} from '@data-managers/ProcedureDataManager'
 import { Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { HMSService } from '@services/HMSServiceFactory'
@@ -50,12 +53,17 @@ const PatientProcedureTable: React.FunctionComponent<{
   patientId,
   isInitialize,
   max = 20,
-  initialFilter = {
+  initialFilter: customInitialFilter = {
     code: '',
     patientId,
     periodStart_lt: undefined,
   },
 }) => {
+  const initialFilter = React.useMemo(() => {
+    return mergeWithProcedureInitialFilterQuery(customInitialFilter, {
+      patientId,
+    })
+  }, [customInitialFilter])
   const [filter, setFilter] = React.useState<IProcedureListFilterQuery>(
     initialFilter,
   )
@@ -101,19 +109,13 @@ const PatientProcedureTable: React.FunctionComponent<{
     setIsFetch,
     setResult,
     setIsMore,
+    isMore,
   } = useInfinitScroll(null, fetchMoreAsync, resourceList)
   React.useEffect(() => {
     if (isInitialize) {
       setIsFetch(true)
     }
   }, [isInitialize])
-
-  const handleProcedureSelect = (
-    event: React.MouseEvent,
-    selectedEncounter: any,
-  ) => {
-    // TODO handle select procedure
-  }
 
   const fetchData = async (filter: any) => {
     setFilter(filter)
@@ -205,6 +207,7 @@ const PatientProcedureTable: React.FunctionComponent<{
           id='procedure'
           entryList={data}
           isLoading={isLoading}
+          isMore={isMore}
           data-testid='table-base'
           tableCells={[
             {
@@ -213,8 +216,8 @@ const PatientProcedureTable: React.FunctionComponent<{
                 id: 'code',
               },
               headCell: {
-                align: 'center',
-                disablePadding: true,
+                align: 'left',
+                disablePadding: false,
                 disableSort: true,
                 id: 'code',
                 label: 'Code',

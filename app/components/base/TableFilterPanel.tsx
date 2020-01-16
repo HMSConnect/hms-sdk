@@ -37,13 +37,13 @@ const TableFilterPanel: React.FC<{
     >
       <Grid container>
         {_.map(filterOptions, (option, index) => (
-          <Grid className={classes.inputField} item xs={12} key={index}>
+          <Grid className={classes.inputField} item xs={12} key={`container ${option.name} ${index}`}>
             <AdaptiveInput
               name={option.name}
               type={option.type}
               label={option.label}
               value={filter}
-              id={`${name} ${index}`}
+              id={`${option.name} ${index}`}
               onChange={onParameterChange}
               choices={option.choices}
             />

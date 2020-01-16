@@ -24,7 +24,18 @@ import SFHIROrganizationV1Validator from '@validators/standard/sfhir/SFHIROrgani
 import SFHIRPatientV1Validator from '@validators/standard/sfhir/SFHIRPatientV1Validator'
 import SFHIRProcedureV1Validator from '@validators/standard/sfhir/SFHIRProcedureV1Validator'
 import diagnostic_report_embedded_config from './diagnostic_report_embedded_config'
-import patientEmbeddedConfig from './patient_embedded_config'
+import patientEmbeddedWidgetConfig, {
+  allergyIntoleranceCriticalityOption,
+  allergyIntoleranceTypeOption,
+  conditionClinicalStatusOption,
+  conditionVerificationStatusOption,
+  encounterStatusOption,
+  immunizationStatusOption,
+  medicationRequestStatusOption,
+  claimStatusOption,
+  carePlanStatusOption,
+} from './patient_embedded_config'
+import CarePlanService from '@services/CarePlanService'
 
 export interface IWidgetPatameter {
   type: 'text' | 'boolean' | 'number' | 'options'
@@ -63,6 +74,7 @@ export const serviceConfig = {
   ['$IMMUNIZATION']: { clazz: ImmunizationService },
   ['$PROCEDURE']: { clazz: ProcedureService },
   ['$MEDICATION_REQUEST']: { clazz: MedicationRequestService },
+  ['$CARE_PLAN']: { clazz: CarePlanService },
 }
 
 export const validatorConfig = {
@@ -115,7 +127,23 @@ export const adapterConfig = {
   ['$DEVELOP']: { clazz: DevelopmentAdapter },
 }
 
-export const widgetGalleryPatientConfig: IWidgetGroup = patientEmbeddedConfig
+export const noneOption = { label: 'None', value: '' }
+
+export const selectOptions = {
+  patient: {
+    allergyIntoleranceCriticalityOption,
+    allergyIntoleranceTypeOption,
+    conditionClinicalStatusOption,
+    conditionVerificationStatusOption,
+    encounterStatusOption,
+    immunizationStatusOption,
+    medicationRequestStatusOption,
+    claimStatusOption,
+    carePlanStatusOption,
+  },
+}
+
+export const widgetGalleryPatientConfig: IWidgetGroup = patientEmbeddedWidgetConfig
 
 export const widgetGalleryDiagnosticReportConfig: IWidgetGroup = diagnostic_report_embedded_config
 

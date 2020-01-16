@@ -19,10 +19,14 @@ import PatientInfoTable from '../../templates/patient/PatientInfoTable'
 import PatientMenuList from '../../templates/patient/PatientMenuList'
 import EncounterInfoDetail from '../encounter/EncounterInfoDetail'
 import PatientAllergyIntoleranceTable from './PatientAllergyIntoleranceTable'
+import PatientCarePlanTable from './PatientCarePlanTable'
+import PatientClaimTable from './PatientClaimTable'
 import PatientConditionTable from './PatientConditionTable'
 import PatientEncounterTimeline from './PatientEncounterTimeline'
+import PatientImagingStudyTable from './PatientImagingStudyTable'
 import PatientImmunizationTable from './PatientImmunizationTable'
 import PatientMedicationRequestTable from './PatientMedicationRequestTable'
+import PatientObservationTable from './PatientObservationTable'
 import PatientProcedureTable from './PatientProcedureTable'
 
 export interface IPatientTableProps {
@@ -199,6 +203,38 @@ const PatientDetailSub: React.FunctionComponent<{
       case 'medication_request':
         return (
           <PatientMedicationRequestTable
+            patientId={_.get(patient, 'identifier.id.value')}
+            resourceList={_.get(resource, 'data')}
+            max={query.max}
+          />
+        )
+      case 'observation':
+        return (
+          <PatientObservationTable
+            patientId={_.get(patient, 'identifier.id.value')}
+            resourceList={_.get(resource, 'data')}
+            max={query.max}
+          />
+        )
+      case 'imaging_study':
+        return (
+          <PatientImagingStudyTable
+            patientId={_.get(patient, 'identifier.id.value')}
+            resourceList={_.get(resource, 'data')}
+            max={query.max}
+          />
+        )
+      case 'claim':
+        return (
+          <PatientClaimTable
+            patientId={_.get(patient, 'identifier.id.value')}
+            resourceList={_.get(resource, 'data')}
+            max={query.max}
+          />
+        )
+      case 'care_plan':
+        return (
+          <PatientCarePlanTable
             patientId={_.get(patient, 'identifier.id.value')}
             resourceList={_.get(resource, 'data')}
             max={query.max}

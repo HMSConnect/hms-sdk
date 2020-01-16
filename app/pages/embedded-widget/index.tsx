@@ -49,6 +49,7 @@ import MarkdownIt from 'markdown-it'
 import { parse, stringify } from 'qs'
 import { ObjectInspector } from 'react-inspector'
 import routes from '../../routes'
+import AdaptiveInput from '@components/base/AdaptiveInput'
 
 const md = MarkdownIt({ html: true })
 
@@ -212,9 +213,20 @@ const WidgetGallery: IStatelessPage<{
         url = _.replace(url, `:${parameter.value}`, parameter.defaultValue)
       })
     }
-
+    console.log('queryParams :', queryParams)
     if (queryParams) {
-      return `${url}?${stringify(queryParams)}`
+      const stringQueryParam = parse(stringify(queryParams), { depth: 0 })
+      const newQueryParams = _.reduce(
+        stringQueryParam,
+        (acc, value, key) => {
+          if (value) {
+            return { ...acc, [key]: value }
+          }
+          return acc
+        },
+        {},
+      )
+      return `${url}?${stringify(newQueryParams)}`
     }
 
     return url
@@ -316,9 +328,9 @@ const WidgetGallery: IStatelessPage<{
       return null
     })
     if (selectedWidget) {
-      const test = selectedWidget.value
-        ? `?widget=${selectedWidget.value || ''}`
-        : ''
+      // const test = selectedWidget.value
+      //   ? `?widget=${selectedWidget.value || ''}`
+      //   : ''
       routes.Router.replaceRoute(
         `/embedded-widget${
           selectedWidget.value ? `?widget=${selectedWidget.value || ''}` : ''
@@ -341,15 +353,15 @@ const WidgetGallery: IStatelessPage<{
     }
 
     if (selectedWidget && selectedWidget.path) {
-      const url = getCorrectURL(selectedWidget, parameters)
-      const newURLText = `${url}?${stringify(queryParams)}`
+      const url = getCorrectURL(selectedWidget, parameters, queryParams)
       const iframeObject = _.get(iframeRef, 'current')
         ? (_.get(iframeRef, 'current') as HTMLIFrameElement)
         : null
+
       if (iframeObject && iframeObject.contentWindow) {
-        iframeObject.contentWindow.location.replace(newURLText)
+        iframeObject.contentWindow.location.replace(url)
       }
-      setURLText(newURLText)
+      setURLText(url)
     }
   }
 
@@ -619,7 +631,16 @@ const WidgetParameters: React.FC<{
       <br />
       {_.map(selectedWidget[type], (parameter, index) => (
         <React.Fragment key={`${parameter.value}parameters${index}`}>
-          {renderInput(parameter, `${type}outlined-basic${index}`)}
+          {/* {renderInput(parameter, `${type}outlined-basic${index}`)} */}
+          <AdaptiveInput
+            name={parameter.value}
+            type={parameter.type}
+            label={parameter.label}
+            value={parameters}
+            id={`${parameter.value} ${index}`}
+            onChange={onParameterChange}
+            choices={parameter.choices}
+          />
           <br />
           <br />
         </React.Fragment>

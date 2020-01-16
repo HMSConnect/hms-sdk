@@ -6,7 +6,11 @@ import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
-import { IConditionListFilterQuery } from '@data-managers/ConditionDataManager'
+import { noneOption, selectOptions } from '@config'
+import {
+  IConditionListFilterQuery,
+  mergeWithConditionInitialFilterQuery,
+} from '@data-managers/ConditionDataManager'
 import { Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import ConditionService from '@services/ConditionService'
@@ -51,14 +55,14 @@ const PatientConditionTable: React.FunctionComponent<{
   patientId,
   max = 20,
   isInitialize,
-  initialFilter = {
-    clinicalStatus: '',
-    codeText: '',
-    onsetDateTime_lt: undefined,
-    patientId,
-    verificationStatus: '',
-  },
+  initialFilter: customInitialFilter = {},
 }) => {
+  const initialFilter = React.useMemo(() => {
+    return mergeWithConditionInitialFilterQuery(customInitialFilter, {
+      patientId,
+    })
+  }, [customInitialFilter])
+  // console.log('initialFilter :', initialFilter);
   const [filter, setFilter] = React.useState<IConditionListFilterQuery>(
     initialFilter,
   )
@@ -105,6 +109,7 @@ const PatientConditionTable: React.FunctionComponent<{
     setIsFetch,
     setIsMore,
     setResult,
+    isMore,
   } = useInfinitScroll(null, fetchMoreAsync, resourceList)
 
   React.useEffect(() => {
@@ -114,19 +119,6 @@ const PatientConditionTable: React.FunctionComponent<{
   }, [isInitialize])
 
   const classes = useStyles()
-
-  const handleConditionSelect = (
-    event: React.MouseEvent,
-    selectedEncounter: any,
-  ) => {
-    // TODO handle select condition
-    // routes.Router.push({
-    //   pathname: `/patient-info/encounter/${selectedEncounter.id}`,
-    //   query: {
-    //     patientId,
-    //   },
-    // })
-  }
 
   const fetchData = async (filter: any) => {
     setFilter(filter)
@@ -181,7 +173,7 @@ const PatientConditionTable: React.FunctionComponent<{
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
-    modalTitle: 'Procedure Filter',
+    modalTitle: 'Condition Filter',
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -195,63 +187,19 @@ const PatientConditionTable: React.FunctionComponent<{
           type: 'text',
         },
         {
-          choices: [
-            {
-              label: 'Active',
-              value: 'active',
-            },
-            {
-              label: 'Recurrence',
-              value: 'recurrence',
-            },
-            {
-              label: 'Relapse',
-              value: 'relapse',
-            },
-            {
-              label: 'Inactive',
-              value: 'inactive',
-            },
-            {
-              label: 'Remission',
-              value: 'remission',
-            },
-            {
-              label: 'Resolved',
-              value: 'resolved',
-            },
-          ],
+          choices: _.concat(
+            [noneOption],
+            selectOptions.patient.conditionClinicalStatusOption,
+          ),
           label: 'Clinical Status',
           name: 'clinicalStatus',
           type: 'options',
         },
         {
-          choices: [
-            {
-              label: 'Unconfirmed',
-              value: 'unconfirmed',
-            },
-            {
-              label: 'Provisional',
-              value: 'provisional',
-            },
-            {
-              label: 'Differential',
-              value: 'differential',
-            },
-            {
-              label: 'Confirmed',
-              value: 'confirmed',
-            },
-            {
-              label: 'Refuted',
-              value: 'refuted',
-            },
-            {
-              label: 'Entered in Error',
-              value: 'entered-in-error',
-            },
-          ],
+          choices: _.concat(
+            [noneOption],
+            selectOptions.patient.conditionVerificationStatusOption,
+          ),
           label: 'Verification Status',
           name: 'verificationStatus',
           type: 'options',
@@ -290,6 +238,7 @@ const PatientConditionTable: React.FunctionComponent<{
           id='condition'
           entryList={data}
           isLoading={isLoading}
+          isMore={isMore}
           data-testid='table-base'
           tableCells={[
             {
@@ -299,7 +248,7 @@ const PatientConditionTable: React.FunctionComponent<{
               },
               headCell: {
                 align: 'left',
-                disablePadding: true,
+                disablePadding: false,
                 disableSort: true,
                 id: 'codeText',
                 label: 'Condition',

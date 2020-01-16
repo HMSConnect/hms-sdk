@@ -113,7 +113,7 @@ const TableBase: React.FunctionComponent<{
             >
               {isLoading ? (
                 <CircularProgress />
-              ) : (
+              ) : onLazyLoad ? (
                 <Button
                   variant='contained'
                   color='primary'
@@ -121,7 +121,7 @@ const TableBase: React.FunctionComponent<{
                 >
                   <Typography variant='body1'>Load More</Typography>
                 </Button>
-              )}
+              ) : null}
             </TableCell>
           </TableRow>
         </TableFooter>

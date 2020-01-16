@@ -6,7 +6,11 @@ import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
-import { IMedicationRequestFilterQuery } from '@data-managers/MedicationRequestDataManager'
+import { noneOption, selectOptions } from '@config'
+import {
+  IMedicationRequestFilterQuery,
+  mergeWithMedicationRequestInitialFilterQuery,
+} from '@data-managers/MedicationRequestDataManager'
 import { Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { HMSService } from '@services/HMSServiceFactory'
@@ -51,13 +55,18 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
   patientId,
   isInitialize,
   max = 20,
-  initialFilter = {
+  initialFilter: customInitialFilter = {
     authoredOn_lt: undefined,
     medicationCodeableConcept: '',
     patientId,
     status: '',
   },
 }) => {
+  const initialFilter = React.useMemo(() => {
+    return mergeWithMedicationRequestInitialFilterQuery(customInitialFilter, {
+      patientId,
+    })
+  }, [customInitialFilter])
   const [filter, setFilter] = React.useState<IMedicationRequestFilterQuery>(
     initialFilter,
   )
@@ -103,6 +112,7 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
     setIsFetch,
     setIsMore,
     setResult,
+    isMore
   } = useInfinitScroll(null, fetchMoreAsync, resourceList)
 
   React.useEffect(() => {
@@ -110,13 +120,6 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
       setIsFetch(true)
     }
   }, [isInitialize])
-
-  const handleMedicationRequestSelect = (
-    event: React.MouseEvent,
-    selectedEncounter: any,
-  ) => {
-    // TODO handle select AllergyIntolerance
-  }
 
   const fetchData = async (filter: any) => {
     setFilter(filter)
@@ -167,7 +170,7 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
-    modalTitle: 'Procedure Filter',
+    modalTitle: 'Medication Request Filter',
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -181,40 +184,10 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
           type: 'text',
         },
         {
-          choices: [
-            {
-              label: 'Acitve',
-              value: 'active',
-            },
-            {
-              label: 'On Hold',
-              value: 'on-hold',
-            },
-            {
-              label: 'Cancelled',
-              value: 'cancelled',
-            },
-            {
-              label: 'Completed',
-              value: 'completed',
-            },
-            {
-              label: '	Entered in Error',
-              value: 'entered-in-error',
-            },
-            {
-              label: 'Stopped',
-              value: 'stopped',
-            },
-            {
-              label: 'Draft',
-              value: 'draft',
-            },
-            {
-              label: 'Unknown',
-              value: 'unknown',
-            },
-          ],
+          choices: _.concat(
+            [noneOption],
+            selectOptions.patient.medicationRequestStatusOption,
+          ),
           label: 'Status',
           name: 'status',
           type: 'options',
@@ -254,6 +227,7 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
           id='allergyIntolerance'
           entryList={data}
           isLoading={isLoading}
+          isMore={isMore}
           data-testid='table-base'
           tableCells={[
             {
@@ -263,7 +237,7 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
               },
               headCell: {
                 align: 'left',
-                disablePadding: true,
+                disablePadding: false,
                 disableSort: true,
                 id: 'medicationCodeableConcept',
                 label: 'Medication',

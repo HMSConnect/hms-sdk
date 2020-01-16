@@ -31,6 +31,9 @@ const PatientInfoView: IStatelessPage<{
         'immunization',
         'procedure',
         'medication_request',
+        'imaging_study',
+        'claim',
+        'care_plan',
       ]}
     >
       <>

@@ -7,7 +7,11 @@ import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
-import { IImmunizationListFilterQuery } from '@data-managers/ImmunizationDataManager'
+import { noneOption, selectOptions } from '@config'
+import {
+  IImmunizationListFilterQuery,
+  mergeWithImmunizationInitialFilterQuery,
+} from '@data-managers/ImmunizationDataManager'
 import { Checkbox, FormControlLabel, Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { HMSService } from '@services/HMSServiceFactory'
@@ -52,13 +56,18 @@ const PatientImmunizationTable: React.FunctionComponent<{
   patientId,
   max = 20,
   isInitialize,
-  initialFilter = {
+  initialFilter: customInitialFilter = {
     date_lt: undefined,
     patientId,
     status: '',
     vaccineCode: undefined,
   },
 }) => {
+  const initialFilter = React.useMemo(() => {
+    return mergeWithImmunizationInitialFilterQuery(customInitialFilter, {
+      patientId,
+    })
+  }, [customInitialFilter])
   const [filter, setFilter] = React.useState<IImmunizationListFilterQuery>(
     initialFilter,
   )
@@ -105,6 +114,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
     setResult,
     setIsMore,
     setIsFetch,
+    isMore
   } = useInfinitScroll(null, fetchMoreAsync, resourceList)
 
   React.useEffect(() => {
@@ -207,7 +217,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
-    modalTitle: 'Procedure Filter',
+    modalTitle: 'Immunization Filter',
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -215,21 +225,12 @@ const PatientImmunizationTable: React.FunctionComponent<{
     params: {
       filter,
       filterOptions: [
+        { label: 'Vaccine Code', name: 'vaccineCode', type: 'text' },
         {
-          choices: [
-            {
-              label: 'Completed',
-              value: 'completed',
-            },
-            {
-              label: 'Entered in Error',
-              value: 'entered-in-error',
-            },
-            {
-              label: 'Not Done',
-              value: 'not-done',
-            },
-          ],
+          choices: _.concat(
+            [noneOption],
+            selectOptions.patient.immunizationStatusOption,
+          ),
           label: 'Status',
           name: 'status',
           type: 'options',
@@ -293,6 +294,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
           id='immunization'
           entryList={data}
           isLoading={isLoading}
+          isMore={isMore}
           data-testid='table-base'
           tableCells={[
             {
@@ -302,7 +304,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
               },
               headCell: {
                 align: 'left',
-                disablePadding: true,
+                disablePadding: false,
                 disableSort: true,
                 id: 'vaccineCode',
                 label: 'Vaccine Code',

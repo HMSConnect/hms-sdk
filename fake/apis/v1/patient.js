@@ -11,6 +11,9 @@ const immunizationService = require('../../services/immunization')
 const allergyIntoleranceService = require('../../services/allergy_intolerance')
 const procedureService = require('../../services/procedure')
 const medicationRequestService = require('../../services/medication_request')
+const observationService = require('../../services/observation')
+const claimService = require('../../services/claim')
+const imagingStudyService = require('../../services/imaging_study')
 
 const db = mockStorage.getDB()
 
@@ -67,6 +70,12 @@ router.get('/:id/resource-list', async (req, res) => {
           options = procedureService.createOptions(req.query)
         } else if (domainResouce === 'medication_request') {
           options = medicationRequestService.createOptions(req.query)
+        } else if (domainResouce === 'observation') {
+          options = observationService.createOptions(req.query)
+        } else if (domainResouce === 'claim') {
+          options = claimService.createOptions(req.query)
+        } else if (domainResouce === 'imaging_study') {
+          options = imagingStudyService.createOptions(req.query)
         } else {
           options = utilsService.createOptions(req.query)
         }

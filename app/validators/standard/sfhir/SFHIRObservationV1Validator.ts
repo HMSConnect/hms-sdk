@@ -14,6 +14,7 @@ class SFHIRObservationV1Validator implements IValidator {
   parse(observation: any): any {
     const valueQuantity = _.get(observation, 'valueQuantity.value')
     return {
+      categoryText: _.get(observation, 'category[0].coding[0].display'),
       codeText: _.get(observation, 'code.text'),
       display: observation.display,
       issued: _.get(observation, 'issued')

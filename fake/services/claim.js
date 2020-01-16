@@ -10,7 +10,13 @@ exports.createSelector = (filter = {}) => {
   }
 
   if (filter.organizationId) {
-    andSelector.push({ 'organization.reference': `Organization/${filter.organizationId}` })
+    andSelector.push({
+      'organization.reference': `Organization/${filter.organizationId}`
+    })
+  }
+
+  if (filter.status) {
+    andSelector.push({ status: `${filter.status}` })
   }
 
   if (filter.billablePeriodStart_lt) {

@@ -15,6 +15,7 @@ type DependencyType =
   | 'immunization'
   | 'procedure'
   | 'medication_request'
+  | 'care_plan'
 
 const BootstrapWrapper: React.FunctionComponent<{
   dependencies: DependencyType[]

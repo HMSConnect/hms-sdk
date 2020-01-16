@@ -8,13 +8,13 @@ import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { noneOption, selectOptions } from '@config'
 import {
-  IAllergyIntoleranceListFilterQuery,
-  mergeWithAllergyIntoleranceInitialFilterQuery,
-} from '@data-managers/AllergyIntoleranceDataManager'
-import { CircularProgress, Grid, Theme, Typography } from '@material-ui/core'
+  IImagingStudyListFilterQuery,
+  mergeWithImagingStudyInitialFilterQuery,
+} from '@data-managers/ImagingStudyDataManager'
+import { Grid, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
 import { HMSService } from '@services/HMSServiceFactory'
+import ImagingStudyService from '@services/ImagingStudyService'
 import { countFilterActive, sendMessage } from '@utils'
 import * as _ from 'lodash'
 
@@ -44,54 +44,50 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
-const PatientAllergyIntoleranceTable: React.FunctionComponent<{
+const PatientImagingStudyTable: React.FunctionComponent<{
   patientId: any
   isInitialize?: boolean
   resourceList?: any[]
   max?: number
-  initialFilter?: IAllergyIntoleranceListFilterQuery
+  initialFilter?: IImagingStudyListFilterQuery
 }> = ({
   resourceList,
   patientId,
   max = 20,
   isInitialize,
   initialFilter: customInitialFilter = {
-    assertedDate_lt: undefined,
-    category: undefined,
-    codeText: undefined,
-    criticality: '',
     patientId,
-    type: '',
+    started_lt: undefined,
   },
 }) => {
   const initialFilter = React.useMemo(() => {
-    return mergeWithAllergyIntoleranceInitialFilterQuery(customInitialFilter, {
+    return mergeWithImagingStudyInitialFilterQuery(customInitialFilter, {
       patientId,
     })
   }, [customInitialFilter])
-  const [filter, setFilter] = React.useState<
-    IAllergyIntoleranceListFilterQuery
-  >(initialFilter)
+  const [filter, setFilter] = React.useState<IImagingStudyListFilterQuery>(
+    initialFilter,
+  )
 
   const [submitedFilter, setSubmitedFilter] = React.useState<
-    IAllergyIntoleranceListFilterQuery
+    IImagingStudyListFilterQuery
   >(initialFilter)
 
   const fetchMoreAsync = async (lastEntry: any) => {
-    const allergyIntoleranceService = HMSService.getService(
-      'allergy_intolerance',
-    ) as AllergyIntoleranceService
-    const newFilter: IAllergyIntoleranceListFilterQuery = {
+    const imagingStudyService = HMSService.getService(
+      'imaging_study',
+    ) as ImagingStudyService
+    const newFilter: IImagingStudyListFilterQuery = {
       ...filter,
-      assertedDate_lt: _.get(lastEntry, 'assertedDate'),
       patientId,
+      started_lt: _.get(lastEntry, 'started'),
     }
     setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,
     }
-    const entryData = await allergyIntoleranceService.list(newLazyLoad)
+    const entryData = await imagingStudyService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
@@ -127,18 +123,17 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   const fetchData = async (filter: any) => {
     setFilter(filter)
     setIsMore(true)
-    const allergyIntoleranceService = HMSService.getService(
-      'allergy_intolerance',
-    ) as AllergyIntoleranceService
+    const imagingStudyService = HMSService.getService(
+      'imaging_study',
+    ) as ImagingStudyService
     const newLazyLoad = {
       filter: {
         ...filter,
-        assertedDate_lt:
-          filter.assertedDate_lt || initialFilter.assertedDate_lt,
+        started_lt: filter.started_lt || initialFilter.started_lt,
       },
       max,
     }
-    const entryData = await allergyIntoleranceService.list(newLazyLoad)
+    const entryData = await imagingStudyService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
@@ -177,38 +172,14 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   }
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
-    modalTitle: 'Procedure Filter',
+    modalTitle: 'Imaging Study Filter',
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
     },
     params: {
       filter,
-      filterOptions: [
-        {
-          label: 'Name',
-          name: 'codeText',
-          type: 'text',
-        },
-        {
-          choices: _.concat(
-            [noneOption],
-            selectOptions.patient.allergyIntoleranceTypeOption,
-          ),
-          label: 'Type',
-          name: 'type',
-          type: 'options',
-        },
-        {
-          choices: _.concat(
-            [noneOption],
-            selectOptions.patient.carePlanStatusOption,
-          ),
-          label: 'Criticality',
-          name: 'criticality',
-          type: 'options',
-        },
-      ],
+      filterOptions: [],
       onParameterChange: handleParameterChange,
       onSearchSubmit: handleSearchSubmit,
     },
@@ -227,10 +198,10 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     <>
       <div className={classes.toolbar}>
         <ToolbarWithFilter
-          title={'Allergy Intolerance'}
+          title={'Imaging Study'}
           onClickIcon={showModal}
           filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'assertedDate_lt',
+            'started_lt',
             'patientId',
           ])}
         >
@@ -249,7 +220,7 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
         data-testid='scroll-container'
       >
         <TableBase
-          id='allergyIntolerance'
+          id='imagingStudy'
           entryList={data}
           isLoading={isLoading}
           isMore={isMore}
@@ -257,76 +228,55 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
           tableCells={[
             {
               bodyCell: {
+                align: 'center',
+                id: 'instance',
+                render: (imagingStudy: any) => {
+                  return (
+                    <ul>
+                      {_.map(imagingStudy.series, (serie, index) => (
+                        <li key={`instanceTitle${index}`}>
+                          {_.get(serie, 'instance[0].title')}
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                },
+              },
+              headCell: {
+                align: 'center',
+                disablePadding: false,
+                disableSort: true,
+                id: 'instance',
+                label: 'Instance Title',
+                styles: {
+                  width: '15em',
+                },
+              },
+            },
+            {
+              bodyCell: {
                 align: 'left',
-                id: 'codeText',
+                id: 'encounter',
               },
               headCell: {
                 align: 'left',
                 disablePadding: false,
                 disableSort: true,
-                id: 'codeText',
-                label: 'Name',
+                id: 'encounter',
+                label: 'Encounter',
               },
             },
             {
               bodyCell: {
                 align: 'center',
-                id: 'type',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'type',
-                label: 'Type',
-                styles: {
-                  width: '5em',
-                },
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'criticality',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'criticality',
-                label: 'Criticality',
-                styles: {
-                  width: '5em',
-                },
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'category',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'category',
-                label: 'Category',
-                styles: {
-                  width: '10em',
-                },
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'assertedDateText',
+                id: 'startedText',
               },
               headCell: {
                 align: 'center',
                 disablePadding: true,
                 disableSort: true,
-                id: 'assertedDateText',
-                label: 'Asserted Date',
+                id: 'startedText',
+                label: 'Start Date',
                 styles: {
                   width: '15em',
                 },
@@ -339,4 +289,4 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   )
 }
 
-export default PatientAllergyIntoleranceTable
+export default PatientImagingStudyTable

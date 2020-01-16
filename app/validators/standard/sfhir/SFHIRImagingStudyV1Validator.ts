@@ -1,4 +1,7 @@
+import environment from '@environment'
 import IValidator from '@validators/IValidator'
+import * as _ from 'lodash'
+import * as moment from 'moment'
 
 class SFHIRImagingStudyV1Validator implements IValidator {
   isValid(schema: any): boolean {
@@ -10,7 +13,19 @@ class SFHIRImagingStudyV1Validator implements IValidator {
   }
 
   parse(imagingStudy: any): any {
-    return imagingStudy
+    return {
+      encounter: _.get(imagingStudy, 'context.reference'),
+      series: _.get(imagingStudy, 'series'),
+      started: moment.default(imagingStudy.started)
+        ? moment.default(imagingStudy.started).toDate()
+        : null,
+      startedText: moment.default(imagingStudy.started)
+        ? moment
+            .default(imagingStudy.started)
+            .format(environment.localFormat.dateTime)
+        : null,
+      uid: _.get(imagingStudy, 'uid'),
+    }
   }
 }
 

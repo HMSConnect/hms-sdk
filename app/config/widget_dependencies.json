@@ -42,5 +42,9 @@
   "medication_request": {
     "services": ["$MEDICATION_REQUEST"],
     "validators": ["$SFHIR_MEDICATION_REQUEST_V1"]
+  },
+  "care_plan": {
+    "services": ["$CARE_PLAN"],
+    "validators": ["$SFHIR_CARE_PLAN_V1"]
   }
 }

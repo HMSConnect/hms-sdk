@@ -1,6 +1,329 @@
 import { IWidgetGroup } from '@config'
 
-export default {
+//////////// allergy ///////////////////
+
+export const allergyIntoleranceType = {
+  ALLERGY: 'allergy',
+  INTOLERANCE: 'intolerance',
+}
+
+export const allergyIntoleranceCriticality = {
+  HIGH: 'high',
+  LOW: 'low',
+  UNABLETOASSESS: 'unable-to-assess',
+}
+
+export const allergyIntoleranceTypeOption = [
+  {
+    label: 'Allergy',
+    value: allergyIntoleranceType.ALLERGY,
+  },
+  {
+    label: 'Intolerance',
+    value: allergyIntoleranceType.INTOLERANCE,
+  },
+]
+
+export const allergyIntoleranceCriticalityOption = [
+  {
+    label: 'Low',
+    value: allergyIntoleranceCriticality.LOW,
+  },
+  {
+    label: 'High',
+    value: allergyIntoleranceCriticality.HIGH,
+  },
+  {
+    label: 'Unable to Assess Risk',
+    value: allergyIntoleranceCriticality.UNABLETOASSESS,
+  },
+]
+//////////// allergy ///////////////////
+
+///////////////// condition ///////////////////
+
+export const conditionClinicalStatus = {
+  ACTIVE: 'active',
+  INACTIVE: 'inactive',
+  RECURRENCE: 'recurrence',
+  RELAPSE: 'relapse',
+  REMISSION: 'remission',
+  RESOLVE: 'resolve',
+}
+
+export const conditionVerificationStatus = {
+  CONFIRMED: 'confirmed',
+  PROVISIONAL: 'provisional',
+  REFUTED: 'refuted',
+  DIFFERENTIAL: 'differential',
+  UNCONFIRMED: 'unconfirmed',
+  ENTEREDINERROR: 'entered-in-error',
+}
+
+export const conditionClinicalStatusOption = [
+  {
+    label: 'Active',
+    value: conditionClinicalStatus.ACTIVE,
+  },
+  {
+    label: 'Recurrence',
+    value: conditionClinicalStatus.RECURRENCE,
+  },
+  {
+    label: 'Relapse',
+    value: conditionClinicalStatus.RELAPSE,
+  },
+  {
+    label: 'Inactive',
+    value: conditionClinicalStatus.INACTIVE,
+  },
+  {
+    label: 'Remission',
+    value: conditionClinicalStatus.REMISSION,
+  },
+  {
+    label: 'Resolved',
+    value: conditionClinicalStatus.RESOLVE,
+  },
+]
+
+export const conditionVerificationStatusOption = [
+  {
+    label: 'Unconfirmed',
+    value: conditionVerificationStatus.UNCONFIRMED,
+  },
+  {
+    label: 'Provisional',
+    value: conditionVerificationStatus.PROVISIONAL,
+  },
+  {
+    label: 'Differential',
+    value: conditionVerificationStatus.DIFFERENTIAL,
+  },
+  {
+    label: 'Confirmed',
+    value: conditionVerificationStatus.CONFIRMED,
+  },
+  {
+    label: 'Refuted',
+    value: conditionVerificationStatus.REFUTED,
+  },
+  {
+    label: 'Entered in Error',
+    value: conditionVerificationStatus.ENTEREDINERROR,
+  },
+]
+
+///////////////// condition ///////////////////
+
+/////////////////////// encounter /////////////////////
+
+export const encounterStatus = {
+  PLANNED: 'planned',
+  ARRIVED: 'arrived',
+  TRIAGED: 'triaged',
+  INPROGRESS: 'in-progress',
+  ONLEAVE: 'onleave',
+  FINISHED: 'finished',
+  CANCELLED: 'cancelled',
+  ENTEREDINERROR: 'entered-in-error',
+  UNKNOW: 'unknow',
+}
+
+export const encounterStatusOption = [
+  {
+    label: 'planned',
+    value: encounterStatus.PLANNED,
+  },
+  {
+    label: 'arrived',
+    value: encounterStatus.ARRIVED,
+  },
+  {
+    label: 'triaged',
+    value: encounterStatus.TRIAGED,
+  },
+  {
+    label: 'in-progress',
+    value: encounterStatus.INPROGRESS,
+  },
+  {
+    label: 'onleave',
+    value: encounterStatus.ONLEAVE,
+  },
+  {
+    label: 'finished',
+    value: encounterStatus.FINISHED,
+  },
+  {
+    label: 'cancelled',
+    value: encounterStatus.CANCELLED,
+  },
+  {
+    label: 'entered-in-error',
+    value: encounterStatus.ENTEREDINERROR,
+  },
+  {
+    label: 'unknown',
+    value: encounterStatus.UNKNOW,
+  },
+]
+
+/////////////////////// encounter /////////////////////
+
+/////////////////////// immunization /////////////////////
+
+export const immunizationStatus = {
+  COMPLETED: 'COMPLETED',
+  ENTEREDINERROR: 'entered-in-error',
+  NOTDONE: 'not-done',
+}
+
+export const immunizationStatusOption = [
+  {
+    label: 'Completed',
+    value: 'completed',
+  },
+  {
+    label: 'Entered in Error',
+    value: 'entered-in-error',
+  },
+  {
+    label: 'Not Done',
+    value: 'not-done',
+  },
+]
+
+/////////////////////// immunization /////////////////////
+
+/////////////////////// medicationRequest /////////////////////
+
+export const medicationRequestStatus = {
+  ACTIVE: 'active',
+  ONHOLD: 'on-hold',
+  CANCELLED: 'cancelled',
+  COMPLETED: 'completed',
+  ENTEREDINERROR: 'entered-in-error',
+  STOPPED: 'stopped',
+  DRAFT: 'draft',
+  UNKNOW: 'unknow',
+  NOTDONE: 'not-done',
+}
+
+export const medicationRequestStatusOption = [
+  {
+    label: 'Acitve',
+    value: medicationRequestStatus.ACTIVE,
+  },
+  {
+    label: 'On Hold',
+    value: medicationRequestStatus.ONHOLD,
+  },
+  {
+    label: 'Cancelled',
+    value: medicationRequestStatus.CANCELLED,
+  },
+  {
+    label: 'Completed',
+    value: medicationRequestStatus.COMPLETED,
+  },
+  {
+    label: 'Entered in Error',
+    value: medicationRequestStatus.ENTEREDINERROR,
+  },
+  {
+    label: 'Stopped',
+    value: medicationRequestStatus.STOPPED,
+  },
+  {
+    label: 'Draft',
+    value: medicationRequestStatus.DRAFT,
+  },
+  {
+    label: 'Unknown',
+    value: medicationRequestStatus.UNKNOW,
+  },
+]
+
+/////////////////////// medicationRequest /////////////////////
+
+/////////////////////// claim /////////////////////
+
+export const claimStatus = {
+  ACTIVE: 'active',
+  CANCELLED: 'cancelled',
+  ENTEREDINERROR: 'entered-in-error',
+  DRAFT: 'draft',
+}
+
+export const claimStatusOption = [
+  {
+    label: 'Acitve',
+    value: claimStatus.ACTIVE,
+  },
+  {
+    label: 'Cancelled',
+    value: claimStatus.CANCELLED,
+  },
+  {
+    label: 'Entered in Error',
+    value: claimStatus.ENTEREDINERROR,
+  },
+  {
+    label: 'Draft',
+    value: claimStatus.DRAFT,
+  },
+]
+
+/////////////////////// claim /////////////////////
+
+/////////////////////// carePlan /////////////////////
+
+export const carePlanStatus = {
+  DRAFT: 'draft',
+  ACTIVE: 'active',
+  ONHOLD: 'on-hold',
+  REVOKED: 'revoked',
+  COMPLETED: 'completed',
+  ENTEREDINERROR: 'entered-in-error',
+  UNKNOW: 'unknow',
+}
+
+export const carePlanStatusOption = [
+  {
+    label: 'Draft',
+    value: carePlanStatus.DRAFT,
+  },
+  {
+    label: 'Acitve',
+    value: carePlanStatus.ACTIVE,
+  },
+  {
+    label: 'On Hold',
+    value: carePlanStatus.ONHOLD,
+  },
+  {
+    label: 'Revoked',
+    value: carePlanStatus.REVOKED,
+  },
+  {
+    label: 'Completed',
+    value: carePlanStatus.COMPLETED,
+  },
+  {
+    label: 'Entered in Error',
+    value: carePlanStatus.ENTEREDINERROR,
+  },
+
+  {
+    label: 'Unknown',
+    value: carePlanStatus.UNKNOW,
+  },
+]
+
+/////////////////////// carePlan /////////////////////
+
+const patientEmbeddedWidgetConfig: IWidgetGroup = {
   child: [
     {
       document: require('@assets/embedded-widget/patient-search.md').default,
@@ -174,6 +497,10 @@ export default {
       queryParams: [
         {
           choices: [
+            {
+              label: 'None',
+              value: '',
+            },
             { label: 'care plan', value: 'care_plan' },
             { label: 'condition', value: 'condition' },
             { label: 'diagnostic report', value: 'diagnostic_report' },
@@ -248,9 +575,11 @@ export default {
         },
         {
           choices: [
-            { label: 'Allergy', value: 'allergy' },
-            { label: 'Intolerance', value: 'intolerance' },
-          ],
+            {
+              label: 'None',
+              value: '',
+            },
+          ].concat(allergyIntoleranceTypeOption),
           defaultValue: '',
           label: 'InitialFilter[type]',
           type: 'options',
@@ -258,10 +587,11 @@ export default {
         },
         {
           choices: [
-            { label: 'Low', value: 'low' },
-            { label: 'High', value: 'high' },
-            { label: 'Unable to Assess Risk', value: 'unable-to-assess' },
-          ],
+            {
+              label: 'None',
+              value: '',
+            },
+          ].concat(allergyIntoleranceCriticalityOption),
           defaultValue: '',
           label: 'InitialFilter[criticality]',
           type: 'options',
@@ -298,30 +628,10 @@ export default {
         {
           choices: [
             {
-              label: 'Active',
-              value: 'active',
+              label: 'None',
+              value: '',
             },
-            {
-              label: 'Recurrence',
-              value: 'recurrence',
-            },
-            {
-              label: 'Relapse',
-              value: 'relapse',
-            },
-            {
-              label: 'Inactive',
-              value: 'inactive',
-            },
-            {
-              label: 'Remission',
-              value: 'remission',
-            },
-            {
-              label: 'Resolved',
-              value: 'resolved',
-            },
-          ],
+          ].concat(conditionClinicalStatusOption),
           defaultValue: '',
           label: 'InitialFilter[clinicalStatus]',
           type: 'options',
@@ -330,30 +640,10 @@ export default {
         {
           choices: [
             {
-              label: 'Unconfirmed',
-              value: 'unconfirmed',
+              label: 'None',
+              value: '',
             },
-            {
-              label: 'Provisional',
-              value: 'provisional',
-            },
-            {
-              label: 'Differential',
-              value: 'differential',
-            },
-            {
-              label: 'Confirmed',
-              value: 'confirmed',
-            },
-            {
-              label: 'Refuted',
-              value: 'refuted',
-            },
-            {
-              label: 'Entered in Error',
-              value: 'entered-in-error',
-            },
-          ],
+          ].concat(conditionVerificationStatusOption),
           defaultValue: '',
           label: 'InitialFilter[verificationStatus]',
           type: 'options',
@@ -382,7 +672,7 @@ export default {
           value: 'max',
         },
         {
-          defaultValue: 20,
+          defaultValue: '',
           label: 'InitialFilter[vaccineCode]',
           type: 'text',
           value: 'initialFilter[vaccineCode]',
@@ -390,18 +680,10 @@ export default {
         {
           choices: [
             {
-              label: 'Completed',
-              value: 'completed',
+              label: 'None',
+              value: '',
             },
-            {
-              label: 'Entered in Error',
-              value: 'entered-in-error',
-            },
-            {
-              label: 'Not Done',
-              value: 'not-done',
-            },
-          ],
+          ].concat(immunizationStatusOption),
           defaultValue: '',
           label: 'InitialFilter[status]',
           type: 'options',
@@ -438,38 +720,10 @@ export default {
         {
           choices: [
             {
-              label: 'Acitve',
-              value: 'active',
+              label: 'None',
+              value: '',
             },
-            {
-              label: 'On Hold',
-              value: 'on-hold',
-            },
-            {
-              label: 'Cancelled',
-              value: 'cancelled',
-            },
-            {
-              label: 'Completed',
-              value: 'completed',
-            },
-            {
-              label: '	Entered in Error',
-              value: 'entered-in-error',
-            },
-            {
-              label: 'Stopped',
-              value: 'stopped',
-            },
-            {
-              label: 'Draft',
-              value: 'draft',
-            },
-            {
-              label: 'Unknown',
-              value: 'unknown',
-            },
-          ],
+          ].concat(medicationRequestStatusOption),
           defaultValue: '',
           label: 'InitialFilter[status]',
           type: 'options',
@@ -509,4 +763,6 @@ export default {
   ],
   label: 'Patient',
   value: 'patient',
-} as IWidgetGroup
+}
+
+export default patientEmbeddedWidgetConfig

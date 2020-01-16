@@ -78,6 +78,11 @@ const mapMenuListWithIcon = (menuList: IResourceMenu[]) => {
           ...value,
           iconClassName: 'fas fa-poll',
         }
+      case 'imaging_study':
+        return {
+          ...value,
+          iconClassName: 'fas fa-x-ray',
+        }
       default:
         return value
     }

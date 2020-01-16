@@ -1,12 +1,18 @@
+import React, { useEffect, useRef } from 'react'
+
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
-import { IEncounterListFilterQuery } from '@data-managers/EncounterDataManager'
+import { noneOption, selectOptions } from '@config'
+import { encounterStatusOption } from '@config/patient_embedded_config'
+import {
+  IEncounterListFilterQuery,
+  mergeWithEncounterInitialFilterQuery,
+} from '@data-managers/EncounterDataManager'
 import { CircularProgress, Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { countFilterActive, sendMessage } from '@utils'
 import * as _ from 'lodash'
-import React, { useEffect, useRef } from 'react'
 import routes from '../../../routes'
 import RouterManager from '../../../routes/RouteManager'
 import EncounterService from '../../../services/EncounterService'
@@ -55,13 +61,18 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   resourceList,
   isInitialize,
   max = 20,
-  initialFilter = {
+  initialFilter: customInitialFilter = {
     patientId,
     periodStart_lt: undefined,
     status: '',
     type: undefined,
   },
 }) => {
+  const initialFilter = React.useMemo(() => {
+    return mergeWithEncounterInitialFilterQuery(customInitialFilter, {
+      patientId,
+    })
+  }, [customInitialFilter])
   const [filter, setFilter] = React.useState<IEncounterListFilterQuery>(
     initialFilter,
   )
@@ -115,6 +126,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     setIsFetch,
     setIsMore,
     setResult,
+    isMore,
   } = useInfinitScroll(null, fetchMoreAsync, resourceList)
 
   useEffect(() => {
@@ -195,7 +207,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
-    modalTitle: 'Procedure Filter',
+    modalTitle: 'Encouter Filter',
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -209,44 +221,10 @@ const PatientEncounterTimeline: React.FunctionComponent<{
         //   type: 'text',
         // },
         {
-          choices: [
-            {
-              label: 'planned',
-              value: 'planned',
-            },
-            {
-              label: 'arrived',
-              value: 'arrived',
-            },
-            {
-              label: 'triaged',
-              value: 'triaged',
-            },
-            {
-              label: 'in-progress',
-              value: 'in-progress',
-            },
-            {
-              label: 'onleave',
-              value: 'onleave',
-            },
-            {
-              label: 'finished',
-              value: 'finished',
-            },
-            {
-              label: 'cancelled',
-              value: 'cancelled',
-            },
-            {
-              label: 'entered-in-error',
-              value: 'entered-in-error',
-            },
-            {
-              label: 'unknown',
-              value: 'unknown',
-            },
-          ],
+          choices: _.concat(
+            [noneOption],
+            selectOptions.patient.encounterStatusOption,
+          ),
           label: 'Status',
           name: 'status',
           type: 'options',
@@ -259,11 +237,6 @@ const PatientEncounterTimeline: React.FunctionComponent<{
 
   return (
     <>
-      {/* <Grid container className={classes.root}>
-        <Grid item xs={10}>
-          <Typography variant='h6'>Encounter</Typography>
-        </Grid> */}
-      {/* <Grid item xs={10}> */}
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Encounter'}
@@ -284,14 +257,12 @@ const PatientEncounterTimeline: React.FunctionComponent<{
         <PatientEncounterList
           entryList={data}
           onEntrySelected={handleEncounterSelect}
+          isLoading={isLoading}
+          isMore={isMore}
         />
       </div>
-      <div style={{ textAlign: 'center' }}>
-        {isLoading ? <CircularProgress /> : null}
-      </div>
+
       {error ? <>There Have Error : {error}</> : null}
-      {/* </Grid> */}
-      {/* </Grid> */}
     </>
   )
 }
