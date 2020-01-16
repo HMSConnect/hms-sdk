@@ -9,6 +9,10 @@ exports.createSelector = (filter = {}) => {
     andSelector.push({ 'patient.reference': `Patient/${filter.patientId}` })
   }
 
+  if (filter.organizationId) {
+    andSelector.push({ 'organization.reference': `Organization/${filter.organizationId}` })
+  }
+
   if (filter.billablePeriodStart_lt) {
     andSelector.push({
       '__mock_meta.billablePeriod.start': {

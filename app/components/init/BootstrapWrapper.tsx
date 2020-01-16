@@ -9,6 +9,7 @@ type DependencyType =
   | 'diagnostic_report'
   | 'observation'
   | 'allergy_intolerance'
+  | 'claim'
   | 'condition'
   | 'imaging_study'
   | 'immunization'

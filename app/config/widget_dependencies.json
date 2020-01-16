@@ -19,6 +19,10 @@
     "services": ["$OBSERVATION"],
     "validators": ["$SFHIR_OBSERVATION_V1"]
   },
+  "claim": {
+    "services": ["$CLAIM"],
+    "validators": ["$SFHIR_CLAIM_V1"]
+  },
   "condition": {
     "services": ["$CONDITION"],
     "validators": ["$SFHIR_CONDITION_V1"]

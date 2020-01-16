@@ -1,5 +1,6 @@
 import DevelopmentAdapter from '@adapters/DevelopmentAdapter'
 import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
+import ClaimService from '@services/ClaimService'
 import ConditionService from '@services/ConditionService'
 import DiagnosticReportService from '@services/DiagnosticReportService'
 import EncounterService from '@services/EncounterService'
@@ -11,6 +12,7 @@ import PatientService from '@services/PatientService'
 import ProcedureService from '@services/ProcedureService'
 import SFHIRAllergyIntoleranceV1Validator from '@validators/standard/sfhir/SFHIRAllergyIntoleranceV1Validator'
 import SFHIRCarePlanV1Validator from '@validators/standard/sfhir/SFHIRCarePlanV1Validator'
+import SFHIRClaimV1Validator from '@validators/standard/sfhir/SFHIRClaimV1Validator'
 import SFHIRConditionV1Validator from '@validators/standard/sfhir/SFHIRConditionV1Validator'
 import SFHIRDiagnosticReportV1Validator from '@validators/standard/sfhir/SFHIRDiagnosticReportV1Validator'
 import SFHIREncounterV1Validator from '@validators/standard/sfhir/SFHIREncounterV1Validator'
@@ -55,6 +57,7 @@ export const serviceConfig = {
   ['$ENCOUNTER']: { clazz: EncounterService },
   ['$PATIENT']: { clazz: PatientService },
   ['$OBSERVATION']: { clazz: ObservationService },
+  ['$CLAIM']: { clazz: ClaimService },
   ['$CONDITION']: { clazz: ConditionService },
   ['$IMAGING_STUDY']: { clazz: ImagingStudyService },
   ['$IMMUNIZATION']: { clazz: ImmunizationService },
@@ -80,6 +83,10 @@ export const validatorConfig = {
   },
   ['$SFHIR_ORGANIZATION_V1']: {
     clazz: SFHIROrganizationV1Validator,
+    priority: 1,
+  },
+  ['$SFHIR_CLAIM_V1']: {
+    clazz: SFHIRClaimV1Validator,
     priority: 1,
   },
   ['$SFHIR_CONDITION_V1']: {

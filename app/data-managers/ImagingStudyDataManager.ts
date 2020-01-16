@@ -7,6 +7,7 @@ export interface IImagingStudyListQuery extends IListDefaultQuery {
 
 export interface IImagingStudyListFilterQuery {
   patientId?: string
+  encounterId?: string
   started_lt?: Date | string
 }
 
