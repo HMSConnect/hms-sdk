@@ -10,6 +10,7 @@ type DependencyType =
   | 'observation'
   | 'allergy_intolerance'
   | 'condition'
+  | 'imaging_study'
   | 'immunization'
   | 'procedure'
   | 'medication_request'

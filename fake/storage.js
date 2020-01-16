@@ -6,6 +6,8 @@ const LocalDb = minimongo.MemoryDb
 
 const allergyIntoleranceService = require('./services/allergy_intolerance')
 const carePlanService = require('./services/care_plan')
+const claimService = require('./services/claim')
+const imagingStudyService = require('./services/imaging_study')
 const diagnosticReportService = require('./services/diagnostic_report')
 const encounterService = require('./services/encounter')
 const patientService = require('./services/patient')
@@ -98,10 +100,14 @@ module.exports = (function() {
           return carePlanService.processingPredata(data)
         case 'condition':
           return conditionService.processingPredata(data)
+        case 'claim':
+          return claimService.processingPredata(data)
         case 'diagnostic_report':
           return diagnosticReportService.processingPredata(data)
         case 'encounter':
           return encounterService.processingPredata(data)
+        case 'imaging_study':
+          return imagingStudyService.processingPredata(data)
         case 'immunization':
           return immunizationService.processingPredata(data)
         case 'patient':

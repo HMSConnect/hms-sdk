@@ -3,6 +3,7 @@ import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
 import ConditionService from '@services/ConditionService'
 import DiagnosticReportService from '@services/DiagnosticReportService'
 import EncounterService from '@services/EncounterService'
+import ImagingStudyService from '@services/ImagingStudyService'
 import ImmunizationService from '@services/ImmunizationService'
 import MedicationRequestService from '@services/MedicationRequestService'
 import ObservationService from '@services/ObservationService'
@@ -13,14 +14,15 @@ import SFHIRCarePlanV1Validator from '@validators/standard/sfhir/SFHIRCarePlanV1
 import SFHIRConditionV1Validator from '@validators/standard/sfhir/SFHIRConditionV1Validator'
 import SFHIRDiagnosticReportV1Validator from '@validators/standard/sfhir/SFHIRDiagnosticReportV1Validator'
 import SFHIREncounterV1Validator from '@validators/standard/sfhir/SFHIREncounterV1Validator'
+import SFHIRImagingStudyV1Validator from '@validators/standard/sfhir/SFHIRImagingStudyV1Validator'
 import SFHIRImmunizationV1Validator from '@validators/standard/sfhir/SFHIRImmunizationV1Validator'
 import SFHIRMedicationRequestV1Validator from '@validators/standard/sfhir/SFHIRMedicationRequestV1Validator'
 import SFHIRObservationV1Validator from '@validators/standard/sfhir/SFHIRObservationV1Validator'
 import SFHIROrganizationV1Validator from '@validators/standard/sfhir/SFHIROrganizationV1Validator'
 import SFHIRPatientV1Validator from '@validators/standard/sfhir/SFHIRPatientV1Validator'
 import SFHIRProcedureV1Validator from '@validators/standard/sfhir/SFHIRProcedureV1Validator'
-import patientEmbeddedConfig from './patient_embedded_config'
 import diagnostic_report_embedded_config from './diagnostic_report_embedded_config'
+import patientEmbeddedConfig from './patient_embedded_config'
 
 export interface IWidgetPatameter {
   type: 'text' | 'boolean' | 'number' | 'options'
@@ -54,6 +56,7 @@ export const serviceConfig = {
   ['$PATIENT']: { clazz: PatientService },
   ['$OBSERVATION']: { clazz: ObservationService },
   ['$CONDITION']: { clazz: ConditionService },
+  ['$IMAGING_STUDY']: { clazz: ImagingStudyService },
   ['$IMMUNIZATION']: { clazz: ImmunizationService },
   ['$PROCEDURE']: { clazz: ProcedureService },
   ['$MEDICATION_REQUEST']: { clazz: MedicationRequestService },
@@ -81,6 +84,10 @@ export const validatorConfig = {
   },
   ['$SFHIR_CONDITION_V1']: {
     clazz: SFHIRConditionV1Validator,
+    priority: 1,
+  },
+  ['$SFHIR_IMAGING_STUDY_V1']: {
+    clazz: SFHIRImagingStudyV1Validator,
     priority: 1,
   },
   ['$SFHIR_IMMUNIZATION_V1']: {

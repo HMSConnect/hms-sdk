@@ -23,6 +23,10 @@
     "services": ["$CONDITION"],
     "validators": ["$SFHIR_CONDITION_V1"]
   },
+  "imaging_study": {
+    "services": ["$IMAGING_STUDY"],
+    "validators": ["$SFHIR_IMAGING_STUDY_V1"]
+  },
   "immunization": {
     "services": ["$IMMUNIZATION"],
     "validators": ["$SFHIR_IMMUNIZATION_V1"]
