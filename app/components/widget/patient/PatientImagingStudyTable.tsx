@@ -225,6 +225,7 @@ const PatientImagingStudyTable: React.FunctionComponent<{
           isLoading={isLoading}
           isMore={isMore}
           data-testid='table-base'
+          size='small'
           tableCells={[
             {
               bodyCell: {

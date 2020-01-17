@@ -225,6 +225,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
           isLoading={isLoading}
           isMore={isMore}
           data-testid='table-base'
+          size='small'
           tableCells={[
             {
               bodyCell: {
@@ -233,8 +234,8 @@ const PatientCarePlanTable: React.FunctionComponent<{
                 render: (carePlan: any) => {
                   return (
                     <ul>
-                      {_.map(carePlan.activity, activity => (
-                        <li>
+                      {_.map(carePlan.activity, (activity: any, index) => (
+                        <li key={`list${index}`}>
                           {_.get(activity, 'detail.code.text') || 'Unknow'} (
                           {_.get(activity, 'detail.status') || 'Unknkow'})
                         </li>

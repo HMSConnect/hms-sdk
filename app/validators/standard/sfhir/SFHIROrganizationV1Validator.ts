@@ -5,12 +5,14 @@ class SFHIROrganizationV1Validator implements IValidator {
     return (
       schema.standard === 'SFHIR' &&
       schema.version === 1 &&
-      schema.resourceType === 'patient'
+      schema.resourceType === 'organization'
     )
   }
 
   parse(organization: any) {
-    return organization
+    return {
+      display: organization.name,
+    }
   }
 }
 

@@ -548,7 +548,8 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-encounter-timeline',
     },
     {
-      document: `# Coming Soon`,
+      document: require('@assets/embedded-widget/patient-allergy-intolerance-table.md')
+        .default,
       label: 'Patine AllergyIntolerance Table',
       parameters: [
         {
@@ -569,7 +570,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
         },
         {
           defaultValue: '',
-          label: 'InitialFilter[codeText]',
+          label: 'InitialFilter[name]',
           type: 'text',
           value: 'InitialFilter[codeText]',
         },
@@ -621,7 +622,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
         },
         {
           defaultValue: '',
-          label: 'InitialFilter[codeText]',
+          label: 'InitialFilter[name]',
           type: 'text',
           value: 'initialFilter[codeText]',
         },
@@ -759,6 +760,85 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
         },
       ],
       value: 'patient-procedure-table',
+    },
+    {
+      document: `# Coming Soon`,
+      label: 'Patine Care Plan Table',
+      parameters: [
+        {
+          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+      ],
+      path: '/embedded-widget/patient-info/care-plan-table/:patientId',
+      queryParams: [
+        {
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
+        {
+          defaultValue: '',
+          label: 'InitialFilter[code]',
+          type: 'text',
+          value: 'initialFilter[code]',
+        },
+      ],
+      value: 'patient-care-plan-table',
+    },
+    {
+      document: `# Coming Soon`,
+      label: 'Patine Claim Table',
+      parameters: [
+        {
+          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+      ],
+      path: '/embedded-widget/patient-info/claim-table/:patientId',
+      queryParams: [
+        {
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
+        {
+          choices: [{ label: 'None', value: '' }].concat(claimStatusOption),
+          defaultValue: '',
+          label: 'InitialFilter[status]',
+          type: 'options',
+          value: 'initialFilter[status]',
+        },
+      ],
+      value: 'patient-claim-table',
+    },
+    {
+      document: `# Coming Soon`,
+      label: 'Patine Imaging Study Table',
+      parameters: [
+        {
+          defaultValue: '019fe101-2d2b-4346-89d6-7c7187c0ee3c',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+      ],
+      path: '/embedded-widget/patient-info/imaging-study-table/:patientId',
+      queryParams: [
+        {
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
+      ],
+      value: 'patient-imaging-study-table',
     },
   ],
   label: 'Patient',

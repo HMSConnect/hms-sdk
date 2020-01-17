@@ -34,6 +34,7 @@ const PatientInfoView: IStatelessPage<{
         'imaging_study',
         'claim',
         'care_plan',
+        'organization'
       ]}
     >
       <>
