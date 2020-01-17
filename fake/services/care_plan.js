@@ -50,3 +50,18 @@ exports.processingPredata = data => {
     __mock_meta
   }
 }
+
+exports.parseToCategories = (carePlans = []) => {
+  const groupByCategory = {}
+  for (const carePlan of carePlans) {
+    const category = carePlan.category[0].coding[0].display
+    if (!groupByCategory[category]) {
+      groupByCategory[category] = {
+        type: category, // TODO: rename type to category
+        totalCount: 0
+      }
+    }
+    groupByCategory[category].totalCount += 1
+  }
+  return Object.values(groupByCategory)
+}
