@@ -18,6 +18,11 @@ Replace `/embedded-widget/medical-records/diagnostic-report-card` url to your if
 ## Response
 - **Object Response**
     You can learn this in topic [Getting started with HMS Widget](/embedded-widget?widget=get-started)
+- **Avaliable event response**
+   | Action | Message          | Description                                  |
+   | ------ | ---------------- | -------------------------------------------- |
+   | -      | handleModalShow  | Event is called when click `Show All` button |
+   | -      | handleModalClose | Event is called when click close modal       |
 
 ## Example
 

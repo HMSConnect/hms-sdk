@@ -20,7 +20,7 @@ Replace `/embedded-widget/patient-info/allergy-intolerance/:patientId` url to yo
 | initialFilter[codeText]    | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | initialFilter[type]        | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | initialFilter[criticality] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
-| max                        | number      | 10        | Number of total records in each fetch                                                      |
+| max                        | number      | 20        | Number of total records in each fetch                                                      |
 
 ## Response
 - **Object Response**

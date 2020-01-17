@@ -602,7 +602,8 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-allergy-intolerance-table',
     },
     {
-      document: `# Coming Soon`,
+      document: require('@assets/embedded-widget/patient-condition-table.md')
+        .default,
       label: 'Patine Condition Table',
       parameters: [
         {

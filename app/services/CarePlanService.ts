@@ -8,10 +8,10 @@ export default class CarePlanService extends AbstractService {
     return new CarePlanDataManager(resource, adapter)
   }
 
-  async typeList(params?: any): Promise<any> {
+  async categoryList(params?: any): Promise<any> {
     // console.info(`[service] loading resource typeList`, params)
     const dataManager = this.dataManager as CarePlanDataManager
-    const result = await dataManager.typeList(params || {})
+    const result = await dataManager.categoryList(params || {})
     return {
       ...result,
       data: result.data,

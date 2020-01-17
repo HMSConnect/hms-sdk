@@ -11,6 +11,12 @@ exports.createSelector = (filter = {}) => {
   if (filter.status) {
     andSelector.push({ status: `${filter.status}` })
   }
+  if (filter.category) {
+    // const regExp = {
+    //   $regex: new RegExp(`.*${filter.category}.*`, 'i')
+    // }
+    andSelector.push({ 'category.text': filter.category })
+  }
 
   if (filter.periodStart_lt) {
     //minimongo can't upsert date ? so we filter by ISO string date.

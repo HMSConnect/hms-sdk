@@ -58,6 +58,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
   max = 20,
   isInitialize,
   initialFilter: customInitialFilter = {
+    category: '',
     patientId,
     periodStart_lt: undefined,
     status: '',
@@ -122,6 +123,53 @@ const PatientCarePlanTable: React.FunctionComponent<{
       setIsFetch(true)
     }
   }, [isInitialize])
+
+  const [isGroup, setIsGroup] = React.useState<boolean | undefined>(false)
+  const [tabList, setTabList] = React.useState<ITabList[]>([])
+
+  const handleimmunizationSelect = (
+    event: React.MouseEvent,
+    selectedEncounter: any,
+  ) => {
+    // TODO handle select immunization
+  }
+
+  const handleGroupByType = async (isGroup: boolean) => {
+    const carePlanService = HMSService.getService(
+      'care_plan',
+    ) as CarePlanService
+    if (isGroup) {
+      const menuTabList = await carePlanService.categoryList({
+        filter: { patientId },
+      })
+      setTabList(menuTabList.data)
+      handleTabChange(menuTabList.data[0].type)
+    } else {
+      const newResult = await carePlanService.list({
+        filter: initialFilter,
+        max,
+      })
+      setResult(newResult)
+    }
+    setIsMore(true)
+    setIsGroup(isGroup)
+  }
+
+  const handleTabChange = async (selectedTab: string) => {
+    const filter = {
+      category: selectedTab,
+      date_lt: undefined,
+      patientId,
+    }
+    setFilter(filter)
+    setSubmitedFilter(filter)
+    const carePlanService = HMSService.getService(
+      'care_plan',
+    ) as CarePlanService
+    const newResult = await carePlanService.list({ filter, max })
+    setResult(newResult)
+    setIsMore(true)
+  }
 
   const fetchData = async (filter: any) => {
     setFilter(filter)
@@ -209,10 +257,35 @@ const PatientCarePlanTable: React.FunctionComponent<{
           filterActive={countFilterActive(submitedFilter, initialFilter, [
             'periodStart_lt',
             'patientId',
+            'category',
           ])}
+          option={{
+            additionButton: (
+              <FormControlLabel
+                value='start'
+                control={
+                  <Checkbox
+                    onChange={(event, isGroup) => {
+                      handleGroupByType(isGroup)
+                    }}
+                    data-testid='check-by-type-input'
+                    value={isGroup}
+                    inputProps={{
+                      'aria-label': 'primary checkbox',
+                    }}
+                  />
+                }
+                label='Group By Category'
+                labelPlacement='start'
+              />
+            ),
+          }}
         >
           {renderModal}
         </ToolbarWithFilter>
+        {isGroup && (
+          <TabGroup tabList={tabList} onTabChange={handleTabChange} />
+        )}
       </div>
       <div
         ref={myscroll}

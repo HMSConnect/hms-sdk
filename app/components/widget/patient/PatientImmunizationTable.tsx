@@ -114,7 +114,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
     setResult,
     setIsMore,
     setIsFetch,
-    isMore
+    isMore,
   } = useInfinitScroll(null, fetchMoreAsync, resourceList)
 
   React.useEffect(() => {
@@ -125,13 +125,6 @@ const PatientImmunizationTable: React.FunctionComponent<{
 
   const [isGroup, setIsGroup] = React.useState<boolean | undefined>(false)
   const [tabList, setTabList] = React.useState<ITabList[]>([])
-
-  const handleimmunizationSelect = (
-    event: React.MouseEvent,
-    selectedEncounter: any,
-  ) => {
-    // TODO handle select immunization
-  }
 
   const handleGroupByType = async (isGroup: boolean) => {
     const immunizationService = HMSService.getService(
@@ -164,7 +157,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
     const immunizationService = HMSService.getService(
       'immunization',
     ) as ImmunizationService
-    const newResult = await immunizationService.list({ filter })
+    const newResult = await immunizationService.list({ filter, max })
     setResult(newResult)
     setIsMore(true)
   }

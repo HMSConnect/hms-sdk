@@ -11,6 +11,7 @@ export interface ICarePlanListFilterQuery {
   patientId?: string
   periodStart_lt?: Date | string
   status?: string
+  category?: string
 }
 
 export function mergeWithCarePlanInitialFilterQuery(
@@ -21,12 +22,13 @@ export function mergeWithCarePlanInitialFilterQuery(
     periodStart_lt: undefined,
     patientId: get(fixFilter, 'patientId'),
     status: '',
+    category: '',
   })
 }
 
 class CarePlanDataManager extends DataManager {
-  typeList(query: any): Promise<any> {
-    return this.adaptor.doRequest(`${this.resource}/type`, query)
+  categoryList(query: any): Promise<any> {
+    return this.adaptor.doRequest(`${this.resource}/category`, query)
   }
 }
 

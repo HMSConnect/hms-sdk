@@ -151,7 +151,7 @@ const PatientObservationTable: React.FunctionComponent<{
     const observationService = HMSService.getService(
       'observation',
     ) as ObservationService
-    const newResult = await observationService.list({ filter })
+    const newResult = await observationService.list({ filter, max })
     setResult(newResult)
     setIsMore(true)
   }

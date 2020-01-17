@@ -17,6 +17,7 @@ Replace `/embedded-widget/medical-records/observation-vial-sign-card` url to you
 - **Object Response**
     You can learn this in topic [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
+
 ## Example
 
 ### Request
