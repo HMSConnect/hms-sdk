@@ -28,7 +28,7 @@ Replace `/embedded-widget/patient-info/condition-table/:patientId` url to your i
 - **Avaliable event response**
    | Action | Message            | Description                                       |
    | ------ | ------------------ | ------------------------------------------------- |
-   | -      | handleLoadMore     | Event is called when scorll to bottom of timeline |
+   | -      | handleLoadMore     | Event is called when scroll to bottom of timeline |
    | -      | handleSearchSubmit | Event is called when submit search                |
    | -      | handleSearchReset  | Event is called when click reset                  |
    | -      | handleModalShow    | Event is called when click filter icon to open    |

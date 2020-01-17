@@ -86,7 +86,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
       patientId,
       periodStart_lt: _.get(lastEntry, 'periodStart'),
     }
-    setFilter(newFilter)
+    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -127,13 +127,6 @@ const PatientCarePlanTable: React.FunctionComponent<{
   const [isGroup, setIsGroup] = React.useState<boolean | undefined>(false)
   const [tabList, setTabList] = React.useState<ITabList[]>([])
 
-  const handleimmunizationSelect = (
-    event: React.MouseEvent,
-    selectedEncounter: any,
-  ) => {
-    // TODO handle select immunization
-  }
-
   const handleGroupByType = async (isGroup: boolean) => {
     const carePlanService = HMSService.getService(
       'care_plan',
@@ -144,31 +137,59 @@ const PatientCarePlanTable: React.FunctionComponent<{
       })
       setTabList(menuTabList.data)
       handleTabChange(menuTabList.data[0].type)
+      sendMessage({
+        message: 'handleGroupByType',
+        params: {
+          isGroup,
+        },
+      })
     } else {
+      const newFilter = {
+        ...filter,
+        category: undefined,
+        periodStart_lt: undefined,
+      }
       const newResult = await carePlanService.list({
-        filter: initialFilter,
+        filter: newFilter,
         max,
       })
       setResult(newResult)
+      sendMessage({
+        message: 'handleGroupByType',
+        params: {
+          isGroup,
+          result: newResult,
+        },
+      })
     }
     setIsMore(true)
     setIsGroup(isGroup)
   }
 
   const handleTabChange = async (selectedTab: string) => {
-    const filter = {
+    const newFilter = {
+      ...filter,
       category: selectedTab,
-      date_lt: undefined,
       patientId,
+      periodStart_lt: undefined,
     }
-    setFilter(filter)
-    setSubmitedFilter(filter)
+    setFilter(newFilter)
+    setSubmitedFilter(newFilter)
     const carePlanService = HMSService.getService(
       'care_plan',
     ) as CarePlanService
-    const newResult = await carePlanService.list({ filter, max })
+    const newResult = await carePlanService.list({ filter: newFilter, max })
     setResult(newResult)
     setIsMore(true)
+
+    sendMessage({
+      message: `handleTabChange:`,
+      params: {
+        filter: newFilter,
+        result: newResult,
+        tabTitle: selectedTab,
+      },
+    })
   }
 
   const fetchData = async (filter: any) => {

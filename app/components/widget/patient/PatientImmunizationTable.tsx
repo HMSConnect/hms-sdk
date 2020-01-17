@@ -71,6 +71,9 @@ const PatientImmunizationTable: React.FunctionComponent<{
   const [filter, setFilter] = React.useState<IImmunizationListFilterQuery>(
     initialFilter,
   )
+  const [isGroup, setIsGroup] = React.useState<boolean | undefined>(false)
+  const [tabList, setTabList] = React.useState<ITabList[]>([])
+
   const [submitedFilter, setSubmitedFilter] = React.useState<
     IImmunizationListFilterQuery
   >(initialFilter)
@@ -85,7 +88,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
       date_lt: _.get(lastEntry, 'date'),
       patientId,
     }
-    setFilter(newFilter)
+    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -123,8 +126,11 @@ const PatientImmunizationTable: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  const [isGroup, setIsGroup] = React.useState<boolean | undefined>(false)
-  const [tabList, setTabList] = React.useState<ITabList[]>([])
+  // React.useEffect(() => {
+  //   if(isGroup){
+
+  //   }
+  // }, [isGroup])
 
   const handleGroupByType = async (isGroup: boolean) => {
     const immunizationService = HMSService.getService(
@@ -136,31 +142,61 @@ const PatientImmunizationTable: React.FunctionComponent<{
       })
       setTabList(menuTabList.data)
       handleTabChange(menuTabList.data[0].type)
+      sendMessage({
+        message: 'handleGroupByType',
+        params: {
+          isGroup,
+        },
+      })
     } else {
+      const newFilter = {
+        ...filter,
+        date_lt: undefined,
+        vaccineCode: undefined,
+      }
       const newResult = await immunizationService.list({
-        filter: initialFilter,
+        filter: newFilter,
+        max,
       })
       setResult(newResult)
+      sendMessage({
+        message: 'handleGroupByType',
+        params: {
+          isGroup,
+          result: newResult,
+        },
+      })
     }
     setIsMore(true)
     setIsGroup(isGroup)
   }
 
   const handleTabChange = async (selectedTab: string) => {
-    const filter = {
+    const newFilter = {
+      ...filter,
       date_lt: undefined,
       patientId,
       vaccineCode: selectedTab,
     }
-    setFilter(filter)
-    setSubmitedFilter(filter)
+    setFilter(newFilter)
+    setSubmitedFilter(newFilter)
     const immunizationService = HMSService.getService(
       'immunization',
     ) as ImmunizationService
-    const newResult = await immunizationService.list({ filter, max })
+    const newResult = await immunizationService.list({ filter: newFilter, max })
     setResult(newResult)
     setIsMore(true)
+
+    sendMessage({
+      message: `handleTabChange:`,
+      params: {
+        filter: newFilter,
+        result: newResult,
+        tabTitle: selectedTab,
+      },
+    })
   }
+
   const fetchData = async (filter: any) => {
     setFilter(filter)
     setIsMore(true)

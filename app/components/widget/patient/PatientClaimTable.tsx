@@ -82,7 +82,7 @@ const PatientClaimTable: React.FunctionComponent<{
       billablePeriodStart_lt: _.get(lastEntry, 'billablePeriodStart'),
       patientId,
     }
-    setFilter(newFilter)
+    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,

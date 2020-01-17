@@ -94,7 +94,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       ...filter,
       periodStart_lt: _.get(lastEntry, 'assertedDate'),
     }
-    setFilter(newFilter)
+    // setFilter(newFilter)
     const newLazyLoad = {
       filter: {
         ...filter,
