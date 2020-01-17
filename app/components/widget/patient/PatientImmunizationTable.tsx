@@ -71,6 +71,9 @@ const PatientImmunizationTable: React.FunctionComponent<{
   const [filter, setFilter] = React.useState<IImmunizationListFilterQuery>(
     initialFilter,
   )
+  const [isGroup, setIsGroup] = React.useState<boolean | undefined>(false)
+  const [tabList, setTabList] = React.useState<ITabList[]>([])
+
   const [submitedFilter, setSubmitedFilter] = React.useState<
     IImmunizationListFilterQuery
   >(initialFilter)
@@ -123,8 +126,11 @@ const PatientImmunizationTable: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  const [isGroup, setIsGroup] = React.useState<boolean | undefined>(false)
-  const [tabList, setTabList] = React.useState<ITabList[]>([])
+  // React.useEffect(() => {
+  //   if(isGroup){
+
+  //   }
+  // }, [isGroup])
 
   const handleGroupByType = async (isGroup: boolean) => {
     const immunizationService = HMSService.getService(
@@ -136,6 +142,12 @@ const PatientImmunizationTable: React.FunctionComponent<{
       })
       setTabList(menuTabList.data)
       handleTabChange(menuTabList.data[0].type)
+      sendMessage({
+        message: 'handleGroupByType',
+        params: {
+          isGroup,
+        },
+      })
     } else {
       const newFilter = {
         ...filter,
@@ -147,6 +159,13 @@ const PatientImmunizationTable: React.FunctionComponent<{
         max,
       })
       setResult(newResult)
+      sendMessage({
+        message: 'handleGroupByType',
+        params: {
+          isGroup,
+          result: newResult,
+        },
+      })
     }
     setIsMore(true)
     setIsGroup(isGroup)
@@ -167,6 +186,15 @@ const PatientImmunizationTable: React.FunctionComponent<{
     const newResult = await immunizationService.list({ filter: newFilter, max })
     setResult(newResult)
     setIsMore(true)
+
+    sendMessage({
+      message: `handleTabChange:`,
+      params: {
+        filter: newFilter,
+        result: newResult,
+        tabTitle: selectedTab,
+      },
+    })
   }
 
   const fetchData = async (filter: any) => {

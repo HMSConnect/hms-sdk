@@ -137,6 +137,12 @@ const PatientCarePlanTable: React.FunctionComponent<{
       })
       setTabList(menuTabList.data)
       handleTabChange(menuTabList.data[0].type)
+      sendMessage({
+        message: 'handleGroupByType',
+        params: {
+          isGroup,
+        },
+      })
     } else {
       const newFilter = {
         ...filter,
@@ -148,6 +154,13 @@ const PatientCarePlanTable: React.FunctionComponent<{
         max,
       })
       setResult(newResult)
+      sendMessage({
+        message: 'handleGroupByType',
+        params: {
+          isGroup,
+          result: newResult,
+        },
+      })
     }
     setIsMore(true)
     setIsGroup(isGroup)
@@ -168,6 +181,15 @@ const PatientCarePlanTable: React.FunctionComponent<{
     const newResult = await carePlanService.list({ filter: newFilter, max })
     setResult(newResult)
     setIsMore(true)
+
+    sendMessage({
+      message: `handleTabChange:`,
+      params: {
+        filter: newFilter,
+        result: newResult,
+        tabTitle: selectedTab,
+      },
+    })
   }
 
   const fetchData = async (filter: any) => {

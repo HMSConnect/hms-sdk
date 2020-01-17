@@ -130,6 +130,12 @@ const PatientObservationTable: React.FunctionComponent<{
       })
       setTabList(menuTabList.data)
       handleTabChange(menuTabList.data[0].category)
+      sendMessage({
+        message: 'handleGroupByType',
+        params: {
+          isGroup,
+        },
+      })
     } else {
       const newFilter = {
         ...filter,
@@ -141,6 +147,13 @@ const PatientObservationTable: React.FunctionComponent<{
         max,
       })
       setResult(newResult)
+      sendMessage({
+        message: 'handleGroupByType',
+        params: {
+          isGroup,
+          result: newResult,
+        },
+      })
     }
     setIsMore(true)
     setIsGroup(isGroup)
@@ -161,6 +174,14 @@ const PatientObservationTable: React.FunctionComponent<{
     const newResult = await observationService.list({ filter: newFilter, max })
     setResult(newResult)
     setIsMore(true)
+    sendMessage({
+      message: `handleTabChange:`,
+      params: {
+        filter: newFilter,
+        result: newResult,
+        tabTitle: selectedTab,
+      },
+    })
   }
   const fetchData = async (filter: any) => {
     setFilter(filter)
