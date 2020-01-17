@@ -79,7 +79,7 @@ const PatientConditionTable: React.FunctionComponent<{
       onsetDateTime_lt: _.get(lastEntry, 'onsetDateTime'),
       patientId,
     }
-    setFilter(newFilter)
+    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,

@@ -82,7 +82,7 @@ const PatientImagingStudyTable: React.FunctionComponent<{
       patientId,
       started_lt: _.get(lastEntry, 'started'),
     }
-    setFilter(newFilter)
+    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,

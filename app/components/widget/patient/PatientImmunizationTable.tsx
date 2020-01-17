@@ -85,7 +85,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
       date_lt: _.get(lastEntry, 'date'),
       patientId,
     }
-    setFilter(newFilter)
+    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -137,8 +137,14 @@ const PatientImmunizationTable: React.FunctionComponent<{
       setTabList(menuTabList.data)
       handleTabChange(menuTabList.data[0].type)
     } else {
+      const newFilter = {
+        ...filter,
+        date_lt: undefined,
+        vaccineCode: undefined,
+      }
       const newResult = await immunizationService.list({
-        filter: initialFilter,
+        filter: newFilter,
+        max,
       })
       setResult(newResult)
     }
@@ -147,20 +153,22 @@ const PatientImmunizationTable: React.FunctionComponent<{
   }
 
   const handleTabChange = async (selectedTab: string) => {
-    const filter = {
+    const newFilter = {
+      ...filter,
       date_lt: undefined,
       patientId,
       vaccineCode: selectedTab,
     }
-    setFilter(filter)
-    setSubmitedFilter(filter)
+    setFilter(newFilter)
+    setSubmitedFilter(newFilter)
     const immunizationService = HMSService.getService(
       'immunization',
     ) as ImmunizationService
-    const newResult = await immunizationService.list({ filter, max })
+    const newResult = await immunizationService.list({ filter: newFilter, max })
     setResult(newResult)
     setIsMore(true)
   }
+
   const fetchData = async (filter: any) => {
     setFilter(filter)
     setIsMore(true)

@@ -79,7 +79,7 @@ const PatientObservationTable: React.FunctionComponent<{
       issued_lt: _.get(lastEntry, 'issuedDate'),
       patientId,
     }
-    setFilter(newFilter)
+    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -131,8 +131,14 @@ const PatientObservationTable: React.FunctionComponent<{
       setTabList(menuTabList.data)
       handleTabChange(menuTabList.data[0].category)
     } else {
+      const newFilter = {
+        ...filter,
+        categoryCode: undefined,
+        issued_lt: undefined,
+      }
       const newResult = await observationService.list({
-        filter: initialFilter,
+        filter: newFilter,
+        max,
       })
       setResult(newResult)
     }
@@ -141,17 +147,18 @@ const PatientObservationTable: React.FunctionComponent<{
   }
 
   const handleTabChange = async (selectedTab: string) => {
-    const filter = {
+    const newFilter = {
+      ...filter,
       categoryCode: selectedTab,
       issued_lt: undefined,
       patientId,
     }
-    setFilter(filter)
-    setSubmitedFilter(filter)
+    setFilter(newFilter)
+    setSubmitedFilter(newFilter)
     const observationService = HMSService.getService(
       'observation',
     ) as ObservationService
-    const newResult = await observationService.list({ filter, max })
+    const newResult = await observationService.list({ filter: newFilter, max })
     setResult(newResult)
     setIsMore(true)
   }

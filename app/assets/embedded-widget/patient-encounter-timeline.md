@@ -26,7 +26,7 @@ Replace `/embedded-widget/patient-info/encounter-timeline/:patientId` url to you
 - **Avaliable event response**
    | Action     | Message               | Description                                       |
    | ---------- | --------------------- | ------------------------------------------------- |
-   | -          | handleLoadMore        | Event is called when scorll to bottom of timeline |
+   | -          | handleLoadMore        | Event is called when scroll to bottom of timeline |
    | PUSH_ROUTE | handleEncounterSelect | Event is called when select encounter             |
 
 ## Example

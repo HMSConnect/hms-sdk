@@ -34,7 +34,7 @@ const useInfinitScroll = (
 
       return () =>
         myscrollRef.removeEventListener('scroll', () => {
-          console.info('remove infinite scorll event')
+          console.info('remove infinite scroll event')
         })
     }
   }, [refElement])

@@ -80,7 +80,7 @@ const PatientProcedureTable: React.FunctionComponent<{
       patientId,
       periodStart_lt: _.get(lastEntry, 'performedPeriodStart'),
     }
-    setFilter(newFilter)
+    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,

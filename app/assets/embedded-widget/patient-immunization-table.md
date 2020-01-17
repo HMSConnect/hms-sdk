@@ -1,12 +1,12 @@
-# Patient Allergy Intolerance Table
+# Patient Immunization Table
 
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 
-URL: `/embedded-widget/patient-info/allergy-intolerance/:patientId`
+URL: `/embedded-widget/patient-info/immunization-table/:patientId`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/allergy-intolerance/:patientId` url to your iframe project.
+Replace `/embedded-widget/patient-info/immunization-table/:patientId` url to your iframe project.
 
 ## Request HTTP GET
 **Params**
@@ -17,9 +17,8 @@ Replace `/embedded-widget/patient-info/allergy-intolerance/:patientId` url to yo
 **Query Params**
 | Key                        | Type/Format | Default   | Description                                                                                |
 | -------------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------ |
-| initialFilter[codeText]    | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
-| initialFilter[type]        | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
-| initialFilter[criticality] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
+| initialFilter[vaccineCode] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
+| initialFilter[status]      | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | max                        | number      | 20        | Number of total records in each fetch                                                      |
 
 ## Response
@@ -37,10 +36,10 @@ Replace `/embedded-widget/patient-info/allergy-intolerance/:patientId` url to yo
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/allergy-intolerance/6f8f470e-07e8-4273-ad11-6e3fdc384a09` 
+ - pathname: `/embedded-widget/patient-info/immunization-table/6f8f470e-07e8-4273-ad11-6e3fdc384a09` 
 
 ### Action
- - Scroll to bottom of table
+ - Filter with `status` value `entered-in-error`
 
 ### Response
 ```json
@@ -48,13 +47,10 @@ Replace `/embedded-widget/patient-info/allergy-intolerance/:patientId` url to yo
     "message": "handleLoadMore",
     "params": {
         "filter": {
-
+            "status": "entered-in-error",
+            "vaccineCode": "",
+            "date_lt": undefined,
             "patientId": "6f8f470e-07e8-4273-ad11-6e3fdc384a09",
-            "assertedDate_lt": Mon Nov 29 1971 07:31:15 GMT+0700 (Indochina Time),
-            "criticality": "",
-            "category": "",
-            "codeText": ""
-
         },
         "max": 20
     },
