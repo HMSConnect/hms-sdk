@@ -127,7 +127,11 @@ const PatientMenuList: React.FunctionComponent<{
     if (menu.iconClassName) {
       return (
         <ListItemIcon>
-          <Icon className={menu.iconClassName} color='primary' />
+          <Icon
+            className={menu.iconClassName}
+            color='primary'
+            style={{ width: '1.5em', textAlign: 'center' }}
+          />
         </ListItemIcon>
       )
     }
