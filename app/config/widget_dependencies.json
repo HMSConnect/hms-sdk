@@ -46,5 +46,9 @@
   "care_plan": {
     "services": ["$CARE_PLAN"],
     "validators": ["$SFHIR_CARE_PLAN_V1"]
+  },
+  "organization": {
+    "services": [],
+    "validators": ["$SFHIR_ORGANIZATION_V1"]
   }
 }

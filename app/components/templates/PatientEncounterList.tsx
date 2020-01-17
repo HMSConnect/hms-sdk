@@ -99,7 +99,6 @@ const EncounterListItem: React.FunctionComponent<{
     setOpen(!open)
   }
   const classes = useStyles()
-
   return (
     <>
       <ListItem button onClick={handleClick}>
@@ -130,7 +129,7 @@ const EncounterListItem: React.FunctionComponent<{
                 className={classes.inline}
                 color='textPrimary'
               >
-                {_.get(data, 'serviceProvider.name') || 'Unknow'}
+                {_.get(data, 'organization.display') || 'Unknow'}
               </Typography>{' '}
               <br />
               <Typography

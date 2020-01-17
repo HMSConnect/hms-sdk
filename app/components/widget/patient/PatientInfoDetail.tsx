@@ -156,7 +156,7 @@ const PatientDetailSub: React.FunctionComponent<{
   }
 
   const renderInformationTable = (navigate: string) => {
-    const resource = _.find(groupResourceList, ['resourceType', navigate])
+    // const resource = _.find(groupResourceList, ['resourceType', navigate])
     switch (navigate) {
       case 'patient':
         return <PatientInfoTable patient={patient} />
@@ -164,7 +164,8 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientEncounterTimeline
             patientId={_.get(patient, 'identifier.id.value')}
-            resourceList={_.get(resource, 'data')}
+            // resourceList={_.get(resource, 'data')}
+            isInitialize={true}
             max={query.max}
           />
         )
@@ -172,7 +173,8 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientConditionTable
             patientId={_.get(patient, 'identifier.id.value')}
-            resourceList={_.get(resource, 'data')}
+            // resourceList={_.get(resource, 'data')}
+            isInitialize={true}
             max={query.max}
           />
         )
@@ -180,7 +182,8 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientAllergyIntoleranceTable
             patientId={_.get(patient, 'identifier.id.value')}
-            resourceList={_.get(resource, 'data')}
+            // resourceList={_.get(resource, 'data')}
+            isInitialize={true}
             max={query.max}
           />
         )
@@ -188,7 +191,8 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientImmunizationTable
             patientId={_.get(patient, 'identifier.id.value')}
-            resourceList={_.get(resource, 'data')}
+            // resourceList={_.get(resource, 'data')}
+            isInitialize={true}
             max={query.max}
           />
         )
@@ -196,7 +200,8 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientProcedureTable
             patientId={_.get(patient, 'identifier.id.value')}
-            resourceList={_.get(resource, 'data')}
+            // resourceList={_.get(resource, 'data')}
+            isInitialize={true}
             max={query.max}
           />
         )
@@ -204,7 +209,8 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientMedicationRequestTable
             patientId={_.get(patient, 'identifier.id.value')}
-            resourceList={_.get(resource, 'data')}
+            // resourceList={_.get(resource, 'data')}
+            isInitialize={true}
             max={query.max}
           />
         )
@@ -212,7 +218,8 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientObservationTable
             patientId={_.get(patient, 'identifier.id.value')}
-            resourceList={_.get(resource, 'data')}
+            // resourceList={_.get(resource, 'data')}
+            isInitialize={true}
             max={query.max}
           />
         )
@@ -220,7 +227,8 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientImagingStudyTable
             patientId={_.get(patient, 'identifier.id.value')}
-            resourceList={_.get(resource, 'data')}
+            // resourceList={_.get(resource, 'data')}
+            isInitialize={true}
             max={query.max}
           />
         )
@@ -228,7 +236,8 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientClaimTable
             patientId={_.get(patient, 'identifier.id.value')}
-            resourceList={_.get(resource, 'data')}
+            // resourceList={_.get(resource, 'data')}
+            isInitialize={true}
             max={query.max}
           />
         )
@@ -236,7 +245,8 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientCarePlanTable
             patientId={_.get(patient, 'identifier.id.value')}
-            resourceList={_.get(resource, 'data')}
+            // resourceList={_.get(resource, 'data')}
+            isInitialize={true}
             max={query.max}
           />
         )

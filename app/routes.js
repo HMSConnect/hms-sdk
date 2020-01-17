@@ -53,6 +53,21 @@ module.exports = nextRoutes()
     'embedded-widget/patient-info/patient-procedure-table',
   )
   .add(
+    'embedded-widget/patient-info/care-plan-table',
+    '/embedded-widget/patient-info/care-plan-table/:patientId',
+    'embedded-widget/patient-info/patient-care-plan-table',
+  )
+  .add(
+    'embedded-widget/patient-info/claim-table',
+    '/embedded-widget/patient-info/claim-table/:patientId',
+    'embedded-widget/patient-info/patient-claim-table',
+  )
+  .add(
+    'embedded-widget/patient-info/imaging-study-table',
+    '/embedded-widget/patient-info/imaging-study-table/:patientId',
+    'embedded-widget/patient-info/patient-imaging-study-table',
+  )
+  .add(
     'embedded-widget/patient-info',
     '/embedded-widget/patient-info/:patientId',
   )

@@ -16,6 +16,7 @@ export interface IAdaptiveInput {
   name: string
   label: string
   choices?: IOptionItem[]
+  keyValue?: string
 }
 
 const AdaptiveInput: React.FunctionComponent<{
@@ -25,8 +26,9 @@ const AdaptiveInput: React.FunctionComponent<{
   value: any
   id: string
   choices?: IOptionItem[]
+  keyValue?: string
   onChange: (type: string, value: any) => void
-}> = ({ name, type, label, value = {}, id, onChange, choices }) => {
+}> = ({ name, type, label, value = {}, id, onChange, choices, keyValue = name }) => {
   switch (type) {
     case 'date':
       return null
@@ -52,7 +54,7 @@ const AdaptiveInput: React.FunctionComponent<{
           label={label}
           labelId={id}
           id={id}
-          value={value[name]}
+          value={value[keyValue]}
           options={choices}
           onChange={(
             event: React.ChangeEvent<{ name?: string; value: unknown }>,
@@ -67,7 +69,7 @@ const AdaptiveInput: React.FunctionComponent<{
         <FormControlLabel
           control={
             <Switch
-              checked={value[name]}
+              checked={value[keyValue]}
               onChange={event => onChange(name, event.target.checked)}
               color='primary'
             />
@@ -82,7 +84,7 @@ const AdaptiveInput: React.FunctionComponent<{
           label={label}
           fullWidth
           variant='outlined'
-          value={value[name]}
+          value={value[keyValue]}
           onChange={event => onChange(name, event.target.value)}
           type='number'
         />
@@ -94,7 +96,7 @@ const AdaptiveInput: React.FunctionComponent<{
           label={label}
           fullWidth
           variant='outlined'
-          value={value[name]}
+          value={value[keyValue]}
           onChange={event => onChange(name, event.target.value)}
         />
       )
@@ -105,7 +107,7 @@ const AdaptiveInput: React.FunctionComponent<{
           label={label}
           fullWidth
           variant='outlined'
-          value={value[name]}
+          value={value[keyValue]}
           onChange={event => onChange(name, event.target.value)}
         />
       )

@@ -1,4 +1,5 @@
 import IValidator from '@validators/IValidator'
+import ValidatorManager from '@validators/ValidatorManager'
 import * as _ from 'lodash'
 import * as moment from 'moment'
 
@@ -12,6 +13,14 @@ class SFHIREncounterV1Validator implements IValidator {
   }
 
   parse(encounter: any): any {
+    const organizationSchema = _.get(encounter, 'organization.schema')
+    let organizationData = {}
+    if (organizationSchema) {
+      const organizationValidator = ValidatorManager.compile(organizationSchema)
+      if (organizationValidator) {
+        organizationData = organizationValidator.parse(encounter.organization)
+      }
+    }
     const type = _.chain(_.get(encounter, 'type'))
       .map(type => type.text)
       .join(', ')
@@ -38,7 +47,6 @@ class SFHIREncounterV1Validator implements IValidator {
       .split('/')
       .get(1)
       .value()
-
     return {
       classCode,
       endDateTime: endTime,
@@ -50,6 +58,7 @@ class SFHIREncounterV1Validator implements IValidator {
       startTime,
       status,
       type,
+      organization: organizationData,
     }
   }
 }

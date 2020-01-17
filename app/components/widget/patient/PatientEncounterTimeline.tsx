@@ -101,6 +101,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
         periodStart_lt: _.get(lastEntry, 'startTime'),
       },
       max,
+      withOrganization: true,
     }
 
     const entryData = await encounterService.list(newLazyLoad)

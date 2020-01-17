@@ -25,13 +25,13 @@ const useResourceList = (id: string, options?: any): any => {
         })
         let resultsList = _.filter(
           entryList.data,
-          entry => !_.isEmpty(entry.data),
+          entry => entry.totalCount > 0,
         )
         resultsList = _.concat(
           { resourceType: 'patient', totalCount: 1, data: [] },
           resultsList,
         )
-
+          
         setResult({
           ...entryList,
           data: resultsList,
