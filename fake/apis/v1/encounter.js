@@ -4,7 +4,7 @@ const config = require('../../config')
 const mockStorage = require('../../storage')
 const utilsService = require('../../services/utils')
 const encounterService = require('../../services/encounter')
-const carePlanService = require('../../services/care_plan')
+const diagnosticReportService = require('../../services/diagnostic_report')
 const db = mockStorage.getDB()
 
 router.get('/', async (req, res) => {
@@ -25,22 +25,40 @@ router.get('/', async (req, res) => {
       })
 
       let results = []
-      if (req.query.withOrganization == 'true') {
+      if (
+        req.query.withOrganization == 'true' ||
+        req.query.withDiagnosticReport == 'true'
+      ) {
         // query not cast boolean
         for (const encounterResult of encounterResults) {
-          if (encounterResult.serviceProvider.reference) {
-            const organizationId = encounterResult.serviceProvider.reference.split(
-              '/'
-            )[1]
-            encounterResult.organization = await createOrganization(
-              organizationId
-            )
-          } else {
-            encounterResult.organization = {}
+          if (req.query.withOrganization == 'true') {
+            if (encounterResult.serviceProvider.reference) {
+              const organizationId = encounterResult.serviceProvider.reference.split(
+                '/'
+              )[1]
+              encounterResult.organization = await createOrganization(
+                organizationId
+              )
+            } else {
+              encounterResult.organization = {}
+            }
           }
+
+          if (req.query.withDiagnosticReport == 'true') {
+            if (encounterResult.id) {
+              encounterResult.diagnosticReport = await createDiagnosticReport(
+                encounterResult.id
+              )
+            } else {
+              encounterResult.diagnosticReport = {}
+            }
+          }
+
           results.push(encounterResult)
         }
-      } else {
+      }
+
+      if (results.lenght === 0) {
         results = encounterResults
       }
 
@@ -97,11 +115,25 @@ async function createOrganization(organizationId) {
     )
   })
   return {
-    schema: { ...config.defaultSchema, resourceType: 'observation' },
+    schema: { ...config.defaultSchema, resourceType: 'organization' },
     ...organization
   }
 }
 
+async function createDiagnosticReport(encounterId) {
+  const diagnosticReport = await new Promise((resolve, reject) => {
+    db['diagnostic_report'].findOne(
+      diagnosticReportService.createSelector({ encounterId }),
+      {},
+      resolve,
+      reject
+    )
+  })
+  return {
+    schema: { ...config.defaultSchema, resourceType: 'diagnostic_report' },
+    ...diagnosticReport
+  }
+}
 // router.get('/resource-list', async (req, res) => {
 //   const domainResources = mockStorage
 //     .getDomainNameResourceList()
