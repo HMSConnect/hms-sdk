@@ -31,15 +31,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: '100%',
     marginLeft: '0.7em',
     position: 'absolute',
-    zIndex: -1,
+    zIndex: 1000,
   },
   lineColapse: {
     borderLeft: '2px solid lightgrey',
     height: '100%',
-    marginLeft: '1.7em',
+    marginLeft: '1.7rem',
   },
   listIcon: {
     color: 'green',
+    zIndex: 2000,
   },
   nested: {
     paddingLeft: theme.spacing(4),
@@ -52,8 +53,8 @@ const PatientEncounterList: React.FunctionComponent<{
   onEntrySelected: (event: React.MouseEvent, selectedEncounter: any) => void
   isLoading?: boolean
   isMore?: boolean
-  onLazyLoade?: (event: any, type?: string) => void
-}> = ({ entryList, onEntrySelected, isLoading, isMore, onLazyLoade }) => {
+  onLazyLoad?: (event: any, type?: string) => void
+}> = ({ entryList, onEntrySelected, isLoading, isMore, onLazyLoad }) => {
   return (
     <>
       <List component='nav' aria-labelledby='nested-list-subheader'>
@@ -64,22 +65,22 @@ const PatientEncounterList: React.FunctionComponent<{
           </React.Fragment>
         ))}
         {isMore ? (
-          <ListItem>
+          <ListItem style={{ textAlign: 'center' }}>
             {isLoading ? (
-              <ListItemSecondaryAction>
+              <ListItemText style={{ textAlign: 'center' }}>
                 <CircularProgress />
-              </ListItemSecondaryAction>
-            ) : (
+              </ListItemText>
+            ) : onLazyLoad ? (
               <ListItemSecondaryAction>
                 <Button
                   variant='contained'
                   color='primary'
-                  onClick={onLazyLoade}
+                  onClick={onLazyLoad}
                 >
                   <Typography variant='body1'>Load More</Typography>
                 </Button>
               </ListItemSecondaryAction>
-            )}
+            ) : null}
           </ListItem>
         ) : null}
       </List>
@@ -98,7 +99,6 @@ const EncounterListItem: React.FunctionComponent<{
     setOpen(!open)
   }
   const classes = useStyles()
-
   return (
     <>
       <ListItem button onClick={handleClick}>
@@ -129,7 +129,7 @@ const EncounterListItem: React.FunctionComponent<{
                 className={classes.inline}
                 color='textPrimary'
               >
-                {_.get(data, 'serviceProvider.name') || 'Unknow'}
+                {_.get(data, 'organization.display') || 'Unknow'}
               </Typography>{' '}
               <br />
               <Typography

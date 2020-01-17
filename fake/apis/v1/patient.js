@@ -6,6 +6,14 @@ const utilsService = require('../../services/utils')
 const patientService = require('../../services/patient')
 const encounterService = require('../../services/encounter')
 const carePlanService = require('../../services/care_plan')
+const conditionService = require('../../services/condition')
+const immunizationService = require('../../services/immunization')
+const allergyIntoleranceService = require('../../services/allergy_intolerance')
+const procedureService = require('../../services/procedure')
+const medicationRequestService = require('../../services/medication_request')
+const observationService = require('../../services/observation')
+const claimService = require('../../services/claim')
+const imagingStudyService = require('../../services/imaging_study')
 
 const db = mockStorage.getDB()
 
@@ -46,34 +54,11 @@ router.get('/:id/resource-list', async (req, res) => {
 
     const results = []
     for (const domainResouce of domainResources) {
-      const entries = await new Promise((resolve, reject) => {
-        let options = {}
-        if (domainResouce === 'encounter') {
-          options = encounterService.createOptions(req.query)
-        } else if (domainResouce === 'care_plan') {
-          options = carePlanService.createOptions(req.query)
-        } else {
-          options = utilsService.createOptions(req.query)
-        }
-
-        db[domainResouce]
-          .find(
-            {
-              $or: [
-                { 'subject.reference': `Patient/${req.params.id}` },
-                { 'patient.reference': `Patient/${req.params.id}` }
-              ]
-            },
-            { ...options, limit: null } //force limit, use createPaginate slice data instead of
-          )
-          .fetch(resolve, reject)
+      const result = await queryResource(domainResouce, {
+        query: req.query,
+        params: req.params
       })
-
-      results.push({
-        schema: { ...config.defaultSchema, resourceType: domainResouce },
-        resourceType: domainResouce,
-        ...utilsService.createPaginate(entries, req.query)
-      })
+      results.push(result)
     }
 
     res.json({
@@ -86,5 +71,54 @@ router.get('/:id/resource-list', async (req, res) => {
     res.json({ error: error.message, data: null })
   }
 })
+
+async function queryResource(domainResource, option) {
+  const entries = await new Promise((resolve, reject) => {
+    let options = {}
+    if (domainResource === 'encounter') {
+      options = encounterService.createOptions(option.query)
+    } else if (domainResource === 'care_plan') {
+      options = carePlanService.createOptions(option.query)
+    } else if (domainResource === 'condition') {
+      options = conditionService.createOptions(option.query)
+    } else if (domainResource === 'immunization') {
+      options = immunizationService.createOptions(option.query)
+    } else if (domainResource === 'allergy_intolerance') {
+      options = allergyIntoleranceService.createOptions(option.query)
+    } else if (domainResource === 'procedure') {
+      options = procedureService.createOptions(option.query)
+    } else if (domainResource === 'medication_request') {
+      options = medicationRequestService.createOptions(option.query)
+    } else if (domainResource === 'observation') {
+      options = observationService.createOptions(option.query)
+    } else if (domainResource === 'claim') {
+      options = claimService.createOptions(option.query)
+    } else if (domainResource === 'imaging_study') {
+      options = imagingStudyService.createOptions(option.query)
+    } else {
+      options = utilsService.createOptions(option.query)
+    }
+
+    db[domainResource]
+      .find(
+        {
+          $or: [
+            { 'subject.reference': `Patient/${option.params.id}` },
+            { 'patient.reference': `Patient/${option.params.id}` }
+          ]
+        },
+        { ...options, limit: null } //force limit, use createPaginate slice data instead of
+      )
+      .fetch(resolve, reject)
+  })
+
+  const { totalCount } = utilsService.createPaginate(entries, option.query)
+
+  return {
+    schema: { ...config.defaultSchema, resourceType: domainResource },
+    resourceType: domainResource,
+    totalCount
+  }
+}
 
 module.exports = router

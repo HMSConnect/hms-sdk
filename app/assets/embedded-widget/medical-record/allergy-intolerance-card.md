@@ -9,9 +9,9 @@ Replace `/embedded-widget/medical-records/allergy-intolerance-card` url to your 
 
 ## Request HTTP GET
 **Query Params**
-| Key       | Type/Format | Description              |
-| --------- | ----------- | ------------------------ |
-| patientId | string      | `required` ID of patient |
+| Key       | Type/Format | Default | Description              |
+| --------- | ----------- | ------- | ------------------------ |
+| patientId | string      | ''      | `required` ID of patient |
 
 ## Response
 - **Object Response**

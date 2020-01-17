@@ -9,13 +9,16 @@ import {
   TableFooter,
   TableRow,
   Theme,
-  Typography
+  Typography,
 } from '@material-ui/core'
 import { blue, grey } from '@material-ui/core/colors'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
-
 import EnhancedTableHead, { IHeaderCellProps } from './EnhancedTableHead'
+
+interface ITableEntireRow {
+  isCenter?: boolean
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   circle: {
@@ -24,20 +27,20 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: '50%',
     borderStyle: 'solid',
     textAlign: 'center',
-    width: '2em'
+    width: '2em',
   },
   root: {},
   tableGroupRow: {
     backgroundColor: blue[50],
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   tableRow: {
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   tableWrapper: {
     maxHeight: '60vh',
-    overflow: 'auto'
-  }
+    overflow: 'auto',
+  },
 }))
 
 export interface IBodyCellProp {
@@ -59,7 +62,7 @@ const TableBase: React.FunctionComponent<{
   isLoading: boolean
   isMore?: boolean
   size?: 'small' | 'medium' | undefined
-  onEntrySelected: (event: React.MouseEvent, selectedEncounter: any) => void
+  onEntrySelected?: (event: React.MouseEvent, selectedEncounter: any) => void
   onLazyLoad?: (event: React.MouseEvent) => void
 }> = ({
   entryList,
@@ -69,28 +72,37 @@ const TableBase: React.FunctionComponent<{
   isMore,
   size,
   onEntrySelected,
-  onLazyLoad
+  onLazyLoad,
 }) => {
   const classes = useStyles()
   const headerCells = _.map(
     tableCells,
-    (tableCell: ITableCellProp) => tableCell.headCell
+    (tableCell: ITableCellProp) => tableCell.headCell,
   )
 
   return (
     <Table stickyHeader size={size}>
       <EnhancedTableHead classes={classes} headCells={headerCells} />
       <TableBody>
-        {_.map(entryList, (entryData, index: number) => (
-          <TableRowBase
-            entryData={entryData}
-            index={index}
-            tableCells={tableCells}
-            onEntrySelected={onEntrySelected}
-            key={id + index}
-            id={id}
-          />
-        ))}
+        {_.isEmpty(entryList) ? (
+          <TableEntireRow
+            cellCount={headerCells.length}
+            option={{ isCenter: true }}
+          >
+            <Typography>No Data for display</Typography>
+          </TableEntireRow>
+        ) : (
+          _.map(entryList, (entryData, index: number) => (
+            <TableRowBase
+              entryData={entryData}
+              index={index}
+              tableCells={tableCells}
+              onEntrySelected={onEntrySelected}
+              key={id + index}
+              id={id}
+            />
+          ))
+        )}
       </TableBody>
       {isMore ? (
         <TableFooter>
@@ -101,7 +113,7 @@ const TableBase: React.FunctionComponent<{
             >
               {isLoading ? (
                 <CircularProgress />
-              ) : (
+              ) : onLazyLoad ? (
                 <Button
                   variant='contained'
                   color='primary'
@@ -109,7 +121,7 @@ const TableBase: React.FunctionComponent<{
                 >
                   <Typography variant='body1'>Load More</Typography>
                 </Button>
-              )}
+              ) : null}
             </TableCell>
           </TableRow>
         </TableFooter>
@@ -123,15 +135,17 @@ const TableRowBase: React.FunctionComponent<{
   id: string
   index: string | number
   tableCells: ITableCellProp[]
-  onEntrySelected: (event: React.MouseEvent, entry: any) => void
+  onEntrySelected?: (event: React.MouseEvent, entry: any) => void
 }> = ({ entryData, id, index, tableCells, onEntrySelected }) => {
   const classes = useStyles()
   return (
     <TableRow
       hover
       key={id + index}
-      className={classes.tableRow}
-      onClick={(event: React.MouseEvent) => onEntrySelected(event, entryData)}
+      className={onEntrySelected ? classes.tableRow : ''}
+      onClick={(event: React.MouseEvent) =>
+        onEntrySelected ? onEntrySelected(event, entryData) : null
+      }
     >
       {_.map(tableCells, (tabelCell: any, tableIndex: number) => (
         <TableCell
@@ -141,12 +155,28 @@ const TableRowBase: React.FunctionComponent<{
           {tabelCell.bodyCell.render ? (
             tabelCell.bodyCell.render(entryData)
           ) : (
-            <Typography variant='body2'>
+            <Typography variant='body1'>
               {_.get(entryData, tabelCell.bodyCell.id) || 'Unknow'}
             </Typography>
           )}
         </TableCell>
       ))}
+    </TableRow>
+  )
+}
+
+const TableEntireRow: React.FunctionComponent<{
+  cellCount: number
+  option?: any
+}> = ({ cellCount, children, option = {} }) => {
+  return (
+    <TableRow>
+      <TableCell
+        colSpan={cellCount}
+        style={{ textAlign: option.isCenter ? 'center' : undefined }}
+      >
+        {children}
+      </TableCell>
     </TableRow>
   )
 }

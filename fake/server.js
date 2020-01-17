@@ -47,12 +47,33 @@ initService()
 // use router
 
 //register router
-app.use('/smart-fhir/allergy-intolerance', require('./apis/v1/allergy_intolerance'))
+app.use(
+  '/smart-fhir/allergy-intolerance',
+  require('./apis/v1/allergy_intolerance')
+)
 app.use('/smart-fhir/care-plan', require('./apis/v1/care_plan'))
+app.use('/smart-fhir/claim', require('./apis/v1/claim'))
+app.use('/smart-fhir/condition', require('./apis/v1/condition'))
 app.use('/smart-fhir/diagnostic-report', require('./apis/v1/diagnostic_report'))
 app.use('/smart-fhir/encounter', require('./apis/v1/encounter'))
+app.use('/smart-fhir/immunization', require('./apis/v1/immunization'))
+app.use('/smart-fhir/imaging-study', require('./apis/v1/imaging_study'))
 app.use('/smart-fhir/observation', require('./apis/v1/observation'))
+app.use('/smart-fhir/organization', require('./apis/v1/organization'))
 app.use('/smart-fhir/patient', require('./apis/v1/patient'))
+app.use('/smart-fhir/procedure', require('./apis/v1/procedure'))
+app.use(
+  '/smart-fhir/medication-request',
+  require('./apis/v1/medication_request')
+)
+
+// all domain resources
+app.get('/smart-fhir/domain-resources', (req, res) => {
+  res.json({
+    error: null, 
+    data: mockStorage.domainResourceList
+  })
+})
 
 // HMS
 app.get('/hms-connect/:domain_resource', (req, res) => {
@@ -83,7 +104,10 @@ app.get('/smart-fhir/:domain_resource/:id', (req, res) => {
           res.json({
             error: null,
             data: data,
-            schema: { ...config.defaultSchema, resourceType: req.params.domain_resource }
+            schema: {
+              ...config.defaultSchema,
+              resourceType: req.params.domain_resource
+            }
           })
         }
       )

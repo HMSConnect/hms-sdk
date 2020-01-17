@@ -8,12 +8,21 @@ exports.createSelector = (filter = {}) => {
   if (filter.patientId) {
     andSelector.push({ 'subject.reference': `Patient/${filter.patientId}` })
   }
+  if (filter.status) {
+    andSelector.push({ status: `${filter.status}` })
+  }
+  if (filter.category) {
+    // const regExp = {
+    //   $regex: new RegExp(`.*${filter.category}.*`, 'i')
+    // }
+    andSelector.push({ 'category.text': filter.category })
+  }
 
   if (filter.periodStart_lt) {
     //minimongo can't upsert date ? so we filter by ISO string date.
     andSelector.push({
       '__mock_meta.period.start': {
-        $gt: filter.periodStart_lt
+        $lt: filter.periodStart_lt
       }
     })
   }
@@ -46,4 +55,19 @@ exports.processingPredata = data => {
     ...data,
     __mock_meta
   }
+}
+
+exports.parseToCategories = (carePlans = []) => {
+  const groupByCategory = {}
+  for (const carePlan of carePlans) {
+    const category = carePlan.category[0].coding[0].display
+    if (!groupByCategory[category]) {
+      groupByCategory[category] = {
+        type: category, // TODO: rename type to category
+        totalCount: 0
+      }
+    }
+    groupByCategory[category].totalCount += 1
+  }
+  return Object.values(groupByCategory)
 }

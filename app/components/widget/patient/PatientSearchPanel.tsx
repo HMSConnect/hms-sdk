@@ -17,7 +17,7 @@ import PatientFilterBar, {
   IPatientFilterValue,
 } from '../../templates/patient/PatientFilterBar'
 
-const ColorButton = withStyles((theme: Theme) => ({
+export const ColorButton = withStyles((theme: Theme) => ({
   root: {
     '&:hover,&:focus': {
       backgroundColor: '#ff9800',

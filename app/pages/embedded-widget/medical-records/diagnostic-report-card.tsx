@@ -1,23 +1,15 @@
+import * as React from 'react'
+
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import DiagnosticReportCard, {
   DiagnosticReportCardWithoutModal,
 } from '@components/widget/medical-records/DiagnosticReportCard'
-import {
-  Container,
-  CssBaseline,
-  makeStyles,
-  Theme,
-  Typography,
-} from '@material-ui/core'
+import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
-import * as React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    height: '100vh',
-    paddingTop: '30px',
-  },
+  root: {},
 }))
 
 const DianosticReportCard: IStatelessPage<{
@@ -31,15 +23,11 @@ const DianosticReportCard: IStatelessPage<{
     >
       <>
         <CssBaseline />
-        <Container maxWidth='lg'>
-          <Typography component='div' className={classes.root}>
-            {query.isIncludeModal ? (
-              <DiagnosticReportCard />
-            ) : (
-              <DiagnosticReportCardWithoutModal />
-            )}
-          </Typography>
-        </Container>
+        {query.isIncludeModal ? (
+          <DiagnosticReportCard />
+        ) : (
+          <DiagnosticReportCardWithoutModal />
+        )}
       </>
     </BootstrapWrapper>
   )

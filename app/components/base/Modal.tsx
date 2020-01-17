@@ -36,7 +36,7 @@ export interface IDialogTitleProps extends WithStyles<typeof styles> {
   onClose?: () => void
 }
 
-const DialogTitle = withStyles(styles)((props: IDialogTitleProps) => {
+export const DialogTitle = withStyles(styles)((props: IDialogTitleProps) => {
   const { children, classes, onClose, ...other } = props
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
@@ -104,11 +104,67 @@ const Modal: React.FunctionComponent<{
 
 export default Modal
 
+export const FormModalContent: React.FC<{
+  onClose?: any
+  onSubmit?: any
+  onReset?: any
+  modalTitle?: string
+  isOpen: boolean
+  fullScreen: boolean
+  id: string
+  maxWidth?: false | 'sm' | 'xs' | 'md' | 'lg' | 'xl'
+}> = ({
+  id,
+  isOpen,
+  fullScreen,
+  onClose,
+  onSubmit,
+  onReset,
+  children,
+  modalTitle = 'Form Modal',
+  maxWidth = 'xs',
+}) => {
+  return (
+    <Dialog
+      onClose={onClose}
+      aria-labelledby={id}
+      open={isOpen}
+      fullScreen={fullScreen}
+      maxWidth={maxWidth}
+      fullWidth={true}
+    >
+      <DialogTitle id={id} onClose={onClose}>
+        {modalTitle}
+      </DialogTitle>
+      <DialogContent dividers>{children}</DialogContent>
+      <DialogActions>
+        {onSubmit ? (
+          <Button autoFocus onClick={onSubmit} color='secondary'>
+            Submit
+          </Button>
+        ) : null}
+        {onReset ? (
+          <Button autoFocus onClick={onReset}>
+            Reset
+          </Button>
+        ) : null}
+        {onClose ? (
+          <Button autoFocus onClick={onClose} color='primary'>
+            Close
+          </Button>
+        ) : null}
+      </DialogActions>
+    </Dialog>
+  )
+}
+
 interface IOptionModalHook {
   isOpen?: boolean | undefined
   fullScreen?: boolean
   modalTitle?: string
   params?: any
+  CustomModal?: any
+  optionCustomModal?: any
 }
 
 export const useModal = (
@@ -138,14 +194,24 @@ export const useModal = (
   }
 
   const renderModal =
-    isOpen === null ? null : (
+    isOpen === null ? null : option.CustomModal ? (
+      <option.CustomModal
+        modalTitle={option.modalTitle}
+        isOpen={isOpen}
+        onClose={handleModalClose}
+        fullScreen={option.fullScreen}
+        {...option.optionCustomModal}
+      >
+        <ModalContenent {...option.params} />
+      </option.CustomModal>
+    ) : (
       <Modal
         modalTitle={option.modalTitle}
         isOpen={isOpen}
         onClose={handleModalClose}
         fullScreen={option.fullScreen}
       >
-        <ModalContenent />
+        <ModalContenent {...option.params} />
       </Modal>
     )
 

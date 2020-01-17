@@ -14,8 +14,7 @@ import { parse } from '@utils'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    height: '100vh',
-    paddingTop: '30px',
+
   },
 }))
 
@@ -28,11 +27,7 @@ const AllergyIntoleranceCardPage: IStatelessPage<{
     <BootstrapWrapper dependencies={['allergy_intolerance']}>
       <>
         <CssBaseline />
-        <Container maxWidth='lg'>
-          <Typography component='div' className={classes.root}>
-            <AllergyIntoleranceCard />
-          </Typography>
-        </Container>
+        <AllergyIntoleranceCard />
       </>
     </BootstrapWrapper>
   )

@@ -51,3 +51,25 @@ export const sendMessage = (message: IPostMessage) => {
     )
   }
 }
+
+export const countFilterActive = (
+  filter: any,
+  initialFilter: any,
+  excludeFilter?: any[],
+) => {
+  let filterWithoutExcludeFilter = filter
+  if (!_.isEmpty(excludeFilter)) {
+    filterWithoutExcludeFilter = _.omit(
+      filterWithoutExcludeFilter,
+      excludeFilter,
+    )
+  }
+  let count = 0
+  _.forEach(filterWithoutExcludeFilter, (value, key) => {
+    if (value !== initialFilter[key]) {
+      count++
+    }
+  })
+
+  return count
+}

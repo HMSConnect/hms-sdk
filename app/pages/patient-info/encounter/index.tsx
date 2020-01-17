@@ -10,8 +10,8 @@ import { IStatelessPage } from '@pages/patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    height: '100vh',
-    paddingTop: '30px',
+    // height: '100vh',
+    // paddingTop: '30px',
   },
 }))
 
@@ -32,22 +32,22 @@ const EncounterPage: IStatelessPage<{
       <>
         <CssBaseline />
         <Container maxWidth='lg'>
-          <Typography component='div' className={classes.root}>
-            <BreadcrumbsBase
-              currentPath='Patient Info'
-              parentPath={[
-                {
-                  icon: <HomeIcon />,
-                  label: 'Home',
-                  url: '/',
-                },
-                {
-                  label: 'Patient Search',
-                },
-              ]}
-            ></BreadcrumbsBase>
-            <PatientInfoDetail query={query} />
-          </Typography>
+        <Typography component='div' className={classes.root}>
+          <BreadcrumbsBase
+            currentPath='Patient Info'
+            parentPath={[
+              {
+                icon: <HomeIcon />,
+                label: 'Home',
+                url: '/',
+              },
+              {
+                label: 'Patient Search',
+              },
+            ]}
+          ></BreadcrumbsBase>
+          <PatientInfoDetail query={query} />
+        </Typography>
         </Container>
       </>
     </BootstrapWrapper>

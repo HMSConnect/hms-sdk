@@ -11,11 +11,11 @@ export interface ILazyLoadOption {
 const useInfinitScroll = (
   refElement: HTMLDivElement | null,
   fetchMoreAsync: (lastEntry: any) => Promise<any>,
-  defaultList?: any[]
+  defaultList?: any[],
 ): any => {
   const [result, setResult] = useState<IQueryResult>({
     data: [],
-    error: null
+    error: null,
   })
   const [isLoading, setLoading] = useState<boolean>(true)
   const [isMore, setIsMore] = useState<boolean>(true)
@@ -29,7 +29,7 @@ const useInfinitScroll = (
     } else {
       const myscrollRef = (refElement as any) as HTMLDivElement
       myscrollRef.addEventListener('scroll', () =>
-        handleElementScroll(myscrollRef)
+        handleElementScroll(myscrollRef),
       )
 
       return () =>
@@ -50,7 +50,7 @@ const useInfinitScroll = (
             setResult((prevData: any) => ({
               ...prevData,
               data: _.concat(prevData.data, entryData),
-              error: null
+              error: null,
             }))
           } else {
             setIsMore(false)
@@ -58,13 +58,13 @@ const useInfinitScroll = (
         } catch (error) {
           setResult((prevResult: IQueryResult) => ({
             ...prevResult,
-            error: error.message ? error.message : error
+            error: error.message ? error.message : error,
           }))
         } finally {
           setLoading(false)
-          setIsFetch(false)
         }
       }
+      setIsFetch(false)
     })()
   }, [isFetch])
 
@@ -94,20 +94,20 @@ const useInfinitScroll = (
     if (defaultList) {
       setResult((prevData: any) => ({
         ...prevData,
-        data: defaultList
+        data: defaultList,
       }))
     }
     setLoading(false)
   }, [defaultList])
 
   return {
+    isFetch,
     isLoading,
-    ...result,
-    setResult,
     isMore,
+    ...result,
     setIsFetch,
     setIsMore,
-    isFetch
+    setResult,
   }
 }
 

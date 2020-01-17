@@ -38,6 +38,8 @@ exports.createOptions = (query, options = {}) => {
 
   if (query._lasted) {
     options.limit = 1
+  } else {
+    options.limit = query.max ? Number(query.max) : 10
   }
   options.sort = [[orderBy || `__mock_meta.issued`, order || 'desc']]
   return options
@@ -55,4 +57,20 @@ exports.processingPredata = data => {
     ...data,
     __mock_meta
   }
+}
+
+exports.parseToObservation = (observations = []) => {
+  const groupObservationsByType = {}
+  for (const observation of observations) {
+    const category = observation.category[0].coding[0].display
+
+    if (!groupObservationsByType[category]) {
+      groupObservationsByType[category] = {
+        type: category,
+        totalCount: 0
+      }
+    }
+    groupObservationsByType[category].totalCount += 1
+  }
+  return Object.values(groupObservationsByType)
 }

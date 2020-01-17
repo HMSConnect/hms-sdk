@@ -4,10 +4,10 @@ const config = require('../../config')
 const mockStorage = require('../../storage')
 const utilsService = require('../../services/utils')
 const encounterService = require('../../services/encounter')
-const carePlanService = require('../../services/care_plan')
+const diagnosticReportService = require('../../services/diagnostic_report')
 const db = mockStorage.getDB()
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
     if (db['encounter']) {
       const selector = req.query.filter
@@ -20,18 +20,53 @@ router.get('/', (req, res) => {
           )
         : {}
 
-      db['encounter'].find(selector, options).fetch(
-        results => {
-          res.json({
-            error: null,
-            schema: { ...config.defaultSchema, resourceType: 'encounter' },
-            data: results
-          })
-        },
-        error => {
-          throw error
+      const encounterResults = await new Promise((resolve, reject) => {
+        db['encounter'].find(selector, options).fetch(resolve, reject)
+      })
+
+      let results = []
+      if (
+        req.query.withOrganization == 'true' ||
+        req.query.withDiagnosticReport == 'true'
+      ) {
+        // query not cast boolean
+        for (const encounterResult of encounterResults) {
+          if (req.query.withOrganization == 'true') {
+            if (encounterResult.serviceProvider.reference) {
+              const organizationId = encounterResult.serviceProvider.reference.split(
+                '/'
+              )[1]
+              encounterResult.organization = await createOrganization(
+                organizationId
+              )
+            } else {
+              encounterResult.organization = {}
+            }
+          }
+
+          if (req.query.withDiagnosticReport == 'true') {
+            if (encounterResult.id) {
+              encounterResult.diagnosticReport = await createDiagnosticReport(
+                encounterResult.id
+              )
+            } else {
+              encounterResult.diagnosticReport = {}
+            }
+          }
+
+          results.push(encounterResult)
         }
-      )
+      }
+
+      if (results.lenght === 0) {
+        results = encounterResults
+      }
+
+      res.json({
+        error: null,
+        schema: { ...config.defaultSchema, resourceType: 'encounter' },
+        data: results
+      })
     } else {
       throw new Error("The domain resource doesn't exist")
     }
@@ -70,6 +105,35 @@ router.get('/type', (req, res) => {
   }
 })
 
+async function createOrganization(organizationId) {
+  const organization = await new Promise((resolve, reject) => {
+    db['organization'].findOne(
+      { id: { $regex: organizationId, $options: 'i' } },
+      {},
+      resolve,
+      reject
+    )
+  })
+  return {
+    schema: { ...config.defaultSchema, resourceType: 'organization' },
+    ...organization
+  }
+}
+
+async function createDiagnosticReport(encounterId) {
+  const diagnosticReport = await new Promise((resolve, reject) => {
+    db['diagnostic_report'].findOne(
+      diagnosticReportService.createSelector({ encounterId }),
+      {},
+      resolve,
+      reject
+    )
+  })
+  return {
+    schema: { ...config.defaultSchema, resourceType: 'diagnostic_report' },
+    ...diagnosticReport
+  }
+}
 // router.get('/resource-list', async (req, res) => {
 //   const domainResources = mockStorage
 //     .getDomainNameResourceList()

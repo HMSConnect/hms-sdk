@@ -5,6 +5,7 @@ import * as _ from 'lodash'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 import GridCardSelector from './GridCardSelector'
 import SelectOption from './SelectOption'
+import { sendMessage } from '@utils'
 
 const useStyles = makeStyles((theme: Theme) => ({
   gridSelectionLayout: {
@@ -119,6 +120,12 @@ const GridSelector: React.FunctionComponent<{
     const dimention = event.target.value as IDimention
     setDimention(dimention)
     saveAndSetLayout(_.merge(layout, GRID_LAYOUT[dimention]), dimention)
+    sendMessage({
+      message: 'handleDimentionChange',
+      params: {
+        dimention,
+      },
+    })
   }
 
   const handleLayoutChange = (currentLayout: any) => {

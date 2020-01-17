@@ -9,6 +9,14 @@ type DependencyType =
   | 'diagnostic_report'
   | 'observation'
   | 'allergy_intolerance'
+  | 'claim'
+  | 'condition'
+  | 'imaging_study'
+  | 'immunization'
+  | 'procedure'
+  | 'medication_request'
+  | 'care_plan'
+  | 'organization'
 
 const BootstrapWrapper: React.FunctionComponent<{
   dependencies: DependencyType[]

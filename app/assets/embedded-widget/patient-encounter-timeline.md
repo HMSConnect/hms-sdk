@@ -14,6 +14,12 @@ Replace `/embedded-widget/patient-info/encounter-timeline/:patientId` url to you
 | --------- | ----------- | ------------------------ |
 | patientId | string      | `required` ID of patient |
 
+**Query Params**
+| Key                   | Type/Format | Default   | Description                                                                                |
+| --------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------ |
+| initialFilter[status] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
+| max                   | number      | 20        | Number of total records in one page                                                        |
+
 ## Response
 - **Object Response**
     You can learn this in topic [Getting started with HMS Widget](/embedded-widget?widget=get-started)

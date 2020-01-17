@@ -4,9 +4,10 @@ import { IPageOptionResult } from '@components/base/Pagination'
 import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
-import PatientSearchResultWithPaginate, { defaultPagination } from '@components/widget/patient/PatientSearchResultWithPaginate'
-import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
-import Container from '@material-ui/core/Container'
+import PatientSearchResultWithPaginate, {
+  defaultPagination,
+} from '@components/widget/patient/PatientSearchResultWithPaginate'
+import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import RouterManager from '@routes/RouteManager'
 import { parse, sendMessage } from '@utils'
@@ -14,10 +15,7 @@ import * as _ from 'lodash'
 import routes from '../../routes'
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    height: '100vh',
-    paddingTop: '30px',
-  },
+  root: {},
 }))
 
 const PatientSearchResultWidget: IStatelessPage<{
@@ -100,16 +98,12 @@ const PatientSearchResultWidget: IStatelessPage<{
     <BootstrapWrapper dependencies={['patient']}>
       <>
         <CssBaseline />
-        <Container maxWidth='lg'>
-          <Typography component='div' className={classes.root}>
-            <PatientSearchResultWithPaginate
-              paginationOption={pagination}
-              onRequestSort={handleRequestSort}
-              onPageChange={handlePageChange}
-              onPatientSelect={handlePatientSelect}
-            />
-          </Typography>
-        </Container>
+        <PatientSearchResultWithPaginate
+          paginationOption={pagination}
+          onRequestSort={handleRequestSort}
+          onPageChange={handlePageChange}
+          onPatientSelect={handlePatientSelect}
+        />
       </>
     </BootstrapWrapper>
   )
@@ -133,7 +127,7 @@ export function initialPagination(query: any) {
   }
 
   query = parse(query)
-  return {  
+  return {
     filter: _.isEmpty(query.filter) ? initialFilter : query.filter,
     max: query.max ? Number(query.max) : defaultPagination.max,
     offset: query.offset ? Number(query.offset) : defaultPagination.offset,

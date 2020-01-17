@@ -4,8 +4,7 @@ import { IPaginationOption } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
 import PatientSearchPanel from '@components/widget/patient/PatientSearchPanel'
-import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
-import Container from '@material-ui/core/Container'
+import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import RouteManager from '@routes/RouteManager'
 import { HMSService } from '@services/HMSServiceFactory'
@@ -14,10 +13,7 @@ import { parse, sendMessage } from '@utils'
 import qs from 'qs'
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    height: '100vh',
-    paddingTop: '30px',
-  },
+  root: {},
 }))
 
 const PatientSearchBar: IStatelessPage<{
@@ -89,15 +85,11 @@ const PatientSearchBar: IStatelessPage<{
     <BootstrapWrapper dependencies={['patient']}>
       <>
         <CssBaseline />
-        <Container maxWidth='lg'>
-          <Typography component='div' className={classes.root}>
-            <PatientSearchPanel
-              initialFilter={pagination.filter}
-              onSearchSubmit={handleSearchSubmit}
-              onPaginationReset={handlePaginationReset}
-            />
-          </Typography>
-        </Container>
+        <PatientSearchPanel
+          initialFilter={pagination.filter}
+          onSearchSubmit={handleSearchSubmit}
+          onPaginationReset={handlePaginationReset}
+        />
       </>
     </BootstrapWrapper>
   )

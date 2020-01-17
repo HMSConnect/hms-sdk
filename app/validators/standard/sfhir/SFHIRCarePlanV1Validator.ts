@@ -1,5 +1,7 @@
+import environment from '@environment'
 import IValidator from '@validators/IValidator'
-
+import * as _ from 'lodash'
+import * as moment from 'moment'
 class SFHIRCarePlanV1Validator implements IValidator {
   isValid(schema: any): boolean {
     return (
@@ -10,7 +12,22 @@ class SFHIRCarePlanV1Validator implements IValidator {
   }
 
   parse(carePlan: any): any {
-    return carePlan
+    return {
+      activity: _.get(carePlan, 'activity'),
+      category: _.chain(carePlan.category)
+        .map(category => category.text)
+        .join(', ')
+        .value(),
+      periodStart: _.get(carePlan, 'period.start')
+        ? moment.default(_.get(carePlan, 'period.start')).toDate()
+        : null,
+      periodStartText: _.get(carePlan, 'period.start')
+        ? moment
+            .default(_.get(carePlan, 'period.start'))
+            .format(environment.localFormat.dateTime)
+        : null,
+      status: _.get(carePlan, 'status'),
+    }
   }
 }
 
