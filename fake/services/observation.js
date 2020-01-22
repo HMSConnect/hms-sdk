@@ -74,8 +74,25 @@ exports.processingPredata = data => {
   }
 
   return {
-    ...data,
+    ...prepareMockData(data),
     __mock_meta
+  }
+  // return {
+  //   ...data,
+  //   __mock_meta
+  // }
+}
+
+function prepareMockData(observation) {
+  const issued = moment(observation.issued).toDate()
+  return {
+    ...observation,
+    referenceRange: [
+      {
+        high: 180,
+        type: 'normal'
+      }
+    ]
   }
 }
 

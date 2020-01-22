@@ -23,6 +23,16 @@ module.exports = nextRoutes()
     '/embedded-widget/patient-info/:patientId/encounter/:encounterId',
   )
   .add(
+    'embedded-widget/patient-info/encounter/blood-pressure-card',
+    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/blood-pressure-card',
+    'embedded-widget/patient-info/patient-observation-blood-pressure-card',
+  )
+  .add(
+    'embedded-widget/patient-info/encounter/demographic',
+    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/demographic-summary',
+    'embedded-widget/patient-info/patient-demographic-summary',
+  )
+  .add(
     'embedded-widget/patient-info/encounter-timeline',
     '/embedded-widget/patient-info/encounter-timeline/:patientId',
     'embedded-widget/patient-info/patient-encounter-timeline',

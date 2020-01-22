@@ -539,6 +539,12 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'max',
         },
         {
+          defaultValue: true,
+          label: 'Routeable',
+          type: 'boolean',
+          value: 'isRouteable',
+        },
+        {
           defaultValue: '',
           label: 'InitialFilter[status]',
           type: 'text',
@@ -840,6 +846,50 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
         },
       ],
       value: 'patient-imaging-study-table',
+    },
+    {
+      document: `# Coming soon`,
+      label: 'Observation Blood Pressure Card',
+      parameters: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          label: 'Encounter ID',
+          type: 'text',
+          value: 'encounterId',
+        },
+      ],
+      path:
+        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/blood-pressure-card',
+      queryParams: [],
+      value: 'observation-blood-pressure-card',
+    },
+    {
+      document: `# Coming soon`,
+      label: 'Patient Demographic Summary',
+      parameters: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          label: 'Encounter ID',
+          type: 'text',
+          value: 'encounterId',
+        },
+      ],
+      path:
+        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/demographic-summary',
+      queryParams: [],
+      value: 'patient-demographic-summary',
     },
   ],
   label: 'Patient',

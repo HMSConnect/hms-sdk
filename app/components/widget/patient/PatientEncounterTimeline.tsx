@@ -57,18 +57,22 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   isInitialize?: boolean
   max?: number
   initialFilter?: IEncounterListFilterQuery
+  isContainer?: boolean
+  isRouteable?: boolean
 }> = ({
   query,
   patientId,
   resourceList,
   isInitialize,
   max = 20,
+  isContainer = true,
   initialFilter: customInitialFilter = {
     patientId,
     periodStart_lt: undefined,
     status: '',
     type: undefined,
   },
+  isRouteable = true,
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithEncounterInitialFilterQuery(customInitialFilter, {
@@ -124,7 +128,11 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     setIsMore,
     setResult,
     isMore,
-  } = useInfinitScroll(myscroll.current, fetchMoreAsync, resourceList)
+  } = useInfinitScroll(
+    isContainer ? myscroll.current : null,
+    fetchMoreAsync,
+    resourceList,
+  )
 
   useEffect(() => {
     if (isInitialize) {
@@ -152,7 +160,9 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       params: newParams,
       path,
     })
-    routes.Router.replaceRoute(path)
+    if (isRouteable) {
+      routes.Router.replaceRoute(path)
+    }
   }
   const fetchData = async (filter: any) => {
     setFilter(filter)

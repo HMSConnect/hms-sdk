@@ -230,11 +230,11 @@ const EncounterListItem: React.FunctionComponent<{
         </ListItemSecondaryAction>
       </ListItem>
       <Collapse in={open} timeout='auto' unmountOnExit>
-        <Grid container>
-          <Grid item xs={3}>
+        <div style={{ display: 'flex' }}>
+          <div style={{ flex: 1 }}>
             <div className={classes.lineColapse}></div>
-          </Grid>
-          <Grid item xs={9}>
+          </div>
+          <div style={{ flex: 10 }}>
             <List component='div'>
               <ListItem
                 button
@@ -265,8 +265,8 @@ const EncounterListItem: React.FunctionComponent<{
                 />
               </ListItem>
             </List>
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </Collapse>
     </>
   )
