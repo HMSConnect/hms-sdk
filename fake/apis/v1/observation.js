@@ -6,7 +6,7 @@ const utilService = require('../../services/utils')
 const observationService = require('../../services/observation')
 const db = mockStorage.getDB()
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
     if (db['observation']) {
       const selector = req.query.filter
@@ -16,21 +16,31 @@ router.get('/', (req, res) => {
         ? observationService.createOptions(req.query)
         : {}
 
-      db['observation'].find(selector, options).fetch(
-        results => {
-          res.json({
-            error: null,
-            schema: {
-              ...config.defaultSchema,
-              resourceType: 'observation'
-            },
-            data: results
-          })
+      let results = await new Promise((resolve, reject) => {
+        db['observation'].find(selector, options).fetch(resolve, reject)
+      })
+
+      // specific case
+      if (
+        req.query &&
+        req.query.filter &&
+        req.query._lasted === 'true' &&
+        req.query.filter.codes
+      ) {
+        results = observationService.mappingLastIssueByCodes(
+          results,
+          req.query.filter.codes
+        )
+      }
+
+      res.json({
+        error: null,
+        schema: {
+          ...config.defaultSchema,
+          resourceType: 'observation'
         },
-        error => {
-          throw error
-        }
-      )
+        data: results
+      })
     } else {
       throw new Error("The domain resource doesn't exist")
     }
@@ -55,7 +65,38 @@ router.get('/category', (req, res) => {
           res.json({
             error: null,
             schema: { ...config.defaultSchema, resourceType: 'observation' },
-            data: observationService.parseToObservation(results)
+            data: observationService.parseToCategories(results)
+          })
+        },
+        error => {
+          throw error
+        }
+      )
+    } else {
+      throw new Error("The domain resource doesn't exist")
+    }
+  } catch (error) {
+    console.error(error)
+    res.json({ error: error.message, data: null })
+  }
+})
+
+router.get('/code', (req, res) => {
+  try {
+    if (db['observation']) {
+      const selector = req.query.filter
+        ? observationService.createSelector(req.query.filter)
+        : {}
+      const options = req.query
+        ? observationService.createOptions(req.query)
+        : {}
+      // force limit for find all type
+      db['observation'].find(selector, { ...options, limit: null }).fetch(
+        results => {
+          res.json({
+            error: null,
+            schema: { ...config.defaultSchema, resourceType: 'observation' },
+            data: observationService.parseToCodes(results)
           })
         },
         error => {

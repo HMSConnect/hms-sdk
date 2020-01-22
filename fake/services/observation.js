@@ -17,6 +17,21 @@ exports.createSelector = (filter = {}) => {
     andSelector.push({ 'category.coding.code': filter.categoryCode })
   }
 
+  if (filter.code) {
+    const regExp = new RegExp(`.*${filter.code}.*`, 'i')
+    andSelector.push({ 'code.coding.code': regExp })
+  }
+
+  if (filter.codes) {
+    const codes = filter.codes.trim().split(',')
+    const orSelector = []
+    for (const code of codes) {
+      const regExp = new RegExp(`.*${code}.*`, 'i')
+      orSelector.push({ 'code.coding.code': regExp })
+    }
+    andSelector.push({ $or: orSelector })
+  }
+
   if (filter.issued_lt) {
     //minimongo can't upsert date, so I filter by ISOString date.
     andSelector.push({
@@ -41,6 +56,11 @@ exports.createOptions = (query, options = {}) => {
   } else {
     options.limit = query.max ? Number(query.max) : 10
   }
+
+  if (query._lasted === 'true' && query.filter.codes) {
+    options.limit = null
+  }
+
   options.sort = [[orderBy || `__mock_meta.issued`, order || 'desc']]
   return options
 }
@@ -59,18 +79,54 @@ exports.processingPredata = data => {
   }
 }
 
-exports.parseToObservation = (observations = []) => {
-  const groupObservationsByType = {}
+exports.parseToCategories = (observations = []) => {
+  const groupObservationsByCategory = {}
   for (const observation of observations) {
     const category = observation.category[0].coding[0].display
 
-    if (!groupObservationsByType[category]) {
-      groupObservationsByType[category] = {
+    if (!groupObservationsByCategory[category]) {
+      groupObservationsByCategory[category] = {
         type: category,
         totalCount: 0
       }
     }
-    groupObservationsByType[category].totalCount += 1
+    groupObservationsByCategory[category].totalCount += 1
   }
-  return Object.values(groupObservationsByType)
+  return Object.values(groupObservationsByCategory)
+}
+
+exports.parseToCodes = (observations = []) => {
+  const groupObservationsByCode = {}
+  for (const observation of observations) {
+    const coding = observation.code.coding[0]
+
+    if (!groupObservationsByCode[coding.code]) {
+      groupObservationsByCode[coding.code] = {
+        code: coding.code,
+        display: coding.display,
+        totalCount: 0
+      }
+    }
+    groupObservationsByCode[coding.code].totalCount += 1
+  }
+  return Object.values(groupObservationsByCode)
+}
+
+exports.mappingLastIssueByCodes = (observations = [], codeFields) => {
+  const codes = codeFields.trim().split(',')
+  const results = []
+  for (const code of codes) {
+    const resultCodes = observations.filter(item => {
+      return item.code.coding && item.code.coding[0].code === code
+    })
+
+    const resultSortByLastIssued = resultCodes.sort((a, b) =>
+      moment(a.issued).diff(moment(b.issued))
+    )
+
+    if (resultSortByLastIssued.length > 0) {
+      results.push(resultSortByLastIssued[0])
+    }
+  }
+  return results
 }
