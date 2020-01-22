@@ -5,6 +5,8 @@ import DataManager from './DataManager'
 
 export interface IObservationListQuery extends IListDefaultQuery {
   filter?: IObservationListFilterQuery
+  _lasted?: boolean
+  max?: number
 }
 
 export interface IObservationListFilterQuery {
@@ -12,6 +14,8 @@ export interface IObservationListFilterQuery {
   encounterId?: string
   categoryCode?: string
   issued_lt?: Date | string
+  code?: string
+  codes?: string
 }
 
 export function mergeWithObservationInitialFilterQuery(
@@ -20,6 +24,7 @@ export function mergeWithObservationInitialFilterQuery(
 ): IObservationListFilterQuery {
   return defaults(initialFilter, {
     categoryCode: undefined,
+    code: '',
     issued_lt: undefined,
     patientId: get(fixFilter, 'patientId'),
     status: '',

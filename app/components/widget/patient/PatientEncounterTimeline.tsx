@@ -51,22 +51,28 @@ export interface ITableCellProp {
 }
 
 const PatientEncounterTimeline: React.FunctionComponent<{
+  query: any
   patientId: any
   resourceList?: any[]
   isInitialize?: boolean
   max?: number
   initialFilter?: IEncounterListFilterQuery
+  isContainer?: boolean
+  isRouteable?: boolean
 }> = ({
+  query,
   patientId,
   resourceList,
   isInitialize,
   max = 20,
+  isContainer = true,
   initialFilter: customInitialFilter = {
     patientId,
     periodStart_lt: undefined,
     status: '',
     type: undefined,
   },
+  isRouteable = true,
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithEncounterInitialFilterQuery(customInitialFilter, {
@@ -89,21 +95,15 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     const encounterService = HMSService.getService(
       'encounter',
     ) as EncounterService
-
     const newFilter: IEncounterListFilterQuery = {
       ...filter,
-      periodStart_lt: _.get(lastEntry, 'assertedDate'),
+      periodStart_lt: _.get(lastEntry, 'startTime'),
     }
-    // setFilter(newFilter)
     const newLazyLoad = {
-      filter: {
-        ...filter,
-        periodStart_lt: _.get(lastEntry, 'startTime'),
-      },
+      filter: newFilter,
       max,
       withOrganization: true,
     }
-
     const entryData = await encounterService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
       sendMessage({
@@ -128,7 +128,11 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     setIsMore,
     setResult,
     isMore,
-  } = useInfinitScroll(null, fetchMoreAsync, resourceList)
+  } = useInfinitScroll(
+    isContainer ? myscroll.current : null,
+    fetchMoreAsync,
+    resourceList,
+  )
 
   useEffect(() => {
     if (isInitialize) {
@@ -136,7 +140,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  const handleEncounterSelect = async (
+  const handleEncounterSelect = (
     event: React.MouseEvent,
     selectedEncounter: any,
   ) => {
@@ -156,9 +160,10 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       params: newParams,
       path,
     })
-    routes.Router.pushRoute(path, newParams)
+    if (isRouteable) {
+      routes.Router.replaceRoute(path)
+    }
   }
-
   const fetchData = async (filter: any) => {
     setFilter(filter)
     setIsMore(true)
@@ -237,34 +242,38 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   })
 
   return (
-    <>
+    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Encounter'}
           onClickIcon={showModal}
           filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'assertedDate_lt',
+            'periodStart_lt',
             'patientId',
           ])}
+          option={{
+            isHideIcon: true,
+            style: {
+              backgroundColor: '#303f9f',
+              color: '#e1f5fe',
+            },
+          }}
         >
           {renderModal}
         </ToolbarWithFilter>
       </div>
-      <div
-        ref={myscroll}
-        className={classes.tableWrapper}
-        data-testid='scroll-container'
-      >
+      <div className={classes.tableWrapper} data-testid='scroll-container'>
         <PatientEncounterList
           entryList={data}
           onEntrySelected={handleEncounterSelect}
           isLoading={isLoading}
           isMore={isMore}
+          query={query}
         />
       </div>
 
       {error ? <>There Have Error : {error}</> : null}
-    </>
+    </div>
   )
 }
 

@@ -5,6 +5,8 @@ import DataManager from './DataManager'
 
 export interface IEncounterListQuery extends IListDefaultQuery {
   filter?: IEncounterListFilterQuery
+  max?: number
+  withOrganization?: boolean
 }
 
 export interface IEncounterListFilterQuery {

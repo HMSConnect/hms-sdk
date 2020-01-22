@@ -1,14 +1,24 @@
 import * as React from 'react'
 
-import environment from '@environment'
 import { Grid, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
-import * as moment from 'moment'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  contentText: {
+    color: '#37474f',
+  },
+  headerTitle: {
+    color: 'grey',
+  },
+  nameTitle: {
+    color: '#455a64',
+  },
   root: {
     flexGrow: 1,
+  },
+  topicTitle: {
+    color: 'grey',
   },
 }))
 
@@ -21,7 +31,7 @@ const PatientInfoPanel: React.FunctionComponent<{
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Typography variant='h5'>
+            <Typography variant='h4' className={classes.nameTitle}>
               {_.isArray(_.get(info, 'name.prefix'))
                 ? _.join(_.get(info, 'name.prefix'), ' ')
                 : _.get(info, 'name.prefix')}{' '}
@@ -35,36 +45,77 @@ const PatientInfoPanel: React.FunctionComponent<{
           </Grid>
           <Grid item xs={12}>
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={3}>
                 <Grid container>
                   <Grid item xs={12}>
-                    <Typography variant='body1'>
-                      Gender : {_.get(info, 'gender') || 'Unknow'}
+                    <Typography
+                      variant='body1'
+                      className={classes.topicTitle}
+                      component='span'
+                    >
+                      Age :{' '}
+                    </Typography>
+                    <Typography
+                      component='span'
+                      variant='h6'
+                      className={classes.contentText}
+                    >
+                      {_.get(info, 'age') || 'Unknow'}
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography variant='body1'>
-                      Email : {_.get(info, 'email') || 'Unknow'}
+                    <Typography component='div' variant='body1'>
+                      <Typography
+                        variant='body1'
+                        className={classes.topicTitle}
+                        component='span'
+                      >
+                        Gender :{' '}
+                      </Typography>
+                      <Typography
+                        component='span'
+                        variant='h6'
+                        className={classes.contentText}
+                      >
+                        {_.startCase(_.get(info, 'gender')) || 'Unknow'}
+                      </Typography>
                     </Typography>
                   </Grid>
-                  {/* <Grid item xs={12}>
-                    <Typography variant='body1'>
-                      ID : {_.get(info, 'identifier.id.value') || 'Unknow'}
+
+                  <Grid item xs={12}>
+                    <Typography
+                      variant='body1'
+                      className={classes.topicTitle}
+                      component='span'
+                    >
+                      DOB :{' '}
                     </Typography>
-                  </Grid> */}
+                    <Typography
+                      component='span'
+                      variant='h6'
+                      className={classes.contentText}
+                    >
+                      {_.get(info, 'birthDate')}
+                    </Typography>
+                  </Grid>
                 </Grid>
               </Grid>
 
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={3}>
                 <Grid container>
                   <Grid item xs={12}>
-                    <Typography variant='body1'>
-                      DOB : {_.get(info, 'birthDate')}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant='body1'>
+                    <Typography
+                      variant='body1'
+                      className={classes.topicTitle}
+                      component='span'
+                    >
                       Phone :{' '}
+                    </Typography>
+                    <Typography
+                      component='span'
+                      variant='h6'
+                      className={classes.contentText}
+                    >
                       {_.get(info, 'telecom')
                         ? _.isArray(_.get(info, 'telecom'))
                           ? _.join(
@@ -77,24 +128,42 @@ const PatientInfoPanel: React.FunctionComponent<{
                         : 'Unknow'}
                     </Typography>
                   </Grid>
-                  {/* <Grid item xs={12}>
-                    <Typography variant='body1'>
-                      MRN : {_.get(info, 'identifier.dl.value') || 'Unknow'}
-                    </Typography>
-                  </Grid> */}
+                  {info.email && (
+                    <Grid item xs={12}>
+                      <Typography
+                        variant='body1'
+                        className={classes.topicTitle}
+                        component='span'
+                      >
+                        Email :{' '}
+                      </Typography>
+                      <Typography
+                        component='span'
+                        variant='h6'
+                        className={classes.contentText}
+                      >
+                        {_.get(info, 'email') || 'Unknow'}
+                      </Typography>
+                    </Grid>
+                  )}
                 </Grid>
               </Grid>
 
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={3}>
                 <Grid container>
                   <Grid item xs={12}>
-                    <Typography variant='body1'>
-                      Age : {_.get(info, 'age') || 'Unknow'}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant='body1'>
+                    <Typography
+                      variant='body1'
+                      className={classes.topicTitle}
+                      component='span'
+                    >
                       Address :{' '}
+                    </Typography>
+                    <Typography
+                      component='span'
+                      variant='h6'
+                      className={classes.contentText}
+                    >
                       {_.get(info, 'address')
                         ? `${
                             _.isArray(_.get(info, 'address[0].line'))
@@ -104,16 +173,6 @@ const PatientInfoPanel: React.FunctionComponent<{
                             info,
                             'address[0].city',
                           )} ${_.get(info, 'address[0].country')}`
-                        : 'Unknow'}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant='body1'>
-                      Deceased :{' '}
-                      {_.get(info, 'deceasedDateTime')
-                        ? moment
-                            .default(_.get(info, 'deceasedDateTime'))
-                            .format(environment.localFormat.dateTime)
                         : 'Unknow'}
                     </Typography>
                   </Grid>

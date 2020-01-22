@@ -4,7 +4,7 @@ import * as _ from 'lodash'
 import { IQueryResult } from './usePatientList'
 
 export interface ILazyLoadOption {
-  max: number
+  max?: number
   filter?: any
 }
 
@@ -12,6 +12,7 @@ const useInfinitScroll = (
   refElement: HTMLDivElement | null,
   fetchMoreAsync: (lastEntry: any) => Promise<any>,
   defaultList?: any[],
+  option?: ILazyLoadOption,
 ): any => {
   const [result, setResult] = useState<IQueryResult>({
     data: [],
@@ -52,6 +53,9 @@ const useInfinitScroll = (
               data: _.concat(prevData.data, entryData),
               error: null,
             }))
+            if (option && option.max && entryData.length < option.max) {
+              setIsMore(false)
+            }
           } else {
             setIsMore(false)
           }

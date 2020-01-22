@@ -13,6 +13,11 @@ import FilterListIcon from '@material-ui/icons/FilterList'
 import { makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 
+interface IToolbarWithFilterOption {
+  style?: any
+  additionButton?: any
+  isHideIcon?: boolean
+}
 const useStyles = makeStyles((theme: Theme) => ({
   additionInputLayout: {
     flex: '3 3 100%',
@@ -43,12 +48,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const ToolbarWithFilter: React.FC<any> = ({
+const ToolbarWithFilter: React.FC<{
+  title?: string
+  onClickIcon?: (event: any) => void
+  Icon?: any
+  filterActive?: number
+  option?: IToolbarWithFilterOption
+}> = ({
   onClickIcon,
   children,
   title = 'Toolbar Title',
   Icon = <FilterListIcon />,
-  filterActive,
+  filterActive = 0,
   option = {},
 }) => {
   const classes = useStyles()
@@ -56,8 +67,9 @@ const ToolbarWithFilter: React.FC<any> = ({
     <>
       <Toolbar
         className={clsx(classes.root, {
-          [classes.highlight]: true,
+          [classes.highlight]: !option.style,
         })}
+        style={option.style}
       >
         <Typography className={classes.title} variant='h6'>
           {title}
@@ -65,19 +77,22 @@ const ToolbarWithFilter: React.FC<any> = ({
         <div className={classes.additionInputLayout}>
           {option.additionButton}
         </div>
-        <Tooltip title='Filter list'>
-          <Badge
-            color='secondary'
-            badgeContent={filterActive}
-            className={classes.margin}
-            max={999}
-          >
-            <IconButton aria-label='filter list' onClick={onClickIcon}>
-              {Icon}
-            </IconButton>
-          </Badge>
-        </Tooltip>
+        {option.isHideIcon ? null : (
+          <Tooltip title='Filter list'>
+            <Badge
+              color='secondary'
+              badgeContent={filterActive}
+              className={classes.margin}
+              max={999}
+            >
+              <IconButton aria-label='filter list' onClick={onClickIcon}>
+                {Icon}
+              </IconButton>
+            </Badge>
+          </Tooltip>
+        )}
       </Toolbar>
+
       {children}
     </>
   )

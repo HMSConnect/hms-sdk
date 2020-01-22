@@ -13,9 +13,11 @@ class SFHIRObservationV1Validator implements IValidator {
 
   parse(observation: any): any {
     const valueQuantity = _.get(observation, 'valueQuantity.value')
+    // console.log('observation :', observation)
     return {
       categoryText: _.get(observation, 'category[0].coding[0].display'),
       codeText: _.get(observation, 'code.text'),
+      code: _.get(observation, 'code.coding[0].code'),
       display: observation.display,
       issued: _.get(observation, 'issued')
         ? moment
@@ -44,8 +46,14 @@ class SFHIRObservationV1Validator implements IValidator {
             }))
             .value()
         : _.isNumber(valueQuantity)
-        ? Number(valueQuantity).toFixed(6)
+        ? [
+            {
+              code: observation.code.text,
+              value: observation.valueQuantity.value,
+            },
+          ]
         : valueQuantity,
+      referenceRange: observation.referenceRange,
     }
   }
 }
