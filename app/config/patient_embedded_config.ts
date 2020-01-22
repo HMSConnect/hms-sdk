@@ -891,6 +891,50 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       queryParams: [],
       value: 'patient-demographic-summary',
     },
+    {
+      document: `# Coming soon`,
+      label: 'Observaion Laboratory Table',
+      parameters: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          label: 'Encounter ID',
+          type: 'text',
+          value: 'encounterId',
+        },
+      ],
+      path:
+        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-laboratory-table',
+      queryParams: [],
+      value: 'patient-observaion-laboratory-table',
+    },
+    {
+      document: `# Coming soon`,
+      label: 'Observaion Blood Pressure Graph',
+      parameters: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          label: 'Encounter ID',
+          type: 'text',
+          value: 'encounterId',
+        },
+      ],
+      path:
+        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-blood-pressure-graph',
+      queryParams: [],
+      value: 'observaion-blood-pressure-graph',
+    },
   ],
   label: 'Patient',
   value: 'patient',

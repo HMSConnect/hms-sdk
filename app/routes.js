@@ -33,6 +33,16 @@ module.exports = nextRoutes()
     'embedded-widget/patient-info/patient-demographic-summary',
   )
   .add(
+    'embedded-widget/patient-info/encounter/observaion-laboratory-table',
+    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-laboratory-table',
+    'embedded-widget/patient-info/observation-laboratory-table',
+  )
+  .add(
+    'embedded-widget/patient-info/encounter/observaion-blood-pressure-graph',
+    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-blood-pressure-graph',
+    'embedded-widget/patient-info/observation-blood-pressure-graph',
+  )
+  .add(
     'embedded-widget/patient-info/encounter-timeline',
     '/embedded-widget/patient-info/encounter-timeline/:patientId',
     'embedded-widget/patient-info/patient-encounter-timeline',

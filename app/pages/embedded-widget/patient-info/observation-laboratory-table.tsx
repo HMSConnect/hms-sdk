@@ -1,5 +1,5 @@
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientEncounterTimeline from '@components/widget/patient/PatientEncounterTimeline'
+import ObservationLaboratoryTable from '@components/widget/observation/ObservationLaboratoryTable'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -15,17 +15,14 @@ const PatientEncounterTimelineView: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <BootstrapWrapper dependencies={['patient', 'encounter', 'organization']}>
+    <BootstrapWrapper dependencies={['patient', 'observation']}>
       <>
         <CssBaseline />
-        <PatientEncounterTimeline
-          query={query}
+        <ObservationLaboratoryTable
           patientId={get(query, 'patientId')}
           max={get(query, 'max')}
           isInitialize={get(query, 'isInitialize') || true}
           initialFilter={get(query, 'initialFilter')}
-          isContainer={false}
-          isRouteable={get(query, 'isRouteable')}
         />
       </>
     </BootstrapWrapper>
