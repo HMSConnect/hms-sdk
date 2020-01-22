@@ -2,11 +2,14 @@ import * as React from 'react'
 
 import environment from '@environment'
 import {
+  Avatar,
   Button,
   CircularProgress,
   Collapse,
   Divider,
   Grid,
+  Icon,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
@@ -16,31 +19,39 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core'
+import CommentIcon from '@material-ui/icons/Comment'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import * as _ from 'lodash'
 import * as moment from 'moment'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  iconAvatar: {
+    height: 50,
+    margin: 10,
+    width: 50,
+    zIndex: 300,
+  },
   inline: {
     display: 'inline',
+    textAlign: 'right',
   },
   line: {
-    borderLeft: '2px solid lightgrey',
+    borderLeft: '10px solid lightgrey',
     height: '100%',
-    marginLeft: '0.7em',
+    marginLeft: '6.7rem',
+    // left: '10%',
     position: 'absolute',
-    zIndex: 1000,
+    zIndex: 100,
   },
   lineColapse: {
-    borderLeft: '2px solid lightgrey',
+    borderLeft: '10px solid lightgrey',
     height: '100%',
-    marginLeft: '1.7rem',
+    marginLeft: '7.7rem',
   },
   listIcon: {
     color: 'green',
-    zIndex: 2000,
+    zIndex: 200,
   },
   nested: {
     paddingLeft: theme.spacing(4),
@@ -49,19 +60,45 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const PatientEncounterList: React.FunctionComponent<{
+  query: any
   entryList: any[]
   onEntrySelected: (event: React.MouseEvent, selectedEncounter: any) => void
   isLoading?: boolean
   isMore?: boolean
   onLazyLoad?: (event: any, type?: string) => void
-}> = ({ entryList, onEntrySelected, isLoading, isMore, onLazyLoad }) => {
+}> = ({ entryList, onEntrySelected, isLoading, isMore, onLazyLoad, query }) => {
+  const [selectedIndex, setSelectedIndex] = React.useState(
+    _.findIndex(entryList, { id: _.get(query, 'encounterId') }),
+  )
+
+  React.useEffect(() => {
+    const activeIndex = _.findIndex(entryList, {
+      id: _.get(query, 'encounterId'),
+    })
+    if (activeIndex >= 0) {
+      setSelectedIndex(activeIndex)
+    }
+  }, [entryList])
+  const handleEncounterSelected = (
+    event: React.MouseEvent,
+    selectedEncounter: any,
+    index: number,
+  ) => {
+    setSelectedIndex(index)
+    onEntrySelected(event, selectedEncounter)
+  }
   return (
     <>
       <List component='nav' aria-labelledby='nested-list-subheader'>
         {_.map(entryList, (entry, index) => (
           <React.Fragment key={'encounterItem' + index}>
-            <EncounterListItem data={entry} onEntrySelected={onEntrySelected} />
-            <Divider variant='inset' />
+            <EncounterListItem
+              data={entry}
+              onEntrySelected={handleEncounterSelected}
+              index={index}
+              selectedIndex={selectedIndex}
+            />
+            <Divider />
           </React.Fragment>
         ))}
         {isMore ? (
@@ -92,40 +129,76 @@ export default PatientEncounterList
 
 const EncounterListItem: React.FunctionComponent<{
   data: any
-  onEntrySelected: (event: React.MouseEvent, selectedEncounter: any) => void
-}> = ({ data, onEntrySelected }) => {
+  selectedIndex: number
+  index: number
+  onEntrySelected: (
+    event: React.MouseEvent,
+    selectedEncounter: any,
+    index: number,
+  ) => void
+}> = ({ data, onEntrySelected, index, selectedIndex }) => {
   const [open, setOpen] = React.useState(false)
+
   const handleClick = () => {
     setOpen(!open)
   }
   const classes = useStyles()
+
+  const renderIcon = (index?: number) => {
+    let randomMath = 0
+    if (index) {
+      randomMath = index % 3
+    }
+    const setIcon = [
+      'fas fa-clinic-medical',
+      'fas fa-hospital',
+      'fas fa-hospital-alt',
+    ]
+    return (
+      <Avatar className={classes.iconAvatar}>
+        <Icon
+          className={setIcon[randomMath]}
+          style={{ width: '1.5em', textAlign: 'center' }}
+        />
+      </Avatar>
+    )
+  }
   return (
     <>
-      <ListItem button onClick={handleClick}>
+      <ListItem button onClick={handleClick} selected={selectedIndex === index}>
         <div className={classes.line}></div>
         <ListItemIcon>
-          <FiberManualRecordIcon className={classes.listIcon} />
+          <>
+            <Typography
+              component='span'
+              variant='body2'
+              className={classes.inline}
+              color='textPrimary'
+              style={{
+                alignItems: 'center',
+                display: 'flex',
+                // backgroundColor: 'lightblue',
+                justifyContent: 'center',
+                width: '150%',
+              }}
+            >
+              {moment
+                .default(_.get(data, 'startTime'))
+                .format(environment.localFormat.date)}
+              <br />
+              {moment
+                .default(_.get(data, 'startTime'))
+                .format(environment.localFormat.time)}
+            </Typography>
+            {renderIcon(index)}
+          </>
         </ListItemIcon>
         <ListItemText
-          primary={
-            <React.Fragment>
-              <Typography
-                component='span'
-                variant='body2'
-                className={classes.inline}
-                color='textPrimary'
-              >
-                {moment
-                  .default(_.get(data, 'startTime'))
-                  .format(environment.localFormat.dateTime)}
-              </Typography>
-            </React.Fragment>
-          }
           secondary={
-            <React.Fragment>
+            <>
               <Typography
                 component='span'
-                variant='h5'
+                variant='h6'
                 className={classes.inline}
                 color='textPrimary'
               >
@@ -140,22 +213,33 @@ const EncounterListItem: React.FunctionComponent<{
               >
                 {_.get(data, 'participant[0].name') || 'Unknow'}
               </Typography>
-            </React.Fragment>
+            </>
           }
         />
-        {open ? <ExpandLess /> : <ExpandMore />}
+        <ListItemSecondaryAction>
+          <IconButton
+            edge='end'
+            aria-label='comments'
+            onClick={event => onEntrySelected(event, data, index)}
+          >
+            <CommentIcon />
+          </IconButton>
+          <IconButton edge='end' aria-label='show all' onClick={handleClick}>
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </IconButton>
+        </ListItemSecondaryAction>
       </ListItem>
       <Collapse in={open} timeout='auto' unmountOnExit>
         <Grid container>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <div className={classes.lineColapse}></div>
           </Grid>
-          <Grid item xs={10}>
+          <Grid item xs={9}>
             <List component='div'>
               <ListItem
                 button
                 className={classes.nested}
-                onClick={event => onEntrySelected(event, data)}
+                onClick={event => onEntrySelected(event, data, index)}
               >
                 <ListItemText
                   primary={

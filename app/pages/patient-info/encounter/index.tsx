@@ -7,6 +7,7 @@ import { Container, CssBaseline, Theme, Typography } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import { makeStyles } from '@material-ui/styles'
 import { IStatelessPage } from '@pages/patient-search'
+import PatientDemographic from '@components/widget/patient/PatientDemographic'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -22,16 +23,24 @@ const EncounterPage: IStatelessPage<{
   return (
     <BootstrapWrapper
       dependencies={[
-        'patient',
-        'encounter',
-        'diagnostic_report',
-        'observation',
         'allergy_intolerance',
+        'condition',
+        'diagnostic_report',
+        'encounter',
+        'observation',
+        'patient',
+        'immunization',
+        'procedure',
+        'medication_request',
+        'imaging_study',
+        'claim',
+        'care_plan',
+        'organization',
       ]}
     >
       <>
         <CssBaseline />
-        <Container maxWidth='lg'>
+        {/* <Container maxWidth='lg'> */}
         <Typography component='div' className={classes.root}>
           <BreadcrumbsBase
             currentPath='Patient Info'
@@ -46,9 +55,10 @@ const EncounterPage: IStatelessPage<{
               },
             ]}
           ></BreadcrumbsBase>
-          <PatientInfoDetail query={query} />
+          <PatientDemographic query={query} />
+          {/* <PatientInfoDetail query={query} /> */}
         </Typography>
-        </Container>
+        {/* </Container> */}
       </>
     </BootstrapWrapper>
   )

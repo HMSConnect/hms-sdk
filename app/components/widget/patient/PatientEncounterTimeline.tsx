@@ -51,12 +51,14 @@ export interface ITableCellProp {
 }
 
 const PatientEncounterTimeline: React.FunctionComponent<{
+  query: any
   patientId: any
   resourceList?: any[]
   isInitialize?: boolean
   max?: number
   initialFilter?: IEncounterListFilterQuery
 }> = ({
+  query,
   patientId,
   resourceList,
   isInitialize,
@@ -89,17 +91,12 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     const encounterService = HMSService.getService(
       'encounter',
     ) as EncounterService
-
     const newFilter: IEncounterListFilterQuery = {
       ...filter,
       periodStart_lt: _.get(lastEntry, 'assertedDate'),
     }
-    // setFilter(newFilter)
     const newLazyLoad = {
-      filter: {
-        ...filter,
-        periodStart_lt: _.get(lastEntry, 'startTime'),
-      },
+      filter: newFilter,
       max,
       withOrganization: true,
     }
@@ -128,7 +125,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     setIsMore,
     setResult,
     isMore,
-  } = useInfinitScroll(null, fetchMoreAsync, resourceList)
+  } = useInfinitScroll(myscroll.current, fetchMoreAsync, resourceList)
 
   useEffect(() => {
     if (isInitialize) {
@@ -136,7 +133,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  const handleEncounterSelect = async (
+  const handleEncounterSelect = (
     event: React.MouseEvent,
     selectedEncounter: any,
   ) => {
@@ -156,9 +153,8 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       params: newParams,
       path,
     })
-    routes.Router.pushRoute(path, newParams)
+    routes.Router.replaceRoute(path)
   }
-
   const fetchData = async (filter: any) => {
     setFilter(filter)
     setIsMore(true)
@@ -246,6 +242,13 @@ const PatientEncounterTimeline: React.FunctionComponent<{
             'assertedDate_lt',
             'patientId',
           ])}
+          option={{
+            isHideIcon: true,
+            style: {
+              backgroundColor: '#303f9f',
+              color: '#e1f5fe',
+            },
+          }}
         >
           {renderModal}
         </ToolbarWithFilter>
@@ -260,6 +263,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
           onEntrySelected={handleEncounterSelect}
           isLoading={isLoading}
           isMore={isMore}
+          query={query}
         />
       </div>
 

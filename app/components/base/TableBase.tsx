@@ -15,6 +15,7 @@ import { blue, grey } from '@material-ui/core/colors'
 import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
 import EnhancedTableHead, { IHeaderCellProps } from './EnhancedTableHead'
+import clsx from 'clsx'
 
 interface ITableEntireRow {
   isCenter?: boolean
@@ -33,6 +34,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   tableGroupRow: {
     backgroundColor: blue[50],
     cursor: 'pointer',
+  },
+  tableRowColor: {
+    // '&:nth-of-type(even)': {
+    //   backgroundColor: '#eeeeee',
+    // },
   },
   tableRow: {
     cursor: 'pointer',
@@ -140,9 +146,11 @@ const TableRowBase: React.FunctionComponent<{
   const classes = useStyles()
   return (
     <TableRow
-      hover
+      hover={onEntrySelected ? true : false}
       key={id + index}
-      className={onEntrySelected ? classes.tableRow : ''}
+      className={clsx(classes.tableRowColor, {
+        [classes.tableRow]: onEntrySelected,
+      })}
       onClick={(event: React.MouseEvent) =>
         onEntrySelected ? onEntrySelected(event, entryData) : null
       }
