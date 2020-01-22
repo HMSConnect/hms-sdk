@@ -63,6 +63,8 @@ const PatientMedicationList: React.FunctionComponent<{
     initialFilter,
   )
 
+  const classes = useStyles()
+
   const fetchMoreAsync = async (lastEntry: any) => {
     const medicationRequestService = HMSService.getService(
       'medication_request',
@@ -72,7 +74,6 @@ const PatientMedicationList: React.FunctionComponent<{
       authoredOn_lt: _.get(lastEntry, 'authoredOn'),
       patientId,
     }
-    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -94,7 +95,7 @@ const PatientMedicationList: React.FunctionComponent<{
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
-  const { data, error, isLoading, setIsFetch } = useInfinitScroll(
+  const { data, error, isLoading, setIsFetch, isMore } = useInfinitScroll(
     myscroll.current,
     fetchMoreAsync,
     resourceList,
@@ -109,30 +110,9 @@ const PatientMedicationList: React.FunctionComponent<{
   if (error) {
     return <>Error: {error}</>
   }
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          alignContent: 'center',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <CircularProgress />
-      </div>
-    )
-  }
-  return <PatientMedicationRequestView data={data} />
-}
 
-export default PatientMedicationList
-
-export const PatientMedicationRequestView: React.FunctionComponent<{
-  data: any
-}> = ({ data }) => {
-  const classes = useStyles()
   return (
-    <>
+    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Medcation Request'}
@@ -148,18 +128,29 @@ export const PatientMedicationRequestView: React.FunctionComponent<{
             <Typography variant='body1'>No Medcation found</Typography>
           </div>
         ) : (
-          _.map(data, (medication: any, index: number) => (
-            <ListItem key={`medication${index}`}>
-              <ListItemIcon>
-                <FiberManualRecordIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary={`${_.get(medication, 'medicationCodeableConcept')}`}
-              />
-            </ListItem>
-          ))
+          <>
+            {_.map(data, (medication: any, index: number) => (
+              <ListItem key={`medication${index}`}>
+                <ListItemIcon>
+                  <FiberManualRecordIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={`${_.get(medication, 'medicationCodeableConcept')}`}
+                />
+              </ListItem>
+            ))}
+            {isMore ? (
+              <ListItem>
+                <ListItemText style={{ textAlign: 'center' }}>
+                  {isLoading ? <CircularProgress /> : null}
+                </ListItemText>
+              </ListItem>
+            ) : null}
+          </>
         )}
       </List>
-    </>
+    </div>
   )
 }
+
+export default PatientMedicationList

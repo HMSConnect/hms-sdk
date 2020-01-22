@@ -14,11 +14,11 @@ import PatientInfoPanel from '../../templates/patient/PatientInfoPanel'
 import ObservationBloodPressureGraph from '../observation/ObservationBloodPressureGraph'
 import ObservationBodyHeightGraph from '../observation/ObservationBodyHeightGraph'
 import ObservationBodyWeightGraph from '../observation/ObservationBodyWeightGraph'
+import ObservationLaboratoryTable from '../observation/ObservationLaboratoryTable'
 import PatientAllergyList from './PatientAllergy'
 import PatientDemograhicSummary from './PatientDemograhicSummary'
 import PatientEncounterTimeline from './PatientEncounterTimeline'
 import PatientMedicationList from './PatientMedication'
-import ObservationLaboratoryTable from '../observation/ObservationLaboratoryTable'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -211,14 +211,6 @@ const PatientAssociatedData: React.FunctionComponent<{
         <Grid item xs={12} sm={6} md={6} lg={12}>
           <Paper className={classes.associatedPatientCard}>
             <PatientAllergyList
-              patientId={_.get(patient, 'identifier.id.value')}
-              isInitialize={true}
-            />
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={6} lg={12}>
-          <Paper className={classes.associatedPatientCard}>
-            <PatientMedicationList
               patientId={_.get(patient, 'identifier.id.value')}
               isInitialize={true}
             />

@@ -56,9 +56,9 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
   max = 20,
   initialFilter: customInitialFilter = {
     categoryCode: 'laboratory',
+    encounterId,
     issued_lt: undefined,
     patientId,
-    encounterId,
   },
 }) => {
   const initialFilter = React.useMemo(() => {
@@ -111,7 +111,7 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
     setResult,
     setIsMore,
     isMore,
-  } = useInfinitScroll(myscroll.current, fetchMoreAsync, resourceList)
+  } = useInfinitScroll(myscroll.current, fetchMoreAsync, resourceList, { max })
   React.useEffect(() => {
     if (isInitialize) {
       setIsFetch(true)

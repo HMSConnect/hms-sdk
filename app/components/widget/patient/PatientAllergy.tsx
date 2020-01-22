@@ -61,6 +61,9 @@ const PatientAllergyList: React.FunctionComponent<{
       patientId,
     })
   }, [customInitialFilter])
+
+  const classes = useStyles()
+
   const [filter, setFilter] = React.useState<
     IAllergyIntoleranceListFilterQuery
   >(initialFilter)
@@ -74,7 +77,6 @@ const PatientAllergyList: React.FunctionComponent<{
       assertedDate_lt: _.get(lastEntry, 'assertedDate'),
       patientId,
     }
-    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -96,11 +98,13 @@ const PatientAllergyList: React.FunctionComponent<{
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
-  const { data, error, isLoading, setIsFetch } = useInfinitScroll(
-    myscroll.current,
-    fetchMoreAsync,
-    resourceList,
-  )
+  const {
+    data,
+    error,
+    isMore,
+    isLoading,
+    setIsFetch,
+  } = useInfinitScroll(myscroll.current, fetchMoreAsync, resourceList, { max })
 
   React.useEffect(() => {
     if (isInitialize) {
@@ -108,31 +112,6 @@ const PatientAllergyList: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  if (error) {
-    return <>Error: {error}</>
-  }
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          alignContent: 'center',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <CircularProgress />
-      </div>
-    )
-  }
-  return <PatientAllergyView data={data} />
-}
-
-export default PatientAllergyList
-
-export const PatientAllergyView: React.FunctionComponent<{
-  data: any
-}> = ({ data }) => {
-  const classes = useStyles()
   const renderCriticalIcon = (allergy: any) => {
     switch (allergy.criticality) {
       case 'low':
@@ -161,8 +140,13 @@ export const PatientAllergyView: React.FunctionComponent<{
         )
     }
   }
+
+  if (error) {
+    return <>Error: {error}</>
+  }
+
   return (
-    <>
+    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Allergies'}
@@ -177,14 +161,85 @@ export const PatientAllergyView: React.FunctionComponent<{
             <Typography variant='body1'>No allergy found</Typography>
           </div>
         ) : (
-          _.map(data, (allergy: any, index: number) => (
-            <ListItem key={`allergy${index}`}>
-              {renderCriticalIcon(allergy)}
-              <ListItemText primary={`${_.get(allergy, 'codeText')}`} />
-            </ListItem>
-          ))
+          <>
+            {_.map(data, (allergy: any, index: number) => (
+              <ListItem key={`allergy${index}`}>
+                {renderCriticalIcon(allergy)}
+                <ListItemText primary={`${_.get(allergy, 'codeText')}`} />
+              </ListItem>
+            ))}
+            {isMore ? (
+              <ListItem>
+                <ListItemText style={{ textAlign: 'center' }}>
+                  {isLoading ? <CircularProgress /> : null}
+                </ListItemText>
+              </ListItem>
+            ) : null}
+          </>
         )}
       </List>
-    </>
+    </div>
   )
 }
+
+export default PatientAllergyList
+
+// export const PatientAllergyView: React.FunctionComponent<{
+//   data: any
+// }> = ({ data }) => {
+//   const classes = useStyles()
+//   const renderCriticalIcon = (allergy: any) => {
+//     switch (allergy.criticality) {
+//       case 'low':
+//         return (
+//           <ListItemIcon style={{ color: '#ff9800' }}>
+//             <FiberManualRecordIcon />
+//           </ListItemIcon>
+//         )
+//       case 'high':
+//         return (
+//           <ListItemIcon style={{ color: '#e57373' }}>
+//             <FiberManualRecordIcon />
+//           </ListItemIcon>
+//         )
+//       case 'unable-to-assess':
+//         return (
+//           <ListItemIcon style={{ color: 'grey' }}>
+//             <FiberManualRecordIcon />
+//           </ListItemIcon>
+//         )
+//       default:
+//         return (
+//           <ListItemIcon>
+//             <FiberManualRecordIcon />
+//           </ListItemIcon>
+//         )
+//     }
+//   }
+//   return (
+//     <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
+//       <div className={classes.toolbar}>
+//         <ToolbarWithFilter
+//           title={'Allergies'}
+//           option={{
+//             isHideIcon: true,
+//           }}
+//         ></ToolbarWithFilter>
+//       </div>
+//       <List component='nav' aria-labelledby='nested-list-subheader'>
+//         {_.isEmpty(data) ? (
+//           <div style={{ padding: '1em', textAlign: 'center' }}>
+//             <Typography variant='body1'>No allergy found</Typography>
+//           </div>
+//         ) : (
+//           _.map(data, (allergy: any, index: number) => (
+//             <ListItem key={`allergy${index}`}>
+//               {renderCriticalIcon(allergy)}
+//               <ListItemText primary={`${_.get(allergy, 'codeText')}`} />
+//             </ListItem>
+//           ))
+//         )}
+//       </List>
+//     </div>
+//   )
+// }

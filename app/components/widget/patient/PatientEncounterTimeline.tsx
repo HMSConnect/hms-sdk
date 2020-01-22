@@ -93,14 +93,13 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     ) as EncounterService
     const newFilter: IEncounterListFilterQuery = {
       ...filter,
-      periodStart_lt: _.get(lastEntry, 'assertedDate'),
+      periodStart_lt: _.get(lastEntry, 'startTime'),
     }
     const newLazyLoad = {
       filter: newFilter,
       max,
       withOrganization: true,
     }
-
     const entryData = await encounterService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
       sendMessage({
@@ -233,13 +232,13 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   })
 
   return (
-    <>
+    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Encounter'}
           onClickIcon={showModal}
           filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'assertedDate_lt',
+            'periodStart_lt',
             'patientId',
           ])}
           option={{
@@ -253,11 +252,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
           {renderModal}
         </ToolbarWithFilter>
       </div>
-      <div
-        ref={myscroll}
-        className={classes.tableWrapper}
-        data-testid='scroll-container'
-      >
+      <div className={classes.tableWrapper} data-testid='scroll-container'>
         <PatientEncounterList
           entryList={data}
           onEntrySelected={handleEncounterSelect}
@@ -268,7 +263,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       </div>
 
       {error ? <>There Have Error : {error}</> : null}
-    </>
+    </div>
   )
 }
 
