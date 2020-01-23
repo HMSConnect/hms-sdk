@@ -105,13 +105,13 @@ export const ObservationHeartbeatCardView: React.FunctionComponent<{
             }}
           >
             <Typography
-              variant='h4'
+              variant='h5'
               className={classes.contentText}
               style={{ paddingRight: 8 }}
             >
               {_.get(observation, 'value') || 'N/A'}
             </Typography>
-            {_.get(observation, 'unit') || 'BPM'}
+            {_.get(observation, 'unit') || ''}
           </Typography>
         </Grid>
       </Grid>

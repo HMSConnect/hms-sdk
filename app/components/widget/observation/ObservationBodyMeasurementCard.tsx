@@ -126,14 +126,25 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               className={classes.bodyCard}
             >
               Height :{' '}
-              <Typography variant='h4' className={classes.contentText}>
-                {' '}
-                {_.find(observations, { code: '8302-2' })
-                  ? Number(
-                      _.find(observations, { code: '8302-2' }).value,
-                    ).toFixed(2)
-                  : 'N/A'}
-              </Typography>
+              <div>
+                <Typography
+                  component='span'
+                  variant='h5'
+                  className={classes.contentText}
+                >
+                  {' '}
+                  {_.find(observations, { code: '8302-2' })
+                    ? Number(
+                        _.find(observations, { code: '8302-2' }).value,
+                      ).toFixed(2)
+                    : 'N/A'}
+                </Typography>{' '}
+                <span>
+                  {_.find(observations, { code: '8302-2' })
+                    ? _.find(observations, { code: '8302-2' }).unit
+                    : ''}
+                </span>
+              </div>
             </Typography>
           </Tooltip>
 
@@ -156,14 +167,25 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               className={classes.bodyCard}
             >
               Weight :{' '}
-              <Typography variant='h4' className={classes.contentText}>
-                {' '}
-                {_.find(observations, { code: '29463-7' })
-                  ? Number(
-                      _.find(observations, { code: '29463-7' }).value,
-                    ).toFixed(2)
-                  : 'N/A'}
-              </Typography>
+              <div>
+                <Typography
+                  component='span'
+                  variant='h5'
+                  className={classes.contentText}
+                >
+                  {' '}
+                  {_.find(observations, { code: '29463-7' })
+                    ? Number(
+                        _.find(observations, { code: '29463-7' }).value,
+                      ).toFixed(2)
+                    : 'N/A'}{' '}
+                </Typography>
+                <span>
+                  {_.find(observations, { code: '29463-7' })
+                    ? _.find(observations, { code: '29463-7' }).unit
+                    : ''}
+                </span>
+              </div>
             </Typography>
           </Tooltip>
 
@@ -186,14 +208,25 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               className={classes.bodyCard}
             >
               BMI :{' '}
-              <Typography variant='h4' className={classes.contentText}>
-                {' '}
-                {_.find(observations, { code: '39156-5' })
-                  ? Number(
-                      _.find(observations, { code: '39156-5' }).value,
-                    ).toFixed(2)
-                  : 'N/A'}
-              </Typography>
+              <div>
+                <Typography
+                  component='span'
+                  variant='h5'
+                  className={classes.contentText}
+                >
+                  {' '}
+                  {_.find(observations, { code: '39156-5' })
+                    ? Number(
+                        _.find(observations, { code: '39156-5' }).value,
+                      ).toFixed(2)
+                    : 'N/A'}{' '}
+                </Typography>
+                <span>
+                  {_.find(observations, { code: '39156-5' })
+                    ? _.find(observations, { code: '39156-5' }).unit
+                    : ''}
+                </span>
+              </div>
             </Typography>
           </Tooltip>
         </Grid>

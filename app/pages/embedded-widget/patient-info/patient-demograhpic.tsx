@@ -15,7 +15,23 @@ const PatientDemographicWidget: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <BootstrapWrapper dependencies={['patient']}>
+    <BootstrapWrapper
+      dependencies={[
+        'allergy_intolerance',
+        'condition',
+        'diagnostic_report',
+        'encounter',
+        'observation',
+        'patient',
+        'immunization',
+        'procedure',
+        'medication_request',
+        'imaging_study',
+        'claim',
+        'care_plan',
+        'organization',
+      ]}
+    >
       <>
         <CssBaseline />
         <Paper>

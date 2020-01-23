@@ -104,14 +104,17 @@ export const ObservationTemperatureCardView: React.FunctionComponent<any> = ({
               justifyContent: 'flex-end',
             }}
           >
-            <Typography
-              variant='h4'
-              className={classes.contentText}
-              style={{ paddingRight: 8 }}
-            >
-              {_.get(observation, 'value') || 'N/A'}
-            </Typography>
-            {_.get(observation, 'unit') || ''}
+            <div>
+              <Typography
+                component='span'
+                variant='h5'
+                className={classes.contentText}
+                style={{ paddingRight: 8 }}
+              >
+                {_.get(observation, 'value') || 'N/A'}
+              </Typography>{' '}
+              <span>{_.get(observation, 'unit') || ''}</span>
+            </div>
           </Typography>
         </Grid>
       </Grid>
