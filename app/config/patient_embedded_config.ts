@@ -519,6 +519,20 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-info',
     },
     {
+      document: `# Coming Soon`,
+      label: 'Patient Info Panel',
+      parameters: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+      ],
+      path: '/embedded-widget/patient-info/patient-info-panel/:patientId',
+      value: 'patient-info-panel',
+    },
+    {
       document: require('@assets/embedded-widget/patient-encounter-timeline.md')
         .default,
       label: 'Patine Encounter Timeline',
@@ -934,6 +948,82 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
         '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-blood-pressure-graph',
       queryParams: [],
       value: 'observaion-blood-pressure-graph',
+    },
+    {
+      document: `# Coming soon`,
+      label: 'Observaion Body Height Graph',
+      parameters: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          label: 'Encounter ID',
+          type: 'text',
+          value: 'encounterId',
+        },
+      ],
+      path:
+        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-body-height-graph',
+      queryParams: [],
+      value: 'observaion-body-height-graph',
+    },
+    {
+      document: `# Coming soon`,
+      label: 'Observaion Body Weight Graph',
+      parameters: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          label: 'Encounter ID',
+          type: 'text',
+          value: 'encounterId',
+        },
+      ],
+      path:
+        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-body-weight-graph',
+      queryParams: [],
+      value: 'observaion-body-weight-graph',
+    },
+    {
+      document: `# Coming soon`,
+      label: 'Patient Allergy List Card',
+      parameters: [
+        {
+          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+      ],
+      path:
+        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient-allergy-list-card',
+      queryParams: [],
+      value: 'patient-allergy-list-card',
+    },
+    {
+      document: `# Coming soon`,
+      label: 'Patient Medication Request List Card',
+      parameters: [
+        {
+          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+      ],
+      path:
+        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient-medication-request-list-card',
+      queryParams: [],
+      value: 'patient-medication-request-list-card',
     },
   ],
   label: 'Patient',

@@ -42,11 +42,13 @@ const PatientMedicationList: React.FunctionComponent<{
   resourceList?: any[]
   max?: number
   initialFilter?: IMedicationRequestFilterQuery
+  isContainer?: boolean
 }> = ({
   resourceList,
   patientId,
-  max = 10,
+  max = 20,
   isInitialize,
+  isContainer = true,
   initialFilter: customInitialFilter = {
     authoredOn_lt: undefined,
     medicationCodeableConcept: '',
@@ -96,7 +98,7 @@ const PatientMedicationList: React.FunctionComponent<{
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
   const { data, error, isLoading, setIsFetch, isMore } = useInfinitScroll(
-    myscroll.current,
+    isContainer ? myscroll.current : null,
     fetchMoreAsync,
     resourceList,
   )

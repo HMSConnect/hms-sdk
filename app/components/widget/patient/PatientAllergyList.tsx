@@ -42,11 +42,14 @@ const PatientAllergyList: React.FunctionComponent<{
   resourceList?: any[]
   max?: number
   initialFilter?: IAllergyIntoleranceListFilterQuery
+  isContainer?: boolean
+  option?: any
 }> = ({
   resourceList,
   patientId,
   max = 20,
   isInitialize,
+  isContainer = true,
   initialFilter: customInitialFilter = {
     assertedDate_lt: undefined,
     category: undefined,
@@ -55,6 +58,7 @@ const PatientAllergyList: React.FunctionComponent<{
     patientId,
     type: '',
   },
+  option = {},
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithAllergyIntoleranceInitialFilterQuery(customInitialFilter, {
@@ -104,7 +108,12 @@ const PatientAllergyList: React.FunctionComponent<{
     isMore,
     isLoading,
     setIsFetch,
-  } = useInfinitScroll(myscroll.current, fetchMoreAsync, resourceList, { max })
+  } = useInfinitScroll(
+    isContainer ? myscroll.current : null,
+    fetchMoreAsync,
+    resourceList,
+    { max },
+  )
 
   React.useEffect(() => {
     if (isInitialize) {
@@ -146,7 +155,7 @@ const PatientAllergyList: React.FunctionComponent<{
   }
 
   return (
-    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
+    <div ref={myscroll} style={{ overflow: 'auto' }}>
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Allergies'}

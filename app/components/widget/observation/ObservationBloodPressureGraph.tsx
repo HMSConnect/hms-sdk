@@ -14,6 +14,16 @@ import { scaleTime } from 'd3-scale'
 import * as _ from 'lodash'
 import * as React from 'react'
 
+export interface IOptionsStyleGraphOption {
+  color?: string
+  colorToolbarBackground?: string
+  colorToolbarTitle?: string
+  colorSummary?: string
+  fontSize?: string
+  height?: number
+  weight?: number
+}
+
 const useStyles = makeStyles((theme: Theme) => ({
   summaryContainer: {
     alignItems: 'center',
@@ -26,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const ObservationBloodPressureGraph: React.FunctionComponent<{
   query: any
-  optionStyle?: any
+  optionStyle?: IOptionsStyleGraphOption
 }> = ({ query, optionStyle }) => {
   const params = {
     code: _.get(query, 'code') || '55284-4',
@@ -59,8 +69,8 @@ export default ObservationBloodPressureGraph
 
 export const ObservationBloodPressureGraphView: React.FunctionComponent<{
   observationList: any
-  optionStyle?: any
-}> = ({ observationList, optionStyle }) => {
+  optionStyle?: IOptionsStyleGraphOption
+}> = ({ observationList, optionStyle = {} }) => {
   const lastData: any = _.maxBy(observationList, 'issuedDate')
 
   const classes = useStyles()
@@ -79,7 +89,11 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
       <GraphBase
         data={observationList}
         argumentField='issuedDate'
-        optionStyle={{ color: '#e57373', ...optionStyle }}
+        optionStyle={{
+          color: '#e57373',
+          ...optionStyle,
+          height: optionStyle && optionStyle.height && optionStyle.height - 200,
+        }}
         options={{
           ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
           ValueScale: <ValueScale modifyDomain={() => [40, 150]} />,

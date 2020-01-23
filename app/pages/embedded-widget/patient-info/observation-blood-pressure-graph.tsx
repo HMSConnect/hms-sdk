@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const OBservationBloodPressureWidget: IStatelessPage<{
+const ObservationBloodPressureGraphWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -28,7 +28,7 @@ const OBservationBloodPressureWidget: IStatelessPage<{
   )
 }
 
-OBservationBloodPressureWidget.getInitialProps = async ({
+ObservationBloodPressureGraphWidget.getInitialProps = async ({
   req,
   res,
   query,
@@ -38,4 +38,4 @@ OBservationBloodPressureWidget.getInitialProps = async ({
   }
 }
 
-export default OBservationBloodPressureWidget
+export default ObservationBloodPressureGraphWidget
