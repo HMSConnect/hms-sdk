@@ -51,7 +51,6 @@ export interface ITableCellProp {
 }
 
 const PatientEncounterTimeline: React.FunctionComponent<{
-  query: any
   patientId: any
   resourceList?: any[]
   isInitialize?: boolean
@@ -59,8 +58,8 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   initialFilter?: IEncounterListFilterQuery
   isContainer?: boolean
   isRouteable?: boolean
+  selectedEncounterId?: string
 }> = ({
-  query,
   patientId,
   resourceList,
   isInitialize,
@@ -73,6 +72,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     type: undefined,
   },
   isRouteable = true,
+  selectedEncounterId,
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithEncounterInitialFilterQuery(customInitialFilter, {
@@ -268,7 +268,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
           onEntrySelected={handleEncounterSelect}
           isLoading={isLoading}
           isMore={isMore}
-          query={query}
+          selectedEncounterId={selectedEncounterId}
         />
       </div>
 

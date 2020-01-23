@@ -1,17 +1,17 @@
 import * as React from 'react'
 
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import ObservationBloodPressureCard from '@components/widget/observation/ObservationBloodPressureCard'
+import ObservationBloodPressureGraph from '@components/widget/observation/ObservationBloodPressureGraph'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
-import * as _ from 'lodash'
+import { get } from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const ObservationBloodPressureCardWidget: IStatelessPage<{
+const ObservationBloodPressureGraphWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -19,16 +19,16 @@ const ObservationBloodPressureCardWidget: IStatelessPage<{
     <BootstrapWrapper dependencies={['patient', 'observation']}>
       <>
         <CssBaseline />
-        <div style={{ height: '100vh' }}>
-          {/* <div style={_.get(query, 'optionStyle')}> */}
-          <ObservationBloodPressureCard query={query} />
-        </div>
+        <ObservationBloodPressureGraph
+          query={query}
+          optionStyle={get(query, 'optionStyle')}
+        />
       </>
     </BootstrapWrapper>
   )
 }
 
-ObservationBloodPressureCardWidget.getInitialProps = async ({
+ObservationBloodPressureGraphWidget.getInitialProps = async ({
   req,
   res,
   query,
@@ -38,4 +38,4 @@ ObservationBloodPressureCardWidget.getInitialProps = async ({
   }
 }
 
-export default ObservationBloodPressureCardWidget
+export default ObservationBloodPressureGraphWidget

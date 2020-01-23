@@ -14,7 +14,7 @@ import RouteManager from '../../../routes/RouteManager'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import usePatient from '../../hooks/usePatient'
 import useResourceList from '../../hooks/useResourceList'
-import PatientInfoPanel from '../../templates/patient/PatientInfoPanel'
+import PatientInfoPanel, { PatientInfoPanelView } from './PatientInfoPanel'
 import PatientInfoTable from '../../templates/patient/PatientInfoTable'
 import PatientMenuList from '../../templates/patient/PatientMenuList'
 import EncounterInfoDetail from '../encounter/EncounterInfoDetail'
@@ -22,12 +22,12 @@ import PatientAllergyIntoleranceTable from './PatientAllergyIntoleranceTable'
 import PatientCarePlanTable from './PatientCarePlanTable'
 import PatientClaimTable from './PatientClaimTable'
 import PatientConditionTable from './PatientConditionTable'
-import PatientEncounterTimeline from './PatientEncounterTimeline'
 import PatientImagingStudyTable from './PatientImagingStudyTable'
 import PatientImmunizationTable from './PatientImmunizationTable'
 import PatientMedicationRequestTable from './PatientMedicationRequestTable'
 import PatientObservationTable from './PatientObservationTable'
 import PatientProcedureTable from './PatientProcedureTable'
+import PatientEncounterTimeline from './PatientEncounterTimeline'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -83,20 +83,7 @@ const PatientInfoDetail: React.FunctionComponent<{
     <>
       <div className={classes.infoPanel}>
         <Paper>
-          <Grid container spacing={3}>
-            <Grid item sm={3}>
-              <Grid container justify='center' alignContent='center'>
-                <Avatar
-                  alt='Remy Sharp'
-                  src='../../../static/images/mock-person-profile.png'
-                  className={classes.bigAvatar}
-                />
-              </Grid>
-            </Grid>
-            <Grid item sm={9}>
-              <PatientInfoPanel patient={patient} />
-            </Grid>
-          </Grid>
+          <PatientInfoPanelView patient={patient} />
         </Paper>
       </div>
       <div className={classes.detailSelector}>

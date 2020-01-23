@@ -60,20 +60,27 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const PatientEncounterList: React.FunctionComponent<{
-  query: any
   entryList: any[]
   onEntrySelected: (event: React.MouseEvent, selectedEncounter: any) => void
+  selectedEncounterId?: any
   isLoading?: boolean
   isMore?: boolean
   onLazyLoad?: (event: any, type?: string) => void
-}> = ({ entryList, onEntrySelected, isLoading, isMore, onLazyLoad, query }) => {
+}> = ({
+  entryList,
+  onEntrySelected,
+  isLoading,
+  isMore,
+  onLazyLoad,
+  selectedEncounterId,
+}) => {
   const [selectedIndex, setSelectedIndex] = React.useState(
-    _.findIndex(entryList, { id: _.get(query, 'encounterId') }),
+    _.findIndex(entryList, { id: selectedEncounterId }),
   )
 
   React.useEffect(() => {
     const activeIndex = _.findIndex(entryList, {
-      id: _.get(query, 'encounterId'),
+      id: selectedEncounterId,
     })
     if (activeIndex >= 0) {
       setSelectedIndex(activeIndex)

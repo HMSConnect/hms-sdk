@@ -13,6 +13,7 @@ import {
 import { scaleTime } from 'd3-scale'
 import * as _ from 'lodash'
 import * as React from 'react'
+import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 
 const useStyles = makeStyles((theme: Theme) => ({
   summaryContainer: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const ObservationBodyWeightGraph: React.FunctionComponent<{
   query: any
-  optionStyle?: any
+  optionStyle?: IOptionsStyleGraphOption
 }> = ({ query, optionStyle }) => {
   const params = {
     code: _.get(query, 'code') || '29463-7',
@@ -58,7 +59,7 @@ export default ObservationBodyWeightGraph
 
 export const ObservationBodyWeightGraphView: React.FunctionComponent<{
   observationList: any
-  optionStyle?: any
+  optionStyle?: IOptionsStyleGraphOption
 }> = ({ observationList, optionStyle }) => {
   const lastData: any = _.maxBy(observationList, 'issuedDate')
 
@@ -78,7 +79,11 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
       <GraphBase
         data={observationList}
         argumentField='issuedDate'
-        optionStyle={{ ...optionStyle, color: '#536dfe' }}
+        optionStyle={{
+          color: '#536dfe',
+          ...optionStyle,
+          height: optionStyle && optionStyle.height && optionStyle.height - 200,
+        }}
         options={{
           ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
           ValueScale: <ValueScale modifyDomain={() => [10, 120]} />,

@@ -23,11 +23,6 @@ module.exports = nextRoutes()
     '/embedded-widget/patient-info/:patientId/encounter/:encounterId',
   )
   .add(
-    'embedded-widget/patient-info/encounter/blood-pressure-card',
-    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/blood-pressure-card',
-    'embedded-widget/patient-info/patient-observation-blood-pressure-card',
-  )
-  .add(
     'embedded-widget/patient-info/encounter/demographic',
     '/embedded-widget/patient-info/:patientId/encounter/:encounterId/demographic-summary',
     'embedded-widget/patient-info/patient-demographic-summary',
@@ -38,9 +33,29 @@ module.exports = nextRoutes()
     'embedded-widget/patient-info/patient-encounter-timeline',
   )
   .add(
+    'embedded-widget/patient-info',
+    '/embedded-widget/patient-info/:patientId',
+  )
+  .add(
+    'embedded-widget/patient-info/patient-info-panel',
+    '/embedded-widget/patient-info/patient-info-panel/:patientId',
+    'embedded-widget/patient-info/patient-info-panel',
+  )
+  .add(
+    'embedded-widget/medical-records',
+    '/embedded-widget/medical-records',
+    'embedded-widget/medical-records',
+  )
+  .add(
+    ////////////////// Associated Patient Table Start /////////////////////////
     'embedded-widget/patient-info/allergy-intolerance-table',
     '/embedded-widget/patient-info/allergy-intolerance-table/:patientId',
     'embedded-widget/patient-info/patient-allergy-intolerance-table',
+  )
+  .add(
+    'embedded-widget/patient-info/encounter/observaion-laboratory-table',
+    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-laboratory-table',
+    'embedded-widget/patient-info/observation-laboratory-table',
   )
   .add(
     'embedded-widget/patient-info/condition-table',
@@ -76,17 +91,9 @@ module.exports = nextRoutes()
     'embedded-widget/patient-info/imaging-study-table',
     '/embedded-widget/patient-info/imaging-study-table/:patientId',
     'embedded-widget/patient-info/patient-imaging-study-table',
-  )
+  ) ////////////////// Associated Patient Table End /////////////////////////
   .add(
-    'embedded-widget/patient-info',
-    '/embedded-widget/patient-info/:patientId',
-  )
-  .add(
-    'embedded-widget/medical-records',
-    '/embedded-widget/medical-records',
-    'embedded-widget/medical-records',
-  )
-  .add(
+    ////////////////// Adaptive Card Start /////////////////////////
     'embedded-widget/medical-records/diagnostic-report-card',
     '/embedded-widget/medical-records/diagnostic-report-card',
     'embedded-widget/medical-records/diagnostic-report-card',
@@ -102,7 +109,38 @@ module.exports = nextRoutes()
     'embedded-widget/medical-records/observation-vital-sign-card',
   )
   .add(
+    'embedded-widget/patient-info/encounter/blood-pressure-card',
+    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/blood-pressure-card',
+    'embedded-widget/patient-info/patient-observation-blood-pressure-card',
+  )
+  .add(
+    'embedded-widget/patient-info/encounter/patient-allergy-list-card',
+    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient-allergy-list-card',
+    'embedded-widget/patient-info/patient-allergy-list-card',
+  )
+  .add(
+    'embedded-widget/patient-info/encounter/patient-medication-request-list-card',
+    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient-medication-request-list-card',
+    'embedded-widget/patient-info/patient-medication-request-list-card',
+  )
+  .add(
     'embedded-widget/medical-records/allergy-intolerance-card',
     '/embedded-widget/medical-records/allergy-intolerance-card',
     'embedded-widget/medical-records/allergy-intolerance-card',
+  ) ////////////////// Adaptive Card End /////////////////////////
+  .add(
+    ////////////////// Observation Graph Start /////////////////////////
+    'embedded-widget/patient-info/encounter/observaion-blood-pressure-graph',
+    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-blood-pressure-graph',
+    'embedded-widget/patient-info/observation-blood-pressure-graph',
   )
+  .add(
+    'embedded-widget/patient-info/encounter/observaion-body-height-graph',
+    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-body-height-graph',
+    'embedded-widget/patient-info/observation-body-height-graph',
+  )
+  .add(
+    'embedded-widget/patient-info/encounter/observaion-body-weight-graph',
+    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-body-weight-graph',
+    'embedded-widget/patient-info/observation-body-weight-graph',
+  ) ////////////////// Observation Graph End /////////////////////////
