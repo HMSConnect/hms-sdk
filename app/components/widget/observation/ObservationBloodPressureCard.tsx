@@ -115,19 +115,26 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
             className={classes.bodyCard}
           >
             SYS :{' '}
-            <Typography variant='h4' className={classes.contentText}>
-              {_.find(
-                _.get(observation, 'valueModal'),
-                value => value.code === 'Systolic Blood Pressure',
-              )
-                ? Number(
-                    _.find(
-                      _.get(observation, 'valueModal'),
-                      value => value.code === 'Systolic Blood Pressure',
-                    ).value,
-                  ).toFixed(2)
-                : 'N/A'}
-            </Typography>
+            <div>
+              <Typography
+                component='span'
+                variant='h5'
+                className={classes.contentText}
+              >
+                {_.find(
+                  _.get(observation, 'valueModal'),
+                  value => value.code === 'Systolic Blood Pressure',
+                )
+                  ? Number(
+                      _.find(
+                        _.get(observation, 'valueModal'),
+                        value => value.code === 'Systolic Blood Pressure',
+                      ).value,
+                    ).toFixed(2)
+                  : 'N/A'}
+              </Typography>{' '}
+              <span>{_.get(observation, 'unit') || ''}</span>
+            </div>
           </Typography>
           <Divider />
           <Typography
@@ -136,19 +143,26 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
             className={classes.bodyCard}
           >
             DAI :{' '}
-            <Typography variant='h4' className={classes.contentText}>
-              {_.find(
-                _.get(observation, 'valueModal'),
-                value => value.code === 'Diastolic Blood Pressure',
-              )
-                ? Number(
-                    _.find(
-                      _.get(observation, 'valueModal'),
-                      value => value.code === 'Diastolic Blood Pressure',
-                    ).value,
-                  ).toFixed(2)
-                : 'N/A'}
-            </Typography>
+            <div>
+              <Typography
+                component='span'
+                variant='h5'
+                className={classes.contentText}
+              >
+                {_.find(
+                  _.get(observation, 'valueModal'),
+                  value => value.code === 'Diastolic Blood Pressure',
+                )
+                  ? Number(
+                      _.find(
+                        _.get(observation, 'valueModal'),
+                        value => value.code === 'Diastolic Blood Pressure',
+                      ).value,
+                    ).toFixed(2)
+                  : 'N/A'}
+              </Typography>{' '}
+              <span>{_.get(observation, 'unit') || ''}</span>
+            </div>
           </Typography>
         </Grid>
       </Grid>

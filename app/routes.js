@@ -23,6 +23,11 @@ module.exports = nextRoutes()
     '/embedded-widget/patient-info/:patientId/encounter/:encounterId',
   )
   .add(
+    'embedded-widget/patient-info/patient-demograhpic',
+    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient-demograhpic',
+    'embedded-widget/patient-info/patient-demograhpic',
+  )
+  .add(
     'embedded-widget/patient-info/encounter/demographic',
     '/embedded-widget/patient-info/:patientId/encounter/:encounterId/demographic-summary',
     'embedded-widget/patient-info/patient-demographic-summary',
@@ -53,9 +58,9 @@ module.exports = nextRoutes()
     'embedded-widget/patient-info/patient-allergy-intolerance-table',
   )
   .add(
-    'embedded-widget/patient-info/encounter/observaion-laboratory-table',
-    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-laboratory-table',
-    'embedded-widget/patient-info/observation-laboratory-table',
+    'embedded-widget/observation/encounter/observaion-laboratory-table',
+    '/embedded-widget/observation/:patientId/encounter/:encounterId/observation-laboratory-table',
+    'embedded-widget/observation/observation-laboratory-table',
   )
   .add(
     'embedded-widget/patient-info/condition-table',
@@ -109,9 +114,24 @@ module.exports = nextRoutes()
     'embedded-widget/medical-records/observation-vital-sign-card',
   )
   .add(
-    'embedded-widget/patient-info/encounter/blood-pressure-card',
-    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/blood-pressure-card',
-    'embedded-widget/patient-info/patient-observation-blood-pressure-card',
+    'embedded-widget/observation/encounter/blood-pressure-card',
+    '/embedded-widget/observation/:patientId/encounter/:encounterId/blood-pressure-card',
+    'embedded-widget/observation/observation-blood-pressure-card',
+  )
+  .add(
+    'embedded-widget/observation/encounter/temperature-card',
+    '/embedded-widget/observation/:patientId/encounter/:encounterId/temperature-card',
+    'embedded-widget/observation/observation-temperature-card',
+  )
+  .add(
+    'embedded-widget/observation/encounter/-body-measurement-card',
+    '/embedded-widget/observation/:patientId/encounter/:encounterId/body-measurement-card',
+    'embedded-widget/observation/observation-body-measurement-card',
+  )
+  .add(
+    'embedded-widget/observation/encounter/heartbeat-card',
+    '/embedded-widget/observation/:patientId/encounter/:encounterId/heartbeat-card',
+    'embedded-widget/observation/observation-heartbeat-card',
   )
   .add(
     'embedded-widget/patient-info/encounter/patient-allergy-list-card',
@@ -130,17 +150,17 @@ module.exports = nextRoutes()
   ) ////////////////// Adaptive Card End /////////////////////////
   .add(
     ////////////////// Observation Graph Start /////////////////////////
-    'embedded-widget/patient-info/encounter/observaion-blood-pressure-graph',
-    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-blood-pressure-graph',
-    'embedded-widget/patient-info/observation-blood-pressure-graph',
+    'embedded-widget/observation/encounter/observaion-blood-pressure-graph',
+    '/embedded-widget/observation/:patientId/encounter/:encounterId/observation-blood-pressure-graph',
+    'embedded-widget/observation/observation-blood-pressure-graph',
   )
   .add(
-    'embedded-widget/patient-info/encounter/observaion-body-height-graph',
-    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-body-height-graph',
-    'embedded-widget/patient-info/observation-body-height-graph',
+    'embedded-widget/observation/encounter/observaion-body-height-graph',
+    '/embedded-widget/observation/:patientId/encounter/:encounterId/observation-body-height-graph',
+    'embedded-widget/observation/observation-body-height-graph',
   )
   .add(
-    'embedded-widget/patient-info/encounter/observaion-body-weight-graph',
-    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-body-weight-graph',
-    'embedded-widget/patient-info/observation-body-weight-graph',
+    'embedded-widget/observation/encounter/observaion-body-weight-graph',
+    '/embedded-widget/observation/:patientId/encounter/:encounterId/observation-body-weight-graph',
+    'embedded-widget/observation/observation-body-weight-graph',
   ) ////////////////// Observation Graph End /////////////////////////

@@ -9,9 +9,8 @@ import {
   widgetGalleryAllergyIntoleranceConfig,
   widgetGalleryDiagnosticReportConfig,
   widgetGalleryEncounterConfig,
-  widgetGalleryObservationLaboratoryConfig,
-  widgetGalleryObservationVitalSignConfig,
   widgetGalleryPatientConfig,
+  widgetGalleryObservationConfig,
 } from '@config'
 import {
   AppBar,
@@ -65,11 +64,23 @@ const widgetGroup: IWidgetGroup[] = [
     label: 'Get Started',
     value: 'get-started',
   },
+  {
+    child: [
+      {
+        document: require('@assets/embedded-widget/html-demo/index.md').default,
+        label: 'HTML Demo',
+        path: '../../static/public/index.html',
+        pathType: 'static',
+        value: 'html-demo',
+      },
+    ],
+    label: 'HTML Demo',
+    value: 'html-demo',
+  },
   widgetGalleryPatientConfig,
+  widgetGalleryObservationConfig,
   widgetGalleryEncounterConfig,
   widgetGalleryDiagnosticReportConfig,
-  widgetGalleryObservationLaboratoryConfig,
-  widgetGalleryObservationVitalSignConfig,
   widgetGalleryAllergyIntoleranceConfig,
 ]
 
@@ -213,7 +224,6 @@ const WidgetGallery: IStatelessPage<{
         url = _.replace(url, `:${parameter.value}`, parameter.defaultValue)
       })
     }
-    console.log('queryParams :', queryParams)
     if (queryParams) {
       const stringQueryParam = parse(stringify(queryParams), { depth: 0 })
       const newQueryParams = _.reduce(
@@ -226,6 +236,9 @@ const WidgetGallery: IStatelessPage<{
         },
         {},
       )
+      if (_.isEmpty(newQueryParams)) {
+        return `${url}`
+      }
       return `${url}?${stringify(newQueryParams)}`
     }
 
@@ -410,38 +423,54 @@ const WidgetGallery: IStatelessPage<{
 
             <TabPanel value={tabState} index={0}>
               <Grid container>
-                <Grid item xs={3}>
-                  <Paper className={classes.parameterLayout}>
-                    <form onSubmit={handleSubmitURL}>
-                      <WidgetParameters
-                        parameters={parameters}
-                        selectedWidget={selectedWidget}
-                        onParameterChange={handleParameterChange}
-                        type='parameters'
-                        label='Parameters'
-                      />
-                      <WidgetParameters
-                        parameters={queryParams}
-                        selectedWidget={selectedWidget}
-                        onParameterChange={handleQueryParamChange}
-                        type='queryParams'
-                      />
-                      <Grid container justify='flex-end'>
-                        <Fab
-                          variant='extended'
-                          size='medium'
-                          color='primary'
-                          aria-label='go'
-                          type='submit'
-                        >
-                          Execute
-                          <Icon className={classes.extendedIconLeft}>send</Icon>
-                        </Fab>
-                      </Grid>
-                    </form>
-                  </Paper>
-                </Grid>
-                <Grid item xs={9}>
+                {selectedWidget &&
+                _.isEmpty(selectedWidget.parameters) &&
+                _.isEmpty(selectedWidget.queryParams) ? null : (
+                  <Grid item xs={3}>
+                    <Paper className={classes.parameterLayout}>
+                      <form onSubmit={handleSubmitURL}>
+                        <WidgetParameters
+                          parameters={parameters}
+                          selectedWidget={selectedWidget}
+                          onParameterChange={handleParameterChange}
+                          type='parameters'
+                          label='Parameters'
+                        />
+                        <WidgetParameters
+                          parameters={queryParams}
+                          selectedWidget={selectedWidget}
+                          onParameterChange={handleQueryParamChange}
+                          type='queryParams'
+                        />
+                        <Grid container justify='flex-end'>
+                          <Fab
+                            variant='extended'
+                            size='medium'
+                            color='primary'
+                            aria-label='go'
+                            type='submit'
+                          >
+                            Execute
+                            <Icon className={classes.extendedIconLeft}>
+                              send
+                            </Icon>
+                          </Fab>
+                        </Grid>
+                      </form>
+                    </Paper>
+                  </Grid>
+                )}
+
+                <Grid
+                  item
+                  xs={
+                    selectedWidget &&
+                    _.isEmpty(selectedWidget.parameters) &&
+                    _.isEmpty(selectedWidget.queryParams)
+                      ? 12
+                      : 9
+                  }
+                >
                   <Paper className={classes.parameterLayout}>
                     <Grid item xs={12}>
                       <IconButton aria-label='back' onClick={handleIFrameBack}>

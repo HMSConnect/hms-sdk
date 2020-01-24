@@ -36,6 +36,7 @@ import patientEmbeddedWidgetConfig, {
   carePlanStatusOption,
 } from './patient_embedded_config'
 import CarePlanService from '@services/CarePlanService'
+import { observationWidgetConfig } from './observation_embedded_config'
 
 export interface IWidgetPatameter {
   type: 'text' | 'boolean' | 'number' | 'options'
@@ -58,6 +59,7 @@ export interface IWidgetChild {
   value: string
   document?: string
   path?: string
+  pathType?: 'url' | 'static'
   parameters?: IWidgetPatameter[]
   queryParams?: IWidgetPatameter[]
 }
@@ -147,48 +149,8 @@ export const widgetGalleryPatientConfig: IWidgetGroup = patientEmbeddedWidgetCon
 
 export const widgetGalleryDiagnosticReportConfig: IWidgetGroup = diagnostic_report_embedded_config
 
-export const widgetGalleryObservationLaboratoryConfig: IWidgetGroup = {
-  child: [
-    {
-      document: require('@assets/embedded-widget/medical-record/observation-laboratory-card.md')
-        .default,
-      label: 'Observation - Laboraory',
-      path: '/embedded-widget/medical-records/observation-laboratory-card',
-      queryParams: [
-        {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
-          label: 'Encounter Id',
-          type: 'text',
-          value: 'encounterId',
-        },
-      ],
-      value: 'observation-laboratory-card',
-    },
-  ],
-  label: 'Observation - Laboraory',
-  value: 'observation-laboratory-card',
-}
-export const widgetGalleryObservationVitalSignConfig: IWidgetGroup = {
-  child: [
-    {
-      document: require('@assets/embedded-widget/medical-record/observation-vital-sign-card.md')
-        .default,
-      label: 'Observation - VitalSign',
-      path: '/embedded-widget/medical-records/observation-vital-sign-card',
-      queryParams: [
-        {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
-          label: 'Encounter Id',
-          type: 'text',
-          value: 'encounterId',
-        },
-      ],
-      value: 'observation-vital-sign-card',
-    },
-  ],
-  label: 'Observation - VitalSign',
-  value: 'observation-vital-sign-card',
-}
+export const widgetGalleryObservationConfig: IWidgetGroup = observationWidgetConfig
+
 export const widgetGalleryAllergyIntoleranceConfig: IWidgetGroup = {
   child: [
     {

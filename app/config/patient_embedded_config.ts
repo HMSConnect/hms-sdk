@@ -520,6 +520,27 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
     },
     {
       document: `# Coming Soon`,
+      label: 'Patient Demographic',
+      parameters: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          label: 'Encounter ID',
+          type: 'text',
+          value: 'encounterId',
+        },
+      ],
+      path:
+        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient-demograhpic',
+      value: 'patient-demograhpic',
+    },
+    {
+      document: `# Coming Soon`,
       label: 'Patient Info Panel',
       parameters: [
         {
@@ -861,28 +882,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       ],
       value: 'patient-imaging-study-table',
     },
-    {
-      document: `# Coming soon`,
-      label: 'Observation Blood Pressure Card',
-      parameters: [
-        {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
-          label: 'Patient ID',
-          type: 'text',
-          value: 'patientId',
-        },
-        {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
-          label: 'Encounter ID',
-          type: 'text',
-          value: 'encounterId',
-        },
-      ],
-      path:
-        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/blood-pressure-card',
-      queryParams: [],
-      value: 'observation-blood-pressure-card',
-    },
+    
     {
       document: `# Coming soon`,
       label: 'Patient Demographic Summary',
@@ -904,94 +904,6 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
         '/embedded-widget/patient-info/:patientId/encounter/:encounterId/demographic-summary',
       queryParams: [],
       value: 'patient-demographic-summary',
-    },
-    {
-      document: `# Coming soon`,
-      label: 'Observaion Laboratory Table',
-      parameters: [
-        {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
-          label: 'Patient ID',
-          type: 'text',
-          value: 'patientId',
-        },
-        {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
-          label: 'Encounter ID',
-          type: 'text',
-          value: 'encounterId',
-        },
-      ],
-      path:
-        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-laboratory-table',
-      queryParams: [],
-      value: 'patient-observaion-laboratory-table',
-    },
-    {
-      document: `# Coming soon`,
-      label: 'Observaion Blood Pressure Graph',
-      parameters: [
-        {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
-          label: 'Patient ID',
-          type: 'text',
-          value: 'patientId',
-        },
-        {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
-          label: 'Encounter ID',
-          type: 'text',
-          value: 'encounterId',
-        },
-      ],
-      path:
-        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-blood-pressure-graph',
-      queryParams: [],
-      value: 'observaion-blood-pressure-graph',
-    },
-    {
-      document: `# Coming soon`,
-      label: 'Observaion Body Height Graph',
-      parameters: [
-        {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
-          label: 'Patient ID',
-          type: 'text',
-          value: 'patientId',
-        },
-        {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
-          label: 'Encounter ID',
-          type: 'text',
-          value: 'encounterId',
-        },
-      ],
-      path:
-        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-body-height-graph',
-      queryParams: [],
-      value: 'observaion-body-height-graph',
-    },
-    {
-      document: `# Coming soon`,
-      label: 'Observaion Body Weight Graph',
-      parameters: [
-        {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
-          label: 'Patient ID',
-          type: 'text',
-          value: 'patientId',
-        },
-        {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
-          label: 'Encounter ID',
-          type: 'text',
-          value: 'encounterId',
-        },
-      ],
-      path:
-        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/observation-body-weight-graph',
-      queryParams: [],
-      value: 'observaion-body-weight-graph',
     },
     {
       document: `# Coming soon`,
