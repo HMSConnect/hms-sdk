@@ -32,9 +32,9 @@ const PatientSearchView: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <BootstrapWrapper dependencies={['patient']}>
-      <>
-        <CssBaseline />
+    <React.Fragment>
+      <CssBaseline />
+      <BootstrapWrapper dependencies={['patient']}>
         <Container maxWidth='lg' className={classes.root}>
           <Typography component='div' className={classes.body}>
             <BreadcrumbsBase
@@ -50,8 +50,8 @@ const PatientSearchView: IStatelessPage<{
             <PatientSearch query={query} />
           </Typography>
         </Container>
-      </>
-    </BootstrapWrapper>
+      </BootstrapWrapper>
+    </React.Fragment>
   )
 }
 

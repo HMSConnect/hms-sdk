@@ -1,9 +1,7 @@
 import * as React from 'react'
 
-import { CircularProgress, Grid } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { CircularProgress, Grid, makeStyles } from '@material-ui/core'
 import { Theme } from 'pretty-format/build/types'
-
 import Pagination, { IPageOptionResult } from '../../base/Pagination'
 import usePatientList, {
   IPaginationOption,

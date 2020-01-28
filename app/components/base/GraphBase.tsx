@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { EventTracker, SplineSeries } from '@devexpress/dx-react-chart'
 import {
   AreaSeries,
@@ -10,12 +12,10 @@ import {
   ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui'
 import environment from '@environment'
-import { Theme, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme, Typography } from '@material-ui/core'
 import { symbol, symbolDiamond } from 'd3-shape'
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
   tooltiptext: {

@@ -11,8 +11,7 @@ import {
   IMedicationRequestFilterQuery,
   mergeWithMedicationRequestInitialFilterQuery,
 } from '@data-managers/MedicationRequestDataManager'
-import { Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core'
 import { HMSService } from '@services/HMSServiceFactory'
 import MedicationRequestService from '@services/MedicationRequestService'
 import { countFilterActive, sendMessage } from '@utils'
@@ -112,7 +111,7 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
     setIsFetch,
     setIsMore,
     setResult,
-    isMore
+    isMore,
   } = useInfinitScroll(null, fetchMoreAsync, resourceList)
 
   React.useEffect(() => {

@@ -8,11 +8,11 @@
     "test:coverage": "jest --coverage",
     "win_dev": "set NODE_ENV=development && node server.js",
     "dev": "export NODE_ENV=development && node server.js",
-    "build": "next build",
-    "start": "next start",
+    "build": "next build ",
+    "start": "node server.js",
     "export": "next export",
     "prod": "export NODE_ENV=production && npm run build && npm run start -- -p 8882",
-    "serverless": "export NODE_ENV=production && npm run build && node server"
+    "serverless": "export NODE_ENV=production && npm run build && node server.js"
   },
   "author": "HMSConnect",
   "license": "MIT",
@@ -80,9 +80,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
+    "@babel/polyfill": "^7.8.3",
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.7.2",
+    "@babel/runtime": "^7.8.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/react-hooks": "^3.2.1",

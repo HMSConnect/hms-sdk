@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react'
 
-import { IconButton, TablePagination, Theme } from '@material-ui/core'
+import {
+  IconButton,
+  makeStyles,
+  TablePagination,
+  Theme,
+  useTheme,
+} from '@material-ui/core'
 import FirstPageIcon from '@material-ui/icons/FirstPage'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import LastPageIcon from '@material-ui/icons/LastPage'
-import { makeStyles, useTheme } from '@material-ui/styles'
 import * as _ from 'lodash'
 
 export interface IPageOptionResult {
@@ -19,14 +24,14 @@ interface ITablePaginationActionsProps {
   rowsPerPage: number
   onChangePage: (
     event: React.MouseEvent<HTMLButtonElement>,
-    newPage: number
+    newPage: number,
   ) => void
 }
 
 const useStyles1 = makeStyles((theme: Theme) => ({
   root: {
-    flexShrink: 0
-  }
+    flexShrink: 0,
+  },
 }))
 
 function TablePaginationActions(props: ITablePaginationActionsProps) {
@@ -35,25 +40,25 @@ function TablePaginationActions(props: ITablePaginationActionsProps) {
   const { count, page, rowsPerPage, onChangePage } = props
 
   const handleFirstPageButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     onChangePage(event, 0)
   }
 
   const handleBackButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     onChangePage(event, page - 1)
   }
 
   const handleNextButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     onChangePage(event, page + 1)
   }
 
   const handleLastPageButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
   }
@@ -125,7 +130,7 @@ const Pagination: React.FunctionComponent<{
   }, [_max])
 
   const handleRowsPerPageChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const newMax = parseInt(event.target.value, 10)
     setMax(newMax)
@@ -136,7 +141,7 @@ const Pagination: React.FunctionComponent<{
     onPageChange({
       max: newMax,
       offset: newPage * newMax,
-      page: newPage
+      page: newPage,
     })
   }
 
@@ -151,7 +156,7 @@ const Pagination: React.FunctionComponent<{
       page={page}
       SelectProps={{
         inputProps: { 'aria-label': 'rows per page' },
-        native: true
+        native: true,
       }}
       onChangePage={(event, newPage) => handlePageChange(newPage, max)}
       onChangeRowsPerPage={handleRowsPerPageChange}

@@ -5,6 +5,7 @@ const withStylus = require('@zeit/next-stylus')
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+// const ExtrctTextPlugin = require('extract-text-webpack-plugin')
 
 const env = process.env.NODE_ENV.trim() || 'development'
 module.exports = withStylus({
@@ -13,9 +14,9 @@ module.exports = withStylus({
   },
 })
 
-
 module.exports = withCSS({
-  cssModules: false,
+  cssModules: true,
+  useFileSystemPublicRoutes: false,
   publicRuntimeConfig: {
     staticFolder: '/static',
   },
@@ -55,9 +56,9 @@ module.exports = withCSS({
     )
 
     if (config.resolve.plugins) {
-      config.resolve.plugins.push(new TsconfigPathsPlugin());
+      config.resolve.plugins.push(new TsconfigPathsPlugin())
     } else {
-      config.resolve.plugins = [new TsconfigPathsPlugin()];
+      config.resolve.plugins = [new TsconfigPathsPlugin()]
     }
 
     return config

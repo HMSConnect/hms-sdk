@@ -7,7 +7,6 @@ import {
   CircularProgress,
   Collapse,
   Divider,
-  Grid,
   Icon,
   IconButton,
   List,
@@ -162,7 +161,7 @@ const EncounterListItem: React.FunctionComponent<{
       'fas fa-hospital-alt',
     ]
     return (
-      <Avatar className={classes.iconAvatar}>
+      <Avatar alt={`avater ${index}`} className={classes.iconAvatar}>
         <Icon
           className={setIcon[randomMath]}
           style={{ width: '1.5em', textAlign: 'center' }}

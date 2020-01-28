@@ -1,20 +1,19 @@
 import * as React from 'react'
 import App, { Container } from 'next/app'
 import Head from 'next/head'
-import { ThemeProvider } from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../src/theme'
 
 import { AdapterManager } from '../adapters/DataAdapterManager'
 import RouteManager from '../routes/RouteManager'
 import { HMSService } from '../services/HMSServiceFactory' // Initial singleton HMSService
-
+import { ThemeProvider } from '@material-ui/core'
 import * as _ from 'lodash'
 
-import 'react-grid-layout/css/styles.css'
-import 'react-resizable/css/styles.css'
+// import 'react-grid-layout/css/styles.css'
+// import 'react-resizable/css/styles.css'
 
-import '../github-markdown.css'
+// import '../github-markdown.css'
 
 class AASApp extends App {
   constructor(props) {

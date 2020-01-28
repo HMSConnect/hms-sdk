@@ -6,8 +6,13 @@ import TableBase from '@components/base/TableBase'
 import { ILazyLoadOption } from '@components/hooks/useInfinitScroll'
 import useLazyLoad from '@components/hooks/useLazyLoad'
 import environment from '@environment'
-import { Checkbox, Grid, Theme, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import {
+  Checkbox,
+  Grid,
+  makeStyles,
+  Theme,
+  Typography,
+} from '@material-ui/core'
 import EncounterService from '@services/EncounterService'
 import { HMSService } from '@services/HMSServiceFactory'
 import * as _ from 'lodash'

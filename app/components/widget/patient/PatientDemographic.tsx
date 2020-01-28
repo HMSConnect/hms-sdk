@@ -1,16 +1,8 @@
 import React from 'react'
 
-import {
-  Avatar,
-  CircularProgress,
-  Grid,
-  makeStyles,
-  Paper,
-} from '@material-ui/core'
+import { Grid, makeStyles, Paper } from '@material-ui/core'
 import * as _ from 'lodash'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
-import usePatient from '../../hooks/usePatient'
-import PatientInfoPanel from './PatientInfoPanel'
 import ObservationBloodPressureGraph from '../observation/ObservationBloodPressureGraph'
 import ObservationBodyHeightGraph from '../observation/ObservationBodyHeightGraph'
 import ObservationBodyWeightGraph from '../observation/ObservationBodyWeightGraph'
@@ -18,6 +10,7 @@ import ObservationLaboratoryTable from '../observation/ObservationLaboratoryTabl
 import PatientAllergyList from './PatientAllergyList'
 import PatientDemograhicSummary from './PatientDemograhicSummary'
 import PatientEncounterTimeline from './PatientEncounterTimeline'
+import PatientInfoPanel from './PatientInfoPanel'
 import PatientMedicationList from './PatientMedication'
 
 export interface IPatientTableProps {
@@ -76,17 +69,6 @@ const PatientDemographic: React.FunctionComponent<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
-  // const { isLoading: isPatientLoading, data: patient, error } = usePatient(
-  //   _.get(query, 'patientId') || _.get(query, 'id'),
-  // )
-
-  // if (error) {
-  //   return <>Error: {error}</>
-  // }
-
-  // if (isPatientLoading) {
-  //   return <CircularProgress />
-  // }
 
   return (
     <>

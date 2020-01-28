@@ -4,13 +4,11 @@ import { FormModalContent, useModal } from '@components/base/Modal'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import { noneOption, selectOptions } from '@config'
-import { encounterStatusOption } from '@config/patient_embedded_config'
 import {
   IEncounterListFilterQuery,
   mergeWithEncounterInitialFilterQuery,
 } from '@data-managers/EncounterDataManager'
-import { CircularProgress, Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core'
 import { countFilterActive, sendMessage } from '@utils'
 import * as _ from 'lodash'
 import routes from '../../../routes'

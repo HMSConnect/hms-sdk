@@ -7,13 +7,16 @@ import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
-import { noneOption, selectOptions } from '@config'
 import {
   IObservationListFilterQuery,
   mergeWithObservationInitialFilterQuery,
 } from '@data-managers/ObservationDataManager'
-import { Checkbox, FormControlLabel, Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import {
+  Checkbox,
+  FormControlLabel,
+  makeStyles,
+  Theme,
+} from '@material-ui/core'
 import { HMSService } from '@services/HMSServiceFactory'
 import ObservationService from '@services/ObservationService'
 import { countFilterActive, sendMessage } from '@utils'

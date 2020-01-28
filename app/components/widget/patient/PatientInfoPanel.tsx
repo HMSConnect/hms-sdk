@@ -1,21 +1,22 @@
 import * as React from 'react'
 
+import usePatient from '@components/hooks/usePatient'
 import {
+  Avatar,
+  CircularProgress,
   Grid,
+  makeStyles,
   Theme,
   Typography,
-  CircularProgress,
-  Avatar,
 } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
 import * as _ from 'lodash'
-import usePatient from '@components/hooks/usePatient'
 
+// import * as styles from './patient-info-panel.css'
 const useStyles = makeStyles((theme: Theme) => ({
   bigAvatar: {
-    height: 156,
+    height: theme.spacing(15),
     margin: 10,
-    width: 156,
+    width: theme.spacing(15),
   },
   contentText: {
     color: '#37474f',
@@ -40,7 +41,7 @@ const PatientInfoPanel: React.FunctionComponent<{
   const { isLoading: isPatientLoading, data: patient, error } = usePatient(
     _.get(query, 'patientId') || _.get(query, 'id'),
   )
-
+  // console.log('stlyes :', styles.bigAvatar)
   if (error) {
     return <>Error: {error}</>
   }
@@ -56,8 +57,9 @@ export const PatientInfoPanelView: React.FunctionComponent<{
   patient: any
 }> = ({ patient: info }) => {
   const classes = useStyles()
+  // console.log(styles.headerLabel)
   return (
-    <div style={{height: '100%'}}>
+    <div style={{ height: '100%' }}>
       <Grid container spacing={3}>
         <Grid item sm={12} md={3}>
           <Grid container justify='center' alignContent='center'>
@@ -87,7 +89,12 @@ export const PatientInfoPanelView: React.FunctionComponent<{
               <Grid item xs={12}>
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={3}>
-                    <Grid container direction='row' justify='space-between' alignContent='space-between'>
+                    <Grid
+                      container
+                      direction='row'
+                      justify='space-between'
+                      alignContent='space-between'
+                    >
                       <Grid item xs={12}>
                         <Typography
                           variant='body1'

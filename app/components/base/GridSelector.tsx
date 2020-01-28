@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
 import { makeStyles, Theme } from '@material-ui/core'
+import { sendMessage } from '@utils'
 import * as _ from 'lodash'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 import GridCardSelector from './GridCardSelector'
 import SelectOption from './SelectOption'
-import { sendMessage } from '@utils'
 
 const useStyles = makeStyles((theme: Theme) => ({
   gridSelectionLayout: {

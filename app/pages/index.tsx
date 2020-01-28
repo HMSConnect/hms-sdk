@@ -9,25 +9,27 @@ import {
   ListItemText,
   List,
   Paper,
-  ListSubheader
+  ListSubheader,
 } from '@material-ui/core'
+import * as _ from 'lodash'
 
 // const { staticFolder } = getConfig().publicRuntimeConfig
 const config = getConfig()
-const { staticFolder } = config ? config.publicRuntimeConfig : {}
+const staticFolder = _.get(config, 'publicRuntimeConfig.staticFolder')
+// const { staticFolder } = config ? config.publicRuntimeConfig : {}
 const useStyles = makeStyles(theme => ({
   root: {
     marginTop: 18,
-    width: '100%'
+    width: '100%',
   },
   card: {
     backgroundColor: theme.palette.background.paper,
     width: '100%',
-    maxWidth: 360
-  }
+    maxWidth: 360,
+  },
 }))
 
-function ListItemLink(props) {
+function ListItemLink(props: any) {
   return <ListItem button component='a' {...props} />
 }
 
@@ -37,13 +39,13 @@ export default function App() {
     favicon: {
       name: 'HMS Widget SDK',
       alt: 'favicon',
-      src: `${staticFolder}/static/images/favicon.png`
+      src: `${staticFolder}/static/images/favicon.png`,
     },
     hms_widget_sdk: {
       name: 'HMS Widget SDK',
       alt: 'HMS Widget SDK',
-      src: `${staticFolder}/static/images/favicon.png`
-    }
+      src: `${staticFolder}/static/images/favicon.png`,
+    },
   }
 
   return (

@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
@@ -8,13 +10,11 @@ import {
   IObservationListFilterQuery,
   mergeWithObservationInitialFilterQuery,
 } from '@data-managers/ObservationDataManager'
-import { Icon, Theme, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { Icon, makeStyles, Theme, Typography } from '@material-ui/core'
 import { HMSService } from '@services/HMSServiceFactory'
 import ObservationService from '@services/ObservationService'
 import { countFilterActive, sendMessage } from '@utils'
 import * as _ from 'lodash'
-import React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
   tableWrapper: {
