@@ -11,8 +11,7 @@ import {
   IAllergyIntoleranceListFilterQuery,
   mergeWithAllergyIntoleranceInitialFilterQuery,
 } from '@data-managers/AllergyIntoleranceDataManager'
-import { CircularProgress, Grid, Theme, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { Grid, makeStyles, Theme, Typography } from '@material-ui/core'
 import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { countFilterActive, sendMessage } from '@utils'

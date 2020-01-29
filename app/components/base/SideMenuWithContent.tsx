@@ -8,15 +8,14 @@ import {
   Divider,
   Drawer,
   IconButton,
+  makeStyles,
   Theme,
   Toolbar,
   Typography,
   useTheme,
 } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import MenuIcon from '@material-ui/icons/Menu'
-import { makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 
 const drawerWidth = 240
@@ -168,13 +167,7 @@ export const SideMenu: React.FunctionComponent<{
           onClick={onDrawerClose}
           fullWidth
           size='large'
-          endIcon={
-            theme.direction === 'ltr' ? (
-              <ChevronLeftIcon />
-            ) : (
-              null
-            )
-          }
+          endIcon={theme.direction === 'ltr' ? <ChevronLeftIcon /> : null}
         >
           {menuTitle}
         </Button>

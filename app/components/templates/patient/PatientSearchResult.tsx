@@ -2,8 +2,13 @@ import React, { MouseEvent, useEffect } from 'react'
 
 import EnhancedTableHead from '@components/base/EnhancedTableHead'
 import { ISortType } from '@components/hooks/usePatientList'
-import { Table, TableBody, TableRow, Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import {
+  makeStyles,
+  Table,
+  TableBody,
+  TableRow,
+  Theme,
+} from '@material-ui/core'
 import * as _ from 'lodash'
 import PatientItem from './PatientItem'
 

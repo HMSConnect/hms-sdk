@@ -1,7 +1,7 @@
 const nextRoutes = require('next-routes')
 
 module.exports = nextRoutes()
-  .add('index')
+  .add('index', '/')
   .add('patient-info', '/patient-info/:patientId')
   .add('patient-search')
   .add(

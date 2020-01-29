@@ -11,8 +11,7 @@ import {
   IConditionListFilterQuery,
   mergeWithConditionInitialFilterQuery,
 } from '@data-managers/ConditionDataManager'
-import { Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core'
 import ConditionService from '@services/ConditionService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { countFilterActive, sendMessage } from '@utils'

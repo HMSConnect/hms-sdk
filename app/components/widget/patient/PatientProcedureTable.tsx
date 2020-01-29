@@ -10,8 +10,7 @@ import {
   IProcedureListFilterQuery,
   mergeWithProcedureInitialFilterQuery,
 } from '@data-managers/ProcedureDataManager'
-import { Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core'
 import { HMSService } from '@services/HMSServiceFactory'
 import ProcedureService from '@services/ProcedureService'
 import { countFilterActive, sendMessage } from '@utils'

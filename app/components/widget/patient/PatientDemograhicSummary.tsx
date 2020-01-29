@@ -1,7 +1,6 @@
 import * as React from 'react'
 
-import { Grid, Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { Grid, makeStyles, Theme } from '@material-ui/core'
 import ObservationBloodPressureCard from '../observation/ObservationBloodPressureCard'
 import ObservationBodyMeasurementCard from '../observation/ObservationBodyMeasurementCard'
 import ObservationHeartbeatCard from '../observation/ObservationHeartbeatCard'

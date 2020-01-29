@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Theme, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme, Typography } from '@material-ui/core'
+
 const useStyles = makeStyles((theme: Theme) => ({
   flexHieght: {
     WebkitBoxOrient: 'vertical',

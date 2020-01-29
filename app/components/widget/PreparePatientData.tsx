@@ -1,11 +1,10 @@
 import * as React from 'react'
-import { CircularProgress } from '@material-ui/core'
 
-import * as _ from 'lodash'
 import useEncounterList from '@components/hooks/useEncounterList'
+import { CircularProgress } from '@material-ui/core'
 import RouteManager from '@routes/RouteManager'
 import { sendMessage } from '@utils'
-
+import * as _ from 'lodash'
 import routes from '../../routes'
 
 const PreparePatientData: React.FunctionComponent<any> = ({ query }) => {
@@ -40,7 +39,7 @@ const PreparePatientData: React.FunctionComponent<any> = ({ query }) => {
         params: newParams,
         path,
       })
-      routes.Router.replaceRoute(path, newParams)
+      routes.Router.replaceRoute(path)
     }
   }, [encounter, isPatientLoading])
   return <CircularProgress />

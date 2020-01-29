@@ -12,8 +12,12 @@ import {
   IImmunizationListFilterQuery,
   mergeWithImmunizationInitialFilterQuery,
 } from '@data-managers/ImmunizationDataManager'
-import { Checkbox, FormControlLabel, Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import {
+  Checkbox,
+  FormControlLabel,
+  makeStyles,
+  Theme,
+} from '@material-ui/core'
 import { HMSService } from '@services/HMSServiceFactory'
 import ImmunizationService from '@services/ImmunizationService'
 import { countFilterActive, sendMessage } from '@utils'

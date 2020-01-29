@@ -2,8 +2,7 @@ import * as React from 'react'
 
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import EncounterInfoDetail from '@components/widget/encounter/EncounterInfoDetail'
-import { CssBaseline, Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 
 const useStyles = makeStyles((theme: Theme) => ({

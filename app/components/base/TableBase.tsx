@@ -3,6 +3,7 @@ import * as React from 'react'
 import {
   Button,
   CircularProgress,
+  makeStyles,
   Table,
   TableBody,
   TableCell,
@@ -12,10 +13,9 @@ import {
   Typography,
 } from '@material-ui/core'
 import { blue, grey } from '@material-ui/core/colors'
-import { makeStyles } from '@material-ui/styles'
+import clsx from 'clsx'
 import * as _ from 'lodash'
 import EnhancedTableHead, { IHeaderCellProps } from './EnhancedTableHead'
-import clsx from 'clsx'
 
 interface ITableEntireRow {
   isCenter?: boolean
@@ -35,13 +35,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: blue[50],
     cursor: 'pointer',
   },
+  tableRow: {
+    cursor: 'pointer',
+  },
   tableRowColor: {
     // '&:nth-of-type(even)': {
     //   backgroundColor: '#eeeeee',
     // },
-  },
-  tableRow: {
-    cursor: 'pointer',
   },
   tableWrapper: {
     maxHeight: '60vh',

@@ -5,9 +5,10 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  Typography
+  Typography,
 } from '@material-ui/core'
 import * as _ from 'lodash'
+
 export interface IHeaderCellProps {
   id: string
   disablePadding?: boolean // for padding in Tab
@@ -29,7 +30,7 @@ const EnhancedTableHead = ({
   order,
   orderBy,
   onRequestSort,
-  headCells
+  headCells,
 }: IEnhancedTableProps) => {
   const createSortHandler = (property: any) => {
     if (onRequestSort) {
@@ -49,14 +50,18 @@ const EnhancedTableHead = ({
             style={headCell.styles}
           >
             {headCell.disableSort ? (
-              <Typography variant='subtitle1'><strong>{headCell.label}</strong></Typography>
+              <Typography variant='subtitle1'>
+                <strong>{headCell.label}</strong>
+              </Typography>
             ) : (
               <TableSortLabel
                 active={orderBy === headCell.id}
                 direction={order}
                 onClick={() => createSortHandler(headCell.id)}
               >
-                <Typography><strong>{headCell.label}</strong></Typography>
+                <Typography>
+                  <strong>{headCell.label}</strong>
+                </Typography>
               </TableSortLabel>
             )}
           </TableCell>

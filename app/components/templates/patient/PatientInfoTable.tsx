@@ -1,17 +1,10 @@
-import {
-  Theme,
-  Toolbar,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
-} from '@material-ui/core'
+import * as React from 'react'
+
+import { makeStyles, Theme, Toolbar } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import { lighten } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import * as React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
   highlight:

@@ -12,11 +12,11 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  makeStyles,
   Theme,
   Typography,
 } from '@material-ui/core'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
-import { makeStyles } from '@material-ui/styles'
 import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { sendMessage } from '@utils'

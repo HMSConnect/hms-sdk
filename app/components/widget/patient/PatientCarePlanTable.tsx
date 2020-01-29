@@ -12,11 +12,14 @@ import {
   ICarePlanListFilterQuery,
   mergeWithCarePlanInitialFilterQuery,
 } from '@data-managers/CarePlanDataManager'
-import { Checkbox, FormControlLabel, Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import {
+  Checkbox,
+  FormControlLabel,
+  makeStyles,
+  Theme,
+} from '@material-ui/core'
 import CarePlanService from '@services/CarePlanService'
 import { HMSService } from '@services/HMSServiceFactory'
-import ImmunizationService from '@services/ImmunizationService'
 import { countFilterActive, sendMessage } from '@utils'
 import * as _ from 'lodash'
 

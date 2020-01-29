@@ -3,6 +3,7 @@ import * as React from 'react'
 import {
   Badge,
   IconButton,
+  makeStyles,
   Theme,
   Toolbar,
   Tooltip,
@@ -10,7 +11,6 @@ import {
 } from '@material-ui/core'
 import { lighten } from '@material-ui/core/styles'
 import FilterListIcon from '@material-ui/icons/FilterList'
-import { makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 
 interface IToolbarWithFilterOption {
@@ -18,35 +18,37 @@ interface IToolbarWithFilterOption {
   additionButton?: any
   isHideIcon?: boolean
 }
-const useStyles = makeStyles((theme: Theme) => ({
-  additionInputLayout: {
-    flex: '3 3 100%',
-  },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-          color: theme.palette.secondary.main,
-        }
-      : {
-          backgroundColor: theme.palette.secondary.dark,
-          color: theme.palette.text.primary,
-        },
-  margin: {
-    margin: theme.spacing(1),
-  },
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  tableWrapper: {
-    maxHeight: '55vh',
-    overflow: 'auto',
-  },
-  title: {
-    flex: '1 1 100%',
-  },
-}))
+const useStyles = makeStyles((theme: Theme) => {
+  return {
+    additionInputLayout: {
+      flex: '3 3 100%',
+    },
+    highlight:
+      theme.palette.type === 'light'
+        ? {
+            backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+            color: theme.palette.secondary.main,
+          }
+        : {
+            backgroundColor: theme.palette.secondary.dark,
+            color: theme.palette.text.primary,
+          },
+    margin: {
+      margin: theme.spacing(1),
+    },
+    root: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(1),
+    },
+    tableWrapper: {
+      maxHeight: '55vh',
+      overflow: 'auto',
+    },
+    title: {
+      flex: '1 1 100%',
+    },
+  }
+})
 
 const ToolbarWithFilter: React.FC<{
   title?: string

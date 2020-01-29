@@ -35,13 +35,13 @@ import {
   TextField,
   Theme,
   Typography,
+  makeStyles,
 } from '@material-ui/core'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import RefreshIcon from '@material-ui/icons/Refresh'
-import { makeStyles } from '@material-ui/styles'
 import { IStatelessPage } from '@pages/patient-search'
 import * as _ from 'lodash'
 import MarkdownIt from 'markdown-it'
@@ -49,6 +49,8 @@ import { parse, stringify } from 'qs'
 import { ObjectInspector } from 'react-inspector'
 import routes from '../../routes'
 import AdaptiveInput from '@components/base/AdaptiveInput'
+
+import '../../github-markdown.css'
 
 const md = MarkdownIt({ html: true })
 

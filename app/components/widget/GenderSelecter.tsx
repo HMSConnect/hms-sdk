@@ -1,13 +1,12 @@
 import * as React from 'react'
 
 import SelectOption from '@components/base/SelectOption'
-import { Theme } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, Theme } from '@material-ui/core'
 
 const useStyles = makeStyles((theme: Theme) => ({
   searchFilter: {
-    width: '100%'
-  }
+    width: '100%',
+  },
 }))
 
 const GenderSelector: React.FunctionComponent<{
@@ -24,10 +23,10 @@ const GenderSelector: React.FunctionComponent<{
       options={[
         { value: 'all', label: 'All' },
         { value: 'male', label: 'Male' },
-        { value: 'female', label: 'Female' }
+        { value: 'female', label: 'Female' },
       ]}
       onChange={(
-        event: React.ChangeEvent<{ name?: string; value: unknown }>
+        event: React.ChangeEvent<{ name?: string; value: unknown }>,
       ) => {
         onGenderChange('gender', event.target.value)
       }}

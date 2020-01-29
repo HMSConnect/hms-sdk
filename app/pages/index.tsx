@@ -1,33 +1,33 @@
 import * as React from 'react'
 
-import CssBaseline from '@material-ui/core/CssBaseline'
-import { makeStyles } from '@material-ui/core/styles'
-import getConfig from 'next/config'
 import {
   Grid,
+  List,
   ListItem,
   ListItemText,
-  List,
+  ListSubheader,
+  makeStyles,
   Paper,
-  ListSubheader
 } from '@material-ui/core'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import * as _ from 'lodash'
+import getConfig from 'next/config'
 
-// const { staticFolder } = getConfig().publicRuntimeConfig
 const config = getConfig()
-const { staticFolder } = config ? config.publicRuntimeConfig : {}
+const staticFolder = _.get(config, 'publicRuntimeConfig.staticFolder')
 const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: 18,
-    width: '100%'
-  },
   card: {
     backgroundColor: theme.palette.background.paper,
+    maxWidth: 360,
     width: '100%',
-    maxWidth: 360
-  }
+  },
+  root: {
+    marginTop: 18,
+    width: '100%',
+  },
 }))
 
-function ListItemLink(props) {
+function ListItemLink(props: any) {
   return <ListItem button component='a' {...props} />
 }
 
@@ -37,13 +37,13 @@ export default function App() {
     favicon: {
       name: 'HMS Widget SDK',
       alt: 'favicon',
-      src: `${staticFolder}/static/images/favicon.png`
+      src: `${staticFolder}/static/images/favicon.png`,
     },
     hms_widget_sdk: {
       name: 'HMS Widget SDK',
       alt: 'HMS Widget SDK',
-      src: `${staticFolder}/static/images/favicon.png`
-    }
+      src: `${staticFolder}/static/images/favicon.png`,
+    },
   }
 
   return (

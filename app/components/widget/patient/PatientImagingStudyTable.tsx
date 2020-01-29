@@ -6,13 +6,11 @@ import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
-import { noneOption, selectOptions } from '@config'
 import {
   IImagingStudyListFilterQuery,
   mergeWithImagingStudyInitialFilterQuery,
 } from '@data-managers/ImagingStudyDataManager'
-import { Grid, Theme, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { Grid, makeStyles, Theme, Typography } from '@material-ui/core'
 import { HMSService } from '@services/HMSServiceFactory'
 import ImagingStudyService from '@services/ImagingStudyService'
 import { countFilterActive, sendMessage } from '@utils'

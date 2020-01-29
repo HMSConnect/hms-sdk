@@ -3,11 +3,11 @@ import React, { ReactElement } from 'react'
 import {
   Breadcrumbs as MBreadcrumbs,
   Link,
+  makeStyles,
   Paper,
   Theme,
   Typography,
 } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
 import RouteManager from '@routes/RouteManager'
 import * as _ from 'lodash'
 import routes from '../../routes'

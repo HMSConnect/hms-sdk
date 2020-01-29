@@ -11,8 +11,7 @@ import {
   IClaimListFilterQuery,
   mergeWithClaimInitialFilterQuery,
 } from '@data-managers/ClaimDataManager'
-import { Grid, Theme, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { Grid, makeStyles, Theme, Typography } from '@material-ui/core'
 import ClaimService from '@services/ClaimService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { countFilterActive, sendMessage } from '@utils'
