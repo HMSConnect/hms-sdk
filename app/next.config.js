@@ -15,7 +15,7 @@ module.exports = withStylus({
 })
 
 module.exports = withCSS({
-  cssModules: true,
+  cssModules: false,
   useFileSystemPublicRoutes: false,
   publicRuntimeConfig: {
     staticFolder: '/static',

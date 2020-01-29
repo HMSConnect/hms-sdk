@@ -13,7 +13,6 @@ import { ThemeProvider } from '@material-ui/core/styles'
 // import 'react-grid-layout/css/styles.css'
 // import 'react-resizable/css/styles.css'
 
-// import '../github-markdown.css'
 
 class AASApp extends App {
   static async getInitialProps({ Component, ctx }) {

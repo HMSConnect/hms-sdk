@@ -50,6 +50,8 @@ import { ObjectInspector } from 'react-inspector'
 import routes from '../../routes'
 import AdaptiveInput from '@components/base/AdaptiveInput'
 
+import '../../github-markdown.css'
+
 const md = MarkdownIt({ html: true })
 
 const widgetGroup: IWidgetGroup[] = [
