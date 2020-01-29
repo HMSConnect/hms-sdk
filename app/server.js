@@ -1,6 +1,8 @@
 const next = require('next')
 const routes = require('./routes.js')
-const app = next({ dev: process.env.NODE_ENV !== 'production' })
+const dev = process.env.NODE_ENV.trim() === 'development'
+// const dev = process.env.NODE_ENV.trim() !== 'production'
+const app = next({ dev })
 const handler = routes.getRequestHandler(app)
 
 const port = 3000

@@ -1,31 +1,29 @@
 import * as React from 'react'
 
-import CssBaseline from '@material-ui/core/CssBaseline'
-import { makeStyles } from '@material-ui/core/styles'
-import getConfig from 'next/config'
 import {
   Grid,
+  List,
   ListItem,
   ListItemText,
-  List,
-  Paper,
   ListSubheader,
+  makeStyles,
+  Paper,
 } from '@material-ui/core'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import * as _ from 'lodash'
+import getConfig from 'next/config'
 
-// const { staticFolder } = getConfig().publicRuntimeConfig
 const config = getConfig()
 const staticFolder = _.get(config, 'publicRuntimeConfig.staticFolder')
-// const { staticFolder } = config ? config.publicRuntimeConfig : {}
 const useStyles = makeStyles(theme => ({
+  card: {
+    backgroundColor: theme.palette.background.paper,
+    maxWidth: 360,
+    width: '100%',
+  },
   root: {
     marginTop: 18,
     width: '100%',
-  },
-  card: {
-    backgroundColor: theme.palette.background.paper,
-    width: '100%',
-    maxWidth: 360,
   },
 }))
 

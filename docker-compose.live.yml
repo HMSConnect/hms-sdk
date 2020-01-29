@@ -1,0 +1,48 @@
+version: "3"
+services:
+  hms-sdk-widget:
+    container_name: hms-sdk-widget
+    environment:
+      - DCP_PORT=3000
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    env_file:
+      - ./app/.env.live
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
+    volumes:
+      - ./app:/app/hms-sdk-widget
+      - /app/hms-sdk-widget/node_modules # [*] Need to refer to node_modules in container of the app
+    entrypoint:
+      - sh
+      - entrypoint-live.sh
+    restart: always
+
+  hms-fake-data:
+    container_name: hms-fake-data
+    environment:
+      - FAKE_PORT=3002
+    build:
+      context: ./fake
+      dockerfile: Dockerfile
+    env_file:
+      - ./fake/.env.development
+    ports:
+      - "3002:3002"
+    expose:
+      - 3002
+    volumes:
+      - ./fake:/app/hms-fake-data
+      - /app/hms-fake-data/node_modules # [*] Need to refer to node_modules in container of the app
+    entrypoint:
+      - sh
+      - entrypoint-dev.sh
+    restart: always
+
+networks:
+  default:
+    external:
+      name: iassdk

@@ -7,8 +7,8 @@ import theme from '../src/theme'
 import { AdapterManager } from '../adapters/DataAdapterManager'
 import RouteManager from '../routes/RouteManager'
 import { HMSService } from '../services/HMSServiceFactory' // Initial singleton HMSService
-import { ThemeProvider } from '@material-ui/core'
 import * as _ from 'lodash'
+import { ThemeProvider } from '@material-ui/core/styles'
 
 // import 'react-grid-layout/css/styles.css'
 // import 'react-resizable/css/styles.css'
@@ -16,6 +16,13 @@ import * as _ from 'lodash'
 // import '../github-markdown.css'
 
 class AASApp extends App {
+  static async getInitialProps({ Component, ctx }) {
+    let pageProps = {}
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx)
+    }
+    return { pageProps }
+  }
   constructor(props) {
     super(props)
     if (typeof window !== 'undefined') {
