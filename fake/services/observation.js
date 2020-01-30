@@ -1,5 +1,5 @@
 const moment = require('moment')
-const utilService, { getRandomIntInclusive } = require('./utils')
+const utilService = require('./utils')
 
 exports.createSelector = (filter = {}) => {
   const selector = {}
@@ -96,11 +96,11 @@ function prepareMockData(observation) {
     .toISOString()
 
   if (observation.code.coding[0].display === 'Body Weight') {
-    observation.valueQuantity.value = getRandomIntInclusive(50, 100)
+    observation.valueQuantity.value = utilService.getRandomIntInclusive(50, 100)
   }
 
   if (observation.code.coding[0].display === 'Body Height') {
-    observation.valueQuantity.value = getRandomIntInclusive(150, 200)
+    observation.valueQuantity.value = utilService.getRandomIntInclusive(150, 200)
   }
 
   if (observation.code.coding[0].display === 'Blood Pressure') {
@@ -110,7 +110,7 @@ function prepareMockData(observation) {
           ...c,
           valueQuantity: {
             ...c.valueQuantity,
-            value: getRandomIntInclusive(60, 140)
+            value: utilService.getRandomIntInclusive(60, 140)
           }
         }
       }
@@ -118,7 +118,7 @@ function prepareMockData(observation) {
         ...c,
         valueQuantity: {
           ...c.valueQuantity,
-          value: getRandomIntInclusive(100, 170)
+          value: utilService.getRandomIntInclusive(100, 170)
         }
       }
     })
