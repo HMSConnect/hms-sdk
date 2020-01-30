@@ -8,6 +8,14 @@ exports.createPaginate = (results, paginationOption) => {
   }
 }
 
+exports.getRandomIntInclusive = (min, max, type) => {
+  if (type === 'int') {
+    min = Math.ceil(min)
+    max = Math.floor(max)
+  }
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
 // Give a sort spec, which can be in any of these forms:
 //   {"key1": 1, "key2": -1}
 //   [["key1", "asc"], ["key2", "desc"]]
