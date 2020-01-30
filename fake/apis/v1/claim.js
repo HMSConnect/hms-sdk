@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
         results.push(claimResult)
       }
 
-      if (results.lenght === 0) {
+      if (results.length === 0) {
         results = encounterResults
       }
 
