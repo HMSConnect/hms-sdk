@@ -20,7 +20,7 @@ import {
 } from '@material-ui/core'
 import CarePlanService from '@services/CarePlanService'
 import { HMSService } from '@services/HMSServiceFactory'
-import { countFilterActive, sendMessage } from '@utils'
+import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -55,6 +55,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
   resourceList?: any[]
   max?: number
   initialFilter?: ICarePlanListFilterQuery
+  name?: string
 }> = ({
   resourceList,
   patientId,
@@ -66,6 +67,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
     periodStart_lt: undefined,
     status: '',
   },
+  name = 'patientCarePlanTable',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithCarePlanInitialFilterQuery(customInitialFilter, {
@@ -90,6 +92,13 @@ const PatientCarePlanTable: React.FunctionComponent<{
       periodStart_lt: _.get(lastEntry, 'periodStart'),
     }
     // setFilter(newFilter)
+    const validParams = validQueryParams(
+      { patientId: true },
+      { filter: newFilter },
+    )
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
+    }
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -98,12 +107,15 @@ const PatientCarePlanTable: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleLoadMore',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
 
     sendMessage({
       message: 'handleLoadMore',
+      name,
       params: newLazyLoad,
     })
 
@@ -141,7 +153,8 @@ const PatientCarePlanTable: React.FunctionComponent<{
       setTabList(menuTabList.data)
       handleTabChange(menuTabList.data[0].type)
       sendMessage({
-        message: 'handleGroupByType',
+        message: 'handleGroupByCategory',
+        name,
         params: {
           isGroup,
         },
@@ -158,7 +171,8 @@ const PatientCarePlanTable: React.FunctionComponent<{
       })
       setResult(newResult)
       sendMessage({
-        message: 'handleGroupByType',
+        message: 'handleGroupByCategory',
+        name,
         params: {
           isGroup,
           result: newResult,
@@ -187,6 +201,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
 
     sendMessage({
       message: `handleTabChange:`,
+      name,
       params: {
         filter: newFilter,
         result: newResult,
@@ -204,7 +219,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
     const newLazyLoad = {
       filter: {
         ...filter,
-        periodStart_lt: filter.periodStart_lt || initialFilter.periodStart_lt,
+        periodStart_lt: initialFilter.periodStart_lt,
       },
       max,
     }
@@ -212,16 +227,13 @@ const PatientCarePlanTable: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleSearchSubmit',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
 
-    sendMessage({
-      message: 'handleLoadMore',
-      params: filter,
-    })
-    setResult(entryData)
-    closeModal()
+    return Promise.resolve(entryData)
   }
 
   const handleParameterChange = (type: string, value: any) => {
@@ -231,20 +243,35 @@ const PatientCarePlanTable: React.FunctionComponent<{
     }))
   }
 
-  const handleSearchSubmit = (event: React.FormEvent) => {
+  const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    fetchData(filter)
     setSubmitedFilter(filter)
+    const newData = await fetchData(filter)
+    setResult(newData)
+    sendMessage({
+      message: 'handleSearchSubmit',
+      name,
+      params: filter,
+    })
+    closeModal()
   }
 
-  const handleSearchReset = () => {
-    fetchData(initialFilter)
+  const handleSearchReset = async () => {
     setSubmitedFilter(initialFilter)
+    const newData = await fetchData(initialFilter)
+    setResult(newData)
+    sendMessage({
+      message: 'handleSearchReset',
+      name,
+      params: filter,
+    })
+    closeModal()
   }
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
     modalTitle: 'Care Plan Filter',
+    name: `${name}Modal`,
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,

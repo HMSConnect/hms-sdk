@@ -483,7 +483,8 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-search-result',
     },
     {
-      document: require('@assets/embedded-widget/patient-info.md').default,
+      document: require('@assets/embedded-widget/patient-info/patient-info.md')
+        .default,
       label: 'Patient Info',
       parameters: [
         {
@@ -493,7 +494,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'patientId',
         },
       ],
-      path: '/embedded-widget/patient-info/:patientId',
+      path: '/embedded-widget/patient-info/:patientId/patient-info',
       queryParams: [
         {
           choices: [
@@ -519,7 +520,8 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-info',
     },
     {
-      document: `# Coming Soon`,
+      document: require('@assets/embedded-widget/patient-info/patient-demographic.md')
+        .default,
       label: 'Patient Demographic',
       parameters: [
         {
@@ -540,7 +542,8 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-demograhpic',
     },
     {
-      document: `# Coming Soon`,
+      document: require('@assets/embedded-widget/patient-info/patient-info-panel.md')
+        .default,
       label: 'Patient Info Panel',
       parameters: [
         {
@@ -554,7 +557,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-info-panel',
     },
     {
-      document: require('@assets/embedded-widget/patient-encounter-timeline.md')
+      document: require('@assets/embedded-widget/patient-info/patient-encounter-timeline.md')
         .default,
       label: 'Patine Encounter Timeline',
       parameters: [
@@ -589,20 +592,18 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-encounter-timeline',
     },
     {
-      document: require('@assets/embedded-widget/patient-allergy-intolerance-table.md')
+      document: require('@assets/embedded-widget/patient-info/patient-allergy-intolerance-table.md')
         .default,
       label: 'Patine AllergyIntolerance Table',
-      parameters: [
+      parameters: [],
+      path: '/embedded-widget/patient-info/allergy-intolerance-table',
+      queryParams: [
         {
           defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
-      ],
-      path:
-        '/embedded-widget/patient-info/allergy-intolerance-table/:patientId',
-      queryParams: [
         {
           defaultValue: 20,
           label: 'Max',
@@ -643,19 +644,25 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-allergy-intolerance-table',
     },
     {
-      document: require('@assets/embedded-widget/patient-condition-table.md')
+      document: require('@assets/embedded-widget/patient-info/patient-condition-table.md')
         .default,
       label: 'Patine Condition Table',
       parameters: [
+        // {
+        //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+        //   label: 'Patient ID',
+        //   type: 'text',
+        //   value: 'patientId',
+        // },
+      ],
+      path: '/embedded-widget/patient-info/condition-table',
+      queryParams: [
         {
           defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
-      ],
-      path: '/embedded-widget/patient-info/condition-table/:patientId',
-      queryParams: [
         {
           defaultValue: 20,
           label: 'Max',
@@ -696,18 +703,25 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-condition-table',
     },
     {
-      document: `# Coming Soon`,
+      document: require('@assets/embedded-widget/patient-info/patient-immunization-table.md')
+        .default,
       label: 'Patine Immunization Table',
       parameters: [
+        // {
+        //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+        //   label: 'Patient ID',
+        //   type: 'text',
+        //   value: 'patientId',
+        // },
+      ],
+      path: '/embedded-widget/patient-info/immunization-table',
+      queryParams: [
         {
           defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
-      ],
-      path: '/embedded-widget/patient-info/immunization-table/:patientId',
-      queryParams: [
         {
           defaultValue: 20,
           label: 'Max',
@@ -736,18 +750,25 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-immunization-table',
     },
     {
-      document: `# Coming Soon`,
+      document: require('@assets/embedded-widget/patient-info/patient-medication-request-table.md')
+        .default,
       label: 'Patine Medication Request Table',
       parameters: [
+        // {
+        //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+        //   label: 'Patient ID',
+        //   type: 'text',
+        //   value: 'patientId',
+        // },
+      ],
+      path: '/embedded-widget/patient-info/medication-request-table',
+      queryParams: [
         {
           defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
-      ],
-      path: '/embedded-widget/patient-info/medication-request-table/:patientId',
-      queryParams: [
         {
           defaultValue: 20,
           label: 'Max',
@@ -776,18 +797,25 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-medication-request-table',
     },
     {
-      document: `# Coming Soon`,
+      document: require('@assets/embedded-widget/patient-info/patient-procedure-table.md')
+        .default,
       label: 'Patine Procedure Table',
       parameters: [
+        // {
+        //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+        //   label: 'Patient ID',
+        //   type: 'text',
+        //   value: 'patientId',
+        // },
+      ],
+      path: '/embedded-widget/patient-info/procedure-table',
+      queryParams: [
         {
           defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
-      ],
-      path: '/embedded-widget/patient-info/procedure-table/:patientId',
-      queryParams: [
         {
           defaultValue: 20,
           label: 'Max',
@@ -804,18 +832,25 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-procedure-table',
     },
     {
-      document: `# Coming Soon`,
+      document: require('@assets/embedded-widget/patient-info/patient-care-plan-table.md')
+        .default,
       label: 'Patine Care Plan Table',
       parameters: [
+        // {
+        //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+        //   label: 'Patient ID',
+        //   type: 'text',
+        //   value: 'patientId',
+        // },
+      ],
+      path: '/embedded-widget/patient-info/care-plan-table',
+      queryParams: [
         {
           defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
-      ],
-      path: '/embedded-widget/patient-info/care-plan-table/:patientId',
-      queryParams: [
         {
           defaultValue: 20,
           label: 'Max',
@@ -832,18 +867,25 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-care-plan-table',
     },
     {
-      document: `# Coming Soon`,
+      document: require('@assets/embedded-widget/patient-info/patient-claim-table.md')
+        .default,
       label: 'Patine Claim Table',
       parameters: [
+        // {
+        //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+        //   label: 'Patient ID',
+        //   type: 'text',
+        //   value: 'patientId',
+        // },
+      ],
+      path: '/embedded-widget/patient-info/claim-table',
+      queryParams: [
         {
           defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
-      ],
-      path: '/embedded-widget/patient-info/claim-table/:patientId',
-      queryParams: [
         {
           defaultValue: 20,
           label: 'Max',
@@ -861,18 +903,25 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-claim-table',
     },
     {
-      document: `# Coming Soon`,
+      document: require('@assets/embedded-widget/patient-info/patient-imaging-study-table.md')
+        .default,
       label: 'Patine Imaging Study Table',
       parameters: [
+        // {
+        //   defaultValue: '019fe101-2d2b-4346-89d6-7c7187c0ee3c',
+        //   label: 'Patient ID',
+        //   type: 'text',
+        //   value: 'patientId',
+        // },
+      ],
+      path: '/embedded-widget/patient-info/imaging-study-table',
+      queryParams: [
         {
-          defaultValue: '019fe101-2d2b-4346-89d6-7c7187c0ee3c',
+          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
-      ],
-      path: '/embedded-widget/patient-info/imaging-study-table/:patientId',
-      queryParams: [
         {
           defaultValue: 20,
           label: 'Max',
@@ -882,9 +931,10 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       ],
       value: 'patient-imaging-study-table',
     },
-    
+
     {
-      document: `# Coming soon`,
+      document: require('@assets/embedded-widget/patient-info/patient-demographic-summary.md')
+        .default,
       label: 'Patient Demographic Summary',
       parameters: [
         {
@@ -906,35 +956,49 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-demographic-summary',
     },
     {
-      document: `# Coming soon`,
+      document: require('@assets/embedded-widget/patient-info/patient-allergy-list-card.md')
+        .default,
       label: 'Patient Allergy List Card',
-      parameters: [
+      parameters: [],
+      path: '/embedded-widget/patient-info/patient-allergy-list-card',
+      queryParams: [
         {
           defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
+        {
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
       ],
-      path:
-        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient-allergy-list-card',
-      queryParams: [],
       value: 'patient-allergy-list-card',
     },
     {
-      document: `# Coming soon`,
+      // document: ,
+      document: require('@assets/embedded-widget/patient-info/patient-medication-request-list-card.md')
+        .default,
       label: 'Patient Medication Request List Card',
-      parameters: [
+      parameters: [],
+      path:
+        '/embedded-widget/patient-info/patient-medication-request-list-card',
+      queryParams: [
         {
           defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
+        {
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
       ],
-      path:
-        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient-medication-request-list-card',
-      queryParams: [],
       value: 'patient-medication-request-list-card',
     },
   ],

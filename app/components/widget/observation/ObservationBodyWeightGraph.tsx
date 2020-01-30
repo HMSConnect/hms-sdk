@@ -1,4 +1,8 @@
+import * as React from 'react'
+
+import ErrorSection from '@components/base/ErrorSection'
 import GraphBase from '@components/base/GraphBase'
+import LoadingSection from '@components/base/LoadingSection'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useObservationList from '@components/hooks/useObservationList'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
@@ -12,7 +16,6 @@ import {
 } from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
 import * as _ from 'lodash'
-import * as React from 'react'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -31,19 +34,23 @@ const ObservationBodyWeightGraph: React.FunctionComponent<{
 }> = ({ query, optionStyle }) => {
   const params = {
     code: _.get(query, 'code') || '29463-7',
-    encounterId: _.get(query, 'encounterId'),
+    // encounterId: _.get(query, 'encounterId'),
     patientId: _.get(query, 'patientId'),
   } as IObservationListFilterQuery
 
-  const { isLoading, data: observationList, error } = useObservationList({
-    filter: params || {},
-    max: 10,
-  })
+  const { isLoading, data: observationList, error } = useObservationList(
+    {
+      filter: params || {},
+      max: 10,
+    },
+    { patientId: true },
+  )
   if (error) {
-    return <div>ERR: {error}.</div>
+    return <ErrorSection error={error} />
   }
+
   if (isLoading) {
-    return <div>loading...</div>
+    return <LoadingSection />
   }
   return (
     <>

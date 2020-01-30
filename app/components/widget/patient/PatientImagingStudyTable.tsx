@@ -13,7 +13,7 @@ import {
 import { Grid, makeStyles, Theme, Typography } from '@material-ui/core'
 import { HMSService } from '@services/HMSServiceFactory'
 import ImagingStudyService from '@services/ImagingStudyService'
-import { countFilterActive, sendMessage } from '@utils'
+import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -48,6 +48,7 @@ const PatientImagingStudyTable: React.FunctionComponent<{
   resourceList?: any[]
   max?: number
   initialFilter?: IImagingStudyListFilterQuery
+  name?: string
 }> = ({
   resourceList,
   patientId,
@@ -57,6 +58,7 @@ const PatientImagingStudyTable: React.FunctionComponent<{
     patientId,
     started_lt: undefined,
   },
+  name = 'patientImagingStudyTable',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithImagingStudyInitialFilterQuery(customInitialFilter, {
@@ -81,6 +83,13 @@ const PatientImagingStudyTable: React.FunctionComponent<{
       started_lt: _.get(lastEntry, 'started'),
     }
     // setFilter(newFilter)
+    const validParams = validQueryParams(
+      { patientId: true },
+      { filter: newFilter },
+    )
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
+    }
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -89,12 +98,15 @@ const PatientImagingStudyTable: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleLoadMore',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
 
     sendMessage({
       message: 'handleLoadMore',
+      name,
       params: newLazyLoad,
     })
 
@@ -127,7 +139,7 @@ const PatientImagingStudyTable: React.FunctionComponent<{
     const newLazyLoad = {
       filter: {
         ...filter,
-        started_lt: filter.started_lt || initialFilter.started_lt,
+        started_lt: initialFilter.started_lt,
       },
       max,
     }
@@ -135,12 +147,12 @@ const PatientImagingStudyTable: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleSearchSubmit',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
-
-    setResult(entryData)
-    closeModal()
+    return Promise.resolve(entryData)
   }
 
   const handleParameterChange = (type: string, value: any) => {
@@ -150,27 +162,33 @@ const PatientImagingStudyTable: React.FunctionComponent<{
     }))
   }
 
-  const handleSearchSubmit = (event: React.FormEvent) => {
+  const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    fetchData(filter)
     setSubmitedFilter(filter)
+    const newData = await fetchData(filter)
+    setResult(newData)
     sendMessage({
       message: 'handleSearchSubmit',
+      name,
       params: { filter, max },
     })
+    closeModal()
   }
 
-  const handleSearchReset = () => {
-    fetchData(initialFilter)
+  const handleSearchReset = async () => {
     setSubmitedFilter(initialFilter)
+    const newData = await fetchData(initialFilter)
+    setResult(newData)
     sendMessage({
       message: 'handleSearchReset',
       params: { filter: initialFilter, max },
     })
+    closeModal()
   }
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
     modalTitle: 'Imaging Study Filter',
+    name: `${name}Modal`,
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -202,6 +220,9 @@ const PatientImagingStudyTable: React.FunctionComponent<{
             'started_lt',
             'patientId',
           ])}
+          option={{
+            isHideIcon: true,
+          }}
         >
           {renderModal}
         </ToolbarWithFilter>

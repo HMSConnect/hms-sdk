@@ -33,7 +33,7 @@ const PatientSearchView: IStatelessPage<{
     <BootstrapWrapper dependencies={['patient']}>
       <>
         <CssBaseline />
-        <PatientSearch query={query} />
+        <PatientSearch query={query} name={_.get(query, 'name')} />
       </>
     </BootstrapWrapper>
   )

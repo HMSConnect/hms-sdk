@@ -1,9 +1,10 @@
 import * as React from 'react'
 
+import ErrorSection from '@components/base/ErrorSection'
+import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import {
-  CircularProgress,
   Divider,
   Grid,
   Icon,
@@ -55,17 +56,20 @@ const ObservationBloodPressureCard: React.FunctionComponent<{ query: any }> = ({
     }
   }
 
-  const { isLoading, data: observationList, error } = useObservationList({
-    filter: params || {},
-    max: 1,
-  })
-
-  if (isLoading) {
-    return <CircularProgress />
-  }
+  const { isLoading, data: observationList, error } = useObservationList(
+    {
+      filter: params || {},
+      max: 1,
+    },
+    { patientId: true },
+  )
 
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
+  }
+
+  if (isLoading) {
+    return <LoadingSection />
   }
   return <ObservationBloodPressureCardView observation={observationList[0]} />
 }

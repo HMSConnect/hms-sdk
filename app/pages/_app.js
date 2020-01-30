@@ -10,8 +10,8 @@ import { HMSService } from '../services/HMSServiceFactory' // Initial singleton 
 import * as _ from 'lodash'
 import { ThemeProvider } from '@material-ui/core/styles'
 
-// import 'react-grid-layout/css/styles.css'
-// import 'react-resizable/css/styles.css'
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
 
 
 class AASApp extends App {

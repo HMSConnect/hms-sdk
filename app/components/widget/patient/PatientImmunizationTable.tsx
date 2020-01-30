@@ -20,7 +20,7 @@ import {
 } from '@material-ui/core'
 import { HMSService } from '@services/HMSServiceFactory'
 import ImmunizationService from '@services/ImmunizationService'
-import { countFilterActive, sendMessage } from '@utils'
+import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -55,6 +55,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
   resourceList?: any[]
   max?: number
   initialFilter?: IImmunizationListFilterQuery
+  name?: string
 }> = ({
   resourceList,
   patientId,
@@ -66,6 +67,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
     status: '',
     vaccineCode: undefined,
   },
+  name = 'patientImmunizationTable',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithImmunizationInitialFilterQuery(customInitialFilter, {
@@ -93,6 +95,13 @@ const PatientImmunizationTable: React.FunctionComponent<{
       patientId,
     }
     // setFilter(newFilter)
+    const validParams = validQueryParams(
+      { patientId: true },
+      { filter: newFilter },
+    )
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
+    }
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -101,12 +110,15 @@ const PatientImmunizationTable: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleLoadMore',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
 
     sendMessage({
       message: 'handleLoadMore',
+      name,
       params: newLazyLoad,
     })
 
@@ -148,6 +160,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
       handleTabChange(menuTabList.data[0].type)
       sendMessage({
         message: 'handleGroupByType',
+        name,
         params: {
           isGroup,
         },
@@ -165,6 +178,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
       setResult(newResult)
       sendMessage({
         message: 'handleGroupByType',
+        name,
         params: {
           isGroup,
           result: newResult,
@@ -192,7 +206,8 @@ const PatientImmunizationTable: React.FunctionComponent<{
     setIsMore(true)
 
     sendMessage({
-      message: `handleTabChange:`,
+      message: `handleTabChange`,
+      name,
       params: {
         filter: newFilter,
         result: newResult,
@@ -210,7 +225,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
     const newLazyLoad = {
       filter: {
         ...filter,
-        date_lt: filter.date_lt || initialFilter.date_lt,
+        date_lt: initialFilter.date_lt,
       },
       max,
     }
@@ -218,14 +233,12 @@ const PatientImmunizationTable: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleSearchSubmit',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      params: filter,
-    })
+    return Promise.resolve(entryData)
     setResult(entryData)
     closeModal()
   }
@@ -237,20 +250,35 @@ const PatientImmunizationTable: React.FunctionComponent<{
     }))
   }
 
-  const handleSearchSubmit = (event: React.FormEvent) => {
+  const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    fetchData(filter)
     setSubmitedFilter(filter)
+    const newData = await fetchData(filter)
+    setResult(newData)
+    sendMessage({
+      message: 'handleSearchSubmit',
+      name,
+      params: filter,
+    })
+    closeModal()
   }
 
-  const handleSearchReset = () => {
-    fetchData(initialFilter)
+  const handleSearchReset = async () => {
     setSubmitedFilter(initialFilter)
+    const newData = await fetchData(initialFilter)
+    setResult(newData)
+    sendMessage({
+      message: 'handleSearchReset',
+      name,
+      params: initialFilter,
+    })
+    closeModal()
   }
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
     modalTitle: 'Immunization Filter',
+    name: `${name}Modal`,
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,

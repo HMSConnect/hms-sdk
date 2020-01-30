@@ -57,6 +57,11 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   isContainer?: boolean
   isRouteable?: boolean
   selectedEncounterId?: string
+  onEncounterSelected?: (
+    event: React.MouseEvent,
+    selectedEncounter: any,
+  ) => void
+  name?: string
 }> = ({
   patientId,
   resourceList,
@@ -71,6 +76,8 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   },
   isRouteable = true,
   selectedEncounterId,
+  onEncounterSelected,
+  name = 'patientEncounterTimeline',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithEncounterInitialFilterQuery(customInitialFilter, {
@@ -106,12 +113,15 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleLoadMore',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
 
     sendMessage({
       message: 'handleLoadMore',
+      name,
       params: newLazyLoad,
     })
 
@@ -137,29 +147,35 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       setIsFetch(true)
     }
   }, [isInitialize])
-
+  // /patient-demograhpic
   const handleEncounterSelect = (
     event: React.MouseEvent,
     selectedEncounter: any,
   ) => {
-    const newParams = {
-      encounterId: _.get(selectedEncounter, 'id'),
-      patientId,
-    }
-    const path = RouterManager.getPath(
-      `patient-info/${patientId}/encounter/${_.get(selectedEncounter, 'id')}`,
-      {
-        matchBy: 'url',
-      },
-    )
-    sendMessage({
-      action: 'PUSH_ROUTE',
-      message: 'handleEncounterSelect',
-      params: newParams,
-      path,
-    })
-    if (isRouteable) {
-      routes.Router.replaceRoute(path)
+    if (onEncounterSelected) {
+      onEncounterSelected(event, selectedEncounter)
+    } else {
+      const newParams = {
+        encounterId: _.get(selectedEncounter, 'id'),
+        patientId,
+      }
+      
+      const path = RouterManager.getPath(
+        `patient-info/${patientId}/encounter/${_.get(selectedEncounter, 'id')}/patient-medical`,
+        {
+          matchBy: 'url',
+        },
+      )
+      sendMessage({
+        action: 'PUSH_ROUTE',
+        message: 'handleEncounterSelect',
+        name,
+        params: newParams,
+        path,
+      })
+      if (isRouteable) {
+        routes.Router.replaceRoute(path)
+      }
     }
   }
   const fetchData = async (filter: any) => {
@@ -171,7 +187,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     const newLazyLoad = {
       filter: {
         ...filter,
-        periodStart_lt: filter.periodStart_lt || initialFilter.periodStart_lt,
+        periodStart_lt: initialFilter.periodStart_lt,
       },
       max,
     }
@@ -179,16 +195,13 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleSearchSubmit',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      params: filter,
-    })
-    setResult(entryData)
-    closeModal()
+   
+    return Promise.resolve(entryData)
   }
 
   const handleParameterChange = (type: string, value: any) => {
@@ -198,20 +211,30 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     }))
   }
 
-  const handleSearchSubmit = (event: React.FormEvent) => {
+  const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    fetchData(filter)
     setSubmitedFilter(filter)
+    const newData = await fetchData(filter)
+    setResult(newData)
+    sendMessage({
+      message: 'handleSearchSubmit',
+      name,
+      params: filter,
+    })
+    closeModal()
   }
 
-  const handleSearchReset = () => {
-    fetchData(initialFilter)
+  const handleSearchReset = async () => {
     setSubmitedFilter(initialFilter)
+    const newData = await fetchData(initialFilter)
+    setResult(newData)
+    closeModal()
   }
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
     modalTitle: 'Encouter Filter',
+    name: `${name}Modal`,
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -250,7 +273,6 @@ const PatientEncounterTimeline: React.FunctionComponent<{
             'patientId',
           ])}
           option={{
-            isHideIcon: true,
             style: {
               backgroundColor: '#303f9f',
               color: '#e1f5fe',

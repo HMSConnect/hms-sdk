@@ -1,12 +1,6 @@
 import React, { useState } from 'react'
 
-import {
-  Avatar,
-  CircularProgress,
-  Grid,
-  makeStyles,
-  Paper,
-} from '@material-ui/core'
+import { CircularProgress, Grid, makeStyles, Paper } from '@material-ui/core'
 import { sendMessage } from '@utils'
 import * as _ from 'lodash'
 import routes from '../../../routes'
@@ -14,7 +8,6 @@ import RouteManager from '../../../routes/RouteManager'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import usePatient from '../../hooks/usePatient'
 import useResourceList from '../../hooks/useResourceList'
-import PatientInfoPanel, { PatientInfoPanelView } from './PatientInfoPanel'
 import PatientInfoTable from '../../templates/patient/PatientInfoTable'
 import PatientMenuList from '../../templates/patient/PatientMenuList'
 import EncounterInfoDetail from '../encounter/EncounterInfoDetail'
@@ -22,12 +15,13 @@ import PatientAllergyIntoleranceTable from './PatientAllergyIntoleranceTable'
 import PatientCarePlanTable from './PatientCarePlanTable'
 import PatientClaimTable from './PatientClaimTable'
 import PatientConditionTable from './PatientConditionTable'
+import PatientEncounterTimeline from './PatientEncounterTimeline'
 import PatientImagingStudyTable from './PatientImagingStudyTable'
 import PatientImmunizationTable from './PatientImmunizationTable'
+import { PatientInfoPanelView } from './PatientInfoPanel'
 import PatientMedicationRequestTable from './PatientMedicationRequestTable'
 import PatientObservationTable from './PatientObservationTable'
 import PatientProcedureTable from './PatientProcedureTable'
-import PatientEncounterTimeline from './PatientEncounterTimeline'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -65,7 +59,8 @@ const useStyles = makeStyles(theme => ({
 
 const PatientInfoDetail: React.FunctionComponent<{
   query: any
-}> = ({ query }) => {
+  name?: string
+}> = ({ query, name = 'patientInfoDetail' }) => {
   const classes = useStyles()
   const { isLoading: isPatientLoading, data: patient, error } = usePatient(
     _.get(query, 'patientId') || _.get(query, 'id'),
@@ -87,7 +82,7 @@ const PatientInfoDetail: React.FunctionComponent<{
         </Paper>
       </div>
       <div className={classes.detailSelector}>
-        <PatientDetailSelector patient={patient} query={query} />
+        <PatientDetailSelector patient={patient} query={query} name={name} />
       </div>
     </>
   )
@@ -96,19 +91,23 @@ const PatientInfoDetail: React.FunctionComponent<{
 const PatientDetailSelector: React.FunctionComponent<any> = ({
   query,
   patient,
+  name = 'patientDetailSelector',
 }) => {
   let PatientDetail = PatientDetailSub
 
   if (query.encounterId) {
     PatientDetail = EncounterInfoDetail
   }
-  return <PatientDetail patient={patient} query={query}></PatientDetail>
+  return (
+    <PatientDetail patient={patient} query={query} name={name}></PatientDetail>
+  )
 }
 
 const PatientDetailSub: React.FunctionComponent<{
   patient: any
   query: any
-}> = ({ patient, query }) => {
+  name?: string
+}> = ({ patient, query, name = 'patientDetailSub' }) => {
   const classes = useStyles()
   const {
     isLoading: isGroupResourceListLoading,
@@ -127,7 +126,7 @@ const PatientDetailSub: React.FunctionComponent<{
       menuNavigate: newNavigateValue,
     }
     const path = RouteManager.getPath(
-      `patient-info/${_.get(patient, 'identifier.id.value')}`,
+      `patient-info/${_.get(patient, 'identifier.id.value')}/patient-info`,
       {
         matchBy: 'url',
         params,
@@ -135,6 +134,7 @@ const PatientDetailSub: React.FunctionComponent<{
     )
     sendMessage({
       message: 'handleNavigateChange',
+      name,
       params,
       path,
     })
@@ -151,6 +151,7 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientEncounterTimeline
             patientId={_.get(patient, 'identifier.id.value')}
+            name={`${name}EncounterTimeline`}
             // resourceList={_.get(resource, 'data')}
             isInitialize={true}
             max={query.max}
@@ -160,6 +161,7 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientConditionTable
             patientId={_.get(patient, 'identifier.id.value')}
+            name={`${name}ConditionTable`}
             // resourceList={_.get(resource, 'data')}
             isInitialize={true}
             max={query.max}
@@ -169,6 +171,7 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientAllergyIntoleranceTable
             patientId={_.get(patient, 'identifier.id.value')}
+            name={`${name}AllergyIntoleranceTable`}
             // resourceList={_.get(resource, 'data')}
             isInitialize={true}
             max={query.max}
@@ -178,6 +181,7 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientImmunizationTable
             patientId={_.get(patient, 'identifier.id.value')}
+            name={`${name}ImmunizationTable`}
             // resourceList={_.get(resource, 'data')}
             isInitialize={true}
             max={query.max}
@@ -187,6 +191,7 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientProcedureTable
             patientId={_.get(patient, 'identifier.id.value')}
+            name={`${name}ProcedureTable`}
             // resourceList={_.get(resource, 'data')}
             isInitialize={true}
             max={query.max}
@@ -196,6 +201,7 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientMedicationRequestTable
             patientId={_.get(patient, 'identifier.id.value')}
+            name={`${name}MedicationRequestTable`}
             // resourceList={_.get(resource, 'data')}
             isInitialize={true}
             max={query.max}
@@ -205,6 +211,7 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientObservationTable
             patientId={_.get(patient, 'identifier.id.value')}
+            name={`${name}ObservationTable`}
             // resourceList={_.get(resource, 'data')}
             isInitialize={true}
             max={query.max}
@@ -214,6 +221,7 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientImagingStudyTable
             patientId={_.get(patient, 'identifier.id.value')}
+            name={`${name}ImagingStudyTable`}
             // resourceList={_.get(resource, 'data')}
             isInitialize={true}
             max={query.max}
@@ -223,6 +231,7 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientClaimTable
             patientId={_.get(patient, 'identifier.id.value')}
+            name={`${name}ClaimTable`}
             // resourceList={_.get(resource, 'data')}
             isInitialize={true}
             max={query.max}
@@ -232,6 +241,7 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientCarePlanTable
             patientId={_.get(patient, 'identifier.id.value')}
+            name={`${name}CarePlanTable`}
             // resourceList={_.get(resource, 'data')}
             isInitialize={true}
             max={query.max}

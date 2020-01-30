@@ -37,6 +37,7 @@ Replace `/embedded-widget/patient-search-bar` url to your iframe project.
 ```json
 {
   "message": "initialize",
+  "name": "patientSearchBar",
   "params": {
     "filter": {
       "gender": "all",

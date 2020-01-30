@@ -1,6 +1,8 @@
 import * as React from 'react'
 
 import AdaptiveCard from '@components/base/AdaptiveCard'
+import ErrorSection from '@components/base/ErrorSection'
+import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
 import observationTemplate from '@components/templates/adaptive-card/observation.template.json'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
@@ -12,7 +14,6 @@ import { stringify } from 'qs'
 
 export const ObservationLaboratoryCard: React.FunctionComponent<any> = () => {
   const { query: routerQuery } = useRouter()
-  console.log('routerQuery :', routerQuery);
   const query = {
     ...parse(stringify(routerQuery)),
     categoryCode: 'laboratory',
@@ -23,15 +24,18 @@ export const ObservationLaboratoryCard: React.FunctionComponent<any> = () => {
     patientId: query.patientId,
   } as IObservationListFilterQuery
 
-  const { isLoading, data: observationList, error } = useObservationList({
-    filter: params || {},
-  })
+  const { isLoading, data: observationList, error } = useObservationList(
+    {
+      filter: params || {},
+    },
+    { encounterId: true },
+  )
   if (error) {
-    return <div>ERR: {error}.</div>
+    return <ErrorSection error={error} />
   }
 
   if (isLoading) {
-    return <div>loading...</div>
+    return <LoadingSection />
   }
 
   return (

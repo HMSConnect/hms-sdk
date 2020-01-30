@@ -25,7 +25,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const PatientSearch: React.FunctionComponent<{
   query: IPaginationOption
-}> = ({ query }) => {
+  name?: string
+}> = ({ query, name = 'patientSearch' }) => {
   const classes = useStyles()
   const [highlightText, setHighlightText] = useState<string>(
     _.get(query, 'filter.searchText') ? _.get(query, 'filter.searchText') : '',
@@ -56,6 +57,7 @@ const PatientSearch: React.FunctionComponent<{
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handleSearchSubmit',
+      name,
       params: newPagination,
       path,
     })
@@ -82,6 +84,7 @@ const PatientSearch: React.FunctionComponent<{
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handleRequestSort',
+      name,
       params: newPagination,
       path,
     })
@@ -103,6 +106,7 @@ const PatientSearch: React.FunctionComponent<{
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handlePageChange',
+      name,
       params: newPagination,
       path,
     })
@@ -123,6 +127,7 @@ const PatientSearch: React.FunctionComponent<{
     sendMessage({
       action: 'PUSH_ROUTE',
       message: 'handlePatientSelect',
+      name,
       params,
       path,
     })
@@ -138,6 +143,7 @@ const PatientSearch: React.FunctionComponent<{
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handlePaginationReset',
+      name,
       params: null,
       path,
     })
@@ -154,6 +160,7 @@ const PatientSearch: React.FunctionComponent<{
             onSearchSubmit={handleSearchSubmit}
             onPaginationReset={handlePaginationReset}
             onHightlightChange={handleHighlightChange}
+            name={`${name}SearchBar`}
           />
         </Grid>
         <PatientSearchResultWithPaginate
@@ -162,6 +169,7 @@ const PatientSearch: React.FunctionComponent<{
           onPatientSelect={handlePatientSelect}
           onPageChange={handlePageChange}
           onRequestSort={handleRequestSort}
+          name={`${name}SearchResult`}
         />
       </Grid>
     </>

@@ -14,7 +14,7 @@ import {
 import { Grid, makeStyles, Theme, Typography } from '@material-ui/core'
 import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
 import { HMSService } from '@services/HMSServiceFactory'
-import { countFilterActive, sendMessage } from '@utils'
+import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -49,6 +49,7 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   resourceList?: any[]
   max?: number
   initialFilter?: IAllergyIntoleranceListFilterQuery
+  name?: string
 }> = ({
   resourceList,
   patientId,
@@ -62,6 +63,7 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     patientId,
     type: '',
   },
+  name = 'patientAllergyIntoleranceTable',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithAllergyIntoleranceInitialFilterQuery(customInitialFilter, {
@@ -86,6 +88,13 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
       patientId,
     }
     // setFilter(newFilter)
+    const validParams = validQueryParams(
+      { patientId: true },
+      { filter: newFilter },
+    )
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
+    }
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -94,12 +103,15 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleLoadMore',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
 
     sendMessage({
       message: 'handleLoadMore',
+      name,
       params: newLazyLoad,
     })
 
@@ -132,8 +144,7 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     const newLazyLoad = {
       filter: {
         ...filter,
-        assertedDate_lt:
-          filter.assertedDate_lt || initialFilter.assertedDate_lt,
+        assertedDate_lt: initialFilter.assertedDate_lt,
       },
       max,
     }
@@ -141,12 +152,14 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleSearchSubmit',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
 
-    setResult(entryData)
     closeModal()
+    return Promise.resolve(entryData)
   }
 
   const handleParameterChange = (type: string, value: any) => {
@@ -156,27 +169,34 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     }))
   }
 
-  const handleSearchSubmit = (event: React.FormEvent) => {
+  const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    fetchData(filter)
     setSubmitedFilter(filter)
+    const newData = await fetchData(filter)
+    setResult(newData)
     sendMessage({
       message: 'handleSearchSubmit',
+      name,
       params: { filter, max },
     })
+    closeModal()
   }
 
-  const handleSearchReset = () => {
-    fetchData(initialFilter)
+  const handleSearchReset = async () => {
     setSubmitedFilter(initialFilter)
+    const newData = await fetchData(initialFilter)
+    setResult(newData)
     sendMessage({
       message: 'handleSearchReset',
+      name,
       params: { filter: initialFilter, max },
     })
+    closeModal()
   }
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
-    modalTitle: 'Procedure Filter',
+    modalTitle: 'AllerygyIntolerance Filter',
+    name: `${name}Modal`,
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,

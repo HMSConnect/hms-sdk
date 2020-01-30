@@ -70,9 +70,14 @@ export const saveLayout = _.debounce((layout: any, dimention: string) => {
 }, 500)
 
 const GridSelector: React.FunctionComponent<{
-  defaultDimention?: IDimention
   componentResource: any
-}> = ({ defaultDimention = '1xN', componentResource }) => {
+  defaultDimention?: IDimention
+  name?: string
+}> = ({
+  defaultDimention = '1xN',
+  componentResource,
+  name = 'gridSelector',
+}) => {
   const [dimention, setDimention] = useState<IDimention>(defaultDimention)
   const [layout, setLayout] = useState<any[]>(GRID_LAYOUT[dimention])
   const classes = useStyles()
@@ -122,6 +127,7 @@ const GridSelector: React.FunctionComponent<{
     saveAndSetLayout(_.merge(layout, GRID_LAYOUT[dimention]), dimention)
     sendMessage({
       message: 'handleDimentionChange',
+      name,
       params: {
         dimention,
       },

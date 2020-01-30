@@ -45,10 +45,19 @@ Replace `/embedded-widget/patient-info/condition-table/:patientId` url to your i
 ### Response
 ```json
 {
-    "message": "handleLoadMore",
+      "message": "handleModalClose: Condition Filter",
+      "name": "patientConditionTableModal",
+      "params": {
+        "open": false,
+},
+```
+```json
+{
+    
+    "message": "handleSearchSubmit",
+    "name": "patientConditionTable",
     "params": {
         "filter": {
-
             "clinicalStatus": "active",
             "codeText": "",
             "onsetDateTime_lt": undefined,
@@ -59,4 +68,12 @@ Replace `/embedded-widget/patient-info/condition-table/:patientId` url to your i
     },
     "eventType": "embedded-widget"
 }
+```
+```json
+{
+      "message": "handleModalClose: Condition Filter",
+      "name": "patientConditionTableModal",
+      "params": {
+        "open": true,
+},
 ```

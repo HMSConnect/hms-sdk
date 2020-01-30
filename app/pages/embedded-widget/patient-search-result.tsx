@@ -44,6 +44,7 @@ const PatientSearchResultWidget: IStatelessPage<{
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handleRequestSort',
+      name: _.get(query, 'name') || 'patientSearchResult',
       params: newPagination,
       path,
     })
@@ -66,6 +67,7 @@ const PatientSearchResultWidget: IStatelessPage<{
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handlePageChange',
+      name: _.get(query, 'name') || 'patientSearchResult',
       params: newPagination,
       path,
     })
@@ -87,6 +89,7 @@ const PatientSearchResultWidget: IStatelessPage<{
     sendMessage({
       action: 'PUSH_ROUTE',
       message: 'handlePatientSelect',
+      name: _.get(query, 'name') || 'patientSearchResult',
       params,
       path,
     })

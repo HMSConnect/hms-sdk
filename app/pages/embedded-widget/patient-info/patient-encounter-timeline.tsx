@@ -26,6 +26,7 @@ const PatientEncounterTimelineView: IStatelessPage<{
           initialFilter={get(query, 'initialFilter')}
           isContainer={false}
           isRouteable={get(query, 'isRouteable')}
+          name={get(query, 'name')}
         />
       </>
     </BootstrapWrapper>

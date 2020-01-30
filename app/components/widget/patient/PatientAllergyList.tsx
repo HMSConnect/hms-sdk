@@ -19,7 +19,7 @@ import {
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
 import { HMSService } from '@services/HMSServiceFactory'
-import { sendMessage } from '@utils'
+import { sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -44,6 +44,7 @@ const PatientAllergyList: React.FunctionComponent<{
   initialFilter?: IAllergyIntoleranceListFilterQuery
   isContainer?: boolean
   option?: any
+  name?: string
 }> = ({
   resourceList,
   patientId,
@@ -59,6 +60,7 @@ const PatientAllergyList: React.FunctionComponent<{
     type: '',
   },
   option = {},
+  name = 'patientAllergyList',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithAllergyIntoleranceInitialFilterQuery(customInitialFilter, {
@@ -81,6 +83,13 @@ const PatientAllergyList: React.FunctionComponent<{
       assertedDate_lt: _.get(lastEntry, 'assertedDate'),
       patientId,
     }
+    const validParams = validQueryParams(
+      { patientId: true },
+      { filter: newFilter },
+    )
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
+    }
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -89,12 +98,15 @@ const PatientAllergyList: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleLoadMore',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
 
     sendMessage({
       message: 'handleLoadMore',
+      name,
       params: newLazyLoad,
     })
 

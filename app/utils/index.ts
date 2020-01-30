@@ -3,8 +3,9 @@ import * as _ from 'lodash'
 import qs from 'qs'
 
 interface IPostMessage {
-  action?: string
   message?: string
+  name?: string
+  action?: string
   path?: string
   params?: any
   result?: any
@@ -72,4 +73,27 @@ export const countFilterActive = (
   })
 
   return count
+}
+
+export const validQueryParams = (
+  neededParams: any,
+  queryParams: any,
+  prefixError = 'Need the',
+) => {
+  return _.chain(neededParams)
+    .reduce((acc, v, key) => {
+      if (v && !_.get(queryParams, `filter.${key}`)) {
+        return {
+          ...acc,
+          [key]: true,
+        }
+      }
+      return {
+        ...acc,
+      }
+    }, {})
+    .map((v, k) => {
+      return `${prefixError} ${k}`
+    })
+    .value()
 }

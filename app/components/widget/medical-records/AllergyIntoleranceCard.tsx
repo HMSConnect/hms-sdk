@@ -1,6 +1,8 @@
 import * as React from 'react'
 
 import AdaptiveCard from '@components/base/AdaptiveCard'
+import ErrorSection from '@components/base/ErrorSection'
+import LoadingSection from '@components/base/LoadingSection'
 import useAllergyIntoleranceList from '@components/hooks/useAllergyIntoleranceList'
 import allergyIntolerance from '@components/templates/adaptive-card/allergy.template.json'
 import { IAllergyIntoleranceListFilterQuery } from '@data-managers/AllergyIntoleranceDataManager'
@@ -17,54 +19,21 @@ export const AllergyIntoleranceCard: React.FunctionComponent<any> = () => {
     patientId: query.patientId,
   } as IAllergyIntoleranceListFilterQuery
 
-  const { isLoading, data: allergyList, error } = useAllergyIntoleranceList({
-    filter: params || {},
-  })
+  const { isLoading, data: allergyList, error } = useAllergyIntoleranceList(
+    {
+      filter: params || {},
+    },
+    { patientId: true },
+  )
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
 
-  // const { data: allergyList, error, isLoading, setIsFetch } = useInfinitScroll(
-  //   myscroll.current,
-  //   fetchMoreAsync,
-  // )
-
-  // React.useEffect(() => {
-  //   setIsFetch(true)
-  // }, [])
-
-  // async function fetchMoreAsync(lastEntry: any) {
-  //   const allergyIntoleranceService = HMSService.getService(
-  //     'allergy_intolerance',
-  //   ) as AllergyIntoleranceService
-  //   const newLazyLoad = {
-  //     filter: {
-  //       patientId: params.patientId,
-  //       assertedDate_lt: _.get(lastEntry, 'assertedDate'),
-  //     },
-  //     max: 10,
-  //   }
-  //   const entryData = await allergyIntoleranceService.list(newLazyLoad)
-  //   if (_.get(entryData, 'error')) {
-  //     sendMessage({
-  //       error: _.get(entryData, 'error'),
-  //     })
-  //     return Promise.reject(new Error(entryData.error))
-  //   }
-
-  //   sendMessage({
-  //     message: 'handleLoadMore',
-  //     params: newLazyLoad,
-  //   })
-
-  //   return Promise.resolve(_.get(entryData, 'data'))
-  // }
-
   if (error) {
-    return <div>ERR: {error}.</div>
+    return <ErrorSection error={error} />
   }
 
   if (isLoading) {
-    return <div>loading...</div>
+    return <LoadingSection />
   }
   return (
     <>

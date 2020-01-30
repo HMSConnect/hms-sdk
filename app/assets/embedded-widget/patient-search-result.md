@@ -43,6 +43,7 @@ Replace `/embedded-widget/patient-search-result` url to your iframe project.
 {
     "action": "PUSH_ROUTE",
     "message": "handlePatientSelect",
+    "name": "patientSearchResult",
     "params": {
         "id": "039933a0-f970-4a84-bdab-fcbd85edd343"
     },

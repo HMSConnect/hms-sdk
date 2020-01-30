@@ -2,10 +2,10 @@
 
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
-URL: `/embedded-widget/patient-info/:patientId`
+URL: `/embedded-widget/patient-info/:patientId/patient-info`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/:patientId` url to your iframe project.
+Replace `/embedded-widget/patient-info/:patientId/patient-info` url to your iframe project.
 
 ## Request HTTP GET
 **Params**
@@ -30,7 +30,7 @@ Replace `/embedded-widget/patient-info/:patientId` url to your iframe project.
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5` 
+ - pathname: `/embedded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5/patient-info` 
 
 ### Action
  - Select side menu `encounter`
@@ -42,7 +42,7 @@ Replace `/embedded-widget/patient-info/:patientId` url to your iframe project.
     "params": {
         "menuNavigate": "encounter"
     },
-    "path": "/embedded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5?menuNavigate=encounter",
+    "path": "/embedded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5/patient-info?menuNavigate=encounter",
     "eventType": "embedded-widget",
 }
 ```

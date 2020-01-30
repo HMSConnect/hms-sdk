@@ -1,11 +1,10 @@
 import * as React from 'react'
 
-import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PreparePatientData from '@components/widget/PreparePatientData'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
-import HomeIcon from '@material-ui/icons/Home'
 import { IStatelessPage } from '@pages/patient-search'
+import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -35,7 +34,7 @@ const PatientInfoView: IStatelessPage<{
               },
             ]}
           /> */}
-          <PreparePatientData query={query} />
+          <PreparePatientData query={query} name={_.get(query, 'name')} />
           {/* <PatientInfoDetail query={query} /> */}
         </Typography>
       </>

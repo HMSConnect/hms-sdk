@@ -1,12 +1,12 @@
-# Patient Immunization Table
+# Patient Procedure Table
 
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 
-URL: `/embedded-widget/patient-info/immunization-table/:patientId`
+URL: `/embedded-widget/patient-info/procedure-table/:patientId`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/immunization-table/:patientId` url to your iframe project.
+Replace `/embedded-widget/patient-info/procedure-table/:patientId` url to your iframe project.
 
 ## Request HTTP GET
 **Params**
@@ -15,11 +15,10 @@ Replace `/embedded-widget/patient-info/immunization-table/:patientId` url to you
 | patientId | string      | `required` ID of patient |
 
 **Query Params**
-| Key                        | Type/Format | Default   | Description                                                                                |
-| -------------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------ |
-| initialFilter[vaccineCode] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
-| initialFilter[status]      | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
-| max                        | number      | 20        | Number of total records in each fetch                                                      |
+| Key                 | Type/Format | Default   | Description                                                                                |
+| ------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------ |
+| initialFilter[code] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
+| max                 | number      | 20        | Number of total records in each fetch                                                      |
 
 ## Response
 - **Object Response**
@@ -33,24 +32,25 @@ Replace `/embedded-widget/patient-info/immunization-table/:patientId` url to you
    | -      | handleModalShow    | Event is called when click filter icon to open    |
    | -      | handleModalClose   | Event is called when click close filter modal     |
 
+
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/immunization-table/6f8f470e-07e8-4273-ad11-6e3fdc384a09` 
+ - pathname: `/embedded-widget/patient-info/procedure-table/6f8f470e-07e8-4273-ad11-6e3fdc384a09` 
 
 ### Action
- - Filter with `status` value `entered-in-error`
+ - Scroll to bottom of table
 
 ### Response
 ```json
 {
     "message": "handleLoadMore",
+    "name": "patientProcedureTable",
     "params": {
         "filter": {
-            "status": "entered-in-error",
-            "vaccineCode": "",
-            "date_lt": undefined,
+            "code": "",
             "patientId": "6f8f470e-07e8-4273-ad11-6e3fdc384a09",
+            "periodStart_lt": Fri Apr 06 2012 07:31:15 GMT+0700 (Indochina Time),
         },
         "max": 20
     },

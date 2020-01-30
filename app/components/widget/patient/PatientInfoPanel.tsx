@@ -37,11 +37,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const PatientInfoPanel: React.FunctionComponent<{
   query: any
-}> = ({ query }) => {
+  name?: string
+}> = ({ query, name = 'patientInfoPanel' }) => {
   const { isLoading: isPatientLoading, data: patient, error } = usePatient(
     _.get(query, 'patientId') || _.get(query, 'id'),
   )
-  // console.log('stlyes :', styles.bigAvatar)
   if (error) {
     return <>Error: {error}</>
   }
@@ -57,15 +57,14 @@ export const PatientInfoPanelView: React.FunctionComponent<{
   patient: any
 }> = ({ patient: info }) => {
   const classes = useStyles()
-  // console.log(styles.headerLabel)
   return (
     <div style={{ height: '100%' }}>
       <Grid container spacing={3}>
         <Grid item sm={12} md={3}>
           <Grid container justify='center' alignContent='center'>
             <Avatar
-              alt='Remy Sharp'
-              src='../../../../static/images/mock-person-profile.png'
+              alt='Image'
+              src='../../../../../static/images/mock-person-profile.png'
               className={classes.bigAvatar}
             />
           </Grid>

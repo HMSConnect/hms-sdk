@@ -1,12 +1,12 @@
-# Patient Allergy Intolerance Table
+# Patient Medication Request Table
 
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 
-URL: `/embedded-widget/patient-info/allergy-intolerance/:patientId`
+URL: `/embedded-widget/patient-info/medication-request-table/:patientId`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/allergy-intolerance/:patientId` url to your iframe project.
+Replace `/embedded-widget/patient-info/medication-request-table/:patientId` url to your iframe project.
 
 ## Request HTTP GET
 **Params**
@@ -15,12 +15,11 @@ Replace `/embedded-widget/patient-info/allergy-intolerance/:patientId` url to yo
 | patientId | string      | `required` ID of patient |
 
 **Query Params**
-| Key                        | Type/Format | Default   | Description                                                                                |
-| -------------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------ |
-| initialFilter[codeText]    | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
-| initialFilter[type]        | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
-| initialFilter[criticality] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
-| max                        | number      | 20        | Number of total records in each fetch                                                      |
+| Key                                      | Type/Format | Default   | Description                                                                                |
+| ---------------------------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------ |
+| initialFilter[status]                    | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
+| initialFilter[medicationCodeableConcept] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
+| max                                      | number      | 20        | Number of total records in each fetch                                                      |
 
 ## Response
 - **Object Response**
@@ -37,7 +36,7 @@ Replace `/embedded-widget/patient-info/allergy-intolerance/:patientId` url to yo
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/allergy-intolerance/6f8f470e-07e8-4273-ad11-6e3fdc384a09` 
+ - pathname: `/embedded-widget/patient-info/medication-request-table/6f8f470e-07e8-4273-ad11-6e3fdc384a09` 
 
 ### Action
  - Scroll to bottom of table
@@ -46,15 +45,13 @@ Replace `/embedded-widget/patient-info/allergy-intolerance/:patientId` url to yo
 ```json
 {
     "message": "handleLoadMore",
+    "name": "patientMedicationRequestTable",
     "params": {
         "filter": {
-
             "patientId": "6f8f470e-07e8-4273-ad11-6e3fdc384a09",
-            "assertedDate_lt": Mon Nov 29 1971 07:31:15 GMT+0700 (Indochina Time),
-            "criticality": "",
-            "category": "",
-            "codeText": ""
-
+            "authoredOn_lt": Fri Apr 06 2012 07:31:15 GMT+0700 (Indochina Time)),
+            "medicationCodeableConcept": "",
+            "status": ""
         },
         "max": 20
     },

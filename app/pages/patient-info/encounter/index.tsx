@@ -6,7 +6,7 @@ import PatientDemographic from '@components/widget/patient/PatientDemographic'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import { IStatelessPage } from '@pages/patient-search'
-
+import * as _ from 'lodash'
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     // height: '100vh',
@@ -55,7 +55,7 @@ const EncounterPage: IStatelessPage<{
                 },
               ]}
             ></BreadcrumbsBase>
-            <PatientDemographic query={query} />
+            <PatientDemographic query={query} name={_.get(query, 'name')} />
             {/* <PatientInfoDetail query={query} /> */}
           </Typography>
           {/* </Container> */}

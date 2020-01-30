@@ -26,6 +26,7 @@ const PatientAllergyListCardWidget: IStatelessPage<{
             isInitialize={get(query, 'isInitialize') || true}
             initialFilter={get(query, 'initialFilter')}
             isContainer={false}
+            name={get(query, 'name')}
           />
         </Paper>
       </>

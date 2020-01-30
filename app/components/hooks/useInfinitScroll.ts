@@ -60,12 +60,15 @@ const useInfinitScroll = (
             setIsMore(false)
           }
         } catch (error) {
-          setResult((prevResult: IQueryResult) => ({
-            ...prevResult,
-            error: error.message ? error.message : error,
-          }))
+          setResult((prevResult: IQueryResult) => {
+            return {
+              ...prevResult,
+              error: error.message ? error.message : error,
+            }
+          })
         } finally {
           setLoading(false)
+          setIsFetch(false)
         }
       }
       setIsFetch(false)

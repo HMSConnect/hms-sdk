@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 const DiagReportPatientData: React.FunctionComponent<{
   diagReportList: any[]
-}> = ({ diagReportList }) => {
+  name?: string
+}> = ({ diagReportList, name = 'diagReportPatientData' }) => {
   const [tab, setTab] = useState<any[]>([])
 
   const [data, setData] = useState<any[]>([])
@@ -54,6 +55,7 @@ const DiagReportPatientData: React.FunctionComponent<{
     }
     sendMessage({
       message: `handleTabChange:`,
+      name,
       params: {
         data: newData,
         tabTitle: selectedValue,

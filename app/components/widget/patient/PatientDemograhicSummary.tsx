@@ -40,9 +40,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const PatientDemograhicSummary: React.FunctionComponent<{ query: any }> = ({
-  query,
-}) => {
+const PatientDemograhicSummary: React.FunctionComponent<{
+  query: any
+  name?: string
+}> = ({ query, name = 'patientDemographicSummary' }) => {
   return <PatientDemographicSummaryView query={query} />
 }
 

@@ -26,17 +26,21 @@ const DiagnosticReportCard: React.FunctionComponent<any> = () => {
     query.isLast === undefined
       ? useLastDiagnosticReport
       : query.isLast
-        ? useLastDiagnosticReport
-        : useDiagnosticReportList
+      ? useLastDiagnosticReport
+      : useDiagnosticReportList
 
-  const { isLoading, data: diagnostic, error } = useDiagnostic({
-    filter: params || {},
-    withObservation: true,
-  })
+  const { isLoading, data: diagnostic, error } = useDiagnostic(
+    {
+      filter: params || {},
+      withObservation: true,
+    },
+    { id: true },
+  )
 
   const { showModal, renderModal } = useModal(DiagnosticReportModalContent, {
     fullScreen: true,
     modalTitle: 'Diagnostic Report List',
+    name: `${name}Modal`,
   })
 
   if (error) {

@@ -165,6 +165,7 @@ interface IOptionModalHook {
   params?: any
   CustomModal?: any
   optionCustomModal?: any
+  name?: string
 }
 
 export const useModal = (
@@ -177,6 +178,7 @@ export const useModal = (
   const handleModalClose = () => {
     sendMessage({
       message: `handleModalClose: ${option.modalTitle}`,
+      name: option.name,
       params: {
         open: false,
       },
@@ -186,6 +188,7 @@ export const useModal = (
   const handleModalShow = () => {
     sendMessage({
       message: `handleModalShow: ${option.modalTitle}`,
+      name: option.name,
       params: {
         open: true,
       },

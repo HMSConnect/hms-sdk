@@ -19,15 +19,22 @@ Replace `/embedded-widget/patient-info/encounter-timeline/:patientId` url to you
 | --------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------ |
 | initialFilter[status] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | max                   | number      | 20        | Number of total records in one page                                                        |
+| isRouteable           | boolean     | true      | Is allow route to medical Panel                                                            |
+| withOrganization      | boolean     | true      | Is data include `Organization` infomation                                                  |
+| withDiagnosticReport  | boolean     | true      | Is data include `DiagnosticReport` infomation                                              |
 
 ## Response
 - **Object Response**
     You can learn this in topic [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 - **Avaliable event response**
-   | Action     | Message               | Description                                       |
-   | ---------- | --------------------- | ------------------------------------------------- |
-   | -          | handleLoadMore        | Event is called when scroll to bottom of timeline |
-   | PUSH_ROUTE | handleEncounterSelect | Event is called when select encounter             |
+   | Action         | Message               | Description                                                                           |
+   | -------------- | --------------------- | ------------------------------------------------------------------------------------- |
+   | -              | handleLoadMore        | Event is called when scroll to bottom of timeline                                     |
+   | -              | handleSearchSubmit    | Event is called when submit search                                                    |
+   | -              | handleSearchReset     | Event is called when click reset                                                      |
+   | -              | handleModalShow       | Event is called when click filter icon to open                                        |
+   | -              | handleModalClose      | Event is called when click close filter modal                                         |
+   | PUSH_ROUTE / - | handleEncounterSelect | Event is called when select encounter it will `PUSH_ROUTE` if `isRouteable` is `true` |
 
 ## Example
 
@@ -41,13 +48,15 @@ Replace `/embedded-widget/patient-info/encounter-timeline/:patientId` url to you
 ```json
 {
     "message": "handleLoadMore",
+    "name": "patientEncounterTimeline",
     "params": {
         "filter": {
-
             "patientId": "0debf275-d585-4897-a8eb-25726def1ed5",
             "periodStart_lt": Sat Sep 17 2016 10:39:53 GMT+0700 (Indochina Time),
+            "status": "",
+            "type": undefined
         },
-        "max": 10
+        "max": 20
     },
     "eventType": "embedded-widget"
 }

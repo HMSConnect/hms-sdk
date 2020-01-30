@@ -28,7 +28,7 @@ const PreparePatientData: React.FunctionComponent<any> = ({ query }) => {
         `patient-info/${_.get(query, 'patientId')}/encounter/${_.get(
           encounter[0],
           'id',
-        )}`,
+        )}/patient-demograhpic`,
         {
           matchBy: 'url',
         },
