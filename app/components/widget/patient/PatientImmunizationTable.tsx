@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
+import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TabGroup, { ITabList } from '@components/base/TabGroup'
 import TableBase from '@components/base/TableBase'
@@ -83,6 +84,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
   const [submitedFilter, setSubmitedFilter] = React.useState<
     IImmunizationListFilterQuery
   >(initialFilter)
+  const classes = useStyles()
 
   const fetchMoreAsync = async (lastEntry: any) => {
     const immunizationService = HMSService.getService(
@@ -95,10 +97,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
       patientId,
     }
     // setFilter(newFilter)
-    const validParams = validQueryParams(
-      { patientId: true },
-      { filter: newFilter },
-    )
+    const validParams = validQueryParams(['patientId'], newFilter)
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
     }
@@ -141,12 +140,6 @@ const PatientImmunizationTable: React.FunctionComponent<{
       setIsFetch(true)
     }
   }, [isInitialize])
-
-  // React.useEffect(() => {
-  //   if(isGroup){
-
-  //   }
-  // }, [isGroup])
 
   const handleGroupByType = async (isGroup: boolean) => {
     const immunizationService = HMSService.getService(
@@ -302,9 +295,8 @@ const PatientImmunizationTable: React.FunctionComponent<{
     },
   })
 
-  const classes = useStyles()
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
 
   return (

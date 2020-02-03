@@ -165,6 +165,12 @@ export const widgetGalleryAllergyIntoleranceConfig: IWidgetGroup = {
           type: 'text',
           value: 'patientId',
         },
+        {
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
       ],
       value: 'allergy-intolerance-card',
     },

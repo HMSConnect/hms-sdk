@@ -1,23 +1,33 @@
 const nextRoutes = require('next-routes')
 
 module.exports = nextRoutes()
+  //////////////////////////////// demo-app /////////////////////////////////
   .add('index', '/')
-
   .add('patient-search')
   // .add(
   //   'patient-info/encounter',
   //   '/patient-info/:patientId/encounter/:encounterId',
   // )
   .add(
-    'patient-info/encounter/patient-medical',
-    '/patient-info/:patientId/encounter/:encounterId/patient-medical',
-    'patient-info/encounter/patient-medical-panal',
+    'patient-info/patient-encounter-medical-record',
+    '/patient-info/patient-medical-records',
+    'patient-info/patient-encounter-medical-record',
   )
   .add(
-    'patient-info/encounter/patient-demograhpic',
-    '/patient-info/:patientId/encounter/:encounterId/patient-demograhpic',
+    'patient-demographic',
+    '/patient-demographic',
     'patient-info/encounter/index',
   )
+  .add(
+    'patient-info/patient-info-with-table',
+    '/patient-info-with-table',
+    'patient-info/patient-info-with-table',
+  )
+  .add(
+    'prepare/patient-demographic',
+    '/prepare/patient-demographic',
+    'prepare/patient-demographic',
+  ) //////////////////////////////// embedded-widget /////////////////////////////////
   .add('embedded-widget')
   .add(
     'embedded-widget/patient-search-bar',
@@ -28,39 +38,40 @@ module.exports = nextRoutes()
     '/embedded-widget/patient-search-result',
   )
   .add('embedded-widget/patient-search')
+  // .add(
+  //   'embedded-widget/patient-info/encounter',
+  //   '/embedded-widget/patient-info/:patientId/encounter/:encounterId',
+  // )
   .add(
-    'embedded-widget/patient-info/encounter',
-    '/embedded-widget/patient-info/:patientId/encounter/:encounterId',
+    'embedded-widget/patient-demographic',
+    '/embedded-widget/patient-demographic',
+    'embedded-widget/patient-info/patient-demographic',
   )
   .add(
-    'embedded-widget/patient-info/patient-demograhpic',
-    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient-demograhpic',
-    'embedded-widget/patient-info/patient-demograhpic',
-  )
-  .add(
+    'embedded-widget/patient-encounter-medical-record',
+    '/embedded-widget/patient-info/patient-medical-records',
     'embedded-widget/patient-info/encounter/patient-encounter-medical-record',
-    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient-medical',
-    'embedded-widget/patient-info/encounter/patient-encounter-medical-record',
   )
   .add(
-    'embedded-widget/patient-info/encounter/demographic',
-    '/embedded-widget/patient-info/:patientId/encounter/:encounterId/demographic-summary',
+    'embedded-widget/patient-info/demographic-summary',
+    '/embedded-widget/patient-info/demographic-summary',
     'embedded-widget/patient-info/patient-demographic-summary',
   )
   .add(
     'embedded-widget/patient-info/encounter-timeline',
-    '/embedded-widget/patient-info/encounter-timeline/:patientId',
+    '/embedded-widget/patient-info/encounter-timeline',
     'embedded-widget/patient-info/patient-encounter-timeline',
   )
 
   .add(
-    'embedded-widget/patient-info-table',
-    '/embedded-widget/patient-info/:patientId/patient-info',
-    'embedded-widget/patient-info/patient-info',
+    'embedded-widget/patient-info-with-table',
+    '/embedded-widget/patient-info-with-table',
+    'embedded-widget/patient-info/patient-info-with-table',
   )
+
   .add(
     'embedded-widget/patient-info/patient-info-panel',
-    '/embedded-widget/patient-info/patient-info-panel/:patientId',
+    '/embedded-widget/patient-info/patient-info-panel',
     'embedded-widget/patient-info/patient-info-panel',
   )
   .add(
@@ -181,8 +192,9 @@ module.exports = nextRoutes()
     '/embedded-widget/observation/body-weight-graph',
     'embedded-widget/observation/observation-body-weight-graph',
   ) ////////////////// Observation Graph End /////////////////////////
-  .add('patient-info', '/patient-info/:patientId')
+
   .add(
-    'embedded-widget/patient-info',
-    '/embedded-widget/patient-info/:patientId',
+    'embedded-widget/prepare/patient-demographic',
+    '/embedded-widget/prepare/patient-demographic',
+    'embedded-widget/prepare/patient-demographic',
   )

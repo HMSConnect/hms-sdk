@@ -79,12 +79,10 @@ const PatientSearchResultWidget: IStatelessPage<{
     const params = {
       patientId: _.get(patient, 'identifier.id.value'),
     }
-    const path = RouterManager.getPath(
-      `patient-info/${_.get(patient, 'identifier.id.value')}`,
-      {
-        matchBy: 'url',
-      },
-    )
+    const path = RouterManager.getPath(`prepare/patient-demographic`, {
+      matchBy: 'url',
+      params,
+    })
 
     sendMessage({
       action: 'PUSH_ROUTE',

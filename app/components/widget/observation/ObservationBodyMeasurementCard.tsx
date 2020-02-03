@@ -61,7 +61,7 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
       _lasted: true,
       filter: params || {},
     },
-    { patientId: true },
+    ['patientId']
   )
   if (error) {
     return <ErrorSection error={error} />

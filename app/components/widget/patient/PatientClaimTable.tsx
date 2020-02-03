@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
+import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
@@ -75,6 +76,7 @@ const PatientClaimTable: React.FunctionComponent<{
   const [submitedFilter, setSubmitedFilter] = React.useState<
     IClaimListFilterQuery
   >(initialFilter)
+  const classes = useStyles()
 
   const fetchMoreAsync = async (lastEntry: any) => {
     const claimService = HMSService.getService('claim') as ClaimService
@@ -84,10 +86,7 @@ const PatientClaimTable: React.FunctionComponent<{
       patientId,
     }
     // setFilter(newFilter)
-    const validParams = validQueryParams(
-      { patientId: true },
-      { filter: newFilter },
-    )
+    const validParams = validQueryParams(['patientId'], newFilter)
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
     }
@@ -213,10 +212,8 @@ const PatientClaimTable: React.FunctionComponent<{
   })
 
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
-
-  const classes = useStyles()
 
   return (
     <>

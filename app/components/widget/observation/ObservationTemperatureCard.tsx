@@ -50,7 +50,7 @@ const ObservationTemperatureCard: React.FunctionComponent<any> = ({
       filter: params || {},
       max: 1,
     },
-    { patientId: true },
+    ['patientId']
   )
   if (error) {
     return <ErrorSection error={error} />

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
+import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
@@ -70,6 +71,7 @@ const PatientConditionTable: React.FunctionComponent<{
   const [submitedFilter, setSubmitedFilter] = React.useState<
     IConditionListFilterQuery
   >(initialFilter)
+  const classes = useStyles()
 
   const fetchMoreAsync = async (lastEntry: any) => {
     const conditionService = HMSService.getService(
@@ -81,10 +83,7 @@ const PatientConditionTable: React.FunctionComponent<{
       patientId,
     }
     // setFilter(newFilter)
-    const validParams = validQueryParams(
-      { patientId: true },
-      { filter: newFilter },
-    )
+    const validParams = validQueryParams(['patientId'], newFilter)
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
     }
@@ -128,8 +127,6 @@ const PatientConditionTable: React.FunctionComponent<{
       setIsFetch(true)
     }
   }, [isInitialize])
-
-  const classes = useStyles()
 
   const fetchData = async (filter: any) => {
     setFilter(filter)
@@ -229,7 +226,7 @@ const PatientConditionTable: React.FunctionComponent<{
   })
 
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
 
   return (

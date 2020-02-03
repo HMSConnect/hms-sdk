@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
+import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TabGroup, { ITabList } from '@components/base/TabGroup'
 import TableBase from '@components/base/TableBase'
@@ -80,7 +81,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
   const [submitedFilter, setSubmitedFilter] = React.useState<
     ICarePlanListFilterQuery
   >(initialFilter)
-
+  const classes = useStyles()
   const fetchMoreAsync = async (lastEntry: any) => {
     const carePlanService = HMSService.getService(
       'care_plan',
@@ -92,10 +93,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
       periodStart_lt: _.get(lastEntry, 'periodStart'),
     }
     // setFilter(newFilter)
-    const validParams = validQueryParams(
-      { patientId: true },
-      { filter: newFilter },
-    )
+    const validParams = validQueryParams(['patientId'], newFilter)
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
     }
@@ -294,9 +292,8 @@ const PatientCarePlanTable: React.FunctionComponent<{
     },
   })
 
-  const classes = useStyles()
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
 
   return (

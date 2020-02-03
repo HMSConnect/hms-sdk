@@ -9,10 +9,10 @@ import usePromise from './utils/usePromise'
 
 const useLastDiagnosticReport = (
   options: IDiagnosticReportLastQuery,
-  optionNeedParams?: IObservationNeededParams,
+  optionNeedParams?: string[],
 ): IServiceResult => {
   return usePromise(() => {
-    const validParams = validQueryParams(optionNeedParams, options)
+    const validParams = validQueryParams(optionNeedParams, options.filter)
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
     }

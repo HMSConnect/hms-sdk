@@ -157,15 +157,10 @@ const PatientDetailSub: React.FunctionComponent<{
       encounterId: _.get(selectedEncounter, 'id'),
       patientId: _.get(query, 'patientId'),
     }
-    const path = RouteManager.getPath(
-      `patient-info/${_.get(query, 'patientId')}/encounter/${_.get(
-        selectedEncounter,
-        'id',
-      )}/patient-demograhpic`,
-      {
-        matchBy: 'url',
-      },
-    )
+    const path = RouteManager.getPath(`patient-demographic`, {
+      matchBy: 'url',
+      params: newParams,
+    })
     sendMessage({
       action: 'PUSH_ROUTE',
       message: 'handleEncounterSelect',

@@ -3,20 +3,17 @@
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 
-URL: `/embedded-widget/patient-info/medication-request-table/:patientId`
+URL: `/embedded-widget/patient-info/medication-request-table`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/medication-request-table/:patientId` url to your iframe project.
+Replace `/embedded-widget/patient-info/medication-request-table` url to your iframe project.
 
 ## Request HTTP GET
-**Params**
-| Key       | Type/Format | Description              |
-| --------- | ----------- | ------------------------ |
-| patientId | string      | `required` ID of patient |
 
 **Query Params**
 | Key                                      | Type/Format | Default   | Description                                                                                |
 | ---------------------------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------ |
+| patientId                                | string      |           | `required` ID of patient                                                                   |
 | initialFilter[status]                    | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | initialFilter[medicationCodeableConcept] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | max                                      | number      | 20        | Number of total records in each fetch                                                      |
@@ -36,7 +33,7 @@ Replace `/embedded-widget/patient-info/medication-request-table/:patientId` url 
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/medication-request-table/6f8f470e-07e8-4273-ad11-6e3fdc384a09` 
+ - pathname: `/embedded-widget/patient-info/medication-request-table?patientId=6f8f470e-07e8-4273-ad11-6e3fdc384a09&max=20` 
 
 ### Action
  - Scroll to bottom of table

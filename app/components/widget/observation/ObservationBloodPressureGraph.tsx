@@ -50,9 +50,9 @@ const ObservationBloodPressureGraph: React.FunctionComponent<{
   const { isLoading, data: observationList, error } = useObservationList(
     {
       filter: params || {},
-      max: 10,
+      max: _.get(query, 'max') || 20,
     },
-    { patientId: true },
+    ['patientId']
   )
 
   if (error) {

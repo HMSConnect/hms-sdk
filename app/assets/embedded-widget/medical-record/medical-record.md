@@ -9,10 +9,10 @@ Replace `/embedded-widget/medical-records` url to your iframe project.
 
 ## Request HTTP GET
 **Query Params**
-| Key         | Type/Format | Defatul | Description                |
-| ----------- | ----------- | ------- | -------------------------- |
-| encounterId | string      | ''      | `required` ID of encounter |
-| dimention   | string      | '1xN'   | Dimention of grid panel    |
+| Key         | Type/Format       | Defatul | Description                |
+| ----------- | ----------------- | ------- | -------------------------- |
+| encounterId | string            | ''      | `required` ID of encounter |
+| dimention   | '1xN'/'2xN'/'3xN' | '1xN'   | Dimention of grid panel    |
 
 ## Response
 - **Object Response**
@@ -21,10 +21,10 @@ Replace `/embedded-widget/medical-records` url to your iframe project.
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/medical-records?encounterId=3898f0f9-385e-478d-be25-5f05719e80af&dimention=2xN` 
+ - pathname: `/embedded-widget/medical-records?encounterId=3898f0f9-385e-478d-be25-5f05719e80af&dimention=1xN` 
 
 ### Action
- - Select dimention options from `2xn` to `3xn`
+ - Select dimention options from `1xN` to `3xN`
 
 ### Response
 ```json

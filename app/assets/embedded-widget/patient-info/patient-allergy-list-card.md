@@ -3,23 +3,17 @@
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 
-URL: `/embedded-widget/patient-info/:patientId/patient-allergy-list-card`
+URL: `/embedded-widget/patient-info/patient-allergy-list-card`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/:patientId/patient-allergy-list-card` url to your iframe project.
+Replace `/embedded-widget/patient-info/patient-allergy-list-card` url to your iframe project.
 
 ## Request HTTP GET
-**Params**
-| Key       | Type/Format | Description              |
-| --------- | ----------- | ------------------------ |
-| patientId | string      | `required` ID of patient |
-
 **Query Params**
-| Key | Type/Format | Default | Description                         |
-| --- | ----------- | ------- | ----------------------------------- |
-| max | number      | 20      | Number of total records in one page |
-
-
+| Key       | Type/Format | Default | Description                         |
+| --------- | ----------- | ------- | ----------------------------------- |
+| patientId | string      |         | `required` ID of patient            |
+| max       | number      | 20      | Number of total records in one page |
 
 ## Response
 - **Object Response**
@@ -33,7 +27,7 @@ Replace `/embedded-widget/patient-info/:patientId/patient-allergy-list-card` url
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/6f8f470e-07e8-4273-ad11-6e3fdc384a09/patient-allergy-list-card` 
+ - pathname: `/embedded-widget/patient-info/patient-allergy-list-card?patientId=6f8f470e-07e8-4273-ad11-6e3fdc384a09&max=20` 
 
 ### Action
  - Scroll to bottom of list

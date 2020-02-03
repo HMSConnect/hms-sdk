@@ -3,20 +3,17 @@
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 
-URL: `/embedded-widget/patient-info/allergy-intolerance/:patientId`
+URL: `/embedded-widget/patient-info/allergy-intolerance-table`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/allergy-intolerance/:patientId` url to your iframe project.
+Replace `/embedded-widget/patient-info/allergy-intolerance-table` url to your iframe project.
 
 ## Request HTTP GET
-**Params**
-| Key       | Type/Format | Description              |
-| --------- | ----------- | ------------------------ |
-| patientId | string      | `required` ID of patient |
 
 **Query Params**
 | Key                        | Type/Format | Default   | Description                                                                                |
 | -------------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------ |
+| patientId                  | string      |           | `required` ID of patient                                                                   |
 | initialFilter[codeText]    | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | initialFilter[type]        | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | initialFilter[criticality] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
@@ -37,7 +34,7 @@ Replace `/embedded-widget/patient-info/allergy-intolerance/:patientId` url to yo
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/allergy-intolerance/6f8f470e-07e8-4273-ad11-6e3fdc384a09` 
+ - pathname: `/embedded-widget/patient-info/allergy-intolerance-table?patientId=6f8f470e-07e8-4273-ad11-6e3fdc384a09&max=20` 
 
 ### Action
  - Scroll to bottom of table

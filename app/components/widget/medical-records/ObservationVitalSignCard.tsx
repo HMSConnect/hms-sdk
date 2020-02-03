@@ -27,8 +27,9 @@ export const ObservationVitalSignCard: React.FunctionComponent<any> = () => {
   const { isLoading, data: observationList, error } = useObservationList(
     {
       filter: params || {},
+      max: _.get(query, 'max') || 20,
     },
-    { encounterId: true },
+    ['encounterId']
   )
   if (error) {
     return <ErrorSection error={error} />

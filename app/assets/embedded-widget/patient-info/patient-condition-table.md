@@ -3,20 +3,18 @@
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 
-URL: `/embedded-widget/patient-info/condition-table/:patientId`
+URL: `/embedded-widget/patient-info/condition-table`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/condition-table/:patientId` url to your iframe project.
+Replace `/embedded-widget/patient-info/condition-table` url to your iframe project.
 
 ## Request HTTP GET
-**Params**
-| Key       | Type/Format | Description              |
-| --------- | ----------- | ------------------------ |
-| patientId | string      | `required` ID of patient |
 
 **Query Params**
-| Key                               | Type/Format | Default   | Description                                                                                |
-| --------------------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------ |
+| Key       | Type/Format | Default | Description              |
+| --------- | ----------- | ------- | ------------------------ |
+| patientId | string      |         | `required` ID of patient |
+
 | initialFilter[name]               | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | initialFilter[clinicalStatus]     | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | initialFilter[verificationStatus] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
@@ -37,7 +35,7 @@ Replace `/embedded-widget/patient-info/condition-table/:patientId` url to your i
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/condition-table/6f8f470e-07e8-4273-ad11-6e3fdc384a09` 
+ - pathname: `/embedded-widget/patient-info/condition-table?patientId=6f8f470e-07e8-4273-ad11-6e3fdc384a09&max=20` 
 
 ### Action
  - Filter with `clinicalStatus` value `active`

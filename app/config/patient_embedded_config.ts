@@ -485,17 +485,23 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
     {
       document: require('@assets/embedded-widget/patient-info/patient-info.md')
         .default,
-      label: 'Patient Info',
+      label: 'Patient Info Table',
       parameters: [
+        // {
+        //   defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+        //   label: 'Patient ID',
+        //   type: 'text',
+        //   value: 'patientId',
+        // },
+      ],
+      path: '/embedded-widget/patient-info-with-table',
+      queryParams: [
         {
           defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
-      ],
-      path: '/embedded-widget/patient-info/:patientId/patient-info',
-      queryParams: [
         {
           choices: [
             {
@@ -517,13 +523,15 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'menuNavigate',
         },
       ],
-      value: 'patient-info',
+      value: 'patient-info-table',
     },
     {
       document: require('@assets/embedded-widget/patient-info/patient-demographic.md')
         .default,
       label: 'Patient Demographic',
-      parameters: [
+      parameters: [],
+      path: '/embedded-widget/patient-demographic',
+      queryParams: [
         {
           defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
           label: 'Patient ID',
@@ -537,15 +545,15 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'encounterId',
         },
       ],
-      path:
-        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient-demograhpic',
-      value: 'patient-demograhpic',
+      value: 'patient-demographic',
     },
     {
       document: require('@assets/embedded-widget/patient-info/patient-info-panel.md')
         .default,
       label: 'Patient Info Panel',
-      parameters: [
+      parameters: [],
+      path: '/embedded-widget/patient-info/patient-info-panel',
+      queryParams: [
         {
           defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
           label: 'Patient ID',
@@ -553,23 +561,21 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'patientId',
         },
       ],
-      path: '/embedded-widget/patient-info/patient-info-panel/:patientId',
       value: 'patient-info-panel',
     },
     {
       document: require('@assets/embedded-widget/patient-info/patient-encounter-timeline.md')
         .default,
       label: 'Patine Encounter Timeline',
-      parameters: [
+      parameters: [],
+      path: '/embedded-widget/patient-info/encounter-timeline',
+      queryParams: [
         {
           defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
-      ],
-      path: '/embedded-widget/patient-info/encounter-timeline/:patientId',
-      queryParams: [
         {
           defaultValue: 20,
           label: 'Max',
@@ -906,18 +912,11 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       document: require('@assets/embedded-widget/patient-info/patient-imaging-study-table.md')
         .default,
       label: 'Patine Imaging Study Table',
-      parameters: [
-        // {
-        //   defaultValue: '019fe101-2d2b-4346-89d6-7c7187c0ee3c',
-        //   label: 'Patient ID',
-        //   type: 'text',
-        //   value: 'patientId',
-        // },
-      ],
+      parameters: [],
       path: '/embedded-widget/patient-info/imaging-study-table',
       queryParams: [
         {
-          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          defaultValue: '03c2e1b5-9fe0-4735-bc7d-a54c449bfdae',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -936,7 +935,9 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       document: require('@assets/embedded-widget/patient-info/patient-demographic-summary.md')
         .default,
       label: 'Patient Demographic Summary',
-      parameters: [
+      parameters: [],
+      path: '/embedded-widget/patient-info/demographic-summary',
+      queryParams: [
         {
           defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
           label: 'Patient ID',
@@ -950,9 +951,6 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'encounterId',
         },
       ],
-      path:
-        '/embedded-widget/patient-info/:patientId/encounter/:encounterId/demographic-summary',
-      queryParams: [],
       value: 'patient-demographic-summary',
     },
     {
