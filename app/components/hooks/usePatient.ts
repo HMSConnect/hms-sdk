@@ -6,10 +6,7 @@ import usePromise from './utils/usePromise'
 
 const usePatient = (patientId: string): any => {
   return usePromise(() => {
-    const validParams = validQueryParams(
-      { patientId: true },
-      { patientId },
-    )
+    const validParams = validQueryParams(['patientId'], { patientId })
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
     }
