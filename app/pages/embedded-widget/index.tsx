@@ -146,6 +146,9 @@ const WidgetManager: IStatelessPage<{
 
   const { parameters, queryParams, url } = iframeState
 
+  console.log(query, iframeState)
+
+
   React.useEffect(() => {
     window.addEventListener(
       'message',
@@ -558,5 +561,12 @@ const TabPanel: React.FunctionComponent<{
     </Typography>
   )
 }
+
+WidgetManager.getInitialProps = async ({ req, res, query }) => {
+  return {
+    query,
+  }
+}
+
 
 export default WidgetManager
