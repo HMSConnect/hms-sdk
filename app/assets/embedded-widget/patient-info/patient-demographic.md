@@ -1,17 +1,17 @@
 # Patient Demographic
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
-URL: `/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient-demograhpic`
+URL: `/embedded-widget/patient-demographic`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient-demograhpic` url to your iframe project.
+Replace `/embedded-widget/patient-demographic` url to your iframe project.
 
 ## Request HTTP GET
-**Params**
-| Key         | Type/Format | Description                |
-| ----------- | ----------- | -------------------------- |
-| patientId   | string      | `required` ID of patient   |
-| encounterId | string      | `required` ID of encounter |
+**Query Params**
+| Key         | Type/Format | Default | Description                |
+| ----------- | ----------- | ------- | -------------------------- |
+| patientId   | string      |         | `required` ID of patient   |
+| encounterId | string      |         | `required` ID of encounter |
 
 ## Response
 - **Object Response**
@@ -25,7 +25,7 @@ Replace `/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5/encounter/3898f0f9-385e-478d-be25-5f05719e80af/patient-demograhpic` 
+ - pathname: `/embedded-widget/patient-demographic?patientId=0debf275-d585-4897-a8eb-25726def1ed5&encounterId=3898f0f9-385e-478d-be25-5f05719e80af` 
 
 ### Action
  - Select encounter id 
@@ -37,10 +37,10 @@ Replace `/embedded-widget/patient-info/:patientId/encounter/:encounterId/patient
     "message": "handleEncounterSelect",
     "name": "patientDemographicEncounterTimeline",
     "params": {
-        "encounterId":"o1-3898f0f9-385e-478d-be25-5f05719e80af",
+        "encounterId":"o2-3898f0f9-385e-478d-be25-5f05719e80af",
         "patientId": "0debf275-d585-4897-a8eb-25726def1ed5"
     },
-    "path": "/embedded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5/encounter/o1-3898f0f9-385e-478d-be25-5f05719e80af/patient-demograhpic",
+    "path": "/embedded-widget/patient-demographic?patientId=0debf275-d585-4897-a8eb-25726def1ed5&encounterId=o2-3898f0f9-385e-478d-be25-5f05719e80af",
     "eventType": "embedded-widget",
 }
 ```

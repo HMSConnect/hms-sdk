@@ -2,21 +2,19 @@
 
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
-URL: `/embedded-widget/patient-info/:patientId/patient-info`
+URL: `/embedded-widget/patient-info-with-table`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/:patientId/patient-info` url to your iframe project.
+Replace `/embedded-widget/patient-info-with-table` url to your iframe project.
 
 ## Request HTTP GET
-**Params**
-| Key       | Type/Format | Description              |
-| --------- | ----------- | ------------------------ |
-| patientId | string      | `required` ID of patient |
+
 
 **Query Params**
-| Key          | Type/Format | Default | Description      |
-| ------------ | ----------- | ------- | ---------------- |
-| menuNavigate | string      | 10      | Name of sidemenu |
+| Key          | Type/Format | Default   | Description              |
+| ------------ | ----------- | --------- | ------------------------ |
+| patientId    | string      |           | `required` ID of patient |
+| menuNavigate | string      | 'patient' | Name of sidemenu         |
 
 ## Response
 - **Object Response**
@@ -30,19 +28,19 @@ Replace `/embedded-widget/patient-info/:patientId/patient-info` url to your ifra
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5/patient-info` 
+ - pathname: `/embedded-widget/patient-info-with-table?patientId=0debf275-d585-4897-a8eb-25726def1ed5&menuNavigate=encounter` 
 
 ### Action
- - Select side menu `encounter`
+ - Select side menu `claim`
 
 ### Response
 ```json
 {
     "message": "handleNavigateChange",
     "params": {
-        "menuNavigate": "encounter"
+        "menuNavigate": "claim"
     },
-    "path": "/embedded-widget/patient-info/0debf275-d585-4897-a8eb-25726def1ed5/patient-info?menuNavigate=encounter",
+    "path": "/embedded-widget/patient-info-with-table?patientId=0debf275-d585-4897-a8eb-25726def1ed5&menuNavigate=claim",
     "eventType": "embedded-widget",
 }
 ```

@@ -9,9 +9,10 @@ Replace `/embedded-widget/medical-records/allergy-intolerance-card` url to your 
 
 ## Request HTTP GET
 **Query Params**
-| Key       | Type/Format | Default | Description              |
-| --------- | ----------- | ------- | ------------------------ |
-| patientId | string      | ''      | `required` ID of patient |
+| Key       | Type/Format | Default | Description                           |
+| --------- | ----------- | ------- | ------------------------------------- |
+| patientId | string      | ''      | `required` ID of patient              |
+| max       | number      | 20      | Number of total records in each fetch |
 
 ## Response
 - **Object Response**
@@ -20,5 +21,5 @@ Replace `/embedded-widget/medical-records/allergy-intolerance-card` url to your 
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/medical-records/allergy-intolerance-card?patientId=6f8f470e-07e8-4273-ad11-6e3fdc384a09` 
+ - pathname: `/embedded-widget/medical-records/allergy-intolerance-card?patientId=6f8f470e-07e8-4273-ad11-6e3fdc384a09&max=20` 
 

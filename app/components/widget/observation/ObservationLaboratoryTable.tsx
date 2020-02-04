@@ -86,8 +86,8 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
     }
     // setFilter(newFilter)
     const validParams = validQueryParams(
-      { patientId: true },
-      { filter: newFilter },
+      ['patientId'],
+      newFilter,
     )
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))

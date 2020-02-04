@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
+import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
@@ -70,6 +71,7 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
       patientId,
     })
   }, [customInitialFilter])
+
   const [filter, setFilter] = React.useState<
     IAllergyIntoleranceListFilterQuery
   >(initialFilter)
@@ -88,12 +90,10 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
       patientId,
     }
     // setFilter(newFilter)
-    const validParams = validQueryParams(
-      { patientId: true },
-      { filter: newFilter },
-    )
+    const validParams = validQueryParams(['patientId'], newFilter)
     if (!_.isEmpty(validParams)) {
-      return Promise.reject(new Error(_.join(validParams, ', ')))
+      const test = _.join(validParams, ', ')
+      return Promise.reject(new Error(test))
     }
     const newLazyLoad = {
       filter: newFilter,
@@ -128,7 +128,7 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     setResult,
     isMore,
   } = useInfinitScroll(null, fetchMoreAsync, resourceList)
-
+  const classes = useStyles()
   React.useEffect(() => {
     if (isInitialize) {
       setIsFetch(true)
@@ -234,10 +234,13 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   })
 
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
 
-  const classes = useStyles()
+  // if (isLoading) {
+  //   return <LoadingSection />
+  // }
+
   // if (isLoading) {
   //   return <CircularProgress />
   // }

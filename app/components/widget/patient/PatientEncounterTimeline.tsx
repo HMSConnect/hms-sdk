@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 
+import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
@@ -9,7 +10,7 @@ import {
   mergeWithEncounterInitialFilterQuery,
 } from '@data-managers/EncounterDataManager'
 import { makeStyles, Theme } from '@material-ui/core'
-import { countFilterActive, sendMessage } from '@utils'
+import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 import routes from '../../../routes'
 import RouterManager from '../../../routes/RouteManager'
@@ -104,6 +105,13 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       ...filter,
       periodStart_lt: _.get(lastEntry, 'startTime'),
     }
+    const validParams = validQueryParams(
+      ['patientId'],
+      newFilter,
+    )
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
+    }
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -147,7 +155,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       setIsFetch(true)
     }
   }, [isInitialize])
-  // /patient-demograhpic
+  // /patient-demographic
   const handleEncounterSelect = (
     event: React.MouseEvent,
     selectedEncounter: any,
@@ -159,11 +167,13 @@ const PatientEncounterTimeline: React.FunctionComponent<{
         encounterId: _.get(selectedEncounter, 'id'),
         patientId,
       }
-      
+
       const path = RouterManager.getPath(
-        `patient-info/${patientId}/encounter/${_.get(selectedEncounter, 'id')}/patient-medical`,
+        `patient-info/patient-medical-records`,
+        // `patient-info/${patientId}/encounter/${_.get(selectedEncounter, 'id')}/patient-medical`,
         {
           matchBy: 'url',
+          params: newParams,
         },
       )
       sendMessage({
@@ -200,7 +210,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       })
       return Promise.reject(new Error(entryData.error))
     }
-   
+
     return Promise.resolve(entryData)
   }
 
@@ -262,6 +272,10 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     },
   })
 
+  if (error) {
+    return <ErrorSection error={error} />
+  }
+
   return (
     <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
       <div className={classes.toolbar}>
@@ -291,8 +305,6 @@ const PatientEncounterTimeline: React.FunctionComponent<{
           selectedEncounterId={selectedEncounterId}
         />
       </div>
-
-      {error ? <>There Have Error : {error}</> : null}
     </div>
   )
 }

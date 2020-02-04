@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import ErrorSection from '@components/base/ErrorSection'
+import LoadingSection from '@components/base/LoadingSection'
 import { CircularProgress, Grid, makeStyles, Paper } from '@material-ui/core'
 import { sendMessage } from '@utils'
 import * as _ from 'lodash'
@@ -67,11 +69,11 @@ const PatientInfoDetail: React.FunctionComponent<{
   )
 
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
 
   if (isPatientLoading) {
-    return <CircularProgress />
+    return <LoadingSection />
   }
 
   return (
@@ -124,14 +126,12 @@ const PatientDetailSub: React.FunctionComponent<{
   const handleNavigateChange = (newNavigateValue: string) => {
     const params = {
       menuNavigate: newNavigateValue,
+      patientId: _.get(patient, 'identifier.id.value'),
     }
-    const path = RouteManager.getPath(
-      `patient-info/${_.get(patient, 'identifier.id.value')}/patient-info`,
-      {
-        matchBy: 'url',
-        params,
-      },
-    )
+    const path = RouteManager.getPath(`patient-info-with-table`, {
+      matchBy: 'url',
+      params,
+    })
     sendMessage({
       message: 'handleNavigateChange',
       name,

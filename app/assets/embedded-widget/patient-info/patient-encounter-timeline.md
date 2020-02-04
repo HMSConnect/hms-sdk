@@ -3,20 +3,18 @@
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 
-URL: `/embedded-widget/patient-info/encounter-timeline/:patientId`
+URL: `/embedded-widget/patient-info/encounter-timeline`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/encounter-timeline/:patientId` url to your iframe project.
+Replace `/embedded-widget/patient-info/encounter-timeline` url to your iframe project.
 
 ## Request HTTP GET
-**Params**
-| Key       | Type/Format | Description              |
-| --------- | ----------- | ------------------------ |
-| patientId | string      | `required` ID of patient |
 
 **Query Params**
-| Key                   | Type/Format | Default   | Description                                                                                |
-| --------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------ |
+| Key       | Type/Format | Default                    | Description |
+| --------- | ----------- | -------------------------- | ----------- |
+| patientId | string      | ฅ `required` ID of patient |
+
 | initialFilter[status] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | max                   | number      | 20        | Number of total records in one page                                                        |
 | isRouteable           | boolean     | true      | Is allow route to medical Panel                                                            |
@@ -39,7 +37,7 @@ Replace `/embedded-widget/patient-info/encounter-timeline/:patientId` url to you
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/encounter-timeline/0debf275-d585-4897-a8eb-25726def1ed5` 
+ - pathname: `/embedded-widget/patient-info/encounter-timeline?patientId=0debf275-d585-4897-a8eb-25726def1ed5&max=20&isRouteable=true` 
 
 ### Action
  - Scroll to bottom of timeline

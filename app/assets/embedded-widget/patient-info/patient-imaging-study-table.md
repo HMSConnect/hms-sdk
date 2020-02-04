@@ -3,21 +3,17 @@
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 
-URL: `/embedded-widget/patient-info/imaging-study-table/:patientId`
+URL: `/embedded-widget/patient-info/imaging-study-table`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/imaging-study-table/:patientId` url to your iframe project.
+Replace `/embedded-widget/patient-info/imaging-study-table` url to your iframe project.
 
 ## Request HTTP GET
-**Params**
-| Key       | Type/Format | Description              |
-| --------- | ----------- | ------------------------ |
-| patientId | string      | `required` ID of patient |
-
 **Query Params**
-| Key | Type/Format | Default | Description                           |
-| --- | ----------- | ------- | ------------------------------------- |
-| max | number      | 20      | Number of total records in each fetch |
+| Key       | Type/Format | Default | Description                           |
+| --------- | ----------- | ------- | ------------------------------------- |
+| patientId | string      |         | `required` ID of patient              |
+| max       | number      | 20      | Number of total records in each fetch |
 
 ## Response
 - **Object Response**
@@ -30,7 +26,7 @@ Replace `/embedded-widget/patient-info/imaging-study-table/:patientId` url to yo
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/imaging-study-table/019fe101-2d2b-4346-89d6-7c7187c0ee3c` 
+ - pathname: `/embedded-widget/patient-info/imaging-study-table?patientId=03c2e1b5-9fe0-4735-bc7d-a54c449bfdae&max=20` 
 
 ### Action
  - Scroll to bottom of table

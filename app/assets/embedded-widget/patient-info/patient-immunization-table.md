@@ -3,20 +3,16 @@
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
 
-URL: `/embedded-widget/patient-info/immunization-table/:patientId`
+URL: `/embedded-widget/patient-info/immunization-table`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/immunization-table/:patientId` url to your iframe project.
+Replace `/embedded-widget/patient-info/immunization-table` url to your iframe project.
 
 ## Request HTTP GET
-**Params**
-| Key       | Type/Format | Description              |
-| --------- | ----------- | ------------------------ |
-| patientId | string      | `required` ID of patient |
-
 **Query Params**
 | Key                        | Type/Format | Default   | Description                                                                                |
 | -------------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------ |
+| patientId                  | string      |           | `required` ID of patient                                                                   |
 | initialFilter[vaccineCode] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | initialFilter[status]      | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | max                        | number      | 20        | Number of total records in each fetch                                                      |
@@ -38,7 +34,7 @@ Replace `/embedded-widget/patient-info/immunization-table/:patientId` url to you
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/immunization-table/6f8f470e-07e8-4273-ad11-6e3fdc384a09` 
+ - pathname: `/embedded-widget/patient-info/immunization-table?patientId=6f8f470e-07e8-4273-ad11-6e3fdc384a09&max=20` 
 
 ### Action
  - Filter with `status` value `entered-in-error`

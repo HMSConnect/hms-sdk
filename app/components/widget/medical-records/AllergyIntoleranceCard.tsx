@@ -22,8 +22,9 @@ export const AllergyIntoleranceCard: React.FunctionComponent<any> = () => {
   const { isLoading, data: allergyList, error } = useAllergyIntoleranceList(
     {
       filter: params || {},
+      max: _.get(query, 'max') || 20,
     },
-    { patientId: true },
+    ['patientId'],
   )
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)

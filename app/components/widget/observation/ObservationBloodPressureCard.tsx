@@ -46,22 +46,17 @@ const useStyles = makeStyles((theme: Theme) => ({
 const ObservationBloodPressureCard: React.FunctionComponent<{ query: any }> = ({
   query,
 }) => {
-  let params: IObservationListFilterQuery = {}
-
-  if (_.get(query, 'patientId') && _.get(query, 'encounterId')) {
-    params = {
-      code: _.get(query, 'code') || '55284-4',
-      encounterId: _.get(query, 'encounterId'),
-      patientId: _.get(query, 'patientId'),
-    }
+  const params: IObservationListFilterQuery = {
+    code: _.get(query, 'code') || '55284-4',
+    encounterId: _.get(query, 'encounterId'),
+    patientId: _.get(query, 'patientId'),
   }
-
   const { isLoading, data: observationList, error } = useObservationList(
     {
       filter: params || {},
       max: 1,
     },
-    { patientId: true },
+    ['patientId']
   )
 
   if (error) {

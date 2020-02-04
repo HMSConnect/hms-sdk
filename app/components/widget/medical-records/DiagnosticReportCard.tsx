@@ -1,9 +1,11 @@
+import * as React from 'react'
+
 import AdaptiveCard from '@components/base/AdaptiveCard'
+import ErrorSection from '@components/base/ErrorSection'
+import LoadingSection from '@components/base/LoadingSection'
 import { useModal } from '@components/base/Modal'
 import useDiagnosticReportList from '@components/hooks/useDiagnosticReportList'
 import useLastDiagnosticReport from '@components/hooks/useLastDiagnosticReport'
-import * as React from 'react'
-
 import disgnosticReportTemplate from '@components/templates/adaptive-card/disgnosticReport.template.json'
 import { IDiagnosticReportFilterQuery } from '@data-managers/DiagnosticReportDataManager'
 import { Paper } from '@material-ui/core'
@@ -29,13 +31,10 @@ const DiagnosticReportCard: React.FunctionComponent<any> = () => {
       ? useLastDiagnosticReport
       : useDiagnosticReportList
 
-  const { isLoading, data: diagnostic, error } = useDiagnostic(
-    {
-      filter: params || {},
-      withObservation: true,
-    },
-    { id: true },
-  )
+  const { isLoading, data: diagnostic, error } = useDiagnostic({
+    filter: params || {},
+    withObservation: true,
+  })
 
   const { showModal, renderModal } = useModal(DiagnosticReportModalContent, {
     fullScreen: true,
@@ -44,11 +43,11 @@ const DiagnosticReportCard: React.FunctionComponent<any> = () => {
   })
 
   if (error) {
-    return <div>ERR: {error}.</div>
+    return <ErrorSection error={error} />
   }
 
   if (isLoading) {
-    return <div>loading...</div>
+    return <LoadingSection />
   }
 
   return (
@@ -80,11 +79,11 @@ export const DiagnosticReportCardWithoutModal: React.FunctionComponent<any> = ()
     withObservation: true,
   })
   if (error) {
-    return <div>ERR: {error}.</div>
+    return <ErrorSection error={error} />
   }
 
   if (isLoading) {
-    return <div>loading...</div>
+    return <LoadingSection />
   }
 
   return (

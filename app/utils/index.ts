@@ -81,19 +81,9 @@ export const validQueryParams = (
   prefixError = 'Need the',
 ) => {
   return _.chain(neededParams)
-    .reduce((acc, v, key) => {
-      if (v && !_.get(queryParams, `filter.${key}`)) {
-        return {
-          ...acc,
-          [key]: true,
-        }
-      }
-      return {
-        ...acc,
-      }
-    }, {})
+    .filter(value => !_.get(queryParams, value))
     .map((v, k) => {
-      return `${prefixError} ${k}`
+      return `${prefixError} ${v}`
     })
     .value()
 }

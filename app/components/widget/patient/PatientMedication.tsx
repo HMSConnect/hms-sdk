@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import ErrorSection from '@components/base/ErrorSection'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import {
@@ -78,10 +79,7 @@ const PatientMedicationList: React.FunctionComponent<{
       authoredOn_lt: _.get(lastEntry, 'authoredOn'),
       patientId,
     }
-    const validParams = validQueryParams(
-      { patientId: true },
-      { filter: newFilter },
-    )
+    const validParams = validQueryParams(['patientId'], newFilter)
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
     }
@@ -122,7 +120,7 @@ const PatientMedicationList: React.FunctionComponent<{
   }, [isInitialize])
 
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
 
   return (

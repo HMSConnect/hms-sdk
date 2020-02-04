@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import * as React from 'react'
 
 import * as _ from 'lodash'
 import { IQueryResult } from './usePatientList'
@@ -14,16 +14,15 @@ const useInfinitScroll = (
   defaultList?: any[],
   option?: ILazyLoadOption,
 ): any => {
-  const [result, setResult] = useState<IQueryResult>({
+  const [result, setResult] = React.useState<IQueryResult>({
     data: [],
     error: null,
   })
-  const [isLoading, setLoading] = useState<boolean>(true)
-  const [isMore, setIsMore] = useState<boolean>(true)
+  const [isLoading, setLoading] = React.useState<boolean>(true)
+  const [isMore, setIsMore] = React.useState<boolean>(true)
+  const [isFetch, setIsFetch] = React.useState<boolean>(false)
 
-  const [isFetch, setIsFetch] = useState<boolean>(false)
-
-  useEffect(() => {
+  React.useEffect(() => {
     if (!refElement) {
       window.addEventListener('scroll', handleWindowScroll)
       return () => window.removeEventListener('scroll', handleWindowScroll)
@@ -32,7 +31,6 @@ const useInfinitScroll = (
       myscrollRef.addEventListener('scroll', () =>
         handleElementScroll(myscrollRef),
       )
-
       return () =>
         myscrollRef.removeEventListener('scroll', () => {
           console.info('remove infinite scroll event')
@@ -40,7 +38,7 @@ const useInfinitScroll = (
     }
   }, [refElement])
 
-  useEffect(() => {
+  React.useEffect(() => {
     ;(async () => {
       if (isFetch && isMore) {
         try {
@@ -75,6 +73,16 @@ const useInfinitScroll = (
     })()
   }, [isFetch])
 
+  React.useEffect(() => {
+    if (defaultList) {
+      setResult((prevData: any) => ({
+        ...prevData,
+        data: defaultList,
+      }))
+    }
+    setLoading(false)
+  }, [defaultList])
+
   function handleElementScroll(myscrollRef: HTMLDivElement) {
     if (
       myscrollRef.scrollTop + myscrollRef.clientHeight >=
@@ -96,16 +104,6 @@ const useInfinitScroll = (
     }
     setIsFetch(true)
   }
-
-  useEffect(() => {
-    if (defaultList) {
-      setResult((prevData: any) => ({
-        ...prevData,
-        data: defaultList,
-      }))
-    }
-    setLoading(false)
-  }, [defaultList])
 
   return {
     isFetch,
