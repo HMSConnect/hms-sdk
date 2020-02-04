@@ -43,7 +43,7 @@ const WidgetManagerOutputEvent: React.FC<{ outputEventData: any }> = ({
         <Grid className={classes.code} item xs={12}>
           {_.map(outputEventData, ({ timestamp, log }, index: number) => {
             return (
-              <Grid container>
+              <Grid container key={index}>
                 <Grid item style={{ width: 150 }}>
                   <Typography
                     variant='caption'

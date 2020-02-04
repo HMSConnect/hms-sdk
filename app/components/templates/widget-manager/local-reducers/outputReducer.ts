@@ -1,10 +1,21 @@
-export default function outputReducer(state: any = [], action: any) {
+export type OutputActionType =
+  | 'OUTPUT_INIT'
+  | 'OUTPUT_RESET'
+  | 'OUTPUT_RESET'
+  | 'OUTPUT_ADD_LOG'
+
+interface IOutputReducerAction {
+  type: OutputActionType
+  payload?: any
+}
+
+export default function outputReducer(
+  state: any = [],
+  action: IOutputReducerAction,
+) {
   switch (action.type) {
     case 'OUTPUT_INIT':
     case 'OUTPUT_RESET':
-    case 'IFRAME_SUBMIT':
-    case 'IFRAME_RESET':
-    case 'IFRAME_REFRESH':
       return []
     case 'OUTPUT_ADD_LOG':
       return [

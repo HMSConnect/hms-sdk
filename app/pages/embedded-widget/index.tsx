@@ -140,45 +140,24 @@ const WidgetManager: IStatelessPage<{
       selectedWidget,
       loading,
       outputs: outputEventData,
+      urlText,
     },
     dispatch,
   ] = React.useReducer(widgetReducer, widgetState)
 
   const { parameters, queryParams, url } = iframeState
 
-  console.log(query, iframeState)
-
-
   React.useEffect(() => {
-    window.addEventListener(
-      'message',
-      event => {
-        if (event.data.eventType !== 'embedded-widget') {
-          return
-        }
-        if (event.data.action === 'REPLACE_ROUTE') {
-          dispatch({
-            payload: {
-              queryParams: parseQueryStr(event.data.path),
-            },
-            type: 'IFRAME_REPLACE',
-          })
-        }
-
-        dispatch({ type: 'OUTPUT_ADD_LOG', payload: event.data })
-      },
-      false,
-    )
+    window.addEventListener('message', msgListener, false)
 
     return () => {
-      console.info('unregister iframe :')
+      console.info('unregister msgListener :')
+      window.removeEventListener('message', msgListener)
     }
-  }, [])
+  }, [selectedWidget?.value])
 
   React.useEffect(() => {
     if (query) {
-      // dispatch({ type: 'LOADING' })
-
       const selectedWidget = findWidget(query.widget)
       const newQueryParams = initialQueryParams(selectedWidget)
       const url = createURL(selectedWidget, null, newQueryParams)
@@ -192,11 +171,31 @@ const WidgetManager: IStatelessPage<{
           },
           selectedWidget,
           tabState: selectedWidget && selectedWidget.path ? 0 : 1,
+          urlText: url,
         },
         type: 'INIT',
       })
     }
   }, [query])
+
+  function msgListener(event: any) {
+    if (event.data.eventType !== 'embedded-widget') {
+      return
+    }
+    if (event.data.action === 'REPLACE_ROUTE') {
+      const queryParams = parseQueryStr(event.data.path)
+      // console.log("queryParams", queryParams)
+      // if (!_.isEmpty(queryParams)) {
+
+      // }
+      dispatch({
+        payload: createURL(selectedWidget, null, queryParams),
+        type: 'UPDATE_URL_TEXT',
+      })
+    }
+
+    dispatch({ type: 'OUTPUT_ADD_LOG', payload: event.data })
+  }
 
   const parseQueryStr = (queryStr: string) => {
     const queryParams = _.split(queryStr, '?')
@@ -504,7 +503,7 @@ const WidgetManager: IStatelessPage<{
                           id='outlined-size-small'
                           variant='outlined'
                           fullWidth
-                          value={decodeURI(url || '')}
+                          value={decodeURI(urlText || '')}
                           disabled
                           InputProps={{ className: classes.urlInputProps }}
                         />

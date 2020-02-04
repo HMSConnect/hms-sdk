@@ -1,23 +1,43 @@
-import outputReducer from './outputReducer'
 import _ from 'lodash'
+import outputReducer, { OutputActionType } from './outputReducer'
+
+type WidgetActionType =
+  | 'LOADING'
+  | 'INIT'
+  | 'TAB_CHANGE'
+  | 'SELECT_WIDGET'
+  | 'IFRAME_QUERY_PARAMS_CHANGE'
+  | 'IFRAME_PARAMETERS_CHANGE'
+  | 'IFRAME_RESET'
+  | 'IFRAME_REPLACE'
+  | 'IFRAME_BACK'
+  | 'IFRAME_NEXT'
+  | 'IFRAME_REFRESH'
+  | 'IFRAME_SUBMIT'
+  | 'UPDATE_URL_TEXT'
+interface IWidgetReducerAction {
+  type: WidgetActionType | OutputActionType
+  payload?: any
+}
 
 export const widgetState = {
   iframeState: {
     parameters: {},
     queryParams: {},
-    url: '',
+    url: '', // store url for change iframe
   },
   loading: true,
   outputs: [],
   selectedWidget: {},
   tabState: 0,
+  urlText: '', // store url display
 }
 
-export function widgetReducer(state: any = {}, action: any) {
-  if (_.includes('OUTPUT', action.type)) {
+export function widgetReducer(state: any = {}, action: IWidgetReducerAction) {
+  if (_.includes(action.type, 'OUTPUT')) {
     return {
       ...state,
-      outputs: outputReducer(state, action),
+      outputs: outputReducer(state.outputs, action),
     }
   }
 
@@ -63,12 +83,14 @@ export function widgetReducer(state: any = {}, action: any) {
             [action.payload.type]: action.payload.value,
           },
         },
+        outputs: [],
       }
 
     case 'IFRAME_RESET':
       const split = _.split(_.get(state.widgetSelected, 'path') || '', '#')
       return {
         ...state,
+        outputs: [],
         widgetSelected: {
           ...state.widgetSeleted,
           path: split[1] ? split[0] : split[0] + '#reset',
@@ -85,8 +107,17 @@ export function widgetReducer(state: any = {}, action: any) {
     case 'IFRAME_BACK':
     case 'IFRAME_NEXT':
     case 'IFRAME_REFRESH':
+      return {
+        ...state,
+        outputs: [],
+      }
     case 'IFRAME_SUBMIT':
       return state
+    case 'UPDATE_URL_TEXT':
+      return {
+        ...state,
+        urlText: action.payload,
+      }
     default:
       return state
   }

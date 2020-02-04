@@ -23,85 +23,7 @@ const WidgetManagerParameter: React.FC<{
   label = 'Query Params',
   type = 'queryParams',
 }) => {
-  const renderInput = (parameter: IWidgetPatameter, key: string) => {
-    switch (parameter.type) {
-      case 'boolean':
-        return (
-          <FormControlLabel
-            control={
-              <Switch
-                checked={parameters[parameter.value]}
-                onChange={event =>
-                  onParameterChange(parameter.value, event.target.checked)
-                }
-                color='primary'
-              />
-            }
-            label={parameter.label}
-          />
-        )
-      case 'number':
-        return (
-          <TextField
-            id={key}
-            label={parameter.label}
-            fullWidth
-            variant='outlined'
-            value={parameters[parameter.value]}
-            onChange={event =>
-              onParameterChange(parameter.value, event.target.value)
-            }
-            type='number'
-          />
-        )
-      case 'options':
-        if (!parameter.choices) {
-          return
-        }
-        return (
-          <SelectOption
-            label={parameter.label}
-            labelId={key}
-            id={key}
-            value={parameters[parameter.value]}
-            options={parameter.choices}
-            onChange={(
-              event: React.ChangeEvent<{ name?: string; value: unknown }>,
-            ) => {
-              onParameterChange(parameter.value, event.target.value)
-            }}
-            fullwidth
-          />
-        )
-      case 'text':
-        return (
-          <TextField
-            id={key}
-            label={parameter.label}
-            fullWidth
-            variant='outlined'
-            value={parameters[parameter.value]}
-            onChange={event =>
-              onParameterChange(parameter.value, event.target.value)
-            }
-          />
-        )
-      default:
-        return (
-          <TextField
-            id={key}
-            label={parameter.label}
-            fullWidth
-            variant='outlined'
-            value={parameters[parameter.value]}
-            onChange={event =>
-              onParameterChange(parameter.value, event.target.value)
-            }
-          />
-        )
-    }
-  }
-  if (_.isEmpty(selectedWidget[type])) {
+  if (_.isEmpty(selectedWidget[type] || _.isEmpty(parameters))) {
     return null
   }
   return (
@@ -110,7 +32,6 @@ const WidgetManagerParameter: React.FC<{
       <br />
       {_.map(selectedWidget[type], (parameter, index) => (
         <React.Fragment key={`${parameter.value}parameters${index}`}>
-          {/* {renderInput(parameter, `${type}outlined-basic${index}`)} */}
           <AdaptiveInput
             name={parameter.value}
             type={parameter.type}
