@@ -64,6 +64,7 @@ const useInfinitScroll = (
               error: error.message ? error.message : error,
             }
           })
+          setIsMore(false)
         } finally {
           setLoading(false)
           setIsFetch(false)

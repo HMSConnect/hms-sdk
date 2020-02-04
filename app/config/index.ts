@@ -166,6 +166,12 @@ export const widgetGalleryAllergyIntoleranceConfig: IWidgetGroup = {
           value: 'patientId',
         },
         {
+          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          label: 'Patient Id',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
           defaultValue: 20,
           label: 'Max',
           type: 'number',
@@ -187,11 +193,18 @@ export const widgetGalleryEncounterConfig: IWidgetGroup = {
       path: '/embedded-widget/medical-records',
       queryParams: [
         {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
           defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
           label: 'Encounter ID',
           type: 'text',
           value: 'encounterId',
         },
+
         {
           choices: [
             { value: '3x3', label: '3x3' },

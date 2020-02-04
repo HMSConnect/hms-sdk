@@ -3,7 +3,7 @@ import * as React from 'react'
 import * as AdaptiveCards from 'adaptivecards'
 import * as ACFabric from 'adaptivecards-fabric'
 import * as ACData from 'adaptivecards-templating'
-import * as _ from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 import MarkdownIt from 'markdown-it'
 
 const md = MarkdownIt()
@@ -27,7 +27,7 @@ const AdaptiveCard: React.FunctionComponent<{
   React.useEffect(() => {
     if (cardRef && cardRef.current) {
       // console.info('initialize adaptive card...')
-      if (!_.isEmpty(templatePayload) && !_.isEmpty(data)) {
+      if (!isEmpty(templatePayload) && !isEmpty(data)) {
         adaptiveCard = initialize(cardRef, templatePayload, data)
 
         // register callback

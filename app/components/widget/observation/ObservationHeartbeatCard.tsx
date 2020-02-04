@@ -13,7 +13,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import clsx from 'clsx'
-import * as _ from 'lodash'
+import get from 'lodash/get'
 
 const useStyles = makeStyles((theme: Theme) => ({
   contentText: {
@@ -40,16 +40,16 @@ const ObservationHeartbeatCard: React.FunctionComponent<{ query: any }> = ({
   query,
 }) => {
   const params = {
-    code: _.get(query, 'code') || '8867-4',
-    encounterId: _.get(query, 'encounterId'),
-    patientId: _.get(query, 'patientId'),
+    code: get(query, 'code') || '8867-4',
+    encounterId: get(query, 'encounterId'),
+    patientId: get(query, 'patientId'),
   } as IObservationListFilterQuery
   const { isLoading, data: observationList, error } = useObservationList(
     {
       filter: params || {},
       max: 1,
     },
-    ['patientId']
+    ['patientId'],
   )
   if (error) {
     return <ErrorSection error={error} />
@@ -114,9 +114,9 @@ export const ObservationHeartbeatCardView: React.FunctionComponent<{
               className={classes.contentText}
               style={{ paddingRight: 8 }}
             >
-              {_.get(observation, 'value') || 'N/A'}
+              {get(observation, 'value') || 'N/A'}
             </Typography>
-            {_.get(observation, 'unit') || ''}
+            {get(observation, 'unit') || ''}
           </Typography>
         </Grid>
       </Grid>
@@ -127,7 +127,7 @@ export const ObservationHeartbeatCardView: React.FunctionComponent<{
         className={classes.footerContainer}
       >
         <Typography variant='body2' className={classes.headerCardTitle}>
-          {_.get(observation, 'issued')}
+          {get(observation, 'issued')}
         </Typography>
       </Grid>
     </Paper>

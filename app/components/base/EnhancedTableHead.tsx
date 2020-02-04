@@ -7,7 +7,7 @@ import {
   TableSortLabel,
   Typography,
 } from '@material-ui/core'
-import * as _ from 'lodash'
+import map from 'lodash/map'
 
 export interface IHeaderCellProps {
   id: string
@@ -41,7 +41,7 @@ const EnhancedTableHead = ({
   return (
     <TableHead>
       <TableRow>
-        {_.map(headCells, (headCell: IHeaderCellProps) => (
+        {map(headCells, (headCell: IHeaderCellProps) => (
           <TableCell
             key={headCell.id}
             align={headCell.align || 'center'}

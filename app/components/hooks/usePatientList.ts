@@ -1,7 +1,7 @@
 import { HMSService } from '@services/HMSServiceFactory'
 import PatientService from '@services/PatientService'
 import { ISchema } from '@utils/types'
-import * as _ from 'lodash'
+import values from 'lodash/values'
 import usePromise from './utils/usePromise'
 
 export interface IPatientResultList {
@@ -14,7 +14,7 @@ export interface IQueryResult {
   schema?: ISchema
   totalCount?: number
 }
-export interface IPatinetLoadResultList extends IQueryResult {
+export interface IPatientLoadResultList extends IQueryResult {
   isLoading: boolean
 }
 export interface ISortType {
@@ -33,7 +33,7 @@ const usePatientList = (options: IPaginationOption): any => {
   return usePromise(() => {
     const patientService = HMSService.getService('patient') as PatientService
     return patientService.list(options)
-  }, _.values(options))
+  }, values(options))
 }
 
 export default usePatientList

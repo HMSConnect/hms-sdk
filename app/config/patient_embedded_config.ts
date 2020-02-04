@@ -48,7 +48,7 @@ export const conditionClinicalStatus = {
   RECURRENCE: 'recurrence',
   RELAPSE: 'relapse',
   REMISSION: 'remission',
-  RESOLVE: 'resolve',
+  RESOLVED: 'resolved',
 }
 
 export const conditionVerificationStatus = {
@@ -83,7 +83,7 @@ export const conditionClinicalStatusOption = [
   },
   {
     label: 'Resolved',
-    value: conditionClinicalStatus.RESOLVE,
+    value: conditionClinicalStatus.RESOLVED,
   },
 ]
 
@@ -566,7 +566,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
     {
       document: require('@assets/embedded-widget/patient-info/patient-encounter-timeline.md')
         .default,
-      label: 'Patine Encounter Timeline',
+      label: 'Patient Encounter Timeline',
       parameters: [],
       path: '/embedded-widget/patient-info/encounter-timeline',
       queryParams: [
@@ -600,7 +600,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
     {
       document: require('@assets/embedded-widget/patient-info/patient-allergy-intolerance-table.md')
         .default,
-      label: 'Patine AllergyIntolerance Table',
+      label: 'Patient AllergyIntolerance Table',
       parameters: [],
       path: '/embedded-widget/patient-info/allergy-intolerance-table',
       queryParams: [
@@ -652,7 +652,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
     {
       document: require('@assets/embedded-widget/patient-info/patient-condition-table.md')
         .default,
-      label: 'Patine Condition Table',
+      label: 'Patient Condition Table',
       parameters: [
         // {
         //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
@@ -711,7 +711,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
     {
       document: require('@assets/embedded-widget/patient-info/patient-immunization-table.md')
         .default,
-      label: 'Patine Immunization Table',
+      label: 'Patient Immunization Table',
       parameters: [
         // {
         //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
@@ -758,7 +758,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
     {
       document: require('@assets/embedded-widget/patient-info/patient-medication-request-table.md')
         .default,
-      label: 'Patine Medication Request Table',
+      label: 'Patient Medication Request Table',
       parameters: [
         // {
         //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
@@ -805,7 +805,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
     {
       document: require('@assets/embedded-widget/patient-info/patient-procedure-table.md')
         .default,
-      label: 'Patine Procedure Table',
+      label: 'Patient Procedure Table',
       parameters: [
         // {
         //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
@@ -840,7 +840,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
     {
       document: require('@assets/embedded-widget/patient-info/patient-care-plan-table.md')
         .default,
-      label: 'Patine Care Plan Table',
+      label: 'Patient Care Plan Table',
       parameters: [
         // {
         //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
@@ -875,7 +875,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
     {
       document: require('@assets/embedded-widget/patient-info/patient-claim-table.md')
         .default,
-      label: 'Patine Claim Table',
+      label: 'Patient Claim Table',
       parameters: [
         // {
         //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
@@ -911,7 +911,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
     {
       document: require('@assets/embedded-widget/patient-info/patient-imaging-study-table.md')
         .default,
-      label: 'Patine Imaging Study Table',
+      label: 'Patient Imaging Study Table',
       parameters: [],
       path: '/embedded-widget/patient-info/imaging-study-table',
       queryParams: [

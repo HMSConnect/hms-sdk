@@ -2,7 +2,7 @@ import { IImmunizationListQuery } from '@data-managers/ImmunizationDataManager'
 import { HMSService } from '@services/HMSServiceFactory'
 import ImmunizationService from '@services/ImmunizationService'
 import { IServiceResult } from '@utils/types'
-import * as _ from 'lodash'
+import values from 'lodash/values'
 import usePromise from './utils/usePromise'
 
 const useImmunization = (options: IImmunizationListQuery): IServiceResult => {
@@ -11,7 +11,7 @@ const useImmunization = (options: IImmunizationListQuery): IServiceResult => {
       'immunization',
     ) as ImmunizationService
     return immunizationService.list(options)
-  }, _.values(options.filter))
+  }, values(options.filter))
 }
 
 export default useImmunization

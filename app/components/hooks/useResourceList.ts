@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 
 import { HMSService } from '@services/HMSServiceFactory'
 import PatientService from '@services/PatientService'
-import * as _ from 'lodash'
+import concat from 'lodash/concat'
+import filter from 'lodash/filter'
 import { IQueryResult } from './usePatientList'
 
 const useResourceList = (id: string, options?: any): any => {
@@ -23,15 +24,12 @@ const useResourceList = (id: string, options?: any): any => {
           id,
           options,
         })
-        let resultsList = _.filter(
-          entryList.data,
-          entry => entry.totalCount > 0,
-        )
-        resultsList = _.concat(
+        let resultsList = filter(entryList.data, entry => entry.totalCount > 0)
+        resultsList = concat(
           { resourceType: 'patient', totalCount: 1, data: [] },
           resultsList,
         )
-          
+
         setResult({
           ...entryList,
           data: resultsList,

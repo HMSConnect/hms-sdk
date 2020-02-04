@@ -5,6 +5,8 @@ import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',

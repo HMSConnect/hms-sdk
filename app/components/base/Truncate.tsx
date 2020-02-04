@@ -19,15 +19,4 @@ const Truncate: React.FunctionComponent<any> = ({ children, size }) => {
   )
 }
 
-// Truncate.defaultPropTypes = {
-//   size: 2,
-//   disableBtn: false,
-// }
-// const FixedHeight = styled.span`
-//   overflow: hidden;
-//   display: -webkit-box;
-//   -webkit-line-clamp: ${props => props.size || 2};
-//   -webkit-box-orient: vertical;
-// `
-
 export default Truncate

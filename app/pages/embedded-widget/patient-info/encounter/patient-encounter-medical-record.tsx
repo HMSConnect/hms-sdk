@@ -6,6 +6,9 @@ import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import * as React from 'react'
 
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
+
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))

@@ -9,7 +9,7 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core'
-import * as _ from 'lodash'
+import map from 'lodash/map'
 import Truncate from './Truncate'
 
 export interface ITabList {
@@ -20,8 +20,8 @@ export interface ITabList {
 const useStyles = makeStyles((theme: Theme) => ({
   margin: {
     margin: theme.spacing(1),
+    marginTop: '-7px',
   },
-
   padding: {
     height: '3em',
     padding: theme.spacing(0, 2),
@@ -29,7 +29,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     width: '100%',
+    // height: '100px'
   },
+  truncateContainer: {
+    // height: '70%'
+    height: '36px',
+    padding: theme.spacing(1)
+  }
 }))
 function a11yProps(index: number) {
   return {
@@ -60,8 +66,9 @@ const TabGroup: React.FunctionComponent<{
         scrollButtons='auto'
         aria-label='scrollable auto tabs example'
       >
-        {_.map(tabList, (tab: any, index: number) => (
+        {map(tabList, (tab: any, index: number) => (
           <Tab
+            style={{ height: '70px' }}
             label={
               <Badge
                 color='primary'
@@ -69,7 +76,11 @@ const TabGroup: React.FunctionComponent<{
                 className={classes.margin}
                 max={999}
               >
-                <Truncate className={classes.padding}>{tab[keyField]}</Truncate>
+                <div className={classes.truncateContainer}>
+                  <Truncate className={classes.padding}>
+                    {tab[keyField]}
+                  </Truncate>
+                </div>
               </Badge>
             }
             {...a11yProps(index)}

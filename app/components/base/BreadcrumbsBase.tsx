@@ -9,7 +9,8 @@ import {
   Typography,
 } from '@material-ui/core'
 import RouteManager from '@routes/RouteManager'
-import * as _ from 'lodash'
+import get from 'lodash/get'
+import map from 'lodash/map'
 import routes from '../../routes'
 
 export interface IBreadcrumbPath {
@@ -50,7 +51,7 @@ const BreadcrumbsBase: React.FunctionComponent<{
   return (
     <Paper elevation={0} className={classes.root}>
       <MBreadcrumbs aria-label='breadcrumb'>
-        {_.map(parentPath, (parent: IBreadcrumbPath, index: number) => (
+        {map(parentPath, (parent: IBreadcrumbPath, index: number) => (
           <Link
             key={index}
             color='inherit'
@@ -58,7 +59,7 @@ const BreadcrumbsBase: React.FunctionComponent<{
             className={classes.link}
             href='#'
           >
-            {_.get(parent, 'icon') || null}
+            {get(parent, 'icon') || null}
             {parent.label || ''}
           </Link>
         ))}

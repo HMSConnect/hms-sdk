@@ -11,7 +11,7 @@ import FirstPageIcon from '@material-ui/icons/FirstPage'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import LastPageIcon from '@material-ui/icons/LastPage'
-import * as _ from 'lodash'
+import get from 'lodash/get'
 
 export interface IPageOptionResult {
   offset: number
@@ -71,7 +71,7 @@ function TablePaginationActions(props: ITablePaginationActionsProps) {
         aria-label='first page'
         data-testid='first-page'
       >
-        {_.get(theme, 'direction') === 'rtl' ? (
+        {get(theme, 'direction') === 'rtl' ? (
           <LastPageIcon />
         ) : (
           <FirstPageIcon />
@@ -83,7 +83,7 @@ function TablePaginationActions(props: ITablePaginationActionsProps) {
         aria-label='previous page'
         data-testid='prev-page'
       >
-        {_.get(theme, 'direction') === 'rtl' ? (
+        {get(theme, 'direction') === 'rtl' ? (
           <KeyboardArrowRight />
         ) : (
           <KeyboardArrowLeft />
@@ -95,7 +95,7 @@ function TablePaginationActions(props: ITablePaginationActionsProps) {
         aria-label='next page'
         data-testid='next-page'
       >
-        {_.get(theme, 'direction') === 'rtl' ? (
+        {get(theme, 'direction') === 'rtl' ? (
           <KeyboardArrowLeft />
         ) : (
           <KeyboardArrowRight />
@@ -107,7 +107,7 @@ function TablePaginationActions(props: ITablePaginationActionsProps) {
         aria-label='last page'
         data-testid='last-page'
       >
-        {_.get(theme, 'direction') === 'rtl' ? (
+        {get(theme, 'direction') === 'rtl' ? (
           <FirstPageIcon />
         ) : (
           <LastPageIcon />

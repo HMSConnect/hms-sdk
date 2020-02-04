@@ -4,7 +4,7 @@ import { IconButton, makeStyles, Paper, Theme } from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { toNaturalName } from '@utils'
-import * as _ from 'lodash'
+import map from 'lodash/map'
 import { ISimpleDialogItem } from './SimpleDialog'
 import SimpleDialogWithIconButton from './SimpleDialogWithIconButton'
 
@@ -61,7 +61,7 @@ const GridCardSelector: React.FunctionComponent<{
     ? componentResource[currentComponentName]
     : null
 
-  const simpleDialogList = _.map(
+  const simpleDialogList = map(
     componentResource,
     (c: any, componentName: string) => {
       return { label: toNaturalName(componentName), value: componentName }

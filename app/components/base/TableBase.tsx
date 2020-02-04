@@ -14,7 +14,9 @@ import {
 } from '@material-ui/core'
 import { blue, grey } from '@material-ui/core/colors'
 import clsx from 'clsx'
-import * as _ from 'lodash'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import map from 'lodash/map'
 import EnhancedTableHead, { IHeaderCellProps } from './EnhancedTableHead'
 
 interface ITableEntireRow {
@@ -81,7 +83,7 @@ const TableBase: React.FunctionComponent<{
   onLazyLoad,
 }) => {
   const classes = useStyles()
-  const headerCells = _.map(
+  const headerCells = map(
     tableCells,
     (tableCell: ITableCellProp) => tableCell.headCell,
   )
@@ -90,7 +92,7 @@ const TableBase: React.FunctionComponent<{
     <Table stickyHeader size={size}>
       <EnhancedTableHead classes={classes} headCells={headerCells} />
       <TableBody>
-        {_.isEmpty(entryList) ? (
+        {isEmpty(entryList) ? (
           <TableEntireRow
             cellCount={headerCells.length}
             option={{ isCenter: true }}
@@ -98,7 +100,7 @@ const TableBase: React.FunctionComponent<{
             <Typography>No Data for display</Typography>
           </TableEntireRow>
         ) : (
-          _.map(entryList, (entryData, index: number) => (
+          map(entryList, (entryData, index: number) => (
             <TableRowBase
               entryData={entryData}
               index={index}
@@ -155,7 +157,7 @@ const TableRowBase: React.FunctionComponent<{
         onEntrySelected ? onEntrySelected(event, entryData) : null
       }
     >
-      {_.map(tableCells, (tabelCell: any, tableIndex: number) => (
+      {map(tableCells, (tabelCell: any, tableIndex: number) => (
         <TableCell
           align={tabelCell.bodyCell.align || 'center'}
           key={id + tabelCell.bodyCell.id + index}
@@ -164,7 +166,7 @@ const TableRowBase: React.FunctionComponent<{
             tabelCell.bodyCell.render(entryData)
           ) : (
             <Typography variant='body1'>
-              {_.get(entryData, tabelCell.bodyCell.id) || 'Unknow'}
+              {get(entryData, tabelCell.bodyCell.id) || 'Unknow'}
             </Typography>
           )}
         </TableCell>

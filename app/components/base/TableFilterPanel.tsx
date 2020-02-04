@@ -1,13 +1,7 @@
-import {
-  FormControlLabel,
-  Grid,
-  makeStyles,
-  Switch,
-  TextField,
-  Theme,
-} from '@material-ui/core'
-import * as _ from 'lodash'
 import * as React from 'react'
+
+import { Grid, makeStyles, Theme } from '@material-ui/core'
+import map from 'lodash/map'
 import AdaptiveInput, { IAdaptiveInput } from './AdaptiveInput'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -36,8 +30,13 @@ const TableFilterPanel: React.FC<{
       onSubmit={(event: React.FormEvent) => onSearchSubmit(event, filter)}
     >
       <Grid container>
-        {_.map(filterOptions, (option, index) => (
-          <Grid className={classes.inputField} item xs={12} key={`container ${option.name} ${index}`}>
+        {map(filterOptions, (option, index) => (
+          <Grid
+            className={classes.inputField}
+            item
+            xs={12}
+            key={`container ${option.name} ${index}`}
+          >
             <AdaptiveInput
               name={option.name}
               type={option.type}

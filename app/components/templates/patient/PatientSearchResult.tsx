@@ -9,7 +9,8 @@ import {
   TableRow,
   Theme,
 } from '@material-ui/core'
-import * as _ from 'lodash'
+import get from 'lodash/get'
+import map from 'lodash/map'
 import PatientItem from './PatientItem'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -31,13 +32,13 @@ const PatientSearchResult: React.FunctionComponent<{
 }> = ({ highlightText, patientList, sort, onPatientSelect, onRequestSort }) => {
   const classes = useStyles()
   const [order, setOrder] = React.useState<'asc' | 'desc'>(
-    _.get(sort, 'order') || 'asc',
+    get(sort, 'order') || 'asc',
   )
-  const [orderBy, setOrderBy] = React.useState(_.get(sort, 'orderBy') || '')
+  const [orderBy, setOrderBy] = React.useState(get(sort, 'orderBy') || '')
 
   useEffect(() => {
-    setOrder(_.get(sort, 'order') || 'asc')
-    setOrderBy(_.get(sort, 'orderBy') || '')
+    setOrder(get(sort, 'order') || 'asc')
+    setOrderBy(get(sort, 'orderBy') || '')
   }, [sort])
 
   const handleRequestSort = (property: any) => {
@@ -123,7 +124,7 @@ const PatientSearchResult: React.FunctionComponent<{
             ]}
           />
           <TableBody>
-            {_.map(patientList, (patient: any, index: number) => (
+            {map(patientList, (patient: any, index: number) => (
               <TableRow
                 key={index}
                 hover
