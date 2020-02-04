@@ -1,5 +1,8 @@
 import _ from 'lodash'
-import outputReducer, { OutputActionType } from './outputReducer'
+import outputReducer, {
+  IOutputReducerAction,
+  OutputActionType,
+} from './widgetManagerOutput.reducer'
 
 type WidgetActionType =
   | 'LOADING'
@@ -37,7 +40,7 @@ export function widgetReducer(state: any = {}, action: IWidgetReducerAction) {
   if (_.includes(action.type, 'OUTPUT')) {
     return {
       ...state,
-      outputs: outputReducer(state.outputs, action),
+      outputs: outputReducer(state.outputs, action as IOutputReducerAction),
     }
   }
 

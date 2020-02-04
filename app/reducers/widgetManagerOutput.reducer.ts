@@ -4,7 +4,7 @@ export type OutputActionType =
   | 'OUTPUT_RESET'
   | 'OUTPUT_ADD_LOG'
 
-interface IOutputReducerAction {
+export interface IOutputReducerAction {
   type: OutputActionType
   payload?: any
 }

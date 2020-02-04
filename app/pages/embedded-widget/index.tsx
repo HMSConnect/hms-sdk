@@ -1,8 +1,5 @@
+import { widgetReducer, widgetState } from '@app/reducers/widgetManager.reducer'
 import SideMenuWithContent from '@components/base/SideMenuWithContent'
-import {
-  widgetReducer,
-  widgetState,
-} from '@components/templates/widget-manager/local-reducers/widgetReducer'
 import WigetManagerMenuList from '@components/templates/widget-manager/WidgetManagerMenuList'
 import WidgetManagerOutputEvent from '@components/templates/widget-manager/WidgetManagerOutputEvent'
 import WidgetManagerParameter from '@components/templates/widget-manager/WidgetManagerParameter'
@@ -566,6 +563,5 @@ WidgetManager.getInitialProps = async ({ req, res, query }) => {
     query,
   }
 }
-
 
 export default WidgetManager
