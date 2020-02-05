@@ -1,3 +1,4 @@
+import LoadingSection from '@components/base/LoadingSection'
 import widgetDependencies from '@config/widget_dependencies.json'
 import BootstrapHelper from '@init/BootstrapHelper'
 import * as _ from 'lodash'
@@ -34,7 +35,7 @@ const BootstrapWrapper: React.FunctionComponent<{
   }, [])
 
   if (isLoading) {
-    return <div>loading dependencies...</div>
+    return <LoadingSection label='loading dependencies...' />
   }
   return <>{children}</>
 }
