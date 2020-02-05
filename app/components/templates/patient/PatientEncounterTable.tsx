@@ -15,7 +15,8 @@ import {
 } from '@material-ui/core'
 import EncounterService from '@services/EncounterService'
 import { HMSService } from '@services/HMSServiceFactory'
-import * as _ from 'lodash'
+import get from 'lodash/get'
+import last from 'lodash/last'
 import * as moment from 'moment'
 import { useRouter } from 'next/router'
 
@@ -46,7 +47,7 @@ const PatientEncounterTable: React.FunctionComponent<{
   const router = useRouter()
   const [lazyLoadOption, setLazyLoad] = useState<ILazyLoadOption>({
     filter: {
-      patientId: _.get(patient, 'identifier.id.value'),
+      patientId: get(patient, 'identifier.id.value'),
     },
     max: 10,
   })
@@ -69,11 +70,11 @@ const PatientEncounterTable: React.FunctionComponent<{
 
     const entryData = await encounterService.list(lazyLoadOption)
 
-    if (_.get(entryData, 'error')) {
+    if (get(entryData, 'error')) {
       return Promise.reject(new Error(entryData.error))
     }
 
-    return Promise.resolve(_.get(entryData, 'data'))
+    return Promise.resolve(get(entryData, 'data'))
   }
 
   const handleEncounterSelect = (
@@ -83,7 +84,7 @@ const PatientEncounterTable: React.FunctionComponent<{
     router.push({
       pathname: `/patient-info/encounter/${selectedEncounter.id}`,
       query: {
-        patientId: _.get(patient, 'identifier.id.value'),
+        patientId: get(patient, 'identifier.id.value'),
       },
     })
     // TODO handle select encounter
@@ -109,7 +110,7 @@ const PatientEncounterTable: React.FunctionComponent<{
   }
 
   const resetFilter = () => {
-    const patientIdFilter = _.get(lazyLoadOption, 'filter.patientId')
+    const patientIdFilter = get(lazyLoadOption, 'filter.patientId')
     const filter = {
       patientId: patientIdFilter,
       periodStart_lt: undefined,
@@ -145,12 +146,12 @@ const PatientEncounterTable: React.FunctionComponent<{
   }
 
   const handleLazyLoad = (event: any, type?: string) => {
-    const lastEntry = _.last(data)
+    const lastEntry = last(data)
     setLazyLoad(prevLazyLoad => ({
       ...prevLazyLoad,
       filter: {
         ...prevLazyLoad.filter,
-        periodStart_lt: _.get(lastEntry, 'startTime'),
+        periodStart_lt: get(lastEntry, 'startTime'),
         type: type ? type : prevLazyLoad.filter.type,
       },
     }))
@@ -258,9 +259,9 @@ const PatientEncounterTable: React.FunctionComponent<{
                 id: 'startTime',
                 render: (encounter: any) => (
                   <>
-                    {_.get(encounter, 'startTime')
+                    {get(encounter, 'startTime')
                       ? moment
-                          .default(_.get(encounter, 'startTime'))
+                          .default(get(encounter, 'startTime'))
                           .format(environment.localFormat.dateTime)
                       : null}
                   </>
@@ -283,9 +284,9 @@ const PatientEncounterTable: React.FunctionComponent<{
                 id: 'endTime',
                 render: (encounter: any) => (
                   <>
-                    {_.get(encounter, 'endTime')
+                    {get(encounter, 'endTime')
                       ? moment
-                          .default(_.get(encounter, 'endTime'))
+                          .default(get(encounter, 'endTime'))
                           .format(environment.localFormat.dateTime)
                       : null}
                   </>

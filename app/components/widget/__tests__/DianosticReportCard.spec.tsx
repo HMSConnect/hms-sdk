@@ -19,7 +19,7 @@ describe('<DianosticReportCard>', () => {
     useRouterMockResult.mockImplementation(() => ({
       query: {
         encounterId: '0001',
-        patinetId: '0001',
+        patientId: '0001',
       },
     }))
 

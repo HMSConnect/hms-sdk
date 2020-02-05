@@ -1,6 +1,9 @@
 import React from 'react'
 
-import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
+import {
+  tableWithFilterReducer,
+  tableWithFilterState,
+} from '@app/reducers/tableWithFilter.reducer'
 import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
@@ -33,17 +36,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export interface IBodyCellProp {
-  align: 'right' | 'left' | 'center'
-  id: string
-  styles?: any
-}
-
-export interface ITableCellProp {
-  headCell: IHeaderCellProps
-  bodyCell: IBodyCellProp
-}
-
 const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   patientId: any
   isInitialize?: boolean
@@ -72,28 +64,24 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     })
   }, [customInitialFilter])
 
-  const [filter, setFilter] = React.useState<
-    IAllergyIntoleranceListFilterQuery
-  >(initialFilter)
+  const [{ filter, submitedFilter, isGroup, tab }, dispatch] = React.useReducer(
+    tableWithFilterReducer,
+    tableWithFilterState,
+  )
+  React.useEffect(() => {
+    dispatch({ type: 'INIT_FILTER', payload: initialFilter })
+  }, [])
 
-  const [submitedFilter, setSubmitedFilter] = React.useState<
-    IAllergyIntoleranceListFilterQuery
-  >(initialFilter)
-
-  const fetchMoreAsync = async (lastEntry: any) => {
+  const fetchData = async (
+    newFilter: IAllergyIntoleranceListFilterQuery,
+    max: number,
+  ) => {
     const allergyIntoleranceService = HMSService.getService(
       'allergy_intolerance',
     ) as AllergyIntoleranceService
-    const newFilter: IAllergyIntoleranceListFilterQuery = {
-      ...filter,
-      assertedDate_lt: _.get(lastEntry, 'assertedDate'),
-      patientId,
-    }
-    // setFilter(newFilter)
     const validParams = validQueryParams(['patientId'], newFilter)
     if (!_.isEmpty(validParams)) {
-      const test = _.join(validParams, ', ')
-      return Promise.reject(new Error(test))
+      return Promise.reject(new Error(_.join(validParams, ', ')))
     }
     const newLazyLoad = {
       filter: newFilter,
@@ -101,21 +89,36 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     }
     const entryData = await allergyIntoleranceService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
+      return Promise.reject(new Error(entryData.error))
+    }
+    return Promise.resolve(_.get(entryData, 'data'))
+  }
+
+  const fetchMoreAsync = async (lastEntry: any) => {
+    const newFilter: IAllergyIntoleranceListFilterQuery = {
+      ...filter,
+      assertedDate_lt: _.get(lastEntry, 'assertedDate'),
+      patientId,
+    }
+    try {
+      const entryData = await fetchData(newFilter, max)
       sendMessage({
-        error: _.get(entryData, 'error'),
+        message: 'handleLoadMore',
+        name,
+        params: {
+          filter: newFilter,
+          max,
+        },
+      })
+      return Promise.resolve(entryData)
+    } catch (e) {
+      sendMessage({
+        error: e,
         message: 'handleLoadMore',
         name,
       })
-      return Promise.reject(new Error(entryData.error))
+      return Promise.reject(e)
     }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      name,
-      params: newLazyLoad,
-    })
-
-    return Promise.resolve(_.get(entryData, 'data'))
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
@@ -135,63 +138,71 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  const fetchData = async (filter: any) => {
-    setFilter(filter)
+  const submitSearch = async (filter: any) => {
+    dispatch({ type: 'SUBMIT_SEARCH', payload: filter })
     setIsMore(true)
-    const allergyIntoleranceService = HMSService.getService(
-      'allergy_intolerance',
-    ) as AllergyIntoleranceService
-    const newLazyLoad = {
-      filter: {
-        ...filter,
-        assertedDate_lt: initialFilter.assertedDate_lt,
-      },
-      max,
+    const newFilter = {
+      ...filter,
+      assertedDate_lt: initialFilter.assertedDate_lt,
     }
-    const entryData = await allergyIntoleranceService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
+    try {
+      const entryData = await fetchData(newFilter, max)
+      return Promise.resolve(entryData)
+    } catch (e) {
       sendMessage({
-        error: _.get(entryData, 'error'),
+        error: e,
         message: 'handleSearchSubmit',
         name,
       })
-      return Promise.reject(new Error(entryData.error))
+      return Promise.reject(e)
     }
-
-    closeModal()
-    return Promise.resolve(entryData)
   }
 
   const handleParameterChange = (type: string, value: any) => {
-    setFilter((prevFilter: any) => ({
-      ...prevFilter,
-      [type]: value,
-    }))
+    dispatch({ type: 'FILTER_ON_CHANGE', payload: { [type]: value } })
   }
 
   const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    setSubmitedFilter(filter)
-    const newData = await fetchData(filter)
-    setResult(newData)
-    sendMessage({
-      message: 'handleSearchSubmit',
-      name,
-      params: { filter, max },
-    })
-    closeModal()
+    try {
+      const newData = await submitSearch(filter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
   const handleSearchReset = async () => {
-    setSubmitedFilter(initialFilter)
-    const newData = await fetchData(initialFilter)
-    setResult(newData)
-    sendMessage({
-      message: 'handleSearchReset',
-      name,
-      params: { filter: initialFilter, max },
-    })
-    closeModal()
+    try {
+      const newData = await submitSearch(initialFilter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
@@ -221,7 +232,7 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
         {
           choices: _.concat(
             [noneOption],
-            selectOptions.patient.carePlanStatusOption,
+            selectOptions.patient.allergyIntoleranceCriticalityOption,
           ),
           label: 'Criticality',
           name: 'criticality',
@@ -236,14 +247,6 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   if (error) {
     return <ErrorSection error={error} />
   }
-
-  // if (isLoading) {
-  //   return <LoadingSection />
-  // }
-
-  // if (isLoading) {
-  //   return <CircularProgress />
-  // }
 
   return (
     <>

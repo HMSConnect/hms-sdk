@@ -14,7 +14,8 @@ import {
   Typography,
 } from '@material-ui/core'
 import clsx from 'clsx'
-import * as _ from 'lodash'
+import find from 'lodash/find'
+import get from 'lodash/get'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -47,16 +48,16 @@ const ObservationBloodPressureCard: React.FunctionComponent<{ query: any }> = ({
   query,
 }) => {
   const params: IObservationListFilterQuery = {
-    code: _.get(query, 'code') || '55284-4',
-    encounterId: _.get(query, 'encounterId'),
-    patientId: _.get(query, 'patientId'),
+    code: get(query, 'code') || '55284-4',
+    encounterId: get(query, 'encounterId'),
+    patientId: get(query, 'patientId'),
   }
   const { isLoading, data: observationList, error } = useObservationList(
     {
       filter: params || {},
       max: 1,
     },
-    ['patientId']
+    ['patientId'],
   )
 
   if (error) {
@@ -120,19 +121,19 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
                 variant='h5'
                 className={classes.contentText}
               >
-                {_.find(
-                  _.get(observation, 'valueModal'),
+                {find(
+                  get(observation, 'valueModal'),
                   value => value.code === 'Systolic Blood Pressure',
                 )
                   ? Number(
-                      _.find(
-                        _.get(observation, 'valueModal'),
+                      find(
+                        get(observation, 'valueModal'),
                         value => value.code === 'Systolic Blood Pressure',
                       ).value,
                     ).toFixed(2)
                   : 'N/A'}
               </Typography>{' '}
-              <span>{_.get(observation, 'unit') || ''}</span>
+              <span>{get(observation, 'unit') || ''}</span>
             </div>
           </Typography>
           <Divider />
@@ -148,19 +149,19 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
                 variant='h5'
                 className={classes.contentText}
               >
-                {_.find(
-                  _.get(observation, 'valueModal'),
+                {find(
+                  get(observation, 'valueModal'),
                   value => value.code === 'Diastolic Blood Pressure',
                 )
                   ? Number(
-                      _.find(
-                        _.get(observation, 'valueModal'),
+                      find(
+                        get(observation, 'valueModal'),
                         value => value.code === 'Diastolic Blood Pressure',
                       ).value,
                     ).toFixed(2)
                   : 'N/A'}
               </Typography>{' '}
-              <span>{_.get(observation, 'unit') || ''}</span>
+              <span>{get(observation, 'unit') || ''}</span>
             </div>
           </Typography>
         </Grid>
@@ -172,7 +173,7 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
         className={classes.footerContainer}
       >
         <Typography variant='body2' className={classes.headerCardTitle}>
-          {_.get(observation, 'issued')}
+          {get(observation, 'issued')}
         </Typography>
       </Grid>
     </Paper>

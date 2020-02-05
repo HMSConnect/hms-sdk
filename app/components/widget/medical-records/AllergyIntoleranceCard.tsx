@@ -8,7 +8,8 @@ import allergyIntolerance from '@components/templates/adaptive-card/allergy.temp
 import { IAllergyIntoleranceListFilterQuery } from '@data-managers/AllergyIntoleranceDataManager'
 import { Paper } from '@material-ui/core'
 import { parse } from '@utils'
-import * as _ from 'lodash'
+import get from 'lodash/get'
+import map from 'lodash/map'
 import { useRouter } from 'next/router'
 import { stringify } from 'qs'
 
@@ -16,13 +17,14 @@ export const AllergyIntoleranceCard: React.FunctionComponent<any> = () => {
   const { query: routerQuery } = useRouter()
   const query = parse(stringify(routerQuery))
   const params = {
+    encounterId: query.encounterId,
     patientId: query.patientId,
   } as IAllergyIntoleranceListFilterQuery
 
   const { isLoading, data: allergyList, error } = useAllergyIntoleranceList(
     {
       filter: params || {},
-      max: _.get(query, 'max') || 20,
+      max: get(query, 'max') || 20,
     },
     ['patientId'],
   )
@@ -55,7 +57,7 @@ export const AllergyIntoleranceCardView: React.FunctionComponent<any> = ({
   scrollRef,
 }) => {
   const data = {
-    results: _.map(allergyList, allergy => {
+    results: map(allergyList, allergy => {
       let styleCriticality
       switch (allergy.criticality) {
         case 'low':
@@ -73,10 +75,10 @@ export const AllergyIntoleranceCardView: React.FunctionComponent<any> = ({
       }
 
       return {
-        assertedDate: _.get(allergy, 'assertedDateText'),
-        category: _.get(allergy, 'category'),
+        assertedDate: get(allergy, 'assertedDateText'),
+        category: get(allergy, 'category'),
         criticality: styleCriticality,
-        display: _.get(allergy, 'codeText'),
+        display: get(allergy, 'codeText'),
       }
     }),
     title: `Allergy`,

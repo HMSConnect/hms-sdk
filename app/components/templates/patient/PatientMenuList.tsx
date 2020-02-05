@@ -12,7 +12,8 @@ import {
   Theme,
 } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
-import * as _ from 'lodash'
+import map from 'lodash/map'
+import startCase from 'lodash/startCase'
 
 export interface IResourceMenu {
   resourceType: string
@@ -21,7 +22,7 @@ export interface IResourceMenu {
 }
 
 const mapMenuListWithIcon = (menuList: IResourceMenu[]) => {
-  return _.map(menuList, (value, key) => {
+  return map(menuList, (value, key) => {
     switch (value.resourceType) {
       case 'patient':
         return {
@@ -144,7 +145,7 @@ const PatientMenuList: React.FunctionComponent<{
         aria-label='main mailbox folders'
         className={classes.paper}
       >
-        {_.map(menuListWithIcon, (menu: any) => (
+        {map(menuListWithIcon, (menu: any) => (
           <div key={menu.resourceType}>
             <Divider />
             <ListItem
@@ -154,7 +155,7 @@ const PatientMenuList: React.FunctionComponent<{
             >
               {renderIcon(menu)}
 
-              <ListItemText primary={_.startCase(menu.resourceType)} />
+              <ListItemText primary={startCase(menu.resourceType)} />
               <ListItemSecondaryAction className={classes.circle}>
                 <div style={{ textAlign: 'center' }}>{menu.totalCount}</div>
               </ListItemSecondaryAction>

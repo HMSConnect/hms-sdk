@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
-import GraphLine from '@components/base/GraphBase'
+import GraphBase from '@components/base/GraphBase'
 import TabGroup, { ITabList } from '@components/base/TabGroup'
 import TableBase from '@components/base/TableBase'
 import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
 import { makeStyles, Paper, Theme, Typography } from '@material-ui/core'
+import { sendMessage } from '@utils'
 import { scaleTime } from 'd3-scale'
 import * as _ from 'lodash'
-import { sendMessage } from '@utils'
-import GraphBase from '@components/base/GraphBase'
 
 const useStyles = makeStyles((theme: Theme) => ({
   tableRoot: {
@@ -87,8 +86,8 @@ const DiagReportPatientData: React.FunctionComponent<{
             options={{
               ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
               ValueScale: <ValueScale modifyDomain={() => [20, 200]} />,
-              valueUnit: 'mmHg',
               type: 'line',
+              valueUnit: 'mmHg',
             }}
           />
         </Paper>

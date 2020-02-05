@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react'
 
 import { Grid, makeStyles, Theme } from '@material-ui/core'
 import { sendMessage } from '@utils'
-import * as _ from 'lodash'
+import get from 'lodash/get'
 import routes from '../../../routes'
-import {
-  default as RouteManager,
-  default as RouterManager,
-} from '../../../routes/RouteManager'
+import { default as RouteManager } from '../../../routes/RouteManager'
 import { IPageOptionResult } from '../../base/Pagination'
 import { IPaginationOption, ISortType } from '../../hooks/usePatientList'
 import { IPatientFilterValue } from '../../templates/patient/PatientFilterBar'
@@ -29,14 +26,14 @@ const PatientSearch: React.FunctionComponent<{
 }> = ({ query, name = 'patientSearch' }) => {
   const classes = useStyles()
   const [highlightText, setHighlightText] = useState<string>(
-    _.get(query, 'filter.searchText') ? _.get(query, 'filter.searchText') : '',
+    get(query, 'filter.searchText') ? get(query, 'filter.searchText') : '',
   )
   const [pagination, setPagination] = useState<IPaginationOption>(query)
 
   useEffect(() => {
     setPagination(query)
-    if (_.get(query, 'filter.searchText')) {
-      setHighlightText(_.get(query, 'filter.searchText'))
+    if (get(query, 'filter.searchText')) {
+      setHighlightText(get(query, 'filter.searchText'))
     }
   }, [query])
 
@@ -49,7 +46,7 @@ const PatientSearch: React.FunctionComponent<{
       sort: pagination.sort,
     }
 
-    const path = RouterManager.getPath('patient-search', {
+    const path = RouteManager.getPath('patient-search', {
       matchBy: 'url',
       params: newPagination,
     })
@@ -76,7 +73,7 @@ const PatientSearch: React.FunctionComponent<{
       sort: sortObject,
     }
 
-    const path = RouterManager.getPath('patient-search', {
+    const path = RouteManager.getPath('patient-search', {
       matchBy: 'url',
       params: newPagination,
     })
@@ -99,7 +96,7 @@ const PatientSearch: React.FunctionComponent<{
       sort: pagination.sort,
     }
 
-    const path = RouterManager.getPath('patient-search', {
+    const path = RouteManager.getPath('patient-search', {
       matchBy: 'url',
       params: newPagination,
     })
@@ -116,9 +113,9 @@ const PatientSearch: React.FunctionComponent<{
 
   const handlePatientSelect = (patient: any) => {
     const params = {
-      patientId: _.get(patient, 'identifier.id.value'),
+      patientId: get(patient, 'identifier.id.value'),
     }
-    const path = RouterManager.getPath(`prepare/patient-demographic`, {
+    const path = RouteManager.getPath(`prepare/patient-demographic`, {
       matchBy: 'url',
       params,
     })
@@ -134,7 +131,7 @@ const PatientSearch: React.FunctionComponent<{
   }
 
   const handlePaginationReset = (event: React.MouseEvent) => {
-    const path = RouterManager.getPath(`patient-search`, {
+    const path = RouteManager.getPath(`patient-search`, {
       matchBy: 'url',
     })
 

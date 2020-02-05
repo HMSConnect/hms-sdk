@@ -1,5 +1,9 @@
 import React from 'react'
 
+import {
+  tableWithFilterReducer,
+  tableWithFilterState,
+} from '@app/reducers/tableWithFilter.reducer'
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
 import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
@@ -69,23 +73,17 @@ const PatientClaimTable: React.FunctionComponent<{
       patientId,
     })
   }, [customInitialFilter])
-  const [filter, setFilter] = React.useState<IClaimListFilterQuery>(
-    initialFilter,
+  const [{ filter, submitedFilter }, dispatch] = React.useReducer(
+    tableWithFilterReducer,
+    tableWithFilterState,
   )
-
-  const [submitedFilter, setSubmitedFilter] = React.useState<
-    IClaimListFilterQuery
-  >(initialFilter)
+  React.useEffect(() => {
+    dispatch({ type: 'INIT_FILTER', payload: initialFilter })
+  }, [])
   const classes = useStyles()
 
-  const fetchMoreAsync = async (lastEntry: any) => {
+  const fetchData = async (newFilter: IClaimListFilterQuery) => {
     const claimService = HMSService.getService('claim') as ClaimService
-    const newFilter: IClaimListFilterQuery = {
-      ...filter,
-      billablePeriodStart_lt: _.get(lastEntry, 'billablePeriodStart'),
-      patientId,
-    }
-    // setFilter(newFilter)
     const validParams = validQueryParams(['patientId'], newFilter)
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
@@ -96,21 +94,36 @@ const PatientClaimTable: React.FunctionComponent<{
     }
     const entryData = await claimService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
+      return Promise.reject(new Error(entryData.error))
+    }
+    return Promise.resolve(_.get(entryData, 'data'))
+  }
+
+  const fetchMoreAsync = async (lastEntry: any) => {
+    const newFilter: IClaimListFilterQuery = {
+      ...filter,
+      billablePeriodStart_lt: _.get(lastEntry, 'billablePeriodStart'),
+      patientId,
+    }
+    try {
+      const entryData = await fetchData(newFilter)
       sendMessage({
-        error: _.get(entryData, 'error'),
+        message: 'handleLoadMore',
+        name,
+        params: {
+          filter: newFilter,
+          max,
+        },
+      })
+      return Promise.resolve(entryData)
+    } catch (e) {
+      sendMessage({
+        error: e,
         message: 'handleLoadMore',
         name,
       })
-      return Promise.reject(new Error(entryData.error))
+      return Promise.reject(e)
     }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      name,
-      params: newLazyLoad,
-    })
-
-    return Promise.resolve(_.get(entryData, 'data'))
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
@@ -130,60 +143,71 @@ const PatientClaimTable: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  const fetchData = async (filter: any) => {
-    setFilter(filter)
+  const submitSearch = async (filter: any) => {
+    dispatch({ type: 'SUBMIT_SEARCH', payload: filter })
     setIsMore(true)
-    const claimService = HMSService.getService('claim') as ClaimService
-    const newLazyLoad = {
-      filter: {
-        ...filter,
-        billablePeriodStart_lt: initialFilter.billablePeriodStart_lt,
-      },
-      max,
+    const newFilter: IClaimListFilterQuery = {
+      ...filter,
+      billablePeriodStart_lt: initialFilter.billablePeriodStart_lt,
     }
-    const entryData = await claimService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
+    try {
+      const entryData = await fetchData(newFilter)
+      return Promise.resolve(entryData)
+    } catch (e) {
       sendMessage({
-        error: _.get(entryData, 'error'),
+        error: e,
         message: 'handleSearchSubmit',
         name,
       })
-      return Promise.reject(new Error(entryData.error))
+      return Promise.reject(e)
     }
-
-    return Promise.resolve(entryData)
   }
 
   const handleParameterChange = (type: string, value: any) => {
-    setFilter((prevFilter: any) => ({
-      ...prevFilter,
-      [type]: value,
-    }))
+    dispatch({ type: 'FILTER_ON_CHANGE', payload: { [type]: value } })
   }
 
   const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    setSubmitedFilter(filter)
-    const newData = await fetchData(filter)
-    setResult(newData)
-    sendMessage({
-      message: 'handleSearchSubmit',
-      name,
-      params: { filter, max },
-    })
-    closeModal()
+    try {
+      const newData = await submitSearch(filter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
   const handleSearchReset = async () => {
-    setSubmitedFilter(initialFilter)
-    const newData = await fetchData(initialFilter)
-    setResult(newData)
-    sendMessage({
-      message: 'handleSearchReset',
-      name,
-      params: { filter: initialFilter, max },
-    })
-    closeModal()
+    try {
+      const newData = await submitSearch(initialFilter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,

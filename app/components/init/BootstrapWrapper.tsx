@@ -1,7 +1,7 @@
 import LoadingSection from '@components/base/LoadingSection'
 import widgetDependencies from '@config/widget_dependencies.json'
 import BootstrapHelper from '@init/BootstrapHelper'
-import * as _ from 'lodash'
+import get from 'lodash/get'
 import * as React from 'react'
 
 type DependencyType =
@@ -26,7 +26,7 @@ const BootstrapWrapper: React.FunctionComponent<{
   const [isLoading, setIsLoading] = React.useState(true)
   React.useEffect(() => {
     for (const depName of dependencies) {
-      const dependency = _.get(widgetDependencies, depName) || {}
+      const dependency = get(widgetDependencies, depName) || {}
       BootstrapHelper.registerServices(dependency.services || [])
       BootstrapHelper.registerValidators(dependency.validators || [])
     }

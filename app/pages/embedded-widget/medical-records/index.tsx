@@ -5,6 +5,9 @@ import EncounterInfoDetail from '@components/widget/encounter/EncounterInfoDetai
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
+
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))

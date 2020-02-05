@@ -1,5 +1,9 @@
-import React, { useEffect, useRef } from 'react'
+import * as _ from 'lodash'
 
+import {
+  tableWithFilterReducer,
+  tableWithFilterState,
+} from '@app/reducers/tableWithFilter.reducer'
 import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableFilterPanel from '@components/base/TableFilterPanel'
@@ -11,9 +15,9 @@ import {
 } from '@data-managers/EncounterDataManager'
 import { makeStyles, Theme } from '@material-ui/core'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
-import * as _ from 'lodash'
+import React, { useEffect, useRef } from 'react'
 import routes from '../../../routes'
-import RouterManager from '../../../routes/RouteManager'
+import RouteManager from '../../../routes/RouteManager'
 import EncounterService from '../../../services/EncounterService'
 import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
@@ -85,55 +89,61 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       patientId,
     })
   }, [customInitialFilter])
-  const [filter, setFilter] = React.useState<IEncounterListFilterQuery>(
-    initialFilter,
+  const [{ filter, submitedFilter }, dispatch] = React.useReducer(
+    tableWithFilterReducer,
+    tableWithFilterState,
   )
-
-  const [submitedFilter, setSubmitedFilter] = React.useState<
-    IEncounterListFilterQuery
-  >(initialFilter)
+  React.useEffect(() => {
+    dispatch({ type: 'INIT_FILTER', payload: initialFilter })
+  }, [])
 
   const classes = useStyles()
 
-  const myscroll = useRef<HTMLDivElement | null>(null)
-
-  const fetchMoreAsync = async (lastEntry: any) => {
+  const fetchData = async (newFilter: IEncounterListFilterQuery, max: number) => {
     const encounterService = HMSService.getService(
       'encounter',
     ) as EncounterService
-    const newFilter: IEncounterListFilterQuery = {
-      ...filter,
-      periodStart_lt: _.get(lastEntry, 'startTime'),
-    }
-    const validParams = validQueryParams(
-      ['patientId'],
-      newFilter,
-    )
+    const validParams = validQueryParams(['patientId'], newFilter)
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
     }
     const newLazyLoad = {
       filter: newFilter,
       max,
-      withOrganization: true,
     }
     const entryData = await encounterService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
+      return Promise.reject(new Error(entryData.error))
+    }
+    return Promise.resolve(_.get(entryData, 'data'))
+  }
+
+  const myscroll = useRef<HTMLDivElement | null>(null)
+
+  const fetchMoreAsync = async (lastEntry: any) => {
+    const newFilter: IEncounterListFilterQuery = {
+      ...filter,
+      periodStart_lt: _.get(lastEntry, 'startTime'),
+    }
+    try {
+      const entryData = await fetchData(newFilter, max)
       sendMessage({
-        error: _.get(entryData, 'error'),
+        message: 'handleLoadMore',
+        name,
+        params: {
+          filter: newFilter,
+          max,
+        },
+      })
+      return Promise.resolve(entryData)
+    } catch (e) {
+      sendMessage({
+        error: e,
         message: 'handleLoadMore',
         name,
       })
-      return Promise.reject(new Error(entryData.error))
+      return Promise.reject(e)
     }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      name,
-      params: newLazyLoad,
-    })
-
-    return Promise.resolve(_.get(entryData, 'data'))
   }
 
   const {
@@ -155,7 +165,6 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       setIsFetch(true)
     }
   }, [isInitialize])
-  // /patient-demographic
   const handleEncounterSelect = (
     event: React.MouseEvent,
     selectedEncounter: any,
@@ -168,9 +177,8 @@ const PatientEncounterTimeline: React.FunctionComponent<{
         patientId,
       }
 
-      const path = RouterManager.getPath(
+      const path = RouteManager.getPath(
         `patient-info/patient-medical-records`,
-        // `patient-info/${patientId}/encounter/${_.get(selectedEncounter, 'id')}/patient-medical`,
         {
           matchBy: 'url',
           params: newParams,
@@ -188,57 +196,71 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       }
     }
   }
-  const fetchData = async (filter: any) => {
-    setFilter(filter)
+  const submitSearch = async (filter: any) => {
+    dispatch({ type: 'SUBMIT_SEARCH', payload: filter })
     setIsMore(true)
-    const encounterService = HMSService.getService(
-      'encounter',
-    ) as EncounterService
-    const newLazyLoad = {
-      filter: {
-        ...filter,
-        periodStart_lt: initialFilter.periodStart_lt,
-      },
-      max,
+    const newFilter = {
+      ...filter,
+      periodStart_lt: initialFilter.periodStart_lt,
     }
-    const entryData = await encounterService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
+    try {
+      const entryData = await fetchData(newFilter, max)
+      return Promise.resolve(entryData)
+    } catch (e) {
       sendMessage({
-        error: _.get(entryData, 'error'),
+        error: e,
         message: 'handleSearchSubmit',
         name,
       })
-      return Promise.reject(new Error(entryData.error))
+      return Promise.reject(e)
     }
-
-    return Promise.resolve(entryData)
   }
 
   const handleParameterChange = (type: string, value: any) => {
-    setFilter((prevFilter: any) => ({
-      ...prevFilter,
-      [type]: value,
-    }))
+    dispatch({ type: 'FILTER_ON_CHANGE', payload: { [type]: value } })
   }
 
   const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    setSubmitedFilter(filter)
-    const newData = await fetchData(filter)
-    setResult(newData)
-    sendMessage({
-      message: 'handleSearchSubmit',
-      name,
-      params: filter,
-    })
-    closeModal()
+    try {
+      const newData = await submitSearch(filter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
   const handleSearchReset = async () => {
-    setSubmitedFilter(initialFilter)
-    const newData = await fetchData(initialFilter)
-    setResult(newData)
-    closeModal()
+    try {
+      const newData = await submitSearch(initialFilter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {

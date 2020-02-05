@@ -1,9 +1,13 @@
 import React from 'react'
 
+import {
+  tableWithFilterReducer,
+  tableWithFilterState,
+} from '@app/reducers/tableWithFilter.reducer'
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
 import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
-import TabGroup, { ITabList } from '@components/base/TabGroup'
+import TabGroup from '@components/base/TabGroup'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
@@ -69,24 +73,23 @@ const PatientObservationTable: React.FunctionComponent<{
       patientId,
     })
   }, [customInitialFilter])
-  const [filter, setFilter] = React.useState<IObservationListFilterQuery>(
-    initialFilter,
+  const [{ filter, submitedFilter, isGroup, tab }, dispatch] = React.useReducer(
+    tableWithFilterReducer,
+    tableWithFilterState,
   )
-  const [submitedFilter, setSubmitedFilter] = React.useState<
-    IObservationListFilterQuery
-  >(initialFilter)
+
+  React.useEffect(() => {
+    dispatch({ type: 'INIT_FILTER', payload: initialFilter })
+  }, [])
   const classes = useStyles()
 
-  const fetchMoreAsync = async (lastEntry: any) => {
+  const fetchData = async (
+    newFilter: IObservationListFilterQuery,
+    max: number,
+  ) => {
     const observationService = HMSService.getService(
       'observation',
     ) as ObservationService
-    const newFilter: IObservationListFilterQuery = {
-      ...filter,
-      issued_lt: _.get(lastEntry, 'issuedDate'),
-      patientId,
-    }
-    // setFilter(newFilter)
     const validParams = validQueryParams(['patientId'], newFilter)
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
@@ -97,21 +100,36 @@ const PatientObservationTable: React.FunctionComponent<{
     }
     const entryData = await observationService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
+      return Promise.reject(new Error(entryData.error))
+    }
+    return Promise.resolve(_.get(entryData, 'data'))
+  }
+
+  const fetchMoreAsync = async (lastEntry: any) => {
+    const newFilter: IObservationListFilterQuery = {
+      ...filter,
+      issued_lt: _.get(lastEntry, 'issuedDate'),
+      patientId,
+    }
+    try {
+      const entryData = await fetchData(newFilter, max)
       sendMessage({
-        error: _.get(entryData, 'error'),
+        message: 'handleLoadMore',
+        name,
+        params: {
+          filter: newFilter,
+          max,
+        },
+      })
+      return Promise.resolve(entryData)
+    } catch (e) {
+      sendMessage({
+        error: e,
         message: 'handleLoadMore',
         name,
       })
-      return Promise.reject(new Error(entryData.error))
+      return Promise.reject(e)
     }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      name,
-      params: newLazyLoad,
-    })
-
-    return Promise.resolve(_.get(entryData, 'data'))
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
@@ -131,19 +149,69 @@ const PatientObservationTable: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  const [isGroup, setIsGroup] = React.useState<boolean | undefined>(false)
-  const [tabList, setTabList] = React.useState<ITabList[]>([])
-
-  const handleGroupByCategory = async (isGroup: boolean) => {
-    const observationService = HMSService.getService(
-      'observation',
-    ) as ObservationService
+  const handleGroupByType = async (isGroup: boolean) => {
+    setIsMore(true)
     if (isGroup) {
+      handleInitialGroup(patientId)
+    } else {
+      handleUnGroup(filter)
+    }
+  }
+
+  const handleUnGroup = async (filter: IObservationListFilterQuery) => {
+    const newFilter = {
+      ...filter,
+      date_lt: undefined,
+      vaccineCode: undefined,
+    }
+    try {
+      const newData = await fetchData(newFilter, max)
+      if (newData.length < max) {
+        setIsMore(false)
+      }
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleGroupByType',
+        name,
+        params: {
+          isGroup,
+          result: newData,
+        },
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleGroupByType',
+        name,
+        params: {
+          error,
+          filter: newFilter,
+          isGroup,
+        },
+      })
+    } finally {
+      dispatch({
+        type: 'UN_GROUP_BY',
+      })
+    }
+  }
+
+  const handleInitialGroup = async (patientId: string) => {
+    try {
+      const observationService = HMSService.getService(
+        'observation',
+      ) as ObservationService
       const menuTabList = await observationService.categoryList({
         filter: { patientId },
       })
-      setTabList(menuTabList.data)
-      handleTabChange(menuTabList.data[0].category)
+      dispatch({
+        payload: {
+          selectedTab: menuTabList.data[0].type,
+          tabList: menuTabList.data,
+        },
+        type: 'GROUP_BY',
+      })
+      handleTabChange(menuTabList.data[0].type)
       sendMessage({
         message: 'handleGroupByType',
         name,
@@ -151,28 +219,17 @@ const PatientObservationTable: React.FunctionComponent<{
           isGroup,
         },
       })
-    } else {
-      const newFilter = {
-        ...filter,
-        categoryCode: undefined,
-        issued_lt: undefined,
-      }
-      const newResult = await observationService.list({
-        filter: newFilter,
-        max,
-      })
-      setResult(newResult)
+    } catch (error) {
+      setResult({ data: [], error })
       sendMessage({
         message: 'handleGroupByType',
         name,
         params: {
+          error,
           isGroup,
-          result: newResult,
         },
       })
     }
-    setIsMore(true)
-    setIsGroup(isGroup)
   }
 
   const handleTabChange = async (selectedTab: string) => {
@@ -182,79 +239,105 @@ const PatientObservationTable: React.FunctionComponent<{
       issued_lt: undefined,
       patientId,
     }
-    setFilter(newFilter)
-    setSubmitedFilter(newFilter)
-    const observationService = HMSService.getService(
-      'observation',
-    ) as ObservationService
-    const newResult = await observationService.list({ filter: newFilter, max })
-    setResult(newResult)
-    setIsMore(true)
-    sendMessage({
-      message: `handleTabChange:`,
-      params: {
-        filter: newFilter,
-        result: newResult,
-        tabTitle: selectedTab,
-      },
+    dispatch({
+      payload: { filter: newFilter, selectedTab },
+      type: 'CHANGE_TAB',
     })
-  }
-  const fetchData = async (filter: any) => {
-    setFilter(filter)
     setIsMore(true)
-    const observationService = HMSService.getService(
-      'observation',
-    ) as ObservationService
-    const newLazyLoad = {
-      filter: {
-        ...filter,
-        issued_lt: initialFilter.issued_lt,
-      },
-      max,
-    }
-    const entryData = await observationService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
+    try {
+      const newData = await fetchData(newFilter, max)
+      if (newData.length < max) {
+        setIsMore(false)
+      }
+      setResult({ data: newData, error: null })
       sendMessage({
-        error: _.get(entryData, 'error'),
+        message: `handleTabChange:`,
+        name,
+        params: {
+          filter: newFilter,
+          result: newData,
+          tabTitle: selectedTab,
+        },
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: `handleTabChange:`,
+        name,
+        params: {
+          error,
+          filter: newFilter,
+          tabTitle: selectedTab,
+        },
+      })
+    }
+  }
+  const submitSearch = async (filter: any) => {
+    dispatch({ type: 'SUBMIT_SEARCH', payload: filter })
+    setIsMore(true)
+
+    const newFilter = {
+      ...filter,
+      issued_lt: initialFilter.issued_lt,
+    }
+    try {
+      const entryData = await fetchData(newFilter, max)
+      return Promise.resolve(entryData)
+    } catch (e) {
+      sendMessage({
+        error: e,
         message: 'handleSearchSubmit',
         name,
       })
-      return Promise.reject(new Error(entryData.error))
+      return Promise.reject(e)
     }
-
-    return Promise.resolve(entryData)
   }
 
   const handleParameterChange = (type: string, value: any) => {
-    setFilter((prevFilter: any) => ({
-      ...prevFilter,
-      [type]: value,
-    }))
+    dispatch({ type: 'FILTER_ON_CHANGE', payload: { [type]: value } })
   }
 
   const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    setSubmitedFilter(filter)
-    const newData = await fetchData(filter)
-    setResult(newData)
-    sendMessage({
-      message: 'handleSearchSubmit',
-      name,
-      params: filter,
-    })
-    closeModal()
+    try {
+      const newData = await submitSearch(filter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
   const handleSearchReset = async () => {
-    setSubmitedFilter(initialFilter)
-    const newData = await fetchData(initialFilter)
-    setResult(newData)
-    sendMessage({
-      message: 'handleSearchReset',
-      name,
-      params: filter,
-    })
-    closeModal()
+    try {
+      const newData = await submitSearch(initialFilter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
@@ -295,7 +378,7 @@ const PatientObservationTable: React.FunctionComponent<{
                 control={
                   <Checkbox
                     onChange={(event, isGroup) => {
-                      handleGroupByCategory(isGroup)
+                      handleGroupByType(isGroup)
                     }}
                     data-testid='check-by-type-input'
                     value={isGroup}
@@ -313,7 +396,7 @@ const PatientObservationTable: React.FunctionComponent<{
           {renderModal}
         </ToolbarWithFilter>
         {isGroup && (
-          <TabGroup tabList={tabList} onTabChange={handleTabChange} />
+          <TabGroup tabList={tab.tabList} onTabChange={handleTabChange} />
         )}
       </div>
       <div

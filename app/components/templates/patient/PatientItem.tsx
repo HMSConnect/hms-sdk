@@ -8,7 +8,7 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core'
-import * as _ from 'lodash'
+import get from 'lodash/get'
 
 const useStyles = makeStyles((theme: Theme) => ({
   avatar: {
@@ -35,39 +35,39 @@ const PatientItem: React.FunctionComponent<{
           {highlightText ? (
             <strong>
               <Highlighter
-                text={_.get(patient, 'name.given[0]')}
+                text={get(patient, 'name.given[0]')}
                 highlightText={highlightText}
               />{' '}
               <Highlighter
-                text={_.get(patient, 'name.family')}
+                text={get(patient, 'name.family')}
                 highlightText={highlightText}
               />
             </strong>
           ) : (
             <>
-              {_.get(patient, 'name.given[0]')} {_.get(patient, 'name.family')}
+              {get(patient, 'name.given[0]')} {get(patient, 'name.family')}
             </>
           )}
         </Typography>
       </TableCell>
       <TableCell>
         <Typography variant='body2'>
-          {_.get(patient, 'gender') || 'Unknow'}
+          {get(patient, 'gender') || 'Unknow'}
         </Typography>
       </TableCell>
       <TableCell align='center'>
         <Typography variant='body2'>
-          {_.get(patient, 'birthDate') || 'Unknow'}
+          {get(patient, 'birthDate') || 'Unknow'}
         </Typography>
       </TableCell>
       <TableCell align='center'>
         <Typography variant='body2'>
-          {_.get(patient, 'identifier.id.value') || 'Unknow'}
+          {get(patient, 'identifier.id.value') || 'Unknow'}
         </Typography>
       </TableCell>
       <TableCell align='center'>
         <Typography variant='body2'>
-          {_.get(patient, 'identifier.mr.value') || 'Unknow'}
+          {get(patient, 'identifier.mr.value') || 'Unknow'}
         </Typography>
       </TableCell>
     </>

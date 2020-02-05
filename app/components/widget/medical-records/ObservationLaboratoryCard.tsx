@@ -8,7 +8,8 @@ import observationTemplate from '@components/templates/adaptive-card/observation
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { Paper } from '@material-ui/core'
 import { parse } from '@utils'
-import * as _ from 'lodash'
+import get from 'lodash/get'
+import map from 'lodash/map'
 import { useRouter } from 'next/router'
 import { stringify } from 'qs'
 
@@ -27,7 +28,7 @@ export const ObservationLaboratoryCard: React.FunctionComponent<any> = () => {
   const { isLoading, data: observationList, error } = useObservationList(
     {
       filter: params || {},
-      max: _.get(query, 'max') || 20,
+      max: get(query, 'max') || 20,
     },
     ['encounterId'],
   )
@@ -58,11 +59,11 @@ export const ObservationLaboratoryCardView: React.FunctionComponent<any> = ({
   title = 'Observation',
 }) => {
   const data = {
-    results: _.map(observationList, observation => {
+    results: map(observationList, observation => {
       return {
-        display: _.get(observation, 'codeText'),
-        issued: _.get(observation, 'issued'),
-        value: `${_.get(observation, 'value')} ${_.get(observation, 'unit')}`,
+        display: get(observation, 'codeText'),
+        issued: get(observation, 'issued'),
+        value: `${get(observation, 'value')} ${get(observation, 'unit')}`,
       }
     }),
     title,

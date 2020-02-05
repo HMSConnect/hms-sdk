@@ -15,7 +15,8 @@ import {
   Typography,
 } from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
-import * as _ from 'lodash'
+import get from 'lodash/get'
+import maxBy from 'lodash/maxBy'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -33,15 +34,15 @@ const ObservationBodyWeightGraph: React.FunctionComponent<{
   optionStyle?: IOptionsStyleGraphOption
 }> = ({ query, optionStyle }) => {
   const params = {
-    code: _.get(query, 'code') || '29463-7',
-    // encounterId: _.get(query, 'encounterId'),
-    patientId: _.get(query, 'patientId'),
+    code: get(query, 'code') || '29463-7',
+    // encounterId: get(query, 'encounterId'),
+    patientId: get(query, 'patientId'),
   } as IObservationListFilterQuery
 
   const { isLoading, data: observationList, error } = useObservationList(
     {
       filter: params || {},
-      max: _.get(query, 'max') || 20,
+      max: get(query, 'max') || 20,
     },
     ['patientId']
   )
@@ -68,7 +69,7 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
   observationList: any
   optionStyle?: IOptionsStyleGraphOption
 }> = ({ observationList, optionStyle }) => {
-  const lastData: any = _.maxBy(observationList, 'issuedDate')
+  const lastData: any = maxBy(observationList, 'issuedDate')
 
   const classes = useStyles()
   return (
