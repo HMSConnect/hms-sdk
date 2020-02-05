@@ -30,7 +30,7 @@ class PatientServiceMock {
   async resourceList(params?: any): Promise<any> {
     return Promise.resolve({
       data: [
-        { resourceType: 'patient', totalCount: 1, data: [] },
+        // { resourceType: 'patient', totalCount: 1, data: [] },
         {
           data: [
             {

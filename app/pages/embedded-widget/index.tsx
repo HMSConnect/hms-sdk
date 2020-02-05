@@ -4,13 +4,11 @@ import WigetManagerMenuList from '@components/templates/widget-manager/WidgetMan
 import WidgetManagerOutputEvent from '@components/templates/widget-manager/WidgetManagerOutputEvent'
 import WidgetManagerParameter from '@components/templates/widget-manager/WidgetManagerParameter'
 import {
-  IWidgetGroup,
-  widgetGalleryAllergyIntoleranceConfig,
   widgetGalleryDiagnosticReportConfig,
   widgetGalleryEncounterConfig,
   widgetGalleryObservationConfig,
   widgetGalleryPatientConfig,
-} from '@config'
+} from '@config/embedded-widget'
 import {
   AppBar,
   Box,

@@ -32,10 +32,10 @@ describe('PatientEncounterTimeline', () => {
     }
     for (let i = 0; i < 20; i++) {
       results.data.push({
-        reason: `Reason${i + 3}`,
-        serviceProvider: {
-          name: `ServiceTest${i + 3}`,
+        organization: {
+          display: `ServiceTest${i + 3}`,
         },
+        reason: `Reason${i + 3}`,
         subject: '0001',
         type: `Ty00${i + 3}`,
       })
@@ -64,9 +64,9 @@ describe('PatientEncounterTimeline', () => {
     await waitForDomChange()
 
     fireEvent.click(getByText('Reason3'))
-    const pushRouteFn = routes.Router.pushRoute
+    const replaceRouteFn = routes.Router.replaceRoute
 
-    expect(pushRouteFn).toBeCalled()
+    expect(replaceRouteFn).toBeCalled()
   })
 
   //   it('fetch more PatientEncounterTimeline', async () => {
