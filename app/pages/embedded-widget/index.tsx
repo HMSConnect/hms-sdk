@@ -8,6 +8,7 @@ import {
   widgetGalleryEncounterConfig,
   widgetGalleryObservationConfig,
   widgetGalleryPatientConfig,
+  widgetGalleryAllergyIntoleranceConfig,
 } from '@config/embedded-widget'
 import {
   AppBar,
@@ -37,6 +38,7 @@ import { parse, stringify } from 'qs'
 import * as React from 'react'
 import '../../github-markdown.css'
 import routes from '../../routes'
+import { IWidgetGroup } from '@config'
 
 const md = MarkdownIt({ html: true })
 
