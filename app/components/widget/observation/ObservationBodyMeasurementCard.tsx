@@ -61,7 +61,7 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
       _lasted: true,
       filter: params || {},
     },
-    ['patientId']
+    ['patientId'],
   )
   if (error) {
     return <ErrorSection error={error} />
@@ -80,7 +80,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
 }> = ({ observations }) => {
   const classes = useStyles()
   return (
-    <Paper className={classes.paperContainer} elevation={5}>
+    <Paper className={classes.paperContainer} elevation={1}>
       <Grid
         container
         justify='center'
@@ -127,7 +127,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               variant='body1'
               className={classes.bodyCard}
             >
-              Height :{' '}
+              Height{' '}
               <div>
                 <Typography
                   component='span'
@@ -168,7 +168,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               variant='body1'
               className={classes.bodyCard}
             >
-              Weight :{' '}
+              Weight{' '}
               <div>
                 <Typography
                   component='span'
@@ -209,7 +209,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               variant='body1'
               className={classes.bodyCard}
             >
-              BMI :{' '}
+              BMI{' '}
               <div>
                 <Typography
                   component='span'

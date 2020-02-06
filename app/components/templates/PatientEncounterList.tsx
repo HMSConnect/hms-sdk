@@ -207,7 +207,7 @@ const EncounterListItem: React.FunctionComponent<{
             <>
               <Typography
                 component='span'
-                variant='h6'
+                variant='body1'
                 className={classes.inline}
                 color='textPrimary'
               >
@@ -218,7 +218,7 @@ const EncounterListItem: React.FunctionComponent<{
                 component='span'
                 variant='body2'
                 className={classes.inline}
-                color='textPrimary'
+                color='textSecondary'
               >
                 {get(data, 'participant[0].name') || 'Unknow'}
               </Typography>

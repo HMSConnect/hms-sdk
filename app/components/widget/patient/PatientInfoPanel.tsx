@@ -1,5 +1,4 @@
-import * as React from 'react'
-
+import ErrorSection from '@components/base/ErrorSection'
 import usePatient from '@components/hooks/usePatient'
 import {
   Avatar,
@@ -8,8 +7,10 @@ import {
   makeStyles,
   Theme,
   Typography,
+  Divider,
 } from '@material-ui/core'
 import * as _ from 'lodash'
+import * as React from 'react'
 
 // import * as styles from './patient-info-panel.css'
 const useStyles = makeStyles((theme: Theme) => ({
@@ -20,12 +21,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   contentText: {
     color: '#37474f',
+    fontWeight: 'normal',
   },
   headerTitle: {
     color: 'grey',
   },
   nameTitle: {
-    color: '#455a64',
+    color: '#808080',
   },
   root: {
     flexGrow: 1,
@@ -43,7 +45,7 @@ const PatientInfoPanel: React.FunctionComponent<{
     _.get(query, 'patientId') || _.get(query, 'id'),
   )
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
 
   if (isPatientLoading) {
@@ -69,7 +71,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
             />
           </Grid>
         </Grid>
-        <Grid item sm={12} md={9}>
+        <Grid item sm={12} md={6}>
           <div className={classes.root}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
@@ -87,7 +89,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
               </Grid>
               <Grid item xs={12}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} sm={3}>
+                  <Grid item xs={12} sm={4}>
                     <Grid
                       container
                       direction='row'
@@ -104,7 +106,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
                         </Typography>
                         <Typography
                           component='span'
-                          variant='h6'
+                          variant='body1'
                           className={classes.contentText}
                         >
                           {_.get(info, 'age') || 'Unknow'}
@@ -121,7 +123,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
                           </Typography>
                           <Typography
                             component='span'
-                            variant='h6'
+                            variant='body1'
                             className={classes.contentText}
                           >
                             {_.startCase(_.get(info, 'gender')) || 'Unknow'}
@@ -139,7 +141,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
                         </Typography>
                         <Typography
                           component='span'
-                          variant='h6'
+                          variant='body1'
                           className={classes.contentText}
                         >
                           {_.get(info, 'birthDate')}
@@ -148,7 +150,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
                     </Grid>
                   </Grid>
 
-                  <Grid item xs={12} sm={3}>
+                  <Grid item xs={12} sm={4}>
                     <Grid container>
                       <Grid item xs={12}>
                         <Typography
@@ -160,7 +162,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
                         </Typography>
                         <Typography
                           component='span'
-                          variant='h6'
+                          variant='body1'
                           className={classes.contentText}
                         >
                           {_.get(info, 'telecom')
@@ -186,7 +188,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
                           </Typography>
                           <Typography
                             component='span'
-                            variant='h6'
+                            variant='body1'
                             className={classes.contentText}
                           >
                             {_.get(info, 'email') || 'Unknow'}
@@ -196,7 +198,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
                     </Grid>
                   </Grid>
 
-                  <Grid item xs={12} sm={3}>
+                  <Grid item xs={12} sm={4}>
                     <Grid container>
                       <Grid item xs={12}>
                         <Typography
@@ -208,7 +210,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
                         </Typography>
                         <Typography
                           component='span'
-                          variant='h6'
+                          variant='body1'
                           className={classes.contentText}
                         >
                           {_.get(info, 'address')
@@ -229,6 +231,28 @@ export const PatientInfoPanelView: React.FunctionComponent<{
               </Grid>
             </Grid>
           </div>
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <Grid
+            container
+            justify='center'
+            alignItems='center'
+            style={{
+              borderLeftColor: 'lightgray',
+              borderLeftStyle: 'solid',
+              borderLeftWidth: 1,
+            }}
+          >
+            <Avatar className={classes.bigAvatar}>
+              <Typography
+                variant='h4'
+                component='span'
+                style={{ color: 'white' }}
+              >
+                PH
+              </Typography>
+            </Avatar>
+          </Grid>
         </Grid>
       </Grid>
     </div>

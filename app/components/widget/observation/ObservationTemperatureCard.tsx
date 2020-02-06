@@ -68,7 +68,7 @@ export const ObservationTemperatureCardView: React.FunctionComponent<any> = ({
 }) => {
   const classes = useStyles()
   return (
-    <Paper className={classes.paperContainer} elevation={5}>
+    <Paper className={classes.paperContainer} elevation={1}>
       <Grid
         container
         justify='center'

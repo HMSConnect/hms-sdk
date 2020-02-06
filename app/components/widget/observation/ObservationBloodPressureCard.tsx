@@ -77,7 +77,7 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
 }> = ({ observation }) => {
   const classes = useStyles()
   return (
-    <Paper className={classes.paperContainer} elevation={5}>
+    <Paper className={classes.paperContainer} elevation={1}>
       <Grid
         container
         justify='center'
@@ -96,7 +96,7 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
       >
         <Grid item xs={5} className={classes.iconContainer}>
           <Icon
-            style={{ zoom: 3, color: '#c62828' }}
+            style={{ zoom: 3, color: '#c62828fa' }}
             className={clsx('fas fa-stethoscope', classes.iconCard)}
           />
         </Grid>
@@ -111,10 +111,10 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
         >
           <Typography
             component='div'
-            variant='body1'
+            variant='body2'
             className={classes.bodyCard}
           >
-            SYS :{' '}
+            SYS{' '}
             <div>
               <Typography
                 component='span'
@@ -139,10 +139,10 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
           <Divider />
           <Typography
             component='div'
-            variant='body1'
+            variant='body2'
             className={classes.bodyCard}
           >
-            DAI :{' '}
+            DAI{' '}
             <div>
               <Typography
                 component='span'

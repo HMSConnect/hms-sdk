@@ -60,7 +60,7 @@ const ToolbarWithFilter: React.FC<{
   onClickIcon,
   children,
   title = 'Toolbar Title',
-  Icon = <FilterListIcon />,
+  Icon = <FilterListIcon style={{ color: 'lightgray' }} />,
   filterActive = 0,
   option = {},
 }) => {
