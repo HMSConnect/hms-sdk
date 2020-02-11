@@ -57,11 +57,13 @@ const PatientSearchPanel: React.FunctionComponent<{
   onSearchSubmit: (filter: IPatientFilterValue) => void
   onPaginationReset?: (event: React.MouseEvent) => void
   onHightlightChange?: (value: string) => void
+  name?: string
 }> = ({
   initialFilter,
   onSearchSubmit,
   onPaginationReset,
   onHightlightChange,
+  name = 'patientSearchPanel',
 }) => {
   const classes = useStyles()
   const [filter, setFilter] = useState<IPatientFilterValue>(initialFilter)

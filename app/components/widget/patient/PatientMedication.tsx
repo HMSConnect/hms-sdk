@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import ErrorSection from '@components/base/ErrorSection'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import {
@@ -19,7 +20,7 @@ import {
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import { HMSService } from '@services/HMSServiceFactory'
 import MedicationRequestService from '@services/MedicationRequestService'
-import { sendMessage } from '@utils'
+import { sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -43,6 +44,7 @@ const PatientMedicationList: React.FunctionComponent<{
   max?: number
   initialFilter?: IMedicationRequestFilterQuery
   isContainer?: boolean
+  name?: string
 }> = ({
   resourceList,
   patientId,
@@ -55,6 +57,7 @@ const PatientMedicationList: React.FunctionComponent<{
     patientId,
     status: '',
   },
+  name = 'patientMedication',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithMedicationRequestInitialFilterQuery(customInitialFilter, {
@@ -76,6 +79,10 @@ const PatientMedicationList: React.FunctionComponent<{
       authoredOn_lt: _.get(lastEntry, 'authoredOn'),
       patientId,
     }
+    const validParams = validQueryParams(['patientId'], newFilter)
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
+    }
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -84,12 +91,15 @@ const PatientMedicationList: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleLoadMore',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
 
     sendMessage({
       message: 'handleLoadMore',
+      name,
       params: newLazyLoad,
     })
 
@@ -110,7 +120,7 @@ const PatientMedicationList: React.FunctionComponent<{
   }, [isInitialize])
 
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
 
   return (

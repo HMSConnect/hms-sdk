@@ -1,8 +1,8 @@
 import { renderHook } from '@testing-library/react-hooks'
 import DiagnosticReportService from '../../../services/DiagnosticReportService'
 import { HMSService } from '../../../services/HMSServiceFactory'
-import useLastDiagnosticReport from '../useLastDiagnosticReport'
 import DiagnosticReportServiceMock from '../__mocks__/DiagnosticReportServiceMock'
+import useLastDiagnosticReport from '../useLastDiagnosticReport'
 
 describe('useLastDiagnosticReport', () => {
   beforeAll(() => {
@@ -13,7 +13,7 @@ describe('useLastDiagnosticReport', () => {
 
   it('initial useLastDiagnosticReport', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
-      useLastDiagnosticReport({})
+      useLastDiagnosticReport({}),
     )
     expect(result.error).toBeUndefined()
 
@@ -23,8 +23,27 @@ describe('useLastDiagnosticReport', () => {
 
     expect(result.current.data).toStrictEqual({
       codeText: 'Code Text1',
-      issued: '2019-01-01'
+      id: '1',
+      issued: '2019-01-01',
     })
+  })
+
+  it('have require filter useAllergyIntoleranceList', async () => {
+    const options = {
+      filter: {},
+      max: 10,
+      offset: 0,
+      page: 1,
+    }
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useLastDiagnosticReport(options, ['patientId']),
+    )
+    expect(result.error).toBeUndefined()
+
+    expect(result.current.isLoading).toBeTruthy()
+    await waitForNextUpdate()
+
+    expect(result.current.error).toBe('Need the patientId')
   })
 
   it('handler error useLastDiagnosticReport', async () => {
@@ -33,7 +52,7 @@ describe('useLastDiagnosticReport', () => {
     })
 
     const { result, waitForNextUpdate } = renderHook(() =>
-      useLastDiagnosticReport({})
+      useLastDiagnosticReport({}),
     )
     expect(result.error).toBeUndefined()
 

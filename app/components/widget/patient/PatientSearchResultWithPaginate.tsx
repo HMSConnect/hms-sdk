@@ -29,12 +29,14 @@ const PatientSearchResultWithPaginate: React.FunctionComponent<{
   onPatientSelect?: (patient: any) => void
   onRequestSort?: (sortObject: ISortType) => void
   onPageChange?: (pageOptions: IPageOptionResult) => void
+  name?: string
 }> = ({
   highlightText,
   paginationOption = defaultPagination,
   onPatientSelect,
   onRequestSort,
   onPageChange,
+  name = 'patientSearchResult',
 }) => {
   const { isLoading, data, totalCount, error } = usePatientList(
     paginationOption,

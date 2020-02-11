@@ -1,8 +1,13 @@
 import React from 'react'
 
+import {
+  tableWithFilterReducer,
+  tableWithFilterState,
+} from '@app/reducers/tableWithFilter.reducer'
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
+import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
-import TabGroup, { ITabList } from '@components/base/TabGroup'
+import TabGroup from '@components/base/TabGroup'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
@@ -20,7 +25,7 @@ import {
 } from '@material-ui/core'
 import { HMSService } from '@services/HMSServiceFactory'
 import ImmunizationService from '@services/ImmunizationService'
-import { countFilterActive, sendMessage } from '@utils'
+import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -55,6 +60,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
   resourceList?: any[]
   max?: number
   initialFilter?: IImmunizationListFilterQuery
+  name?: string
 }> = ({
   resourceList,
   patientId,
@@ -66,51 +72,54 @@ const PatientImmunizationTable: React.FunctionComponent<{
     status: '',
     vaccineCode: undefined,
   },
+  name = 'patientImmunizationTable',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithImmunizationInitialFilterQuery(customInitialFilter, {
       patientId,
     })
   }, [customInitialFilter])
-  const [filter, setFilter] = React.useState<IImmunizationListFilterQuery>(
-    initialFilter,
+  const [{ filter, submitedFilter, isGroup, tab }, dispatch] = React.useReducer(
+    tableWithFilterReducer,
+    tableWithFilterState,
   )
-  const [isGroup, setIsGroup] = React.useState<boolean | undefined>(false)
-  const [tabList, setTabList] = React.useState<ITabList[]>([])
 
-  const [submitedFilter, setSubmitedFilter] = React.useState<
-    IImmunizationListFilterQuery
-  >(initialFilter)
+  React.useEffect(() => {
+    dispatch({ type: 'INIT_FILTER', payload: initialFilter })
+  }, [])
 
-  const fetchMoreAsync = async (lastEntry: any) => {
+  const classes = useStyles()
+
+  const fetchData = async (
+    newFilter: IImmunizationListFilterQuery,
+    max: number,
+  ) => {
     const immunizationService = HMSService.getService(
       'immunization',
     ) as ImmunizationService
-
-    const newFilter: IImmunizationListFilterQuery = {
-      ...filter,
-      date_lt: _.get(lastEntry, 'date'),
-      patientId,
+    const validParams = validQueryParams(['patientId'], newFilter)
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
     }
-    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,
     }
     const entryData = await immunizationService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-      })
       return Promise.reject(new Error(entryData.error))
     }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      params: newLazyLoad,
-    })
-
     return Promise.resolve(_.get(entryData, 'data'))
+  }
+
+  const fetchMoreAsync = async (lastEntry: any) => {
+    const newFilter: IImmunizationListFilterQuery = {
+      ...filter,
+      date_lt: _.get(lastEntry, 'date'),
+      patientId,
+    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
@@ -130,49 +139,87 @@ const PatientImmunizationTable: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  // React.useEffect(() => {
-  //   if(isGroup){
-
-  //   }
-  // }, [isGroup])
-
   const handleGroupByType = async (isGroup: boolean) => {
-    const immunizationService = HMSService.getService(
-      'immunization',
-    ) as ImmunizationService
+    setIsMore(true)
     if (isGroup) {
+      handleInitialGroup(patientId)
+    } else {
+      handleUnGroup(filter)
+    }
+  }
+
+  const handleUnGroup = async (filter: IImmunizationListFilterQuery) => {
+    const newFilter = {
+      ...filter,
+      date_lt: undefined,
+      vaccineCode: undefined,
+    }
+    try {
+      const newData = await fetchData(newFilter, max)
+      if (newData.length < max) {
+        setIsMore(false)
+      }
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleGroupByType',
+        name,
+        params: {
+          isGroup,
+          result: newData,
+        },
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleGroupByType',
+        name,
+        params: {
+          error,
+          filter: newFilter,
+          isGroup,
+        },
+      })
+    } finally {
+      dispatch({
+        type: 'UN_GROUP_BY',
+      })
+    }
+  }
+
+  const handleInitialGroup = async (patientId: string) => {
+    try {
+      const immunizationService = HMSService.getService(
+        'immunization',
+      ) as ImmunizationService
       const menuTabList = await immunizationService.typeList({
         filter: { patientId },
       })
-      setTabList(menuTabList.data)
+      dispatch({
+        payload: {
+          selectedTab: menuTabList.data[0].type,
+          tabList: menuTabList.data,
+        },
+        type: 'GROUP_BY',
+      })
       handleTabChange(menuTabList.data[0].type)
       sendMessage({
         message: 'handleGroupByType',
+        name,
         params: {
           isGroup,
         },
       })
-    } else {
-      const newFilter = {
-        ...filter,
-        date_lt: undefined,
-        vaccineCode: undefined,
-      }
-      const newResult = await immunizationService.list({
-        filter: newFilter,
-        max,
-      })
-      setResult(newResult)
+    } catch (error) {
+      setResult({ data: [], error })
       sendMessage({
         message: 'handleGroupByType',
+        name,
         params: {
+          error,
           isGroup,
-          result: newResult,
         },
       })
     }
-    setIsMore(true)
-    setIsGroup(isGroup)
   }
 
   const handleTabChange = async (selectedTab: string) => {
@@ -182,75 +229,106 @@ const PatientImmunizationTable: React.FunctionComponent<{
       patientId,
       vaccineCode: selectedTab,
     }
-    setFilter(newFilter)
-    setSubmitedFilter(newFilter)
-    const immunizationService = HMSService.getService(
-      'immunization',
-    ) as ImmunizationService
-    const newResult = await immunizationService.list({ filter: newFilter, max })
-    setResult(newResult)
-    setIsMore(true)
-
-    sendMessage({
-      message: `handleTabChange:`,
-      params: {
-        filter: newFilter,
-        result: newResult,
-        tabTitle: selectedTab,
-      },
+    dispatch({
+      payload: { filter: newFilter, selectedTab },
+      type: 'CHANGE_TAB',
     })
+    setIsMore(true)
+    try {
+      const newData = await fetchData(newFilter, max)
+      if (newData.length < max) {
+        setIsMore(false)
+      }
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: `handleTabChange:`,
+        name,
+        params: {
+          filter: newFilter,
+          result: newData,
+          tabTitle: selectedTab,
+        },
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: `handleTabChange:`,
+        name,
+        params: {
+          error,
+          filter: newFilter,
+          tabTitle: selectedTab,
+        },
+      })
+    }
   }
 
-  const fetchData = async (filter: any) => {
-    setFilter(filter)
+  const submitSearch = async (filter: any) => {
+    dispatch({ type: 'SUBMIT_SEARCH', payload: filter })
     setIsMore(true)
-    const immunizationService = HMSService.getService(
-      'immunization',
-    ) as ImmunizationService
-    const newLazyLoad = {
-      filter: {
-        ...filter,
-        date_lt: filter.date_lt || initialFilter.date_lt,
-      },
-      max,
+    const newFilter = {
+      ...filter,
+      date_lt: initialFilter.date_lt,
     }
-    const entryData = await immunizationService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-      })
-      return Promise.reject(new Error(entryData.error))
-    }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      params: filter,
-    })
-    setResult(entryData)
-    closeModal()
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const handleParameterChange = (type: string, value: any) => {
-    setFilter((prevFilter: any) => ({
-      ...prevFilter,
-      [type]: value,
-    }))
+    dispatch({ type: 'FILTER_ON_CHANGE', payload: { [type]: value } })
   }
 
-  const handleSearchSubmit = (event: React.FormEvent) => {
+  const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    fetchData(filter)
-    setSubmitedFilter(filter)
+    try {
+      const newData = await submitSearch(filter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
-  const handleSearchReset = () => {
-    fetchData(initialFilter)
-    setSubmitedFilter(initialFilter)
+  const handleSearchReset = async () => {
+    const newFilter: IImmunizationListFilterQuery = initialFilter
+    if (isGroup) {
+      newFilter.vaccineCode = tab.selectedTab
+    }
+    try {
+      const newData = await submitSearch(newFilter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
     modalTitle: 'Immunization Filter',
+    name: `${name}Modal`,
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -274,9 +352,8 @@ const PatientImmunizationTable: React.FunctionComponent<{
     },
   })
 
-  const classes = useStyles()
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
 
   return (
@@ -315,7 +392,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
           {renderModal}
         </ToolbarWithFilter>
         {isGroup && (
-          <TabGroup tabList={tabList} onTabChange={handleTabChange} />
+          <TabGroup tabList={tab.tabList} onTabChange={handleTabChange} />
         )}
       </div>
       <div

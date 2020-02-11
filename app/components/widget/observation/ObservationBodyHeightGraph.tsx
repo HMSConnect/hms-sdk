@@ -1,4 +1,8 @@
+import * as React from 'react'
+
+import ErrorSection from '@components/base/ErrorSection'
 import GraphBase from '@components/base/GraphBase'
+import LoadingSection from '@components/base/LoadingSection'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useObservationList from '@components/hooks/useObservationList'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
@@ -11,8 +15,8 @@ import {
   Typography,
 } from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
-import * as _ from 'lodash'
-import * as React from 'react'
+import get from 'lodash/get'
+import maxBy from 'lodash/maxBy'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -30,19 +34,23 @@ const ObservationBodyHeightGraph: React.FunctionComponent<{
   optionStyle?: IOptionsStyleGraphOption
 }> = ({ query, optionStyle }) => {
   const params = {
-    code: _.get(query, 'code') || '8302-2',
-    encounterId: _.get(query, 'encounterId'),
-    patientId: _.get(query, 'patientId'),
+    code: get(query, 'code') || '8302-2',
+    // encounterId: get(query, 'encounterId'),
+    patientId: get(query, 'patientId'),
   } as IObservationListFilterQuery
-  const { isLoading, data: observationList, error } = useObservationList({
-    filter: params || {},
-    max: 10,
-  })
+  const { isLoading, data: observationList, error } = useObservationList(
+    {
+      filter: params || {},
+      max: get(query, 'max') || 20,
+    },
+    ['patientId'],
+  )
   if (error) {
-    return <div>ERR: {error}.</div>
+    return <ErrorSection error={error} />
   }
+
   if (isLoading) {
-    return <div>loading...</div>
+    return <LoadingSection />
   }
   return (
     <>
@@ -60,7 +68,7 @@ export const ObservationBodyHeightGraphView: React.FunctionComponent<{
   observationList: any
   optionStyle?: IOptionsStyleGraphOption
 }> = ({ observationList, optionStyle }) => {
-  const lastData: any = _.maxBy(observationList, 'issuedDate')
+  const lastData: any = maxBy(observationList, 'issuedDate')
 
   const classes = useStyles()
   return (

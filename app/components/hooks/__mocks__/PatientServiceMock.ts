@@ -3,7 +3,8 @@ class PatientServiceMock {
     return Promise.resolve({
       data: {
         birth: '2018/11/11',
-        name: 'test',
+        id: '1',
+        name: 'test1',
       },
       error: null,
       totalCount: 1,
@@ -15,10 +16,12 @@ class PatientServiceMock {
       data: [
         {
           birth: '2018/11/11',
+          id: '1',
           name: 'test1',
         },
         {
           birth: '2019/01/01',
+          id: '2',
           name: 'test2',
         },
       ],
@@ -30,7 +33,7 @@ class PatientServiceMock {
   async resourceList(params?: any): Promise<any> {
     return Promise.resolve({
       data: [
-        { resourceType: 'patient', totalCount: 1, data: [] },
+        // { resourceType: 'patient', totalCount: 1, data: [] },
         {
           data: [
             {

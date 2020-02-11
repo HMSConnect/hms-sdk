@@ -21,7 +21,9 @@ import {
 import CommentIcon from '@material-ui/icons/Comment'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import * as _ from 'lodash'
+import findIndex from 'lodash/findIndex'
+import get from 'lodash/get'
+import map from 'lodash/map'
 import * as moment from 'moment'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -74,11 +76,11 @@ const PatientEncounterList: React.FunctionComponent<{
   selectedEncounterId,
 }) => {
   const [selectedIndex, setSelectedIndex] = React.useState(
-    _.findIndex(entryList, { id: selectedEncounterId }),
+    findIndex(entryList, { id: selectedEncounterId }),
   )
 
   React.useEffect(() => {
-    const activeIndex = _.findIndex(entryList, {
+    const activeIndex = findIndex(entryList, {
       id: selectedEncounterId,
     })
     if (activeIndex >= 0) {
@@ -96,7 +98,7 @@ const PatientEncounterList: React.FunctionComponent<{
   return (
     <>
       <List component='nav' aria-labelledby='nested-list-subheader'>
-        {_.map(entryList, (entry, index) => (
+        {map(entryList, (entry, index) => (
           <React.Fragment key={'encounterItem' + index}>
             <EncounterListItem
               data={entry}
@@ -189,35 +191,36 @@ const EncounterListItem: React.FunctionComponent<{
               }}
             >
               {moment
-                .default(_.get(data, 'startTime'))
+                .default(get(data, 'startTime'))
                 .format(environment.localFormat.date)}
               <br />
               {moment
-                .default(_.get(data, 'startTime'))
+                .default(get(data, 'startTime'))
                 .format(environment.localFormat.time)}
             </Typography>
             {renderIcon(index)}
           </>
         </ListItemIcon>
         <ListItemText
+          style={{ padding: '1em 0' }}
           secondary={
             <>
               <Typography
                 component='span'
-                variant='h6'
+                variant='body1'
                 className={classes.inline}
                 color='textPrimary'
               >
-                {_.get(data, 'organization.display') || 'Unknow'}
+                {get(data, 'organization.display') || 'Unknow'}
               </Typography>{' '}
               <br />
               <Typography
                 component='span'
                 variant='body2'
                 className={classes.inline}
-                color='textPrimary'
+                color='textSecondary'
               >
-                {_.get(data, 'participant[0].name') || 'Unknow'}
+                {get(data, 'participant[0].name') || 'Unknow'}
               </Typography>
             </>
           }
@@ -252,19 +255,19 @@ const EncounterListItem: React.FunctionComponent<{
                     <>
                       <Typography>
                         <strong>ประเภทการรักษา:</strong>{' '}
-                        {_.get(data, 'type') || 'Unknow'}
+                        {get(data, 'type') || 'Unknow'}
                       </Typography>
                       <Typography>
                         <strong>ผลการวินิจฉัย:</strong>{' '}
-                        {_.get(data, 'reason') || 'Unknow'}
+                        {get(data, 'reason') || 'Unknow'}
                       </Typography>
                       <Typography>
                         <strong>Class Code:</strong>{' '}
-                        {_.get(data, 'classCode') || 'Unknow'}
+                        {get(data, 'classCode') || 'Unknow'}
                       </Typography>
                       <Typography>
                         <strong>Status:</strong>{' '}
-                        {_.get(data, 'status') || 'Unknow'}
+                        {get(data, 'status') || 'Unknow'}
                       </Typography>
                     </>
                   }

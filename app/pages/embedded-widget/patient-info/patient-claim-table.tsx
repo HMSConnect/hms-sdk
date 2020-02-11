@@ -22,6 +22,7 @@ const PatientClaimTableView: IStatelessPage<{
           max={get(query, 'max')}
           isInitialize={get(query, 'isInitialize') || true}
           initialFilter={get(query, 'initialFilter')}
+          name={get(query, 'name')}
         />
       </>
     </BootstrapWrapper>

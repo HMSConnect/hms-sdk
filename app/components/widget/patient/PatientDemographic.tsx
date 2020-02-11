@@ -1,7 +1,10 @@
 import React from 'react'
 
 import { Grid, makeStyles, Paper } from '@material-ui/core'
+import RouteManager from '@routes/RouteManager'
+import { sendMessage } from '@utils'
 import * as _ from 'lodash'
+import routes from '../../../routes'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import ObservationBloodPressureGraph from '../observation/ObservationBloodPressureGraph'
 import ObservationBodyHeightGraph from '../observation/ObservationBodyHeightGraph'
@@ -67,23 +70,24 @@ const useStyles = makeStyles(theme => ({
 
 const PatientDemographic: React.FunctionComponent<{
   query: any
-}> = ({ query }) => {
+  name?: string
+}> = ({ query, name = 'patientDemographic' }) => {
   const classes = useStyles()
 
   return (
     <>
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={12} lg={10}>
+        <Grid item xs={12} sm={12} lg={9} xl={10}>
           <div className={classes.infoPanel}>
             <Paper>
               <PatientInfoPanel query={query} />
             </Paper>
           </div>
           <div className={classes.detailSelector}>
-            <PatientDetailSub query={query} />
+            <PatientDetailSub query={query} name={name} />
           </div>
         </Grid>
-        <Grid item xs={12} sm={12} lg={2}>
+        <Grid item xs={12} sm={12} lg={3} xl={2}>
           <PatientAssociatedData query={query} />
         </Grid>
       </Grid>
@@ -112,7 +116,7 @@ const PatientLabResult: React.FunctionComponent<{
       <Grid item xs={12} sm={6} md={4}>
         <Paper className={classes.virtalSignCard}>
           <ObservationBloodPressureGraph
-            key={`ObservationBloodPressureGraph${_.get(query, 'encounterId')}`}
+            // key={`ObservationBloodPressureGraph${_.get(query, 'encounterId')}`}
             query={query}
             optionStyle={{ height: 580 }}
           />
@@ -121,7 +125,7 @@ const PatientLabResult: React.FunctionComponent<{
       <Grid item xs={12} sm={6} md={4}>
         <Paper className={classes.virtalSignCard}>
           <ObservationBodyHeightGraph
-            key={`ObservationBodyHeightGraph${_.get(query, 'encounterId')}`}
+            // key={`ObservationBodyHeightGraph${_.get(query, 'encounterId')}`}
             query={query}
             optionStyle={{ height: 580 }}
           />
@@ -130,7 +134,7 @@ const PatientLabResult: React.FunctionComponent<{
       <Grid item xs={12} sm={6} md={4}>
         <Paper className={classes.virtalSignCard}>
           <ObservationBodyWeightGraph
-            key={`ObservationBodyWeightGraph${_.get(query, 'encounterId')}`}
+            // key={`ObservationBodyWeightGraph${_.get(query, 'encounterId')}`}
             query={query}
             optionStyle={{ height: 580 }}
           />
@@ -141,23 +145,52 @@ const PatientLabResult: React.FunctionComponent<{
 }
 const PatientDetailSub: React.FunctionComponent<{
   query: any
-}> = ({ query }) => {
+  name?: string
+}> = ({ query, name = 'patientDetailSub' }) => {
   const classes = useStyles()
+
+  const handleEncounterSelect = (
+    event: React.MouseEvent,
+    selectedEncounter: any,
+  ) => {
+    const newParams = {
+      encounterId: _.get(selectedEncounter, 'id'),
+      patientId: _.get(query, 'patientId'),
+    }
+    const path = RouteManager.getPath(`patient-demographic`, {
+      matchBy: 'url',
+      params: newParams,
+    })
+    sendMessage({
+      action: 'PUSH_ROUTE',
+      message: 'handleEncounterSelect',
+      name,
+      params: newParams,
+      path,
+    })
+    routes.Router.replaceRoute(path)
+  }
+
   return (
     <Grid container className={classes.root}>
-      <Grid item xs={12} sm={12} md={4}>
+      <Grid item xs={12} sm={12} md={5} lg={5} xl={4}>
         <Paper className={classes.menuList}>
           <PatientEncounterTimeline
             patientId={_.get(query, 'patientId')}
             selectedEncounterId={_.get(query, 'encounterId')}
             isInitialize={true}
             max={query.max}
+            onEncounterSelected={handleEncounterSelect}
+            name={`${name}EncounterTimeline`}
           />
         </Paper>
       </Grid>
-      <Grid item xs={12} sm={12} md={8}>
+      <Grid item xs={12} sm={12} md={7} lg={7} xl={8}>
         <div className={classes.menuList}>
-          <PatientDemograhicSummary query={query} />
+          <PatientDemograhicSummary
+            query={query}
+            name={`${name}DemographicSuumary`}
+          />
         </div>
       </Grid>
     </Grid>
@@ -176,6 +209,7 @@ const PatientAssociatedData: React.FunctionComponent<{
             <PatientAllergyList
               patientId={_.get(query, 'patientId')}
               isInitialize={true}
+              name={`${name}AllergyIntoleranceList`}
             />
           </Paper>
         </Grid>
@@ -184,6 +218,7 @@ const PatientAssociatedData: React.FunctionComponent<{
             <PatientMedicationList
               patientId={_.get(query, 'patientId')}
               isInitialize={true}
+              name={`${name}MedicationList`}
             />
           </Paper>
         </Grid>

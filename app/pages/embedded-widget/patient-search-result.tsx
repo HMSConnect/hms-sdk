@@ -9,7 +9,7 @@ import PatientSearchResultWithPaginate, {
 } from '@components/widget/patient/PatientSearchResultWithPaginate'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
-import RouterManager from '@routes/RouteManager'
+import RouteManager from '@routes/RouteManager'
 import { parse, sendMessage } from '@utils'
 import * as _ from 'lodash'
 import routes from '../../routes'
@@ -36,7 +36,7 @@ const PatientSearchResultWidget: IStatelessPage<{
       sort: sortObject,
     }
 
-    const path = RouterManager.getPath('patient-search-result', {
+    const path = RouteManager.getPath('patient-search-result', {
       matchBy: 'url',
       params: newPagination,
     })
@@ -44,6 +44,7 @@ const PatientSearchResultWidget: IStatelessPage<{
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handleRequestSort',
+      name: _.get(query, 'name') || 'patientSearchResult',
       params: newPagination,
       path,
     })
@@ -58,7 +59,7 @@ const PatientSearchResultWidget: IStatelessPage<{
       sort: pagination.sort,
     }
 
-    const path = RouterManager.getPath('patient-search-result', {
+    const path = RouteManager.getPath('patient-search-result', {
       matchBy: 'url',
       params: newPagination,
     })
@@ -66,6 +67,7 @@ const PatientSearchResultWidget: IStatelessPage<{
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handlePageChange',
+      name: _.get(query, 'name') || 'patientSearchResult',
       params: newPagination,
       path,
     })
@@ -77,16 +79,15 @@ const PatientSearchResultWidget: IStatelessPage<{
     const params = {
       patientId: _.get(patient, 'identifier.id.value'),
     }
-    const path = RouterManager.getPath(
-      `patient-info/${_.get(patient, 'identifier.id.value')}`,
-      {
-        matchBy: 'url',
-      },
-    )
+    const path = RouteManager.getPath(`prepare/patient-demographic`, {
+      matchBy: 'url',
+      params,
+    })
 
     sendMessage({
       action: 'PUSH_ROUTE',
       message: 'handlePatientSelect',
+      name: _.get(query, 'name') || 'patientSearchResult',
       params,
       path,
     })

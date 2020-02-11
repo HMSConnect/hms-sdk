@@ -10,6 +10,7 @@ import RouteManager from '@routes/RouteManager'
 import { HMSService } from '@services/HMSServiceFactory'
 import PatientService from '@services/PatientService'
 import { parse, sendMessage } from '@utils'
+import * as _ from 'lodash'
 import qs from 'qs'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -29,6 +30,7 @@ const PatientSearchBar: IStatelessPage<{
     fetchPatientList(query).then(result => {
       sendMessage({
         message: 'initialize',
+        name: _.get(query, 'name') || 'patientSearchBar',
         params: query,
         path: `${path}?${qs.stringify(query)}`,
         result,
@@ -55,6 +57,7 @@ const PatientSearchBar: IStatelessPage<{
     fetchPatientList(newPagination).then(result => {
       sendMessage({
         message: 'handleSearchSubmit',
+        name: _.get(query, 'name') || 'patientSearchBar',
         params: newPagination,
         path,
         result,
@@ -73,6 +76,7 @@ const PatientSearchBar: IStatelessPage<{
     fetchPatientList(newPagination).then(result => {
       sendMessage({
         message: 'handlePaginationReset',
+        name: _.get(query, 'name') || 'patientSearchBar',
         params: newPagination,
         path,
         result,

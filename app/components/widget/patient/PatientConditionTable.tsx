@@ -1,6 +1,11 @@
 import React from 'react'
 
+import {
+  tableWithFilterReducer,
+  tableWithFilterState,
+} from '@app/reducers/tableWithFilter.reducer'
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
+import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
@@ -14,7 +19,7 @@ import {
 import { makeStyles, Theme } from '@material-ui/core'
 import ConditionService from '@services/ConditionService'
 import { HMSService } from '@services/HMSServiceFactory'
-import { countFilterActive, sendMessage } from '@utils'
+import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -49,54 +54,60 @@ const PatientConditionTable: React.FunctionComponent<{
   resourceList?: any[]
   max?: number
   initialFilter?: IConditionListFilterQuery
+  name?: string
 }> = ({
   resourceList,
   patientId,
   max = 20,
   isInitialize,
   initialFilter: customInitialFilter = {},
+  name = 'patientConditionTable',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithConditionInitialFilterQuery(customInitialFilter, {
       patientId,
     })
   }, [customInitialFilter])
-  // console.log('initialFilter :', initialFilter);
-  const [filter, setFilter] = React.useState<IConditionListFilterQuery>(
-    initialFilter,
+  const [{ filter, submitedFilter }, dispatch] = React.useReducer(
+    tableWithFilterReducer,
+    tableWithFilterState,
   )
-  const [submitedFilter, setSubmitedFilter] = React.useState<
-    IConditionListFilterQuery
-  >(initialFilter)
 
-  const fetchMoreAsync = async (lastEntry: any) => {
+  React.useEffect(() => {
+    dispatch({ type: 'INIT_FILTER', payload: initialFilter })
+  }, [])
+  const classes = useStyles()
+
+  const fetchData = async (
+    newFilter: IConditionListFilterQuery,
+    max: number,
+  ) => {
     const conditionService = HMSService.getService(
       'condition',
     ) as ConditionService
-    const newFilter: IConditionListFilterQuery = {
-      ...filter,
-      onsetDateTime_lt: _.get(lastEntry, 'onsetDateTime'),
-      patientId,
+    const validParams = validQueryParams(['patientId'], newFilter)
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
     }
-    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,
     }
     const entryData = await conditionService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-      })
       return Promise.reject(new Error(entryData.error))
     }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      params: newLazyLoad,
-    })
-
     return Promise.resolve(_.get(entryData, 'data'))
+  }
+
+  const fetchMoreAsync = async (lastEntry: any) => {
+    const newFilter: IConditionListFilterQuery = {
+      ...filter,
+      onsetDateTime_lt: _.get(lastEntry, 'onsetDateTime'),
+      patientId,
+    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
@@ -117,62 +128,68 @@ const PatientConditionTable: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  const classes = useStyles()
-
-  const fetchData = async (filter: any) => {
-    setFilter(filter)
+  const submitSearch = async (filter: any) => {
+    dispatch({ type: 'SUBMIT_SEARCH', payload: filter })
     setIsMore(true)
-    const conditionService = HMSService.getService(
-      'condition',
-    ) as ConditionService
-    const newLazyLoad = {
-      filter: {
-        ...filter,
-        onsetDateTime_lt:
-          filter.onsetDateTime_lt || initialFilter.onsetDateTime_lt,
-      },
-      max,
+    const newFilter = {
+      ...filter,
+      onsetDateTime_lt: initialFilter.onsetDateTime_lt,
     }
-    const entryData = await conditionService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-      })
-      return Promise.reject(new Error(entryData.error))
-    }
-    setResult(entryData)
-    closeModal()
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const handleParameterChange = (type: string, value: any) => {
-    setFilter((prevFilter: any) => ({
-      ...prevFilter,
-      [type]: value,
-    }))
+    dispatch({ type: 'FILTER_ON_CHANGE', payload: { [type]: value } })
   }
 
-  const handleSearchSubmit = (event: React.FormEvent) => {
+  const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    fetchData(filter)
-    setSubmitedFilter(filter)
-    sendMessage({
-      message: 'handleSearchSubmit',
-      params: { filter, max },
-    })
+    try {
+      const newData = await submitSearch(filter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
-  const handleSearchReset = () => {
-    fetchData(initialFilter)
-    setSubmitedFilter(initialFilter)
-    sendMessage({
-      message: 'handleSearchReset',
-      params: { filter: initialFilter, max },
-    })
+  const handleSearchReset = async () => {
+    try {
+      const newData = await submitSearch(initialFilter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
     modalTitle: 'Condition Filter',
+    name: `${name}Modal`,
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -210,7 +227,7 @@ const PatientConditionTable: React.FunctionComponent<{
   })
 
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
 
   return (

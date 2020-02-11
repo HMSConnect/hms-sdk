@@ -47,8 +47,9 @@ const SelectOption: React.FunctionComponent<{
       variant='outlined'
       style={{ width: fullwidth ? '100%' : '' }}
       className={classOption}
+      data-testid={`form-controll-select-option-label-${labelId}`}
     >
-      <InputLabel ref={inputLabel} id={labelId}>
+      <InputLabel ref={inputLabel} id={labelId} data-testid={`select-option-label-${labelId}`}>
         {label}
       </InputLabel>
       <Select
@@ -58,6 +59,7 @@ const SelectOption: React.FunctionComponent<{
         onChange={onChange}
         variant='outlined'
         labelWidth={labelWidth}
+        data-testid={`select-option-${id}`}
       >
         {options.map((item, index) => {
           return (

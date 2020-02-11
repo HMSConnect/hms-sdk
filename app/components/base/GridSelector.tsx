@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 
 import { makeStyles, Theme } from '@material-ui/core'
 import { sendMessage } from '@utils'
-import * as _ from 'lodash'
+// import * as _ from 'lodash'
+import debounce from 'lodash/debounce'
+import map from 'lodash/map'
+import merge from 'lodash/merge'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 import GridCardSelector from './GridCardSelector'
 import SelectOption from './SelectOption'
@@ -60,7 +63,7 @@ type RestoreMedicalPanelRecord = {
   layout: any[]
 } | null
 
-export const saveLayout = _.debounce((layout: any, dimention: string) => {
+export const saveLayout = debounce((layout: any, dimention: string) => {
   // debounce handle for call many time
   window.localStorage.setItem(
     'medicalPanelRecord',
@@ -70,9 +73,14 @@ export const saveLayout = _.debounce((layout: any, dimention: string) => {
 }, 500)
 
 const GridSelector: React.FunctionComponent<{
-  defaultDimention?: IDimention
   componentResource: any
-}> = ({ defaultDimention = '1xN', componentResource }) => {
+  defaultDimention?: IDimention
+  name?: string
+}> = ({
+  defaultDimention = '1xN',
+  componentResource,
+  name = 'gridSelector',
+}) => {
   const [dimention, setDimention] = useState<IDimention>(defaultDimention)
   const [layout, setLayout] = useState<any[]>(GRID_LAYOUT[dimention])
   const classes = useStyles()
@@ -105,7 +113,7 @@ const GridSelector: React.FunctionComponent<{
   }
 
   const handleComponentSelect = (componentName: string, layoutId: string) => {
-    const _layout = _.map(layout, l => {
+    const _layout = map(layout, l => {
       if (l.i === layoutId) {
         l.componentName = componentName
       }
@@ -119,9 +127,10 @@ const GridSelector: React.FunctionComponent<{
   ) => {
     const dimention = event.target.value as IDimention
     setDimention(dimention)
-    saveAndSetLayout(_.merge(layout, GRID_LAYOUT[dimention]), dimention)
+    saveAndSetLayout(merge(layout, GRID_LAYOUT[dimention]), dimention)
     sendMessage({
       message: 'handleDimentionChange',
+      name,
       params: {
         dimention,
       },
@@ -129,7 +138,7 @@ const GridSelector: React.FunctionComponent<{
   }
 
   const handleLayoutChange = (currentLayout: any) => {
-    saveAndSetLayout(_.merge(layout, currentLayout), dimention)
+    saveAndSetLayout(merge(layout, currentLayout), dimention)
   }
 
   return (

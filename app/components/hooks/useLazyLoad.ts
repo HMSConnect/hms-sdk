@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import * as _ from 'lodash'
+import concat from 'lodash/concat'
+import isEmpty from 'lodash/isEmpty'
 import { IQueryResult } from './usePatientList'
 
 export interface ILazyLoadOption {
@@ -10,11 +11,11 @@ export interface ILazyLoadOption {
 
 const useLazyLoad = (
   defaultList: any[],
-  fetchMoreAsync: () => Promise<any>
+  fetchMoreAsync: () => Promise<any>,
 ): any => {
   const [result, setResult] = useState<IQueryResult>({
     data: [],
-    error: null
+    error: null,
   })
   const [isLoading, setLoading] = useState<boolean>(true)
   const [isMore, setIsMore] = useState<boolean>(true)
@@ -27,10 +28,10 @@ const useLazyLoad = (
           setLoading(true)
           const moreDataList: any = await fetchMoreAsync()
           // TODO: handle fetchMoreAsync isn't promise
-          if (!_.isEmpty(moreDataList)) {
+          if (!isEmpty(moreDataList)) {
             setResult((prevData: any) => ({
               ...prevData,
-              data: _.concat(prevData.data, moreDataList)
+              data: concat(prevData.data, moreDataList),
             }))
           } else {
             setIsMore(false)
@@ -38,7 +39,7 @@ const useLazyLoad = (
         } catch (error) {
           setResult((prevResult: IQueryResult) => ({
             ...prevResult,
-            error: error.message ? error.message : error
+            error: error.message ? error.message : error,
           }))
         } finally {
           setLoading(false)
@@ -51,7 +52,7 @@ const useLazyLoad = (
   useEffect(() => {
     setResult((prevData: any) => ({
       ...prevData,
-      data: defaultList
+      data: defaultList,
     }))
     setLoading(false)
   }, [defaultList])

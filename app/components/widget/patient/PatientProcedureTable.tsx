@@ -1,6 +1,11 @@
 import React from 'react'
 
+import {
+  tableWithFilterReducer,
+  tableWithFilterState,
+} from '@app/reducers/tableWithFilter.reducer'
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
+import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
@@ -13,7 +18,7 @@ import {
 import { makeStyles, Theme } from '@material-ui/core'
 import { HMSService } from '@services/HMSServiceFactory'
 import ProcedureService from '@services/ProcedureService'
-import { countFilterActive, sendMessage } from '@utils'
+import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -47,6 +52,7 @@ const PatientProcedureTable: React.FunctionComponent<{
   resourceList?: any[]
   max?: number
   initialFilter?: IProcedureListFilterQuery
+  name?: string
 }> = ({
   resourceList,
   patientId,
@@ -57,47 +63,53 @@ const PatientProcedureTable: React.FunctionComponent<{
     patientId,
     periodStart_lt: undefined,
   },
+  name = 'patientProcedureTable',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithProcedureInitialFilterQuery(customInitialFilter, {
       patientId,
     })
   }, [customInitialFilter])
-  const [filter, setFilter] = React.useState<IProcedureListFilterQuery>(
-    initialFilter,
+  const [{ filter, submitedFilter }, dispatch] = React.useReducer(
+    tableWithFilterReducer,
+    tableWithFilterState,
   )
-  const [submitedFilter, setSubmitedFilter] = React.useState<
-    IProcedureListFilterQuery
-  >(initialFilter)
-  const fetchMoreAsync = async (lastEntry: any) => {
+
+  React.useEffect(() => {
+    dispatch({ type: 'INIT_FILTER', payload: initialFilter })
+  }, [])
+  const classes = useStyles()
+
+  const fetchData = async (
+    newFilter: IProcedureListFilterQuery,
+    max: number,
+  ) => {
     const procedureService = HMSService.getService(
       'procedure',
     ) as ProcedureService
-
-    const newFilter: IProcedureListFilterQuery = {
-      ...filter,
-      patientId,
-      periodStart_lt: _.get(lastEntry, 'performedPeriodStart'),
+    const validParams = validQueryParams(['patientId'], newFilter)
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
     }
-    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,
     }
     const entryData = await procedureService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-      })
       return Promise.reject(new Error(entryData.error))
     }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      params: newLazyLoad,
-    })
-
     return Promise.resolve(_.get(entryData, 'data'))
+  }
+
+  const fetchMoreAsync = async (lastEntry: any) => {
+    const newFilter: IProcedureListFilterQuery = {
+      ...filter,
+      patientId,
+      periodStart_lt: _.get(lastEntry, 'performedPeriodStart'),
+    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
@@ -116,56 +128,68 @@ const PatientProcedureTable: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  const fetchData = async (filter: any) => {
-    setFilter(filter)
+  const submitSearch = async (filter: any) => {
+    dispatch({ type: 'SUBMIT_SEARCH', payload: filter })
     setIsMore(true)
-    const procedureService = HMSService.getService(
-      'procedure',
-    ) as ProcedureService
-    const newLazyLoad = {
-      filter: {
-        ...filter,
-        periodStart_lt: filter.periodStart_lt || initialFilter.periodStart_lt,
-      },
-      max,
+    const newFilter = {
+      ...filter,
+      periodStart_lt: initialFilter.periodStart_lt,
     }
-    const entryData = await procedureService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-      })
-      return Promise.reject(new Error(entryData.error))
-    }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      params: filter,
-    })
-    setResult(entryData)
-    closeModal()
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const handleParameterChange = (type: string, value: any) => {
-    setFilter((prevFilter: any) => ({
-      ...prevFilter,
-      [type]: value,
-    }))
+    dispatch({ type: 'FILTER_ON_CHANGE', payload: { [type]: value } })
   }
 
-  const handleSearchSubmit = (event: React.FormEvent) => {
+  const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    fetchData(filter)
-    setSubmitedFilter(filter)
+    try {
+      const newData = await submitSearch(filter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
-  const handleSearchReset = () => {
-    fetchData(initialFilter)
-    setSubmitedFilter(initialFilter)
+  const handleSearchReset = async () => {
+    try {
+      const newData = await submitSearch(initialFilter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
     modalTitle: 'Procedure Filter',
+    name: `${name}Modal`,
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -178,9 +202,8 @@ const PatientProcedureTable: React.FunctionComponent<{
     },
   })
 
-  const classes = useStyles()
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
 
   return (

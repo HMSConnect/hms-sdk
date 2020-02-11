@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
+import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
@@ -13,7 +14,7 @@ import {
 import { Icon, makeStyles, Theme, Typography } from '@material-ui/core'
 import { HMSService } from '@services/HMSServiceFactory'
 import ObservationService from '@services/ObservationService'
-import { countFilterActive, sendMessage } from '@utils'
+import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -48,6 +49,7 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
   resourceList?: any[]
   max?: number
   initialFilter?: IObservationListFilterQuery
+  name?: string
 }> = ({
   resourceList,
   patientId,
@@ -60,6 +62,7 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
     issued_lt: undefined,
     patientId,
   },
+  name = 'observationLaboratoryTable',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithObservationInitialFilterQuery(customInitialFilter, {
@@ -82,6 +85,13 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
       patientId,
     }
     // setFilter(newFilter)
+    const validParams = validQueryParams(
+      ['patientId'],
+      newFilter,
+    )
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
+    }
     const newLazyLoad = {
       filter: newFilter,
       max,
@@ -90,12 +100,15 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleLoadMore',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
 
     sendMessage({
       message: 'handleLoadMore',
+      name,
       params: newLazyLoad,
     })
 
@@ -135,12 +148,15 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
     if (_.get(entryData, 'error')) {
       sendMessage({
         error: _.get(entryData, 'error'),
+        message: 'handleSearchSubmit',
+        name,
       })
       return Promise.reject(new Error(entryData.error))
     }
 
     sendMessage({
-      message: 'handleLoadMore',
+      message: 'handleSearchSubmit',
+      name,
       params: filter,
     })
     setResult(entryData)
@@ -168,6 +184,7 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
     modalTitle: 'Procedure Filter',
+    name: `${name}Modal`,
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -182,7 +199,7 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
 
   const classes = useStyles()
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
 
   return (

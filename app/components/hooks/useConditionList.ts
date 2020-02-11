@@ -2,7 +2,7 @@ import { IConditionListQuery } from '@data-managers/ConditionDataManager'
 import ConditionService from '@services/ConditionService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { IServiceResult } from '@utils/types'
-import * as _ from 'lodash'
+import values from 'lodash/values'
 import usePromise from './utils/usePromise'
 
 const useConditionList = (options: IConditionListQuery): IServiceResult => {
@@ -11,7 +11,7 @@ const useConditionList = (options: IConditionListQuery): IServiceResult => {
       'condition',
     ) as ConditionService
     return conditionService.list(options)
-  }, _.values(options.filter))
+  }, values(options.filter))
 }
 
 export default useConditionList

@@ -1,9 +1,10 @@
 import * as React from 'react'
 
+import ErrorSection from '@components/base/ErrorSection'
+import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import {
-  CircularProgress,
   Divider,
   Grid,
   Icon,
@@ -13,7 +14,8 @@ import {
   Typography,
 } from '@material-ui/core'
 import clsx from 'clsx'
-import * as _ from 'lodash'
+import find from 'lodash/find'
+import get from 'lodash/get'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -45,27 +47,25 @@ const useStyles = makeStyles((theme: Theme) => ({
 const ObservationBloodPressureCard: React.FunctionComponent<{ query: any }> = ({
   query,
 }) => {
-  let params: IObservationListFilterQuery = {}
-
-  if (_.get(query, 'patientId') && _.get(query, 'encounterId')) {
-    params = {
-      code: _.get(query, 'code') || '55284-4',
-      encounterId: _.get(query, 'encounterId'),
-      patientId: _.get(query, 'patientId'),
-    }
+  const params: IObservationListFilterQuery = {
+    code: get(query, 'code') || '55284-4',
+    encounterId: get(query, 'encounterId'),
+    patientId: get(query, 'patientId'),
   }
-
-  const { isLoading, data: observationList, error } = useObservationList({
-    filter: params || {},
-    max: 1,
-  })
-
-  if (isLoading) {
-    return <CircularProgress />
-  }
+  const { isLoading, data: observationList, error } = useObservationList(
+    {
+      filter: params || {},
+      max: 1,
+    },
+    ['patientId'],
+  )
 
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
+  }
+
+  if (isLoading) {
+    return <LoadingSection />
   }
   return <ObservationBloodPressureCardView observation={observationList[0]} />
 }
@@ -77,7 +77,7 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
 }> = ({ observation }) => {
   const classes = useStyles()
   return (
-    <Paper className={classes.paperContainer} elevation={5}>
+    <Paper className={classes.paperContainer} elevation={1}>
       <Grid
         container
         justify='center'
@@ -96,7 +96,7 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
       >
         <Grid item xs={5} className={classes.iconContainer}>
           <Icon
-            style={{ zoom: 3, color: '#c62828' }}
+            style={{ zoom: 3, color: '#c62828fa' }}
             className={clsx('fas fa-stethoscope', classes.iconCard)}
           />
         </Grid>
@@ -111,57 +111,57 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
         >
           <Typography
             component='div'
-            variant='body1'
+            variant='body2'
             className={classes.bodyCard}
           >
-            SYS :{' '}
+            SYS{' '}
             <div>
               <Typography
                 component='span'
                 variant='h5'
                 className={classes.contentText}
               >
-                {_.find(
-                  _.get(observation, 'valueModal'),
+                {find(
+                  get(observation, 'valueModal'),
                   value => value.code === 'Systolic Blood Pressure',
                 )
                   ? Number(
-                      _.find(
-                        _.get(observation, 'valueModal'),
+                      find(
+                        get(observation, 'valueModal'),
                         value => value.code === 'Systolic Blood Pressure',
                       ).value,
                     ).toFixed(2)
                   : 'N/A'}
               </Typography>{' '}
-              <span>{_.get(observation, 'unit') || ''}</span>
+              <span>{get(observation, 'unit') || ''}</span>
             </div>
           </Typography>
           <Divider />
           <Typography
             component='div'
-            variant='body1'
+            variant='body2'
             className={classes.bodyCard}
           >
-            DAI :{' '}
+            DAI{' '}
             <div>
               <Typography
                 component='span'
                 variant='h5'
                 className={classes.contentText}
               >
-                {_.find(
-                  _.get(observation, 'valueModal'),
+                {find(
+                  get(observation, 'valueModal'),
                   value => value.code === 'Diastolic Blood Pressure',
                 )
                   ? Number(
-                      _.find(
-                        _.get(observation, 'valueModal'),
+                      find(
+                        get(observation, 'valueModal'),
                         value => value.code === 'Diastolic Blood Pressure',
                       ).value,
                     ).toFixed(2)
                   : 'N/A'}
               </Typography>{' '}
-              <span>{_.get(observation, 'unit') || ''}</span>
+              <span>{get(observation, 'unit') || ''}</span>
             </div>
           </Typography>
         </Grid>
@@ -173,7 +173,7 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
         className={classes.footerContainer}
       >
         <Typography variant='body2' className={classes.headerCardTitle}>
-          {_.get(observation, 'issued')}
+          {get(observation, 'issued')}
         </Typography>
       </Grid>
     </Paper>

@@ -83,8 +83,47 @@ exports.processingPredata = data => {
   // }
 }
 
+var gObservation = { ['issued']: {} }
+
 function prepareMockData(observation) {
-  const issued = moment(observation.issued).toDate()
+  // if (!gObservation['issued'][observation.subject.reference]) {
+  //   gObservation['issued'][observation.subject.reference] = moment(
+  //     observation.issued
+  //   )
+  // }
+  // observation.issued = gObservation['issued'][observation.subject.reference]
+  //   .add(6, 'month')
+  //   .toISOString()
+
+  // if (observation.code.coding[0].display === 'Body Weight') {
+  //   observation.valueQuantity.value = utilService.getRandomIntInclusive(50, 100)
+  // }
+
+  // if (observation.code.coding[0].display === 'Body Height') {
+  //   observation.valueQuantity.value = utilService.getRandomIntInclusive(150, 200)
+  // }
+
+  // if (observation.code.coding[0].display === 'Blood Pressure') {
+  //   observation.component.map((c, index) => {
+  //     if (c.code.text == 'Diastolic Blood Pressure') {
+  //       return {
+  //         ...c,
+  //         valueQuantity: {
+  //           ...c.valueQuantity,
+  //           value: utilService.getRandomIntInclusive(60, 140)
+  //         }
+  //       }
+  //     }
+  //     return {
+  //       ...c,
+  //       valueQuantity: {
+  //         ...c.valueQuantity,
+  //         value: utilService.getRandomIntInclusive(100, 170)
+  //       }
+  //     }
+  //   })
+  // }
+
   return {
     ...observation,
     referenceRange: [

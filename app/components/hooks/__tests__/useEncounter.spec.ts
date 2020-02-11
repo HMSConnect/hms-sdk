@@ -22,9 +22,10 @@ describe('useEncounter', () => {
     expect(result.current.isLoading).toBeFalsy()
 
     expect(result.current.data).toStrictEqual({
+      id: '1',
       reason: 'Test1',
       serviceProvider: {
-        name: 'ServiceTest1',
+        name: `ServiceTest1`,
       },
       type: 'ADMS',
     })

@@ -60,7 +60,7 @@ const ToolbarWithFilter: React.FC<{
   onClickIcon,
   children,
   title = 'Toolbar Title',
-  Icon = <FilterListIcon />,
+  Icon = <FilterListIcon style={{ color: 'lightgray' }} />,
   filterActive = 0,
   option = {},
 }) => {
@@ -87,7 +87,11 @@ const ToolbarWithFilter: React.FC<{
               className={classes.margin}
               max={999}
             >
-              <IconButton aria-label='filter list' onClick={onClickIcon}>
+              <IconButton
+                data-testid='toolbar-filter-icon'
+                aria-label='filter list'
+                onClick={onClickIcon}
+              >
                 {Icon}
               </IconButton>
             </Badge>

@@ -58,7 +58,7 @@ router.get('/', async (req, res) => {
         }
       }
 
-      if (results.lenght === 0) {
+      if (results.length === 0) {
         results = encounterResults
       }
 

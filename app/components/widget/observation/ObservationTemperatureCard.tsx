@@ -1,9 +1,10 @@
 import * as React from 'react'
 
+import ErrorSection from '@components/base/ErrorSection'
+import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import {
-  CircularProgress,
   Grid,
   Icon,
   makeStyles,
@@ -12,7 +13,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import clsx from 'clsx'
-import * as _ from 'lodash'
+import get from 'lodash/get'
 
 const useStyles = makeStyles((theme: Theme) => ({
   contentText: {
@@ -40,19 +41,23 @@ const ObservationTemperatureCard: React.FunctionComponent<any> = ({
   query,
 }) => {
   const params = {
-    code: _.get(query, 'code') || '8310-5',
-    encounterId: _.get(query, 'encounterId'),
-    patientId: _.get(query, 'patientId'),
+    code: get(query, 'code') || '8310-5',
+    encounterId: get(query, 'encounterId'),
+    patientId: get(query, 'patientId'),
   } as IObservationListFilterQuery
-  const { isLoading, data: observationList, error } = useObservationList({
-    filter: params || {},
-    max: 1,
-  })
-  if (isLoading) {
-    return <CircularProgress />
-  }
+  const { isLoading, data: observationList, error } = useObservationList(
+    {
+      filter: params || {},
+      max: 1,
+    },
+    ['patientId'],
+  )
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
+  }
+
+  if (isLoading) {
+    return <LoadingSection />
   }
   return <ObservationTemperatureCardView observation={observationList[0]} />
 }
@@ -63,7 +68,7 @@ export const ObservationTemperatureCardView: React.FunctionComponent<any> = ({
 }) => {
   const classes = useStyles()
   return (
-    <Paper className={classes.paperContainer} elevation={5}>
+    <Paper className={classes.paperContainer} elevation={1}>
       <Grid
         container
         justify='center'
@@ -111,9 +116,9 @@ export const ObservationTemperatureCardView: React.FunctionComponent<any> = ({
                 className={classes.contentText}
                 style={{ paddingRight: 8 }}
               >
-                {_.get(observation, 'value') || 'N/A'}
+                {get(observation, 'value') || 'N/A'}
               </Typography>{' '}
-              <span>{_.get(observation, 'unit') || ''}</span>
+              <span>{get(observation, 'unit') || ''}</span>
             </div>
           </Typography>
         </Grid>
@@ -125,7 +130,7 @@ export const ObservationTemperatureCardView: React.FunctionComponent<any> = ({
         className={classes.footerContainer}
       >
         <Typography variant='body2' className={classes.headerCardTitle}>
-          {_.get(observation, 'issued') || ''}
+          {get(observation, 'issued') || ''}
         </Typography>
       </Grid>
     </Paper>

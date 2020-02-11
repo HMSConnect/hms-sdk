@@ -12,6 +12,11 @@
 />
 ```
 
+Global Query Param 
+| key  | type/format | description                   |
+| ---- | ----------- | ----------------------------- |
+| name | string      | Name of widget for emit event |
+
 2. (Optional if you want to listen event from widget) Apply `eventListener` with `message` type to your `<script>`
 
 ```html
@@ -32,6 +37,7 @@ object response
   | key       | type/format     | description                                                          |
   | --------- | --------------- | -------------------------------------------------------------------- |
   | eventType | embedded-widget | Event type to identify that event is called from our embedded-widget |
+  | name      | string          | Name of widget such as `patientDemographic`                          |
   | message   | string          | Name of event such as `handleSelectPatient`                          |
   | params    | string          | Parameters is send from widget iframe  as `{patientId: '000001'}`    |
   | path      | string          | Next path that widget will navigate such as `patient-info`           |

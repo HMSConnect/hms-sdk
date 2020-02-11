@@ -47,7 +47,7 @@ const PatientSearchView: IStatelessPage<{
                 },
               ]}
             ></BreadcrumbsBase>
-            <PatientSearch query={query} />
+            <PatientSearch query={query} name={_.get(query, 'name')} />
           </Typography>
         </Container>
       </BootstrapWrapper>

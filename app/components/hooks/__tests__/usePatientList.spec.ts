@@ -15,10 +15,10 @@ describe('usePatientList', () => {
     const options = {
       max: 10,
       offset: 0,
-      page: 1
+      page: 1,
     }
     const { result, waitForNextUpdate } = renderHook(() =>
-      usePatientList(options)
+      usePatientList(options),
     )
     expect(result.error).toBeUndefined()
 
@@ -29,12 +29,14 @@ describe('usePatientList', () => {
     expect(result.current.data).toStrictEqual([
       {
         birth: '2018/11/11',
-        name: 'test1'
+        id: '1',
+        name: 'test1',
       },
       {
         birth: '2019/01/01',
-        name: 'test2'
-      }
+        id: '2',
+        name: 'test2',
+      },
     ])
     expect(result.current.totalCount).toStrictEqual(2)
   })
@@ -46,10 +48,10 @@ describe('usePatientList', () => {
     const options = {
       max: 10,
       offset: 0,
-      page: 1
+      page: 1,
     }
     const { result, waitForNextUpdate } = renderHook(() =>
-      usePatientList(options)
+      usePatientList(options),
     )
     expect(result.error).toBeUndefined()
 

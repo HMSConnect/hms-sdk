@@ -22,9 +22,12 @@ describe('UsePatient', () => {
 
     expect(result.current.data).toStrictEqual({
       birth: '2018/11/11',
-      name: 'test'
+      id: '1',
+      name: 'test1',
     })
   })
+
+  
 
   it('error UsePatient', async () => {
     jest.spyOn(PatientServiceMock, 'load').mockImplementation(() => {

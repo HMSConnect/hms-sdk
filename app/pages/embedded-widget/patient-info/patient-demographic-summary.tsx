@@ -5,7 +5,7 @@ import PatientDemograhicSummary from '@components/widget/patient/PatientDemograh
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
-
+import * as _ from 'lodash'
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
@@ -17,7 +17,7 @@ const PatientDemographicSummaryWidget: IStatelessPage<{
     <BootstrapWrapper dependencies={['patient', 'observation']}>
       <>
         <CssBaseline />
-        <PatientDemograhicSummary query={query} />
+        <PatientDemograhicSummary query={query} name={_.get(query, 'name')} />
       </>
     </BootstrapWrapper>
   )

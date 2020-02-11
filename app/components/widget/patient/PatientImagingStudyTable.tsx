@@ -1,6 +1,11 @@
 import React from 'react'
 
+import {
+  tableWithFilterReducer,
+  tableWithFilterState,
+} from '@app/reducers/tableWithFilter.reducer'
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
+import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
@@ -13,7 +18,7 @@ import {
 import { Grid, makeStyles, Theme, Typography } from '@material-ui/core'
 import { HMSService } from '@services/HMSServiceFactory'
 import ImagingStudyService from '@services/ImagingStudyService'
-import { countFilterActive, sendMessage } from '@utils'
+import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -48,6 +53,7 @@ const PatientImagingStudyTable: React.FunctionComponent<{
   resourceList?: any[]
   max?: number
   initialFilter?: IImagingStudyListFilterQuery
+  name?: string
 }> = ({
   resourceList,
   patientId,
@@ -57,48 +63,52 @@ const PatientImagingStudyTable: React.FunctionComponent<{
     patientId,
     started_lt: undefined,
   },
+  name = 'patientImagingStudyTable',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithImagingStudyInitialFilterQuery(customInitialFilter, {
       patientId,
     })
   }, [customInitialFilter])
-  const [filter, setFilter] = React.useState<IImagingStudyListFilterQuery>(
-    initialFilter,
+  const [{ filter, submitedFilter }, dispatch] = React.useReducer(
+    tableWithFilterReducer,
+    tableWithFilterState,
   )
+  React.useEffect(() => {
+    dispatch({ type: 'INIT_FILTER', payload: initialFilter })
+  }, [])
+  const classes = useStyles()
 
-  const [submitedFilter, setSubmitedFilter] = React.useState<
-    IImagingStudyListFilterQuery
-  >(initialFilter)
-
-  const fetchMoreAsync = async (lastEntry: any) => {
+  const fetchData = async (
+    newFilter: IImagingStudyListFilterQuery,
+    max: number,
+  ) => {
     const imagingStudyService = HMSService.getService(
       'imaging_study',
     ) as ImagingStudyService
-    const newFilter: IImagingStudyListFilterQuery = {
-      ...filter,
-      patientId,
-      started_lt: _.get(lastEntry, 'started'),
+    const validParams = validQueryParams(['patientId'], newFilter)
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
     }
-    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,
     }
     const entryData = await imagingStudyService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-      })
       return Promise.reject(new Error(entryData.error))
     }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      params: newLazyLoad,
-    })
-
     return Promise.resolve(_.get(entryData, 'data'))
+  }
+
+  const fetchMoreAsync = async (lastEntry: any) => {
+    const newFilter: IImagingStudyListFilterQuery = {
+      ...filter,
+      patientId,
+      started_lt: _.get(lastEntry, 'started'),
+    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
@@ -118,59 +128,67 @@ const PatientImagingStudyTable: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  const fetchData = async (filter: any) => {
-    setFilter(filter)
+  const submitSearch = async (filter: any) => {
+    dispatch({ type: 'SUBMIT_SEARCH', payload: filter })
     setIsMore(true)
-    const imagingStudyService = HMSService.getService(
-      'imaging_study',
-    ) as ImagingStudyService
-    const newLazyLoad = {
-      filter: {
-        ...filter,
-        started_lt: filter.started_lt || initialFilter.started_lt,
-      },
-      max,
+    const newFilter = {
+      ...filter,
+      started_lt: initialFilter.started_lt,
     }
-    const entryData = await imagingStudyService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-      })
-      return Promise.reject(new Error(entryData.error))
-    }
-
-    setResult(entryData)
-    closeModal()
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const handleParameterChange = (type: string, value: any) => {
-    setFilter((prevFilter: any) => ({
-      ...prevFilter,
-      [type]: value,
-    }))
+    dispatch({ type: 'FILTER_ON_CHANGE', payload: { [type]: value } })
   }
 
-  const handleSearchSubmit = (event: React.FormEvent) => {
+  const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    fetchData(filter)
-    setSubmitedFilter(filter)
-    sendMessage({
-      message: 'handleSearchSubmit',
-      params: { filter, max },
-    })
+    try {
+      const newData = await submitSearch(filter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
-  const handleSearchReset = () => {
-    fetchData(initialFilter)
-    setSubmitedFilter(initialFilter)
-    sendMessage({
-      message: 'handleSearchReset',
-      params: { filter: initialFilter, max },
-    })
+  const handleSearchReset = async () => {
+    try {
+      const newData = await submitSearch(initialFilter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
     modalTitle: 'Imaging Study Filter',
+    name: `${name}Modal`,
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -184,10 +202,9 @@ const PatientImagingStudyTable: React.FunctionComponent<{
   })
 
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
 
-  const classes = useStyles()
   // if (isLoading) {
   //   return <CircularProgress />
   // }
@@ -202,6 +219,9 @@ const PatientImagingStudyTable: React.FunctionComponent<{
             'started_lt',
             'patientId',
           ])}
+          option={{
+            isHideIcon: true,
+          }}
         >
           {renderModal}
         </ToolbarWithFilter>

@@ -15,8 +15,7 @@ router.get('/', async (req, res) => {
       const claimResults = await new Promise((resolve, reject) => {
         db['claim'].find(selector, options).fetch(resolve, reject)
       })
-
-      const results = []
+      let results = []
       for (const claimResult of claimResults) {
         if (req.query.withOrganization == 'true') {
           if (claimResult.organization.reference) {
@@ -30,11 +29,9 @@ router.get('/', async (req, res) => {
         }
         results.push(claimResult)
       }
-
-      if (results.lenght === 0) {
-        results = encounterResults
+      if (results.length === 0) {
+        results = claimResults
       }
-
       res.json({
         error: null,
         schema: {

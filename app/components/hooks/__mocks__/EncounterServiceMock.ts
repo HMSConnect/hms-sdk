@@ -1,8 +1,6 @@
-import DevelopmentAdapter from '../../../adapters/DevelopmentAdapter'
 import IAdapter from '../../../adapters/IAdapter'
 import DataManager from '../../../data-managers/DataManager'
 import PatientDataManager from '../../../data-managers/PatientDataManager'
-import AbstractService from '../../../services/AbstractService'
 
 class EncounterServiceMock {
   getResource(): string {
@@ -15,6 +13,7 @@ class EncounterServiceMock {
   async load(id: string): Promise<any> {
     return Promise.resolve({
       data: {
+        id: '1',
         reason: 'Test1',
         serviceProvider: {
           name: `ServiceTest1`,
@@ -30,6 +29,7 @@ class EncounterServiceMock {
     return Promise.resolve({
       data: [
         {
+          id: '1',
           reason: 'Test1',
           serviceProvider: {
             name: `ServiceTest1`,
@@ -37,6 +37,7 @@ class EncounterServiceMock {
           type: 'ADMS',
         },
         {
+          id: '2',
           reason: 'Test1',
           serviceProvider: {
             name: `ServiceTest2`,

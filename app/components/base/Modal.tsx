@@ -139,17 +139,17 @@ export const FormModalContent: React.FC<{
       <DialogContent dividers>{children}</DialogContent>
       <DialogActions>
         {onSubmit ? (
-          <Button autoFocus onClick={onSubmit} color='secondary'>
+          <Button data-testid='modal-submit-button' autoFocus onClick={onSubmit} color='secondary'>
             Submit
           </Button>
         ) : null}
         {onReset ? (
-          <Button autoFocus onClick={onReset}>
+          <Button data-testid='modal-reset-button' autoFocus onClick={onReset}>
             Reset
           </Button>
         ) : null}
         {onClose ? (
-          <Button autoFocus onClick={onClose} color='primary'>
+          <Button data-testid='modal-close-button' autoFocus onClick={onClose} color='primary'>
             Close
           </Button>
         ) : null}
@@ -165,6 +165,7 @@ interface IOptionModalHook {
   params?: any
   CustomModal?: any
   optionCustomModal?: any
+  name?: string
 }
 
 export const useModal = (
@@ -177,6 +178,7 @@ export const useModal = (
   const handleModalClose = () => {
     sendMessage({
       message: `handleModalClose: ${option.modalTitle}`,
+      name: option.name,
       params: {
         open: false,
       },
@@ -186,6 +188,7 @@ export const useModal = (
   const handleModalShow = () => {
     sendMessage({
       message: `handleModalShow: ${option.modalTitle}`,
+      name: option.name,
       params: {
         open: true,
       },

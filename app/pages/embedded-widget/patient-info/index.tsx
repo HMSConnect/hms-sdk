@@ -1,44 +1,51 @@
 import * as React from 'react'
 
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
-import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
+import PreparePatientData from '@components/widget/PreparePatientData'
+import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
+import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {},
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    // height: '100vh',
+  },
 }))
 
-const PatientInfoView: IStatelessPage<{
+const PatientInfoPrepareView: IStatelessPage<{
   query: any
 }> = ({ query }) => {
-  const classes = useStyles()
   return (
-    <BootstrapWrapper
-      dependencies={[
-        'allergy_intolerance',
-        'condition',
-        'diagnostic_report',
-        'encounter',
-        'observation',
-        'patient',
-        'immunization',
-        'procedure',
-        'medication_request',
-      ]}
-    >
+    <BootstrapWrapper dependencies={['encounter']}>
       <>
         <CssBaseline />
-        <PatientInfoDetail query={query} />
+        <Typography component='div'>
+          {/* <BreadcrumbsBase
+            currentPath='Patient Info'
+            parentPath={[
+              {
+                icon: <HomeIcon />,
+                url: '/',
+              },
+              {
+                label: 'Patient Search',
+              },
+            ]}
+          /> */}
+          <PreparePatientData query={query} name={_.get(query, 'name')} />
+          {/* <PatientInfoDetail query={query} /> */}
+        </Typography>
       </>
     </BootstrapWrapper>
   )
 }
 
-PatientInfoView.getInitialProps = async ({ req, res, query }) => {
+PatientInfoPrepareView.getInitialProps = async ({ req, res, query }) => {
   return {
     query,
   }
 }
 
-export default PatientInfoView
+export default PatientInfoPrepareView

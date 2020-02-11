@@ -1,8 +1,13 @@
 import React from 'react'
 
+import {
+  tableWithFilterReducer,
+  tableWithFilterState,
+} from '@app/reducers/tableWithFilter.reducer'
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
+import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
-import TabGroup, { ITabList } from '@components/base/TabGroup'
+import TabGroup from '@components/base/TabGroup'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
@@ -20,7 +25,7 @@ import {
 } from '@material-ui/core'
 import CarePlanService from '@services/CarePlanService'
 import { HMSService } from '@services/HMSServiceFactory'
-import { countFilterActive, sendMessage } from '@utils'
+import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -38,23 +43,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export interface IBodyCellProp {
-  align: 'right' | 'left' | 'center'
-  id: string
-  styles?: any
-}
-
-export interface ITableCellProp {
-  headCell: IHeaderCellProps
-  bodyCell: IBodyCellProp
-}
-
 const PatientCarePlanTable: React.FunctionComponent<{
   patientId: any
   isInitialize?: boolean
   resourceList?: any[]
   max?: number
   initialFilter?: ICarePlanListFilterQuery
+  name?: string
 }> = ({
   resourceList,
   patientId,
@@ -66,48 +61,50 @@ const PatientCarePlanTable: React.FunctionComponent<{
     periodStart_lt: undefined,
     status: '',
   },
+  name = 'patientCarePlanTable',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithCarePlanInitialFilterQuery(customInitialFilter, {
       patientId,
     })
   }, [customInitialFilter])
-  const [filter, setFilter] = React.useState<ICarePlanListFilterQuery>(
-    initialFilter,
+  const [{ filter, submitedFilter, isGroup, tab }, dispatch] = React.useReducer(
+    tableWithFilterReducer,
+    tableWithFilterState,
   )
-  const [submitedFilter, setSubmitedFilter] = React.useState<
-    ICarePlanListFilterQuery
-  >(initialFilter)
 
-  const fetchMoreAsync = async (lastEntry: any) => {
+  React.useEffect(() => {
+    dispatch({ type: 'INIT_FILTER', payload: initialFilter })
+  }, [])
+
+  const fetchData = async (
+    newFilter: ICarePlanListFilterQuery,
+    max: number,
+  ) => {
     const carePlanService = HMSService.getService(
       'care_plan',
     ) as CarePlanService
-
-    const newFilter: ICarePlanListFilterQuery = {
-      ...filter,
-      patientId,
-      periodStart_lt: _.get(lastEntry, 'periodStart'),
+    const validParams = validQueryParams(['patientId'], newFilter)
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
     }
-    // setFilter(newFilter)
     const newLazyLoad = {
       filter: newFilter,
       max,
     }
     const entryData = await carePlanService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-      })
-      return Promise.reject(new Error(entryData.error))
+    return _.get(entryData, 'data')
+  }
+
+  const classes = useStyles()
+  const fetchMoreAsync = async (lastEntry: any) => {
+    const newFilter: ICarePlanListFilterQuery = {
+      ...filter,
+      patientId,
+      periodStart_lt: _.get(lastEntry, 'periodStart'),
     }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      params: newLazyLoad,
-    })
-
-    return Promise.resolve(_.get(entryData, 'data'))
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
@@ -127,46 +124,87 @@ const PatientCarePlanTable: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  const [isGroup, setIsGroup] = React.useState<boolean | undefined>(false)
-  const [tabList, setTabList] = React.useState<ITabList[]>([])
-
   const handleGroupByType = async (isGroup: boolean) => {
-    const carePlanService = HMSService.getService(
-      'care_plan',
-    ) as CarePlanService
+    setIsMore(true)
     if (isGroup) {
+      handleInitialGroup(patientId)
+    } else {
+      handleUnGroup(filter)
+    }
+  }
+
+  const handleUnGroup = async (filter: ICarePlanListFilterQuery) => {
+    const newFilter = {
+      ...filter,
+      date_lt: undefined,
+      vaccineCode: undefined,
+    }
+    try {
+      const newData = await fetchData(newFilter, max)
+      if (newData.length < max) {
+        setIsMore(false)
+      }
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleGroupByType',
+        name,
+        params: {
+          isGroup,
+          result: newData,
+        },
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleGroupByType',
+        name,
+        params: {
+          error,
+          filter: newFilter,
+          isGroup,
+        },
+      })
+    } finally {
+      dispatch({
+        type: 'UN_GROUP_BY',
+      })
+    }
+  }
+
+  const handleInitialGroup = async (patientId: string) => {
+    try {
+      const carePlanService = HMSService.getService(
+        'care_plan',
+      ) as CarePlanService
       const menuTabList = await carePlanService.categoryList({
         filter: { patientId },
       })
-      setTabList(menuTabList.data)
+      dispatch({
+        payload: {
+          selectedTab: menuTabList.data[0].type,
+          tabList: menuTabList.data,
+        },
+        type: 'GROUP_BY',
+      })
       handleTabChange(menuTabList.data[0].type)
       sendMessage({
         message: 'handleGroupByType',
+        name,
         params: {
           isGroup,
         },
       })
-    } else {
-      const newFilter = {
-        ...filter,
-        category: undefined,
-        periodStart_lt: undefined,
-      }
-      const newResult = await carePlanService.list({
-        filter: newFilter,
-        max,
-      })
-      setResult(newResult)
+    } catch (error) {
+      setResult({ data: [], error })
       sendMessage({
         message: 'handleGroupByType',
+        name,
         params: {
+          error,
           isGroup,
-          result: newResult,
         },
       })
     }
-    setIsMore(true)
-    setIsGroup(isGroup)
   }
 
   const handleTabChange = async (selectedTab: string) => {
@@ -176,75 +214,107 @@ const PatientCarePlanTable: React.FunctionComponent<{
       patientId,
       periodStart_lt: undefined,
     }
-    setFilter(newFilter)
-    setSubmitedFilter(newFilter)
-    const carePlanService = HMSService.getService(
-      'care_plan',
-    ) as CarePlanService
-    const newResult = await carePlanService.list({ filter: newFilter, max })
-    setResult(newResult)
-    setIsMore(true)
-
-    sendMessage({
-      message: `handleTabChange:`,
-      params: {
-        filter: newFilter,
-        result: newResult,
-        tabTitle: selectedTab,
-      },
+    dispatch({
+      payload: { filter: newFilter, selectedTab },
+      type: 'CHANGE_TAB',
     })
+    setIsMore(true)
+    try {
+      const newData = await fetchData(newFilter, max)
+      if (newData.length < max) {
+        setIsMore(false)
+      }
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: `handleTabChange:`,
+        name,
+        params: {
+          filter: newFilter,
+          result: newData,
+          tabTitle: selectedTab,
+        },
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: `handleTabChange:`,
+        name,
+        params: {
+          error,
+          filter: newFilter,
+          tabTitle: selectedTab,
+        },
+      })
+    }
   }
 
-  const fetchData = async (filter: any) => {
-    setFilter(filter)
+  const submitSearch = async (filter: any) => {
+    dispatch({ type: 'SUBMIT_SEARCH', payload: filter })
     setIsMore(true)
-    const carePlanService = HMSService.getService(
-      'care_plan',
-    ) as CarePlanService
-    const newLazyLoad = {
-      filter: {
-        ...filter,
-        periodStart_lt: filter.periodStart_lt || initialFilter.periodStart_lt,
-      },
-      max,
-    }
-    const entryData = await carePlanService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-      })
-      return Promise.reject(new Error(entryData.error))
-    }
 
-    sendMessage({
-      message: 'handleLoadMore',
-      params: filter,
-    })
-    setResult(entryData)
-    closeModal()
+    const newFilter: ICarePlanListFilterQuery = {
+      ...filter,
+      periodStart_lt: initialFilter.periodStart_lt,
+    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const handleParameterChange = (type: string, value: any) => {
-    setFilter((prevFilter: any) => ({
-      ...prevFilter,
-      [type]: value,
-    }))
+    dispatch({ type: 'FILTER_ON_CHANGE', payload: { [type]: value } })
   }
 
-  const handleSearchSubmit = (event: React.FormEvent) => {
+  const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    fetchData(filter)
-    setSubmitedFilter(filter)
+    try {
+      const newData = await submitSearch(filter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error: error.message })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
-  const handleSearchReset = () => {
-    fetchData(initialFilter)
-    setSubmitedFilter(initialFilter)
+  const handleSearchReset = async () => {
+    const newFilter: ICarePlanListFilterQuery = initialFilter
+    if (isGroup) {
+      newFilter.category = tab.selectedTab
+    }
+    try {
+      const newData = await submitSearch(newFilter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error: error.message })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
     modalTitle: 'Care Plan Filter',
+    name: `${name}Modal`,
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -267,11 +337,9 @@ const PatientCarePlanTable: React.FunctionComponent<{
     },
   })
 
-  const classes = useStyles()
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
   }
-
   return (
     <>
       <div className={classes.toolbar}>
@@ -308,7 +376,11 @@ const PatientCarePlanTable: React.FunctionComponent<{
           {renderModal}
         </ToolbarWithFilter>
         {isGroup && (
-          <TabGroup tabList={tabList} onTabChange={handleTabChange} />
+          <TabGroup
+            data-testid='tab-group-care-plan'
+            tabList={tab.tabList}
+            onTabChange={handleTabChange}
+          />
         )}
       </div>
       <div

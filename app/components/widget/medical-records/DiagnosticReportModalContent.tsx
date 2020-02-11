@@ -4,7 +4,7 @@ import useDiagnosticReportList from '@components/hooks/useDiagnosticReportList'
 import DiagReportPatientData from '@components/templates/DiagReportPatientData'
 import { IDiagnosticReportFilterQuery } from '@data-managers/DiagnosticReportDataManager'
 import { Grid } from '@material-ui/core'
-import * as _ from 'lodash'
+import map from 'lodash/map'
 import { useRouter } from 'next/router'
 import { DiagnosticReportCardView } from './DiagnosticReportCard'
 
@@ -39,7 +39,7 @@ const DiagnosticReportModalContent: React.FunctionComponent<any> = ({}) => {
               overflowY: 'auto',
             }}
           >
-            {_.map(diagnosticReportList, (diagnosticReport, index) => {
+            {map(diagnosticReportList, (diagnosticReport, index) => {
               return (
                 <div style={{ margin: 8, width: '100%' }} key={index}>
                   <DiagnosticReportCardView

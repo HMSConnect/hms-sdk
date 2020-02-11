@@ -19,7 +19,7 @@ describe('<DianosticReportCard>', () => {
     useRouterMockResult.mockImplementation(() => ({
       query: {
         encounterId: '0001',
-        patinetId: '0001',
+        patientId: '0001',
       },
     }))
 
@@ -106,7 +106,7 @@ describe('<DianosticReportCard>', () => {
     const { queryByText } = render(<DiagnosticReportCard />)
 
     expect(queryByText('Ty001')).toBeFalsy()
-    expect(queryByText('loading...')).toBeTruthy()
+    expect(queryByText('loading..')).toBeTruthy()
   })
 
   it('error DianosticREportCard', () => {
@@ -123,6 +123,7 @@ describe('<DianosticReportCard>', () => {
     const { queryByText } = render(<DiagnosticReportCard />)
 
     expect(queryByText('Ty001')).toBeFalsy()
-    expect(queryByText(`ERR: ${errorMessage}.`)).toBeTruthy()
+    expect(queryByText(`Something went wrong`)).toBeTruthy()
+    expect(queryByText(errorMessage)).toBeTruthy()
   })
 })

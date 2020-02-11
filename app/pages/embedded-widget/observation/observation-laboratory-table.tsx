@@ -20,6 +20,7 @@ const PatientEncounterTimelineView: IStatelessPage<{
         <CssBaseline />
         <ObservationLaboratoryTable
           patientId={get(query, 'patientId')}
+          encounterId={get(query, 'encounterId')}
           max={get(query, 'max')}
           isInitialize={get(query, 'isInitialize') || true}
           initialFilter={get(query, 'initialFilter')}

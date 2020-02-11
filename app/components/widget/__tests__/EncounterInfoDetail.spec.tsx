@@ -44,6 +44,5 @@ describe('<EncounterInfoDetail />', () => {
 
     const { queryByText } = render(<EncounterInfoDetail query={mockQuery} />)
     expect(queryByText('Ty001')).toBeFalsy()
-    expect(queryByText('encounter loading')).toBeTruthy()
   })
 })

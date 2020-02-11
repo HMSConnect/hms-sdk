@@ -1,12 +1,15 @@
 import * as React from 'react'
 
 import AdaptiveCard from '@components/base/AdaptiveCard'
+import ErrorSection from '@components/base/ErrorSection'
+import LoadingSection from '@components/base/LoadingSection'
 import useAllergyIntoleranceList from '@components/hooks/useAllergyIntoleranceList'
 import allergyIntolerance from '@components/templates/adaptive-card/allergy.template.json'
 import { IAllergyIntoleranceListFilterQuery } from '@data-managers/AllergyIntoleranceDataManager'
 import { Paper } from '@material-ui/core'
 import { parse } from '@utils'
-import * as _ from 'lodash'
+import get from 'lodash/get'
+import map from 'lodash/map'
 import { useRouter } from 'next/router'
 import { stringify } from 'qs'
 
@@ -14,57 +17,26 @@ export const AllergyIntoleranceCard: React.FunctionComponent<any> = () => {
   const { query: routerQuery } = useRouter()
   const query = parse(stringify(routerQuery))
   const params = {
+    encounterId: query.encounterId,
     patientId: query.patientId,
   } as IAllergyIntoleranceListFilterQuery
 
-  const { isLoading, data: allergyList, error } = useAllergyIntoleranceList({
-    filter: params || {},
-  })
+  const { isLoading, data: allergyList, error } = useAllergyIntoleranceList(
+    {
+      filter: params || {},
+      max: get(query, 'max') || 20,
+    },
+    ['patientId'],
+  )
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
 
-  // const { data: allergyList, error, isLoading, setIsFetch } = useInfinitScroll(
-  //   myscroll.current,
-  //   fetchMoreAsync,
-  // )
-
-  // React.useEffect(() => {
-  //   setIsFetch(true)
-  // }, [])
-
-  // async function fetchMoreAsync(lastEntry: any) {
-  //   const allergyIntoleranceService = HMSService.getService(
-  //     'allergy_intolerance',
-  //   ) as AllergyIntoleranceService
-  //   const newLazyLoad = {
-  //     filter: {
-  //       patientId: params.patientId,
-  //       assertedDate_lt: _.get(lastEntry, 'assertedDate'),
-  //     },
-  //     max: 10,
-  //   }
-  //   const entryData = await allergyIntoleranceService.list(newLazyLoad)
-  //   if (_.get(entryData, 'error')) {
-  //     sendMessage({
-  //       error: _.get(entryData, 'error'),
-  //     })
-  //     return Promise.reject(new Error(entryData.error))
-  //   }
-
-  //   sendMessage({
-  //     message: 'handleLoadMore',
-  //     params: newLazyLoad,
-  //   })
-
-  //   return Promise.resolve(_.get(entryData, 'data'))
-  // }
-
   if (error) {
-    return <div>ERR: {error}.</div>
+    return <ErrorSection error={error} />
   }
 
   if (isLoading) {
-    return <div>loading...</div>
+    return <LoadingSection />
   }
   return (
     <>
@@ -85,7 +57,7 @@ export const AllergyIntoleranceCardView: React.FunctionComponent<any> = ({
   scrollRef,
 }) => {
   const data = {
-    results: _.map(allergyList, allergy => {
+    results: map(allergyList, allergy => {
       let styleCriticality
       switch (allergy.criticality) {
         case 'low':
@@ -103,10 +75,10 @@ export const AllergyIntoleranceCardView: React.FunctionComponent<any> = ({
       }
 
       return {
-        assertedDate: _.get(allergy, 'assertedDateText'),
-        category: _.get(allergy, 'category'),
+        assertedDate: get(allergy, 'assertedDateText'),
+        category: get(allergy, 'category'),
         criticality: styleCriticality,
-        display: _.get(allergy, 'codeText'),
+        display: get(allergy, 'codeText'),
       }
     }),
     title: `Allergy`,

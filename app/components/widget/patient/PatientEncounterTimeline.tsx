@@ -1,18 +1,24 @@
 import React, { useEffect, useRef } from 'react'
 
+import {
+  tableWithFilterReducer,
+  tableWithFilterState,
+} from '@app/reducers/tableWithFilter.reducer'
+import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import { noneOption, selectOptions } from '@config'
 import {
   IEncounterListFilterQuery,
+  IEncounterListQuery,
   mergeWithEncounterInitialFilterQuery,
 } from '@data-managers/EncounterDataManager'
 import { makeStyles, Theme } from '@material-ui/core'
-import { countFilterActive, sendMessage } from '@utils'
+import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 import routes from '../../../routes'
-import RouterManager from '../../../routes/RouteManager'
+import RouteManager from '../../../routes/RouteManager'
 import EncounterService from '../../../services/EncounterService'
 import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
@@ -57,6 +63,11 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   isContainer?: boolean
   isRouteable?: boolean
   selectedEncounterId?: string
+  onEncounterSelected?: (
+    event: React.MouseEvent,
+    selectedEncounter: any,
+  ) => void
+  name?: string
 }> = ({
   patientId,
   resourceList,
@@ -71,51 +82,56 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   },
   isRouteable = true,
   selectedEncounterId,
+  onEncounterSelected,
+  name = 'patientEncounterTimeline',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithEncounterInitialFilterQuery(customInitialFilter, {
       patientId,
     })
   }, [customInitialFilter])
-  const [filter, setFilter] = React.useState<IEncounterListFilterQuery>(
-    initialFilter,
+  const [{ filter, submitedFilter }, dispatch] = React.useReducer(
+    tableWithFilterReducer,
+    tableWithFilterState,
   )
-
-  const [submitedFilter, setSubmitedFilter] = React.useState<
-    IEncounterListFilterQuery
-  >(initialFilter)
+  React.useEffect(() => {
+    dispatch({ type: 'INIT_FILTER', payload: initialFilter })
+  }, [])
 
   const classes = useStyles()
 
-  const myscroll = useRef<HTMLDivElement | null>(null)
-
-  const fetchMoreAsync = async (lastEntry: any) => {
+  const fetchData = async (
+    newFilter: IEncounterListFilterQuery,
+    max: number,
+  ) => {
     const encounterService = HMSService.getService(
       'encounter',
     ) as EncounterService
-    const newFilter: IEncounterListFilterQuery = {
-      ...filter,
-      periodStart_lt: _.get(lastEntry, 'startTime'),
+    const validParams = validQueryParams(['patientId'], newFilter)
+    if (!_.isEmpty(validParams)) {
+      return Promise.reject(new Error(_.join(validParams, ', ')))
     }
-    const newLazyLoad = {
+    const newLazyLoad: IEncounterListQuery = {
       filter: newFilter,
       max,
       withOrganization: true,
     }
     const entryData = await encounterService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-      })
       return Promise.reject(new Error(entryData.error))
     }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      params: newLazyLoad,
-    })
-
     return Promise.resolve(_.get(entryData, 'data'))
+  }
+
+  const myscroll = useRef<HTMLDivElement | null>(null)
+
+  const fetchMoreAsync = async (lastEntry: any) => {
+    const newFilter: IEncounterListFilterQuery = {
+      ...filter,
+      periodStart_lt: _.get(lastEntry, 'startTime'),
+    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const {
@@ -142,76 +158,95 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     event: React.MouseEvent,
     selectedEncounter: any,
   ) => {
-    const newParams = {
-      encounterId: _.get(selectedEncounter, 'id'),
-      patientId,
-    }
-    const path = RouterManager.getPath(
-      `patient-info/${patientId}/encounter/${_.get(selectedEncounter, 'id')}`,
-      {
-        matchBy: 'url',
-      },
-    )
-    sendMessage({
-      action: 'PUSH_ROUTE',
-      message: 'handleEncounterSelect',
-      params: newParams,
-      path,
-    })
-    if (isRouteable) {
-      routes.Router.replaceRoute(path)
+    if (onEncounterSelected) {
+      onEncounterSelected(event, selectedEncounter)
+    } else {
+      const newParams = {
+        encounterId: _.get(selectedEncounter, 'id'),
+        patientId,
+      }
+
+      const path = RouteManager.getPath(
+        `patient-info/patient-medical-records`,
+        {
+          matchBy: 'url',
+          params: newParams,
+        },
+      )
+      sendMessage({
+        action: 'PUSH_ROUTE',
+        message: 'handleEncounterSelect',
+        name,
+        params: newParams,
+        path,
+      })
+      if (isRouteable) {
+        routes.Router.replaceRoute(path)
+      }
     }
   }
-  const fetchData = async (filter: any) => {
-    setFilter(filter)
+  const submitSearch = async (filter: any) => {
+    dispatch({ type: 'SUBMIT_SEARCH', payload: filter })
     setIsMore(true)
-    const encounterService = HMSService.getService(
-      'encounter',
-    ) as EncounterService
-    const newLazyLoad = {
-      filter: {
-        ...filter,
-        periodStart_lt: filter.periodStart_lt || initialFilter.periodStart_lt,
-      },
-      max,
+    const newFilter = {
+      ...filter,
+      periodStart_lt: initialFilter.periodStart_lt,
     }
-    const entryData = await encounterService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-      })
-      return Promise.reject(new Error(entryData.error))
-    }
-
-    sendMessage({
-      message: 'handleLoadMore',
-      params: filter,
-    })
-    setResult(entryData)
-    closeModal()
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const handleParameterChange = (type: string, value: any) => {
-    setFilter((prevFilter: any) => ({
-      ...prevFilter,
-      [type]: value,
-    }))
+    dispatch({ type: 'FILTER_ON_CHANGE', payload: { [type]: value } })
   }
 
-  const handleSearchSubmit = (event: React.FormEvent) => {
+  const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    fetchData(filter)
-    setSubmitedFilter(filter)
+    try {
+      const newData = await submitSearch(filter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchSubmit',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
-  const handleSearchReset = () => {
-    fetchData(initialFilter)
-    setSubmitedFilter(initialFilter)
+  const handleSearchReset = async () => {
+    try {
+      const newData = await submitSearch(initialFilter)
+      setResult({ data: newData, error: null })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } catch (error) {
+      setResult({ data: [], error })
+      sendMessage({
+        message: 'handleSearchReset',
+        name,
+        params: filter,
+      })
+    } finally {
+      closeModal()
+    }
   }
 
   const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
     CustomModal: FormModalContent,
     modalTitle: 'Encouter Filter',
+    name: `${name}Modal`,
     optionCustomModal: {
       onReset: handleSearchReset,
       onSubmit: handleSearchSubmit,
@@ -239,6 +274,10 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     },
   })
 
+  if (error) {
+    return <ErrorSection error={error} />
+  }
+
   return (
     <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
       <div className={classes.toolbar}>
@@ -250,7 +289,6 @@ const PatientEncounterTimeline: React.FunctionComponent<{
             'patientId',
           ])}
           option={{
-            isHideIcon: true,
             style: {
               backgroundColor: '#303f9f',
               color: '#e1f5fe',
@@ -269,8 +307,6 @@ const PatientEncounterTimeline: React.FunctionComponent<{
           selectedEncounterId={selectedEncounterId}
         />
       </div>
-
-      {error ? <>There Have Error : {error}</> : null}
     </div>
   )
 }

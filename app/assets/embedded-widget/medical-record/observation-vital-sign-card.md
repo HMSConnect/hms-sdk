@@ -2,16 +2,17 @@
 
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
-URL: `/embedded-widget/medical-records/observation-vial-sign-card`
+URL: `/embedded-widget/observation/vital-sign-card`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/medical-records/observation-vial-sign-card` url to your iframe project.
+Replace `/embedded-widget/observation/vital-sign-card` url to your iframe project.
 
 ## Request HTTP GET
 **Query Params**
-| Key       | Type/Format | Default | Description              |
-| --------- | ----------- | ------- | ------------------------ |
-| patientId | string      | ''      | `required` ID of patient |
+| Key       | Type/Format | Default | Description                           |
+| --------- | ----------- | ------- | ------------------------------------- |
+| patientId | string      | ''      | `required` ID of patient              |
+| max       | number      | 20      | Number of total records in each fetch |
 
 ## Response
 - **Object Response**
@@ -21,5 +22,5 @@ Replace `/embedded-widget/medical-records/observation-vial-sign-card` url to you
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/medical-records/observation-vial-sign-card?patientId=6f8f470e-07e8-4273-ad11-6e3fdc384a09` 
+ - pathname: `/embedded-widget/observation/vital-sign-card?encounterId=3898f0f9-385e-478d-be25-5f05719e80af&max=20` 
 

@@ -40,9 +40,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const PatientDemograhicSummary: React.FunctionComponent<{ query: any }> = ({
-  query,
-}) => {
+const PatientDemograhicSummary: React.FunctionComponent<{
+  query: any
+  name?: string
+}> = ({ query, name = 'patientDemographicSummary' }) => {
   return <PatientDemographicSummaryView query={query} />
 }
 
@@ -54,16 +55,48 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
   const classes = useStyles()
   return (
     <Grid container>
-      <Grid item xs={12} sm={6} md={6} lg={4} className={classes.cardContent}>
+      <Grid
+        item
+        xs={12}
+        sm={6}
+        md={6}
+        lg={6}
+        xl={4}
+        className={classes.cardContent}
+      >
         <ObservationBodyMeasurementCard query={query} />
       </Grid>
-      <Grid item xs={12} sm={6} md={6} lg={4} className={classes.cardContent}>
+      <Grid
+        item
+        xs={12}
+        sm={6}
+        md={6}
+        lg={6}
+        xl={4}
+        className={classes.cardContent}
+      >
         <ObservationTemperatureCard query={query} />
       </Grid>
-      <Grid item xs={12} sm={6} md={6} lg={4} className={classes.cardContent}>
+      <Grid
+        item
+        xs={12}
+        sm={6}
+        md={6}
+        lg={6}
+        xl={4}
+        className={classes.cardContent}
+      >
         <ObservationBloodPressureCard query={query} />
       </Grid>
-      <Grid item xs={12} sm={6} md={6} lg={4} className={classes.cardContent}>
+      <Grid
+        item
+        xs={12}
+        sm={6}
+        md={6}
+        lg={6}
+        xl={4}
+        className={classes.cardContent}
+      >
         <ObservationHeartbeatCard query={query} />
       </Grid>
     </Grid>

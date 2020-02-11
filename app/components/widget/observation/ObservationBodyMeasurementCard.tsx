@@ -1,17 +1,18 @@
 import * as React from 'react'
 
+import ErrorSection from '@components/base/ErrorSection'
+import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import {
-  CircularProgress,
   Divider,
   Grid,
   Icon,
   makeStyles,
   Paper,
   Theme,
-  Typography,
   Tooltip,
+  Typography,
 } from '@material-ui/core'
 import clsx from 'clsx'
 import * as _ from 'lodash'
@@ -48,25 +49,26 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
 }> = ({ query }) => {
   let params: IObservationListFilterQuery = {}
 
-  if (_.get(query, 'patientId') && _.get(query, 'encounterId')) {
-    params = {
-      codes: '8302-2,29463-7,39156-5',
-      // codes: ['8302-2', '29463-7', '39156-5'],
-      encounterId: _.get(query, 'encounterId'),
-      patientId: _.get(query, 'patientId'),
-    }
+  params = {
+    codes: '8302-2,29463-7,39156-5',
+    // codes: ['8302-2', '29463-7', '39156-5'],
+    encounterId: _.get(query, 'encounterId'),
+    patientId: _.get(query, 'patientId'),
   }
 
-  const { isLoading, data: observationList, error } = useObservationList({
-    _lasted: true,
-    filter: params || {},
-  })
-  if (isLoading) {
-    return <CircularProgress />
-  }
-
+  const { isLoading, data: observationList, error } = useObservationList(
+    {
+      _lasted: true,
+      filter: params || {},
+    },
+    ['patientId'],
+  )
   if (error) {
-    return <>Error: {error}</>
+    return <ErrorSection error={error} />
+  }
+
+  if (isLoading) {
+    return <LoadingSection />
   }
   return <ObservationBodyMeasurementCardView observations={observationList} />
 }
@@ -78,7 +80,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
 }> = ({ observations }) => {
   const classes = useStyles()
   return (
-    <Paper className={classes.paperContainer} elevation={5}>
+    <Paper className={classes.paperContainer} elevation={1}>
       <Grid
         container
         justify='center'
@@ -125,7 +127,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               variant='body1'
               className={classes.bodyCard}
             >
-              Height :{' '}
+              Height{' '}
               <div>
                 <Typography
                   component='span'
@@ -166,7 +168,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               variant='body1'
               className={classes.bodyCard}
             >
-              Weight :{' '}
+              Weight{' '}
               <div>
                 <Typography
                   component='span'
@@ -207,7 +209,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               variant='body1'
               className={classes.bodyCard}
             >
-              BMI :{' '}
+              BMI{' '}
               <div>
                 <Typography
                   component='span'

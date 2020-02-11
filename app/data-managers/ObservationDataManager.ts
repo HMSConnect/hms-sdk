@@ -3,6 +3,11 @@ import defaults from 'lodash/defaults'
 import get from 'lodash/get'
 import DataManager from './DataManager'
 
+export interface IObservationNeededParams {
+  id?: boolean
+  patientId?: boolean
+  encounterId?: boolean
+}
 export interface IObservationListQuery extends IListDefaultQuery {
   filter?: IObservationListFilterQuery
   _lasted?: boolean

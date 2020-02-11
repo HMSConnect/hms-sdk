@@ -15,10 +15,10 @@ describe('useDiagnosticReportList', () => {
     const options = {
       max: 10,
       offset: 0,
-      page: 1
+      page: 1,
     }
     const { result, waitForNextUpdate } = renderHook(() =>
-      useDiagnosticReportList(options)
+      useDiagnosticReportList(options),
     )
     expect(result.error).toBeUndefined()
 
@@ -29,14 +29,34 @@ describe('useDiagnosticReportList', () => {
     expect(result.current.data).toStrictEqual([
       {
         codeText: 'Code Text1',
-        issued: '2019-01-01'
+        id: '1',
+        issued: '2019-01-01',
       },
       {
         codeText: 'Code Text2',
-        issued: '2019-01-01'
-      }
+        id: '2',
+        issued: '2019-01-01',
+      },
     ])
     expect(result.current.totalCount).toStrictEqual(2)
+  })
+
+  it('have require filter useAllergyIntoleranceList', async () => {
+    const options = {
+      filter: {},
+      max: 10,
+      offset: 0,
+      page: 1,
+    }
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useDiagnosticReportList(options, ['patientId']),
+    )
+    expect(result.error).toBeUndefined()
+
+    expect(result.current.isLoading).toBeTruthy()
+    await waitForNextUpdate()
+
+    expect(result.current.error).toBe('Need the patientId')
   })
 
   it('error useDiagnosticReportList', async () => {
@@ -46,10 +66,10 @@ describe('useDiagnosticReportList', () => {
     const options = {
       max: 10,
       offset: 0,
-      page: 1
+      page: 1,
     }
     const { result, waitForNextUpdate } = renderHook(() =>
-      useDiagnosticReportList(options)
+      useDiagnosticReportList(options),
     )
     expect(result.error).toBeUndefined()
 

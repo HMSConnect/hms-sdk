@@ -1,12 +1,15 @@
 import * as React from 'react'
 
 import AdaptiveCard from '@components/base/AdaptiveCard'
+import ErrorSection from '@components/base/ErrorSection'
+import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
 import observationTemplate from '@components/templates/adaptive-card/observation.template.json'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { Paper } from '@material-ui/core'
 import { parse } from '@utils'
-import * as _ from 'lodash'
+import get from 'lodash/get'
+import map from 'lodash/map'
 import { useRouter } from 'next/router'
 import { stringify } from 'qs'
 
@@ -22,15 +25,19 @@ export const ObservationVitalSignCard: React.FunctionComponent<any> = () => {
     patientId: query.patientId,
   } as IObservationListFilterQuery
 
-  const { isLoading, data: observationList, error } = useObservationList({
-    filter: params || {},
-  })
+  const { isLoading, data: observationList, error } = useObservationList(
+    {
+      filter: params || {},
+      max: get(query, 'max') || 20,
+    },
+    ['encounterId']
+  )
   if (error) {
-    return <div>ERR: {error}.</div>
+    return <ErrorSection error={error} />
   }
 
   if (isLoading) {
-    return <div>loading...</div>
+    return <LoadingSection />
   }
 
   return (
@@ -52,11 +59,11 @@ export const ObservationVitalSignCardView: React.FunctionComponent<any> = ({
   title = 'Observation',
 }) => {
   const data = {
-    results: _.map(observationList, observation => {
+    results: map(observationList, observation => {
       return {
-        display: _.get(observation, 'codeText'),
-        issued: _.get(observation, 'issued'),
-        value: `${_.get(observation, 'value')} ${_.get(observation, 'unit')}`,
+        display: get(observation, 'codeText'),
+        issued: get(observation, 'issued'),
+        value: `${get(observation, 'value')} ${get(observation, 'unit')}`,
       }
     }),
     title,
