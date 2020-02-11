@@ -78,7 +78,10 @@ const PatientConditionTable: React.FunctionComponent<{
   }, [])
   const classes = useStyles()
 
-  const fetchData = async (newFilter: IConditionListFilterQuery) => {
+  const fetchData = async (
+    newFilter: IConditionListFilterQuery,
+    max: number,
+  ) => {
     const conditionService = HMSService.getService(
       'condition',
     ) as ConditionService
@@ -103,25 +106,8 @@ const PatientConditionTable: React.FunctionComponent<{
       onsetDateTime_lt: _.get(lastEntry, 'onsetDateTime'),
       patientId,
     }
-    try {
-      const entryData = await fetchData(newFilter)
-      sendMessage({
-        message: 'handleLoadMore',
-        name,
-        params: {
-          filter: newFilter,
-          max,
-        },
-      })
-      return Promise.resolve(entryData)
-    } catch (e) {
-      sendMessage({
-        error: e,
-        message: 'handleLoadMore',
-        name,
-      })
-      return Promise.reject(e)
-    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
@@ -149,17 +135,8 @@ const PatientConditionTable: React.FunctionComponent<{
       ...filter,
       onsetDateTime_lt: initialFilter.onsetDateTime_lt,
     }
-    try {
-      const entryData = await fetchData(newFilter)
-      return Promise.resolve(entryData)
-    } catch (e) {
-      sendMessage({
-        error: e,
-        message: 'handleSearchSubmit',
-        name,
-      })
-      return Promise.reject(e)
-    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const handleParameterChange = (type: string, value: any) => {

@@ -5,7 +5,7 @@ import { IServiceResult } from '@utils/types'
 import values from 'lodash/values'
 import usePromise from './utils/usePromise'
 
-const useImmunization = (options: IImmunizationListQuery): IServiceResult => {
+const useImmunizationList = (options: IImmunizationListQuery): IServiceResult => {
   return usePromise(() => {
     const immunizationService = HMSService.getService(
       'immunization',
@@ -14,4 +14,4 @@ const useImmunization = (options: IImmunizationListQuery): IServiceResult => {
   }, values(options.filter))
 }
 
-export default useImmunization
+export default useImmunizationList

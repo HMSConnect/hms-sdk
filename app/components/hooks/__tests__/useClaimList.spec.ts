@@ -1,24 +1,24 @@
+import ClaimService from '@services/ClaimService'
+import { HMSService } from '@services/HMSServiceFactory'
 import { renderHook } from '@testing-library/react-hooks'
-import { HMSService } from '../../../services/HMSServiceFactory'
-import PatientService from '../../../services/PatientService'
-import PatientServiceMock from '../__mocks__/PatientServiceMock'
-import usePatientList from '../usePatientList'
+import ClaimServiceMock from '../__mocks__/ClaimServiceMock'
+import useClaimList from '../useClaimList'
 
-describe('usePatientList', () => {
+describe('useClaimList', () => {
   beforeAll(() => {
     jest.spyOn(HMSService, 'getService').mockImplementation(() => {
-      return PatientServiceMock as PatientService
+      return ClaimServiceMock as ClaimService
     })
   })
 
-  it('initial usePatientList', async () => {
+  it('initial useClaimList', async () => {
     const options = {
       max: 10,
       offset: 0,
       page: 1,
     }
     const { result, waitForNextUpdate } = renderHook(() =>
-      usePatientList(options),
+      useClaimList(options),
     )
     expect(result.error).toBeUndefined()
 
@@ -28,22 +28,24 @@ describe('usePatientList', () => {
 
     expect(result.current.data).toStrictEqual([
       {
-        birth: '2018/11/11',
+        billablePeriodStartText: '2019-01-01',
         id: '1',
-        name: 'test1',
+        status: 'complete',
+        totalPrice: '3000',
       },
       {
-        birth: '2019/01/01',
+        billablePeriodStartText: '2019-01-02',
         id: '2',
-        name: 'test2',
+        status: 'active',
+        totalPrice: '600',
       },
     ])
     expect(result.current.totalCount).toStrictEqual(2)
   })
 
-  it('error usePatientList', async () => {
-    jest.spyOn(PatientServiceMock, 'list').mockImplementation(() => {
-      return Promise.reject(Error('error Test'))
+  it('error useClaimList', async () => {
+    jest.spyOn(ClaimServiceMock, 'list').mockImplementation(() => {
+      return Promise.reject(Error('error!!!'))
     })
     const options = {
       max: 10,
@@ -51,7 +53,7 @@ describe('usePatientList', () => {
       page: 1,
     }
     const { result, waitForNextUpdate } = renderHook(() =>
-      usePatientList(options),
+      useClaimList(options),
     )
     expect(result.error).toBeUndefined()
 
@@ -59,6 +61,6 @@ describe('usePatientList', () => {
     await waitForNextUpdate()
     expect(result.current.isLoading).toBeFalsy()
 
-    expect(result.current.error).toBe('error Test')
+    expect(result.current.error).toBe('error!!!')
   })
 })

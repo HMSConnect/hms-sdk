@@ -20,7 +20,7 @@ const PatientAllergyIntoleranceTableView: IStatelessPage<{
       <>
         <CssBaseline />
         <PatientAllergyIntoleranceTable
-          patientId={get(query, 'patientId')}
+          patientId={get(query, 'patientId') || '-1'}
           max={get(query, 'max')}
           isInitialize={get(query, 'isInitialize') || true}
           initialFilter={get(query, 'initialFilter')}

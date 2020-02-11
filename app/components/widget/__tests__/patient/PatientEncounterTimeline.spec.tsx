@@ -6,15 +6,15 @@ import { routesMock } from '@routes/__mocks__/routesMock'
 import EncounterService from '@services/EncounterService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { fireEvent, render, waitForDomChange } from '@testing-library/react'
-import routes from '../../../routes'
-import PatientEncounterTimeline from '../patient/PatientEncounterTimeline'
+import routes from '../../../../routes'
+import PatientEncounterTimeline from '../../patient/PatientEncounterTimeline'
 
 jest.mock('@components/hooks/useInfinitScroll', () => ({
   __esModule: true,
   default: jest.fn(),
 }))
 
-jest.mock('../../../routes', () => ({
+jest.mock('../../../../routes', () => ({
   __esModule: true,
   default: routesMock,
 }))

@@ -1,19 +1,19 @@
 import { renderHook } from '@testing-library/react-hooks'
-import EncounterService from '../../../services/EncounterService'
+import DiagnosticReportService from '../../../services/DiagnosticReportService'
 import { HMSService } from '../../../services/HMSServiceFactory'
-import EncounterServiceMock from '../__mocks__/EncounterServiceMock'
-import useEncounter from '../useEncounter'
+import DiagnosticReportServiceMock from '../__mocks__/DiagnosticReportServiceMock'
+import useDiagnosticReport from '../useDiagnosticReport'
 
-describe('useEncounter', () => {
+describe('useDiagnosticReport', () => {
   beforeAll(() => {
     jest.spyOn(HMSService, 'getService').mockImplementation(() => {
-      return EncounterServiceMock as EncounterService
+      return DiagnosticReportServiceMock as DiagnosticReportService
     })
   })
 
-  it('initial useEncounter', async () => {
+  it('initial useDiagnosticReport', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
-      useEncounter('e00001'),
+      useDiagnosticReport('1'),
     )
     expect(result.error).toBeUndefined()
 
@@ -22,22 +22,18 @@ describe('useEncounter', () => {
     expect(result.current.isLoading).toBeFalsy()
 
     expect(result.current.data).toStrictEqual({
+      codeText: 'Code Text1',
       id: '1',
-      reason: 'Test1',
-      serviceProvider: {
-        name: `ServiceTest1`,
-      },
-      type: 'ADMS',
+      issued: '2019-01-01',
     })
   })
 
-  it('handler error useEncounter', async () => {
-    jest.spyOn(EncounterServiceMock, 'load').mockImplementation(() => {
-      return Promise.reject(new Error('error!!'))
+  it('error useDiagnosticReport', async () => {
+    jest.spyOn(DiagnosticReportServiceMock, 'load').mockImplementation(() => {
+      return Promise.reject(Error('error!!!'))
     })
-
     const { result, waitForNextUpdate } = renderHook(() =>
-      useEncounter('e00001'),
+      useDiagnosticReport('1'),
     )
     expect(result.error).toBeUndefined()
 
@@ -45,6 +41,6 @@ describe('useEncounter', () => {
     await waitForNextUpdate()
     expect(result.current.isLoading).toBeFalsy()
 
-    expect(result.current.error).toBe('error!!')
+    expect(result.current.error).toBe('error!!!')
   })
 })

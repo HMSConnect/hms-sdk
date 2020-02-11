@@ -82,7 +82,7 @@ const PatientClaimTable: React.FunctionComponent<{
   }, [])
   const classes = useStyles()
 
-  const fetchData = async (newFilter: IClaimListFilterQuery) => {
+  const fetchData = async (newFilter: IClaimListFilterQuery, max: number) => {
     const claimService = HMSService.getService('claim') as ClaimService
     const validParams = validQueryParams(['patientId'], newFilter)
     if (!_.isEmpty(validParams)) {
@@ -105,25 +105,8 @@ const PatientClaimTable: React.FunctionComponent<{
       billablePeriodStart_lt: _.get(lastEntry, 'billablePeriodStart'),
       patientId,
     }
-    try {
-      const entryData = await fetchData(newFilter)
-      sendMessage({
-        message: 'handleLoadMore',
-        name,
-        params: {
-          filter: newFilter,
-          max,
-        },
-      })
-      return Promise.resolve(entryData)
-    } catch (e) {
-      sendMessage({
-        error: e,
-        message: 'handleLoadMore',
-        name,
-      })
-      return Promise.reject(e)
-    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
@@ -150,17 +133,8 @@ const PatientClaimTable: React.FunctionComponent<{
       ...filter,
       billablePeriodStart_lt: initialFilter.billablePeriodStart_lt,
     }
-    try {
-      const entryData = await fetchData(newFilter)
-      return Promise.resolve(entryData)
-    } catch (e) {
-      sendMessage({
-        error: e,
-        message: 'handleSearchSubmit',
-        name,
-      })
-      return Promise.reject(e)
-    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const handleParameterChange = (type: string, value: any) => {

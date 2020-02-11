@@ -93,10 +93,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
       max,
     }
     const entryData = await carePlanService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
-      return Promise.reject(new Error(entryData.error))
-    }
-    return Promise.resolve(_.get(entryData, 'data'))
+    return _.get(entryData, 'data')
   }
 
   const classes = useStyles()
@@ -106,25 +103,8 @@ const PatientCarePlanTable: React.FunctionComponent<{
       patientId,
       periodStart_lt: _.get(lastEntry, 'periodStart'),
     }
-    try {
-      const entryData = await fetchData(newFilter, max)
-      sendMessage({
-        message: 'handleLoadMore',
-        name,
-        params: {
-          filter: newFilter,
-          max,
-        },
-      })
-      return Promise.resolve(entryData)
-    } catch (e) {
-      sendMessage({
-        error: e,
-        message: 'handleLoadMore',
-        name,
-      })
-      return Promise.reject(e)
-    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
@@ -276,17 +256,8 @@ const PatientCarePlanTable: React.FunctionComponent<{
       ...filter,
       periodStart_lt: initialFilter.periodStart_lt,
     }
-    try {
-      const entryData = await fetchData(newFilter, max)
-      return Promise.resolve(entryData)
-    } catch (e) {
-      sendMessage({
-        error: e,
-        message: 'handleSearchSubmit',
-        name,
-      })
-      return Promise.reject(e)
-    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const handleParameterChange = (type: string, value: any) => {
@@ -304,7 +275,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
         params: filter,
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleSearchSubmit',
         name,
@@ -329,7 +300,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
         params: filter,
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleSearchReset',
         name,
@@ -405,7 +376,11 @@ const PatientCarePlanTable: React.FunctionComponent<{
           {renderModal}
         </ToolbarWithFilter>
         {isGroup && (
-          <TabGroup tabList={tab.tabList} onTabChange={handleTabChange} />
+          <TabGroup
+            data-testid='tab-group-care-plan'
+            tabList={tab.tabList}
+            onTabChange={handleTabChange}
+          />
         )}
       </div>
       <div

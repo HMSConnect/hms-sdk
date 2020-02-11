@@ -42,7 +42,7 @@ const TableFilterPanel: React.FC<{
               type={option.type}
               label={option.label}
               value={filter}
-              id={`${option.name} ${index}`}
+              id={`${option.name}-${index}`}
               onChange={onParameterChange}
               choices={option.choices}
             />

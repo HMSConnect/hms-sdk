@@ -18,7 +18,7 @@ import {
 import { Grid, makeStyles, Theme, Typography } from '@material-ui/core'
 import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
 import { HMSService } from '@services/HMSServiceFactory'
-import { countFilterActive, sendMessage, validQueryParams } from '@utils'
+import { countFilterActive, sendMessage } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const PatientAllergyIntoleranceTable: React.FunctionComponent<{
-  patientId: any
+  patientId: string
   isInitialize?: boolean
   resourceList?: any[]
   max?: number
@@ -79,19 +79,12 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     const allergyIntoleranceService = HMSService.getService(
       'allergy_intolerance',
     ) as AllergyIntoleranceService
-    const validParams = validQueryParams(['patientId'], newFilter)
-    if (!_.isEmpty(validParams)) {
-      return Promise.reject(new Error(_.join(validParams, ', ')))
-    }
     const newLazyLoad = {
       filter: newFilter,
       max,
     }
     const entryData = await allergyIntoleranceService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
-      return Promise.reject(new Error(entryData.error))
-    }
-    return Promise.resolve(_.get(entryData, 'data'))
+    return _.get(entryData, 'data')
   }
 
   const fetchMoreAsync = async (lastEntry: any) => {
@@ -100,25 +93,8 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
       assertedDate_lt: _.get(lastEntry, 'assertedDate'),
       patientId,
     }
-    try {
-      const entryData = await fetchData(newFilter, max)
-      sendMessage({
-        message: 'handleLoadMore',
-        name,
-        params: {
-          filter: newFilter,
-          max,
-        },
-      })
-      return Promise.resolve(entryData)
-    } catch (e) {
-      sendMessage({
-        error: e,
-        message: 'handleLoadMore',
-        name,
-      })
-      return Promise.reject(e)
-    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
@@ -145,17 +121,8 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
       ...filter,
       assertedDate_lt: initialFilter.assertedDate_lt,
     }
-    try {
-      const entryData = await fetchData(newFilter, max)
-      return Promise.resolve(entryData)
-    } catch (e) {
-      sendMessage({
-        error: e,
-        message: 'handleSearchSubmit',
-        name,
-      })
-      return Promise.reject(e)
-    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const handleParameterChange = (type: string, value: any) => {
@@ -173,7 +140,7 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
         params: filter,
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleSearchSubmit',
         name,
@@ -194,7 +161,7 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
         params: filter,
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleSearchReset',
         name,

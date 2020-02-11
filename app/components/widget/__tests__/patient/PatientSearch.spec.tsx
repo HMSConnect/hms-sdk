@@ -6,8 +6,8 @@ import usePatientList, {
 import { routesMock } from '@routes/__mocks__/routesMock'
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import { stringify } from 'qs'
-import routes from '../../../routes'
-import PatientSearch from '../patient/PatientSearch'
+import routes from '../../../../routes'
+import PatientSearch from '../../patient/PatientSearch'
 
 beforeEach(() => {
   cleanup()
@@ -18,7 +18,7 @@ jest.mock('@components/hooks/usePatientList', () => ({
   default: jest.fn(),
 }))
 
-jest.mock('../../../routes', () => ({
+jest.mock('../../../../routes', () => ({
   __esModule: true,
   default: routesMock,
 }))

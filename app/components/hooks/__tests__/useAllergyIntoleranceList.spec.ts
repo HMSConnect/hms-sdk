@@ -1,24 +1,24 @@
+import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
 import { renderHook } from '@testing-library/react-hooks'
-import DiagnosticReportService from '../../../services/DiagnosticReportService'
 import { HMSService } from '../../../services/HMSServiceFactory'
-import DiagnosticReportServiceMock from '../__mocks__/DiagnosticReportServiceMock'
-import useDiagnosticReportList from '../useDiagnosticReportList'
+import AllergyIntoleranceServiceMock from '../__mocks__/AllergyIntoleranceServiceMock'
+import useAllergyIntoleranceList from '../useAllergyIntoleranceList'
 
-describe('useDiagnosticReportList', () => {
+describe('useAllergyIntoleranceList', () => {
   beforeAll(() => {
     jest.spyOn(HMSService, 'getService').mockImplementation(() => {
-      return DiagnosticReportServiceMock as DiagnosticReportService
+      return AllergyIntoleranceServiceMock as AllergyIntoleranceService
     })
   })
 
-  it('initial useDiagnosticReportList', async () => {
+  it('initial useAllergyIntoleranceList', async () => {
     const options = {
       max: 10,
       offset: 0,
       page: 1,
     }
     const { result, waitForNextUpdate } = renderHook(() =>
-      useDiagnosticReportList(options),
+      useAllergyIntoleranceList(options),
     )
     expect(result.error).toBeUndefined()
 
@@ -28,17 +28,25 @@ describe('useDiagnosticReportList', () => {
 
     expect(result.current.data).toStrictEqual([
       {
-        codeText: 'Code Text1',
+        assertedDateText: '2019-01-01',
+        codeText: 'Allergy to bee venom',
+        criticality: 'low',
         id: '1',
-        issued: '2019-01-01',
       },
       {
-        codeText: 'Code Text2',
+        assertedDateText: '2019-01-02',
+        codeText: 'House dust mite allergy1',
+        criticality: 'high',
         id: '2',
-        issued: '2019-01-01',
+      },
+      {
+        assertedDateText: '2019-01-02',
+        codeText: 'House dust mite allergy2',
+        criticality: 'unable-to-assess',
+        id: '3',
       },
     ])
-    expect(result.current.totalCount).toStrictEqual(2)
+    expect(result.current.totalCount).toStrictEqual(3)
   })
 
   it('have require filter useAllergyIntoleranceList', async () => {
@@ -49,7 +57,7 @@ describe('useDiagnosticReportList', () => {
       page: 1,
     }
     const { result, waitForNextUpdate } = renderHook(() =>
-      useDiagnosticReportList(options, ['patientId']),
+      useAllergyIntoleranceList(options, ['patientId']),
     )
     expect(result.error).toBeUndefined()
 
@@ -59,8 +67,8 @@ describe('useDiagnosticReportList', () => {
     expect(result.current.error).toBe('Need the patientId')
   })
 
-  it('error useDiagnosticReportList', async () => {
-    jest.spyOn(DiagnosticReportServiceMock, 'list').mockImplementation(() => {
+  it('error useAllergyIntoleranceList', async () => {
+    jest.spyOn(AllergyIntoleranceServiceMock, 'list').mockImplementation(() => {
       return Promise.reject(Error('error!!!'))
     })
     const options = {
@@ -69,7 +77,7 @@ describe('useDiagnosticReportList', () => {
       page: 1,
     }
     const { result, waitForNextUpdate } = renderHook(() =>
-      useDiagnosticReportList(options),
+      useAllergyIntoleranceList(options),
     )
     expect(result.error).toBeUndefined()
 

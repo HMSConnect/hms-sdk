@@ -118,25 +118,8 @@ const PatientImmunizationTable: React.FunctionComponent<{
       date_lt: _.get(lastEntry, 'date'),
       patientId,
     }
-    try {
-      const entryData = await fetchData(newFilter, max)
-      sendMessage({
-        message: 'handleLoadMore',
-        name,
-        params: {
-          filter: newFilter,
-          max,
-        },
-      })
-      return Promise.resolve(entryData)
-    } catch (e) {
-      sendMessage({
-        error: e,
-        message: 'handleLoadMore',
-        name,
-      })
-      return Promise.reject(e)
-    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const myscroll = React.useRef<HTMLDivElement | null>(null)
@@ -287,17 +270,8 @@ const PatientImmunizationTable: React.FunctionComponent<{
       ...filter,
       date_lt: initialFilter.date_lt,
     }
-    try {
-      const entryData = await fetchData(newFilter, max)
-      return Promise.resolve(entryData)
-    } catch (e) {
-      sendMessage({
-        error: e,
-        message: 'handleSearchSubmit',
-        name,
-      })
-      return Promise.reject(e)
-    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const handleParameterChange = (type: string, value: any) => {

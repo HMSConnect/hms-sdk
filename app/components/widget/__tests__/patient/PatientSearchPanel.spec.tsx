@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
 import { fireEvent, render } from '@testing-library/react'
-import PatientSearchPanel from '../patient/PatientSearchPanel'
+import PatientSearchPanel from '../../patient/PatientSearchPanel'
 
 describe('<PatientSearchPanel/>', () => {
   let initialFilterMock: IPatientFilterValue

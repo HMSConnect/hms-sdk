@@ -4,9 +4,9 @@ import useEncounter from '@components/hooks/useEncounter'
 import usePatient from '@components/hooks/usePatient'
 import useResourceList from '@components/hooks/useResourceList'
 import { routesMock } from '@routes/__mocks__/routesMock'
-import { render, fireEvent } from '@testing-library/react'
-import routes from '../../../routes'
-import PatientInfoDetail from '../patient/PatientInfoDetail'
+import { fireEvent, render } from '@testing-library/react'
+import routes from '../../../../routes'
+import PatientInfoDetail from '../../patient/PatientInfoDetail'
 
 jest.mock('@components/hooks/usePatient', () => ({
   __esModule: true,
@@ -23,7 +23,7 @@ jest.mock('@components/hooks/useEncounter', () => ({
   default: jest.fn(),
 }))
 
-jest.mock('../../../routes', () => ({
+jest.mock('../../../../routes', () => ({
   __esModule: true,
   default: routesMock,
 }))

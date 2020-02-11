@@ -1,14 +1,19 @@
 import * as React from 'react'
 
-import { FormControlLabel, Switch, TextField } from '@material-ui/core'
+import {
+  FormControlLabel,
+  Switch,
+  TextField,
+  Typography,
+} from '@material-ui/core'
 import SelectOption, { IOptionItem } from './SelectOption'
-
+import isEmpty from 'lodash/isEmpty'
 type AdaptiveInputType =
   | 'text'
   | 'number'
   | 'choice'
   | 'boolean'
-  | 'date'
+  // | 'date'
   | 'options'
 
 export interface IAdaptiveInput {
@@ -28,10 +33,19 @@ const AdaptiveInput: React.FunctionComponent<{
   choices?: IOptionItem[]
   keyValue?: string
   onChange: (type: string, value: any) => void
-}> = ({ name, type, label, value = {}, id, onChange, choices, keyValue = name }) => {
+}> = ({
+  name,
+  type,
+  label,
+  value = {},
+  id,
+  onChange,
+  choices,
+  keyValue = name,
+}) => {
   switch (type) {
-    case 'date':
-      return null
+    // case 'date':
+    //   return null
     // <KeyboardDatePicker
     //   disableToolbar
     //   variant='inline'
@@ -46,8 +60,8 @@ const AdaptiveInput: React.FunctionComponent<{
     //   }}
     // />
     case 'options':
-      if (!choices) {
-        return null
+      if (!choices || isEmpty(choices)) {
+        return <Typography variant='body2'>Need choices..</Typography>
       }
       return (
         <SelectOption
@@ -56,6 +70,7 @@ const AdaptiveInput: React.FunctionComponent<{
           id={id}
           value={value[keyValue]}
           options={choices}
+          data-testid={`adaptive-input-select-option-${name}`}
           onChange={(
             event: React.ChangeEvent<{ name?: string; value: unknown }>,
           ) => {
@@ -72,6 +87,7 @@ const AdaptiveInput: React.FunctionComponent<{
               checked={value[keyValue]}
               onChange={event => onChange(name, event.target.checked)}
               color='primary'
+              data-testid={`adaptive-input-boolean-${name}`}
             />
           }
           label={label}
@@ -87,6 +103,7 @@ const AdaptiveInput: React.FunctionComponent<{
           value={value[keyValue]}
           onChange={event => onChange(name, event.target.value)}
           type='number'
+          data-testid={`adaptive-input-number-${name}`}
         />
       )
     case 'text':
@@ -98,6 +115,7 @@ const AdaptiveInput: React.FunctionComponent<{
           variant='outlined'
           value={value[keyValue]}
           onChange={event => onChange(name, event.target.value)}
+          data-testid={`adaptive-input-text-${name}`}
         />
       )
     default:
@@ -109,6 +127,7 @@ const AdaptiveInput: React.FunctionComponent<{
           variant='outlined'
           value={value[keyValue]}
           onChange={event => onChange(name, event.target.value)}
+          data-testid={`adaptive-input-default-${name}`}
         />
       )
   }

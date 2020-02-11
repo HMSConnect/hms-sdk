@@ -3,6 +3,7 @@ class DiagnosticReportServiceMock {
     return Promise.resolve({
       data: {
         codeText: 'Code Text1',
+        id: '1',
         issued: '2019-01-01'
       },
       error: null
@@ -13,6 +14,7 @@ class DiagnosticReportServiceMock {
     return Promise.resolve({
       data: {
         codeText: 'Code Text1',
+        id: '1',
         issued: '2019-01-01'
       },
       error: null
@@ -24,10 +26,12 @@ class DiagnosticReportServiceMock {
       data: [
         {
           codeText: 'Code Text1',
+          id: '1',
           issued: '2019-01-01'
         },
         {
           codeText: 'Code Text2',
+          id: '2',
           issued: '2019-01-01'
         }
       ],

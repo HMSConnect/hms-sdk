@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import usePatientList from '@components/hooks/usePatientList'
 import { render } from '@testing-library/react'
-import PatientSearchResultWithPaginate from '../patient/PatientSearchResultWithPaginate'
+import PatientSearchResultWithPaginate from '../../patient/PatientSearchResultWithPaginate'
 
 jest.mock('@components/hooks/usePatientList', () => ({
   __esModule: true,

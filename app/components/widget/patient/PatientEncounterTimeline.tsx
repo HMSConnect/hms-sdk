@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import React, { useEffect, useRef } from 'react'
 
 import {
   tableWithFilterReducer,
@@ -11,11 +11,12 @@ import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import { noneOption, selectOptions } from '@config'
 import {
   IEncounterListFilterQuery,
+  IEncounterListQuery,
   mergeWithEncounterInitialFilterQuery,
 } from '@data-managers/EncounterDataManager'
 import { makeStyles, Theme } from '@material-ui/core'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
-import React, { useEffect, useRef } from 'react'
+import * as _ from 'lodash'
 import routes from '../../../routes'
 import RouteManager from '../../../routes/RouteManager'
 import EncounterService from '../../../services/EncounterService'
@@ -99,7 +100,10 @@ const PatientEncounterTimeline: React.FunctionComponent<{
 
   const classes = useStyles()
 
-  const fetchData = async (newFilter: IEncounterListFilterQuery, max: number) => {
+  const fetchData = async (
+    newFilter: IEncounterListFilterQuery,
+    max: number,
+  ) => {
     const encounterService = HMSService.getService(
       'encounter',
     ) as EncounterService
@@ -107,9 +111,10 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
     }
-    const newLazyLoad = {
+    const newLazyLoad: IEncounterListQuery = {
       filter: newFilter,
       max,
+      withOrganization: true,
     }
     const entryData = await encounterService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {
@@ -125,25 +130,8 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       ...filter,
       periodStart_lt: _.get(lastEntry, 'startTime'),
     }
-    try {
-      const entryData = await fetchData(newFilter, max)
-      sendMessage({
-        message: 'handleLoadMore',
-        name,
-        params: {
-          filter: newFilter,
-          max,
-        },
-      })
-      return Promise.resolve(entryData)
-    } catch (e) {
-      sendMessage({
-        error: e,
-        message: 'handleLoadMore',
-        name,
-      })
-      return Promise.reject(e)
-    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const {
@@ -165,6 +153,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       setIsFetch(true)
     }
   }, [isInitialize])
+
   const handleEncounterSelect = (
     event: React.MouseEvent,
     selectedEncounter: any,
@@ -203,17 +192,8 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       ...filter,
       periodStart_lt: initialFilter.periodStart_lt,
     }
-    try {
-      const entryData = await fetchData(newFilter, max)
-      return Promise.resolve(entryData)
-    } catch (e) {
-      sendMessage({
-        error: e,
-        message: 'handleSearchSubmit',
-        name,
-      })
-      return Promise.reject(e)
-    }
+    const entryData = await fetchData(newFilter, max)
+    return entryData
   }
 
   const handleParameterChange = (type: string, value: any) => {
