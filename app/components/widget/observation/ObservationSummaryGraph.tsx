@@ -188,31 +188,37 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
   })
 
   const calculateNormalRage = (observation: any, patientInfo?: any) => {
-    const normalRange = _.find(observation.referenceRange, range => {
+    const normalRange = _.chain(observation.referenceRange).filter(range => {
       return (
         range.type === 'normal' &&
         (_.get(range, 'age.low') < patientInfo.age ||
           _.get(range, 'age.high') > patientInfo.age)
       )
-    })
-    let results: any = {}
-    if (!_.isEmpty(normalRange)) {
-      if (_.get(normalRange, 'low')) {
-        _.camelCase(`normal${observation.codeText}low`)
-        results[_.camelCase(`normal${observation.codeText}Low`)] = _.get(
-          normalRange,
+    }).groupBy('codeText').value()
+    return normalRange
+  }
+
+  const createNormalRangeGraphData = (normalRangeObject: any) => {
+    return _.reduce(normalRangeObject, (acc: any, normalRange: any) => {
+      let temp: any = {}
+      if (_.get(normalRange[0], 'low')) {
+        _.camelCase(`normal${normalRange[0].codeText}low`)
+        temp[_.camelCase(`normal${normalRange[0].codeText}Low`)] = _.get(
+          normalRange[0],
           'low',
         )
       }
-      if (_.get(normalRange, 'high')) {
-        results[_.camelCase(`normal${observation.codeText}High`)] = _.get(
-          normalRange,
+      if (_.get(normalRange[0], 'high')) {
+        temp[_.camelCase(`normal${normalRange[0].codeText}High`)] = _.get(
+          normalRange[0],
           'high',
         )
       }
-    }
-
-    return results
+      return {
+        ...acc,
+        ...temp
+      }
+    }, {})
   }
 
   const prepareGraphData = (data: any) => {
@@ -222,14 +228,10 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
           item['valueModal'],
           (acc, v) => {
             const key = _.camelCase(v.code)
-            let objectNormalData
-            // console.log('item :', item);
-            if (key === 'bodyMassIndex') {
-              objectNormalData = calculateNormalRage(item, patient)
-            }
+            const objectNormalData = calculateNormalRage(item, patient)
             return {
               ...acc,
-              ...objectNormalData,
+              ...createNormalRangeGraphData(objectNormalData),
               [key]: v.value,
             }
           },
@@ -333,6 +335,7 @@ const ObservationSummaryGraphView: React.FunctionComponent<any> = ({
         argumentField='issuedDate'
         optionStyle={{
           color: '#e57373',
+          height: 700
         }}
         options={{
           ...options,

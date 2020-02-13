@@ -123,12 +123,32 @@ function prepareMockData(observation) {
   //     }
   //   })
   // }
-
+  if (observation.component) {
+    return {
+      ...observation,
+      component: observation.component.map((component) => {
+        return {
+          ...component,
+          referenceRange: [
+            {
+              high: 130,
+              low: 80,
+              type: 'normal',
+              age: {
+                low: 0,
+                high: 100
+              }
+            }
+          ]
+        }
+      })
+    }
+  }
   return {
     ...observation,
     referenceRange: [
       {
-        high: 180,
+        high: 60,
         type: 'normal',
         age: {
           low: 0,

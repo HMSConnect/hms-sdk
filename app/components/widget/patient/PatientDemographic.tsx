@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
   },
   menuList: {
-    height: '35em',
+    height: '50em',
     margin: 8,
     // position: 'sticky',
     overflow: 'auto',
@@ -84,12 +84,12 @@ const PatientDemographic: React.FunctionComponent<{
         <Grid item xs={12} sm={12} lg={3} xl={2}>
           <PatientAssociatedData query={query} />
         </Grid>
-        <Grid item xs={12} sm={12} lg={8} xl={8}>
+        <Grid item xs={12} sm={12} lg={8} xl={7}>
           <div className={classes.detailSelector}>
             <PatientDetailSub query={query} name={name} />
           </div>
         </Grid>
-        <Grid item xs={12} sm={12} lg={4} xl={4}>
+        <Grid item xs={12} sm={12} lg={4} xl={5}>
           <Paper className={classes.menuList}>
             <ObservationSummaryGraph
               query={query}
@@ -198,7 +198,7 @@ const PatientDetailSub: React.FunctionComponent<{
 
   return (
     <Grid container className={classes.root}>
-      <Grid item xs={12} sm={12} md={6} lg={6} xl={5}>
+      <Grid item xs={12} sm={12} md={6} lg={6} xl={7}>
         <Paper className={classes.menuList}>
           <PatientEncounterTimeline
             patientId={_.get(query, 'patientId')}
@@ -210,7 +210,7 @@ const PatientDetailSub: React.FunctionComponent<{
           />
         </Paper>
       </Grid>
-      <Grid item xs={12} sm={12} md={6} lg={6} xl={7}>
+      <Grid item xs={12} sm={12} md={6} lg={6} xl={5}>
         <div className={classes.menuList}>
           <PatientDemograhicSummary
             key={`PatientDemograhicSummary${_.get(query, 'encounterId')}`}

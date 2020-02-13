@@ -13,7 +13,7 @@ import {
   ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui'
 import environment from '@environment'
-import { makeStyles, Theme, Typography } from '@material-ui/core'
+import { makeStyles, Theme, Typography, styled } from '@material-ui/core'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import { area, curveCatmullRom, symbol, symbolCircle } from 'd3-shape'
 import * as _ from 'lodash'
@@ -94,8 +94,10 @@ const LegendRoot: React.FunctionComponent<Legend.RootProps> = (
       {...props}
       style={{
         display: 'flex',
-        flexDirection: 'row',
+        flexFlow: 'row wrap',
         margin: 'auto',
+        width: '100%',
+        // WebkitDisplay: '-webkit-box -webkit-flex'
       }}
     />
   )
@@ -108,6 +110,7 @@ const LegendItem: React.FunctionComponent<Legend.ItemProps> = (
     <Legend.Item
       {...props}
       style={{
+        width: '100px',
         flexDirection: 'column',
         marginLeft: '-2px',
         marginRight: '-2px',
@@ -191,8 +194,8 @@ const TooltipContent: React.FunctionComponent<{
                 {_.truncate(_.startCase(key), { length: 15 })} :
                 {_.isDate(value)
                   ? moment
-                      .default(value)
-                      .format(environment.localFormat.dateTime)
+                    .default(value)
+                    .format(environment.localFormat.dateTime)
                   : Number(value).toFixed(2)}
               </>
             </Typography>
@@ -224,82 +227,82 @@ const GraphBase: React.FunctionComponent<{
     valueUnit: '',
   },
 }) => {
-  const [graphData, setGraphData] = React.useState<any[]>([])
-  const [isLoading, setIsLoading] = React.useState<boolean>(true)
+    const [graphData, setGraphData] = React.useState<any[]>([])
+    const [isLoading, setIsLoading] = React.useState<boolean>(true)
 
-  React.useEffect(() => {
-    if (data) {
-      prepareGraphData(data)
+    React.useEffect(() => {
+      if (data) {
+        prepareGraphData(data)
+      }
+    }, [])
+    const prepareGraphData = (data: any) => {
+      let newValue: any[] = []
+      if (!options.customPrepareGraphData) {
+        newValue = _.chain(data)
+          .map(item => {
+            const objectData = _.reduce(
+              valueField ? item[valueField] : item['valueModal'],
+              (acc, v) => {
+                const key = _.camelCase(v.code)
+                return {
+                  ...acc,
+                  [key]: v.value,
+                }
+              },
+              {},
+            )
+
+            return {
+              ...objectData,
+              [argumentField]: item[argumentField],
+            }
+          })
+          .value()
+      } else {
+        newValue = options.customPrepareGraphData(data)
+      }
+
+      setGraphData(newValue)
+      setIsLoading(false)
     }
-  }, [])
-  const prepareGraphData = (data: any) => {
-    let newValue: any[] = []
-    if (!options.customPrepareGraphData) {
-      newValue = _.chain(data)
-        .map(item => {
-          const objectData = _.reduce(
-            valueField ? item[valueField] : item['valueModal'],
-            (acc, v) => {
-              const key = _.camelCase(v.code)
-              return {
-                ...acc,
-                [key]: v.value,
-              }
-            },
-            {},
+    if (isLoading) {
+      return null
+    }
+
+    const renderGraph = (type?: 'line' | 'area') => {
+      switch (type) {
+        case 'line':
+          return (
+            <GraphLine
+              graphData={graphData}
+              argumentField={argumentField}
+              options={options}
+              optionStyle={optionStyle}
+            />
           )
-
-          return {
-            ...objectData,
-            [argumentField]: item[argumentField],
-          }
-        })
-        .value()
-    } else {
-      newValue = options.customPrepareGraphData(data)
+        case 'area':
+          return (
+            <GraphArea
+              graphData={graphData}
+              argumentField={argumentField}
+              options={options}
+              optionStyle={optionStyle}
+            />
+          )
+        default:
+          return (
+            <GraphLine
+              graphData={graphData}
+              argumentField={argumentField}
+              options={options}
+              optionStyle={optionStyle}
+            />
+          )
+      }
     }
 
-    setGraphData(newValue)
-    setIsLoading(false)
+    return renderGraph(options.type)
   }
-  if (isLoading) {
-    return null
-  }
-
-  const renderGraph = (type?: 'line' | 'area') => {
-    switch (type) {
-      case 'line':
-        return (
-          <GraphLine
-            graphData={graphData}
-            argumentField={argumentField}
-            options={options}
-            optionStyle={optionStyle}
-          />
-        )
-      case 'area':
-        return (
-          <GraphArea
-            graphData={graphData}
-            argumentField={argumentField}
-            options={options}
-            optionStyle={optionStyle}
-          />
-        )
-      default:
-        return (
-          <GraphLine
-            graphData={graphData}
-            argumentField={argumentField}
-            options={options}
-            optionStyle={optionStyle}
-          />
-        )
-    }
-  }
-
-  return renderGraph(options.type)
-}
 
 export const GraphLine: React.FunctionComponent<{
   graphData: any
@@ -385,19 +388,19 @@ export const GraphLine: React.FunctionComponent<{
           options.standardSizeForResizeLegendToBottom,
           standardSize,
         ) ? (
-          <Legend
-            key={`legend-bottom${standardSize}`}
-            position={'bottom'}
-            markerComponent={(props: any) => <Marker {...props} />}
-            rootComponent={LegendRoot}
-            itemComponent={LegendItem}
-          />
-        ) : (
-          <Legend
-            key={`legend-right${standardSize}`}
-            markerComponent={Marker}
-          />
-        )
+            <Legend
+              key={`legend-bottom${standardSize}`}
+              position={'bottom'}
+              markerComponent={(props: any) => <Marker {...props} />}
+              rootComponent={LegendRoot}
+              itemComponent={LegendItem}
+            />
+          ) : (
+            <Legend
+              key={`legend-right${standardSize}`}
+              markerComponent={Marker}
+            />
+          )
       ) : null}
     </Chart>
   )
@@ -452,7 +455,7 @@ export const GraphArea: React.FunctionComponent<{
               valueField={key}
               argumentField={argumentField}
               optionStyle={optionStyle}
-              // optionStyle={MAP_COLOR_WITH_OBSERVATION[key]}
+            // optionStyle={MAP_COLOR_WITH_OBSERVATION[key]}
             />
           </React.Fragment>
         )
