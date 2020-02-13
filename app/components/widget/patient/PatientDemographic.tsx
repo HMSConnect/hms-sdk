@@ -76,8 +76,8 @@ const PatientDemographic: React.FunctionComponent<{
   return (
     <>
       <Grid container spacing={1}>
-        {/* <Grid item xs={12} sm={12} lg={9} xl={10}> */}
-          {/* <Paper className={classes.infoPanel}>
+        <Grid item xs={12} sm={12} lg={9} xl={10}>
+          <Paper className={classes.infoPanel}>
             <PatientInfoPanel query={query} />
           </Paper>
         </Grid>
@@ -88,7 +88,7 @@ const PatientDemographic: React.FunctionComponent<{
           <div className={classes.detailSelector}>
             <PatientDetailSub query={query} name={name} />
           </div>
-        </Grid> */}
+        </Grid>
         <Grid item xs={12} sm={12} lg={4} xl={4}>
           <Paper className={classes.menuList}>
             <ObservationSummaryGraph
@@ -116,7 +116,7 @@ const PatientDemographic: React.FunctionComponent<{
           </Paper>
         </Grid>
       </Grid>
-      {/* <PatientLabResult query={query} /> */}
+      <PatientLabResult query={query} />
     </>
   )
 }
