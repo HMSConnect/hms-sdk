@@ -3,6 +3,7 @@ import * as React from 'react'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
+import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import {
   Divider,
@@ -13,7 +14,6 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core'
-import clsx from 'clsx'
 import find from 'lodash/find'
 import get from 'lodash/get'
 
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   contentText: {
     color: '#1b5e20',
+    // fontSize: '2rem',
   },
   footerContainer: { height: 36 },
   headerCardTitle: {
@@ -48,7 +49,7 @@ const ObservationBloodPressureCard: React.FunctionComponent<{ query: any }> = ({
   query,
 }) => {
   const params: IObservationListFilterQuery = {
-    code: get(query, 'code') || '55284-4',
+    code: OBSERVATION_CODE.BLOOD_PRESSURE.code,
     encounterId: get(query, 'encounterId'),
     patientId: get(query, 'patientId'),
   }
@@ -78,15 +79,22 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
   const classes = useStyles()
   return (
     <Paper className={classes.paperContainer} elevation={1}>
-      <Grid
-        container
-        justify='center'
-        alignContent='center'
-        className={classes.headerContainer}
-      >
-        <Typography variant='body1' className={classes.headerCardTitle}>
-          Blood Pressure
-        </Typography>
+      <Grid container alignItems='center' className={classes.headerContainer}>
+        <Grid item xs={3} style={{ paddingLeft: '1em' }}>
+          <Typography variant='body1'>
+            <Icon
+              style={{ color: '#c62828fa' }}
+              className={'fas fa-stethoscope'}
+            />
+          </Typography>
+        </Grid>
+        <Grid item xs={9} style={{ paddingRight: '1em' }}>
+          <Grid container justify='flex-end'>
+            <Typography variant='body1' className={classes.headerCardTitle}>
+              Blood Pressure
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid
         container
@@ -94,18 +102,13 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
         alignItems='center'
         style={{ height: '100%' }}
       >
-        <Grid item xs={5} className={classes.iconContainer}>
-          <Icon
-            style={{ zoom: 3, color: '#c62828fa' }}
-            className={clsx('fas fa-stethoscope', classes.iconCard)}
-          />
-        </Grid>
         <Grid
-          xs={7}
+          xs={12}
           item
           container
           direction='column'
           style={{
+            paddingLeft: 16,
             paddingRight: 16,
           }}
         >

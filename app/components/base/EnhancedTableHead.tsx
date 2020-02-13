@@ -20,7 +20,6 @@ export interface IHeaderCellProps {
 
 export interface IEnhancedTableProps {
   headCells: IHeaderCellProps[]
-  classes?: any
   order?: 'asc' | 'desc'
   orderBy?: string
   onRequestSort?: (property: any) => void

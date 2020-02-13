@@ -83,10 +83,7 @@ const PatientAllergyList: React.FunctionComponent<{
       assertedDate_lt: _.get(lastEntry, 'assertedDate'),
       patientId,
     }
-    const validParams = validQueryParams(
-      ['patientId'],
-      newFilter,
-    )
+    const validParams = validQueryParams(['patientId'], newFilter)
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
     }
@@ -167,7 +164,7 @@ const PatientAllergyList: React.FunctionComponent<{
   }
 
   return (
-    <div ref={myscroll} style={{ overflow: 'auto' }}>
+    <div ref={myscroll} style={{ overflow: 'auto', width: '100%', height: '100%' }}>
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Allergies'}
@@ -184,7 +181,7 @@ const PatientAllergyList: React.FunctionComponent<{
         ) : (
           <>
             {_.map(data, (allergy: any, index: number) => (
-              <ListItem key={`allergy${index}`}>
+              <ListItem key={`allergy${index}`} style={{ padding: '0 0' }}>
                 {renderCriticalIcon(allergy)}
                 <ListItemText primary={`${_.get(allergy, 'codeText')}`} />
               </ListItem>

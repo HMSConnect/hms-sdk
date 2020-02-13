@@ -3,6 +3,7 @@ import * as React from 'react'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
+import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import {
   Divider,
@@ -50,7 +51,8 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
   let params: IObservationListFilterQuery = {}
 
   params = {
-    codes: '8302-2,29463-7,39156-5',
+    codes: `${OBSERVATION_CODE.BODY_HEIGHT.code},${OBSERVATION_CODE.BODY_WEIGHT.code},${OBSERVATION_CODE.BODY_MASS_INDEX.code}`,
+    // codes: '8302-2,29463-7,39156-5',
     // codes: ['8302-2', '29463-7', '39156-5'],
     encounterId: _.get(query, 'encounterId'),
     patientId: _.get(query, 'patientId'),
@@ -81,40 +83,50 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
   const classes = useStyles()
   return (
     <Paper className={classes.paperContainer} elevation={1}>
-      <Grid
-        container
-        justify='center'
-        alignContent='center'
-        className={classes.headerContainer}
-      >
-        <Typography variant='body1' className={classes.headerCardTitle}>
-          Body Measurement
-        </Typography>
+      <Grid container alignItems='center' className={classes.headerContainer}>
+        <Grid item xs={2} style={{ paddingLeft: '1em' }}>
+          <Typography variant='body1'>
+            <Icon className={clsx('fas fa-male')} />
+          </Typography>
+        </Grid>
+        <Grid item xs={10} style={{ paddingRight: '1em' }}>
+          <Grid container justify='flex-end'>
+            <Typography variant='body1' className={classes.headerCardTitle}>
+              Body Measurement
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
+
       <Grid
         container
         justify='center'
         alignItems='center'
         style={{ height: '100%' }}
       >
-        <Grid item xs={4} className={classes.iconContainer}>
+        {/* <Grid item xs={4} className={classes.iconContainer}>
           <Icon className={clsx('fas fa-male', classes.iconCard)} />
-        </Grid>
+        </Grid> */}
 
         <Grid
-          xs={8}
+          xs={12}
           item
           container
           direction='column'
           style={{
+            paddingLeft: 16,
             paddingRight: 16,
           }}
         >
           <Tooltip
             title={
               <Typography variant='body1'>
-                {_.find(observations, { code: '8302-2' })
-                  ? _.find(observations, { code: '8302-2' }).issued
+                {_.find(observations, {
+                  code: OBSERVATION_CODE.BODY_HEIGHT.code,
+                })
+                  ? _.find(observations, {
+                      code: OBSERVATION_CODE.BODY_HEIGHT.code,
+                    }).issued
                   : 'N/A'}
               </Typography>
             }
@@ -135,15 +147,23 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
                   className={classes.contentText}
                 >
                   {' '}
-                  {_.find(observations, { code: '8302-2' })
+                  {_.find(observations, {
+                    code: OBSERVATION_CODE.BODY_HEIGHT.code,
+                  })
                     ? Number(
-                        _.find(observations, { code: '8302-2' }).value,
+                        _.find(observations, {
+                          code: OBSERVATION_CODE.BODY_HEIGHT.code,
+                        }).value,
                       ).toFixed(2)
                     : 'N/A'}
                 </Typography>{' '}
                 <span>
-                  {_.find(observations, { code: '8302-2' })
-                    ? _.find(observations, { code: '8302-2' }).unit
+                  {_.find(observations, {
+                    code: OBSERVATION_CODE.BODY_HEIGHT.code,
+                  })
+                    ? _.find(observations, {
+                        code: OBSERVATION_CODE.BODY_HEIGHT.code,
+                      }).unit
                     : ''}
                 </span>
               </div>
@@ -154,8 +174,12 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
           <Tooltip
             title={
               <Typography variant='body1'>
-                {_.find(observations, { code: '29463-7' })
-                  ? _.find(observations, { code: '29463-7' }).issued
+                {_.find(observations, {
+                  code: OBSERVATION_CODE.BODY_WEIGHT.code,
+                })
+                  ? _.find(observations, {
+                      code: OBSERVATION_CODE.BODY_WEIGHT.code,
+                    }).issued
                   : 'N/A'}
               </Typography>
             }
@@ -176,15 +200,23 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
                   className={classes.contentText}
                 >
                   {' '}
-                  {_.find(observations, { code: '29463-7' })
+                  {_.find(observations, {
+                    code: OBSERVATION_CODE.BODY_WEIGHT.code,
+                  })
                     ? Number(
-                        _.find(observations, { code: '29463-7' }).value,
+                        _.find(observations, {
+                          code: OBSERVATION_CODE.BODY_WEIGHT.code,
+                        }).value,
                       ).toFixed(2)
                     : 'N/A'}{' '}
                 </Typography>
                 <span>
-                  {_.find(observations, { code: '29463-7' })
-                    ? _.find(observations, { code: '29463-7' }).unit
+                  {_.find(observations, {
+                    code: OBSERVATION_CODE.BODY_WEIGHT.code,
+                  })
+                    ? _.find(observations, {
+                        code: OBSERVATION_CODE.BODY_WEIGHT.code,
+                      }).unit
                     : ''}
                 </span>
               </div>
@@ -195,8 +227,12 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
           <Tooltip
             title={
               <Typography variant='body1'>
-                {_.find(observations, { code: '39156-5' })
-                  ? _.find(observations, { code: '39156-5' }).issued
+                {_.find(observations, {
+                  code: OBSERVATION_CODE.BODY_MASS_INDEX.code,
+                })
+                  ? _.find(observations, {
+                      code: OBSERVATION_CODE.BODY_MASS_INDEX.code,
+                    }).issued
                   : 'N/A'}
               </Typography>
             }
@@ -217,15 +253,23 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
                   className={classes.contentText}
                 >
                   {' '}
-                  {_.find(observations, { code: '39156-5' })
+                  {_.find(observations, {
+                    code: OBSERVATION_CODE.BODY_MASS_INDEX.code,
+                  })
                     ? Number(
-                        _.find(observations, { code: '39156-5' }).value,
+                        _.find(observations, {
+                          code: OBSERVATION_CODE.BODY_MASS_INDEX.code,
+                        }).value,
                       ).toFixed(2)
                     : 'N/A'}{' '}
                 </Typography>
                 <span>
-                  {_.find(observations, { code: '39156-5' })
-                    ? _.find(observations, { code: '39156-5' }).unit
+                  {_.find(observations, {
+                    code: OBSERVATION_CODE.BODY_MASS_INDEX.code,
+                  })
+                    ? _.find(observations, {
+                        code: OBSERVATION_CODE.BODY_MASS_INDEX.code,
+                      }).unit
                     : ''}
                 </span>
               </div>

@@ -75,7 +75,7 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         xl={4}
         className={classes.cardContent}
       >
-        <ObservationTemperatureCard query={query} />
+        <ObservationBloodPressureCard query={query} />
       </Grid>
       <Grid
         item
@@ -86,7 +86,7 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         xl={4}
         className={classes.cardContent}
       >
-        <ObservationBloodPressureCard query={query} />
+        <ObservationTemperatureCard query={query} />
       </Grid>
       <Grid
         item

@@ -1,13 +1,19 @@
 import * as React from 'react'
 
 import {
+  Checkbox,
+  FormControl,
   FormControlLabel,
+  FormGroup,
+  FormLabel,
   Switch,
   TextField,
   Typography,
 } from '@material-ui/core'
-import SelectOption, { IOptionItem } from './SelectOption'
 import isEmpty from 'lodash/isEmpty'
+import map from 'lodash/map'
+import SelectOption, { IOptionItem } from './SelectOption'
+
 type AdaptiveInputType =
   | 'text'
   | 'number'
@@ -15,12 +21,14 @@ type AdaptiveInputType =
   | 'boolean'
   // | 'date'
   | 'options'
+  | 'checkbox-group'
 
 export interface IAdaptiveInput {
   type: AdaptiveInputType
   name: string
   label: string
   choices?: IOptionItem[]
+  group?: any[]
   keyValue?: string
 }
 
@@ -31,6 +39,7 @@ const AdaptiveInput: React.FunctionComponent<{
   value: any
   id: string
   choices?: IOptionItem[]
+  group?: any
   keyValue?: string
   onChange: (type: string, value: any) => void
 }> = ({
@@ -39,26 +48,42 @@ const AdaptiveInput: React.FunctionComponent<{
   label,
   value = {},
   id,
+  group,
   onChange,
   choices,
   keyValue = name,
 }) => {
   switch (type) {
-    // case 'date':
-    //   return null
-    // <KeyboardDatePicker
-    //   disableToolbar
-    //   variant='inline'
-    //   format={environment.localFormat.date}
-    //   margin='normal'
-    //   id='date-picker-inline'
-    //   label='Date picker inline'
-    //   value={selectedDate}
-    //   onChange={handleDateChange}
-    //   KeyboardButtonProps={{
-    //     'aria-label': 'change date',
-    //   }}
-    // />
+    case 'checkbox-group':
+      const filterMui = value[keyValue]
+      if (!group || isEmpty(group)) {
+        return <Typography variant='body2'>Need group..</Typography>
+      }
+      return (
+        <FormControl component='fieldset'>
+          <FormLabel component='legend'>{label}</FormLabel>
+          <FormGroup>
+            {map(group, (option, index) => (
+              <FormControlLabel
+                key={`mul-select${index}`}
+                control={
+                  <Checkbox
+                    checked={filterMui[option.name]}
+                    onChange={event =>
+                      onChange(
+                        `selection[${option.name}]`,
+                        event.target.checked,
+                      )
+                    }
+                    value={option.value}
+                  />
+                }
+                label={option.label}
+              />
+            ))}
+          </FormGroup>
+        </FormControl>
+      )
     case 'options':
       if (!choices || isEmpty(choices)) {
         return <Typography variant='body2'>Need choices..</Typography>

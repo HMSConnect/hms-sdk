@@ -1,6 +1,5 @@
 import React from 'react'
 
-import useWindowSize from '@components/hooks/useWindowSize'
 import { EventTracker, SplineSeries } from '@devexpress/dx-react-chart'
 import {
   AreaSeries,
@@ -13,15 +12,16 @@ import {
   ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui'
 import environment from '@environment'
-import { makeStyles, Theme, Typography } from '@material-ui/core'
+import { makeStyles, Theme, Typography, Grid } from '@material-ui/core'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import { area, curveCatmullRom, symbol, symbolCircle } from 'd3-shape'
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
+import useWindowSize from '@components/hooks/useWindowSize'
+
 interface IGraphLineOption {
   includeLegend?: boolean
-  customPrepareGraphData?: (data: any) => any
+  customPrepareGraphData?: any
   ArgumentScale?: any
   ValueScale?: any
   valueUnit?: string
@@ -32,12 +32,9 @@ const MAP_COLOR_WITH_OBSERVATION: any = {
   // bodyWeight: {
   //   color: '#536dfe',
   // },
-  bodyMassIndex: {
-    color: 'grey',
-  },
-  normalBodyMassIndexHigh: {
-    color: 'grey',
-  },
+  // bodyMassIndex: {
+  //   color: 'grey',
+  // },
   diastolicBloodPressure: {
     color: 'blue',
   },
@@ -64,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const Marker: React.FunctionComponent<any> = (props: any) => {
+const Marker = (props: any) => {
   const { name, color } = props
   const findMapObservation = _.find(
     MAP_COLOR_WITH_OBSERVATION,
@@ -72,48 +69,21 @@ const Marker: React.FunctionComponent<any> = (props: any) => {
       return key === _.camelCase(name)
     },
   )
-  if (_.startsWith(_.camelCase(name), 'normal')) {
-    return (
-      <MoreHorizIcon
-        style={{ color: _.get(findMapObservation, 'color') || color }}
-      />
-    )
-  }
   return (
     <FiberManualRecordIcon
       style={{ color: _.get(findMapObservation, 'color') || color }}
     />
   )
-}
-
-const LegendRoot: React.FunctionComponent<Legend.RootProps> = (
-  props: Legend.RootProps,
-) => {
-  return (
-    <Legend.Root
-      {...props}
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        margin: 'auto',
-      }}
-    />
-  )
-}
-
-const LegendItem: React.FunctionComponent<Legend.ItemProps> = (
-  props: Legend.ItemProps,
-) => {
-  return (
-    <Legend.Item
-      {...props}
-      style={{
-        flexDirection: 'column',
-        marginLeft: '-2px',
-        marginRight: '-2px',
-      }}
-    />
-  )
+  // if (findMapObservation) {
+  //   // return <FiberManualRecordIcon style={{ color: findMapObservation.color }} />
+  // } else {
+  //   return <FiberManualRecordIcon style={{ color }} />
+  //   // return (
+  //   //   <span role='img' aria-label='Bronze Medal'>
+  //   //     🥉
+  //   //   </span>
+  //   // )
+  // }
 }
 
 const ValueLabel = (props: any) => {
@@ -121,64 +91,10 @@ const ValueLabel = (props: any) => {
   return <ValueAxis.Label {...props} text={`${text} ${unit || ''}`} />
 }
 
-// const ValueLabel = (props: any, unit: any) => (props: any) => {
-//   const { text, unit } = props
-//   return <ValueAxis.Label {...props} text={`${text} ${unit || ''}`} />
-// }
-
-const Point = (type: any, styles: any) => (props: any) => {
-  const { arg, val, color } = props
-  return (
-    <path
-      fill={_.get(styles, 'color') || color}
-      transform={`translate(${arg} ${val})`}
-      d={symbol().type(type)() as string}
-      style={styles}
-    />
-  )
-}
-
-const LineWithCirclePoint: React.FunctionComponent<any> = (props: any) => {
-  return (
-    <>
-      <SplineSeriesMat.Path
-        {...props}
-        color={_.get(props, 'optionstyle.color') || props.color}
-      />
-      <ScatterSeries.Path
-        {...props}
-        pointComponent={Point(symbolCircle, {
-          ..._.get(props, 'optionstyle'),
-          stroke: 'grey',
-          strokeWidth: '2px',
-        })}
-      />
-    </>
-  )
-}
-const DashLineWithCirclePoint: React.FunctionComponent<any> = (props: any) => {
-  return (
-    <>
-      <SplineSeriesMat.Path
-        {...props}
-        color={_.get(props, 'optionstyle.color') || props.color}
-        style={{ strokeDasharray: '5,5' }}
-      />
-      <ScatterSeries.Path
-        {...props}
-        pointComponent={Point(symbolCircle, {
-          ..._.get(props, 'optionstyle'),
-          stroke: 'grey',
-          strokeWidth: '2px',
-        })}
-      />
-    </>
-  )
-}
-
-const TooltipContent: React.FunctionComponent<{
-  graphData: any
-}> = ({ graphData }) => {
+const TooltipContent: React.FunctionComponent<any> = ({
+  graphData,
+  argumentField,
+}) => {
   const classes = useStyles()
   const TooltipContentComponent: React.FunctionComponent<any> = props => {
     const targetElement = props.targetItem
@@ -204,16 +120,19 @@ const TooltipContent: React.FunctionComponent<{
   return <Tooltip contentComponent={TooltipContentComponent} />
 }
 
-const GraphBase: React.FunctionComponent<{
+const GraphBaseLegend: React.FunctionComponent<{
   data: any[]
   argumentField: string
+  selection: any
   valueField?: string
   options?: IGraphLineOption
   optionStyle?: any
+  onUpdateSelection?: any
 }> = ({
   data,
   optionStyle = {},
   argumentField,
+  selection,
   valueField,
   options = {
     ArgumentScale: '',
@@ -223,6 +142,7 @@ const GraphBase: React.FunctionComponent<{
     type: 'line',
     valueUnit: '',
   },
+  onUpdateSelection,
 }) => {
   const [graphData, setGraphData] = React.useState<any[]>([])
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
@@ -248,7 +168,6 @@ const GraphBase: React.FunctionComponent<{
             },
             {},
           )
-
           return {
             ...objectData,
             [argumentField]: item[argumentField],
@@ -275,6 +194,8 @@ const GraphBase: React.FunctionComponent<{
             argumentField={argumentField}
             options={options}
             optionStyle={optionStyle}
+            selection={selection}
+            onUpdateSelection={onUpdateSelection}
           />
         )
       case 'area':
@@ -301,13 +222,16 @@ const GraphBase: React.FunctionComponent<{
   return renderGraph(options.type)
 }
 
-export const GraphLine: React.FunctionComponent<{
-  graphData: any
-  argumentField: string
-  options?: any
-  optionStyle?: any
-}> = ({ graphData, argumentField, options, optionStyle }) => {
+export const GraphLine: React.FunctionComponent<any> = ({
+  graphData,
+  argumentField,
+  options,
+  optionStyle,
+  selection,
+  onUpdateSelection,
+}) => {
   const { width, height, standardSize } = useWindowSize()
+
   if (_.isEmpty(graphData)) {
     return (
       <Typography
@@ -324,6 +248,53 @@ export const GraphLine: React.FunctionComponent<{
       </Typography>
     )
   }
+
+  const handleOnClick = (event: any, item: any) => {
+    if (onUpdateSelection) {
+      onUpdateSelection(item.children[0].props.name)
+    }
+  }
+
+  const LegendRoot = (props: any) => {
+    return (
+      // <Grid container>
+      <Legend.Root
+        {...props}
+        style={{
+          display: 'flex',
+          margin: 'auto',
+          flexDirection: 'row',
+        }}
+      />
+      // </Grid>
+    )
+  }
+
+  const LegendItem = (props: any) => {
+    return (
+      // <Grid item xs={3}>
+      <Legend.Item
+        {...props}
+        onClick={(event: any) => handleOnClick(event, props)}
+        style={{
+          flexDirection: 'column',
+          marginLeft: '-2px',
+          marginRight: '-2px',
+        }}
+      />
+      // </Grid>
+    )
+  }
+
+  const LegendLabel = (props: any) => {
+    const select = _.find(selection, (it, key) => key === props.text)
+    return (
+      <span style={{ textDecoration: select ? 'none' : 'line-through' }}>
+        {props.text}
+      </span>
+    )
+  }
+  
   return (
     <Chart
       height={optionStyle.height}
@@ -335,7 +306,6 @@ export const GraphLine: React.FunctionComponent<{
 
       <ArgumentAxis />
       <ValueAxis
-        // labelComponent={(props: any) => ValueLabel(props, options.valueUnit)}
         labelComponent={props => (
           <ValueLabel {...props} unit={options.valueUnit} />
         )}
@@ -344,53 +314,29 @@ export const GraphLine: React.FunctionComponent<{
         if (key === argumentField) {
           return
         }
-        if (_.startsWith(key, 'normal')) {
-          return (
-            <React.Fragment key={key}>
-              <SplineSeries
-                name={_.startCase(key)}
-                valueField={key}
-                argumentField={argumentField}
-                seriesComponent={props => (
-                  <DashLineWithCirclePoint
-                    {...props}
-                    optionstyle={MAP_COLOR_WITH_OBSERVATION[key]}
-                  />
-                )}
-              />
-            </React.Fragment>
-          )
-        }
-
         return (
           <React.Fragment key={key}>
-            <SplineSeries
+            <CustomSplineSeries
+              selection={selection}
               name={_.startCase(key)}
               valueField={key}
               argumentField={argumentField}
-              seriesComponent={props => (
-                <LineWithCirclePoint
-                  {...props}
-                  optionstyle={MAP_COLOR_WITH_OBSERVATION[key]}
-                />
-              )}
+              optionStyle={MAP_COLOR_WITH_OBSERVATION[key]}
             />
           </React.Fragment>
         )
       })}
       <EventTracker />
-      <TooltipContent graphData={graphData} />
+      <TooltipContent graphData={graphData} argumentField={argumentField} />
       {options.includeLegend ? (
-        _.includes(
-          options.standardSizeForResizeLegendToBottom,
-          standardSize,
-        ) ? (
+        _.includes(options.standardSizeForResizeLegendToBottom, standardSize) ? (
           <Legend
             key={`legend-bottom${standardSize}`}
             position={'bottom'}
-            markerComponent={(props: any) => <Marker {...props} />}
+            markerComponent={Marker}
             rootComponent={LegendRoot}
             itemComponent={LegendItem}
+            labelComponent={LegendLabel}
           />
         ) : (
           <Legend
@@ -403,12 +349,71 @@ export const GraphLine: React.FunctionComponent<{
   )
 }
 
-export const GraphArea: React.FunctionComponent<{
-  graphData: any
-  argumentField: string
-  options?: any
-  optionStyle?: any
-}> = ({ graphData, argumentField, options, optionStyle }) => {
+const CustomSplineSeries: React.FunctionComponent<any> = ({
+  name,
+  optionStyle,
+  valueField,
+  argumentField,
+  selection,
+}) => {
+  const Point = (type: any, styles: any) => (props: any) => {
+    const { arg, val, color } = props
+    const select = _.find(selection, (it, key) => key === name)
+    if (select) {
+      return (
+        <path
+          fill={_.get(optionStyle, 'color') || color}
+          transform={`translate(${arg} ${val})`}
+          d={symbol().type(type)() as string}
+          style={styles}
+        />
+      )
+    } else {
+      return null
+    }
+  }
+  const CirclePoint = Point(symbolCircle, {
+    stroke: 'grey',
+    strokeWidth: '2px',
+  })
+  const LineWithCirclePoint = (props: any) => {
+    return (
+      <>
+        <SplineSeriesMat.Path
+          {...props}
+          color={_.get(optionStyle, 'color') || props.color}
+        />
+        <ScatterSeries.Path {...props} pointComponent={CirclePoint} />
+      </>
+    )
+  }
+  const select = _.find(selection, (it, key) => key === name)
+  if (select) {
+    return (
+      <SplineSeries
+        name={name}
+        valueField={valueField}
+        argumentField={argumentField}
+        seriesComponent={LineWithCirclePoint}
+      />
+    )
+  }
+  return (
+    <SplineSeries
+      name={name}
+      valueField={valueField}
+      argumentField={argumentField}
+      seriesComponent={() => null}
+    />
+  )
+}
+
+export const GraphArea: React.FunctionComponent<any> = ({
+  graphData,
+  argumentField,
+  options,
+  optionStyle,
+}) => {
   if (_.isEmpty(graphData)) {
     return (
       <Typography
@@ -436,7 +441,6 @@ export const GraphArea: React.FunctionComponent<{
 
       <ArgumentAxis />
       <ValueAxis
-        // labelComponent={(props: any) => ValueLabel(props, options.valueUnit)}
         labelComponent={props => (
           <ValueLabel {...props} unit={_.get(options, 'valueUnit')} />
         )}
@@ -458,18 +462,34 @@ export const GraphArea: React.FunctionComponent<{
         )
       })}
       <EventTracker />
-      <TooltipContent graphData={graphData} />
+      <TooltipContent graphData={graphData} argumentField={argumentField} />
       {options.includeLegend ? <Legend /> : null}
     </Chart>
   )
 }
 
-const CustomAreaSeries: React.FunctionComponent<{
-  name: string
-  valueField: string
-  argumentField: string
-  optionStyle?: any
-}> = ({ name, optionStyle, valueField, argumentField }) => {
+const CustomAreaSeries: React.FunctionComponent<any> = ({
+  name,
+  optionStyle,
+  valueField,
+  argumentField,
+}) => {
+  const Point = (type: any, styles: any) => (props: any) => {
+    const { arg, val, color } = props
+    return (
+      <path
+        fill={_.get(optionStyle, 'color') || props.color}
+        transform={`translate(${arg} ${val})`}
+        d={symbol().type(type)() as string}
+        style={styles}
+      />
+    )
+  }
+  const CirclePoint = Point(symbolCircle, {
+    stroke: 'grey',
+    strokeWidth: '2px',
+  })
+
   const Area = (props: any) => (
     <>
       <AreaSeries.Path
@@ -483,11 +503,8 @@ const CustomAreaSeries: React.FunctionComponent<{
       />
       <ScatterSeries.Path
         {...props}
-        pointComponent={Point(symbolCircle, {
-          ...optionStyle,
-          stroke: 'grey',
-          strokeWidth: '2px',
-        })}
+        color={_.get(optionStyle, 'color') || props.color}
+        pointComponent={CirclePoint}
       />
     </>
   )
@@ -501,4 +518,4 @@ const CustomAreaSeries: React.FunctionComponent<{
   )
 }
 
-export default GraphBase
+export default GraphBaseLegend

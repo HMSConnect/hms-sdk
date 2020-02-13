@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 
 import EncounterService from '@services/EncounterService'
 import { HMSService } from '@services/HMSServiceFactory'
-import { IQueryResult } from '@utils/types'
+import { IQueryResult, IServiceResult } from '@utils/types'
 
-const useEncounter = (id: string): any => {
+const useEncounter = (id: string): IServiceResult => {
   const [result, setResult] = useState<IQueryResult>({
     data: {},
     error: null,

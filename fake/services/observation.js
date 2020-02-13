@@ -129,7 +129,11 @@ function prepareMockData(observation) {
     referenceRange: [
       {
         high: 180,
-        type: 'normal'
+        type: 'normal',
+        age: {
+          low: 0,
+          high: 100
+        }
       }
     ]
   }

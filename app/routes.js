@@ -188,6 +188,11 @@ module.exports = nextRoutes()
     'embedded-widget/observation/observation-body-height-graph',
   )
   .add(
+    'embedded-widget/observation/summary-graph',
+    '/embedded-widget/observation/summary-graph',
+    'embedded-widget/observation/observation-summary-graph',
+  )
+  .add(
     'embedded-widget/observation/body-weight-graph',
     '/embedded-widget/observation/body-weight-graph',
     'embedded-widget/observation/observation-body-weight-graph',

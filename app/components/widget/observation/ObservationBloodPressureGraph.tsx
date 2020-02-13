@@ -5,6 +5,7 @@ import GraphBase from '@components/base/GraphBase'
 import LoadingSection from '@components/base/LoadingSection'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useObservationList from '@components/hooks/useObservationList'
+import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
 import {
@@ -43,7 +44,7 @@ const ObservationBloodPressureGraph: React.FunctionComponent<{
   optionStyle?: IOptionsStyleGraphOption
 }> = ({ query, optionStyle }) => {
   const params = {
-    code: get(query, 'code') || '55284-4',
+    code: OBSERVATION_CODE.BLOOD_PRESSURE.code,
     // encounterId: get(query, 'encounterId'),
     patientId: get(query, 'patientId'),
   } as IObservationListFilterQuery

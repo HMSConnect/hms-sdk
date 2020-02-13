@@ -3,6 +3,7 @@ import * as React from 'react'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
+import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import {
   Grid,
@@ -40,7 +41,7 @@ const ObservationHeartbeatCard: React.FunctionComponent<{ query: any }> = ({
   query,
 }) => {
   const params = {
-    code: get(query, 'code') || '8867-4',
+    code: OBSERVATION_CODE.HEARTBEAT.code,
     encounterId: get(query, 'encounterId'),
     patientId: get(query, 'patientId'),
   } as IObservationListFilterQuery
@@ -69,30 +70,38 @@ export const ObservationHeartbeatCardView: React.FunctionComponent<{
   const classes = useStyles()
   return (
     <Paper className={classes.paperContainer} elevation={1}>
-      <Grid
-        container
-        justify='center'
-        alignContent='center'
-        className={classes.headerContainer}
-      >
-        <Typography variant='body1' className={classes.headerCardTitle}>
-          Heartbeat
-        </Typography>
+      <Grid container alignItems='center' className={classes.headerContainer}>
+        <Grid item xs={2} style={{ paddingLeft: '1em' }}>
+          <Typography variant='body1'>
+            <Icon
+              style={{ color: '#c62828', paddingRight: 5 }}
+              className={clsx('fas fa-heartbeat')}
+            />
+          </Typography>
+        </Grid>
+        <Grid item xs={10} style={{ paddingRight: '1em' }}>
+          <Grid container justify='flex-end'>
+            <Typography variant='body1' className={classes.headerCardTitle}>
+              Heartbeat
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
+
       <Grid
         container
         justify='center'
         alignItems='center'
         style={{ height: '100%' }}
       >
-        <Grid item xs={6} className={classes.iconContainer}>
+        {/* <Grid item xs={6} className={classes.iconContainer}>
           <Icon
             style={{ zoom: 3, color: '#c62828' }}
             className={clsx('fas fa-heartbeat', classes.iconCard)}
           />
-        </Grid>
+        </Grid> */}
         <Grid
-          xs={6}
+          xs={12}
           item
           container
           direction='column'
@@ -104,9 +113,9 @@ export const ObservationHeartbeatCardView: React.FunctionComponent<{
             component='div'
             variant='body1'
             style={{
-              alignItems: 'flex-end',
+              alignItems: 'center',
               display: 'flex',
-              justifyContent: 'flex-end',
+              justifyContent: 'center',
             }}
           >
             <Typography

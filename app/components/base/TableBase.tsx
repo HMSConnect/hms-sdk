@@ -19,7 +19,7 @@ import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import EnhancedTableHead, { IHeaderCellProps } from './EnhancedTableHead'
 
-interface ITableEntireRow {
+interface ITableEntireRowOption {
   isCenter?: boolean
 }
 
@@ -90,7 +90,7 @@ const TableBase: React.FunctionComponent<{
 
   return (
     <Table stickyHeader size={size}>
-      <EnhancedTableHead classes={classes} headCells={headerCells} />
+      <EnhancedTableHead headCells={headerCells} />
       <TableBody>
         {isEmpty(entryList) ? (
           <TableEntireRow
@@ -157,7 +157,7 @@ const TableRowBase: React.FunctionComponent<{
         onEntrySelected ? onEntrySelected(event, entryData) : null
       }
     >
-      {map(tableCells, (tabelCell: any, tableIndex: number) => (
+      {map(tableCells, (tabelCell: ITableCellProp, tableIndex: number) => (
         <TableCell
           align={tabelCell.bodyCell.align || 'center'}
           key={id + tabelCell.bodyCell.id + index}
@@ -177,7 +177,7 @@ const TableRowBase: React.FunctionComponent<{
 
 const TableEntireRow: React.FunctionComponent<{
   cellCount: number
-  option?: any
+  option?: ITableEntireRowOption
 }> = ({ cellCount, children, option = {} }) => {
   return (
     <TableRow>

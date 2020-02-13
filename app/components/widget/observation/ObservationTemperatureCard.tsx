@@ -3,6 +3,7 @@ import * as React from 'react'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
+import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import {
   Grid,
@@ -41,7 +42,7 @@ const ObservationTemperatureCard: React.FunctionComponent<any> = ({
   query,
 }) => {
   const params = {
-    code: get(query, 'code') || '8310-5',
+    code: OBSERVATION_CODE.BODY_TEMPERATURE.code,
     encounterId: get(query, 'encounterId'),
     patientId: get(query, 'patientId'),
   } as IObservationListFilterQuery
@@ -69,44 +70,67 @@ export const ObservationTemperatureCardView: React.FunctionComponent<any> = ({
   const classes = useStyles()
   return (
     <Paper className={classes.paperContainer} elevation={1}>
-      <Grid
+      <Grid container alignItems='center' className={classes.headerContainer}>
+        <Grid item xs={2} style={{ paddingLeft: '1em' }}>
+          <Typography variant='body1'>
+          <Icon
+              style={{ color: '#cddc39' }}
+              className={clsx('fas fa-thermometer-quarter')}
+            />
+          </Typography>
+        </Grid>
+        <Grid item xs={10} style={{ paddingRight: '1em' }}>
+          <Grid container justify='flex-end'>
+            <Typography variant='body1' className={classes.headerCardTitle}>
+            Temperature
+            </Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+      {/* <Grid
         container
         justify='center'
         alignContent='center'
         className={classes.headerContainer}
       >
         <Typography variant='body1' className={classes.headerCardTitle}>
+          <span>
+            <Icon
+              style={{ color: '#cddc39' }}
+              className={clsx('fas fa-thermometer-quarter')}
+            />
+          </span>
           Temperature
         </Typography>
-      </Grid>
+      </Grid> */}
       <Grid
         container
         justify='center'
         alignItems='center'
         style={{ height: '100%' }}
       >
-        <Grid item xs={4} className={classes.iconContainer}>
+        {/* <Grid item xs={4} className={classes.iconContainer}>
           <Icon
             style={{ zoom: 3, color: '#cddc39' }}
             className={clsx('fas fa-thermometer-quarter', classes.iconCard)}
           />
-        </Grid>
+        </Grid> */}
         <Grid
-          xs={8}
+          xs={12}
           item
           container
           direction='column'
-          style={{
-            paddingRight: 16,
-          }}
+          // style={{
+          //   paddingRight: 16,
+          // }}
         >
           <Typography
             component='div'
             variant='body1'
             style={{
-              alignItems: 'flex-end',
+              alignItems: 'center',
               display: 'flex',
-              justifyContent: 'flex-end',
+              justifyContent: 'center',
             }}
           >
             <div>

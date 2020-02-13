@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import ErrorSection from '@components/base/ErrorSection'
 import usePatient from '@components/hooks/usePatient'
 import {
@@ -7,17 +9,15 @@ import {
   makeStyles,
   Theme,
   Typography,
-  Divider,
 } from '@material-ui/core'
 import * as _ from 'lodash'
-import * as React from 'react'
+import PatientAllergyList from './PatientAllergyList'
 
-// import * as styles from './patient-info-panel.css'
 const useStyles = makeStyles((theme: Theme) => ({
   bigAvatar: {
-    height: theme.spacing(15),
+    height: theme.spacing(10),
     margin: 10,
-    width: theme.spacing(15),
+    width: theme.spacing(10),
   },
   contentText: {
     color: '#37474f',
@@ -61,31 +61,35 @@ export const PatientInfoPanelView: React.FunctionComponent<{
   const classes = useStyles()
   return (
     <div style={{ height: '100%' }}>
-      <Grid container spacing={3}>
-        <Grid item sm={12} md={3}>
-          <Grid container justify='center' alignContent='center'>
-            <Avatar
-              alt='Image'
-              src='../../../../../static/images/mock-person-profile.png'
-              className={classes.bigAvatar}
-            />
-          </Grid>
-        </Grid>
-        <Grid item sm={12} md={6}>
+      <Grid container style={{ paddingLeft: '2em' }}>
+        <Grid item sm={12} md={12} lg={6}>
           <div className={classes.root}>
             <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Typography variant='h4' className={classes.nameTitle}>
-                  {_.isArray(_.get(info, 'name.prefix'))
-                    ? _.join(_.get(info, 'name.prefix'), ' ')
-                    : _.get(info, 'name.prefix')}{' '}
-                  {_.isArray(_.get(info, 'name.given'))
-                    ? _.join(_.get(info, 'name.given'), ' ')
-                    : _.get(info, 'name.given')}{' '}
-                  {_.isArray(_.get(info, 'name.family'))
-                    ? _.join(_.get(info, 'name.family'), ' ')
-                    : _.get(info, 'name.family')}
-                </Typography>
+              <Grid container alignItems='center'>
+                <Grid item sm={12} md={12} lg={3}>
+                  <Grid container justify='center' alignItems='center'>
+                    <Avatar
+                      alt='Image'
+                      src='../../../../../static/images/mock-person-profile.png'
+                      className={classes.bigAvatar}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item sm={12} md={12} lg={9}>
+                  <Grid container>
+                    <Typography variant='h4' className={classes.nameTitle}>
+                      {_.isArray(_.get(info, 'name.prefix'))
+                        ? _.join(_.get(info, 'name.prefix'), ' ')
+                        : _.get(info, 'name.prefix')}{' '}
+                      {_.isArray(_.get(info, 'name.given'))
+                        ? _.join(_.get(info, 'name.given'), ' ')
+                        : _.get(info, 'name.given')}{' '}
+                      {_.isArray(_.get(info, 'name.family'))
+                        ? _.join(_.get(info, 'name.family'), ' ')
+                        : _.get(info, 'name.family')}
+                    </Typography>
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item xs={12}>
                 <Grid container spacing={3}>
@@ -232,15 +236,16 @@ export const PatientInfoPanelView: React.FunctionComponent<{
             </Grid>
           </div>
         </Grid>
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={12} md={6} lg={2}>
           <Grid
             container
-            justify='center'
-            alignItems='center'
             style={{
+              alignContent: 'center',
               borderLeftColor: 'lightgray',
               borderLeftStyle: 'solid',
               borderLeftWidth: 1,
+              height: '100%',
+              justifyContent: 'center',
             }}
           >
             <Avatar className={classes.bigAvatar}>
@@ -253,6 +258,25 @@ export const PatientInfoPanelView: React.FunctionComponent<{
               </Typography>
             </Avatar>
           </Grid>
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={4}>
+          <div
+            style={{
+              borderLeftColor: 'lightgray',
+              borderLeftStyle: 'solid',
+              borderLeftWidth: 1,
+              height: '14em',
+              maxHeight: '14em',
+              overflow: 'auto',
+              padding: '0 1em',
+            }}
+          >
+            <PatientAllergyList
+              patientId={_.get(info, 'identifier.id.value')}
+              isInitialize={true}
+              name={`${name}AllergyIntoleranceList`}
+            />
+          </div>
         </Grid>
       </Grid>
     </div>

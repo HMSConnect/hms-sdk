@@ -1,7 +1,9 @@
 import { Grid, Typography } from '@material-ui/core'
 import * as React from 'react'
 
-const ErrorSection: React.FunctionComponent<any> = ({ error }) => {
+const ErrorSection: React.FunctionComponent<{
+  error: Error | string
+}> = ({ error }) => {
   return (
     <Grid
       container

@@ -10,7 +10,7 @@ import ObservationBloodPressureGraph from '../observation/ObservationBloodPressu
 import ObservationBodyHeightGraph from '../observation/ObservationBodyHeightGraph'
 import ObservationBodyWeightGraph from '../observation/ObservationBodyWeightGraph'
 import ObservationLaboratoryTable from '../observation/ObservationLaboratoryTable'
-import PatientAllergyList from './PatientAllergyList'
+import ObservationSummaryGraph from '../observation/ObservationSummaryGraph'
 import PatientDemograhicSummary from './PatientDemograhicSummary'
 import PatientEncounterTimeline from './PatientEncounterTimeline'
 import PatientInfoPanel from './PatientInfoPanel'
@@ -29,18 +29,18 @@ export interface IPatientTableData {
 const useStyles = makeStyles(theme => ({
   associatedPatientCard: {
     flex: 1,
-    height: '13em',
+    height: '15em',
     margin: 8,
     marginTop: 0,
     overflow: 'auto',
     paddingBottom: '1em',
   },
-
   detailSelector: {
     flex: 1,
   },
   infoPanel: {
     padding: 8,
+    // height: '15em',
   },
   laboratoryCardContent: {
     flex: 1,
@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
   },
   menuList: {
-    height: '33em',
+    height: '35em',
     margin: 8,
     // position: 'sticky',
     overflow: 'auto',
@@ -73,25 +73,50 @@ const PatientDemographic: React.FunctionComponent<{
   name?: string
 }> = ({ query, name = 'patientDemographic' }) => {
   const classes = useStyles()
-
   return (
     <>
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={12} lg={9} xl={10}>
-          <div className={classes.infoPanel}>
-            <Paper>
-              <PatientInfoPanel query={query} />
-            </Paper>
-          </div>
-          <div className={classes.detailSelector}>
-            <PatientDetailSub query={query} name={name} />
-          </div>
+        {/* <Grid item xs={12} sm={12} lg={9} xl={10}> */}
+          {/* <Paper className={classes.infoPanel}>
+            <PatientInfoPanel query={query} />
+          </Paper>
         </Grid>
         <Grid item xs={12} sm={12} lg={3} xl={2}>
           <PatientAssociatedData query={query} />
         </Grid>
+        <Grid item xs={12} sm={12} lg={8} xl={8}>
+          <div className={classes.detailSelector}>
+            <PatientDetailSub query={query} name={name} />
+          </div>
+        </Grid> */}
+        <Grid item xs={12} sm={12} lg={4} xl={4}>
+          <Paper className={classes.menuList}>
+            <ObservationSummaryGraph
+              query={query}
+              optionsGraph={{
+                standardSizeForResizeLegendToBottom: [
+                  'xsmall',
+                  'small',
+                  'large',
+                  'medium',
+                ],
+              }}
+            />
+            {/* <ObservationSummaryTestGraph
+              query={query}
+              optionsGraph={{
+                standardSizeForResizeLegendToBottom: [
+                  'xsmall',
+                  'small',
+                  'large',
+                  'medium',
+                ],
+              }}
+            /> */}
+          </Paper>
+        </Grid>
       </Grid>
-      <PatientLabResult query={query} />
+      {/* <PatientLabResult query={query} /> */}
     </>
   )
 }
@@ -173,7 +198,7 @@ const PatientDetailSub: React.FunctionComponent<{
 
   return (
     <Grid container className={classes.root}>
-      <Grid item xs={12} sm={12} md={5} lg={5} xl={4}>
+      <Grid item xs={12} sm={12} md={6} lg={6} xl={5}>
         <Paper className={classes.menuList}>
           <PatientEncounterTimeline
             patientId={_.get(query, 'patientId')}
@@ -185,9 +210,10 @@ const PatientDetailSub: React.FunctionComponent<{
           />
         </Paper>
       </Grid>
-      <Grid item xs={12} sm={12} md={7} lg={7} xl={8}>
+      <Grid item xs={12} sm={12} md={6} lg={6} xl={7}>
         <div className={classes.menuList}>
           <PatientDemograhicSummary
+            key={`PatientDemograhicSummary${_.get(query, 'encounterId')}`}
             query={query}
             name={`${name}DemographicSuumary`}
           />
@@ -204,16 +230,7 @@ const PatientAssociatedData: React.FunctionComponent<{
   return (
     <>
       <Grid container>
-        <Grid item xs={12} sm={6} md={6} lg={12}>
-          <Paper className={classes.associatedPatientCard}>
-            <PatientAllergyList
-              patientId={_.get(query, 'patientId')}
-              isInitialize={true}
-              name={`${name}AllergyIntoleranceList`}
-            />
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={6} lg={12}>
+        <Grid item xs={12} sm={12} md={12} lg={12}>
           <Paper className={classes.associatedPatientCard}>
             <PatientMedicationList
               patientId={_.get(query, 'patientId')}
