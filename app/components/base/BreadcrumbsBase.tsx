@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
 
 import {
-  Breadcrumbs as MBreadcrumbs,
+  Breadcrumbs as BreadcrumbsMaterial,
   Link,
   makeStyles,
   Paper,
@@ -50,7 +50,7 @@ const BreadcrumbsBase: React.FunctionComponent<{
   }
   return (
     <Paper elevation={0} className={classes.root}>
-      <MBreadcrumbs aria-label='breadcrumb'>
+      <BreadcrumbsMaterial aria-label='breadcrumb'>
         {map(parentPath, (parent: IBreadcrumbPath, index: number) => (
           <Link
             key={index}
@@ -66,7 +66,7 @@ const BreadcrumbsBase: React.FunctionComponent<{
         <Typography color='textPrimary' className={classes.link}>
           {currentPath}
         </Typography>
-      </MBreadcrumbs>
+      </BreadcrumbsMaterial>
     </Paper>
   )
 }

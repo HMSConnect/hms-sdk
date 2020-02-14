@@ -74,7 +74,7 @@ const PatientDemographic: React.FunctionComponent<{
     <>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} lg={9} xl={10}>
-          <Paper className={classes.infoPanel}>
+          <Paper className={classes.infoPanel} >
             <PatientInfoPanel query={query} />
           </Paper>
         </Grid>
@@ -86,8 +86,8 @@ const PatientDemographic: React.FunctionComponent<{
             <PatientDetailSub query={query} name={name} />
           </div>
         </Grid>
-        <Grid item xs={12} sm={12} lg={4} xl={5}>
-        </Grid>
+        {/* <Grid item xs={12} sm={12} lg={4} xl={5}>
+        </Grid> */}
       </Grid>
       <PatientLabResult query={query} />
       <PatientSummaryFooter query={query} />

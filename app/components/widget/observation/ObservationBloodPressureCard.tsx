@@ -91,7 +91,11 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
             variant='body2'
             className={classes.bodyCard}
           >
-            SYS{' '}
+            <Typography
+              variant='body2'
+            >
+              SYS{' '}
+            </Typography>
             <div>
               <Typography
                 component='span'
@@ -121,7 +125,11 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
             variant='body2'
             className={classes.bodyCard}
           >
-            DAI{' '}
+            <Typography
+              variant='body2'
+            >
+              DAI{' '}
+            </Typography>
             <div>
               <Typography
                 component='span'

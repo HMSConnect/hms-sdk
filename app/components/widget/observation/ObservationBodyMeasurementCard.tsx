@@ -41,8 +41,6 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
 
   params = {
     codes: `${OBSERVATION_CODE.BODY_HEIGHT.code},${OBSERVATION_CODE.BODY_WEIGHT.code},${OBSERVATION_CODE.BODY_MASS_INDEX.code}`,
-    // codes: '8302-2,29463-7,39156-5',
-    // codes: ['8302-2', '29463-7', '39156-5'],
     encounterId: _.get(query, 'encounterId'),
     patientId: _.get(query, 'patientId'),
   }
@@ -112,7 +110,11 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               variant='body1'
               className={classes.bodyCard}
             >
-              Height{' '}
+              <Typography
+                variant='body2'
+              >
+                Height{' '}
+              </Typography>
               <div>
                 <Typography
                   component='span'
@@ -167,7 +169,11 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               variant='body1'
               className={classes.bodyCard}
             >
-              Weight{' '}
+              <Typography
+                variant='body2'
+              >
+                Weight{' '}
+              </Typography>
               <div>
                 <Typography
                   component='span'
@@ -222,7 +228,11 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               variant='body1'
               className={classes.bodyCard}
             >
-              BMI{' '}
+              <Typography
+                variant='body2'
+              >
+                BMI{' '}
+              </Typography>
               <div>
                 <Typography
                   component='span'

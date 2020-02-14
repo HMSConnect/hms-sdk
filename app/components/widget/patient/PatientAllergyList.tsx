@@ -186,7 +186,7 @@ const PatientAllergyList: React.FunctionComponent<{
                 {_.map(data, (allergy: any, index: number) => (
                   <ListItem key={`allergy${index}`} style={{ padding: '0 0' }}>
                     {renderCriticalIcon(allergy)}
-                    <ListItemText primary={`${_.get(allergy, 'codeText')}`} />
+                    <ListItemText primary={<Typography variant='body1'>{_.get(allergy, 'codeText')}</Typography>} />
                   </ListItem>
                 ))}
                 {isMore ? (
