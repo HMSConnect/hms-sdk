@@ -49,24 +49,6 @@ const MAP_COLOR_WITH_OBSERVATION: any = {
   },
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  tooltiptext: {
-    backgroundColor: '#555',
-    borderRadius: '6px',
-    bottom: '125%',
-    color: '#fff',
-    left: '50%',
-    marginLeft: '-60px',
-    opacity: 1,
-    padding: '5px 0',
-    position: 'absolute',
-    textAlign: 'center',
-    transition: 'opacity 0.3s',
-    width: '1300%',
-    zIndex: 1,
-  },
-}))
-
 const Marker: React.FunctionComponent<any> = (props: any) => {
   const { name, color } = props
   const findMapObservation = _.find(
@@ -121,7 +103,7 @@ const LegendItem: React.FunctionComponent<Legend.ItemProps> = (
 ) => {
   return (
     <>
-      <LightTooltip title={_.get(props, 'children[0].props.name')} style={{ fontSize: '0.8rem' }}>
+      <LightTooltip placement='top' title={_.get(props, 'children[0].props.name')} style={{ fontSize: '0.8rem' }}>
         <Legend.Item
           {...props}
           style={{
@@ -209,13 +191,13 @@ const TooltipArrow: React.FunctionComponent<Tooltip.ArrowProps> = (props) => {
 
 const TooltipOverley: React.FunctionComponent<Tooltip.OverlayProps> = (props) => {
   return <Tooltip.Overlay {...props} style={{
-    backgroundColor: '#555',
     position: 'absolute',
     borderRadius: '6px',
     marginLeft: '-60px',
     bottom: '125%',
     left: '50%',
-    padding: '0.5em'
+    padding: '0.5em',
+    zIndex: 3000,
   }} />
 }
 
@@ -228,14 +210,12 @@ const ToolTipSheet: React.FunctionComponent<Tooltip.SheetProps> = (props) => {
     textAlign: 'center',
     transition: 'opacity 0.3s',
     width: '100%',
-    zIndex: 1,
   }} />
 }
 
 const TooltipContent: React.FunctionComponent<{
   graphData: any
 }> = ({ graphData }) => {
-  const classes = useStyles()
   const TooltipContentComponent: React.FunctionComponent<any> = props => {
     const targetElement = props.targetItem
     return (
@@ -395,7 +375,6 @@ export const GraphLine: React.FunctionComponent<{
 
       <ArgumentAxis />
       <ValueAxis
-        // labelComponent={(props: any) => ValueLabel(props, options.valueUnit)}
         labelComponent={props => (
           <ValueLabel {...props} unit={options.valueUnit} />
         )}

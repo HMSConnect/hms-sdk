@@ -19,6 +19,7 @@ import { scaleTime } from 'd3-scale'
 import get from 'lodash/get'
 import maxBy from 'lodash/maxBy'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
+import { lighten } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme: Theme) => ({
   summaryContainer: {
@@ -80,8 +81,8 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
         option={{
           isHideIcon: true,
           style: {
-            backgroundColor: '#536dfe',
-            color: '#e1f5fe',
+            backgroundColor: lighten('#3d5afe', 0.85),
+            color: '#3d5afe',
           },
         }}
       ></ToolbarWithFilter>
@@ -89,7 +90,7 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
         data={observationList}
         argumentField='issuedDate'
         optionStyle={{
-          color: '#536dfe',
+          color: '#3d5afe',
           ...optionStyle,
           height: optionStyle && optionStyle.height && optionStyle.height - 200,
         }}
@@ -109,7 +110,7 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
             </Typography>
             <Typography
               variant='body1'
-              style={{ fontSize: '1.5rem', color: '#ef5350' }}
+              style={{ fontSize: '1.5rem', color: '#3d5afe' }}
             >
               {lastData.value}
               {lastData.unit}

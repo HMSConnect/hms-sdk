@@ -16,6 +16,7 @@ import { HMSService } from '@services/HMSServiceFactory'
 import ObservationService from '@services/ObservationService'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
+import { lighten } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme: Theme) => ({
   tableWrapper: {
@@ -215,8 +216,8 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
             option={{
               isHideIcon: true,
               style: {
-                backgroundColor: '#4db6ac',
-                color: '#e1f5fe',
+                backgroundColor: lighten('#26a69a', 0.85),
+                color: '#26a69a',
               },
             }}
           >

@@ -75,63 +75,63 @@ const PatientEncounterList: React.FunctionComponent<{
   onLazyLoad,
   selectedEncounterId,
 }) => {
-  const [selectedIndex, setSelectedIndex] = React.useState(
-    findIndex(entryList, { id: selectedEncounterId }),
-  )
+    const [selectedIndex, setSelectedIndex] = React.useState(
+      findIndex(entryList, { id: selectedEncounterId }),
+    )
 
-  React.useEffect(() => {
-    const activeIndex = findIndex(entryList, {
-      id: selectedEncounterId,
-    })
-    if (activeIndex >= 0) {
-      setSelectedIndex(activeIndex)
+    React.useEffect(() => {
+      const activeIndex = findIndex(entryList, {
+        id: selectedEncounterId,
+      })
+      if (activeIndex >= 0) {
+        setSelectedIndex(activeIndex)
+      }
+    }, [entryList])
+    const handleEncounterSelected = (
+      event: React.MouseEvent,
+      selectedEncounter: any,
+      index: number,
+    ) => {
+      setSelectedIndex(index)
+      onEntrySelected(event, selectedEncounter)
     }
-  }, [entryList])
-  const handleEncounterSelected = (
-    event: React.MouseEvent,
-    selectedEncounter: any,
-    index: number,
-  ) => {
-    setSelectedIndex(index)
-    onEntrySelected(event, selectedEncounter)
+    return (
+      <>
+        <List disablePadding={true} aria-labelledby='nested-list-subheader'>
+          {map(entryList, (entry, index) => (
+            <React.Fragment key={'encounterItem' + index}>
+              <EncounterListItem
+                data={entry}
+                onEntrySelected={handleEncounterSelected}
+                index={index}
+                selectedIndex={selectedIndex}
+              />
+              <Divider />
+            </React.Fragment>
+          ))}
+          {isMore ? (
+            <ListItem style={{ textAlign: 'center' }}>
+              {isLoading ? (
+                <ListItemText style={{ textAlign: 'center' }}>
+                  <CircularProgress />
+                </ListItemText>
+              ) : onLazyLoad ? (
+                <ListItemSecondaryAction>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    onClick={onLazyLoad}
+                  >
+                    <Typography variant='body1'>Load More</Typography>
+                  </Button>
+                </ListItemSecondaryAction>
+              ) : null}
+            </ListItem>
+          ) : null}
+        </List>
+      </>
+    )
   }
-  return (
-    <>
-      <List component='nav' aria-labelledby='nested-list-subheader'>
-        {map(entryList, (entry, index) => (
-          <React.Fragment key={'encounterItem' + index}>
-            <EncounterListItem
-              data={entry}
-              onEntrySelected={handleEncounterSelected}
-              index={index}
-              selectedIndex={selectedIndex}
-            />
-            <Divider />
-          </React.Fragment>
-        ))}
-        {isMore ? (
-          <ListItem style={{ textAlign: 'center' }}>
-            {isLoading ? (
-              <ListItemText style={{ textAlign: 'center' }}>
-                <CircularProgress />
-              </ListItemText>
-            ) : onLazyLoad ? (
-              <ListItemSecondaryAction>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={onLazyLoad}
-                >
-                  <Typography variant='body1'>Load More</Typography>
-                </Button>
-              </ListItemSecondaryAction>
-            ) : null}
-          </ListItem>
-        ) : null}
-      </List>
-    </>
-  )
-}
 
 export default PatientEncounterList
 
@@ -173,7 +173,7 @@ const EncounterListItem: React.FunctionComponent<{
   }
   return (
     <>
-      <ListItem button onClick={handleClick} selected={selectedIndex === index}>
+      <ListItem style={{ paddingRight: '80px' }} button onClick={handleClick} selected={selectedIndex === index}>
         <div className={classes.line}></div>
         <ListItemIcon>
           <>
@@ -220,7 +220,8 @@ const EncounterListItem: React.FunctionComponent<{
                 className={classes.inline}
                 color='textSecondary'
               >
-                {get(data, 'participant[0].name') || 'Unknow'}
+                {get(data, 'status') || 'Unknow'}
+
               </Typography>
             </>
           }
@@ -266,8 +267,8 @@ const EncounterListItem: React.FunctionComponent<{
                         {get(data, 'classCode') || 'Unknow'}
                       </Typography>
                       <Typography>
-                        <strong>Status:</strong>{' '}
-                        {get(data, 'status') || 'Unknow'}
+                        <strong>Practition:</strong>{' '}
+                        {get(data, 'participant[0].name') || 'Unknow'}
                       </Typography>
                     </>
                   }

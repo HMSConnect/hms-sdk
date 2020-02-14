@@ -66,8 +66,8 @@ export const PatientInfoPanelView: React.FunctionComponent<{
           <div className={classes.root}>
             <Grid container spacing={3}>
               <Grid container alignItems='center'>
-                <Grid item sm={12} md={12} lg={3}>
-                  <Grid container justify='center' alignItems='center'>
+                <Grid item sm={12} md={12} lg={2}>
+                  <Grid container alignItems='center'>
                     <Avatar
                       alt='Image'
                       src='../../../../../static/images/mock-person-profile.png'
@@ -75,7 +75,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
                     />
                   </Grid>
                 </Grid>
-                <Grid item sm={12} md={12} lg={9}>
+                <Grid item sm={12} md={12} lg={9} style={{ paddingLeft: '1em' }}>
                   <Grid container>
                     <Typography variant='h4' className={classes.nameTitle}>
                       {_.isArray(_.get(info, 'name.prefix'))
@@ -172,11 +172,11 @@ export const PatientInfoPanelView: React.FunctionComponent<{
                           {_.get(info, 'telecom')
                             ? _.isArray(_.get(info, 'telecom'))
                               ? _.join(
-                                  _.map(_.get(info, 'telecom'), (tel: any) =>
-                                    _.get(tel, 'value'),
-                                  ),
-                                  ' ',
-                                )
+                                _.map(_.get(info, 'telecom'), (tel: any) =>
+                                  _.get(tel, 'value'),
+                                ),
+                                ' ',
+                              )
                               : _.get(info, 'telecom')
                             : 'Unknow'}
                         </Typography>
@@ -219,13 +219,13 @@ export const PatientInfoPanelView: React.FunctionComponent<{
                         >
                           {_.get(info, 'address')
                             ? `${
-                                _.isArray(_.get(info, 'address[0].line'))
-                                  ? _.join(_.get(info, 'address[0].line'), ' ')
-                                  : _.get(info, 'address[0].line')
-                              } ${_.get(info, 'address[0].postalCode')} ${_.get(
-                                info,
-                                'address[0].city',
-                              )} ${_.get(info, 'address[0].country')}`
+                            _.isArray(_.get(info, 'address[0].line'))
+                              ? _.join(_.get(info, 'address[0].line'), ' ')
+                              : _.get(info, 'address[0].line')
+                            } ${_.get(info, 'address[0].postalCode')} ${_.get(
+                              info,
+                              'address[0].city',
+                            )} ${_.get(info, 'address[0].country')}`
                             : 'Unknow'}
                         </Typography>
                       </Grid>
@@ -239,6 +239,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
         <Grid item xs={12} sm={12} md={6} lg={2}>
           <Grid
             container
+            direction='column'
             style={{
               alignContent: 'center',
               borderLeftColor: 'lightgray',
@@ -246,17 +247,34 @@ export const PatientInfoPanelView: React.FunctionComponent<{
               borderLeftWidth: 1,
               height: '100%',
               justifyContent: 'center',
+              width: '100%'
             }}
           >
-            <Avatar className={classes.bigAvatar}>
-              <Typography
-                variant='h4'
-                component='span'
-                style={{ color: 'white' }}
-              >
-                PH
+            <Typography
+              variant='body1'
+              component='div'
+              style={{ textAlign: 'center' }}
+            >
+              <Typography variant='h6' className={classes.nameTitle}>
+                Mr. Test
               </Typography>
-            </Avatar>
+            </Typography>
+
+            <Typography
+              component='div'
+              style={{ textAlign: 'center' }}
+            >
+              <Avatar className={classes.bigAvatar}>
+                <Typography
+                  variant='h4'
+                  component='span'
+                  style={{ color: 'white' }}
+                >
+                  PH
+              </Typography>
+              </Avatar>
+            </Typography>
+
           </Grid>
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={4}>

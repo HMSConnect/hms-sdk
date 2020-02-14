@@ -18,6 +18,7 @@ import {
 import { scaleTime } from 'd3-scale'
 import get from 'lodash/get'
 import maxBy from 'lodash/maxBy'
+import { lighten } from '@material-ui/core/styles'
 
 export interface IOptionsStyleGraphOption {
   color?: string
@@ -90,8 +91,8 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
         option={{
           isHideIcon: true,
           style: {
-            backgroundColor: '#ef5350',
-            color: '#e1f5fe',
+            backgroundColor: lighten('#ef5350', 0.85),
+            color: '#ef5350',
           },
         }}
       ></ToolbarWithFilter>

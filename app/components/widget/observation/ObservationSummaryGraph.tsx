@@ -24,6 +24,7 @@ import { parse } from '@utils'
 import { scaleTime } from 'd3-scale'
 import * as _ from 'lodash'
 import usePatient from '@components/hooks/usePatient'
+import { lighten } from '@material-ui/core/styles'
 
 const mapObservaionCode = (codes: string[]) => {
   return _.reduce(
@@ -133,7 +134,7 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
     const selectionPayload = parse(`${type}=${value}`)
     dispatch({
       payload: selectionPayload,
-      type: 'FILTER_ON_CHANGE',
+      type: 'FILTER_ON_CHANGE_SELECTION',
     })
   }
 
@@ -273,8 +274,8 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
           onClickIcon={showModal}
           option={{
             style: {
-              backgroundColor: '#ef5350',
-              color: '#e1f5fe',
+              backgroundColor: lighten('#7e57c2', 0.85),
+              color: '#7e57c2',
             },
           }}
         >
@@ -303,8 +304,8 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
         onClickIcon={showModal}
         option={{
           style: {
-            backgroundColor: '#ef5350',
-            color: '#e1f5fe',
+            backgroundColor: lighten('#7e57c2', 0.85),
+            color: '#7e57c2',
           },
         }}
       >
@@ -335,7 +336,6 @@ const ObservationSummaryGraphView: React.FunctionComponent<any> = ({
         argumentField='issuedDate'
         optionStyle={{
           color: '#e57373',
-          height: 700
         }}
         options={{
           ...options,

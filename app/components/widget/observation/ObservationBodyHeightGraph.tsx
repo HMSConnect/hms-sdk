@@ -19,6 +19,7 @@ import { scaleTime } from 'd3-scale'
 import get from 'lodash/get'
 import maxBy from 'lodash/maxBy'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
+import { lighten } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme: Theme) => ({
   summaryContainer: {
@@ -79,8 +80,8 @@ export const ObservationBodyHeightGraphView: React.FunctionComponent<{
         option={{
           isHideIcon: true,
           style: {
-            backgroundColor: '#004d40',
-            color: '#e1f5fe',
+            backgroundColor: lighten('#00b0ff', 0.85),
+            color: '#00b0ff',
           },
         }}
       ></ToolbarWithFilter>
@@ -108,7 +109,7 @@ export const ObservationBodyHeightGraphView: React.FunctionComponent<{
             </Typography>
             <Typography
               variant='body1'
-              style={{ fontSize: '1.5rem', color: '#ef5350' }}
+              style={{ fontSize: '1.5rem', color: '#00b0ff' }}
             >
               {lastData.value}
               {lastData.unit}

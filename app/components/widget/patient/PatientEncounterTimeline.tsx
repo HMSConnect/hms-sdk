@@ -24,6 +24,7 @@ import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
 import useInfinitScroll from '../../hooks/useInfinitScroll'
 import PatientEncounterList from '../../templates/PatientEncounterList'
+import { lighten } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme: Theme) => ({
   listRoot: { maxHeight: '60vh', overflow: 'auto' },
@@ -287,11 +288,12 @@ const PatientEncounterTimeline: React.FunctionComponent<{
           filterActive={countFilterActive(submitedFilter, initialFilter, [
             'periodStart_lt',
             'patientId',
+            'type'
           ])}
           option={{
             style: {
-              backgroundColor: '#303f9f',
-              color: '#e1f5fe',
+              backgroundColor: lighten('#5c6bc0', 0.85),
+              color: '#5c6bc0',
             },
           }}
         >

@@ -75,6 +75,14 @@ export const tableWithFilterReducer = (
         filter: {
           ...state.filter,
           ...action.payload,
+        },
+      }
+    case 'FILTER_ON_CHANGE_SELECTION':
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          ...action.payload,
           selection: {
             ...state.filter.selection,
             ...action.payload.selection,

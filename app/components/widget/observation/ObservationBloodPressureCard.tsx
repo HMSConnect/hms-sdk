@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core'
 import find from 'lodash/find'
 import get from 'lodash/get'
+import CardLayout, { CardHeader } from '@components/base/CardLayout'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -24,25 +25,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'space-between',
   },
   contentText: {
-    color: '#1b5e20',
-    // fontSize: '2rem',
+    fontWeight: 450
   },
-  footerContainer: { height: 36 },
-  headerCardTitle: {
-    color: 'grey',
+  unitText: {
+    fontWeight: 450
   },
-  headerContainer: { height: 64, backgroundColor: '#ddd4' },
-  iconCard: {
-    zoom: 3,
-  },
-  iconContainer: {
-    textAlign: 'center',
-  },
-  paperContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-  },
+  footerContainer: { height: 36, color: 'grey' }
 }))
 
 const ObservationBloodPressureCard: React.FunctionComponent<{ query: any }> = ({
@@ -78,24 +66,10 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
 }> = ({ observation }) => {
   const classes = useStyles()
   return (
-    <Paper className={classes.paperContainer} elevation={1}>
-      <Grid container alignItems='center' className={classes.headerContainer}>
-        <Grid item xs={3} style={{ paddingLeft: '1em' }}>
-          <Typography variant='body1'>
-            <Icon
-              style={{ color: '#c62828fa' }}
-              className={'fas fa-stethoscope'}
-            />
-          </Typography>
-        </Grid>
-        <Grid item xs={9} style={{ paddingRight: '1em' }}>
-          <Grid container justify='flex-end'>
-            <Typography variant='body1' className={classes.headerCardTitle}>
-              Blood Pressure
-            </Typography>
-          </Grid>
-        </Grid>
-      </Grid>
+    <CardLayout header='Blood Pressure' Icon={<Icon
+      style={{ color: '#c62828fa' }}
+      className={'fas fa-stethoscope'}
+    />}>
       <Grid
         container
         justify='center'
@@ -129,14 +103,16 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
                   value => value.code === 'Systolic Blood Pressure',
                 )
                   ? Number(
-                      find(
-                        get(observation, 'valueModal'),
-                        value => value.code === 'Systolic Blood Pressure',
-                      ).value,
-                    ).toFixed(2)
+                    find(
+                      get(observation, 'valueModal'),
+                      value => value.code === 'Systolic Blood Pressure',
+                    ).value,
+                  ).toFixed(2)
                   : 'N/A'}
               </Typography>{' '}
-              <span>{get(observation, 'unit') || ''}</span>
+              <Typography component='span'
+                variant='body1'
+                className={classes.unitText}>{get(observation, 'unit') || ''}</Typography>
             </div>
           </Typography>
           <Divider />
@@ -157,14 +133,16 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
                   value => value.code === 'Diastolic Blood Pressure',
                 )
                   ? Number(
-                      find(
-                        get(observation, 'valueModal'),
-                        value => value.code === 'Diastolic Blood Pressure',
-                      ).value,
-                    ).toFixed(2)
+                    find(
+                      get(observation, 'valueModal'),
+                      value => value.code === 'Diastolic Blood Pressure',
+                    ).value,
+                  ).toFixed(2)
                   : 'N/A'}
               </Typography>{' '}
-              <span>{get(observation, 'unit') || ''}</span>
+              <Typography component='span'
+                variant='body1'
+                className={classes.unitText}>{get(observation, 'unit') || ''}</Typography>
             </div>
           </Typography>
         </Grid>
@@ -175,10 +153,10 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
         alignContent='center'
         className={classes.footerContainer}
       >
-        <Typography variant='body2' className={classes.headerCardTitle}>
+        <Typography variant='body2' >
           {get(observation, 'issued')}
         </Typography>
       </Grid>
-    </Paper>
+    </CardLayout>
   )
 }

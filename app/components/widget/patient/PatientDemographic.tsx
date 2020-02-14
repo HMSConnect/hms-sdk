@@ -40,10 +40,8 @@ const useStyles = makeStyles(theme => ({
   },
   infoPanel: {
     padding: 8,
-    // height: '15em',
   },
   laboratoryCardContent: {
-    flex: 1,
     height: '34em',
     margin: 8,
     overflow: 'auto',
@@ -51,7 +49,6 @@ const useStyles = makeStyles(theme => ({
   menuList: {
     height: '50em',
     margin: 8,
-    // position: 'sticky',
     overflow: 'auto',
     top: 0,
   },
@@ -90,44 +87,19 @@ const PatientDemographic: React.FunctionComponent<{
           </div>
         </Grid>
         <Grid item xs={12} sm={12} lg={4} xl={5}>
-          <Paper className={classes.menuList}>
-            <ObservationSummaryGraph
-              query={query}
-              optionsGraph={{
-                standardSizeForResizeLegendToBottom: [
-                  'xsmall',
-                  'small',
-                  'large',
-                  'medium',
-                ],
-              }}
-            />
-            {/* <ObservationSummaryTestGraph
-              query={query}
-              optionsGraph={{
-                standardSizeForResizeLegendToBottom: [
-                  'xsmall',
-                  'small',
-                  'large',
-                  'medium',
-                ],
-              }}
-            /> */}
-          </Paper>
         </Grid>
       </Grid>
       <PatientLabResult query={query} />
+      <PatientSummaryFooter query={query} />
     </>
   )
 }
 
-const PatientLabResult: React.FunctionComponent<{
-  query: any
-}> = ({ query }) => {
+const PatientSummaryFooter: React.FunctionComponent<any> = ({ query }) => {
   const classes = useStyles()
-  return (
+  return <>
     <Grid container>
-      <Grid item xs={12} sm={12} md={8}>
+      <Grid item xs={12} sm={12} lg={7} xl={7}>
         <Paper className={classes.laboratoryCardContent}>
           <ObservationLaboratoryTable
             key={`ObservationLaboratoryTable${_.get(query, 'encounterId')}`}
@@ -138,6 +110,31 @@ const PatientLabResult: React.FunctionComponent<{
           />
         </Paper>
       </Grid>
+      <Grid item xs={12} sm={12} lg={5} xl={5}>
+        <Paper className={classes.laboratoryCardContent}>
+          <ObservationSummaryGraph
+            query={query}
+            optionsGraph={{
+              standardSizeForResizeLegendToBottom: [
+                'xsmall',
+                'small',
+                'large',
+                'medium',
+              ],
+            }}
+          />
+        </Paper>
+      </Grid>
+    </Grid>
+  </>
+}
+
+const PatientLabResult: React.FunctionComponent<{
+  query: any
+}> = ({ query }) => {
+  const classes = useStyles()
+  return (
+    <Grid container>
       <Grid item xs={12} sm={6} md={4}>
         <Paper className={classes.virtalSignCard}>
           <ObservationBloodPressureGraph

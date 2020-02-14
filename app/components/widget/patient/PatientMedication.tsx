@@ -24,6 +24,9 @@ import { sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  listPadding: {
+    paddingLeft: theme.spacing(1)
+  },
   tableWrapper: {
     ['& .MuiTableCell-stickyHeader']: {
       top: 60,
@@ -137,7 +140,7 @@ const PatientMedicationList: React.FunctionComponent<{
         ></ToolbarWithFilter>
       </div>
 
-      <List component='nav' aria-labelledby='nested-list-subheader'>
+      <List className={classes.listPadding} component='nav' aria-labelledby='nested-list-subheader'>
         {_.isEmpty(data) ? (
           <div style={{ padding: '1em', textAlign: 'center' }}>
             <Typography variant='body1'>No Medcation found</Typography>

@@ -15,27 +15,22 @@ import {
 } from '@material-ui/core'
 import clsx from 'clsx'
 import get from 'lodash/get'
+import CardLayout from '@components/base/CardLayout'
 
 const useStyles = makeStyles((theme: Theme) => ({
-  contentText: {
-    color: '#1b5e20',
-  },
-  footerContainer: { height: 36 },
-  headerCardTitle: {
-    color: 'grey',
-  },
-  headerContainer: { height: 64, backgroundColor: '#ddd4' },
-  iconCard: {
-    zoom: 3,
-  },
-  iconContainer: {
-    textAlign: 'center',
-  },
-  paperContainer: {
+  bodyCard: {
+    alignItems: 'flex-end',
     display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
+    justifyContent: 'space-between',
   },
+  contentText: {
+    fontWeight: 450
+  },
+  unitText: {
+    fontWeight: 450
+  },
+  footerContainer: { height: 36, color: 'grey' }
+
 }))
 const ObservationHeartbeatCard: React.FunctionComponent<{ query: any }> = ({
   query,
@@ -69,37 +64,16 @@ export const ObservationHeartbeatCardView: React.FunctionComponent<{
 }> = ({ observation }) => {
   const classes = useStyles()
   return (
-    <Paper className={classes.paperContainer} elevation={1}>
-      <Grid container alignItems='center' className={classes.headerContainer}>
-        <Grid item xs={2} style={{ paddingLeft: '1em' }}>
-          <Typography variant='body1'>
-            <Icon
-              style={{ color: '#c62828', paddingRight: 5 }}
-              className={clsx('fas fa-heartbeat')}
-            />
-          </Typography>
-        </Grid>
-        <Grid item xs={10} style={{ paddingRight: '1em' }}>
-          <Grid container justify='flex-end'>
-            <Typography variant='body1' className={classes.headerCardTitle}>
-              Heartbeat
-            </Typography>
-          </Grid>
-        </Grid>
-      </Grid>
-
+    <CardLayout header='Heartbeat' Icon={<Icon
+      style={{ color: '#c62828', paddingRight: 5 }}
+      className={clsx('fas fa-heartbeat')}
+    />}>
       <Grid
         container
         justify='center'
         alignItems='center'
         style={{ height: '100%' }}
       >
-        {/* <Grid item xs={6} className={classes.iconContainer}>
-          <Icon
-            style={{ zoom: 3, color: '#c62828' }}
-            className={clsx('fas fa-heartbeat', classes.iconCard)}
-          />
-        </Grid> */}
         <Grid
           xs={12}
           item
@@ -125,7 +99,9 @@ export const ObservationHeartbeatCardView: React.FunctionComponent<{
             >
               {get(observation, 'value') || 'N/A'}
             </Typography>
-            {get(observation, 'unit') || ''}
+            <Typography component='span' variant='body1' className={classes.unitText}>
+              {get(observation, 'unit') || ''}
+            </Typography>
           </Typography>
         </Grid>
       </Grid>
@@ -135,10 +111,11 @@ export const ObservationHeartbeatCardView: React.FunctionComponent<{
         alignContent='center'
         className={classes.footerContainer}
       >
-        <Typography variant='body2' className={classes.headerCardTitle}>
+        <Typography variant='body2' >
           {get(observation, 'issued')}
         </Typography>
       </Grid>
-    </Paper>
+    </CardLayout>
+
   )
 }
