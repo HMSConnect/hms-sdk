@@ -64,7 +64,6 @@ const PatientSearchResult: React.FunctionComponent<{
       <div className={classes.tableWrapper}>
         <Table stickyHeader>
           <EnhancedTableHead
-            classes={classes}
             order={order}
             orderBy={orderBy}
             onRequestSort={handleRequestSort}

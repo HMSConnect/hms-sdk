@@ -14,6 +14,15 @@ class SFHIRObservationV1Validator implements IValidator {
   parse(observation: any): any {
     const valueQuantity = _.get(observation, 'valueQuantity.value')
     // console.log('observation :', observation)
+
+    const referenceRange = _.get(observation, 'component') ? _.chain(observation.component).map((component) => {
+      return _.map(component.referenceRange, (ref) => {
+        return { ...ref, code: _.get(component, 'code.coding[0].code'), codeText: _.get(component, 'code.text') }
+      })
+    }).flatten().value() : _.map(observation.referenceRange, (ref) => {
+      return { ...ref, code: _.get(observation, 'code.coding[0].code'), codeText: _.get(observation, 'code.text') }
+    })
+
     return {
       categoryText: _.get(observation, 'category[0].coding[0].display'),
       codeText: _.get(observation, 'code.text'),
@@ -21,8 +30,8 @@ class SFHIRObservationV1Validator implements IValidator {
       display: observation.display,
       issued: _.get(observation, 'issued')
         ? moment
-            .default(_.get(observation, 'issued'))
-            .format(environment.localFormat.dateTime)
+          .default(_.get(observation, 'issued'))
+          .format(environment.localFormat.dateTime)
         : '',
       issuedDate: _.get(observation, 'issued')
         ? moment.default(_.get(observation, 'issued')).toDate()
@@ -32,28 +41,28 @@ class SFHIRObservationV1Validator implements IValidator {
         : _.get(observation, 'valueQuantity.unit'),
       value: observation.component
         ? _.chain(observation.component)
-            .map((c: any) => c.valueQuantity.value.toFixed(2))
-            .join('/')
-            .value()
+          .map((c: any) => c.valueQuantity.value.toFixed(2))
+          .join('/')
+          .value()
         : _.isNumber(valueQuantity)
-        ? Number(valueQuantity).toFixed(2)
-        : '',
+          ? Number(valueQuantity).toFixed(2)
+          : '',
       valueModal: observation.component
         ? _.chain(observation.component)
-            .map((c: any) => ({
-              code: c.code.text,
-              value: c.valueQuantity.value,
-            }))
-            .value()
+          .map((c: any) => ({
+            code: c.code.text,
+            value: c.valueQuantity.value,
+          }))
+          .value()
         : _.isNumber(valueQuantity)
-        ? [
+          ? [
             {
               code: observation.code.text,
               value: observation.valueQuantity.value,
             },
           ]
-        : valueQuantity,
-      referenceRange: observation.referenceRange,
+          : valueQuantity,
+      referenceRange: referenceRange,
     }
   }
 }

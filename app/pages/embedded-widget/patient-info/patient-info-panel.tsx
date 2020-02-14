@@ -15,7 +15,7 @@ const PatientInfoPanelWidget: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <BootstrapWrapper dependencies={['patient']}>
+    <BootstrapWrapper dependencies={['patient', 'allergy_intolerance']}>
       <>
         <CssBaseline />
         <Paper>

@@ -19,7 +19,7 @@ const DiagReportPatientData: React.FunctionComponent<{
   diagReportList: any[]
   name?: string
 }> = ({ diagReportList, name = 'diagReportPatientData' }) => {
-  const [tab, setTab] = useState<any[]>([])
+  const [tab, setTab] = useState<ITabList[]>([])
 
   const [data, setData] = useState<any[]>([])
   const classes = useStyles()

@@ -7,7 +7,7 @@ export interface IPromiseResult extends IQueryResult {
 }
 
 export function resolvePromise(
-  promise: Promise<IQueryResult> | (() => Promise<IQueryResult>)
+  promise: Promise<IQueryResult> | (() => Promise<IQueryResult>),
 ) {
   if (typeof promise === 'function') {
     return promise()
@@ -17,15 +17,16 @@ export function resolvePromise(
 
 export default function usePromise(
   fnPromise: Promise<IQueryResult> | (() => Promise<IQueryResult>),
-  inputs: any[] = []
+  inputs: any[] = [],
 ): IPromiseResult {
   const [result, setResult] = useState<IQueryResult>({
     data: {},
-    error: null
+    error: null,
   })
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
+    setIsLoading(true)
     resolvePromise(fnPromise)
       .then((result: any) => {
         setResult({ ...result, data: result.data || {}, error: null })
@@ -33,7 +34,7 @@ export default function usePromise(
       .catch((err: any) => {
         setResult((prevResult: IQueryResult) => ({
           ...prevResult,
-          error: err.message
+          error: err.message,
         }))
       })
       .finally(() => {

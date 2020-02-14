@@ -5,6 +5,7 @@ type TableWithFilterActionType =
   | 'UN_GROUP_BY'
   | 'CHANGE_TAB'
   | 'FILTER_ON_CHANGE'
+  | 'FILTER_ON_CHANGE_SELECTION'
 
 interface ITableWithFilterReducerAction {
   type: TableWithFilterActionType
@@ -74,6 +75,10 @@ export const tableWithFilterReducer = (
         filter: {
           ...state.filter,
           ...action.payload,
+          selection: {
+            ...state.filter.selection,
+            ...action.payload.selection,
+          },
         },
       }
   }

@@ -61,7 +61,7 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         sm={6}
         md={6}
         lg={6}
-        xl={4}
+        xl={6}
         className={classes.cardContent}
       >
         <ObservationBodyMeasurementCard query={query} />
@@ -72,18 +72,7 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         sm={6}
         md={6}
         lg={6}
-        xl={4}
-        className={classes.cardContent}
-      >
-        <ObservationTemperatureCard query={query} />
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        sm={6}
-        md={6}
-        lg={6}
-        xl={4}
+        xl={6}
         className={classes.cardContent}
       >
         <ObservationBloodPressureCard query={query} />
@@ -94,7 +83,18 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         sm={6}
         md={6}
         lg={6}
-        xl={4}
+        xl={6}
+        className={classes.cardContent}
+      >
+        <ObservationTemperatureCard query={query} />
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        sm={6}
+        md={6}
+        lg={6}
+        xl={6}
         className={classes.cardContent}
       >
         <ObservationHeartbeatCard query={query} />

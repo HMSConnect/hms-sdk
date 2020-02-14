@@ -22,20 +22,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(1),
     marginTop: '-7px',
   },
-  padding: {
-    height: '3em',
-    padding: theme.spacing(0, 2),
-  },
   root: {
     backgroundColor: theme.palette.background.paper,
     width: '100%',
-    // height: '100px'
   },
   truncateContainer: {
-    // height: '70%'
     height: '36px',
-    padding: theme.spacing(1)
-  }
+    padding: theme.spacing(1),
+  },
 }))
 function a11yProps(index: number) {
   return {
@@ -77,9 +71,7 @@ const TabGroup: React.FunctionComponent<{
                 max={999}
               >
                 <div className={classes.truncateContainer}>
-                  <Truncate className={classes.padding}>
-                    {tab[keyField]}
-                  </Truncate>
+                  <Truncate size={2}>{tab[keyField]}</Truncate>
                 </div>
               </Badge>
             }

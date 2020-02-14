@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) => {
 const ToolbarWithFilter: React.FC<{
   title?: string
   onClickIcon?: (event: any) => void
-  Icon?: any
+  Icon?: React.Component<any>
   filterActive?: number
   option?: IToolbarWithFilterOption
 }> = ({

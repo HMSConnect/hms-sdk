@@ -124,7 +124,10 @@ const PatientMedicationList: React.FunctionComponent<{
   }
 
   return (
-    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
+    <div
+      ref={myscroll}
+      style={{ overflow: 'auto', width: '100%', height: '100%' }}
+    >
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Medcation Request'}
@@ -142,7 +145,7 @@ const PatientMedicationList: React.FunctionComponent<{
         ) : (
           <>
             {_.map(data, (medication: any, index: number) => (
-              <ListItem key={`medication${index}`}>
+              <ListItem key={`medication${index}`} style={{ padding: '0 0' }}>
                 <ListItemIcon>
                   <FiberManualRecordIcon />
                 </ListItemIcon>

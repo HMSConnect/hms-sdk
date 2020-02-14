@@ -45,6 +45,7 @@ const TableFilterPanel: React.FC<{
               id={`${option.name}-${index}`}
               onChange={onParameterChange}
               choices={option.choices}
+              group={option.group}
             />
           </Grid>
         ))}
