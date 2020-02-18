@@ -14,10 +14,12 @@ import {
   Theme,
   Tooltip,
   Typography,
+  Fab,
 } from '@material-ui/core'
 import clsx from 'clsx'
 import * as _ from 'lodash'
 import CardLayout from '@components/base/CardLayout'
+import InfoIcon from '@material-ui/icons/Info';
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -36,7 +38,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const ObservationBodyMeasurementCard: React.FunctionComponent<{
   query: any
-}> = ({ query }) => {
+  onClick?: any
+}> = ({ query, onClick }) => {
   let params: IObservationListFilterQuery = {}
 
   params = {
@@ -59,14 +62,15 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
   if (isLoading) {
     return <LoadingSection />
   }
-  return <ObservationBodyMeasurementCardView observations={observationList} />
+  return <ObservationBodyMeasurementCardView observations={observationList} onClick={onClick} />
 }
 
 export default ObservationBodyMeasurementCard
 
 const ObservationBodyMeasurementCardView: React.FunctionComponent<{
   observations: any
-}> = ({ observations }) => {
+  onClick?: any
+}> = ({ observations, onClick }) => {
   const classes = useStyles()
   return (
 
@@ -109,11 +113,16 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               component='div'
               variant='body1'
               className={classes.bodyCard}
+              onClick={() => onClick ? onClick('BODY_HEIGHT') : null}
             >
               <Typography
                 variant='body2'
               >
                 Height{' '}
+                {/* <Fab size="small" color="primary" aria-label="add">
+                  <InfoIcon style={{ zoom: 1 }} />
+                </Fab> */}
+
               </Typography>
               <div>
                 <Typography
@@ -168,6 +177,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               component='div'
               variant='body1'
               className={classes.bodyCard}
+              onClick={() => onClick ? onClick('BODY_WEIGHT') : null}
             >
               <Typography
                 variant='body2'
@@ -227,6 +237,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               component='div'
               variant='body1'
               className={classes.bodyCard}
+              onClick={() => onClick ? onClick('BODY_MASS_INDEX') : null}
             >
               <Typography
                 variant='body2'
@@ -278,6 +289,6 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
             : ''}
         </Typography>
       </Grid>
-    </CardLayout>
+    </CardLayout >
   )
 }

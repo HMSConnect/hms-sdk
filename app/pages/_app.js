@@ -9,12 +9,23 @@ import RouteManager from '../routes/RouteManager'
 import { HMSService } from '../services/HMSServiceFactory' // Initial singleton HMSService
 import * as _ from 'lodash'
 import { ThemeProvider } from '@material-ui/core/styles'
+import { appContextReducer, appContextState, AppContext } from '../reducers/appContext.reducer'
 
 // import 'react-grid-layout/css/styles.css'
 // import 'react-resizable/css/styles.css'
 
 
+const AppContextProvider = ({ children }) => {
+  const [state, appDispatch] = React.useReducer(appContextReducer, appContextState)
+  return <AppContext.Provider value={{
+    ...state,
+    appDispatch
+  }}> {children}</AppContext.Provider>
+}
+
+
 class AASApp extends App {
+
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {}
     if (Component.getInitialProps) {
@@ -22,6 +33,7 @@ class AASApp extends App {
     }
     return { pageProps }
   }
+
   constructor(props) {
     super(props)
     if (typeof window !== 'undefined') {
@@ -45,11 +57,13 @@ class AASApp extends App {
         <Head>
           <title>HMS Widget SDK</title>
         </Head>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <AppContextProvider>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </AppContextProvider>
       </>
     )
   }

@@ -61,7 +61,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
   const classes = useStyles()
   return (
     <div style={{ height: '100%' }}>
-      <Grid container style={{ paddingLeft: '2em' }}>
+      <Grid container spacing={1} style={{ paddingLeft: '2em' }}>
         <Grid item sm={12} md={12} lg={6}>
           <div className={classes.root}>
             <Grid container spacing={3}>
@@ -247,7 +247,7 @@ export const PatientInfoPanelView: React.FunctionComponent<{
               borderLeftWidth: 1,
               height: '100%',
               justifyContent: 'center',
-              width: '100%'
+              width: '100%',
             }}
           >
             <Typography

@@ -5,6 +5,7 @@ import ObservationBloodPressureCard from '../observation/ObservationBloodPressur
 import ObservationBodyMeasurementCard from '../observation/ObservationBodyMeasurementCard'
 import ObservationHeartbeatCard from '../observation/ObservationHeartbeatCard'
 import ObservationTemperatureCard from '../observation/ObservationTemperatureCard'
+import { AppContext } from '@app/reducers/appContext.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -53,6 +54,18 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
+  // const { appDispatch } = React.useContext(AppContext)
+  const context: any = React.useContext(AppContext)
+  const handleClickCard = (name: string) => {
+    context.appDispatch({
+      type: 'UPDATE_STATE', payload: {
+        name: 'DEMOGRAPHIC_SUMMARY_WIDGET', value: {
+          selectedCard: name
+        }
+      }
+    })
+  }
+
   return (
     <Grid container>
       <Grid
@@ -64,7 +77,10 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         xl={6}
         className={classes.cardContent}
       >
-        <ObservationBodyMeasurementCard query={query} />
+        <ObservationBodyMeasurementCard query={{
+          ...query,  
+          selectedCard: 'BLOOD_PRESSURE'
+        }} onClick={handleClickCard} />
       </Grid>
       <Grid
         item
@@ -75,7 +91,7 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         xl={6}
         className={classes.cardContent}
       >
-        <ObservationBloodPressureCard query={query} />
+        <ObservationBloodPressureCard query={query} onClick={handleClickCard} />
       </Grid>
       <Grid
         item

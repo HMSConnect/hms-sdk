@@ -15,6 +15,7 @@ import PatientDemograhicSummary from './PatientDemograhicSummary'
 import PatientEncounterTimeline from './PatientEncounterTimeline'
 import PatientInfoPanel from './PatientInfoPanel'
 import PatientMedicationList from './PatientMedication'
+import ObservaionHistoryGraph from '../observation/ObservationHistoryGraph'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -30,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   associatedPatientCard: {
     flex: 1,
     height: '15em',
-    margin: 8,
+    margin: theme.spacing(1),
     marginTop: 0,
     overflow: 'auto',
     paddingBottom: '1em',
@@ -39,28 +40,29 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
   },
   infoPanel: {
-    padding: 8,
+    padding: theme.spacing(1),
+    margin: theme.spacing(1),
   },
   laboratoryCardContent: {
     height: '34em',
-    margin: 8,
+    margin: theme.spacing(1),
     overflow: 'auto',
   },
   menuList: {
     height: '50em',
-    margin: 8,
+    margin: theme.spacing(1),
     overflow: 'auto',
     top: 0,
   },
   patientContent: {
     flex: 1,
     height: '100',
-    margin: 8,
+    margin: theme.spacing(1),
   },
   root: { height: '100%', display: 'flex' },
   virtalSignCard: {
     flex: 1,
-    margin: 8,
+    margin: theme.spacing(1),
     overflow: 'auto',
   },
 }))
@@ -86,10 +88,13 @@ const PatientDemographic: React.FunctionComponent<{
             <PatientDetailSub query={query} name={name} />
           </div>
         </Grid>
-        {/* <Grid item xs={12} sm={12} lg={4} xl={5}>
-        </Grid> */}
+        <Grid item xs={12} sm={12} lg={4} xl={5}>
+          <div className={classes.menuList}>
+            <ObservaionHistoryGraph query={query} />
+          </div>
+        </Grid>
       </Grid>
-      <PatientLabResult query={query} />
+      {/* <PatientLabResult query={query} /> */}
       <PatientSummaryFooter query={query} />
     </>
   )

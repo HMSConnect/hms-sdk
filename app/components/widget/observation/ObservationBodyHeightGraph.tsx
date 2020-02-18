@@ -85,42 +85,45 @@ export const ObservationBodyHeightGraphView: React.FunctionComponent<{
           },
         }}
       ></ToolbarWithFilter>
-      <GraphBase
-        data={observationList}
-        argumentField='issuedDate'
-        optionStyle={{
-          color: '#00b0ff',
-          ...optionStyle,
-          height: optionStyle && optionStyle.height && optionStyle.height - 200,
-        }}
-        options={{
-          ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
-          ValueScale: <ValueScale modifyDomain={() => [80, 200]} />,
-          type: 'area',
-        }}
-      />
-      <Divider />
-      <Paper className={classes.summaryContainer}>
-        {lastData ? (
-          <>
-            {' '}
-            <Typography variant='body1' style={{}}>
-              {lastData.issued}
-            </Typography>
-            <Typography
-              variant='body1'
-              style={{ fontSize: '1.5rem', color: '#00b0ff' }}
-            >
-              {lastData.value}
-              {lastData.unit}
-            </Typography>
-          </>
-        ) : (
-          <Typography variant='h6' style={{}}>
-            N/A
+      <Paper>
+        <GraphBase
+          data={observationList}
+          argumentField='issuedDate'
+          optionStyle={{
+            color: '#00b0ff',
+            ...optionStyle,
+            height: optionStyle && optionStyle.height && optionStyle.height - 200,
+          }}
+          options={{
+            ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
+            ValueScale: <ValueScale modifyDomain={() => [80, 200]} />,
+            type: 'area',
+          }}
+        />
+        <Divider />
+        <div className={classes.summaryContainer}>
+          {lastData ? (
+            <>
+              {' '}
+              <Typography variant='body1' style={{}}>
+                {lastData.issued}
+              </Typography>
+              <Typography
+                variant='body1'
+                style={{ fontSize: '1.5rem', color: '#00b0ff' }}
+              >
+                {lastData.value}
+                {lastData.unit}
+              </Typography>
+            </>
+          ) : (
+              <Typography variant='h6' style={{}}>
+                N/A
           </Typography>
-        )}
+            )}
+        </div>
       </Paper>
+
     </>
   )
 }

@@ -41,6 +41,19 @@ const MAP_COLOR_WITH_OBSERVATION: any = {
   normalBodyMassIndexHigh: {
     color: 'grey',
   },
+  // normalDiastolicBloodPressureHigh: {
+  //   color: 'blue',
+  // },
+  // normalDiastolicBloodPressureLow: {
+  //   color: 'blue',
+  // },
+ 
+  // normalSystolicBloodPressureHigh: {
+  //   color: '#e57373',
+  // },
+  // normalSystolicBloodPressureLow: {
+  //   color: '#e57373',
+  // },
   diastolicBloodPressure: {
     color: 'blue',
   },

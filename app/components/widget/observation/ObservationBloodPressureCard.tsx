@@ -33,8 +33,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   footerContainer: { height: 36, color: 'grey' }
 }))
 
-const ObservationBloodPressureCard: React.FunctionComponent<{ query: any }> = ({
+const ObservationBloodPressureCard: React.FunctionComponent<{ query: any, onClick?: any }> = ({
   query,
+  onClick
 }) => {
   const params: IObservationListFilterQuery = {
     code: OBSERVATION_CODE.BLOOD_PRESSURE.code,
@@ -56,115 +57,119 @@ const ObservationBloodPressureCard: React.FunctionComponent<{ query: any }> = ({
   if (isLoading) {
     return <LoadingSection />
   }
-  return <ObservationBloodPressureCardView observation={observationList[0]} />
+  return <ObservationBloodPressureCardView observation={observationList[0]} onClick={onClick} />
 }
 
 export default ObservationBloodPressureCard
 
 export const ObservationBloodPressureCardView: React.FunctionComponent<{
   observation: any
-}> = ({ observation }) => {
+  onClick?: any
+}> = ({ observation, onClick }) => {
   const classes = useStyles()
   return (
     <CardLayout header='Blood Pressure' Icon={<Icon
       style={{ color: '#c62828fa' }}
       className={'fas fa-stethoscope'}
     />}>
-      <Grid
-        container
-        justify='center'
-        alignItems='center'
-        style={{ height: '100%' }}
-      >
+      <div onClick={() => onClick ? onClick('BLOOD_PRESSURE') : null} >
         <Grid
-          xs={12}
-          item
           container
-          direction='column'
-          style={{
-            paddingLeft: 16,
-            paddingRight: 16,
-          }}
+          justify='center'
+          alignItems='center'
+          style={{ height: '100%' }}
         >
-          <Typography
-            component='div'
-            variant='body2'
-            className={classes.bodyCard}
+          <Grid
+            xs={12}
+            item
+            container
+            direction='column'
+            style={{
+              paddingLeft: 16,
+              paddingRight: 16,
+            }}
           >
             <Typography
+              component='div'
               variant='body2'
+              className={classes.bodyCard}
             >
-              SYS{' '}
-            </Typography>
-            <div>
               <Typography
-                component='span'
-                variant='h5'
-                className={classes.contentText}
+                variant='body2'
               >
-                {find(
-                  get(observation, 'valueModal'),
-                  value => value.code === 'Systolic Blood Pressure',
-                )
-                  ? Number(
-                    find(
-                      get(observation, 'valueModal'),
-                      value => value.code === 'Systolic Blood Pressure',
-                    ).value,
-                  ).toFixed(2)
-                  : 'N/A'}
-              </Typography>{' '}
-              <Typography component='span'
-                variant='body1'
-                className={classes.unitText}>{get(observation, 'unit') || ''}</Typography>
-            </div>
-          </Typography>
-          <Divider />
-          <Typography
-            component='div'
-            variant='body2'
-            className={classes.bodyCard}
-          >
+                SYS{' '}
+              </Typography>
+              <div>
+                <Typography
+                  component='span'
+                  variant='h5'
+                  className={classes.contentText}
+                >
+                  {find(
+                    get(observation, 'valueModal'),
+                    value => value.code === 'Systolic Blood Pressure',
+                  )
+                    ? Number(
+                      find(
+                        get(observation, 'valueModal'),
+                        value => value.code === 'Systolic Blood Pressure',
+                      ).value,
+                    ).toFixed(2)
+                    : 'N/A'}
+                </Typography>{' '}
+                <Typography component='span'
+                  variant='body1'
+                  className={classes.unitText}>{get(observation, 'unit') || ''}</Typography>
+              </div>
+            </Typography>
+            <Divider />
             <Typography
+              component='div'
               variant='body2'
+              className={classes.bodyCard}
             >
-              DAI{' '}
-            </Typography>
-            <div>
               <Typography
-                component='span'
-                variant='h5'
-                className={classes.contentText}
+                variant='body2'
               >
-                {find(
-                  get(observation, 'valueModal'),
-                  value => value.code === 'Diastolic Blood Pressure',
-                )
-                  ? Number(
-                    find(
-                      get(observation, 'valueModal'),
-                      value => value.code === 'Diastolic Blood Pressure',
-                    ).value,
-                  ).toFixed(2)
-                  : 'N/A'}
-              </Typography>{' '}
-              <Typography component='span'
-                variant='body1'
-                className={classes.unitText}>{get(observation, 'unit') || ''}</Typography>
-            </div>
+                DAI{' '}
+              </Typography>
+              <div>
+                <Typography
+                  component='span'
+                  variant='h5'
+                  className={classes.contentText}
+                >
+                  {find(
+                    get(observation, 'valueModal'),
+                    value => value.code === 'Diastolic Blood Pressure',
+                  )
+                    ? Number(
+                      find(
+                        get(observation, 'valueModal'),
+                        value => value.code === 'Diastolic Blood Pressure',
+                      ).value,
+                    ).toFixed(2)
+                    : 'N/A'}
+                </Typography>{' '}
+                <Typography component='span'
+                  variant='body1'
+                  className={classes.unitText}>{get(observation, 'unit') || ''}</Typography>
+              </div>
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          justify='center'
+          alignContent='center'
+          className={classes.footerContainer}
+        >
+          <Typography variant='body2' >
+            {get(observation, 'issued')}
           </Typography>
         </Grid>
-      </Grid>
-      <Grid
-        container
-        justify='center'
-        alignContent='center'
-        className={classes.footerContainer}
-      >
-        <Typography variant='body2' >
-          {get(observation, 'issued')}
-        </Typography>
-      </Grid>
+      </div>
+
     </CardLayout>
   )
 }
