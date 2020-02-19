@@ -1,7 +1,7 @@
 import * as React from 'react'
 
+import LoadingSection from '@components/base/LoadingSection'
 import useEncounterList from '@components/hooks/useEncounterList'
-import { CircularProgress } from '@material-ui/core'
 import RouteManager from '@routes/RouteManager'
 import { sendMessage } from '@utils'
 import * as _ from 'lodash'
@@ -37,7 +37,7 @@ const PreparePatientData: React.FunctionComponent<any> = ({ query }) => {
       routes.Router.replaceRoute(path)
     }
   }, [encounter, isPatientLoading])
-  return <CircularProgress />
+  return <LoadingSection />
 }
 
 export default PreparePatientData
