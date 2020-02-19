@@ -31,12 +31,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const ObservationBodyWeightGraph: React.FunctionComponent<{
+const ObservationBodyTemperatureGraph: React.FunctionComponent<{
   query: any
   optionStyle?: IOptionsStyleGraphOption
 }> = ({ query, optionStyle }) => {
   const params = {
-    code: OBSERVATION_CODE.BODY_WEIGHT.code,
+    code: OBSERVATION_CODE.BODY_TEMPERATURE.code,
     // encounterId: get(query, 'encounterId'),
     patientId: get(query, 'patientId'),
   } as IObservationListFilterQuery
@@ -57,7 +57,7 @@ const ObservationBodyWeightGraph: React.FunctionComponent<{
   }
   return (
     <>
-      <ObservationBodyWeightGraphView
+      <ObservationBodyTemperatureGraphView
         observationList={observationList}
         optionStyle={optionStyle}
       />
@@ -65,9 +65,9 @@ const ObservationBodyWeightGraph: React.FunctionComponent<{
   )
 }
 
-export default ObservationBodyWeightGraph
+export default ObservationBodyTemperatureGraph
 
-export const ObservationBodyWeightGraphView: React.FunctionComponent<{
+export const ObservationBodyTemperatureGraphView: React.FunctionComponent<{
   observationList: any
   optionStyle?: IOptionsStyleGraphOption
 }> = ({ observationList, optionStyle }) => {
@@ -77,12 +77,12 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
   return (
     <>
       <ToolbarWithFilter
-        title={'Body Weight'}
+        title={'Body Temperature'}
         option={{
           isHideIcon: true,
           style: {
-            backgroundColor: lighten('#3d5afe', 0.85),
-            color: '#3d5afe',
+            backgroundColor: lighten('#afb42b', 0.85),
+            color: '#afb42b',
           },
         }}
       ></ToolbarWithFilter>
@@ -91,7 +91,7 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
           data={observationList}
           argumentField='issuedDate'
           optionStyle={{
-            color: '#3d5afe',
+            color: '#afb42b',
             ...optionStyle,
             height:
               optionStyle && optionStyle.height && optionStyle.height - 200,
@@ -112,7 +112,7 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
               </Typography>
               <Typography
                 variant='body1'
-                style={{ fontSize: '1.5rem', color: '#3d5afe' }}
+                style={{ fontSize: '1.5rem', color: '#afb42b' }}
               >
                 {lastData.value}
                 {lastData.unit}

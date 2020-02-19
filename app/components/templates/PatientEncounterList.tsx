@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   root: {},
   headerText: {
-    fontWeight: 450
+    fontWeight: 450,
   },
   contentText: {
     color: '#37474f',
@@ -86,63 +86,63 @@ const PatientEncounterList: React.FunctionComponent<{
   onLazyLoad,
   selectedEncounterId,
 }) => {
-    const [selectedIndex, setSelectedIndex] = React.useState(
-      findIndex(entryList, { id: selectedEncounterId }),
-    )
+  const [selectedIndex, setSelectedIndex] = React.useState(
+    findIndex(entryList, { id: selectedEncounterId }),
+  )
 
-    React.useEffect(() => {
-      const activeIndex = findIndex(entryList, {
-        id: selectedEncounterId,
-      })
-      if (activeIndex >= 0) {
-        setSelectedIndex(activeIndex)
-      }
-    }, [entryList])
-    const handleEncounterSelected = (
-      event: React.MouseEvent,
-      selectedEncounter: any,
-      index: number,
-    ) => {
-      setSelectedIndex(index)
-      onEntrySelected(event, selectedEncounter)
+  React.useEffect(() => {
+    const activeIndex = findIndex(entryList, {
+      id: selectedEncounterId,
+    })
+    if (activeIndex >= 0) {
+      setSelectedIndex(activeIndex)
     }
-    return (
-      <>
-        <List disablePadding={true} aria-labelledby='nested-list-subheader'>
-          {map(entryList, (entry, index) => (
-            <React.Fragment key={'encounterItem' + index}>
-              <EncounterListItem
-                data={entry}
-                onEntrySelected={handleEncounterSelected}
-                index={index}
-                selectedIndex={selectedIndex}
-              />
-              <Divider />
-            </React.Fragment>
-          ))}
-          {isMore ? (
-            <ListItem style={{ textAlign: 'center' }}>
-              {isLoading ? (
-                <ListItemText style={{ textAlign: 'center' }}>
-                  <CircularProgress />
-                </ListItemText>
-              ) : onLazyLoad ? (
-                <ListItemSecondaryAction>
-                  <Button
-                    variant='contained'
-                    color='primary'
-                    onClick={onLazyLoad}
-                  >
-                    <Typography variant='body1'>Load More</Typography>
-                  </Button>
-                </ListItemSecondaryAction>
-              ) : null}
-            </ListItem>
-          ) : null}
-        </List>
-      </>
-    )
+  }, [entryList])
+  const handleEncounterSelected = (
+    event: React.MouseEvent,
+    selectedEncounter: any,
+    index: number,
+  ) => {
+    setSelectedIndex(index)
+    onEntrySelected(event, selectedEncounter)
   }
+  return (
+    <>
+      <List disablePadding={true} aria-labelledby='nested-list-subheader'>
+        {map(entryList, (entry, index) => (
+          <React.Fragment key={'encounterItem' + index}>
+            <EncounterListItem
+              data={entry}
+              onEntrySelected={handleEncounterSelected}
+              index={index}
+              selectedIndex={selectedIndex}
+            />
+            <Divider />
+          </React.Fragment>
+        ))}
+        {isMore ? (
+          <ListItem style={{ textAlign: 'center' }}>
+            {isLoading ? (
+              <ListItemText style={{ textAlign: 'center' }}>
+                <CircularProgress />
+              </ListItemText>
+            ) : onLazyLoad ? (
+              <ListItemSecondaryAction>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  onClick={onLazyLoad}
+                >
+                  <Typography variant='body1'>Load More</Typography>
+                </Button>
+              </ListItemSecondaryAction>
+            ) : null}
+          </ListItem>
+        ) : null}
+      </List>
+    </>
+  )
+}
 
 export default PatientEncounterList
 
@@ -184,7 +184,12 @@ const EncounterListItem: React.FunctionComponent<{
   }
   return (
     <>
-      <ListItem style={{ paddingRight: '80px' }} button onClick={handleClick} selected={selectedIndex === index}>
+      <ListItem
+        style={{ paddingRight: '80px' }}
+        button
+        onClick={handleClick}
+        selected={selectedIndex === index}
+      >
         <div className={classes.line}></div>
         <ListItemIcon>
           <>
@@ -232,7 +237,6 @@ const EncounterListItem: React.FunctionComponent<{
                 color='textSecondary'
               >
                 {get(data, 'status') || 'Unknow'}
-
               </Typography>
             </>
           }
@@ -266,38 +270,69 @@ const EncounterListItem: React.FunctionComponent<{
                   primary={
                     <>
                       <div>
-                        <Typography variant='body2' component='span' className={classes.topicTitle}>
-                          ประเภทการรักษา : {' '}
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.topicTitle}
+                        >
+                          ประเภทการรักษา :{' '}
                         </Typography>
-                        <Typography variant='body2' component='span' className={classes.contentText}>
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.contentText}
+                        >
                           {get(data, 'type') || 'Unknow'}
                         </Typography>
                       </div>
                       <div>
-                        <Typography variant='body2' component='span' className={classes.topicTitle}>
-                          ผลการวินิจฉัย : {' '}
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.topicTitle}
+                        >
+                          ผลการวินิจฉัย :{' '}
                         </Typography>
-                        <Typography variant='body2' component='span' className={classes.contentText}>
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.contentText}
+                        >
                           {get(data, 'reason') || 'Unknow'}
                         </Typography>
                       </div>
                       <div>
-                        <Typography variant='body2' component='span' className={classes.topicTitle}>
-                          Class Code : {' '}
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.topicTitle}
+                        >
+                          Class Code :{' '}
                         </Typography>
-                        <Typography variant='body2' component='span' className={classes.contentText}>
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.contentText}
+                        >
                           {get(data, 'classCode') || 'Unknow'}
                         </Typography>
                       </div>
                       <div>
-                        <Typography variant='body2' component='span' className={classes.topicTitle}>
-                          Practition : {' '}
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.topicTitle}
+                        >
+                          Practition :{' '}
                         </Typography>
-                        <Typography variant='body2' component='span' className={classes.contentText}>
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.contentText}
+                        >
                           {get(data, 'participant[0].name') || 'Unknow'}
                         </Typography>
                       </div>
-
                     </>
                   }
                 />

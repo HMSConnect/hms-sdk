@@ -1,11 +1,13 @@
 import * as React from 'react'
 
 import { Grid, makeStyles, Theme } from '@material-ui/core'
+import * as _ from 'lodash'
+import { useDispatch, useSelector } from 'react-redux'
+import { cardClick } from '../../../actions/patientDemographic.action'
 import ObservationBloodPressureCard from '../observation/ObservationBloodPressureCard'
 import ObservationBodyMeasurementCard from '../observation/ObservationBodyMeasurementCard'
 import ObservationHeartbeatCard from '../observation/ObservationHeartbeatCard'
 import ObservationTemperatureCard from '../observation/ObservationTemperatureCard'
-import { AppContext } from '@app/reducers/appContext.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -45,26 +47,30 @@ const PatientDemograhicSummary: React.FunctionComponent<{
   query: any
   name?: string
 }> = ({ query, name = 'patientDemographicSummary' }) => {
-  return <PatientDemographicSummaryView query={query} />
+  const patientDemographicState = useSelector(
+    (state: any) => state.patientDemographic,
+  )
+  const dispatch = useDispatch()
+  const handleClickCard = (name: string) => {
+    dispatch(cardClick(name))
+  }
+  return (
+    <PatientDemographicSummaryView
+      query={query}
+      onClickCard={handleClickCard}
+      selectedCard={_.get(patientDemographicState, 'selectedCard')}
+    />
+  )
 }
 
 export default PatientDemograhicSummary
 
 export const PatientDemographicSummaryView: React.FunctionComponent<{
   query: any
-}> = ({ query }) => {
+  onClickCard?: any
+  selectedCard?: string
+}> = ({ query, onClickCard, selectedCard }) => {
   const classes = useStyles()
-  // const { appDispatch } = React.useContext(AppContext)
-  const context: any = React.useContext(AppContext)
-  const handleClickCard = (name: string) => {
-    context.appDispatch({
-      type: 'UPDATE_STATE', payload: {
-        name: 'DEMOGRAPHIC_SUMMARY_WIDGET', value: {
-          selectedCard: name
-        }
-      }
-    })
-  }
 
   return (
     <Grid container>
@@ -77,10 +83,14 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         xl={6}
         className={classes.cardContent}
       >
-        <ObservationBodyMeasurementCard query={{
-          ...query,  
-          selectedCard: 'BLOOD_PRESSURE'
-        }} onClick={handleClickCard} />
+        <ObservationBodyMeasurementCard
+          query={{
+            ...query,
+            selectedCard: 'BLOOD_PRESSURE',
+          }}
+          onClick={onClickCard}
+          selectedCard={selectedCard}
+        />
       </Grid>
       <Grid
         item
@@ -91,7 +101,11 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         xl={6}
         className={classes.cardContent}
       >
-        <ObservationBloodPressureCard query={query} onClick={handleClickCard} />
+        <ObservationBloodPressureCard
+          query={query}
+          onClick={onClickCard}
+          selectedCard={selectedCard}
+        />
       </Grid>
       <Grid
         item
@@ -102,7 +116,11 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         xl={6}
         className={classes.cardContent}
       >
-        <ObservationTemperatureCard query={query} />
+        <ObservationTemperatureCard
+          query={query}
+          onClick={onClickCard}
+          selectedCard={selectedCard}
+        />
       </Grid>
       <Grid
         item
@@ -113,7 +131,11 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         xl={6}
         className={classes.cardContent}
       >
-        <ObservationHeartbeatCard query={query} />
+        <ObservationHeartbeatCard
+          query={query}
+          onClick={onClickCard}
+          selectedCard={selectedCard}
+        />
       </Grid>
     </Grid>
   )

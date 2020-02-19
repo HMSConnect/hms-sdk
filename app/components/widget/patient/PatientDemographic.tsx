@@ -9,13 +9,13 @@ import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import ObservationBloodPressureGraph from '../observation/ObservationBloodPressureGraph'
 import ObservationBodyHeightGraph from '../observation/ObservationBodyHeightGraph'
 import ObservationBodyWeightGraph from '../observation/ObservationBodyWeightGraph'
+import ObservaionHistoryGraph from '../observation/ObservationHistoryGraph'
 import ObservationLaboratoryTable from '../observation/ObservationLaboratoryTable'
 import ObservationSummaryGraph from '../observation/ObservationSummaryGraph'
 import PatientDemograhicSummary from './PatientDemograhicSummary'
 import PatientEncounterTimeline from './PatientEncounterTimeline'
 import PatientInfoPanel from './PatientInfoPanel'
 import PatientMedicationList from './PatientMedication'
-import ObservaionHistoryGraph from '../observation/ObservationHistoryGraph'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -40,8 +40,8 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
   },
   infoPanel: {
-    padding: theme.spacing(1),
     margin: theme.spacing(1),
+    padding: theme.spacing(1),
   },
   laboratoryCardContent: {
     height: '34em',
@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
   },
   menuList: {
-    height: '50em',
+    height: '42em',
     margin: theme.spacing(1),
     overflow: 'auto',
     top: 0,
@@ -76,7 +76,7 @@ const PatientDemographic: React.FunctionComponent<{
     <>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} lg={9} xl={10}>
-          <Paper className={classes.infoPanel} >
+          <Paper className={classes.infoPanel}>
             <PatientInfoPanel query={query} />
           </Paper>
         </Grid>
@@ -89,9 +89,9 @@ const PatientDemographic: React.FunctionComponent<{
           </div>
         </Grid>
         <Grid item xs={12} sm={12} lg={4} xl={5}>
-          <div className={classes.menuList}>
-            <ObservaionHistoryGraph query={query} />
-          </div>
+          {/* <div className={classes.menuList}> */}
+          <ObservaionHistoryGraph query={query} />
+          {/* </div> */}
         </Grid>
       </Grid>
       {/* <PatientLabResult query={query} /> */}
@@ -102,36 +102,38 @@ const PatientDemographic: React.FunctionComponent<{
 
 const PatientSummaryFooter: React.FunctionComponent<any> = ({ query }) => {
   const classes = useStyles()
-  return <>
-    <Grid container>
-      <Grid item xs={12} sm={12} lg={7} xl={7}>
-        <Paper className={classes.laboratoryCardContent}>
-          <ObservationLaboratoryTable
-            key={`ObservationLaboratoryTable${_.get(query, 'encounterId')}`}
-            patientId={_.get(query, 'patientId')}
-            encounterId={_.get(query, 'encounterId')}
-            isInitialize={true}
-            max={query.max}
-          />
-        </Paper>
+  return (
+    <>
+      <Grid container>
+        <Grid item xs={12} sm={12} lg={7} xl={7}>
+          <Paper className={classes.laboratoryCardContent}>
+            <ObservationLaboratoryTable
+              key={`ObservationLaboratoryTable${_.get(query, 'encounterId')}`}
+              patientId={_.get(query, 'patientId')}
+              encounterId={_.get(query, 'encounterId')}
+              isInitialize={true}
+              max={query.max}
+            />
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={12} lg={5} xl={5}>
+          <Paper className={classes.laboratoryCardContent}>
+            <ObservationSummaryGraph
+              query={query}
+              optionsGraph={{
+                standardSizeForResizeLegendToBottom: [
+                  'xsmall',
+                  'small',
+                  'large',
+                  'medium',
+                ],
+              }}
+            />
+          </Paper>
+        </Grid>
       </Grid>
-      <Grid item xs={12} sm={12} lg={5} xl={5}>
-        <Paper className={classes.laboratoryCardContent}>
-          <ObservationSummaryGraph
-            query={query}
-            optionsGraph={{
-              standardSizeForResizeLegendToBottom: [
-                'xsmall',
-                'small',
-                'large',
-                'medium',
-              ],
-            }}
-          />
-        </Paper>
-      </Grid>
-    </Grid>
-  </>
+    </>
+  )
 }
 
 const PatientLabResult: React.FunctionComponent<{

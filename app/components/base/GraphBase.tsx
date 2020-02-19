@@ -19,7 +19,7 @@ import { area, curveCatmullRom, symbol, symbolCircle } from 'd3-shape'
 import * as _ from 'lodash'
 import * as moment from 'moment'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
-import { Tooltip as TooltipMatterial } from '@material-ui/core';
+import { Tooltip as TooltipMatterial } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
 interface IGraphLineOption {
@@ -47,7 +47,7 @@ const MAP_COLOR_WITH_OBSERVATION: any = {
   // normalDiastolicBloodPressureLow: {
   //   color: 'blue',
   // },
- 
+
   // normalSystolicBloodPressureHigh: {
   //   color: '#e57373',
   // },
@@ -96,7 +96,7 @@ const LegendRoot: React.FunctionComponent<Legend.RootProps> = (
         margin: 'auto',
         width: '100%',
         maxHeight: '15em',
-        overflow: 'auto'
+        overflow: 'auto',
       }}
     />
   )
@@ -105,41 +105,49 @@ const LegendRoot: React.FunctionComponent<Legend.RootProps> = (
 const LightTooltip = withStyles(theme => ({
   tooltip: {
     backgroundColor: '#555',
-    color: '#fff',
     boxShadow: theme.shadows[1],
+    color: '#fff',
     fontSize: '0.8rem',
   },
-}))(TooltipMatterial);
+}))(TooltipMatterial)
 
 const LegendItem: React.FunctionComponent<Legend.ItemProps> = (
   props: Legend.ItemProps,
 ) => {
   return (
     <>
-      <LightTooltip placement='top' title={_.get(props, 'children[0].props.name')} style={{ fontSize: '0.8rem' }}>
+      <LightTooltip
+        placement='top'
+        title={_.get(props, 'children[0].props.name')}
+        style={{ fontSize: '0.8rem' }}
+      >
         <Legend.Item
           {...props}
           style={{
-            width: '100px',
             flexDirection: 'column',
             marginLeft: '-2px',
             marginRight: '-2px',
+            width: '100px',
           }}
         />
       </LightTooltip>
-
     </>
   )
 }
 
-const LegendLabel: React.FunctionComponent<Legend.LabelProps> = (props) => {
-  return <Legend.Label {...props} style={{
-    WebkitBoxOrient: 'vertical',
-    WebkitLineClamp: 2,
-    display: '-webkit-box',
-    overflow: 'hidden',
-    fontSize: '0.8rem'
-  }} />
+const LegendLabel: React.FunctionComponent<Legend.LabelProps> = props => {
+  return (
+    <Legend.Label
+      {...props}
+      style={{
+        WebkitBoxOrient: 'vertical',
+        WebkitLineClamp: 2,
+        display: '-webkit-box',
+        overflow: 'hidden',
+        fontSize: '0.8rem',
+      }}
+    />
+  )
 }
 
 const ValueLabel = (props: any) => {
@@ -196,34 +204,48 @@ const DashLineWithCirclePoint: React.FunctionComponent<any> = (props: any) => {
     </>
   )
 }
-const TooltipArrow: React.FunctionComponent<Tooltip.ArrowProps> = (props) => {
-  return <Tooltip.Arrow {...props} style={{
-    color: '#555',
-  }} />
+const TooltipArrow: React.FunctionComponent<Tooltip.ArrowProps> = props => {
+  return (
+    <Tooltip.Arrow
+      {...props}
+      style={{
+        color: '#555',
+      }}
+    />
+  )
 }
 
-const TooltipOverley: React.FunctionComponent<Tooltip.OverlayProps> = (props) => {
-  return <Tooltip.Overlay {...props} style={{
-    position: 'absolute',
-    borderRadius: '6px',
-    marginLeft: '-60px',
-    bottom: '125%',
-    left: '50%',
-    padding: '0.5em',
-    zIndex: 3000,
-  }} />
+const TooltipOverley: React.FunctionComponent<Tooltip.OverlayProps> = props => {
+  return (
+    <Tooltip.Overlay
+      {...props}
+      style={{
+        borderRadius: '6px',
+        bottom: '125%',
+        left: '50%',
+        marginLeft: '-60px',
+        position: 'absolute',
+        zIndex: 3000,
+      }}
+    />
+  )
 }
 
-const ToolTipSheet: React.FunctionComponent<Tooltip.SheetProps> = (props) => {
-  return <Tooltip.Sheet {...props} style={{
-    backgroundColor: '#555',
-    color: '#fff',
-    opacity: 1,
-    padding: '5px 0',
-    textAlign: 'center',
-    transition: 'opacity 0.3s',
-    width: '100%',
-  }} />
+const ToolTipSheet: React.FunctionComponent<Tooltip.SheetProps> = props => {
+  return (
+    <Tooltip.Sheet
+      {...props}
+      style={{
+        backgroundColor: '#555',
+        color: '#fff',
+        opacity: 1,
+        padding: '1em',
+        textAlign: 'center',
+        transition: 'opacity 0.3s',
+        width: '100%',
+      }}
+    />
+  )
 }
 
 const TooltipContent: React.FunctionComponent<{
@@ -235,15 +257,13 @@ const TooltipContent: React.FunctionComponent<{
       // <div style={{ display: 'flex', flexDirection: 'column' }}>
       //   <div className={classes.tooltiptext}>
       //     {
-      <div >
+      <div>
         {_.map(graphData[targetElement.point], (value, key) => (
           <Typography variant='body2' key={`tooltipText${key}`}>
             <>
               {_.truncate(_.startCase(key), { length: 40 })} :
-                {_.isDate(value)
-                ? moment
-                  .default(value)
-                  .format(environment.localFormat.dateTime)
+              {_.isDate(value)
+                ? moment.default(value).format(environment.localFormat.dateTime)
                 : Number(value).toFixed(2)}
             </>
           </Typography>
@@ -251,10 +271,16 @@ const TooltipContent: React.FunctionComponent<{
       </div>
       //     }
       //    </div>
-      // </div> 
+      // </div>
     )
   }
-  return <Tooltip overlayComponent={TooltipOverley} sheetComponent={ToolTipSheet} contentComponent={TooltipContentComponent} />
+  return (
+    <Tooltip
+      overlayComponent={TooltipOverley}
+      sheetComponent={ToolTipSheet}
+      contentComponent={TooltipContentComponent}
+    />
+  )
 }
 
 const GraphBase: React.FunctionComponent<{
@@ -277,82 +303,82 @@ const GraphBase: React.FunctionComponent<{
     valueUnit: '',
   },
 }) => {
-    const [graphData, setGraphData] = React.useState<any[]>([])
-    const [isLoading, setIsLoading] = React.useState<boolean>(true)
+  const [graphData, setGraphData] = React.useState<any[]>([])
+  const [isLoading, setIsLoading] = React.useState<boolean>(true)
 
-    React.useEffect(() => {
-      if (data) {
-        prepareGraphData(data)
-      }
-    }, [])
-    const prepareGraphData = (data: any) => {
-      let newValue: any[] = []
-      if (!options.customPrepareGraphData) {
-        newValue = _.chain(data)
-          .map(item => {
-            const objectData = _.reduce(
-              valueField ? item[valueField] : item['valueModal'],
-              (acc, v) => {
-                const key = _.camelCase(v.code)
-                return {
-                  ...acc,
-                  [key]: v.value,
-                }
-              },
-              {},
-            )
-
-            return {
-              ...objectData,
-              [argumentField]: item[argumentField],
-            }
-          })
-          .value()
-      } else {
-        newValue = options.customPrepareGraphData(data)
-      }
-
-      setGraphData(newValue)
-      setIsLoading(false)
+  React.useEffect(() => {
+    if (data) {
+      prepareGraphData(data)
     }
-    if (isLoading) {
-      return null
+  }, [])
+  const prepareGraphData = (data: any) => {
+    let newValue: any[] = []
+    if (!options.customPrepareGraphData) {
+      newValue = _.chain(data)
+        .map(item => {
+          const objectData = _.reduce(
+            valueField ? item[valueField] : item['valueModal'],
+            (acc, v) => {
+              const key = _.camelCase(v.code)
+              return {
+                ...acc,
+                [key]: v.value,
+              }
+            },
+            {},
+          )
+
+          return {
+            ...objectData,
+            [argumentField]: item[argumentField],
+          }
+        })
+        .value()
+    } else {
+      newValue = options.customPrepareGraphData(data)
     }
 
-    const renderGraph = (type?: 'line' | 'area') => {
-      switch (type) {
-        case 'line':
-          return (
-            <GraphLine
-              graphData={graphData}
-              argumentField={argumentField}
-              options={options}
-              optionStyle={optionStyle}
-            />
-          )
-        case 'area':
-          return (
-            <GraphArea
-              graphData={graphData}
-              argumentField={argumentField}
-              options={options}
-              optionStyle={optionStyle}
-            />
-          )
-        default:
-          return (
-            <GraphLine
-              graphData={graphData}
-              argumentField={argumentField}
-              options={options}
-              optionStyle={optionStyle}
-            />
-          )
-      }
-    }
-
-    return renderGraph(options.type)
+    setGraphData(newValue)
+    setIsLoading(false)
   }
+  if (isLoading) {
+    return null
+  }
+
+  const renderGraph = (type?: 'line' | 'area') => {
+    switch (type) {
+      case 'line':
+        return (
+          <GraphLine
+            graphData={graphData}
+            argumentField={argumentField}
+            options={options}
+            optionStyle={optionStyle}
+          />
+        )
+      case 'area':
+        return (
+          <GraphArea
+            graphData={graphData}
+            argumentField={argumentField}
+            options={options}
+            optionStyle={optionStyle}
+          />
+        )
+      default:
+        return (
+          <GraphLine
+            graphData={graphData}
+            argumentField={argumentField}
+            options={options}
+            optionStyle={optionStyle}
+          />
+        )
+    }
+  }
+
+  return renderGraph(options.type)
+}
 
 export const GraphLine: React.FunctionComponent<{
   graphData: any
@@ -437,20 +463,20 @@ export const GraphLine: React.FunctionComponent<{
           options.standardSizeForResizeLegendToBottom,
           standardSize,
         ) ? (
-            <Legend
-              key={`legend-bottom${standardSize}`}
-              position={'bottom'}
-              markerComponent={(props: any) => <Marker {...props} />}
-              rootComponent={LegendRoot}
-              itemComponent={LegendItem}
-              labelComponent={LegendLabel}
-            />
-          ) : (
-            <Legend
-              key={`legend-right${standardSize}`}
-              markerComponent={Marker}
-            />
-          )
+          <Legend
+            key={`legend-bottom${standardSize}`}
+            position={'bottom'}
+            markerComponent={(props: any) => <Marker {...props} />}
+            rootComponent={LegendRoot}
+            itemComponent={LegendItem}
+            labelComponent={LegendLabel}
+          />
+        ) : (
+          <Legend
+            key={`legend-right${standardSize}`}
+            markerComponent={Marker}
+          />
+        )
       ) : null}
     </Chart>
   )
@@ -505,7 +531,7 @@ export const GraphArea: React.FunctionComponent<{
               valueField={key}
               argumentField={argumentField}
               optionStyle={optionStyle}
-            // optionStyle={MAP_COLOR_WITH_OBSERVATION[key]}
+              // optionStyle={MAP_COLOR_WITH_OBSERVATION[key]}
             />
           </React.Fragment>
         )

@@ -15,6 +15,7 @@ import {
   mergeWithEncounterInitialFilterQuery,
 } from '@data-managers/EncounterDataManager'
 import { makeStyles, Theme } from '@material-ui/core'
+import { lighten } from '@material-ui/core/styles'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 import routes from '../../../routes'
@@ -24,7 +25,6 @@ import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
 import useInfinitScroll from '../../hooks/useInfinitScroll'
 import PatientEncounterList from '../../templates/PatientEncounterList'
-import { lighten } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme: Theme) => ({
   listRoot: { maxHeight: '60vh', overflow: 'auto' },
@@ -288,7 +288,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
           filterActive={countFilterActive(submitedFilter, initialFilter, [
             'periodStart_lt',
             'patientId',
-            'type'
+            'type',
           ])}
           option={{
             style: {
