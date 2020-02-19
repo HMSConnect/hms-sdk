@@ -14,7 +14,6 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core'
-import InfoIcon from '@material-ui/icons/Info'
 import clsx from 'clsx'
 import find from 'lodash/find'
 import get from 'lodash/get'

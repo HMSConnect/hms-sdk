@@ -4,6 +4,7 @@ module.exports = nextRoutes()
   //////////////////////////////// demo-app /////////////////////////////////
   .add('index', '/')
   .add('patient-search')
+  // .add('login')
   // .add(
   //   'patient-info/encounter',
   //   '/patient-info/:patientId/encounter/:encounterId',
@@ -13,20 +14,16 @@ module.exports = nextRoutes()
     '/patient-info/patient-medical-records',
     'patient-info/patient-encounter-medical-record',
   )
-  .add(
-    'patient-demographic',
-    '/patient-demographic',
-    'patient-info/encounter/index',
-  )
+  .add('patient-summary', '/patient-summary', 'patient-info/encounter/index')
   .add(
     'patient-info/patient-info-with-table',
     '/patient-info-with-table',
     'patient-info/patient-info-with-table',
   )
   .add(
-    'prepare/patient-demographic',
-    '/prepare/patient-demographic',
-    'prepare/patient-demographic',
+    'prepare/patient-summary',
+    '/prepare/patient-summary',
+    'prepare/patient-summary',
   ) //////////////////////////////// embedded-widget /////////////////////////////////
   .add('embedded-widget')
   .add(
@@ -43,9 +40,9 @@ module.exports = nextRoutes()
   //   '/embedded-widget/patient-info/:patientId/encounter/:encounterId',
   // )
   .add(
-    'embedded-widget/patient-demographic',
-    '/embedded-widget/patient-demographic',
-    'embedded-widget/patient-info/patient-demographic',
+    'embedded-widget/patient-summary',
+    '/embedded-widget/patient-summary',
+    'embedded-widget/patient-info/patient-summary',
   )
   .add(
     'embedded-widget/patient-encounter-medical-record',
@@ -53,9 +50,9 @@ module.exports = nextRoutes()
     'embedded-widget/patient-info/encounter/patient-encounter-medical-record',
   )
   .add(
-    'embedded-widget/patient-info/demographic-summary',
-    '/embedded-widget/patient-info/demographic-summary',
-    'embedded-widget/patient-info/patient-demographic-summary',
+    'embedded-widget/patient-info/summary-cards',
+    '/embedded-widget/patient-info/summary-cards',
+    'embedded-widget/patient-info/patient-summary-cards',
   )
   .add(
     'embedded-widget/patient-info/encounter-timeline',
@@ -70,9 +67,9 @@ module.exports = nextRoutes()
   )
 
   .add(
-    'embedded-widget/patient-info/patient-info-panel',
-    '/embedded-widget/patient-info/patient-info-panel',
-    'embedded-widget/patient-info/patient-info-panel',
+    'embedded-widget/patient-info/patient-demographic',
+    '/embedded-widget/patient-info/patient-demographic',
+    'embedded-widget/patient-info/patient-demographic',
   )
   .add(
     'embedded-widget/medical-records',
@@ -199,7 +196,7 @@ module.exports = nextRoutes()
   ) ////////////////// Observation Graph End /////////////////////////
 
   .add(
-    'embedded-widget/prepare/patient-demographic',
-    '/embedded-widget/prepare/patient-demographic',
-    'embedded-widget/prepare/patient-demographic',
+    'embedded-widget/prepare/patient-summary',
+    '/embedded-widget/prepare/patient-summary',
+    'embedded-widget/prepare/patient-summary',
   )

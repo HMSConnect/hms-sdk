@@ -24,18 +24,18 @@ const ObservaionHistoryGraph: React.FunctionComponent<{
 }> = ({ query }) => {
   const [Component, setComponent] = React.useState<any>(<EmptyComponent />)
   const classes = useStyles()
-  const patientDemographicState = useSelector(
-    (state: any) => state.patientDemographic,
+  const patientSummaryCardsState = useSelector(
+    (state: any) => state.patientSummaryCards,
   )
 
   React.useEffect(() => {
     setComponent(
       renderGraph(
-        _.get(patientDemographicState, 'selectedCard') ||
+        _.get(patientSummaryCardsState, 'selectedCard') ||
           _.get(query, 'selectedCard'),
       ),
     )
-  }, [query, patientDemographicState])
+  }, [query, patientSummaryCardsState])
 
   const renderGraph = (selected: string) => {
     switch (selected) {

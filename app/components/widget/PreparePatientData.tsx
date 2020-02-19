@@ -24,7 +24,7 @@ const PreparePatientData: React.FunctionComponent<any> = ({ query }) => {
         encounterId: _.get(encounter[0], 'id'),
         patientId: _.get(query, 'patientId'),
       }
-      const path = RouteManager.getPath(`patient-demographic`, {
+      const path = RouteManager.getPath(`patient-summary`, {
         matchBy: 'url',
         params: newParams,
       })

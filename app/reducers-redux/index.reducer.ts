@@ -1,8 +1,7 @@
 import { combineReducers, createStore } from 'redux'
-import patientDemographic from './patientDemographic.reducer'
-
+import patientSummaryCards from './patientSummaryCards.reducer'
 export const rootReducer = combineReducers({
-  patientDemographic,
+  patientSummaryCards,
 })
 
 const store = createStore(rootReducer)

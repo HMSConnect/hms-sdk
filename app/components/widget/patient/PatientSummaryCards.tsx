@@ -1,9 +1,10 @@
 import * as React from 'react'
 
 import { Grid, makeStyles, Theme } from '@material-ui/core'
+import { sendMessage } from '@utils'
 import * as _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
-import { cardClick } from '../../../actions/patientDemographic.action'
+import { cardClick } from '../../../actions/patientsummaryCards.action'
 import ObservationBloodPressureCard from '../observation/ObservationBloodPressureCard'
 import ObservationBodyMeasurementCard from '../observation/ObservationBodyMeasurementCard'
 import ObservationHeartbeatCard from '../observation/ObservationHeartbeatCard'
@@ -43,29 +44,36 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const PatientDemograhicSummary: React.FunctionComponent<{
+const PatientSummaryCards: React.FunctionComponent<{
   query: any
   name?: string
-}> = ({ query, name = 'patientDemographicSummary' }) => {
-  const patientDemographicState = useSelector(
-    (state: any) => state.patientDemographic,
+}> = ({ query, name = 'PatientSummaryCards' }) => {
+  const patientSummaryCardsState = useSelector(
+    (state: any) => state.patientSummaryCards,
   )
   const dispatch = useDispatch()
-  const handleClickCard = (name: string) => {
-    dispatch(cardClick(name))
+  const handleCardClick = (cardName: string) => {
+    dispatch(cardClick(cardName))
+    sendMessage({
+      message: 'handleCardClick',
+      name,
+      params: {
+        cardName,
+      },
+    })
   }
   return (
-    <PatientDemographicSummaryView
+    <PatientSummaryCardsView
       query={query}
-      onClickCard={handleClickCard}
-      selectedCard={_.get(patientDemographicState, 'selectedCard')}
+      onClickCard={handleCardClick}
+      selectedCard={_.get(patientSummaryCardsState, 'selectedCard')}
     />
   )
 }
 
-export default PatientDemograhicSummary
+export default PatientSummaryCards
 
-export const PatientDemographicSummaryView: React.FunctionComponent<{
+export const PatientSummaryCardsView: React.FunctionComponent<{
   query: any
   onClickCard?: any
   selectedCard?: string
