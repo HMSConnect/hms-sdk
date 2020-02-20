@@ -2,11 +2,12 @@ import * as React from 'react'
 
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientDemographic from '@components/widget/patient/PatientDemographic'
+import PatientSummary from '@components/widget/patient/PatientSummary'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import { IStatelessPage } from '@pages/patient-search'
 import * as _ from 'lodash'
+
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     // height: '100vh',
@@ -55,7 +56,7 @@ const EncounterPage: IStatelessPage<{
                 },
               ]}
             ></BreadcrumbsBase>
-            <PatientDemographic query={query} name={_.get(query, 'name')} />
+            <PatientSummary query={query} name={_.get(query, 'name')} />
             {/* <PatientInfoDetail query={query} /> */}
           </Typography>
           {/* </Container> */}

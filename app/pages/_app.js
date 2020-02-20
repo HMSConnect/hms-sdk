@@ -1,31 +1,20 @@
 import * as React from 'react'
-import App, { Container } from 'next/app'
-import Head from 'next/head'
+
 import CssBaseline from '@material-ui/core/CssBaseline'
+import { ThemeProvider } from '@material-ui/core/styles'
+import * as _ from 'lodash'
+import App from 'next/app'
+import Head from 'next/head'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import { AdapterManager } from '../adapters/DataAdapterManager'
+import store from '../reducers-redux/index.reducer'
+import RouteManager from '../routes/RouteManager'
 import theme from '../src/theme'
 
-import { AdapterManager } from '../adapters/DataAdapterManager'
-import RouteManager from '../routes/RouteManager'
-import { HMSService } from '../services/HMSServiceFactory' // Initial singleton HMSService
-import * as _ from 'lodash'
-import { ThemeProvider } from '@material-ui/core/styles'
-import { appContextReducer, appContextState, AppContext } from '../reducers/appContext.reducer'
-
-// import 'react-grid-layout/css/styles.css'
-// import 'react-resizable/css/styles.css'
-
-
-const AppContextProvider = ({ children }) => {
-  const [state, appDispatch] = React.useReducer(appContextReducer, appContextState)
-  return <AppContext.Provider value={{
-    ...state,
-    appDispatch
-  }}> {children}</AppContext.Provider>
-}
 
 
 class AASApp extends App {
-
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {}
     if (Component.getInitialProps) {
@@ -54,16 +43,18 @@ class AASApp extends App {
 
     return (
       <>
-        <Head>
-          <title>HMS Widget SDK</title>
-        </Head>
-        <AppContextProvider>
+        <Provider store={store}>
+          <Head>
+            <title>HMS Widget SDK</title>
+          </Head>
+          {/* <AppContextProvider> */}
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             <Component {...pageProps} />
           </ThemeProvider>
-        </AppContextProvider>
+          {/* </AppContextProvider> */}
+        </Provider>
       </>
     )
   }

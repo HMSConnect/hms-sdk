@@ -1,40 +1,53 @@
 import * as React from 'react'
 
+import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
-import {
-  Grid,
-  Icon,
-  makeStyles,
-  Paper,
-  Theme,
-  Typography,
-} from '@material-ui/core'
+import { Grid, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
 import clsx from 'clsx'
 import get from 'lodash/get'
-import CardLayout from '@components/base/CardLayout'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
-    alignItems: 'flex-end',
+    alignItems: 'center',
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+  },
+  clickable: {
+    cursor: 'pointer',
   },
   contentText: {
-    fontWeight: 450
+    fontWeight: 'normal',
+  },
+  footerContainer: { height: 36, color: 'grey' },
+  hover: {
+    '&:hover': {
+      backgroundColor: '#ddd4',
+    },
+    textDecoration: 'none',
+  },
+  infoIcon: {
+    color: '#1976d2',
+    zoom: 0.7,
+  },
+  selectedCard: {
+    backgroundColor: '#ddd4',
+    border: '2px solid #00b0ff',
+    borderRadius: 4,
   },
   unitText: {
-    fontWeight: 450
+    fontWeight: 'normal',
   },
-  footerContainer: { height: 36, color: 'grey' }
 }))
 
-const ObservationTemperatureCard: React.FunctionComponent<any> = ({
-  query,
-}) => {
+const ObservationTemperatureCard: React.FunctionComponent<{
+  query: any
+  onClick?: any
+  selectedCard?: any
+}> = ({ query, onClick, selectedCard }) => {
   const params = {
     code: OBSERVATION_CODE.BODY_TEMPERATURE.code,
     encounterId: get(query, 'encounterId'),
@@ -54,50 +67,72 @@ const ObservationTemperatureCard: React.FunctionComponent<any> = ({
   if (isLoading) {
     return <LoadingSection />
   }
-  return <ObservationTemperatureCardView observation={observationList[0]} />
+  return (
+    <ObservationTemperatureCardView
+      observation={observationList[0]}
+      onClick={onClick}
+      selectedCard={selectedCard}
+    />
+  )
 }
 
 export default ObservationTemperatureCard
-export const ObservationTemperatureCardView: React.FunctionComponent<any> = ({
-  observation,
-}) => {
+export const ObservationTemperatureCardView: React.FunctionComponent<{
+  observation: any
+  onClick?: any
+  selectedCard?: any
+}> = ({ observation, onClick, selectedCard }) => {
   const classes = useStyles()
   return (
-    <CardLayout header='Temperature' Icon={<Icon
-      style={{ color: '#cddc39' }}
-      className={clsx('fas fa-thermometer-quarter')}
-    />}>
+    <CardLayout
+      header='Temperature'
+      Icon={
+        <Icon
+          style={{ color: '#cddc39' }}
+          className={clsx('fas fa-thermometer-quarter')}
+        />
+      }
+    >
       <Grid
         container
         justify='center'
         alignItems='center'
         style={{ height: '100%' }}
       >
-        <Grid
-          xs={12}
-          item
-          container
-          direction='column'
-        >
+        <Grid xs={12} item container direction='column'>
           <Typography
             component='div'
             variant='body1'
             style={{
-              alignItems: 'center',
-              display: 'flex',
-              justifyContent: 'center',
+              paddingLeft: 16,
+              paddingRight: 16,
             }}
+            className={clsx(
+              classes.bodyCard,
+              classes.clickable,
+              classes.hover,
+              selectedCard === OBSERVATION_CODE.BODY_TEMPERATURE.value
+                ? classes.selectedCard
+                : null,
+            )}
+            onClick={() =>
+              onClick ? onClick(OBSERVATION_CODE.BODY_TEMPERATURE.value) : null
+            }
           >
             <div>
               <Typography
                 component='span'
-                variant='h5'
+                variant='h3'
                 className={classes.contentText}
                 style={{ paddingRight: 8 }}
               >
                 {get(observation, 'value') || 'N/A'}
               </Typography>{' '}
-              <Typography component='span' variant='body1' className={classes.unitText}>
+              <Typography
+                component='span'
+                variant='h4'
+                className={classes.unitText}
+              >
                 {get(observation, 'unit') || ''}
               </Typography>
             </div>
@@ -110,11 +145,10 @@ export const ObservationTemperatureCardView: React.FunctionComponent<any> = ({
         alignContent='center'
         className={classes.footerContainer}
       >
-        <Typography variant='body2' >
-          {get(observation, 'issued') || ''}
+        <Typography variant='body2'>
+          {get(observation, 'issued') || '2018/05/15 14:22'}
         </Typography>
       </Grid>
-
     </CardLayout>
   )
 }

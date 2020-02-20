@@ -1,42 +1,77 @@
 import * as React from 'react'
-import { AppContext } from '@app/reducers/appContext.reducer'
-import ObservationBodyWeightGraph from './ObservationBodyWeightGraph'
-import ObservationBloodPressureGraph from './ObservationBloodPressureGraph'
+
+import { OBSERVATION_CODE } from '@config/observation'
+import { makeStyles, Paper, Typography } from '@material-ui/core'
 import * as _ from 'lodash'
+import { useSelector } from 'react-redux'
+import ObservationBloodPressureGraph from './ObservationBloodPressureGraph'
 import ObservationBodyHeightGraph from './ObservationBodyHeightGraph'
+import ObservationBodyMassIndexGraph from './ObservationBodyMassIndexGraph'
+import ObservationBodyTemperatureGraph from './ObservationBodyTemperatureGraph'
+import ObservationBodyWeightGraph from './ObservationBodyWeightGraph'
+import ObservationHeartbeatGraph from './ObservationHeartbeatGraph'
 
-const ObservaionHistoryGraph: React.FunctionComponent<any> = ({ query }) => {
-    const context: any = React.useContext(AppContext)
-    const [Component, setComponent] = React.useState<any>(<EmptyComponent />)
+const useStyles = makeStyles(theme => ({
+  virtalSignCard: {
+    height: '100%',
+    margin: theme.spacing(1),
+    overflow: 'auto',
+  },
+}))
 
-    React.useEffect(() => {
-        setComponent(renderGraph(_.get(context, 'DEMOGRAPHIC_SUMMARY_WIDGET.selectedCard') || _.get(query, 'selectedCard')))
-    }, [query, context.DEMOGRAPHIC_SUMMARY_WIDGET])
+const ObservaionHistoryGraph: React.FunctionComponent<{
+  query: any
+}> = ({ query }) => {
+  const [Component, setComponent] = React.useState<any>(<EmptyComponent />)
+  const classes = useStyles()
+  const patientSummaryCardsState = useSelector(
+    (state: any) => state.patientSummaryCards,
+  )
 
-    const renderGraph = (selected: string) => {
-        switch (selected) {
-            case 'BODY_MEASUREMENT':
-                return (<ObservationBodyWeightGraph query={query} />)
-            case 'BODY_HEIGHT':
-                return (<ObservationBodyHeightGraph query={query} />)
-            case 'BODY_WEIGHT':
-                return (<ObservationBodyWeightGraph query={query} />)
-            case 'BLOOD_PRESSURE':
-                return (<ObservationBloodPressureGraph query={query} />)
-            default: return (<EmptyComponent />)
-        }
+  React.useEffect(() => {
+    setComponent(
+      renderGraph(
+        _.get(patientSummaryCardsState, 'selectedCard') ||
+          _.get(query, 'selectedCard'),
+      ),
+    )
+  }, [query, patientSummaryCardsState])
+
+  const renderGraph = (selected: string) => {
+    switch (selected) {
+      case OBSERVATION_CODE.BODY_WEIGHT.value:
+        return <ObservationBodyWeightGraph query={query} />
+      case OBSERVATION_CODE.BODY_HEIGHT.value:
+        return <ObservationBodyHeightGraph query={query} />
+      case OBSERVATION_CODE.BODY_MASS_INDEX.value:
+        return <ObservationBodyMassIndexGraph query={query} />
+      case OBSERVATION_CODE.BLOOD_PRESSURE.value:
+        return <ObservationBloodPressureGraph query={query} />
+      case OBSERVATION_CODE.BODY_TEMPERATURE.value:
+        return <ObservationBodyTemperatureGraph query={query} />
+      case OBSERVATION_CODE.HEARTBEAT.value:
+        return <ObservationHeartbeatGraph query={query} />
+      default:
+        return <EmptyComponent />
     }
-    return <>
-        <div style={{ height: '100%' }}>
-            {/* {renderGraph(_.get(context, 'DEMOGRAPHIC_SUMMARY_WIDGET.selectedCard') || _.get(query, 'selectedCard'))} */}
-            {Component}
-        </div>
-    </>
+  }
+  return <div className={classes.virtalSignCard}>{Component}</div>
 }
 
 export default ObservaionHistoryGraph
 
 const EmptyComponent: React.FunctionComponent<any> = () => {
-    return <>Empty</>
+  const classes = useStyles()
+  return (
+    <Paper
+      className={classes.virtalSignCard}
+      style={{
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <Typography>Empty</Typography>
+    </Paper>
+  )
 }
-

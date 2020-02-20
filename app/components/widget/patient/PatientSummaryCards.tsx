@@ -1,11 +1,14 @@
 import * as React from 'react'
 
 import { Grid, makeStyles, Theme } from '@material-ui/core'
+import { sendMessage } from '@utils'
+import * as _ from 'lodash'
+import { useDispatch, useSelector } from 'react-redux'
+import { cardClick } from '../../../actions/patientsummaryCards.action'
 import ObservationBloodPressureCard from '../observation/ObservationBloodPressureCard'
 import ObservationBodyMeasurementCard from '../observation/ObservationBodyMeasurementCard'
 import ObservationHeartbeatCard from '../observation/ObservationHeartbeatCard'
 import ObservationTemperatureCard from '../observation/ObservationTemperatureCard'
-import { AppContext } from '@app/reducers/appContext.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -41,30 +44,41 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const PatientDemograhicSummary: React.FunctionComponent<{
+const PatientSummaryCards: React.FunctionComponent<{
   query: any
   name?: string
-}> = ({ query, name = 'patientDemographicSummary' }) => {
-  return <PatientDemographicSummaryView query={query} />
-}
-
-export default PatientDemograhicSummary
-
-export const PatientDemographicSummaryView: React.FunctionComponent<{
-  query: any
-}> = ({ query }) => {
-  const classes = useStyles()
-  // const { appDispatch } = React.useContext(AppContext)
-  const context: any = React.useContext(AppContext)
-  const handleClickCard = (name: string) => {
-    context.appDispatch({
-      type: 'UPDATE_STATE', payload: {
-        name: 'DEMOGRAPHIC_SUMMARY_WIDGET', value: {
-          selectedCard: name
-        }
-      }
+}> = ({ query, name = 'PatientSummaryCards' }) => {
+  const patientSummaryCardsState = useSelector(
+    (state: any) => state.patientSummaryCards,
+  )
+  const dispatch = useDispatch()
+  const handleCardClick = (cardName: string) => {
+    dispatch(cardClick(cardName))
+    sendMessage({
+      message: 'handleCardClick',
+      name,
+      params: {
+        cardName,
+      },
     })
   }
+  return (
+    <PatientSummaryCardsView
+      query={query}
+      onClickCard={handleCardClick}
+      selectedCard={_.get(patientSummaryCardsState, 'selectedCard')}
+    />
+  )
+}
+
+export default PatientSummaryCards
+
+export const PatientSummaryCardsView: React.FunctionComponent<{
+  query: any
+  onClickCard?: any
+  selectedCard?: string
+}> = ({ query, onClickCard, selectedCard }) => {
+  const classes = useStyles()
 
   return (
     <Grid container>
@@ -77,10 +91,14 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         xl={6}
         className={classes.cardContent}
       >
-        <ObservationBodyMeasurementCard query={{
-          ...query,  
-          selectedCard: 'BLOOD_PRESSURE'
-        }} onClick={handleClickCard} />
+        <ObservationBodyMeasurementCard
+          query={{
+            ...query,
+            selectedCard: 'BLOOD_PRESSURE',
+          }}
+          onClick={onClickCard}
+          selectedCard={selectedCard}
+        />
       </Grid>
       <Grid
         item
@@ -91,7 +109,11 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         xl={6}
         className={classes.cardContent}
       >
-        <ObservationBloodPressureCard query={query} onClick={handleClickCard} />
+        <ObservationBloodPressureCard
+          query={query}
+          onClick={onClickCard}
+          selectedCard={selectedCard}
+        />
       </Grid>
       <Grid
         item
@@ -102,7 +124,11 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         xl={6}
         className={classes.cardContent}
       >
-        <ObservationTemperatureCard query={query} />
+        <ObservationTemperatureCard
+          query={query}
+          onClick={onClickCard}
+          selectedCard={selectedCard}
+        />
       </Grid>
       <Grid
         item
@@ -113,7 +139,11 @@ export const PatientDemographicSummaryView: React.FunctionComponent<{
         xl={6}
         className={classes.cardContent}
       >
-        <ObservationHeartbeatCard query={query} />
+        <ObservationHeartbeatCard
+          query={query}
+          onClick={onClickCard}
+          selectedCard={selectedCard}
+        />
       </Grid>
     </Grid>
   )
