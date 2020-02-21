@@ -1,12 +1,13 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
-
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
+
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const PatientInfoView: IStatelessPage<{
+const PatientInfoWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   return (
@@ -46,10 +47,10 @@ const PatientInfoView: IStatelessPage<{
   )
 }
 
-PatientInfoView.getInitialProps = async ({ req, res, query }) => {
+PatientInfoWidget.getInitialProps = async ({ req, res, query }) => {
   return {
     query,
   }
 }
 
-export default PatientInfoView
+export default withAuthSync(PatientInfoWidget)

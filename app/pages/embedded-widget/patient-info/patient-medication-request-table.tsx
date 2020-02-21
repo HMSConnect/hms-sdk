@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PatientMedicationRequestTable from '@components/widget/patient/PatientMedicationRequestTable'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const PatientMedicationRequestTableView: IStatelessPage<{
+const PatientMedicationRequestTableWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -31,7 +32,7 @@ const PatientMedicationRequestTableView: IStatelessPage<{
   )
 }
 
-PatientMedicationRequestTableView.getInitialProps = async ({
+PatientMedicationRequestTableWidget.getInitialProps = async ({
   req,
   res,
   query,
@@ -41,4 +42,4 @@ PatientMedicationRequestTableView.getInitialProps = async ({
   }
 }
 
-export default PatientMedicationRequestTableView
+export default withAuthSync(PatientMedicationRequestTableWidget)

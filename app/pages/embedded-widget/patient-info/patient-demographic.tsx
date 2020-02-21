@@ -1,8 +1,9 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PatientDemographic from '@components/widget/patient/PatientDemographic'
-import { CssBaseline, makeStyles, Paper, Theme } from '@material-ui/core'
+import { CssBaseline, Paper } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
 import * as _ from 'lodash'
@@ -30,4 +31,4 @@ PatientInfoPanelWidget.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default PatientInfoPanelWidget
+export default withAuthSync(PatientInfoPanelWidget)

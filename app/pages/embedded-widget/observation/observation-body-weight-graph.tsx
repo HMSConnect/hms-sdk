@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import ObservationBodyWeightGraph from '@components/widget/observation/ObservationBodyWeightGraph'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
@@ -38,4 +39,4 @@ ObservationBodyWeightGraphWidget.getInitialProps = async ({
   }
 }
 
-export default ObservationBodyWeightGraphWidget
+export default withAuthSync(ObservationBodyWeightGraphWidget)

@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import DiagnosticReportCard, {
   DiagnosticReportCardWithoutModal,
@@ -12,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const DianosticReportCard: IStatelessPage<{
+const DianosticReportWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -33,10 +34,10 @@ const DianosticReportCard: IStatelessPage<{
   )
 }
 
-DianosticReportCard.getInitialProps = async ({ req, res, query }) => {
+DianosticReportWidget.getInitialProps = async ({ req, res, query }) => {
   return {
     query: parse(query),
   }
 }
 
-export default DianosticReportCard
+export default withAuthSync(DianosticReportWidget)

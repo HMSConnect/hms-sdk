@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PatientProcedureTable from '@components/widget/patient/PatientProcedureTable'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const PatientProcedureView: IStatelessPage<{
+const PatientProcedureWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   return (
@@ -30,10 +31,10 @@ const PatientProcedureView: IStatelessPage<{
   )
 }
 
-PatientProcedureView.getInitialProps = async ({ req, res, query }) => {
+PatientProcedureWidget.getInitialProps = async ({ req, res, query }) => {
   return {
     query: parse(query),
   }
 }
 
-export default PatientProcedureView
+export default withAuthSync(PatientProcedureWidget)

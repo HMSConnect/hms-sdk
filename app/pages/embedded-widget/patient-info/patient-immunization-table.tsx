@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PatientImmunizationTable from '@components/widget/patient/PatientImmunizationTable'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const PatientImmunizationView: IStatelessPage<{
+const PatientImmunizationWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   return (
@@ -30,10 +31,10 @@ const PatientImmunizationView: IStatelessPage<{
   )
 }
 
-PatientImmunizationView.getInitialProps = async ({ req, res, query }) => {
+PatientImmunizationWidget.getInitialProps = async ({ req, res, query }) => {
   return {
     query: parse(query),
   }
 }
 
-export default PatientImmunizationView
+export default withAuthSync(PatientImmunizationWidget)

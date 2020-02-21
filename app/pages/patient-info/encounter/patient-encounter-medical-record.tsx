@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
@@ -70,4 +71,4 @@ PatientMeidicalPanel.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default PatientMeidicalPanel
+export default withAuthSync(PatientMeidicalPanel)

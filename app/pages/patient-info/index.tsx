@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PreparePatientData from '@components/widget/PreparePatientData'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
@@ -48,4 +49,4 @@ PatientInfoView.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default PatientInfoView
+export default withAuthSync(PatientInfoView)

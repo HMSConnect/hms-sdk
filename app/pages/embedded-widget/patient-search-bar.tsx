@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import { IPaginationOption } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const PatientSearchBar: IStatelessPage<{
+const PatientSearchBarWidget: IStatelessPage<{
   initialQuery: any
   query: any
 }> = ({ initialQuery, query }) => {
@@ -99,7 +100,7 @@ const PatientSearchBar: IStatelessPage<{
   )
 }
 
-PatientSearchBar.getInitialProps = async ({ req, res, query }) => {
+PatientSearchBarWidget.getInitialProps = async ({ req, res, query }) => {
   const initialFilter: IPatientFilterValue = {
     gender: 'all',
     searchText: '',
@@ -116,4 +117,5 @@ PatientSearchBar.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default PatientSearchBar
+export default withAuthSync(PatientSearchBarWidget)
+// export default PatientSearchBarWidget
