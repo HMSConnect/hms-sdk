@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
 import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
@@ -7,16 +5,16 @@ import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
-import {
-  IObservationListFilterQuery,
-  mergeWithObservationInitialFilterQuery,
-} from '@data-managers/ObservationDataManager'
+import { IObservationListFilterQuery, mergeWithObservationInitialFilterQuery } from '@data-managers/ObservationDataManager'
 import { Icon, makeStyles, Theme, Typography } from '@material-ui/core'
+import { lighten } from '@material-ui/core/styles'
 import { HMSService } from '@services/HMSServiceFactory'
 import ObservationService from '@services/ObservationService'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
-import { lighten } from '@material-ui/core/styles'
+import React from 'react'
+import { useSelector } from 'react-redux'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   tableWrapper: {
@@ -41,6 +39,18 @@ export interface IBodyCellProp {
 export interface ITableCellProp {
   headCell: IHeaderCellProps
   bodyCell: IBodyCellProp
+}
+
+export const ObservationLaboratoryTableWithConnector: React.FunctionComponent = () => {
+  const state = useSelector((state: any) => state.observationLaboratoryTable)
+
+  return   <ObservationLaboratoryTable
+  key={`ObservationLaboratoryTable${_.get(state, 'encounterId')}`}
+  patientId={_.get(state, 'patientId')}
+  encounterId={_.get(state, 'encounterId')}
+  isInitialize={true}
+  max={state?.max || 10}
+/>
 }
 
 const ObservationLaboratoryTable: React.FunctionComponent<{

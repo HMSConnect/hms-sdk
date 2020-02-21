@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import ErrorSection from '@components/base/ErrorSection'
 import usePatient from '@components/hooks/usePatient'
 import {
@@ -11,6 +9,8 @@ import {
   Typography,
 } from '@material-ui/core'
 import * as _ from 'lodash'
+import * as React from 'react'
+import { useSelector } from 'react-redux'
 import PatientAllergyList from './PatientAllergyList'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -38,11 +38,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const PatientDemographic: React.FunctionComponent<{
-  query: any
+  patientId: string
   name?: string
-}> = ({ query, name = 'PatientDemographic' }) => {
+}> = ({ patientId, name = 'PatientDemographic' }) => {
   const { isLoading: isPatientLoading, data: patient, error } = usePatient(
-    _.get(query, 'patientId') || _.get(query, 'id'),
+    patientId,
   )
   if (error) {
     return <ErrorSection error={error} />
@@ -53,6 +53,11 @@ const PatientDemographic: React.FunctionComponent<{
   }
 
   return <PatientDemographicView patient={patient} />
+}
+
+export const PatientDemographicWithConnector: React.FunctionComponent = () => {
+  const state = useSelector((state: any) => state.patientDemographic)
+  return <PatientDemographic patientId={state.patientId} />
 }
 
 export const PatientDemographicView: React.FunctionComponent<{

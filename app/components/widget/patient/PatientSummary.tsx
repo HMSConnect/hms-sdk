@@ -1,21 +1,16 @@
-import React from 'react'
-
-import { Grid, makeStyles, Paper } from '@material-ui/core'
-import RouteManager from '@routes/RouteManager'
-import { sendMessage } from '@utils'
+import GridLayoutWithComponentSelector from '@components/base/GridLayoutWithComponentSelector'
+import { makeStyles } from '@material-ui/core'
 import * as _ from 'lodash'
-import routes from '../../../routes'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
-import ObservationBloodPressureGraph from '../observation/ObservationBloodPressureGraph'
-import ObservationBodyHeightGraph from '../observation/ObservationBodyHeightGraph'
-import ObservationBodyWeightGraph from '../observation/ObservationBodyWeightGraph'
-import ObservaionHistoryGraph from '../observation/ObservationHistoryGraph'
-import ObservationLaboratoryTable from '../observation/ObservationLaboratoryTable'
-import ObservationSummaryGraph from '../observation/ObservationSummaryGraph'
-import PatientInfoPanel from './PatientDemographic'
-import PatientEncounterTimeline from './PatientEncounterTimeline'
-import PatientMedicationList from './PatientMedication'
-import PatientSummaryCards from './PatientSummaryCards'
+import { ObservationHistoryGraphWithConnector } from '../observation/ObservationHistoryGraph'
+import { ObservationLaboratoryTableWithConnector } from '../observation/ObservationLaboratoryTable'
+import { ObservationSummaryGraphWithConnector } from '../observation/ObservationSummaryGraph'
+import { PatientDemographicWithConnector } from './PatientDemographic'
+import { PatientEncounterTimelineWithConnector } from './PatientEncounterTimeline'
+import { PatientMedicationListWithConnector } from './PatientMedication'
+import { PatientSummaryCardsWithConnector } from './PatientSummaryCards'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -67,184 +62,82 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const componentResource: any = {
+  patientDemographic: {
+    component: PatientDemographicWithConnector,
+    defaultPosition: { x: 0, y: 0 },
+    layout: { h: 4, w: 9, isCard: true },
+  },
+  patientEncounterTimeline: {
+    component: PatientEncounterTimelineWithConnector,
+    defaultPosition: { x: 0, y: 4 },
+    layout: { h: 12, w: 4, isCard: true },
+  },
+
+  patientMedicationList: {
+    component: PatientMedicationListWithConnector,
+    defaultPosition: { x: 9, y: 0 },
+    layout: { h: 4, w: 3, isCard: true },
+  },
+  patientSummaryCards: {
+    component: PatientSummaryCardsWithConnector,
+    defaultPosition: { x: 4, y: 4 },
+    layout: { h: 12, w: 4, isCard: false },
+  },
+
+  observationLaboratoryTable: {
+    component: ObservationLaboratoryTableWithConnector,
+    defaultPosition: { x: 0, y: 12 },
+    layout: { h: 9, w: 8, isCard: true },
+  },
+  observaionHistoryGraph: {
+    component: ObservationHistoryGraphWithConnector,
+    defaultPosition: { x: 8, y: 4 },
+    layout: { h: 12, w: 4, isCard: true },
+  },
+  observationSummaryGraph: {
+    component: ObservationSummaryGraphWithConnector,
+    defaultPosition: { x: 8, y: 12 },
+    layout: { h: 9, w: 4, isCard: true },
+  },
+}
+
+const defaultItems = _.map(componentResource, (c, componentKey) => {
+  return {
+    componentKey,
+    i: `init_${componentKey}`,
+    ...(c?.defaultPosition || { x: 0, y: 9 }),
+    ...(c?.layout || {}),
+  }
+})
+
 const PatientSummary: React.FunctionComponent<{
   query: any
   name?: string
 }> = ({ query, name = 'patientSummary' }) => {
-  const classes = useStyles()
-  return (
-    <>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={12} lg={9} xl={10}>
-          <Paper className={classes.infoPanel}>
-            <PatientInfoPanel query={query} />
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={12} lg={3} xl={2}>
-          <PatientAssociatedData query={query} />
-        </Grid>
-        <Grid item xs={12} sm={12} lg={8} xl={7}>
-          <div className={classes.detailSelector}>
-            <PatientDetailSub query={query} name={name} />
-          </div>
-        </Grid>
-        <Grid item xs={12} sm={12} lg={4} xl={5}>
-          {/* <div className={classes.menuList}> */}
-          <ObservaionHistoryGraph query={query} />
-          {/* </div> */}
-        </Grid>
-      </Grid>
-      {/* <PatientLabResult query={query} /> */}
-      <PatientSummaryFooter query={query} />
-    </>
-  )
-}
-
-const PatientSummaryFooter: React.FunctionComponent<any> = ({ query }) => {
-  const classes = useStyles()
-  return (
-    <>
-      <Grid container>
-        <Grid item xs={12} sm={12} lg={7} xl={7}>
-          <Paper className={classes.laboratoryCardContent}>
-            <ObservationLaboratoryTable
-              key={`ObservationLaboratoryTable${_.get(query, 'encounterId')}`}
-              patientId={_.get(query, 'patientId')}
-              encounterId={_.get(query, 'encounterId')}
-              isInitialize={true}
-              max={query.max}
-            />
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={12} lg={5} xl={5}>
-          <Paper className={classes.laboratoryCardContent}>
-            <ObservationSummaryGraph
-              query={query}
-              optionsGraph={{
-                standardSizeForResizeLegendToBottom: [
-                  'xsmall',
-                  'small',
-                  'large',
-                  'medium',
-                ],
-              }}
-            />
-          </Paper>
-        </Grid>
-      </Grid>
-    </>
-  )
-}
-
-const PatientLabResult: React.FunctionComponent<{
-  query: any
-}> = ({ query }) => {
-  const classes = useStyles()
-  return (
-    <Grid container>
-      <Grid item xs={12} sm={6} md={4}>
-        <Paper className={classes.virtalSignCard}>
-          <ObservationBloodPressureGraph
-            // key={`ObservationBloodPressureGraph${_.get(query, 'encounterId')}`}
-            query={query}
-            optionStyle={{ height: 580 }}
-          />
-        </Paper>
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <Paper className={classes.virtalSignCard}>
-          <ObservationBodyHeightGraph
-            // key={`ObservationBodyHeightGraph${_.get(query, 'encounterId')}`}
-            query={query}
-            optionStyle={{ height: 580 }}
-          />
-        </Paper>
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <Paper className={classes.virtalSignCard}>
-          <ObservationBodyWeightGraph
-            // key={`ObservationBodyWeightGraph${_.get(query, 'encounterId')}`}
-            query={query}
-            optionStyle={{ height: 580 }}
-          />
-        </Paper>
-      </Grid>
-    </Grid>
-  )
-}
-const PatientDetailSub: React.FunctionComponent<{
-  query: any
-  name?: string
-}> = ({ query, name = 'patientDetailSub' }) => {
+  const dispatch = useDispatch()
   const classes = useStyles()
 
-  const handleEncounterSelect = (
-    event: React.MouseEvent,
-    selectedEncounter: any,
-  ) => {
-    const newParams = {
-      encounterId: _.get(selectedEncounter, 'id'),
-      patientId: _.get(query, 'patientId'),
-    }
-    const path = RouteManager.getPath(`patient-demographic`, {
-      matchBy: 'url',
-      params: newParams,
+  React.useEffect(() => {
+    dispatch({
+      payload: {
+        observationHistoryGraph: { query },
+        observationLaboratoryTable: { ...query },
+        observationSummaryGraph: { query },
+        patientDemographic: { patientId: query.patientId },
+        patientEncounterTimeline: { query },
+        patientMedicationList: { patientId: query.patientId },
+        patientSummaryCards: { query },
+      },
+      type: 'INIT_PATIENT_SUMMARY',
     })
-    sendMessage({
-      action: 'PUSH_ROUTE',
-      message: 'handleEncounterSelect',
-      name,
-      params: newParams,
-      path,
-    })
-    routes.Router.replaceRoute(path)
-  }
+  }, [query])
 
   return (
-    <Grid container className={classes.root}>
-      <Grid item xs={12} sm={12} md={6} lg={6} xl={7}>
-        <Paper className={classes.menuList}>
-          <PatientEncounterTimeline
-            patientId={_.get(query, 'patientId')}
-            selectedEncounterId={_.get(query, 'encounterId')}
-            isInitialize={true}
-            max={query.max}
-            onEncounterSelected={handleEncounterSelect}
-            name={`${name}EncounterTimeline`}
-          />
-        </Paper>
-      </Grid>
-      <Grid item xs={12} sm={12} md={6} lg={6} xl={5}>
-        <div className={classes.menuList}>
-          <PatientSummaryCards
-            key={`PatientSummaryCards${_.get(query, 'encounterId')}`}
-            query={query}
-            name={`${name}DemographicSuumary`}
-          />
-        </div>
-      </Grid>
-    </Grid>
-  )
-}
-
-const PatientAssociatedData: React.FunctionComponent<{
-  query: any
-}> = ({ query }) => {
-  const classes = useStyles()
-  return (
-    <>
-      <Grid container>
-        <Grid item xs={12} sm={12} md={12} lg={12}>
-          <Paper className={classes.associatedPatientCard}>
-            <PatientMedicationList
-              patientId={_.get(query, 'patientId')}
-              isInitialize={true}
-              name={`${name}MedicationList`}
-            />
-          </Paper>
-        </Grid>
-      </Grid>
-    </>
+    <GridLayoutWithComponentSelector
+      componentResource={componentResource}
+      defaultItems={defaultItems}
+    />
   )
 }
 

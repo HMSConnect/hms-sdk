@@ -19,6 +19,11 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+export const ObservationHistoryGraphWithConnector: React.FunctionComponent = () => {
+  const state = useSelector((state: any) => state.observationHistoryGraph)
+  return <ObservaionHistoryGraph query={state.query} />
+}
+
 const ObservaionHistoryGraph: React.FunctionComponent<{
   query: any
 }> = ({ query }) => {

@@ -1,8 +1,7 @@
-import * as React from 'react'
-
 import { Grid, makeStyles, Theme } from '@material-ui/core'
 import { sendMessage } from '@utils'
 import * as _ from 'lodash'
+import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { cardClick } from '../../../actions/patientsummaryCards.action'
 import ObservationBloodPressureCard from '../observation/ObservationBloodPressureCard'
@@ -43,6 +42,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: '100%',
   },
 }))
+
+export const PatientSummaryCardsWithConnector: React.FunctionComponent = () => {
+  const state = useSelector((state: any) => state.patientSummaryCards)
+
+  return (
+    <PatientSummaryCards
+      key={`PatientSummaryCards${_.get(state, 'query.encounterId')}`}
+      query={state.query}
+      name={`${name}DemographicSuumary`}
+    />
+  )
+}
 
 const PatientSummaryCards: React.FunctionComponent<{
   query: any

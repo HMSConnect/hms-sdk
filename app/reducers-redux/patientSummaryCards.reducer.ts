@@ -1,6 +1,6 @@
 import { OBSERVATION_CODE } from '@config/observation'
 
-type PatientSummaryCardsType = 'UPDATE_SELECTED_CARD'
+type PatientSummaryCardsType = 'UPDATE_SELECTED_CARD' | 'INIT_PATIENT_SUMMARY'
 
 interface IPatientSummaryCardsAction {
   type: PatientSummaryCardsType
@@ -15,6 +15,11 @@ const patientSummaryCards = (
   action: IPatientSummaryCardsAction,
 ) => {
   switch (action.type) {
+    case 'INIT_PATIENT_SUMMARY':
+      return {
+        ...state,
+        ...action.payload.patientSummaryCards,
+      }
     case 'UPDATE_SELECTED_CARD':
       return {
         ...state,

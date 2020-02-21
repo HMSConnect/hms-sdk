@@ -1,5 +1,3 @@
-import React, { useEffect, useRef } from 'react'
-
 import {
   tableWithFilterReducer,
   tableWithFilterState,
@@ -18,6 +16,8 @@ import { makeStyles, Theme } from '@material-ui/core'
 import { lighten } from '@material-ui/core/styles'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
+import React, { useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux'
 import routes from '../../../routes'
 import RouteManager from '../../../routes/RouteManager'
 import EncounterService from '../../../services/EncounterService'
@@ -53,6 +53,43 @@ export interface IBodyCellProp {
 export interface ITableCellProp {
   headCell: IHeaderCellProps
   bodyCell: IBodyCellProp
+}
+
+export const PatientEncounterTimelineWithConnector: React.FunctionComponent = () => {
+  const state = useSelector((state: any) => state.patientEncounterTimeline)
+
+  const handleEncounterSelect = (
+    event: React.MouseEvent,
+    selectedEncounter: any,
+  ) => {
+    const newParams = {
+      encounterId: _.get(selectedEncounter, 'id'),
+      patientId: _.get(state, 'query.patientId'),
+    }
+    const path = RouteManager.getPath(`patient-summary`, {
+      matchBy: 'url',
+      params: newParams,
+    })
+    sendMessage({
+      action: 'PUSH_ROUTE',
+      message: 'handleEncounterSelect',
+      name,
+      params: newParams,
+      path,
+    })
+    routes.Router.replaceRoute(path)
+  }
+
+  return (
+    <PatientEncounterTimeline
+      patientId={_.get(state, 'query.patientId')}
+      selectedEncounterId={_.get(state, 'query.encounterId')}
+      isInitialize={true}
+      max={state?.query?.max}
+      onEncounterSelected={handleEncounterSelect}
+      name={`${name}EncounterTimeline`}
+    />
+  )
 }
 
 const PatientEncounterTimeline: React.FunctionComponent<{

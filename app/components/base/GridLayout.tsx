@@ -1,18 +1,26 @@
-import { makeStyles, Theme } from '@material-ui/core'
+import { Button, makeStyles, Paper, Theme } from '@material-ui/core'
+import CloseIcon from '@material-ui/icons/Close'
 import * as _ from 'lodash'
 import React from 'react'
 import { Responsive, WidthProvider } from 'react-grid-layout'
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  gridItem: {
+    overflow: 'hidden',
+  },
   gridSelectionLayout: {
     display: 'flex',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
+    padding: 8,
   },
   remove: {
     cursor: 'pointer',
     position: 'absolute',
     right: '2px',
     top: 0,
+    zIndex: 9999,
   },
   searchFilter: {
     width: 180,
@@ -149,6 +157,17 @@ const GridLayout: React.FunctionComponent<{
       // console.log('handle width change')
     }
 
+    function renderRemoveComponent(item: any) {
+      return (
+        <span
+          className={classes.remove}
+          onClick={() => handleItemRemove(item.i)}
+        >
+          <CloseIcon fontSize={'small'} />
+        </span>
+      )
+    }
+
     function createItem(item: any) {
       let renderComponent = <div key={item.i}>{item.i}</div>
       if (renderItem) {
@@ -158,15 +177,19 @@ const GridLayout: React.FunctionComponent<{
         renderComponent = <>{item.i}</>
       }
 
+      if (item.isCard) {
+        return (
+          <Paper key={item.i} className={classes.gridItem}>
+            {renderComponent}
+            {renderRemoveComponent(item)}
+          </Paper>
+        )
+      }
+
       return (
-        <div key={item.i}>
+        <div key={item.i} className={classes.gridItem}>
           {renderComponent}
-          <span
-            className={classes.remove}
-            onClick={() => handleItemRemove(item.i)}
-          >
-            x
-          </span>
+          {renderRemoveComponent(item)}
         </div>
       )
     }
@@ -174,7 +197,9 @@ const GridLayout: React.FunctionComponent<{
     return (
       <div data-testid='grid-selector'>
         <div className={classes.gridSelectionLayout}>
-          <button onClick={handleItemAdd}> Add + </button>
+          <Button size='small' variant='outlined' onClick={handleItemAdd}>
+            Add +{' '}
+          </Button>
         </div>
         <ResponsiveGridLayout
           className='layout'

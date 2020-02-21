@@ -46,8 +46,8 @@ const GridLayoutWithComponentSelector: React.FunctionComponent<{
   function handleComponentSelectClose(select: any) {
     setIsShowComponentSelect(false)
 
-    if (gridSelectorRef?.current?.addItem) {
-      const selectKey = select.value
+    if (gridSelectorRef?.current?.addItem && select?.value) {
+      const selectKey = select?.value
       const componentSelected = getComponent(selectKey)
 
       const newItem = {
