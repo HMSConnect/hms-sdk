@@ -33,7 +33,7 @@ const WidgetManagerParameter: React.FC<{
       {_.map(selectedWidget[type], (parameter, index) => (
         <React.Fragment key={`${parameter.value}parameters${index}`}>
           <AdaptiveInput
-            name={parameter.value}
+            name={`${parameter.value}`}
             type={parameter.type}
             label={parameter.label}
             value={parameters}
