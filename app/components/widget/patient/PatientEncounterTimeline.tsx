@@ -71,7 +71,7 @@ export const PatientEncounterTimelineWithConnector: React.FunctionComponent = ()
       params: newParams,
     })
     sendMessage({
-      action: 'PUSH_ROUTE',
+      action: 'REPLACE_ROUTE',
       message: 'handleEncounterSelect',
       name,
       params: newParams,

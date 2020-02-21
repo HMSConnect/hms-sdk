@@ -20,8 +20,7 @@ import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
   body: {},
-  root: {
-  },
+  root: {},
 }))
 
 export interface IStatelessPage<P = {}> extends React.SFC<P> {
@@ -37,22 +36,24 @@ const PatientSearchView: IStatelessPage<{
     <React.Fragment>
       <CssBaseline />
       <BootstrapWrapper dependencies={['patient']}>
-        <Container maxWidth='lg' className={classes.root}>
-          <Typography component='div' className={classes.body}>
-            <AppNavBar />
-            <BreadcrumbsBase
-              currentPath='Patient Search'
-              parentPath={[
-                {
-                  icon: <HomeIcon />,
-                  label: 'Home',
-                  url: '/',
-                },
-              ]}
-            ></BreadcrumbsBase>
-            <PatientSearch query={query} name={_.get(query, 'name')} />
-          </Typography>
-        </Container>
+        <>
+          <AppNavBar />
+          <Container maxWidth='lg' className={classes.root}>
+            <Typography component='div' className={classes.body}>
+              <BreadcrumbsBase
+                currentPath='Patient Search'
+                parentPath={[
+                  {
+                    icon: <HomeIcon />,
+                    label: 'Home',
+                    url: '/',
+                  },
+                ]}
+              ></BreadcrumbsBase>
+              <PatientSearch query={query} name={_.get(query, 'name')} />
+            </Typography>
+          </Container>
+        </>
       </BootstrapWrapper>
     </React.Fragment>
   )

@@ -29,12 +29,12 @@ const PreparePatientData: React.FunctionComponent<any> = ({ query }) => {
         params: newParams,
       })
       sendMessage({
-        action: 'PUSH_ROUTE',
+        action: 'REPLACE_ROUTE',
         message: 'handleEncounterSelect',
         params: newParams,
         path,
       })
-      routes.Router.replaceRoute(path)
+      routes.Router.replace(path)
     }
   }, [encounter, isPatientLoading])
   return <LoadingSection />

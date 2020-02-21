@@ -57,7 +57,7 @@ const Login: React.FunctionComponent<any> = () => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     await AuthService.login(authData, () => {
-      const path = RouteManager.getPath('patient-search')
+      const path = RouteManager.getPath('/')
       routes.Router.pushRoute(path)
     })
   }

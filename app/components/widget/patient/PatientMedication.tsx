@@ -44,9 +44,6 @@ export const PatientMedicationListWithConnector = () => {
   const patientMedicationListState = useSelector(
     (state: any) => state.patientMedicationList,
   )
-
-  console.log(patientMedicationListState)
-
   return (
     <PatientMedicationList
       patientId={_.get(patientMedicationListState, 'patientId')}
