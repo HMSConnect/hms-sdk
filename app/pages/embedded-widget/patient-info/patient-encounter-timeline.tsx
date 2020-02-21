@@ -1,16 +1,18 @@
+import * as React from 'react'
+
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PatientEncounterTimeline from '@components/widget/patient/PatientEncounterTimeline'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
 import { get } from 'lodash'
-import * as React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const PatientEncounterTimelineView: IStatelessPage<{
+const PatientEncounterTimelineWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -33,10 +35,10 @@ const PatientEncounterTimelineView: IStatelessPage<{
   )
 }
 
-PatientEncounterTimelineView.getInitialProps = async ({ req, res, query }) => {
+PatientEncounterTimelineWidget.getInitialProps = async ({ req, res, query }) => {
   return {
     query: parse(query),
   }
 }
 
-export default PatientEncounterTimelineView
+export default withAuthSync(PatientEncounterTimelineWidget)

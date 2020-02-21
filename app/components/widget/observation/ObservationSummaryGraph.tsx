@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import {
   tableWithFilterReducer,
   tableWithFilterState,
@@ -11,6 +9,7 @@ import { FormModalContent, useModal } from '@components/base/Modal'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useObservationList from '@components/hooks/useObservationList'
+import usePatient from '@components/hooks/usePatient'
 import { OBSERVATION_CODE } from '@config/observation'
 import { mergeWithObservationInitialFilterQuery } from '@data-managers/ObservationDataManager'
 import { ArgumentScale } from '@devexpress/dx-react-chart'
@@ -20,10 +19,12 @@ import {
   FormGroup,
   Typography,
 } from '@material-ui/core'
+import { lighten } from '@material-ui/core/styles'
 import { parse } from '@utils'
 import { scaleTime } from 'd3-scale'
 import * as _ from 'lodash'
-import usePatient from '@components/hooks/usePatient'
+import * as React from 'react'
+import { useSelector } from 'react-redux'
 
 const mapObservaionCode = (codes: string[]) => {
   return _.reduce(
@@ -41,6 +42,24 @@ const mapObservaionCode = (codes: string[]) => {
       return acc
     },
     {},
+  )
+}
+
+export const ObservationSummaryGraphWithConnector: React.FunctionComponent = () => {
+  const state = useSelector((state: any) => state.observationSummaryGraph)
+
+  return (
+    <ObservationSummaryGraph
+      query={state.query}
+      optionsGraph={{
+        standardSizeForResizeLegendToBottom: [
+          'xsmall',
+          'small',
+          'large',
+          'medium',
+        ],
+      }}
+    />
   )
 }
 
@@ -133,7 +152,7 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
     const selectionPayload = parse(`${type}=${value}`)
     dispatch({
       payload: selectionPayload,
-      type: 'FILTER_ON_CHANGE',
+      type: 'FILTER_ON_CHANGE_SELECTION',
     })
   }
 
@@ -188,37 +207,44 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
   })
 
   const calculateNormalRage = (observation: any, patientInfo?: any) => {
-    const normalRange = _.chain(observation.referenceRange).filter(range => {
-      return (
-        range.type === 'normal' &&
-        (_.get(range, 'age.low') < patientInfo.age ||
-          _.get(range, 'age.high') > patientInfo.age)
-      )
-    }).groupBy('codeText').value()
+    const normalRange = _.chain(observation.referenceRange)
+      .filter(range => {
+        return (
+          range.type === 'normal' &&
+          (_.get(range, 'age.low') < patientInfo.age ||
+            _.get(range, 'age.high') > patientInfo.age)
+        )
+      })
+      .groupBy('codeText')
+      .value()
     return normalRange
   }
 
   const createNormalRangeGraphData = (normalRangeObject: any) => {
-    return _.reduce(normalRangeObject, (acc: any, normalRange: any) => {
-      let temp: any = {}
-      if (_.get(normalRange[0], 'low')) {
-        _.camelCase(`normal${normalRange[0].codeText}low`)
-        temp[_.camelCase(`normal${normalRange[0].codeText}Low`)] = _.get(
-          normalRange[0],
-          'low',
-        )
-      }
-      if (_.get(normalRange[0], 'high')) {
-        temp[_.camelCase(`normal${normalRange[0].codeText}High`)] = _.get(
-          normalRange[0],
-          'high',
-        )
-      }
-      return {
-        ...acc,
-        ...temp
-      }
-    }, {})
+    return _.reduce(
+      normalRangeObject,
+      (acc: any, normalRange: any) => {
+        let temp: any = {}
+        if (_.get(normalRange[0], 'low')) {
+          _.camelCase(`normal${normalRange[0].codeText}low`)
+          temp[_.camelCase(`normal${normalRange[0].codeText}Low`)] = _.get(
+            normalRange[0],
+            'low',
+          )
+        }
+        if (_.get(normalRange[0], 'high')) {
+          temp[_.camelCase(`normal${normalRange[0].codeText}High`)] = _.get(
+            normalRange[0],
+            'high',
+          )
+        }
+        return {
+          ...acc,
+          ...temp,
+        }
+      },
+      {},
+    )
   }
 
   const prepareGraphData = (data: any) => {
@@ -273,8 +299,9 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
           onClickIcon={showModal}
           option={{
             style: {
-              backgroundColor: '#ef5350',
-              color: '#e1f5fe',
+              backgroundColor: lighten('#7e57c2', 0.85),
+              color: '#7e57c2',
+              height: '13%',
             },
           }}
         >
@@ -303,20 +330,23 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
         onClickIcon={showModal}
         option={{
           style: {
-            backgroundColor: '#ef5350',
-            color: '#e1f5fe',
+            backgroundColor: lighten('#7e57c2', 0.85),
+            color: '#7e57c2',
+            height: '10%',
           },
         }}
       >
         {renderModal}
       </ToolbarWithFilter>
-      <ObservationSummaryGraphView
-        key={`${observationList.length}`}
-        observationList={observationList}
-        submitedFilter={submitedFilter}
-        prepareGraphData={prepareGraphData}
-        options={optionsGraph}
-      />
+      <div style={{ height: '90%' }}>
+        <ObservationSummaryGraphView
+          key={`${observationList.length}`}
+          observationList={observationList}
+          submitedFilter={submitedFilter}
+          prepareGraphData={prepareGraphData}
+          options={optionsGraph}
+        />
+      </div>
     </>
   )
 }
@@ -335,7 +365,6 @@ const ObservationSummaryGraphView: React.FunctionComponent<any> = ({
         argumentField='issuedDate'
         optionStyle={{
           color: '#e57373',
-          height: 700
         }}
         options={{
           ...options,

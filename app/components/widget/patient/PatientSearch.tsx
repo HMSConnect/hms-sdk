@@ -115,7 +115,7 @@ const PatientSearch: React.FunctionComponent<{
     const params = {
       patientId: get(patient, 'identifier.id.value'),
     }
-    const path = RouteManager.getPath(`prepare/patient-demographic`, {
+    const path = RouteManager.getPath(`prepare/patient-summary`, {
       matchBy: 'url',
       params,
     })

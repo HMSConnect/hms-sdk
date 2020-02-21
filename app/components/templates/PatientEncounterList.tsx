@@ -25,6 +25,7 @@ import findIndex from 'lodash/findIndex'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import * as moment from 'moment'
+import clsx from 'clsx'
 
 const useStyles = makeStyles((theme: Theme) => ({
   iconAvatar: {
@@ -58,6 +59,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingLeft: theme.spacing(4),
   },
   root: {},
+  headerText: {
+    fontWeight: 450,
+  },
+  contentText: {
+    color: '#37474f',
+    fontWeight: 'normal',
+  },
+  topicTitle: {
+    color: 'grey',
+  },
 }))
 
 const PatientEncounterList: React.FunctionComponent<{
@@ -97,7 +108,7 @@ const PatientEncounterList: React.FunctionComponent<{
   }
   return (
     <>
-      <List component='nav' aria-labelledby='nested-list-subheader'>
+      <List disablePadding={true} aria-labelledby='nested-list-subheader'>
         {map(entryList, (entry, index) => (
           <React.Fragment key={'encounterItem' + index}>
             <EncounterListItem
@@ -173,7 +184,12 @@ const EncounterListItem: React.FunctionComponent<{
   }
   return (
     <>
-      <ListItem button onClick={handleClick} selected={selectedIndex === index}>
+      <ListItem
+        style={{ paddingRight: '80px' }}
+        button
+        onClick={handleClick}
+        selected={selectedIndex === index}
+      >
         <div className={classes.line}></div>
         <ListItemIcon>
           <>
@@ -208,7 +224,7 @@ const EncounterListItem: React.FunctionComponent<{
               <Typography
                 component='span'
                 variant='body1'
-                className={classes.inline}
+                className={clsx(classes.inline, classes.headerText)}
                 color='textPrimary'
               >
                 {get(data, 'organization.display') || 'Unknow'}
@@ -220,7 +236,7 @@ const EncounterListItem: React.FunctionComponent<{
                 className={classes.inline}
                 color='textSecondary'
               >
-                {get(data, 'participant[0].name') || 'Unknow'}
+                {get(data, 'status') || 'Unknow'}
               </Typography>
             </>
           }
@@ -253,22 +269,70 @@ const EncounterListItem: React.FunctionComponent<{
                 <ListItemText
                   primary={
                     <>
-                      <Typography>
-                        <strong>ประเภทการรักษา:</strong>{' '}
-                        {get(data, 'type') || 'Unknow'}
-                      </Typography>
-                      <Typography>
-                        <strong>ผลการวินิจฉัย:</strong>{' '}
-                        {get(data, 'reason') || 'Unknow'}
-                      </Typography>
-                      <Typography>
-                        <strong>Class Code:</strong>{' '}
-                        {get(data, 'classCode') || 'Unknow'}
-                      </Typography>
-                      <Typography>
-                        <strong>Status:</strong>{' '}
-                        {get(data, 'status') || 'Unknow'}
-                      </Typography>
+                      <div>
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.topicTitle}
+                        >
+                          ประเภทการรักษา :{' '}
+                        </Typography>
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.contentText}
+                        >
+                          {get(data, 'type') || 'Unknow'}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.topicTitle}
+                        >
+                          ผลการวินิจฉัย :{' '}
+                        </Typography>
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.contentText}
+                        >
+                          {get(data, 'reason') || 'Unknow'}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.topicTitle}
+                        >
+                          Class Code :{' '}
+                        </Typography>
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.contentText}
+                        >
+                          {get(data, 'classCode') || 'Unknow'}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.topicTitle}
+                        >
+                          Practition :{' '}
+                        </Typography>
+                        <Typography
+                          variant='body2'
+                          component='span'
+                          className={classes.contentText}
+                        >
+                          {get(data, 'participant[0].name') || 'Unknow'}
+                        </Typography>
+                      </div>
                     </>
                   }
                 />

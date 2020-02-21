@@ -32,7 +32,7 @@ module.exports = withCSS({
     })
 
     config.module.rules.push({
-      test: /\.(txt|md|png)$/i,
+      test: /\.(txt|md|png|jpg)$/i,
       use: 'raw-loader',
     })
 

@@ -1,45 +1,53 @@
 import * as React from 'react'
 
+import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
-import {
-  Grid,
-  Icon,
-  makeStyles,
-  Paper,
-  Theme,
-  Typography,
-} from '@material-ui/core'
+import { Grid, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
 import clsx from 'clsx'
 import get from 'lodash/get'
 
 const useStyles = makeStyles((theme: Theme) => ({
-  contentText: {
-    color: '#1b5e20',
-  },
-  footerContainer: { height: 36 },
-  headerCardTitle: {
-    color: 'grey',
-  },
-  headerContainer: { height: 64, backgroundColor: '#ddd4' },
-  iconCard: {
-    zoom: 3,
-  },
-  iconContainer: {
-    textAlign: 'center',
-  },
-  paperContainer: {
+  bodyCard: {
+    alignItems: 'center',
     display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
+    justifyContent: 'center',
+  },
+  clickable: {
+    cursor: 'pointer',
+  },
+  contentText: {
+    fontWeight: 'normal',
+  },
+  footerContainer: { height: 36, color: 'grey' },
+  hover: {
+    '&:hover': {
+      backgroundColor: '#ddd4',
+    },
+    textDecoration: 'none',
+  },
+  infoIcon: {
+    color: '#1976d2',
+    zoom: 0.7,
+  },
+  selectedCard: {
+    backgroundColor: '#ddd4',
+    border: '2px solid #00b0ff',
+    borderRadius: 4,
+  },
+  unitText: {
+    fontWeight: 'normal',
   },
 }))
-const ObservationHeartbeatCard: React.FunctionComponent<{ query: any }> = ({
-  query,
-}) => {
+
+const ObservationHeartbeatCard: React.FunctionComponent<{
+  query: any
+  onClick?: any
+  selectedCard?: any
+}> = ({ query, onClick, selectedCard }) => {
   const params = {
     code: OBSERVATION_CODE.HEARTBEAT.code,
     encounterId: get(query, 'encounterId'),
@@ -59,73 +67,73 @@ const ObservationHeartbeatCard: React.FunctionComponent<{ query: any }> = ({
   if (isLoading) {
     return <LoadingSection />
   }
-  return <ObservationHeartbeatCardView observation={observationList[0]} />
+  return (
+    <ObservationHeartbeatCardView
+      observation={observationList[0]}
+      onClick={onClick}
+      selectedCard={selectedCard}
+    />
+  )
 }
 
 export default ObservationHeartbeatCard
 
 export const ObservationHeartbeatCardView: React.FunctionComponent<{
   observation: any
-}> = ({ observation }) => {
+  onClick?: any
+  selectedCard?: any
+}> = ({ observation, onClick, selectedCard }) => {
   const classes = useStyles()
   return (
-    <Paper className={classes.paperContainer} elevation={1}>
-      <Grid container alignItems='center' className={classes.headerContainer}>
-        <Grid item xs={2} style={{ paddingLeft: '1em' }}>
-          <Typography variant='body1'>
-            <Icon
-              style={{ color: '#c62828', paddingRight: 5 }}
-              className={clsx('fas fa-heartbeat')}
-            />
-          </Typography>
-        </Grid>
-        <Grid item xs={10} style={{ paddingRight: '1em' }}>
-          <Grid container justify='flex-end'>
-            <Typography variant='body1' className={classes.headerCardTitle}>
-              Heartbeat
-            </Typography>
-          </Grid>
-        </Grid>
-      </Grid>
-
+    <CardLayout
+      header='Heartbeat'
+      Icon={
+        <Icon
+          style={{ color: '#c62828', paddingRight: 5 }}
+          className={clsx('fas fa-heartbeat')}
+        />
+      }
+    >
       <Grid
         container
         justify='center'
         alignItems='center'
         style={{ height: '100%' }}
       >
-        {/* <Grid item xs={6} className={classes.iconContainer}>
-          <Icon
-            style={{ zoom: 3, color: '#c62828' }}
-            className={clsx('fas fa-heartbeat', classes.iconCard)}
-          />
-        </Grid> */}
-        <Grid
-          xs={12}
-          item
-          container
-          direction='column'
-          style={{
-            paddingRight: 16,
-          }}
-        >
+        <Grid xs={12} item container direction='column'>
           <Typography
             component='div'
             variant='body1'
             style={{
-              alignItems: 'center',
-              display: 'flex',
-              justifyContent: 'center',
+              paddingLeft: 16,
+              paddingRight: 16,
             }}
+            className={clsx(
+              classes.bodyCard,
+              classes.clickable,
+              classes.hover,
+              selectedCard === OBSERVATION_CODE.HEARTBEAT.value
+                ? classes.selectedCard
+                : null,
+            )}
+            onClick={() =>
+              onClick ? onClick(OBSERVATION_CODE.HEARTBEAT.value) : null
+            }
           >
             <Typography
-              variant='h5'
+              variant='h3'
               className={classes.contentText}
               style={{ paddingRight: 8 }}
             >
               {get(observation, 'value') || 'N/A'}
             </Typography>
-            {get(observation, 'unit') || ''}
+            <Typography
+              component='span'
+              variant='h4'
+              className={classes.unitText}
+            >
+              {get(observation, 'unit') || ''}
+            </Typography>
           </Typography>
         </Grid>
       </Grid>
@@ -135,10 +143,8 @@ export const ObservationHeartbeatCardView: React.FunctionComponent<{
         alignContent='center'
         className={classes.footerContainer}
       >
-        <Typography variant='body2' className={classes.headerCardTitle}>
-          {get(observation, 'issued')}
-        </Typography>
+        <Typography variant='body2'>{get(observation, 'issued')}</Typography>
       </Grid>
-    </Paper>
+    </CardLayout>
   )
 }

@@ -212,11 +212,11 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-info-table',
     },
     {
-      document: require('@assets/embedded-widget/patient-info/patient-demographic.md')
+      document: require('@assets/embedded-widget/patient-info/patient-summary.md')
         .default,
-      label: 'Patient Demographic',
+      label: 'Patient Summary',
       parameters: [],
-      path: '/embedded-widget/patient-demographic',
+      path: '/embedded-widget/patient-summary',
       queryParams: [
         {
           defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
@@ -231,14 +231,14 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'encounterId',
         },
       ],
-      value: 'patient-demographic',
+      value: 'patient-summary',
     },
     {
-      document: require('@assets/embedded-widget/patient-info/patient-info-panel.md')
+      document: require('@assets/embedded-widget/patient-info/patient-demographic.md')
         .default,
-      label: 'Patient Info Panel',
+      label: 'Patient Demographic',
       parameters: [],
-      path: '/embedded-widget/patient-info/patient-info-panel',
+      path: '/embedded-widget/patient-info/patient-demographic',
       queryParams: [
         {
           defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
@@ -247,7 +247,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'patientId',
         },
       ],
-      value: 'patient-info-panel',
+      value: 'patient-demographic',
     },
     {
       document: require('@assets/embedded-widget/patient-info/patient-encounter-timeline.md')
@@ -618,11 +618,11 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
     },
 
     {
-      document: require('@assets/embedded-widget/patient-info/patient-demographic-summary.md')
+      document: require('@assets/embedded-widget/patient-info/patient-summary-cards.md')
         .default,
-      label: 'Patient Demographic Summary',
+      label: 'Patient Summary Cards',
       parameters: [],
-      path: '/embedded-widget/patient-info/demographic-summary',
+      path: '/embedded-widget/patient-info/summary-cards',
       queryParams: [
         {
           defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
@@ -637,7 +637,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'encounterId',
         },
       ],
-      value: 'patient-demographic-summary',
+      value: 'patient-summary-cards',
     },
     {
       document: require('@assets/embedded-widget/patient-info/patient-allergy-list-card.md')

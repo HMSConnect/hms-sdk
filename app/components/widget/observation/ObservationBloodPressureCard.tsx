@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
@@ -10,10 +11,10 @@ import {
   Grid,
   Icon,
   makeStyles,
-  Paper,
   Theme,
   Typography,
 } from '@material-ui/core'
+import clsx from 'clsx'
 import find from 'lodash/find'
 import get from 'lodash/get'
 
@@ -23,31 +24,41 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
-  contentText: {
-    color: '#1b5e20',
-    // fontSize: '2rem',
+  clickable: {
+    cursor: 'pointer',
   },
-  footerContainer: { height: 36 },
-  headerCardTitle: {
+  contentText: {
+    fontWeight: 'normal',
+  },
+  footerContainer: { height: 36, color: 'grey' },
+  hover: {
+    '&:hover': {
+      backgroundColor: '#ddd4',
+    },
+    textDecoration: 'none',
+  },
+  infoIcon: {
+    color: '#1976d2',
+    zoom: 0.7,
+  },
+  selectedCard: {
+    backgroundColor: '#ddd4',
+    border: '2px solid #00b0ff',
+    borderRadius: 4,
+  },
+  topicTitle: {
     color: 'grey',
   },
-  headerContainer: { height: 64, backgroundColor: '#ddd4' },
-  iconCard: {
-    zoom: 3,
-  },
-  iconContainer: {
-    textAlign: 'center',
-  },
-  paperContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
+  unitText: {
+    fontWeight: 'normal',
   },
 }))
 
-const ObservationBloodPressureCard: React.FunctionComponent<{ query: any }> = ({
-  query,
-}) => {
+const ObservationBloodPressureCard: React.FunctionComponent<{
+  query: any
+  onClick?: any
+  selectedCard?: string
+}> = ({ query, onClick, selectedCard }) => {
   const params: IObservationListFilterQuery = {
     code: OBSERVATION_CODE.BLOOD_PRESSURE.code,
     encounterId: get(query, 'encounterId'),
@@ -68,34 +79,30 @@ const ObservationBloodPressureCard: React.FunctionComponent<{ query: any }> = ({
   if (isLoading) {
     return <LoadingSection />
   }
-  return <ObservationBloodPressureCardView observation={observationList[0]} />
+  return (
+    <ObservationBloodPressureCardView
+      observation={observationList[0]}
+      onClick={onClick}
+      selectedCard={selectedCard}
+    />
+  )
 }
 
 export default ObservationBloodPressureCard
 
 export const ObservationBloodPressureCardView: React.FunctionComponent<{
   observation: any
-}> = ({ observation }) => {
+  onClick?: any
+  selectedCard?: string
+}> = ({ observation, onClick, selectedCard }) => {
   const classes = useStyles()
   return (
-    <Paper className={classes.paperContainer} elevation={1}>
-      <Grid container alignItems='center' className={classes.headerContainer}>
-        <Grid item xs={3} style={{ paddingLeft: '1em' }}>
-          <Typography variant='body1'>
-            <Icon
-              style={{ color: '#c62828fa' }}
-              className={'fas fa-stethoscope'}
-            />
-          </Typography>
-        </Grid>
-        <Grid item xs={9} style={{ paddingRight: '1em' }}>
-          <Grid container justify='flex-end'>
-            <Typography variant='body1' className={classes.headerCardTitle}>
-              Blood Pressure
-            </Typography>
-          </Grid>
-        </Grid>
-      </Grid>
+    <CardLayout
+      header='Blood Pressure'
+      Icon={
+        <Icon style={{ color: '#c62828fa' }} className={'fas fa-stethoscope'} />
+      }
+    >
       <Grid
         container
         justify='center'
@@ -107,17 +114,29 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
           item
           container
           direction='column'
-          style={{
-            paddingLeft: 16,
-            paddingRight: 16,
-          }}
+          className={clsx(
+            classes.clickable,
+            classes.hover,
+            selectedCard === OBSERVATION_CODE.BLOOD_PRESSURE.value
+              ? classes.selectedCard
+              : null,
+          )}
+          onClick={() =>
+            onClick ? onClick(OBSERVATION_CODE.BLOOD_PRESSURE.value) : null
+          }
         >
           <Typography
             component='div'
             variant='body2'
             className={classes.bodyCard}
+            style={{
+              paddingLeft: 16,
+              paddingRight: 16,
+            }}
           >
-            SYS{' '}
+            <Typography variant='body2' className={classes.topicTitle}>
+              SYS
+            </Typography>
             <div>
               <Typography
                 component='span'
@@ -136,16 +155,28 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
                     ).toFixed(2)
                   : 'N/A'}
               </Typography>{' '}
-              <span>{get(observation, 'unit') || ''}</span>
+              <Typography
+                component='span'
+                variant='body1'
+                className={classes.unitText}
+              >
+                {get(observation, 'unit') || ''}
+              </Typography>
             </div>
           </Typography>
-          <Divider />
+          <Divider variant='middle' />
           <Typography
             component='div'
             variant='body2'
             className={classes.bodyCard}
+            style={{
+              paddingLeft: 16,
+              paddingRight: 16,
+            }}
           >
-            DAI{' '}
+            <Typography variant='body2' className={classes.topicTitle}>
+              DAI
+            </Typography>
             <div>
               <Typography
                 component='span'
@@ -164,7 +195,13 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
                     ).toFixed(2)
                   : 'N/A'}
               </Typography>{' '}
-              <span>{get(observation, 'unit') || ''}</span>
+              <Typography
+                component='span'
+                variant='body1'
+                className={classes.unitText}
+              >
+                {get(observation, 'unit') || ''}
+              </Typography>
             </div>
           </Typography>
         </Grid>
@@ -175,10 +212,8 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
         alignContent='center'
         className={classes.footerContainer}
       >
-        <Typography variant='body2' className={classes.headerCardTitle}>
-          {get(observation, 'issued')}
-        </Typography>
+        <Typography variant='body2'>{get(observation, 'issued')}</Typography>
       </Grid>
-    </Paper>
+    </CardLayout>
   )
 }

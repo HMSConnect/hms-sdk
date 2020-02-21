@@ -1,16 +1,18 @@
+import * as React from 'react'
+
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PatientClaimTable from '@components/widget/patient/PatientClaimTable'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
 import { get } from 'lodash'
-import * as React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const PatientClaimTableView: IStatelessPage<{
+const PatientClaimTableWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   return (
@@ -29,10 +31,10 @@ const PatientClaimTableView: IStatelessPage<{
   )
 }
 
-PatientClaimTableView.getInitialProps = async ({ req, res, query }) => {
+PatientClaimTableWidget.getInitialProps = async ({ req, res, query }) => {
   return {
     query: parse(query),
   }
 }
 
-export default PatientClaimTableView
+export default withAuthSync(PatientClaimTableWidget)

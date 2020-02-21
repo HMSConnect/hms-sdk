@@ -15,6 +15,7 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core'
+import { lighten } from '@material-ui/core/styles'
 import { scaleTime } from 'd3-scale'
 import get from 'lodash/get'
 import maxBy from 'lodash/maxBy'
@@ -65,12 +66,10 @@ const ObservationBloodPressureGraph: React.FunctionComponent<{
     return <LoadingSection />
   }
   return (
-    <>
-      <ObservationBloodPressureGraphView
-        observationList={observationList}
-        optionStyle={optionStyle}
-      />
-    </>
+    <ObservationBloodPressureGraphView
+      observationList={observationList}
+      optionStyle={optionStyle}
+    />
   )
 }
 
@@ -90,47 +89,60 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
         option={{
           isHideIcon: true,
           style: {
-            backgroundColor: '#ef5350',
-            color: '#e1f5fe',
+            backgroundColor: lighten('#ef5350', 0.85),
+            color: '#ef5350',
+            height: '10%',
           },
         }}
       ></ToolbarWithFilter>
-      <GraphBase
-        data={observationList}
-        argumentField='issuedDate'
-        optionStyle={{
-          color: '#e57373',
-          ...optionStyle,
-          height: optionStyle && optionStyle.height && optionStyle.height - 200,
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '90%',
+          justifyContent: 'center',
         }}
-        options={{
-          ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
-          ValueScale: <ValueScale modifyDomain={() => [40, 150]} />,
-          type: 'area',
-        }}
-      />
-      <Divider />
-      <Paper className={classes.summaryContainer}>
-        {lastData ? (
-          <>
-            {' '}
-            <Typography variant='body1' style={{}}>
-              {lastData.issued}
+      >
+        <div style={{ display: 'block' }}>
+          <GraphBase
+            data={observationList}
+            argumentField='issuedDate'
+            optionStyle={{
+              color: '#e57373',
+              ...optionStyle,
+              height:
+                optionStyle && optionStyle.height && optionStyle.height - 200,
+            }}
+            options={{
+              ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
+              ValueScale: <ValueScale modifyDomain={() => [40, 150]} />,
+              type: 'area',
+            }}
+          />
+          <Divider />
+        </div>
+        <div className={classes.summaryContainer}>
+          {lastData ? (
+            <>
+              {' '}
+              <Typography variant='body1' style={{}}>
+                {lastData.issued}
+              </Typography>
+              <Typography
+                variant='body1'
+                style={{ fontSize: '1.5rem', color: '#ef5350' }}
+              >
+                {lastData.value}
+                {lastData.unit}
+              </Typography>
+            </>
+          ) : (
+            <Typography variant='h6' style={{}}>
+              N/A
             </Typography>
-            <Typography
-              variant='body1'
-              style={{ fontSize: '1.5rem', color: '#ef5350' }}
-            >
-              {lastData.value}
-              {lastData.unit}
-            </Typography>
-          </>
-        ) : (
-          <Typography variant='h6' style={{}}>
-            N/A
-          </Typography>
-        )}
-      </Paper>
+          )}
+        </div>
+      </div>
     </>
   )
 }

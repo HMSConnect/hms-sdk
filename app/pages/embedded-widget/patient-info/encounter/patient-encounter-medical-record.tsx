@@ -1,11 +1,11 @@
-import * as _ from 'lodash'
+import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
-import * as React from 'react'
-
+import * as _ from 'lodash'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const PatientInfoView: IStatelessPage<{
+const PatientInfoWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -39,10 +39,10 @@ const PatientInfoView: IStatelessPage<{
   )
 }
 
-PatientInfoView.getInitialProps = async ({ req, res, query }) => {
+PatientInfoWidget.getInitialProps = async ({ req, res, query }) => {
   return {
     query,
   }
 }
 
-export default PatientInfoView
+export default withAuthSync(PatientInfoWidget)

@@ -1,246 +1,309 @@
-import React from 'react'
-
-import { Grid, makeStyles, Paper } from '@material-ui/core'
-import RouteManager from '@routes/RouteManager'
-import { sendMessage } from '@utils'
+import ErrorSection from '@components/base/ErrorSection'
+import usePatient from '@components/hooks/usePatient'
+import {
+  Avatar,
+  CircularProgress,
+  Grid,
+  makeStyles,
+  Theme,
+  Typography,
+} from '@material-ui/core'
 import * as _ from 'lodash'
-import routes from '../../../routes'
-import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
-import ObservationBloodPressureGraph from '../observation/ObservationBloodPressureGraph'
-import ObservationBodyHeightGraph from '../observation/ObservationBodyHeightGraph'
-import ObservationBodyWeightGraph from '../observation/ObservationBodyWeightGraph'
-import ObservationLaboratoryTable from '../observation/ObservationLaboratoryTable'
-import ObservationSummaryGraph from '../observation/ObservationSummaryGraph'
-import PatientDemograhicSummary from './PatientDemograhicSummary'
-import PatientEncounterTimeline from './PatientEncounterTimeline'
-import PatientInfoPanel from './PatientInfoPanel'
-import PatientMedicationList from './PatientMedication'
+import * as React from 'react'
+import { useSelector } from 'react-redux'
+import PatientAllergyList from './PatientAllergyList'
 
-export interface IPatientTableProps {
-  entry: any[]
-  headerCells: IEnhancedTableProps[]
-  bodyCells: any
-}
-
-export interface IPatientTableData {
-  tableData: any
-  tableNavigate: string
-}
-const useStyles = makeStyles(theme => ({
-  associatedPatientCard: {
-    flex: 1,
-    height: '15em',
-    margin: 8,
-    marginTop: 0,
-    overflow: 'auto',
-    paddingBottom: '1em',
+const useStyles = makeStyles((theme: Theme) => ({
+  bigAvatar: {
+    height: theme.spacing(10),
+    margin: 10,
+    width: theme.spacing(10),
   },
-  detailSelector: {
-    flex: 1,
+  contentText: {
+    color: '#37474f',
+    fontWeight: 'normal',
   },
-  infoPanel: {
-    padding: 8,
-    // height: '15em',
+  headerTitle: {
+    color: 'grey',
   },
-  laboratoryCardContent: {
-    flex: 1,
-    height: '34em',
-    margin: 8,
-    overflow: 'auto',
+  nameTitle: {
+    color: '#808080',
   },
-  menuList: {
-    height: '50em',
-    margin: 8,
-    // position: 'sticky',
-    overflow: 'auto',
-    top: 0,
+  root: {
+    flexGrow: 1,
   },
-  patientContent: {
-    flex: 1,
-    height: '100',
-    margin: 8,
-  },
-  root: { height: '100%', display: 'flex' },
-  virtalSignCard: {
-    flex: 1,
-    margin: 8,
-    overflow: 'auto',
+  topicTitle: {
+    color: 'grey',
   },
 }))
 
 const PatientDemographic: React.FunctionComponent<{
-  query: any
+  patientId: string
   name?: string
-}> = ({ query, name = 'patientDemographic' }) => {
-  const classes = useStyles()
-  return (
-    <>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={12} lg={9} xl={10}>
-          <Paper className={classes.infoPanel}>
-            <PatientInfoPanel query={query} />
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={12} lg={3} xl={2}>
-          <PatientAssociatedData query={query} />
-        </Grid>
-        <Grid item xs={12} sm={12} lg={8} xl={7}>
-          <div className={classes.detailSelector}>
-            <PatientDetailSub query={query} name={name} />
-          </div>
-        </Grid>
-        <Grid item xs={12} sm={12} lg={4} xl={5}>
-          <Paper className={classes.menuList}>
-            <ObservationSummaryGraph
-              query={query}
-              optionsGraph={{
-                standardSizeForResizeLegendToBottom: [
-                  'xsmall',
-                  'small',
-                  'large',
-                  'medium',
-                ],
-              }}
-            />
-            {/* <ObservationSummaryTestGraph
-              query={query}
-              optionsGraph={{
-                standardSizeForResizeLegendToBottom: [
-                  'xsmall',
-                  'small',
-                  'large',
-                  'medium',
-                ],
-              }}
-            /> */}
-          </Paper>
-        </Grid>
-      </Grid>
-      <PatientLabResult query={query} />
-    </>
+}> = ({ patientId, name = 'PatientDemographic' }) => {
+  const { isLoading: isPatientLoading, data: patient, error } = usePatient(
+    patientId,
   )
-}
-
-const PatientLabResult: React.FunctionComponent<{
-  query: any
-}> = ({ query }) => {
-  const classes = useStyles()
-  return (
-    <Grid container>
-      <Grid item xs={12} sm={12} md={8}>
-        <Paper className={classes.laboratoryCardContent}>
-          <ObservationLaboratoryTable
-            key={`ObservationLaboratoryTable${_.get(query, 'encounterId')}`}
-            patientId={_.get(query, 'patientId')}
-            encounterId={_.get(query, 'encounterId')}
-            isInitialize={true}
-            max={query.max}
-          />
-        </Paper>
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <Paper className={classes.virtalSignCard}>
-          <ObservationBloodPressureGraph
-            // key={`ObservationBloodPressureGraph${_.get(query, 'encounterId')}`}
-            query={query}
-            optionStyle={{ height: 580 }}
-          />
-        </Paper>
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <Paper className={classes.virtalSignCard}>
-          <ObservationBodyHeightGraph
-            // key={`ObservationBodyHeightGraph${_.get(query, 'encounterId')}`}
-            query={query}
-            optionStyle={{ height: 580 }}
-          />
-        </Paper>
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <Paper className={classes.virtalSignCard}>
-          <ObservationBodyWeightGraph
-            // key={`ObservationBodyWeightGraph${_.get(query, 'encounterId')}`}
-            query={query}
-            optionStyle={{ height: 580 }}
-          />
-        </Paper>
-      </Grid>
-    </Grid>
-  )
-}
-const PatientDetailSub: React.FunctionComponent<{
-  query: any
-  name?: string
-}> = ({ query, name = 'patientDetailSub' }) => {
-  const classes = useStyles()
-
-  const handleEncounterSelect = (
-    event: React.MouseEvent,
-    selectedEncounter: any,
-  ) => {
-    const newParams = {
-      encounterId: _.get(selectedEncounter, 'id'),
-      patientId: _.get(query, 'patientId'),
-    }
-    const path = RouteManager.getPath(`patient-demographic`, {
-      matchBy: 'url',
-      params: newParams,
-    })
-    sendMessage({
-      action: 'PUSH_ROUTE',
-      message: 'handleEncounterSelect',
-      name,
-      params: newParams,
-      path,
-    })
-    routes.Router.replaceRoute(path)
+  if (error) {
+    return <ErrorSection error={error} />
   }
 
+  if (isPatientLoading) {
+    return <CircularProgress />
+  }
+
+  return <PatientDemographicView patient={patient} />
+}
+
+export const PatientDemographicWithConnector: React.FunctionComponent = () => {
+  const state = useSelector((state: any) => state.patientDemographic)
+  return <PatientDemographic patientId={state.patientId} />
+}
+
+export const PatientDemographicView: React.FunctionComponent<{
+  patient: any
+}> = ({ patient: info }) => {
+  const classes = useStyles()
   return (
-    <Grid container className={classes.root}>
-      <Grid item xs={12} sm={12} md={6} lg={6} xl={7}>
-        <Paper className={classes.menuList}>
-          <PatientEncounterTimeline
-            patientId={_.get(query, 'patientId')}
-            selectedEncounterId={_.get(query, 'encounterId')}
-            isInitialize={true}
-            max={query.max}
-            onEncounterSelected={handleEncounterSelect}
-            name={`${name}EncounterTimeline`}
-          />
-        </Paper>
+    <Grid container spacing={1} style={{ paddingLeft: '2em', height: '100%' }}>
+      <Grid item sm={12} md={12} lg={6}>
+        {/* <div className={classes.root}> */}
+        <Grid
+          container
+          style={{
+            alignContent: 'center',
+            height: '100%',
+            justifyContent: 'center',
+          }}
+        >
+          <Grid container alignItems='center'>
+            <Grid item sm={12} md={12} lg={2}>
+              <Grid container alignItems='center'>
+                <Avatar
+                  alt='Image'
+                  src='../../../../../static/images/mock-person-profile.png'
+                  className={classes.bigAvatar}
+                />
+              </Grid>
+            </Grid>
+            <Grid item sm={12} md={12} lg={9} style={{ paddingLeft: '1em' }}>
+              <Grid container>
+                <Typography variant='h4' className={classes.nameTitle}>
+                  {_.isArray(_.get(info, 'name.prefix'))
+                    ? _.join(_.get(info, 'name.prefix'), ' ')
+                    : _.get(info, 'name.prefix')}{' '}
+                  {_.isArray(_.get(info, 'name.given'))
+                    ? _.join(_.get(info, 'name.given'), ' ')
+                    : _.get(info, 'name.given')}{' '}
+                  {_.isArray(_.get(info, 'name.family'))
+                    ? _.join(_.get(info, 'name.family'), ' ')
+                    : _.get(info, 'name.family')}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={4}>
+                <Grid
+                  container
+                  direction='row'
+                  justify='space-between'
+                  alignContent='space-between'
+                >
+                  <Grid item xs={12}>
+                    <Typography
+                      variant='body1'
+                      className={classes.topicTitle}
+                      component='span'
+                    >
+                      Age :{' '}
+                    </Typography>
+                    <Typography
+                      component='span'
+                      variant='body1'
+                      className={classes.contentText}
+                    >
+                      {_.get(info, 'age') || 'Unknow'}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography component='div' variant='body1'>
+                      <Typography
+                        variant='body1'
+                        className={classes.topicTitle}
+                        component='span'
+                      >
+                        Gender :{' '}
+                      </Typography>
+                      <Typography
+                        component='span'
+                        variant='body1'
+                        className={classes.contentText}
+                      >
+                        {_.startCase(_.get(info, 'gender')) || 'Unknow'}
+                      </Typography>
+                    </Typography>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Typography
+                      variant='body1'
+                      className={classes.topicTitle}
+                      component='span'
+                    >
+                      DOB :{' '}
+                    </Typography>
+                    <Typography
+                      component='span'
+                      variant='body1'
+                      className={classes.contentText}
+                    >
+                      {_.get(info, 'birthDate')}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+
+              <Grid item xs={12} sm={4}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <Typography
+                      variant='body1'
+                      className={classes.topicTitle}
+                      component='span'
+                    >
+                      Phone :{' '}
+                    </Typography>
+                    <Typography
+                      component='span'
+                      variant='body1'
+                      className={classes.contentText}
+                    >
+                      {_.get(info, 'telecom')
+                        ? _.isArray(_.get(info, 'telecom'))
+                          ? _.join(
+                              _.map(_.get(info, 'telecom'), (tel: any) =>
+                                _.get(tel, 'value'),
+                              ),
+                              ' ',
+                            )
+                          : _.get(info, 'telecom')
+                        : 'Unknow'}
+                    </Typography>
+                  </Grid>
+                  {info.email && (
+                    <Grid item xs={12}>
+                      <Typography
+                        variant='body1'
+                        className={classes.topicTitle}
+                        component='span'
+                      >
+                        Email :{' '}
+                      </Typography>
+                      <Typography
+                        component='span'
+                        variant='body1'
+                        className={classes.contentText}
+                      >
+                        {_.get(info, 'email') || 'Unknow'}
+                      </Typography>
+                    </Grid>
+                  )}
+                </Grid>
+              </Grid>
+
+              <Grid item xs={12} sm={4}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <Typography
+                      variant='body1'
+                      className={classes.topicTitle}
+                      component='span'
+                    >
+                      Address :{' '}
+                    </Typography>
+                    <Typography
+                      component='span'
+                      variant='body1'
+                      className={classes.contentText}
+                    >
+                      {_.get(info, 'address')
+                        ? `${
+                            _.isArray(_.get(info, 'address[0].line'))
+                              ? _.join(_.get(info, 'address[0].line'), ' ')
+                              : _.get(info, 'address[0].line')
+                          } ${_.get(info, 'address[0].postalCode')} ${_.get(
+                            info,
+                            'address[0].city',
+                          )} ${_.get(info, 'address[0].country')}`
+                        : 'Unknow'}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        {/* </div> */}
       </Grid>
-      <Grid item xs={12} sm={12} md={6} lg={6} xl={5}>
-        <div className={classes.menuList}>
-          <PatientDemograhicSummary
-            key={`PatientDemograhicSummary${_.get(query, 'encounterId')}`}
-            query={query}
-            name={`${name}DemographicSuumary`}
+      <Grid style={{ height: '100%' }} item xs={12} sm={12} md={6} lg={2}>
+        <Grid
+          container
+          direction='column'
+          style={{
+            alignContent: 'center',
+            borderLeftColor: 'lightgray',
+            borderLeftStyle: 'solid',
+            borderLeftWidth: 1,
+            height: '100%',
+            justifyContent: 'center',
+            width: '100%',
+          }}
+        >
+          <Typography
+            variant='body1'
+            component='div'
+            style={{ textAlign: 'center' }}
+          >
+            <Typography variant='h6' className={classes.nameTitle}>
+              {_.get(info, 'practitioner') || 'Mr. Test'}
+            </Typography>
+          </Typography>
+
+          <Typography component='div' style={{ textAlign: 'center' }}>
+            <Avatar className={classes.bigAvatar}>
+              <Typography
+                variant='h4'
+                component='span'
+                style={{ color: 'white' }}
+              >
+                PH
+              </Typography>
+            </Avatar>
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid style={{ height: '100%' }} item xs={12} sm={12} md={6} lg={4}>
+        <div
+          style={{
+            borderLeftColor: 'lightgray',
+            borderLeftStyle: 'solid',
+            borderLeftWidth: 1,
+            height: '100%',
+            maxHeight: '100%',
+            overflow: 'auto',
+            padding: '0 1em',
+          }}
+        >
+          <PatientAllergyList
+            patientId={_.get(info, 'identifier.id.value')}
+            isInitialize={true}
+            name={`${name}AllergyIntoleranceList`}
           />
         </div>
       </Grid>
     </Grid>
-  )
-}
-
-const PatientAssociatedData: React.FunctionComponent<{
-  query: any
-}> = ({ query }) => {
-  const classes = useStyles()
-  return (
-    <>
-      <Grid container>
-        <Grid item xs={12} sm={12} md={12} lg={12}>
-          <Paper className={classes.associatedPatientCard}>
-            <PatientMedicationList
-              patientId={_.get(query, 'patientId')}
-              isInitialize={true}
-              name={`${name}MedicationList`}
-            />
-          </Paper>
-        </Grid>
-      </Grid>
-    </>
   )
 }
 

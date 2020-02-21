@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import ObservationLaboratoryCard from '@components/widget/medical-records/ObservationLaboratoryCard'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const ObservationLaboratoryCardPage: IStatelessPage<{
+const ObservationLaboratoryCardWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -28,10 +29,10 @@ const ObservationLaboratoryCardPage: IStatelessPage<{
   )
 }
 
-ObservationLaboratoryCardPage.getInitialProps = async ({ req, res, query }) => {
+ObservationLaboratoryCardWidget.getInitialProps = async ({ req, res, query }) => {
   return {
     query: parse(query),
   }
 }
 
-export default ObservationLaboratoryCardPage
+export default withAuthSync(ObservationLaboratoryCardWidget)

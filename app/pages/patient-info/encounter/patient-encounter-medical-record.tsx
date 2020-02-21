@@ -1,13 +1,13 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientDemographic from '@components/widget/patient/PatientDemographic'
+import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import { IStatelessPage } from '@pages/patient-search'
-import * as _ from 'lodash'
-import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
+
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     // height: '100vh',
@@ -71,4 +71,4 @@ PatientMeidicalPanel.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default PatientMeidicalPanel
+export default withAuthSync(PatientMeidicalPanel)

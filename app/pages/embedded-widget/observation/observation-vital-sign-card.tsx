@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import ObservationVitalSignCard from '@components/widget/medical-records/ObservationVitalSignCard'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
@@ -10,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const ObservationVitalSignCardPage: IStatelessPage<{
+const ObservationVitalSignCardWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -25,10 +26,10 @@ const ObservationVitalSignCardPage: IStatelessPage<{
   )
 }
 
-ObservationVitalSignCardPage.getInitialProps = async ({ req, res, query }) => {
+ObservationVitalSignCardWidget.getInitialProps = async ({ req, res, query }) => {
   return {
     query: parse(query),
   }
 }
 
-export default ObservationVitalSignCardPage
+export default withAuthSync(ObservationVitalSignCardWidget)

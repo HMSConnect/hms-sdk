@@ -1,14 +1,18 @@
+import * as React from 'react'
+
 import { widgetReducer, widgetState } from '@app/reducers/widgetManager.reducer'
+import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import SideMenuWithContent from '@components/base/SideMenuWithContent'
 import WigetManagerMenuList from '@components/templates/widget-manager/WidgetManagerMenuList'
 import WidgetManagerOutputEvent from '@components/templates/widget-manager/WidgetManagerOutputEvent'
 import WidgetManagerParameter from '@components/templates/widget-manager/WidgetManagerParameter'
+import { IWidgetGroup } from '@config'
 import {
+  widgetGalleryAllergyIntoleranceConfig,
   widgetGalleryDiagnosticReportConfig,
   widgetGalleryEncounterConfig,
   widgetGalleryObservationConfig,
   widgetGalleryPatientConfig,
-  widgetGalleryAllergyIntoleranceConfig,
 } from '@config/embedded-widget'
 import {
   AppBar,
@@ -28,6 +32,7 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core'
+import HomeIcon from '@material-ui/icons/Home'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import RefreshIcon from '@material-ui/icons/Refresh'
@@ -35,10 +40,8 @@ import { IStatelessPage } from '@pages/patient-search'
 import * as _ from 'lodash'
 import MarkdownIt from 'markdown-it'
 import { parse, stringify } from 'qs'
-import * as React from 'react'
 import '../../github-markdown.css'
 import routes from '../../routes'
-import { IWidgetGroup } from '@config'
 
 const md = MarkdownIt({ html: true })
 
@@ -387,6 +390,19 @@ const WidgetManager: IStatelessPage<{
   return (
     <>
       <CssBaseline />
+      {/* <BreadcrumbsBase
+        currentPath='Patient Info'
+        parentPath={[
+          {
+            icon: <HomeIcon />,
+            label: 'Home',
+            url: '/',
+          },
+          {
+            label: 'Embedded Widget',
+          },
+        ]}
+      ></BreadcrumbsBase> */}
       <SideMenuWithContent
         menuTitle='Embedded Widget'
         appBarTitle={selectedWidget?.label}

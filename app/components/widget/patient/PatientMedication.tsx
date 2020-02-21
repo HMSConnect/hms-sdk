@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import ErrorSection from '@components/base/ErrorSection'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
@@ -22,8 +20,13 @@ import { HMSService } from '@services/HMSServiceFactory'
 import MedicationRequestService from '@services/MedicationRequestService'
 import { sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
+import * as React from 'react'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  listPadding: {
+    paddingLeft: theme.spacing(1),
+  },
   tableWrapper: {
     ['& .MuiTableCell-stickyHeader']: {
       top: 60,
@@ -36,6 +39,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     zIndex: 1000,
   },
 }))
+
+export const PatientMedicationListWithConnector = () => {
+  const patientMedicationListState = useSelector(
+    (state: any) => state.patientMedicationList,
+  )
+  return (
+    <PatientMedicationList
+      patientId={_.get(patientMedicationListState, 'patientId')}
+      isInitialize={true}
+      name={`${name}MedicationList`}
+    />
+  )
+}
 
 const PatientMedicationList: React.FunctionComponent<{
   patientId: any
@@ -137,7 +153,11 @@ const PatientMedicationList: React.FunctionComponent<{
         ></ToolbarWithFilter>
       </div>
 
-      <List component='nav' aria-labelledby='nested-list-subheader'>
+      <List
+        className={classes.listPadding}
+        component='nav'
+        aria-labelledby='nested-list-subheader'
+      >
         {_.isEmpty(data) ? (
           <div style={{ padding: '1em', textAlign: 'center' }}>
             <Typography variant='body1'>No Medcation found</Typography>
@@ -150,7 +170,11 @@ const PatientMedicationList: React.FunctionComponent<{
                   <FiberManualRecordIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary={`${_.get(medication, 'medicationCodeableConcept')}`}
+                  primary={
+                    <Typography variant='body1'>
+                      {_.get(medication, 'medicationCodeableConcept')}
+                    </Typography>
+                  }
                 />
               </ListItem>
             ))}

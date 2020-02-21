@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) => {
       margin: theme.spacing(1),
     },
     root: {
+      height: '100%',
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(1),
     },
@@ -60,7 +61,7 @@ const ToolbarWithFilter: React.FC<{
   onClickIcon,
   children,
   title = 'Toolbar Title',
-  Icon = <FilterListIcon style={{ color: 'lightgray' }} />,
+  Icon = <FilterListIcon />,
   filterActive = 0,
   option = {},
 }) => {

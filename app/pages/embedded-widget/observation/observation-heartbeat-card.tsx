@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import ObservationHeartbeatCard from '@components/widget/observation/ObservationHeartbeatCard'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
@@ -37,4 +38,4 @@ ObservationHeartbeatCardWidget.getInitialProps = async ({
   }
 }
 
-export default ObservationHeartbeatCardWidget
+export default withAuthSync(ObservationHeartbeatCardWidget)
