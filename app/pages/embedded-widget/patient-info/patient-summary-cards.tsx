@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PatientSummaryCards from '@components/widget/patient/PatientSummaryCards'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
@@ -34,4 +35,4 @@ PatientDemographicSummaryWidget.getInitialProps = async ({
   }
 }
 
-export default PatientDemographicSummaryWidget
+export default withAuthSync(PatientDemographicSummaryWidget)

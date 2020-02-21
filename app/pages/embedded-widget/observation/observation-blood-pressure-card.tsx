@@ -1,11 +1,11 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import ObservationBloodPressureCard from '@components/widget/observation/ObservationBloodPressureCard'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
-import * as _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -38,4 +38,4 @@ ObservationBloodPressureCardWidget.getInitialProps = async ({
   }
 }
 
-export default ObservationBloodPressureCardWidget
+export default withAuthSync(ObservationBloodPressureCardWidget)

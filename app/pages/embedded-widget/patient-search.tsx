@@ -1,16 +1,11 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
 import PatientSearch from '@components/widget/patient/PatientSearch'
-import {
-  Container,
-  CssBaseline,
-  makeStyles,
-  Theme,
-  Typography,
-} from '@material-ui/core'
+import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { parse } from '@utils'
 import * as _ from 'lodash'
 
@@ -25,7 +20,7 @@ export interface IStatelessPage<P = {}> extends React.SFC<P> {
   getInitialProps?: (ctx: any) => Promise<P>
 }
 
-const PatientSearchView: IStatelessPage<{
+const PatientSearchWidget: IStatelessPage<{
   query: IPaginationOption
 }> = ({ query }) => {
   const classes = useStyles()
@@ -39,7 +34,7 @@ const PatientSearchView: IStatelessPage<{
   )
 }
 
-PatientSearchView.getInitialProps = async ({ query }) => {
+PatientSearchWidget.getInitialProps = async ({ query }) => {
   return {
     query: initialPagination(query),
   }
@@ -67,4 +62,4 @@ export function initialPagination(query: any) {
   }
 }
 
-export default PatientSearchView
+export default withAuthSync(PatientSearchWidget)

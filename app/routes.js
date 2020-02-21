@@ -4,7 +4,12 @@ module.exports = nextRoutes()
   //////////////////////////////// demo-app /////////////////////////////////
   .add('index', '/')
   .add('patient-search')
-  // .add('login')
+  .add('login')
+  .add(
+    'embedded-widget/login',
+    '/embedded-widget/login',
+    'embedded-widget/login',
+  )
   // .add(
   //   'patient-info/encounter',
   //   '/patient-info/:patientId/encounter/:encounterId',

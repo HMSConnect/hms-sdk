@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import { IPageOptionResult } from '@components/base/Pagination'
 import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
@@ -137,4 +138,5 @@ export function initialPagination(query: any) {
   }
 }
 
+// export default withAuthSync(PatientSearchResultWidget)
 export default PatientSearchResultWidget

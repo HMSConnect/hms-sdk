@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import ObservationBloodPressureGraph from '@components/widget/observation/ObservationBloodPressureGraph'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
@@ -38,4 +39,4 @@ ObservationBloodPressureGraphWidget.getInitialProps = async ({
   }
 }
 
-export default ObservationBloodPressureGraphWidget
+export default withAuthSync(ObservationBloodPressureGraphWidget)

@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import ObservationBodyMeasurementCard from '@components/widget/observation/ObservationBodyMeasurementCard'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
@@ -37,4 +38,4 @@ ObservationBodyMeasurementCardWidget.getInitialProps = async ({
   }
 }
 
-export default ObservationBodyMeasurementCardWidget
+export default withAuthSync(ObservationBodyMeasurementCardWidget)

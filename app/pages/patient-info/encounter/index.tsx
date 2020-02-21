@@ -1,7 +1,9 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
+import AppNavBar from '@components/widget/AppNavBar'
 import PatientSummary from '@components/widget/patient/PatientSummary'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
@@ -43,6 +45,7 @@ const EncounterPage: IStatelessPage<{
         <>
           {/* <Container maxWidth='lg'> */}
           <Typography component='div' className={classes.root}>
+            <AppNavBar />
             <BreadcrumbsBase
               currentPath='Patient Info'
               parentPath={[
@@ -72,4 +75,4 @@ EncounterPage.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default EncounterPage
+export default withAuthSync(EncounterPage)
