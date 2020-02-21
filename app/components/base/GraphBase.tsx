@@ -405,6 +405,7 @@ export const GraphLine: React.FunctionComponent<{
   }
   return (
     <Chart
+      // height={undefined}
       height={optionStyle.height}
       width={optionStyle.width}
       data={graphData}
@@ -507,6 +508,7 @@ export const GraphArea: React.FunctionComponent<{
   return (
     <Chart
       height={optionStyle.height}
+      // height={undefined}
       width={optionStyle.width}
       data={graphData}
     >

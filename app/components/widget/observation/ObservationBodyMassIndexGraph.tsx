@@ -83,26 +83,36 @@ export const ObservationBodyMassIndexGraphView: React.FunctionComponent<{
           style: {
             backgroundColor: lighten('#ff3d00', 0.85),
             color: '#ff3d00',
+            height: '10%',
           },
         }}
       ></ToolbarWithFilter>
-      <Paper>
-        <GraphBase
-          data={observationList}
-          argumentField='issuedDate'
-          optionStyle={{
-            color: '#ff3d00',
-            ...optionStyle,
-            height:
-              optionStyle && optionStyle.height && optionStyle.height - 200,
-          }}
-          options={{
-            ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
-            ValueScale: <ValueScale modifyDomain={() => [0, 50]} />,
-            type: 'area',
-          }}
-        />
-        <Divider />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '90%',
+          justifyContent: 'center',
+        }}
+      >
+        <div style={{ display: 'block' }}>
+          <GraphBase
+            data={observationList}
+            argumentField='issuedDate'
+            optionStyle={{
+              color: '#ff3d00',
+              ...optionStyle,
+              height:
+                optionStyle && optionStyle.height && optionStyle.height - 200,
+            }}
+            options={{
+              ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
+              ValueScale: <ValueScale modifyDomain={() => [0, 50]} />,
+              type: 'area',
+            }}
+          />
+          <Divider />
+        </div>
         <div className={classes.summaryContainer}>
           {lastData ? (
             <>
@@ -124,7 +134,9 @@ export const ObservationBodyMassIndexGraphView: React.FunctionComponent<{
             </Typography>
           )}
         </div>
-      </Paper>
+      </div>
+
+      {/* </Paper> */}
     </>
   )
 }

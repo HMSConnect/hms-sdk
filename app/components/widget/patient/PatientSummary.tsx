@@ -35,6 +35,7 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
   },
   infoPanel: {
+    height: '30em',
     margin: theme.spacing(1),
     padding: theme.spacing(1),
   },
@@ -44,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
   },
   menuList: {
-    height: '42em',
+    height: '44em',
     margin: theme.spacing(1),
     overflow: 'auto',
     top: 0,

@@ -301,6 +301,7 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
             style: {
               backgroundColor: lighten('#7e57c2', 0.85),
               color: '#7e57c2',
+              height: '13%',
             },
           }}
         >
@@ -331,18 +332,21 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
           style: {
             backgroundColor: lighten('#7e57c2', 0.85),
             color: '#7e57c2',
+            height: '10%',
           },
         }}
       >
         {renderModal}
       </ToolbarWithFilter>
-      <ObservationSummaryGraphView
-        key={`${observationList.length}`}
-        observationList={observationList}
-        submitedFilter={submitedFilter}
-        prepareGraphData={prepareGraphData}
-        options={optionsGraph}
-      />
+      <div style={{ height: '90%' }}>
+        <ObservationSummaryGraphView
+          key={`${observationList.length}`}
+          observationList={observationList}
+          submitedFilter={submitedFilter}
+          prepareGraphData={prepareGraphData}
+          options={optionsGraph}
+        />
+      </div>
     </>
   )
 }

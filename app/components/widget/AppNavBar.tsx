@@ -40,7 +40,7 @@ const AppNavBar: React.FunctionComponent<any> = () => {
     <AppBar position='static'>
       <Toolbar>
         <Typography variant='h6' className={classes.title}>
-          News
+          HMS Widget
         </Typography>
         <div>
           <Button onClick={handleLogout} color='inherit'>

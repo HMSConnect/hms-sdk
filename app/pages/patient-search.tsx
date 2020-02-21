@@ -21,7 +21,6 @@ import * as _ from 'lodash'
 const useStyles = makeStyles((theme: Theme) => ({
   body: {},
   root: {
-    paddingTop: '30px',
   },
 }))
 

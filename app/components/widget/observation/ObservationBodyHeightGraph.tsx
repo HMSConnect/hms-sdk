@@ -8,18 +8,12 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
-import {
-  Divider,
-  makeStyles,
-  Paper,
-  Theme,
-  Typography,
-} from '@material-ui/core'
+import { Divider, makeStyles, Theme, Typography } from '@material-ui/core'
+import { lighten } from '@material-ui/core/styles'
 import { scaleTime } from 'd3-scale'
 import get from 'lodash/get'
 import maxBy from 'lodash/maxBy'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
-import { lighten } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme: Theme) => ({
   summaryContainer: {
@@ -82,25 +76,36 @@ export const ObservationBodyHeightGraphView: React.FunctionComponent<{
           style: {
             backgroundColor: lighten('#00b0ff', 0.85),
             color: '#00b0ff',
+            height: '10%',
           },
         }}
       ></ToolbarWithFilter>
-      <Paper>
-        <GraphBase
-          data={observationList}
-          argumentField='issuedDate'
-          optionStyle={{
-            color: '#00b0ff',
-            ...optionStyle,
-            height: optionStyle && optionStyle.height && optionStyle.height - 200,
-          }}
-          options={{
-            ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
-            ValueScale: <ValueScale modifyDomain={() => [80, 200]} />,
-            type: 'area',
-          }}
-        />
-        <Divider />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '90%',
+          justifyContent: 'center',
+        }}
+      >
+        <div style={{ display: 'block' }}>
+          <GraphBase
+            data={observationList}
+            argumentField='issuedDate'
+            optionStyle={{
+              color: '#00b0ff',
+              ...optionStyle,
+              height:
+                optionStyle && optionStyle.height && optionStyle.height - 200,
+            }}
+            options={{
+              ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
+              ValueScale: <ValueScale modifyDomain={() => [80, 200]} />,
+              type: 'area',
+            }}
+          />
+          <Divider />
+        </div>
         <div className={classes.summaryContainer}>
           {lastData ? (
             <>
@@ -117,13 +122,13 @@ export const ObservationBodyHeightGraphView: React.FunctionComponent<{
               </Typography>
             </>
           ) : (
-              <Typography variant='h6' style={{}}>
-                N/A
-          </Typography>
-            )}
+            <Typography variant='h6' style={{}}>
+              N/A
+            </Typography>
+          )}
         </div>
-      </Paper>
-
+      </div>
+      {/* </Paper> */}
     </>
   )
 }

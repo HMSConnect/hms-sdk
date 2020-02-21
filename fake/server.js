@@ -6,6 +6,9 @@ const app = express()
 const mockStorage = require('./storage')
 const config = require('./config')
 
+const jwt = require('jsonwebtoken')
+const jwtSecret = 'test'
+
 const port = process.env.FAKE_PORT || 3002
 let db
 
@@ -70,7 +73,7 @@ app.use(
 // all domain resources
 app.get('/smart-fhir/domain-resources', (req, res) => {
   res.json({
-    error: null, 
+    error: null,
     data: mockStorage.domainResourceList
   })
 })
@@ -118,6 +121,33 @@ app.get('/smart-fhir/:domain_resource/:id', (req, res) => {
     console.error(err)
     res.json({ error: err, data: null })
   }
+})
+
+// Auth middleware
+app.use((req, res, next) => {
+  // login does not require jwt verification
+  if (req.path == '/api/login') {
+    // next middleware
+    return next()
+  }
+  // get token from request header Authorization
+  const token = req.headers.authorization
+  try {
+    var decoded = jwt.verify(token, jwtSecret)
+    console.log('decoded', decoded)
+  } catch (err) {
+    // Catch the JWT Expired or Invalid errors
+    return res.status(401).json({ msg: err.message })
+  }
+  next()
+})
+
+// --------------------------------------------
+app.get('/api/login', (req, res) => {
+  // generate a constant token, no need to be fancy here
+  const token = jwt.sign({ username: 'prima' }, jwtSecret, { expiresIn: 120 }) // 2 min token
+  console.log('token :', token)
+  res.json({ token: token })
 })
 
 // -----------------------------------------------

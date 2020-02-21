@@ -14,8 +14,7 @@ import ObservationHeartbeatGraph from './ObservationHeartbeatGraph'
 const useStyles = makeStyles(theme => ({
   virtalSignCard: {
     height: '100%',
-    margin: theme.spacing(1),
-    overflow: 'auto',
+    // overflow: 'auto',
   },
 }))
 
@@ -60,7 +59,7 @@ const ObservaionHistoryGraph: React.FunctionComponent<{
         return <EmptyComponent />
     }
   }
-  return <div className={classes.virtalSignCard}>{Component}</div>
+  return <Paper className={classes.virtalSignCard}>{Component}</Paper>
 }
 
 export default ObservaionHistoryGraph
