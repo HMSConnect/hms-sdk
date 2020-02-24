@@ -1,5 +1,4 @@
-import * as React from 'react'
-
+import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
@@ -14,9 +13,13 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core'
+import { sendMessage } from '@utils'
 import clsx from 'clsx'
+import _ from 'lodash'
 import find from 'lodash/find'
 import get from 'lodash/get'
+import * as React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -53,6 +56,30 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 'normal',
   },
 }))
+
+export const ObservationBloodPressureCardWithConnector: React.FunctionComponent = () => {
+  const state = useSelector((state: any) => state.patientSummaryCards)
+  const dispatch = useDispatch()
+  const handleCardClick = (cardName: string) => {
+    dispatch(cardClick(cardName))
+    sendMessage({
+      message: 'handleCardClick',
+      name,
+      params: {
+        cardName,
+      },
+    })
+  }
+
+  return (
+    <ObservationBloodPressureCard
+      key={`ObservationBloodPressureCard${_.get(state, 'query.encounterId')}`}
+      query={state.query}
+      onClick={handleCardClick}
+      selectedCard={_.get(state, 'selectedCard')}
+    />
+  )
+}
 
 const ObservationBloodPressureCard: React.FunctionComponent<{
   query: any

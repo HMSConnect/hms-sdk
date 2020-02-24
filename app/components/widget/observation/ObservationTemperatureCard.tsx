@@ -1,5 +1,4 @@
-import * as React from 'react'
-
+import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
@@ -7,8 +6,12 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { Grid, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
+import { sendMessage } from '@utils'
 import clsx from 'clsx'
+import _ from 'lodash'
 import get from 'lodash/get'
+import * as React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -42,6 +45,30 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 'normal',
   },
 }))
+
+export const ObservationTemperatureCardWithConnector: React.FunctionComponent = () => {
+  const state = useSelector((state: any) => state.patientSummaryCards)
+  const dispatch = useDispatch()
+  const handleCardClick = (cardName: string) => {
+    dispatch(cardClick(cardName))
+    sendMessage({
+      message: 'handleCardClick',
+      name,
+      params: {
+        cardName,
+      },
+    })
+  }
+
+  return (
+    <ObservationTemperatureCard
+      key={`ObservationTemperatureCard${_.get(state, 'query.encounterId')}`}
+      query={state.query}
+      onClick={handleCardClick}
+      selectedCard={_.get(state, 'selectedCard')}
+    />
+  )
+}
 
 const ObservationTemperatureCard: React.FunctionComponent<{
   query: any

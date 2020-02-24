@@ -1,5 +1,4 @@
-import * as React from 'react'
-
+import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
@@ -15,9 +14,11 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core'
-import InfoIcon from '@material-ui/icons/Info'
+import { sendMessage } from '@utils'
 import clsx from 'clsx'
 import * as _ from 'lodash'
+import * as React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -54,6 +55,30 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 'normal',
   },
 }))
+
+export const ObservationBodyMeasurementCardWithConnector: React.FunctionComponent = () => {
+  const state = useSelector((state: any) => state.patientSummaryCards)
+  const dispatch = useDispatch()
+  const handleCardClick = (cardName: string) => {
+    dispatch(cardClick(cardName))
+    sendMessage({
+      message: 'handleCardClick',
+      name,
+      params: {
+        cardName,
+      },
+    })
+  }
+
+  return (
+    <ObservationBodyMeasurementCard
+      key={`ObservationBodyMeasurementCard${_.get(state, 'query.encounterId')}`}
+      query={state.query}
+      onClick={handleCardClick}
+      selectedCard={_.get(state, 'selectedCard')}
+    />
+  )
+}
 
 const ObservationBodyMeasurementCard: React.FunctionComponent<{
   query: any
@@ -146,7 +171,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               }
             >
               <Typography variant='body2' className={classes.topicTitle}>
-                Height 
+                Height
               </Typography>
               <div>
                 <Typography
@@ -218,7 +243,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               }
             >
               <Typography variant='body2' className={classes.topicTitle}>
-                Weight 
+                Weight
               </Typography>
               <div>
                 <Typography
@@ -291,7 +316,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
             >
               <Typography variant='body2' className={classes.topicTitle}>
                 BMI
-                 {/* <InfoIcon className={classes.infoIcon} /> */}
+                {/* <InfoIcon className={classes.infoIcon} /> */}
               </Typography>
               <div>
                 <Typography

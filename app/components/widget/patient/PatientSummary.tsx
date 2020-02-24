@@ -4,9 +4,13 @@ import * as _ from 'lodash'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
+import { ObservationBloodPressureCardWithConnector } from '../observation/ObservationBloodPressureCard'
+import { ObservationBodyMeasurementCardWithConnector } from '../observation/ObservationBodyMeasurementCard'
+import { ObservationHeartbeatCardWithConnector } from '../observation/ObservationHeartbeatCard'
 import { ObservationHistoryGraphWithConnector } from '../observation/ObservationHistoryGraph'
 import { ObservationLaboratoryTableWithConnector } from '../observation/ObservationLaboratoryTable'
 import { ObservationSummaryGraphWithConnector } from '../observation/ObservationSummaryGraph'
+import { ObservationTemperatureCardWithConnector } from '../observation/ObservationTemperatureCard'
 import { PatientDemographicWithConnector } from './PatientDemographic'
 import { PatientEncounterTimelineWithConnector } from './PatientEncounterTimeline'
 import { PatientMedicationListWithConnector } from './PatientMedication'
@@ -64,6 +68,41 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const componentResource: any = {
+  observationBloodPressureCard: {
+    component: ObservationBloodPressureCardWithConnector,
+    defaultPosition: { x: 6, y: 4 },
+    layout: { h: 4, w: 2, isCard: true },
+  },
+  observationBodyMeasurementCard: {
+    component: ObservationBodyMeasurementCardWithConnector,
+    defaultPosition: { x: 4, y: 4 },
+    layout: { h: 4, w: 2, isCard: true },
+  },
+  observationHeartbeatCard: {
+    component: ObservationHeartbeatCardWithConnector,
+    defaultPosition: { x: 6, y: 8 },
+    layout: { h: 4, w: 2, isCard: true },
+  },
+  observaionHistoryGraph: {
+    component: ObservationHistoryGraphWithConnector,
+    defaultPosition: { x: 8, y: 4 },
+    layout: { h: 12, w: 4, isCard: true },
+  },
+  observationLaboratoryTable: {
+    component: ObservationLaboratoryTableWithConnector,
+    defaultPosition: { x: 0, y: 12 },
+    layout: { h: 9, w: 8, isCard: true },
+  },
+  observationSummaryGraph: {
+    component: ObservationSummaryGraphWithConnector,
+    defaultPosition: { x: 8, y: 12 },
+    layout: { h: 9, w: 4, isCard: true },
+  },
+  observationTemperatureCard: {
+    component: ObservationTemperatureCardWithConnector,
+    defaultPosition: { x: 4, y: 8 },
+    layout: { h: 4, w: 2, isCard: true },
+  },
   patientDemographic: {
     component: PatientDemographicWithConnector,
     defaultPosition: { x: 0, y: 0 },
@@ -82,35 +121,22 @@ const componentResource: any = {
   },
   patientSummaryCards: {
     component: PatientSummaryCardsWithConnector,
-    defaultPosition: { x: 4, y: 4 },
+    // defaultPosition: { x: 4, y: 4 },
     layout: { h: 12, w: 4, isCard: false },
-  },
-
-  observationLaboratoryTable: {
-    component: ObservationLaboratoryTableWithConnector,
-    defaultPosition: { x: 0, y: 12 },
-    layout: { h: 9, w: 8, isCard: true },
-  },
-  observaionHistoryGraph: {
-    component: ObservationHistoryGraphWithConnector,
-    defaultPosition: { x: 8, y: 4 },
-    layout: { h: 12, w: 4, isCard: true },
-  },
-  observationSummaryGraph: {
-    component: ObservationSummaryGraphWithConnector,
-    defaultPosition: { x: 8, y: 12 },
-    layout: { h: 9, w: 4, isCard: true },
   },
 }
 
-const defaultItems = _.map(componentResource, (c, componentKey) => {
-  return {
-    componentKey,
-    i: `init_${componentKey}`,
-    ...(c?.defaultPosition || { x: 0, y: 9 }),
-    ...(c?.layout || {}),
-  }
-})
+const defaultItems = _.chain(componentResource)
+  .omitBy(c => _.isEmpty(c.defaultPosition))
+  .map((c, componentKey) => {
+    return {
+      componentKey,
+      i: `init_${componentKey}`,
+      ...(c?.defaultPosition || { x: 0, y: 9 }),
+      ...(c?.layout || {}),
+    }
+  })
+  .value()
 
 const PatientSummary: React.FunctionComponent<{
   query: any
