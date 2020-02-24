@@ -113,7 +113,7 @@ export const ObservationHeartbeatCardView: React.FunctionComponent<{
   const classes = useStyles()
   return (
     <CardLayout
-      header='Heartbeat'
+      header='Heart Rate'
       Icon={
         <Icon
           style={{ color: '#c62828', paddingRight: 5 }}
@@ -150,7 +150,10 @@ export const ObservationHeartbeatCardView: React.FunctionComponent<{
             <Typography
               variant='h3'
               className={classes.contentText}
-              style={{ paddingRight: 8 }}
+              style={{
+                color: get(observation, 'value') ? undefined : 'gray',
+                paddingRight: 8,
+              }}
             >
               {get(observation, 'value') || 'N/A'}
             </Typography>

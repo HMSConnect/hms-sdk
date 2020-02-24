@@ -9,6 +9,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: 10,
     width: theme.spacing(10),
   },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
   contentText: {
     color: '#37474f',
     fontWeight: 'normal',
@@ -19,8 +24,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   nameTitle: {
     color: '#808080',
   },
+  pos: {
+    marginBottom: 12,
+  },
   root: {
-    flexGrow: 1,
+    // flexGrow: 1,
+    alignContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 14,
   },
   topicTitle: {
     color: 'grey',
@@ -32,30 +49,52 @@ export const PatientPhysicianWithConnector: React.FunctionComponent = () => {
   return <PatientPhysician info={state?.info} />
 }
 
+const mockPhysicians = [
+  {
+    name: 'Mr. John Doe',
+    phone: '081-22334455',
+    specialist: 'Internist',
+  },
+  {
+    name: 'Mrs. Jan Doe',
+    phone: '081-22334455',
+    specialist: 'Cardiologist',
+  },
+]
+
 const PatientPhysician: React.FunctionComponent<any> = ({ info }) => {
   const classes = useStyles({})
-
   return (
-    <div>
+    <div className={classes.root}>
       <Typography
-        variant='body1'
         component='div'
-        style={{ textAlign: 'center' }}
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          textAlign: 'center',
+        }}
       >
-        <Typography variant='h6' className={classes.nameTitle}>
-          {_.get(info, 'practitioner') || 'Mr. Physician'}
-        </Typography>
-      </Typography>
-
-      <Typography component='div' style={{ textAlign: 'center' }}>
         <Avatar className={classes.bigAvatar}>
           <Typography variant='h4' component='span' style={{ color: 'white' }}>
             PH
           </Typography>
         </Avatar>
       </Typography>
+      <Typography className={classes.title} color='textSecondary' gutterBottom>
+        {_.get(info, 'specialist')}
+      </Typography>
+      <Typography variant='h5' component='h2'>
+        {_.get(info, 'name')}
+      </Typography>
+      <Typography className={classes.pos} color='textSecondary'>
+        {_.get(info, 'phone')}
+      </Typography>
     </div>
   )
+}
+
+PatientPhysician.defaultProps = {
+  info: mockPhysicians[Math.round(Math.random() * (mockPhysicians.length - 1))],
 }
 
 export default PatientPhysician

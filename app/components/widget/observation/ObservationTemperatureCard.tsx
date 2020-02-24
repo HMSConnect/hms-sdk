@@ -151,7 +151,10 @@ export const ObservationTemperatureCardView: React.FunctionComponent<{
                 component='span'
                 variant='h3'
                 className={classes.contentText}
-                style={{ paddingRight: 8 }}
+                style={{
+                  color: get(observation, 'value') ? undefined : 'gray',
+                  paddingRight: 8,
+                }}
               >
                 {get(observation, 'value') || 'N/A'}
               </Typography>{' '}
