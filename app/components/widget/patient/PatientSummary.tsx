@@ -15,6 +15,8 @@ import { PatientDemographicWithConnector } from './PatientDemographic'
 import { PatientEncounterTimelineWithConnector } from './PatientEncounterTimeline'
 import { PatientMedicationListWithConnector } from './PatientMedication'
 import { PatientSummaryCardsWithConnector } from './PatientSummaryCards'
+import { PatientAllergyListWithConnector } from './PatientAllergyList'
+import { PatientPhysicianWithConnector } from './PatientPhysician'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -103,21 +105,30 @@ const componentResource: any = {
     defaultPosition: { x: 4, y: 8 },
     layout: { h: 4, w: 2, isCard: true },
   },
+  patientAllergyList: {
+    component: PatientAllergyListWithConnector,
+    defaultPosition: { x: 8, y: 0 },
+    layout: { h: 4, w: 2, isCard: true },
+  },
   patientDemographic: {
     component: PatientDemographicWithConnector,
     defaultPosition: { x: 0, y: 0 },
-    layout: { h: 4, w: 9, isCard: true },
+    layout: { h: 4, w: 6, isCard: true },
   },
   patientEncounterTimeline: {
     component: PatientEncounterTimelineWithConnector,
     defaultPosition: { x: 0, y: 4 },
     layout: { h: 12, w: 4, isCard: true },
   },
-
   patientMedicationList: {
     component: PatientMedicationListWithConnector,
-    defaultPosition: { x: 9, y: 0 },
-    layout: { h: 4, w: 3, isCard: true },
+    defaultPosition: { x: 10, y: 0 },
+    layout: { h: 4, w: 2, isCard: true },
+  },
+  patientPhysician: {
+    component: PatientPhysicianWithConnector,
+    defaultPosition: { x: 6, y: 0 },
+    layout: { h: 4, w: 2, isCard: true },
   },
   patientSummaryCards: {
     component: PatientSummaryCardsWithConnector,
@@ -151,9 +162,11 @@ const PatientSummary: React.FunctionComponent<{
         observationHistoryGraph: { query },
         observationLaboratoryTable: { ...query },
         observationSummaryGraph: { query },
+        patientAllergyList: { patientId: query.patientId },
         patientDemographic: { patientId: query.patientId },
         patientEncounterTimeline: { query },
         patientMedicationList: { patientId: query.patientId },
+        patientPhysician: { patientId: query.patientId },
         patientSummaryCards: { query },
       },
       type: 'INIT_PATIENT_SUMMARY',
