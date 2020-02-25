@@ -4,7 +4,7 @@ export const OBSERVATION_CODE = {
   BODY_MASS_INDEX: { code: '39156-5', value: 'bodyMassIndex' },
   BODY_TEMPERATURE: { code: '8310-5', value: 'bodyTemperature' },
   BODY_WEIGHT: { code: '29463-7', value: 'bodyWeight' },
-  HEARTBEAT: { code: '8867-4', value: 'heartbeat' },
+  HEART_RATE: { code: '8867-4', value: 'heartRate' },
 }
 // export const OBSERVATION_CODE = [
 //   { code: '55284-4', value: 'bloodPressure' },
