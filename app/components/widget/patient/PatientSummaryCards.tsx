@@ -1,12 +1,13 @@
+import * as React from 'react'
+
 import { Grid, makeStyles, Theme } from '@material-ui/core'
 import { sendMessage } from '@utils'
 import * as _ from 'lodash'
-import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { cardClick } from '../../../actions/patientsummaryCards.action'
 import ObservationBloodPressureCard from '../observation/ObservationBloodPressureCard'
 import ObservationBodyMeasurementCard from '../observation/ObservationBodyMeasurementCard'
-import ObservationHeartbeatCard from '../observation/ObservationHeartbeatCard'
+import ObservationHeartRateCard from '../observation/ObservationHeartRateCard'
 import ObservationTemperatureCard from '../observation/ObservationTemperatureCard'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -49,16 +50,18 @@ export const PatientSummaryCardsWithConnector: React.FunctionComponent = () => {
   return (
     <PatientSummaryCards
       key={`PatientSummaryCards${_.get(state, 'query.encounterId')}`}
-      query={state.query}
+      patientId={state.patientId}
+      encounterId={state.encounterId}
       name={`${name}DemographicSuumary`}
     />
   )
 }
 
 const PatientSummaryCards: React.FunctionComponent<{
-  query: any
+  patientId: string
+  encounterId: string
   name?: string
-}> = ({ query, name = 'PatientSummaryCards' }) => {
+}> = ({ patientId, encounterId, name = 'PatientSummaryCards' }) => {
   const patientSummaryCardsState = useSelector(
     (state: any) => state.patientSummaryCards,
   )
@@ -75,7 +78,8 @@ const PatientSummaryCards: React.FunctionComponent<{
   }
   return (
     <PatientSummaryCardsView
-      query={query}
+      patientId={patientId}
+      encounterId={encounterId}
       onClickCard={handleCardClick}
       selectedCard={_.get(patientSummaryCardsState, 'selectedCard')}
     />
@@ -85,10 +89,11 @@ const PatientSummaryCards: React.FunctionComponent<{
 export default PatientSummaryCards
 
 export const PatientSummaryCardsView: React.FunctionComponent<{
-  query: any
+  patientId: string
+  encounterId: string
   onClickCard?: any
   selectedCard?: string
-}> = ({ query, onClickCard, selectedCard }) => {
+}> = ({ patientId, encounterId, onClickCard, selectedCard }) => {
   const classes = useStyles()
 
   return (
@@ -103,10 +108,8 @@ export const PatientSummaryCardsView: React.FunctionComponent<{
         className={classes.cardContent}
       >
         <ObservationBodyMeasurementCard
-          query={{
-            ...query,
-            selectedCard: 'BLOOD_PRESSURE',
-          }}
+          patientId={patientId}
+          encounterId={encounterId}
           onClick={onClickCard}
           selectedCard={selectedCard}
         />
@@ -121,7 +124,8 @@ export const PatientSummaryCardsView: React.FunctionComponent<{
         className={classes.cardContent}
       >
         <ObservationBloodPressureCard
-          query={query}
+          patientId={patientId}
+          encounterId={encounterId}
           onClick={onClickCard}
           selectedCard={selectedCard}
         />
@@ -136,7 +140,8 @@ export const PatientSummaryCardsView: React.FunctionComponent<{
         className={classes.cardContent}
       >
         <ObservationTemperatureCard
-          query={query}
+          patientId={patientId}
+          encounterId={encounterId}
           onClick={onClickCard}
           selectedCard={selectedCard}
         />
@@ -150,8 +155,9 @@ export const PatientSummaryCardsView: React.FunctionComponent<{
         xl={6}
         className={classes.cardContent}
       >
-        <ObservationHeartbeatCard
-          query={query}
+        <ObservationHeartRateCard
+          patientId={patientId}
+          encounterId={encounterId}
           onClick={onClickCard}
           selectedCard={selectedCard}
         />

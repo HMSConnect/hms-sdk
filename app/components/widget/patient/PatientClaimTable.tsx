@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
   tableWrapper: {
     ['& .MuiTableCell-stickyHeader']: {
-      top: 60,
+      top: 30,
     },
     flex: 1,
   },

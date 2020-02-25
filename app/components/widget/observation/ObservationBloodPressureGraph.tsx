@@ -41,19 +41,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const ObservationBloodPressureGraph: React.FunctionComponent<{
-  query: any
+  patientId: string
+  max?: number
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ query, optionStyle }) => {
+}> = ({ patientId, max = 20, optionStyle }) => {
   const params = {
     code: OBSERVATION_CODE.BLOOD_PRESSURE.code,
+    patientId,
     // encounterId: get(query, 'encounterId'),
-    patientId: get(query, 'patientId'),
   } as IObservationListFilterQuery
 
   const { isLoading, data: observationList, error } = useObservationList(
     {
       filter: params || {},
-      max: get(query, 'max') || 20,
+      max: max || 20,
     },
     ['patientId'],
   )
@@ -91,7 +92,7 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
           style: {
             backgroundColor: lighten('#ef5350', 0.85),
             color: '#ef5350',
-            height: '10%',
+            height: '5%',
           },
         }}
       ></ToolbarWithFilter>
@@ -99,7 +100,7 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: '90%',
+          height: '95%',
           justifyContent: 'center',
         }}
       >

@@ -24,7 +24,7 @@ import * as _ from 'lodash'
 const useStyles = makeStyles((theme: Theme) => ({
   tableWrapper: {
     ['& .MuiTableCell-stickyHeader']: {
-      top: 60,
+      top: 30,
     },
     flex: 1,
   },

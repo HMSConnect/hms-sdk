@@ -32,19 +32,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const ObservationBodyMassIndexGraph: React.FunctionComponent<{
-  query: any
+  patientId: string
+  max?: number
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ query, optionStyle }) => {
+}> = ({ patientId, max = 20, optionStyle }) => {
   const params = {
     code: OBSERVATION_CODE.BODY_MASS_INDEX.code,
-    // encounterId: get(query, 'encounterId'),
-    patientId: get(query, 'patientId'),
+    patientId,
   } as IObservationListFilterQuery
 
   const { isLoading, data: observationList, error } = useObservationList(
     {
       filter: params || {},
-      max: get(query, 'max') || 20,
+      max: max || 20,
     },
     ['patientId'],
   )
@@ -83,7 +83,7 @@ export const ObservationBodyMassIndexGraphView: React.FunctionComponent<{
           style: {
             backgroundColor: lighten('#ff3d00', 0.85),
             color: '#ff3d00',
-            height: '10%',
+            height: '5%',
           },
         }}
       ></ToolbarWithFilter>
@@ -91,7 +91,7 @@ export const ObservationBodyMassIndexGraphView: React.FunctionComponent<{
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: '90%',
+          height: '95%',
           justifyContent: 'center',
         }}
       >

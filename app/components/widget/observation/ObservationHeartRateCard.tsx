@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
@@ -6,11 +8,11 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { Grid, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
+import { lighten } from '@material-ui/core/styles'
 import { sendMessage } from '@utils'
 import clsx from 'clsx'
 import _ from 'lodash'
 import get from 'lodash/get'
-import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -46,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const ObservationHeartbeatCardWithConnector: React.FunctionComponent = () => {
+export const ObservationHeartRateCardWithConnector: React.FunctionComponent = () => {
   const state = useSelector((state: any) => state.patientSummaryCards)
   const dispatch = useDispatch()
   const handleCardClick = (cardName: string) => {
@@ -61,24 +63,27 @@ export const ObservationHeartbeatCardWithConnector: React.FunctionComponent = ()
   }
 
   return (
-    <ObservationHeartbeatCard
-      key={`ObservationHeartbeatCard${_.get(state, 'query.encounterId')}`}
-      query={state.query}
+    <ObservationHeartRateCard
+      key={`ObservationHeartRateCard${_.get(state, 'encounterId')}`}
+      patientId={state.patientId}
+      encounterId={state.encounterId}
       onClick={handleCardClick}
       selectedCard={_.get(state, 'selectedCard')}
     />
   )
 }
 
-const ObservationHeartbeatCard: React.FunctionComponent<{
-  query: any
+const ObservationHeartRateCard: React.FunctionComponent<{
+  patientId: string
+  encounterId?: string
+  max?: number
   onClick?: any
   selectedCard?: any
-}> = ({ query, onClick, selectedCard }) => {
+}> = ({ patientId, encounterId, max = 20, onClick, selectedCard }) => {
   const params = {
-    code: OBSERVATION_CODE.HEARTBEAT.code,
-    encounterId: get(query, 'encounterId'),
-    patientId: get(query, 'patientId'),
+    code: OBSERVATION_CODE.HEART_RATE.code,
+    encounterId,
+    patientId,
   } as IObservationListFilterQuery
   const { isLoading, data: observationList, error } = useObservationList(
     {
@@ -95,7 +100,7 @@ const ObservationHeartbeatCard: React.FunctionComponent<{
     return <LoadingSection />
   }
   return (
-    <ObservationHeartbeatCardView
+    <ObservationHeartRateCardView
       observation={observationList[0]}
       onClick={onClick}
       selectedCard={selectedCard}
@@ -103,9 +108,9 @@ const ObservationHeartbeatCard: React.FunctionComponent<{
   )
 }
 
-export default ObservationHeartbeatCard
+export default ObservationHeartRateCard
 
-export const ObservationHeartbeatCardView: React.FunctionComponent<{
+export const ObservationHeartRateCardView: React.FunctionComponent<{
   observation: any
   onClick?: any
   selectedCard?: any
@@ -120,6 +125,12 @@ export const ObservationHeartbeatCardView: React.FunctionComponent<{
           className={clsx('fas fa-heartbeat')}
         />
       }
+      option={{
+        style: {
+          backgroundColor: lighten('#c2185b', 0.85),
+          color: '#c2185b',
+        },
+      }}
     >
       <Grid
         container
@@ -139,12 +150,12 @@ export const ObservationHeartbeatCardView: React.FunctionComponent<{
               classes.bodyCard,
               classes.clickable,
               classes.hover,
-              selectedCard === OBSERVATION_CODE.HEARTBEAT.value
+              selectedCard === OBSERVATION_CODE.HEART_RATE.value
                 ? classes.selectedCard
                 : null,
             )}
             onClick={() =>
-              onClick ? onClick(OBSERVATION_CODE.HEARTBEAT.value) : null
+              onClick ? onClick(OBSERVATION_CODE.HEART_RATE.value) : null
             }
           >
             <Typography

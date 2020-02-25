@@ -1,22 +1,23 @@
+import React from 'react'
+
 import GridLayoutWithComponentSelector from '@components/base/GridLayoutWithComponentSelector'
 import { makeStyles } from '@material-ui/core'
 import * as _ from 'lodash'
-import React from 'react'
 import { useDispatch } from 'react-redux'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import { ObservationBloodPressureCardWithConnector } from '../observation/ObservationBloodPressureCard'
 import { ObservationBodyMeasurementCardWithConnector } from '../observation/ObservationBodyMeasurementCard'
-import { ObservationHeartbeatCardWithConnector } from '../observation/ObservationHeartbeatCard'
+import { ObservationHeartRateCardWithConnector } from '../observation/ObservationHeartRateCard'
 import { ObservationHistoryGraphWithConnector } from '../observation/ObservationHistoryGraph'
 import { ObservationLaboratoryTableWithConnector } from '../observation/ObservationLaboratoryTable'
 import { ObservationSummaryGraphWithConnector } from '../observation/ObservationSummaryGraph'
 import { ObservationTemperatureCardWithConnector } from '../observation/ObservationTemperatureCard'
+import { PatientAllergyListWithConnector } from './PatientAllergyList'
 import { PatientDemographicWithConnector } from './PatientDemographic'
 import { PatientEncounterTimelineWithConnector } from './PatientEncounterTimeline'
 import { PatientMedicationListWithConnector } from './PatientMedication'
-import { PatientSummaryCardsWithConnector } from './PatientSummaryCards'
-import { PatientAllergyListWithConnector } from './PatientAllergyList'
 import { PatientPhysicianWithConnector } from './PatientPhysician'
+import { PatientSummaryCardsWithConnector } from './PatientSummaryCards'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -80,12 +81,12 @@ const componentResource: any = {
     defaultPosition: { x: 4, y: 4 },
     layout: { h: 4, w: 2, isCard: true },
   },
-  observationHeartbeatCard: {
-    component: ObservationHeartbeatCardWithConnector,
+  observationHeartRateCard: {
+    component: ObservationHeartRateCardWithConnector,
     defaultPosition: { x: 6, y: 8 },
     layout: { h: 4, w: 2, isCard: true },
   },
-  observaionHistoryGraph: {
+  observationHistoryGraph: {
     component: ObservationHistoryGraphWithConnector,
     defaultPosition: { x: 8, y: 4 },
     layout: { h: 12, w: 4, isCard: true },
@@ -159,15 +160,24 @@ const PatientSummary: React.FunctionComponent<{
   React.useEffect(() => {
     dispatch({
       payload: {
-        observationHistoryGraph: { query },
-        observationLaboratoryTable: { ...query },
-        observationSummaryGraph: { query },
+        observationHistoryGraph: { patientId: query.patientId },
+        observationLaboratoryTable: {
+          encounterId: query.encounterId,
+          patientId: query.patientId,
+        },
+        observationSummaryGraph: { patientId: query.patientId },
         patientAllergyList: { patientId: query.patientId },
         patientDemographic: { patientId: query.patientId },
-        patientEncounterTimeline: { query },
+        patientEncounterTimeline: {
+          encounterId: query.encounterId,
+          patientId: query.patientId,
+        },
         patientMedicationList: { patientId: query.patientId },
         patientPhysician: { patientId: query.patientId },
-        patientSummaryCards: { query },
+        patientSummaryCards: {
+          encounterId: query.encounterId,
+          patientId: query.patientId,
+        },
       },
       type: 'INIT_PATIENT_SUMMARY',
     })

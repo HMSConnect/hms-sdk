@@ -9,7 +9,7 @@ import ObservationBodyHeightGraph from './ObservationBodyHeightGraph'
 import ObservationBodyMassIndexGraph from './ObservationBodyMassIndexGraph'
 import ObservationBodyTemperatureGraph from './ObservationBodyTemperatureGraph'
 import ObservationBodyWeightGraph from './ObservationBodyWeightGraph'
-import ObservationHeartbeatGraph from './ObservationHeartbeatGraph'
+import ObservationHeartRateGraph from './ObservationHeartRateGraph'
 
 const useStyles = makeStyles(theme => ({
   virtalSignCard: {
@@ -20,12 +20,16 @@ const useStyles = makeStyles(theme => ({
 
 export const ObservationHistoryGraphWithConnector: React.FunctionComponent = () => {
   const state = useSelector((state: any) => state.observationHistoryGraph)
-  return <ObservaionHistoryGraph query={state.query} />
+  return (
+    <ObservationHistoryGraph query={state.query} patientId={state.patientId} />
+  )
 }
 
-const ObservaionHistoryGraph: React.FunctionComponent<{
+const ObservationHistoryGraph: React.FunctionComponent<{
   query: any
-}> = ({ query }) => {
+  patientId: string
+  selectedCard?: string
+}> = ({ query, patientId, selectedCard = '' }) => {
   const [Component, setComponent] = React.useState<any>(<EmptyComponent />)
   const classes = useStyles()
   const patientSummaryCardsState = useSelector(
@@ -35,8 +39,7 @@ const ObservaionHistoryGraph: React.FunctionComponent<{
   React.useEffect(() => {
     setComponent(
       renderGraph(
-        _.get(patientSummaryCardsState, 'selectedCard') ||
-          _.get(query, 'selectedCard'),
+        _.get(patientSummaryCardsState, 'selectedCard') || selectedCard,
       ),
     )
   }, [query, patientSummaryCardsState])
@@ -44,17 +47,17 @@ const ObservaionHistoryGraph: React.FunctionComponent<{
   const renderGraph = (selected: string) => {
     switch (selected) {
       case OBSERVATION_CODE.BODY_WEIGHT.value:
-        return <ObservationBodyWeightGraph query={query} />
+        return <ObservationBodyWeightGraph patientId={patientId} />
       case OBSERVATION_CODE.BODY_HEIGHT.value:
-        return <ObservationBodyHeightGraph query={query} />
+        return <ObservationBodyHeightGraph patientId={patientId} />
       case OBSERVATION_CODE.BODY_MASS_INDEX.value:
-        return <ObservationBodyMassIndexGraph query={query} />
+        return <ObservationBodyMassIndexGraph patientId={patientId} />
       case OBSERVATION_CODE.BLOOD_PRESSURE.value:
-        return <ObservationBloodPressureGraph query={query} />
+        return <ObservationBloodPressureGraph patientId={patientId} />
       case OBSERVATION_CODE.BODY_TEMPERATURE.value:
-        return <ObservationBodyTemperatureGraph query={query} />
-      case OBSERVATION_CODE.HEARTBEAT.value:
-        return <ObservationHeartbeatGraph query={query} />
+        return <ObservationBodyTemperatureGraph patientId={patientId} />
+      case OBSERVATION_CODE.HEART_RATE.value:
+        return <ObservationHeartRateGraph patientId={patientId} />
       default:
         return <EmptyComponent />
     }
@@ -62,7 +65,7 @@ const ObservaionHistoryGraph: React.FunctionComponent<{
   return <Paper className={classes.virtalSignCard}>{Component}</Paper>
 }
 
-export default ObservaionHistoryGraph
+export default ObservationHistoryGraph
 
 const EmptyComponent: React.FunctionComponent<any> = () => {
   const classes = useStyles()

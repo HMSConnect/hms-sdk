@@ -90,7 +90,7 @@ const TableBase: React.FunctionComponent<{
 
   return (
     <Table stickyHeader size={size}>
-      <EnhancedTableHead headCells={headerCells} />
+      <EnhancedTableHead classes={classes} headCells={headerCells} />
       <TableBody>
         {isEmpty(entryList) ? (
           <TableEntireRow

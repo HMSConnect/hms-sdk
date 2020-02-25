@@ -32,19 +32,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const ObservationBodyTemperatureGraph: React.FunctionComponent<{
-  query: any
+  patientId: string
+  max?: number
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ query, optionStyle }) => {
+}> = ({ patientId, max = 20, optionStyle }) => {
   const params = {
     code: OBSERVATION_CODE.BODY_TEMPERATURE.code,
     // encounterId: get(query, 'encounterId'),
-    patientId: get(query, 'patientId'),
+    patientId,
   } as IObservationListFilterQuery
-
   const { isLoading, data: observationList, error } = useObservationList(
     {
       filter: params || {},
-      max: get(query, 'max') || 20,
+      max: max || 20,
     },
     ['patientId'],
   )
@@ -83,7 +83,7 @@ export const ObservationBodyTemperatureGraphView: React.FunctionComponent<{
           style: {
             backgroundColor: lighten('#afb42b', 0.85),
             color: '#afb42b',
-            height: '10%',
+            height: '5%',
           },
         }}
       ></ToolbarWithFilter>
@@ -91,7 +91,7 @@ export const ObservationBodyTemperatureGraphView: React.FunctionComponent<{
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: '90%',
+          height: '95%',
           justifyContent: 'center',
         }}
       >

@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
@@ -14,10 +16,10 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core'
+import { lighten } from '@material-ui/core/styles'
 import { sendMessage } from '@utils'
 import clsx from 'clsx'
 import * as _ from 'lodash'
-import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -72,8 +74,9 @@ export const ObservationBodyMeasurementCardWithConnector: React.FunctionComponen
 
   return (
     <ObservationBodyMeasurementCard
-      key={`ObservationBodyMeasurementCard${_.get(state, 'query.encounterId')}`}
-      query={state.query}
+      key={`ObservationBodyMeasurementCard${_.get(state, 'encounterId')}`}
+      patientId={state.patientId}
+      encounterId={state.encounterId}
       onClick={handleCardClick}
       selectedCard={_.get(state, 'selectedCard')}
     />
@@ -81,17 +84,17 @@ export const ObservationBodyMeasurementCardWithConnector: React.FunctionComponen
 }
 
 const ObservationBodyMeasurementCard: React.FunctionComponent<{
-  query: any
+  patientId: string
+  encounterId?: string
   onClick?: any
   selectedCard?: any
-}> = ({ query, onClick, selectedCard }) => {
+}> = ({ patientId, encounterId, onClick, selectedCard }) => {
   let params: IObservationListFilterQuery = {}
   params = {
     codes: `${OBSERVATION_CODE.BODY_HEIGHT.code},${OBSERVATION_CODE.BODY_WEIGHT.code},${OBSERVATION_CODE.BODY_MASS_INDEX.code}`,
-    encounterId: _.get(query, 'encounterId'),
-    patientId: _.get(query, 'patientId'),
+    encounterId,
+    patientId,
   }
-
   const { isLoading, data: observationList, error } = useObservationList(
     {
       _lasted: true,
@@ -126,7 +129,13 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
   return (
     <CardLayout
       header='Body Measurement'
-      Icon={<Icon className={'fas fa-male'} />}
+      Icon={<Icon className={'fas fa-male'} style={{ color: '#00b0ff' }} />}
+      option={{
+        style: {
+          backgroundColor: lighten('#00b0ff', 0.85),
+          color: '#00b0ff',
+        },
+      }}
     >
       <Grid
         container

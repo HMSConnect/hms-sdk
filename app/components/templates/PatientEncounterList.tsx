@@ -21,13 +21,20 @@ import {
 import CommentIcon from '@material-ui/icons/Comment'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
+import clsx from 'clsx'
 import findIndex from 'lodash/findIndex'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import * as moment from 'moment'
-import clsx from 'clsx'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  contentText: {
+    color: '#37474f',
+    fontWeight: 'normal',
+  },
+  headerText: {
+    fontWeight: 450,
+  },
   iconAvatar: {
     height: 50,
     margin: 10,
@@ -59,13 +66,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingLeft: theme.spacing(4),
   },
   root: {},
-  headerText: {
-    fontWeight: 450,
-  },
-  contentText: {
-    color: '#37474f',
-    fontWeight: 'normal',
-  },
   topicTitle: {
     color: 'grey',
   },
@@ -158,11 +158,14 @@ const EncounterListItem: React.FunctionComponent<{
 }> = ({ data, onEntrySelected, index, selectedIndex }) => {
   const [open, setOpen] = React.useState(false)
 
-  const handleClick = () => {
-    setOpen(!open)
+  const handleClick = (event: any, data: any, index: any) => {
+    onEntrySelected(event, data, index)
+    // setOpen(!open)
   }
   const classes = useStyles()
-
+  React.useEffect(() => {
+    setOpen(selectedIndex === index)
+  }, [selectedIndex])
   const renderIcon = (index?: number) => {
     let randomMath = 0
     if (index) {
@@ -187,7 +190,7 @@ const EncounterListItem: React.FunctionComponent<{
       <ListItem
         style={{ paddingRight: '80px' }}
         button
-        onClick={handleClick}
+        onClick={event => handleClick(event, data, index)}
         selected={selectedIndex === index}
       >
         <div className={classes.line}></div>
@@ -242,14 +245,18 @@ const EncounterListItem: React.FunctionComponent<{
           }
         />
         <ListItemSecondaryAction>
-          <IconButton
+          {/* <IconButton
             edge='end'
             aria-label='comments'
             onClick={event => onEntrySelected(event, data, index)}
           >
             <CommentIcon />
-          </IconButton>
-          <IconButton edge='end' aria-label='show all' onClick={handleClick}>
+          </IconButton> */}
+          <IconButton
+            edge='end'
+            aria-label='show all'
+            onClick={event => handleClick(event, data, index)}
+          >
             {open ? <ExpandLess /> : <ExpandMore />}
           </IconButton>
         </ListItemSecondaryAction>
@@ -264,7 +271,7 @@ const EncounterListItem: React.FunctionComponent<{
               <ListItem
                 button
                 className={classes.nested}
-                onClick={event => onEntrySelected(event, data, index)}
+                // onClick={event => onEntrySelected(event, data, index)}
               >
                 <ListItemText
                   primary={

@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
@@ -6,11 +8,11 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { Grid, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
+import { lighten } from '@material-ui/core/styles'
 import { sendMessage } from '@utils'
 import clsx from 'clsx'
 import _ from 'lodash'
 import get from 'lodash/get'
-import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -62,8 +64,9 @@ export const ObservationTemperatureCardWithConnector: React.FunctionComponent = 
 
   return (
     <ObservationTemperatureCard
-      key={`ObservationTemperatureCard${_.get(state, 'query.encounterId')}`}
-      query={state.query}
+      key={`ObservationTemperatureCard${_.get(state, 'encounterId')}`}
+      patientId={state.patientId}
+      encounterId={state.encounterId}
       onClick={handleCardClick}
       selectedCard={_.get(state, 'selectedCard')}
     />
@@ -71,14 +74,15 @@ export const ObservationTemperatureCardWithConnector: React.FunctionComponent = 
 }
 
 const ObservationTemperatureCard: React.FunctionComponent<{
-  query: any
+  patientId: string
+  encounterId: string
   onClick?: any
   selectedCard?: any
-}> = ({ query, onClick, selectedCard }) => {
+}> = ({ patientId, encounterId, onClick, selectedCard }) => {
   const params = {
     code: OBSERVATION_CODE.BODY_TEMPERATURE.code,
-    encounterId: get(query, 'encounterId'),
-    patientId: get(query, 'patientId'),
+    encounterId,
+    patientId,
   } as IObservationListFilterQuery
   const { isLoading, data: observationList, error } = useObservationList(
     {
@@ -119,6 +123,12 @@ export const ObservationTemperatureCardView: React.FunctionComponent<{
           className={clsx('fas fa-thermometer-quarter')}
         />
       }
+      option={{
+        style: {
+          backgroundColor: lighten('#afb42b', 0.85),
+          color: '#afb42b',
+        },
+      }}
     >
       <Grid
         container
@@ -176,7 +186,7 @@ export const ObservationTemperatureCardView: React.FunctionComponent<{
         className={classes.footerContainer}
       >
         <Typography variant='body2'>
-          {get(observation, 'issued') || '2018/05/15 14:22'}
+          {get(observation, 'issued') || ''}
         </Typography>
       </Grid>
     </CardLayout>

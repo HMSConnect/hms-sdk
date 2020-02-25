@@ -159,9 +159,9 @@ module.exports = nextRoutes()
     'embedded-widget/observation/observation-body-measurement-card',
   )
   .add(
-    'embedded-widget/observation/heartbeat-card',
-    '/embedded-widget/observation/heartbeat-card',
-    'embedded-widget/observation/observation-heartbeat-card',
+    'embedded-widget/observation/heart-rate-card',
+    '/embedded-widget/observation/heart-rate-card',
+    'embedded-widget/observation/observation-heart-rate-card',
   )
   .add(
     'embedded-widget/patient-info/patient-allergy-list-card',

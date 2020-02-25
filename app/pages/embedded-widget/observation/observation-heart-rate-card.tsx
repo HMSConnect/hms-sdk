@@ -2,16 +2,15 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import ObservationHeartbeatCard from '@components/widget/observation/ObservationHeartbeatCard'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
-
+import ObservationHeartRateCard from '@components/widget/observation/ObservationHeartRateCard'
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const ObservationHeartbeatCardWidget: IStatelessPage<{
+const ObservationHeartRateCardWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -21,14 +20,14 @@ const ObservationHeartbeatCardWidget: IStatelessPage<{
         <CssBaseline />
         <div style={{ height: '100vh' }}>
           {/* <div style={_.get(query, 'optionStyle')}> */}
-          <ObservationHeartbeatCard query={query} />
+          <ObservationHeartRateCard query={query} />
         </div>
       </>
     </BootstrapWrapper>
   )
 }
 
-ObservationHeartbeatCardWidget.getInitialProps = async ({
+ObservationHeartRateCardWidget.getInitialProps = async ({
   req,
   res,
   query,
@@ -38,4 +37,4 @@ ObservationHeartbeatCardWidget.getInitialProps = async ({
   }
 }
 
-export default withAuthSync(ObservationHeartbeatCardWidget)
+export default withAuthSync(ObservationHeartRateCardWidget)

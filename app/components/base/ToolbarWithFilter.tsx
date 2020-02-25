@@ -12,6 +12,7 @@ import {
 import { lighten } from '@material-ui/core/styles'
 import FilterListIcon from '@material-ui/icons/FilterList'
 import clsx from 'clsx'
+import Truncate from './Truncate'
 
 interface IToolbarWithFilterOption {
   style?: any
@@ -22,6 +23,12 @@ const useStyles = makeStyles((theme: Theme) => {
   return {
     additionInputLayout: {
       flex: '3 3 100%',
+    },
+    anchorOriginTopLeftRectangle: {
+      top: '10px',
+    },
+    anchorOriginTopRightRectangle: {
+      top: '10px',
     },
     highlight:
       theme.palette.type === 'light'
@@ -37,14 +44,11 @@ const useStyles = makeStyles((theme: Theme) => {
       margin: theme.spacing(1),
     },
     root: {
-      height: '100%',
+      // height: '100%',
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(1),
     },
-    tableWrapper: {
-      maxHeight: '55vh',
-      overflow: 'auto',
-    },
+
     title: {
       flex: '1 1 100%',
     },
@@ -54,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) => {
 const ToolbarWithFilter: React.FC<{
   title?: string
   onClickIcon?: (event: any) => void
-  Icon?: React.Component<any>
+  Icon?: any
   filterActive?: number
   option?: IToolbarWithFilterOption
 }> = ({
@@ -69,23 +73,34 @@ const ToolbarWithFilter: React.FC<{
   return (
     <>
       <Toolbar
+        variant='dense'
         className={clsx(classes.root, {
           [classes.highlight]: !option.style,
         })}
         style={option.style}
       >
         <Typography className={classes.title} variant='h6'>
-          {title}
+          <Truncate size={1}>{title}</Truncate>
         </Typography>
         <div className={classes.additionInputLayout}>
           {option.additionButton}
         </div>
-        {option.isHideIcon ? null : (
+        {option.isHideIcon ? null : onClickIcon ? (
           <Tooltip title='Filter list'>
             <Badge
               color='secondary'
               badgeContent={filterActive}
-              className={classes.margin}
+              classes={{
+                anchorOriginTopLeftRectangle:
+                  classes.anchorOriginTopLeftRectangle,
+                anchorOriginTopRightRectangle:
+                  classes.anchorOriginTopRightRectangle,
+              }}
+              anchorOrigin={{
+                horizontal: 'left',
+                vertical: 'top',
+              }}
+              // className={classes.margin}
               max={999}
             >
               <IconButton
@@ -97,6 +112,8 @@ const ToolbarWithFilter: React.FC<{
               </IconButton>
             </Badge>
           </Tooltip>
+        ) : (
+          Icon
         )}
       </Toolbar>
 
