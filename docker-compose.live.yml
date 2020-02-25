@@ -36,7 +36,7 @@ services:
       - 3002
     volumes:
       - ./fake:/app/hms-fake-data
-      - /app/hms-fake-data/node_modules # [*] Need to refer to node_modules in container of the app
+      - /fake/hms-fake-data/node_modules # [*] Need to refer to node_modules in container of the app
     entrypoint:
       - sh
       - entrypoint-dev.sh

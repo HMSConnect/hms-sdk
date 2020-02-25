@@ -114,12 +114,15 @@ const PatientSearchPanel: React.FunctionComponent<{
               className={classes.searchBar}
               variant='outlined'
               fullWidth
+              inputProps={{
+                'data-testid': 'text-field',
+              }}
               InputProps={{
                 classes: {
                   input: classes.resize,
                 },
               }}
-              data-testid='text-field'
+              // data-testid='text-field'
             />
           </Grid>
           <Grid item xs={3} container alignContent='center'>
