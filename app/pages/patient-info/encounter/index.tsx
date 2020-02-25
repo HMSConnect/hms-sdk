@@ -8,7 +8,7 @@ import PatientSummary from '@components/widget/patient/PatientSummary'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import { IStatelessPage } from '@pages/patient-search'
-import * as _ from 'lodash'
+import get from 'lodash/get'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -59,7 +59,11 @@ const EncounterPage: IStatelessPage<{
                 },
               ]}
             ></BreadcrumbsBase>
-            <PatientSummary query={query} name={_.get(query, 'name')} />
+            <PatientSummary
+              patientId={get(query, 'patientId')}
+              encounterId={get(query, 'patientId')}
+              name={get(query, 'name')}
+            />
             {/* <PatientInfoDetail query={query} /> */}
           </Typography>
           {/* </Container> */}

@@ -21,7 +21,7 @@ const ObservationBodyHeightGraphWidget: IStatelessPage<{
       <>
         <CssBaseline />
         <ObservationBodyHeightGraph
-          query={query}
+          patientId={get(query, 'patientId')}
           optionStyle={get(query, 'optionStyle')}
         />
       </>

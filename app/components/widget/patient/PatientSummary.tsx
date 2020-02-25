@@ -151,37 +151,38 @@ const defaultItems = _.chain(componentResource)
   .value()
 
 const PatientSummary: React.FunctionComponent<{
-  query: any
+  patientId: string
+  encounterId: string
   name?: string
-}> = ({ query, name = 'patientSummary' }) => {
+}> = ({ patientId, encounterId, name = 'patientSummary' }) => {
   const dispatch = useDispatch()
   const classes = useStyles()
 
   React.useEffect(() => {
     dispatch({
       payload: {
-        observationHistoryGraph: { patientId: query.patientId },
+        observationHistoryGraph: { patientId },
         observationLaboratoryTable: {
-          encounterId: query.encounterId,
-          patientId: query.patientId,
+          encounterId,
+          patientId,
         },
-        observationSummaryGraph: { patientId: query.patientId },
-        patientAllergyList: { patientId: query.patientId },
-        patientDemographic: { patientId: query.patientId },
+        observationSummaryGraph: { patientId },
+        patientAllergyList: { patientId },
+        patientDemographic: { patientId },
         patientEncounterTimeline: {
-          encounterId: query.encounterId,
-          patientId: query.patientId,
+          encounterId,
+          patientId,
         },
-        patientMedicationList: { patientId: query.patientId },
-        patientPhysician: { patientId: query.patientId },
+        patientMedicationList: { patientId },
+        patientPhysician: { patientId },
         patientSummaryCards: {
-          encounterId: query.encounterId,
-          patientId: query.patientId,
+          encounterId,
+          patientId,
         },
       },
       type: 'INIT_PATIENT_SUMMARY',
     })
-  }, [query])
+  }, [patientId, encounterId])
 
   return (
     <GridLayoutWithComponentSelector
