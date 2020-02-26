@@ -69,11 +69,11 @@ export const observationWidgetConfig: IWidgetGroup = {
       value: 'observation-body-measurement-card',
     },
     {
-      document: require('@assets/embedded-widget/observation/observation-heartbeat-card.md')
+      document: require('@assets/embedded-widget/observation/observation-heart-rate-card.md')
         .default,
-      label: 'Observation Heartbeat Card',
+      label: 'Observation Heart Rate Card',
       parameters: [],
-      path: '/embedded-widget/observation/heartbeat-card',
+      path: '/embedded-widget/observation/heart-rate-card',
       queryParams: [
         {
           defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
@@ -88,7 +88,7 @@ export const observationWidgetConfig: IWidgetGroup = {
           value: 'encounterId',
         },
       ],
-      value: 'observation-heartbeat-card',
+      value: 'observation-heart-rate-card',
     },
     {
       document: require('@assets/embedded-widget/observation/observation-blood-pressure-graph.md')

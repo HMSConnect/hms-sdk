@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import ErrorSection from '@components/base/ErrorSection'
 import usePatient from '@components/hooks/usePatient'
 import {
@@ -9,9 +11,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import * as _ from 'lodash'
-import * as React from 'react'
 import { useSelector } from 'react-redux'
-import PatientAllergyList from './PatientAllergyList'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bigAvatar: {
@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: '#808080',
   },
   root: {
-    flexGrow: 1,
+    height: '100%',
+    padding: theme.spacing(2),
   },
   topicTitle: {
     color: 'grey',
@@ -65,8 +66,8 @@ export const PatientDemographicView: React.FunctionComponent<{
 }> = ({ patient: info }) => {
   const classes = useStyles()
   return (
-    <Grid container spacing={1} style={{ paddingLeft: '2em', height: '100%' }}>
-      <Grid item sm={12} md={12} lg={6}>
+    <Grid container className={classes.root} spacing={1}>
+      <Grid item sm={12} md={12} lg={12}>
         {/* <div className={classes.root}> */}
         <Grid
           container
@@ -247,7 +248,7 @@ export const PatientDemographicView: React.FunctionComponent<{
         </Grid>
         {/* </div> */}
       </Grid>
-      <Grid style={{ height: '100%' }} item xs={12} sm={12} md={6} lg={2}>
+      {/* <Grid style={{ height: '100%' }} item xs={12} sm={12} md={6} lg={2}>
         <Grid
           container
           direction='column'
@@ -302,7 +303,7 @@ export const PatientDemographicView: React.FunctionComponent<{
             name={`${name}AllergyIntoleranceList`}
           />
         </div>
-      </Grid>
+      </Grid> */}
     </Grid>
   )
 }

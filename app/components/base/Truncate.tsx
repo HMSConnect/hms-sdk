@@ -15,11 +15,7 @@ const Truncate: React.FunctionComponent<{
   size?: number
 }> = ({ children, size = 2 }) => {
   const classes = useStyles({ size })
-  return (
-    <Typography variant='body2' className={classes.flexHieght}>
-      {children}
-    </Typography>
-  )
+  return <div className={classes.flexHieght}>{children}</div>
 }
 
 export default Truncate

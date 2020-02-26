@@ -1,15 +1,22 @@
+import React from 'react'
+
 import GridLayoutWithComponentSelector from '@components/base/GridLayoutWithComponentSelector'
 import { makeStyles } from '@material-ui/core'
 import * as _ from 'lodash'
-import React from 'react'
 import { useDispatch } from 'react-redux'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
+import { ObservationBloodPressureCardWithConnector } from '../observation/ObservationBloodPressureCard'
+import { ObservationBodyMeasurementCardWithConnector } from '../observation/ObservationBodyMeasurementCard'
+import { ObservationHeartRateCardWithConnector } from '../observation/ObservationHeartRateCard'
 import { ObservationHistoryGraphWithConnector } from '../observation/ObservationHistoryGraph'
 import { ObservationLaboratoryTableWithConnector } from '../observation/ObservationLaboratoryTable'
 import { ObservationSummaryGraphWithConnector } from '../observation/ObservationSummaryGraph'
+import { ObservationTemperatureCardWithConnector } from '../observation/ObservationTemperatureCard'
+import { PatientAllergyListWithConnector } from './PatientAllergyList'
 import { PatientDemographicWithConnector } from './PatientDemographic'
 import { PatientEncounterTimelineWithConnector } from './PatientEncounterTimeline'
 import { PatientMedicationListWithConnector } from './PatientMedication'
+import { PatientPhysicianWithConnector } from './PatientPhysician'
 import { PatientSummaryCardsWithConnector } from './PatientSummaryCards'
 
 export interface IPatientTableProps {
@@ -64,75 +71,118 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const componentResource: any = {
-  patientDemographic: {
-    component: PatientDemographicWithConnector,
-    defaultPosition: { x: 0, y: 0 },
-    layout: { h: 4, w: 9, isCard: true },
+  observationBloodPressureCard: {
+    component: ObservationBloodPressureCardWithConnector,
+    defaultPosition: { x: 6, y: 4 },
+    layout: { h: 4, w: 2, isCard: true },
   },
-  patientEncounterTimeline: {
-    component: PatientEncounterTimelineWithConnector,
-    defaultPosition: { x: 0, y: 4 },
+  observationBodyMeasurementCard: {
+    component: ObservationBodyMeasurementCardWithConnector,
+    defaultPosition: { x: 4, y: 4 },
+    layout: { h: 4, w: 2, isCard: true },
+  },
+  observationHeartRateCard: {
+    component: ObservationHeartRateCardWithConnector,
+    defaultPosition: { x: 6, y: 8 },
+    layout: { h: 4, w: 2, isCard: true },
+  },
+  observationHistoryGraph: {
+    component: ObservationHistoryGraphWithConnector,
+    defaultPosition: { x: 8, y: 4 },
     layout: { h: 12, w: 4, isCard: true },
   },
-
-  patientMedicationList: {
-    component: PatientMedicationListWithConnector,
-    defaultPosition: { x: 9, y: 0 },
-    layout: { h: 4, w: 3, isCard: true },
-  },
-  patientSummaryCards: {
-    component: PatientSummaryCardsWithConnector,
-    defaultPosition: { x: 4, y: 4 },
-    layout: { h: 12, w: 4, isCard: false },
-  },
-
   observationLaboratoryTable: {
     component: ObservationLaboratoryTableWithConnector,
     defaultPosition: { x: 0, y: 12 },
     layout: { h: 9, w: 8, isCard: true },
-  },
-  observaionHistoryGraph: {
-    component: ObservationHistoryGraphWithConnector,
-    defaultPosition: { x: 8, y: 4 },
-    layout: { h: 12, w: 4, isCard: true },
   },
   observationSummaryGraph: {
     component: ObservationSummaryGraphWithConnector,
     defaultPosition: { x: 8, y: 12 },
     layout: { h: 9, w: 4, isCard: true },
   },
+  observationTemperatureCard: {
+    component: ObservationTemperatureCardWithConnector,
+    defaultPosition: { x: 4, y: 8 },
+    layout: { h: 4, w: 2, isCard: true },
+  },
+  patientAllergyList: {
+    component: PatientAllergyListWithConnector,
+    defaultPosition: { x: 8, y: 0 },
+    layout: { h: 4, w: 2, isCard: true },
+  },
+  patientDemographic: {
+    component: PatientDemographicWithConnector,
+    defaultPosition: { x: 0, y: 0 },
+    layout: { h: 4, w: 6, isCard: true },
+  },
+  patientEncounterTimeline: {
+    component: PatientEncounterTimelineWithConnector,
+    defaultPosition: { x: 0, y: 4 },
+    layout: { h: 12, w: 4, isCard: true },
+  },
+  patientMedicationList: {
+    component: PatientMedicationListWithConnector,
+    defaultPosition: { x: 10, y: 0 },
+    layout: { h: 4, w: 2, isCard: true },
+  },
+  patientPhysician: {
+    component: PatientPhysicianWithConnector,
+    defaultPosition: { x: 6, y: 0 },
+    layout: { h: 4, w: 2, isCard: true },
+  },
+  patientSummaryCards: {
+    component: PatientSummaryCardsWithConnector,
+    // defaultPosition: { x: 4, y: 4 },
+    layout: { h: 12, w: 4, isCard: false },
+  },
 }
 
-const defaultItems = _.map(componentResource, (c, componentKey) => {
-  return {
-    componentKey,
-    i: `init_${componentKey}`,
-    ...(c?.defaultPosition || { x: 0, y: 9 }),
-    ...(c?.layout || {}),
-  }
-})
+const defaultItems = _.chain(componentResource)
+  .omitBy(c => _.isEmpty(c.defaultPosition))
+  .map((c, componentKey) => {
+    return {
+      componentKey,
+      i: `init_${componentKey}`,
+      ...(c?.defaultPosition || { x: 0, y: 9 }),
+      ...(c?.layout || {}),
+    }
+  })
+  .value()
 
 const PatientSummary: React.FunctionComponent<{
-  query: any
+  patientId: string
+  encounterId: string
   name?: string
-}> = ({ query, name = 'patientSummary' }) => {
+}> = ({ patientId, encounterId, name = 'patientSummary' }) => {
   const dispatch = useDispatch()
   const classes = useStyles()
 
   React.useEffect(() => {
     dispatch({
       payload: {
-        observationHistoryGraph: { query },
-        observationLaboratoryTable: { ...query },
-        observationSummaryGraph: { query },
-        patientDemographic: { patientId: query.patientId },
-        patientEncounterTimeline: { query },
-        patientMedicationList: { patientId: query.patientId },
-        patientSummaryCards: { query },
+        observationHistoryGraph: { patientId },
+        observationLaboratoryTable: {
+          encounterId,
+          patientId,
+        },
+        observationSummaryGraph: { patientId },
+        patientAllergyList: { patientId },
+        patientDemographic: { patientId },
+        patientEncounterTimeline: {
+          encounterId,
+          patientId,
+        },
+        patientMedicationList: { patientId },
+        patientPhysician: { patientId },
+        patientSummaryCards: {
+          encounterId,
+          patientId,
+        },
       },
       type: 'INIT_PATIENT_SUMMARY',
     })
-  }, [query])
+  }, [patientId, encounterId])
 
   return (
     <GridLayoutWithComponentSelector

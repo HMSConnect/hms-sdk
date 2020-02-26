@@ -6,6 +6,7 @@ import ObservationSummaryGraph from '@components/widget/observation/ObservationS
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
+import get from 'lodash/get'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -21,7 +22,10 @@ const ObservationSummaryGraphWidget: IStatelessPage<{
         <CssBaseline />
         <div style={{ height: '100vh' }}>
           {/* <div style={_.get(query, 'optionStyle')}> */}
-          <ObservationSummaryGraph query={query} />
+          <ObservationSummaryGraph
+            patientId={get(query, 'patientId')}
+            encounterId={get(query, 'patientId')}
+          />
         </div>
       </>
     </BootstrapWrapper>

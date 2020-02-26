@@ -16,10 +16,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: 8,
   },
   remove: {
+    color: '#80808080',
     cursor: 'pointer',
     position: 'absolute',
     right: '2px',
-    top: 0,
+    top: '2px',
     zIndex: 9999,
   },
   searchFilter: {
@@ -203,6 +204,8 @@ const GridLayout: React.FunctionComponent<{
         </div>
         <ResponsiveGridLayout
           className='layout'
+          // margin={[10, 10]}
+          // containerPadding={[10, 10]}
           layouts={{ lg: items }} // If not provided, use data-grid props on children
           breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
           cols={defaultCols}

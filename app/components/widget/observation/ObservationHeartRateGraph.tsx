@@ -31,20 +31,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const ObservationHeartbeatGraph: React.FunctionComponent<{
-  query: any
+const ObservationHeartRateGraph: React.FunctionComponent<{
+  patientId: string
+  max?: number
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ query, optionStyle }) => {
+}> = ({ patientId, max = 20, optionStyle }) => {
   const params = {
-    code: OBSERVATION_CODE.HEARTBEAT.code,
+    code: OBSERVATION_CODE.HEART_RATE.code,
     // encounterId: get(query, 'encounterId'),
-    patientId: get(query, 'patientId'),
+    patientId,
   } as IObservationListFilterQuery
 
   const { isLoading, data: observationList, error } = useObservationList(
     {
       filter: params || {},
-      max: get(query, 'max') || 20,
+      max: max || 20,
     },
     ['patientId'],
   )
@@ -57,7 +58,7 @@ const ObservationHeartbeatGraph: React.FunctionComponent<{
   }
   return (
     <>
-      <ObservationHeartbeatGraphView
+      <ObservationHeartRateGraphView
         observationList={observationList}
         optionStyle={optionStyle}
       />
@@ -65,9 +66,9 @@ const ObservationHeartbeatGraph: React.FunctionComponent<{
   )
 }
 
-export default ObservationHeartbeatGraph
+export default ObservationHeartRateGraph
 
-export const ObservationHeartbeatGraphView: React.FunctionComponent<{
+export const ObservationHeartRateGraphView: React.FunctionComponent<{
   observationList: any
   optionStyle?: IOptionsStyleGraphOption
 }> = ({ observationList, optionStyle }) => {
@@ -77,13 +78,13 @@ export const ObservationHeartbeatGraphView: React.FunctionComponent<{
   return (
     <>
       <ToolbarWithFilter
-        title={'Heartbeat'}
+        title={'Heart Rate'}
         option={{
           isHideIcon: true,
           style: {
             backgroundColor: lighten('#c2185b', 0.85),
             color: '#c2185b',
-            height: '10%',
+            height: '5%',
           },
         }}
       ></ToolbarWithFilter>
@@ -91,7 +92,7 @@ export const ObservationHeartbeatGraphView: React.FunctionComponent<{
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: '90%',
+          height: '95%',
           justifyContent: 'center',
         }}
       >

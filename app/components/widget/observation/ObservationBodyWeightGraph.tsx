@@ -32,19 +32,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const ObservationBodyWeightGraph: React.FunctionComponent<{
-  query: any
+  patientId: string
+  max?: number
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ query, optionStyle }) => {
+}> = ({ patientId, max = 20, optionStyle }) => {
   const params = {
     code: OBSERVATION_CODE.BODY_WEIGHT.code,
     // encounterId: get(query, 'encounterId'),
-    patientId: get(query, 'patientId'),
+    patientId,
   } as IObservationListFilterQuery
 
   const { isLoading, data: observationList, error } = useObservationList(
     {
       filter: params || {},
-      max: get(query, 'max') || 20,
+      max: max || 20,
     },
     ['patientId'],
   )
@@ -83,7 +84,7 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
           style: {
             backgroundColor: lighten('#3d5afe', 0.85),
             color: '#3d5afe',
-            height: '10%',
+            height: '5%',
           },
         }}
       ></ToolbarWithFilter>
@@ -91,7 +92,7 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: '90%',
+          height: '95%',
           justifyContent: 'center',
         }}
       >

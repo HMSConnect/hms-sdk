@@ -50,7 +50,7 @@ export const ObservationSummaryGraphWithConnector: React.FunctionComponent = () 
 
   return (
     <ObservationSummaryGraph
-      query={state.query}
+      patientId={state.patientId}
       optionsGraph={{
         standardSizeForResizeLegendToBottom: [
           'xsmall',
@@ -64,7 +64,7 @@ export const ObservationSummaryGraphWithConnector: React.FunctionComponent = () 
 }
 
 const ObservationSummaryGraph: React.FunctionComponent<any> = ({
-  query,
+  patientId,
   initialFilter: customInitialFilter = {
     codes: undefined,
     encounterId: undefined,
@@ -93,7 +93,7 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
       {
         // encounterId: _.get(query, 'encounterId'),
         codes,
-        patientId: _.get(query, 'patientId'),
+        patientId,
       },
     )
   }, _.values(customInitialFilter))
@@ -102,7 +102,7 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
     isLoading: isPatientLoading,
     data: patient,
     error: patientErrir,
-  } = usePatient(_.get(query, 'patientId') || _.get(query, 'id'))
+  } = usePatient(patientId)
 
   const [{ filter, submitedFilter }, dispatch] = React.useReducer(
     tableWithFilterReducer,
@@ -332,13 +332,13 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
           style: {
             backgroundColor: lighten('#7e57c2', 0.85),
             color: '#7e57c2',
-            height: '10%',
+            // height: '10%',
           },
         }}
       >
         {renderModal}
       </ToolbarWithFilter>
-      <div style={{ height: '90%' }}>
+      <div style={{}}>
         <ObservationSummaryGraphView
           key={`${observationList.length}`}
           observationList={observationList}

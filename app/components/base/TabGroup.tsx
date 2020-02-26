@@ -70,9 +70,13 @@ const TabGroup: React.FunctionComponent<{
                 className={classes.margin}
                 max={999}
               >
-                <div className={classes.truncateContainer}>
+                <Typography
+                  component='div'
+                  variant='body2'
+                  className={classes.truncateContainer}
+                >
                   <Truncate size={2}>{tab[keyField]}</Truncate>
-                </div>
+                </Typography>
               </Badge>
             }
             {...a11yProps(index)}

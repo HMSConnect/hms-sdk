@@ -2,7 +2,7 @@ import useObservationList from '@components/hooks/useObservationList'
 import { render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
 import * as React from 'react'
-import ObservationHeartbeatCard from '../observation/ObservationHeartbeatCard'
+import ObservationHeartRateCard from '../observation/ObservationHeartRateCard'
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
@@ -27,7 +27,7 @@ describe('<ObservaionBloodPressureCard />', () => {
       data: [
         {
           code: '8867-4',
-          codeText: 'Heartbeat',
+          codeText: 'Heart Rate',
           id: '10',
           issued: '2019-01-01',
           unit: 'BPM',
@@ -43,7 +43,7 @@ describe('<ObservaionBloodPressureCard />', () => {
       patientId: '1',
     }
     const { queryByText, queryAllByText } = render(
-      <ObservationHeartbeatCard query={query} />,
+      <ObservationHeartRateCard query={query} />,
     )
 
     expect(queryByText('130')).toBeTruthy()
@@ -63,7 +63,7 @@ describe('<ObservaionBloodPressureCard />', () => {
       patientId: '1',
     }
     const { queryByText, queryAllByText } = render(
-      <ObservationHeartbeatCard query={query} />,
+      <ObservationHeartRateCard query={query} />,
     )
     expect(queryByText('loading..')).toBeTruthy()
   })
@@ -80,7 +80,7 @@ describe('<ObservaionBloodPressureCard />', () => {
       encounterId: '1',
       patientId: '1',
     }
-    const { queryByText } = render(<ObservationHeartbeatCard query={query} />)
+    const { queryByText } = render(<ObservationHeartRateCard query={query} />)
     expect(queryByText('Error')).toBeTruthy()
   })
 })

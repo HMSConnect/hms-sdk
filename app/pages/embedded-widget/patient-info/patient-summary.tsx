@@ -6,7 +6,7 @@ import PatientSummary from '@components/widget/patient/PatientSummary'
 import { CssBaseline, makeStyles, Paper, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
-import * as _ from 'lodash'
+import get from 'lodash/get'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -37,7 +37,11 @@ const PatientSummaryWidget: IStatelessPage<{
       <>
         <CssBaseline />
         <Paper>
-          <PatientSummary query={query} name={_.get(query, 'name')} />
+          <PatientSummary
+            patientId={get(query, 'patientId')}
+            encounterId={get(query, 'encounterId')}
+            name={get(query, 'name')}
+          />
         </Paper>
       </>
     </BootstrapWrapper>

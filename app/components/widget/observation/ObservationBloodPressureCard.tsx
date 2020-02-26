@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
@@ -14,9 +15,13 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core'
+import { lighten } from '@material-ui/core/styles'
+import { sendMessage } from '@utils'
 import clsx from 'clsx'
+import _ from 'lodash'
 import find from 'lodash/find'
 import get from 'lodash/get'
+import { useDispatch, useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -54,15 +59,41 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
+export const ObservationBloodPressureCardWithConnector: React.FunctionComponent = () => {
+  const state = useSelector((state: any) => state.patientSummaryCards)
+  const dispatch = useDispatch()
+  const handleCardClick = (cardName: string) => {
+    dispatch(cardClick(cardName))
+    sendMessage({
+      message: 'handleCardClick',
+      name,
+      params: {
+        cardName,
+      },
+    })
+  }
+
+  return (
+    <ObservationBloodPressureCard
+      key={`ObservationBloodPressureCard${_.get(state, 'encounterId')}`}
+      patientId={state.patientId}
+      encounterId={state.encounterId}
+      onClick={handleCardClick}
+      selectedCard={_.get(state, 'selectedCard')}
+    />
+  )
+}
+
 const ObservationBloodPressureCard: React.FunctionComponent<{
-  query: any
+  patientId: string
+  encounterId?: string
   onClick?: any
   selectedCard?: string
-}> = ({ query, onClick, selectedCard }) => {
+}> = ({ patientId, encounterId, onClick, selectedCard }) => {
   const params: IObservationListFilterQuery = {
     code: OBSERVATION_CODE.BLOOD_PRESSURE.code,
-    encounterId: get(query, 'encounterId'),
-    patientId: get(query, 'patientId'),
+    encounterId,
+    patientId,
   }
   const { isLoading, data: observationList, error } = useObservationList(
     {
@@ -102,6 +133,12 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
       Icon={
         <Icon style={{ color: '#c62828fa' }} className={'fas fa-stethoscope'} />
       }
+      option={{
+        style: {
+          backgroundColor: lighten('#ef5350', 0.85),
+          color: '#ef5350',
+        },
+      }}
     >
       <Grid
         container

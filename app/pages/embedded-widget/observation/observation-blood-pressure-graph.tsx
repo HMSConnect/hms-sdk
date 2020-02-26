@@ -21,7 +21,7 @@ const ObservationBloodPressureGraphWidget: IStatelessPage<{
       <>
         <CssBaseline />
         <ObservationBloodPressureGraph
-          query={query}
+          patientId={get(query, 'patientId')}
           optionStyle={get(query, 'optionStyle')}
         />
       </>

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tableWrapper: {
     ['& .MuiTableCell-stickyHeader']: {
-      top: 60,
+      top: 30,
     },
     flex: 1,
   },
@@ -64,7 +64,7 @@ export const PatientEncounterTimelineWithConnector: React.FunctionComponent = ()
   ) => {
     const newParams = {
       encounterId: _.get(selectedEncounter, 'id'),
-      patientId: _.get(state, 'query.patientId'),
+      patientId: _.get(state, 'patientId'),
     }
     const path = RouteManager.getPath(`patient-summary`, {
       matchBy: 'url',
@@ -82,8 +82,8 @@ export const PatientEncounterTimelineWithConnector: React.FunctionComponent = ()
 
   return (
     <PatientEncounterTimeline
-      patientId={_.get(state, 'query.patientId')}
-      selectedEncounterId={_.get(state, 'query.encounterId')}
+      patientId={_.get(state, 'patientId')}
+      selectedEncounterId={_.get(state, 'encounterId')}
       isInitialize={true}
       max={state?.query?.max}
       onEncounterSelected={handleEncounterSelect}
