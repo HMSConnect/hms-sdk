@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import ErrorSection from '@components/base/ErrorSection'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
@@ -7,6 +9,8 @@ import {
 } from '@data-managers/MedicationRequestDataManager'
 import {
   CircularProgress,
+  Icon,
+  lighten,
   List,
   ListItem,
   ListItemIcon,
@@ -20,7 +24,6 @@ import { HMSService } from '@services/HMSServiceFactory'
 import MedicationRequestService from '@services/MedicationRequestService'
 import { sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
-import * as React from 'react'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -104,14 +107,14 @@ const PatientMedicationList: React.FunctionComponent<{
       max,
     }
     const entryData = await medicationRequestService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-        message: 'handleLoadMore',
-        name,
-      })
-      return Promise.reject(new Error(entryData.error))
-    }
+    // if (_.get(entryData, 'error')) {
+    //   sendMessage({
+    //     error: _.get(entryData, 'error'),
+    //     message: 'handleLoadMore',
+    //     name,
+    //   })
+    //   return Promise.reject(new Error(entryData.error))
+    // }
 
     sendMessage({
       message: 'handleLoadMore',
@@ -147,8 +150,13 @@ const PatientMedicationList: React.FunctionComponent<{
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Medcation Request'}
+          Icon={<Icon className='fas fa-pills' />}
           option={{
             isHideIcon: true,
+            style: {
+              backgroundColor: lighten('#008448', 0.85),
+              color: '#008448',
+            },
           }}
         ></ToolbarWithFilter>
       </div>

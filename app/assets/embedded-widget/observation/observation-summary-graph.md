@@ -1,17 +1,19 @@
-# Patient Demographic
+# Observation Summary Graph
+
 If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
 
-URL: `/embedded-widget/patient-info/patient-demographic`
+
+URL: `/embedded-widget/observation/summary-graph`
 
 ## Setup this widget to iframe
-Replace `/embedded-widget/patient-info/patient-demographic` url to your iframe project.
+Replace `/embedded-widget/observation/summary-graph` url to your iframe project.
 
 ## Redux Structure
 **Redux Store**
-Store name is `patientEncounterTimeline`
-| Key       | Type/Format | Default | Description                                            |
-| --------- | ----------- | ------- | ------------------------------------------------------ |
-| patientId | string      | -       | Patient identification for fetch `patient information` |
+Store name is `observationSummaryGraph`
+| Key       | Type/Format | Default | Description                                           |
+| --------- | ----------- | ------- | ----------------------------------------------------- |
+| patientId | string      | -       | Patient identification for fetch `observation result` |
 **Redux Action**
 | Action               | Parameters | Description                  |
 | -------------------- | ---------- | ---------------------------- |
@@ -23,7 +25,9 @@ Store name is `patientEncounterTimeline`
 | --------- | ----------- | ------- | ------------------------ |
 | patientId | string      |         | `required` ID of patient |
 
+
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/patient-demographic?patientId=0debf275-d585-4897-a8eb-25726def1ed5` 
+ - pathname: `/embedded-widget/observation/summary-graph?patientId=0debf275-d585-4897-a8eb-25726def1ed5` 
+

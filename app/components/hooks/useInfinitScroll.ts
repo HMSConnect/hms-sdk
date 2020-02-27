@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { sendMessage } from '@utils'
 import * as _ from 'lodash'
 import { IQueryResult } from './usePatientList'
 
@@ -58,6 +59,11 @@ const useInfinitScroll = (
             setIsMore(false)
           }
         } catch (error) {
+          sendMessage({
+            error,
+            message: 'handleLoadMore',
+            name,
+          })
           setResult((prevResult: IQueryResult) => {
             return {
               ...prevResult,

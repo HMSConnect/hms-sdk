@@ -169,6 +169,11 @@ module.exports = nextRoutes()
     'embedded-widget/patient-info/patient-allergy-list-card',
   )
   .add(
+    'embedded-widget/patient-info/patient-physician-card',
+    '/embedded-widget/patient-info/patient-physician-card',
+    'embedded-widget/patient-info/patient-physician-card',
+  )
+  .add(
     'embedded-widget/patient-info/patient-medication-request-list-card',
     '/embedded-widget/patient-info/patient-medication-request-list-card',
     'embedded-widget/patient-info/patient-medication-request-list-card',
@@ -188,6 +193,11 @@ module.exports = nextRoutes()
     'embedded-widget/observation/body-height-graph',
     '/embedded-widget/observation/body-height-graph',
     'embedded-widget/observation/observation-body-height-graph',
+  )
+  .add(
+    'embedded-widget/observation/history-graph',
+    '/embedded-widget/observation/history-graph',
+    'embedded-widget/observation/observation-history-graph',
   )
   .add(
     'embedded-widget/observation/summary-graph',

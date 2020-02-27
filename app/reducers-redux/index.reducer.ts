@@ -3,10 +3,17 @@ import observationHistoryGraph from './observationHistoryGraph.reducer'
 import observationLaboratoryTable from './observationLaboratoryTable.reducer'
 import observationSummaryGraph from './observationSummaryGraph.reducer'
 import patientAllergyList from './patientAllergyList.reducer'
+import patientAllergySummaryCard from './patientAllergySummaryCard.reducer'
+import patientCarePlanTable from './patientCarePlanTable.reducer'
+import patientConditionTable from './patientConditionTable.reducer'
 import patientDemographic from './patientDemographic.reducer'
 import patientEncounterTimeline from './patientEncounterTimeline.reducer'
+import patientImmunizationSummaryCard from './patientImmunizationSummaryCard.reducer'
+import patientImmunizationTable from './patientImmunizationTable.reducer'
 import patientMedicationList from './patientMedicationList.reducer'
+import patientMedicationSummaryCard from './patientMedicationSummaryCard.reducer'
 import patientPhysician from './patientPhysician.reducer'
+import patientProcedureTable from './patientProcedureTable.reducer'
 import patientSummaryCards from './patientSummaryCards.reducer'
 
 const middlewares: any[] = []
@@ -29,10 +36,17 @@ export const rootReducer = combineReducers({
   observationLaboratoryTable,
   observationSummaryGraph,
   patientAllergyList,
+  patientAllergySummaryCard,
+  patientImmunizationSummaryCard,
+  patientMedicationSummaryCard,
+  patientCarePlanTable,
+  patientConditionTable,
   patientDemographic,
   patientEncounterTimeline,
+  patientImmunizationTable,
   patientMedicationList,
   patientPhysician,
+  patientProcedureTable,
   patientSummaryCards,
 })
 

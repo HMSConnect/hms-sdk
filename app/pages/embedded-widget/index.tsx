@@ -60,6 +60,17 @@ const WIDGET_GROUP: IWidgetGroup[] = [
   {
     child: [
       {
+        document: require('@assets/embedded-widget/redux.md').default,
+        label: 'Redux',
+        value: 'redux',
+      },
+    ],
+    label: 'Redux',
+    value: 'redux',
+  },
+  {
+    child: [
+      {
         document: require('@assets/embedded-widget/html-demo/index.md').default,
         label: 'HTML Demo',
         path: '../../static/public/index.html',

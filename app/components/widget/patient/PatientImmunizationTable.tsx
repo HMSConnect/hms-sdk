@@ -20,6 +20,8 @@ import {
 import {
   Checkbox,
   FormControlLabel,
+  Icon,
+  lighten,
   makeStyles,
   Theme,
 } from '@material-ui/core'
@@ -27,6 +29,7 @@ import { HMSService } from '@services/HMSServiceFactory'
 import ImmunizationService from '@services/ImmunizationService'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -54,10 +57,24 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
+export const PatientImmunizationTableWithConnector: React.FunctionComponent<any> = () => {
+  const state = useSelector((state: any) => state.patientImmunizationTable)
+
+  return (
+    <PatientImmunizationTable
+      patientId={_.get(state, 'patientId')}
+      max={_.get(state, 'max')}
+      initialFilter={_.get(state, 'initialFilter')}
+      isInitialize={true}
+    />
+  )
+}
+
 const PatientImmunizationTable: React.FunctionComponent<{
   patientId: any
   isInitialize?: boolean
   resourceList?: any[]
+  isContainer?: boolean
   max?: number
   initialFilter?: IImmunizationListFilterQuery
   name?: string
@@ -66,6 +83,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
   patientId,
   max = 20,
   isInitialize,
+  isContainer = true,
   initialFilter: customInitialFilter = {
     date_lt: undefined,
     patientId,
@@ -119,6 +137,14 @@ const PatientImmunizationTable: React.FunctionComponent<{
       patientId,
     }
     const entryData = await fetchData(newFilter, max)
+    sendMessage({
+      message: 'handleLoadMore',
+      name,
+      params: {
+        filter: newFilter,
+        max,
+      },
+    })
     return entryData
   }
 
@@ -131,7 +157,11 @@ const PatientImmunizationTable: React.FunctionComponent<{
     setIsMore,
     setIsFetch,
     isMore,
-  } = useInfinitScroll(null, fetchMoreAsync, resourceList)
+  } = useInfinitScroll(
+    isContainer ? myscroll.current : null,
+    fetchMoreAsync,
+    resourceList,
+  )
 
   React.useEffect(() => {
     if (isInitialize) {
@@ -357,11 +387,12 @@ const PatientImmunizationTable: React.FunctionComponent<{
   }
 
   return (
-    <>
+    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Immunization'}
           onClickIcon={showModal}
+          Icon={<Icon className='fas fa-syringe' />}
           filterActive={countFilterActive(submitedFilter, initialFilter, [
             'date_lt',
             'patientId',
@@ -387,6 +418,10 @@ const PatientImmunizationTable: React.FunctionComponent<{
                 labelPlacement='start'
               />
             ),
+            style: {
+              backgroundColor: lighten('#afb42b', 0.85),
+              color: '#afb42b',
+            },
           }}
         >
           {renderModal}
@@ -395,11 +430,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
           <TabGroup tabList={tab.tabList} onTabChange={handleTabChange} />
         )}
       </div>
-      <div
-        ref={myscroll}
-        className={classes.tableWrapper}
-        data-testid='scroll-container'
-      >
+      <div className={classes.tableWrapper} data-testid='scroll-container'>
         <TableBase
           id='immunization'
           entryList={data}
@@ -455,7 +486,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
           ]}
         />
       </div>
-    </>
+    </div>
   )
 }
 

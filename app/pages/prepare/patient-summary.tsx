@@ -7,6 +7,9 @@ import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import * as _ from 'lodash'
 
+// import 'react-grid-layout/css/styles.css'
+// import 'react-resizable/css/styles.css'
+
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
@@ -49,4 +52,4 @@ PatientInfoView.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default withAuthSync(PatientInfoView)
+export default PatientInfoView

@@ -10,6 +10,9 @@ import HomeIcon from '@material-ui/icons/Home'
 import { IStatelessPage } from '@pages/patient-search'
 import get from 'lodash/get'
 
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
+
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     // height: '100vh',
@@ -61,7 +64,7 @@ const EncounterPage: IStatelessPage<{
             ></BreadcrumbsBase>
             <PatientSummary
               patientId={get(query, 'patientId')}
-              encounterId={get(query, 'patientId')}
+              encounterId={get(query, 'encounterId')}
               name={get(query, 'name')}
             />
             {/* <PatientInfoDetail query={query} /> */}
@@ -79,4 +82,4 @@ EncounterPage.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default withAuthSync(EncounterPage)
+export default EncounterPage

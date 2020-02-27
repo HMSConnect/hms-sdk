@@ -8,10 +8,9 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
-import { Divider, makeStyles, Theme, Typography } from '@material-ui/core'
+import { Divider, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
 import { lighten } from '@material-ui/core/styles'
 import { scaleTime } from 'd3-scale'
-import get from 'lodash/get'
 import maxBy from 'lodash/maxBy'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 
@@ -72,6 +71,7 @@ export const ObservationBodyHeightGraphView: React.FunctionComponent<{
     <>
       <ToolbarWithFilter
         title={'Body Height'}
+        Icon={<Icon className={'fas fa-chart-area'} />}
         option={{
           isHideIcon: true,
           style: {

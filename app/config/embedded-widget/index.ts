@@ -1,7 +1,7 @@
 import { IWidgetGroup } from "@config"
 import patientEmbeddedWidgetConfig from "./patient_embedded_config"
 import diagnostic_report_embedded_config from "./diagnostic_report_embedded_config"
-import { observationWidgetConfig } from "@config/observation_embedded_config"
+import { observationWidgetConfig } from "@config/embedded-widget/observation_embedded_config"
 
 export const widgetGalleryPatientConfig: IWidgetGroup = patientEmbeddedWidgetConfig
 

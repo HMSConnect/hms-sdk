@@ -34,7 +34,15 @@ const PreparePatientData: React.FunctionComponent<any> = ({ query }) => {
         params: newParams,
         path,
       })
-      routes.Router.replace(path)
+      routes.Router.ready(() => {
+        routes.Router.replaceRoute(path)
+      })
+      // setTimeout(() => {
+      //   console.log('routes.Router :', routes.Router)
+      // }, 1000)
+      // routes.Router.replace(path)
+      // routes.Router.replaceRoute('/embedded-widget')
+      // routes.Router.replaceRoute('/patient-summary', newParams)
     }
   }, [encounter, isPatientLoading])
   return <LoadingSection />

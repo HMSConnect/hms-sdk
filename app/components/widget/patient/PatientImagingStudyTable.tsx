@@ -108,6 +108,14 @@ const PatientImagingStudyTable: React.FunctionComponent<{
       started_lt: _.get(lastEntry, 'started'),
     }
     const entryData = await fetchData(newFilter, max)
+    sendMessage({
+      message: 'handleLoadMore',
+      name,
+      params: {
+        filter: newFilter,
+        max,
+      },
+    })
     return entryData
   }
 

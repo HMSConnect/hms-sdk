@@ -15,11 +15,12 @@ import {
   IProcedureListFilterQuery,
   mergeWithProcedureInitialFilterQuery,
 } from '@data-managers/ProcedureDataManager'
-import { makeStyles, Theme } from '@material-ui/core'
+import { Icon, makeStyles, Theme } from '@material-ui/core'
 import { HMSService } from '@services/HMSServiceFactory'
 import ProcedureService from '@services/ProcedureService'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   tableWrapper: {
@@ -46,10 +47,23 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
+export const PatientProcedureTableWithConnector: React.FunctionComponent<any> = () => {
+  const state = useSelector((state: any) => state.patientProcedureTable)
+  return (
+    <PatientProcedureTable
+      patientId={_.get(state, 'patientId')}
+      max={_.get(state, 'max')}
+      initialFilter={_.get(state, 'initialFilter')}
+      isInitialize={true}
+    />
+  )
+}
+
 const PatientProcedureTable: React.FunctionComponent<{
   patientId: any
   isInitialize?: boolean
   resourceList?: any[]
+  isContainer?: boolean
   max?: number
   initialFilter?: IProcedureListFilterQuery
   name?: string
@@ -58,6 +72,7 @@ const PatientProcedureTable: React.FunctionComponent<{
   patientId,
   isInitialize,
   max = 20,
+  isContainer = true,
   initialFilter: customInitialFilter = {
     code: '',
     patientId,
@@ -109,6 +124,14 @@ const PatientProcedureTable: React.FunctionComponent<{
       periodStart_lt: _.get(lastEntry, 'performedPeriodStart'),
     }
     const entryData = await fetchData(newFilter, max)
+    sendMessage({
+      message: 'handleLoadMore',
+      name,
+      params: {
+        filter: newFilter,
+        max,
+      },
+    })
     return entryData
   }
 
@@ -121,7 +144,11 @@ const PatientProcedureTable: React.FunctionComponent<{
     setResult,
     setIsMore,
     isMore,
-  } = useInfinitScroll(null, fetchMoreAsync, resourceList)
+  } = useInfinitScroll(
+    isContainer ? myscroll.current : null,
+    fetchMoreAsync,
+    resourceList,
+  )
   React.useEffect(() => {
     if (isInitialize) {
       setIsFetch(true)
@@ -207,11 +234,12 @@ const PatientProcedureTable: React.FunctionComponent<{
   }
 
   return (
-    <>
+    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Procedure'}
           onClickIcon={showModal}
+          Icon={<Icon className='fas fa-procedures' />}
           filterActive={countFilterActive(submitedFilter, initialFilter, [
             'patientId',
             'periodStart_lt',
@@ -220,11 +248,7 @@ const PatientProcedureTable: React.FunctionComponent<{
           {renderModal}
         </ToolbarWithFilter>
       </div>
-      <div
-        ref={myscroll}
-        className={classes.tableWrapper}
-        data-testid='scroll-container'
-      >
+      <div className={classes.tableWrapper} data-testid='scroll-container'>
         <TableBase
           id='procedure'
           entryList={data}
@@ -280,7 +304,7 @@ const PatientProcedureTable: React.FunctionComponent<{
           ]}
         />
       </div>
-    </>
+    </div>
   )
 }
 

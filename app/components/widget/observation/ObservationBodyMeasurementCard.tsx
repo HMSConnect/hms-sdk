@@ -131,6 +131,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
       header='Body Measurement'
       Icon={<Icon className={'fas fa-male'} style={{ color: '#00b0ff' }} />}
       option={{
+        isHideIcon: true,
         style: {
           backgroundColor: lighten('#00b0ff', 0.85),
           color: '#00b0ff',

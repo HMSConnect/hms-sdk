@@ -8,6 +8,17 @@ URL: `/embedded-widget/patient-info/patient-allergy-list-card`
 ## Setup this widget to iframe
 Replace `/embedded-widget/patient-info/patient-allergy-list-card` url to your iframe project.
 
+## Redux Structure
+**Redux Store**
+Store name is `patientAllergyList`
+| Key       | Type/Format | Default | Description                                            |
+| --------- | ----------- | ------- | ------------------------------------------------------ |
+| patientId | string      | -       | Patient identification for fetch `allergy information` |
+**Redux Action**
+| Action               | Parameters | Description                  |
+| -------------------- | ---------- | ---------------------------- |
+| INIT_PATIENT_SUMMARY | any        | Initial Store for fetch data |
+
 ## Request HTTP GET
 **Query Params**
 | Key       | Type/Format | Default | Description                         |

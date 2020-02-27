@@ -244,6 +244,74 @@ export const observationWidgetConfig: IWidgetGroup = {
       ],
       value: 'observation-vital-sign-card',
     },
+    {
+      document: require('@assets/embedded-widget/observation/observation-summary-graph.md')
+        .default,
+      label: 'Observation Summary Graph',
+      path: '/embedded-widget/observation/summary-graph',
+      queryParams: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        // {
+        //   defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+        //   label: 'Encounter ID',
+        //   type: 'text',
+        //   value: 'encounterId',
+        // },
+      ],
+      value: 'observation-summary-card',
+    },
+    {
+      document: require('@assets/embedded-widget/observation/observation-history-graph.md')
+        .default,
+      label: 'Observation History Graph',
+      path: '/embedded-widget/observation/history-graph',
+      queryParams: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          choices: [
+            {
+              label: 'Blood Pressure',
+              value: 'bloodPressure',
+            },
+            {
+              label: 'Body Height',
+              value: 'bodyHeight',
+            },
+            {
+              label: 'Body Weight',
+              value: 'bodyWeight',
+            },
+            {
+              label: 'Body Mass Index',
+              value: 'bodyMassIndex',
+            },
+            {
+              label: 'Body Temperature',
+              value: 'bodyTemperature',
+            },
+            {
+              label: 'Heart Rate',
+              value: 'heartRate',
+            },
+          ],
+          defaultValue: 'bloodPressure',
+          label: 'SelectedCard',
+          type: 'options',
+          value: 'selectedCard',
+        },
+      ],
+      value: 'observation-history-graph',
+    },
   ],
   label: 'Observation - Laboraory',
   value: 'observation-laboratory-card',

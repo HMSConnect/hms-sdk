@@ -12,7 +12,8 @@ import store from '../reducers-redux/index.reducer'
 import RouteManager from '../routes/RouteManager'
 import theme from '../src/theme'
 
-
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
 
 class AASApp extends App {
   static async getInitialProps({ Component, ctx }) {

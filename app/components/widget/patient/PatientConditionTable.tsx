@@ -16,11 +16,12 @@ import {
   IConditionListFilterQuery,
   mergeWithConditionInitialFilterQuery,
 } from '@data-managers/ConditionDataManager'
-import { makeStyles, Theme } from '@material-ui/core'
+import { Icon, makeStyles, Theme } from '@material-ui/core'
 import ConditionService from '@services/ConditionService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -48,10 +49,23 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
+export const PatientconditionTableWithConnector: React.FunctionComponent<any> = () => {
+  const state = useSelector((state: any) => state.patientConditionTable)
+
+  return (
+    <PatientConditionTable
+      patientId={_.get(state, 'patientId')}
+      max={_.get(state, 'max')}
+      initialFilter={_.get(state, 'initialFilter')}
+      isInitialize={true}
+    />
+  )
+}
 const PatientConditionTable: React.FunctionComponent<{
   patientId: any
   isInitialize?: boolean
   resourceList?: any[]
+  isContainer?: boolean
   max?: number
   initialFilter?: IConditionListFilterQuery
   name?: string
@@ -60,6 +74,7 @@ const PatientConditionTable: React.FunctionComponent<{
   patientId,
   max = 20,
   isInitialize,
+  isContainer = true,
   initialFilter: customInitialFilter = {},
   name = 'patientConditionTable',
 }) => {
@@ -107,6 +122,14 @@ const PatientConditionTable: React.FunctionComponent<{
       patientId,
     }
     const entryData = await fetchData(newFilter, max)
+    sendMessage({
+      message: 'handleLoadMore',
+      name,
+      params: {
+        filter: newFilter,
+        max,
+      },
+    })
     return entryData
   }
 
@@ -120,7 +143,11 @@ const PatientConditionTable: React.FunctionComponent<{
     setIsMore,
     setResult,
     isMore,
-  } = useInfinitScroll(null, fetchMoreAsync, resourceList)
+  } = useInfinitScroll(
+    isContainer ? myscroll.current : null,
+    fetchMoreAsync,
+    resourceList,
+  )
 
   React.useEffect(() => {
     if (isInitialize) {
@@ -231,11 +258,15 @@ const PatientConditionTable: React.FunctionComponent<{
   }
 
   return (
-    <>
+    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Condition'}
           onClickIcon={showModal}
+          Icon={<Icon className='fas fa-clipboard' />}
+          option={{
+            isHideIcon: false,
+          }}
           filterActive={countFilterActive(submitedFilter, initialFilter, [
             'onsetDateTime_lt',
             'patientId',
@@ -245,11 +276,7 @@ const PatientConditionTable: React.FunctionComponent<{
         </ToolbarWithFilter>
       </div>
 
-      <div
-        ref={myscroll}
-        className={classes.tableWrapper}
-        data-testid='scroll-container'
-      >
+      <div className={classes.tableWrapper} data-testid='scroll-container'>
         <TableBase
           id='condition'
           entryList={data}
@@ -321,7 +348,7 @@ const PatientConditionTable: React.FunctionComponent<{
           ]}
         />
       </div>
-    </>
+    </div>
   )
 }
 

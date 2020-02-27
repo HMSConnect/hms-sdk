@@ -21,6 +21,7 @@ import ClaimService from '@services/ClaimService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -106,6 +107,14 @@ const PatientClaimTable: React.FunctionComponent<{
       patientId,
     }
     const entryData = await fetchData(newFilter, max)
+    sendMessage({
+      message: 'handleLoadMore',
+      name,
+      params: {
+        filter: newFilter,
+        max,
+      },
+    })
     return entryData
   }
 

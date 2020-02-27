@@ -12,6 +12,7 @@ import {
 import { lighten } from '@material-ui/core/styles'
 import FilterListIcon from '@material-ui/icons/FilterList'
 import clsx from 'clsx'
+import defaultsDeep from 'lodash/defaultsDeep'
 import Truncate from './Truncate'
 
 interface IToolbarWithFilterOption {
@@ -22,7 +23,8 @@ interface IToolbarWithFilterOption {
 const useStyles = makeStyles((theme: Theme) => {
   return {
     additionInputLayout: {
-      flex: '3 3 100%',
+      flex: '2 2 100%',
+      textAlign: 'end',
     },
     anchorOriginTopLeftRectangle: {
       top: '10px',
@@ -40,6 +42,11 @@ const useStyles = makeStyles((theme: Theme) => {
             backgroundColor: theme.palette.secondary.dark,
             color: theme.palette.text.primary,
           },
+    iconContainer: {
+      alignItems: 'center',
+      display: 'flex',
+      marginRight: '8px',
+    },
     margin: {
       margin: theme.spacing(1),
     },
@@ -48,7 +55,6 @@ const useStyles = makeStyles((theme: Theme) => {
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(1),
     },
-
     title: {
       flex: '1 1 100%',
     },
@@ -65,27 +71,50 @@ const ToolbarWithFilter: React.FC<{
   onClickIcon,
   children,
   title = 'Toolbar Title',
-  Icon = <FilterListIcon />,
+  Icon,
   filterActive = 0,
-  option = {},
+  option = {
+    isHideIcon: true,
+    style: undefined,
+  },
 }) => {
   const classes = useStyles()
+  const toolbarOption = React.useMemo(() => {
+    return defaultsDeep(option, {
+      additionButton: undefined,
+      isHideIcon: false,
+      style: undefined,
+    })
+  }, [option])
   return (
     <>
       <Toolbar
         variant='dense'
         className={clsx(classes.root, {
-          [classes.highlight]: !option.style,
+          [classes.highlight]: !toolbarOption.style,
         })}
-        style={option.style}
+        style={toolbarOption.style}
       >
-        <Typography className={classes.title} variant='h6'>
-          <Truncate size={1}>{title}</Truncate>
+        <Typography
+          // className={classes.title}
+          variant='h6'
+          style={{
+            display: 'flex',
+            width: '100%',
+          }}
+        >
+          {Icon ? <div className={classes.iconContainer}>{Icon}</div> : null}
+          <div>
+            <Truncate size={1}>{title}</Truncate>
+          </div>
         </Typography>
-        <div className={classes.additionInputLayout}>
-          {option.additionButton}
-        </div>
-        {option.isHideIcon ? null : onClickIcon ? (
+        {toolbarOption.additionButton ? (
+          <div className={classes.additionInputLayout}>
+            {toolbarOption.additionButton}
+          </div>
+        ) : null}
+
+        {toolbarOption.isHideIcon ? null : (
           <Tooltip title='Filter list'>
             <Badge
               color='secondary'
@@ -108,12 +137,10 @@ const ToolbarWithFilter: React.FC<{
                 aria-label='filter list'
                 onClick={onClickIcon}
               >
-                {Icon}
+                <FilterListIcon />
               </IconButton>
             </Badge>
           </Tooltip>
-        ) : (
-          Icon
         )}
       </Toolbar>
 
