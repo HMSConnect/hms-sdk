@@ -4,7 +4,6 @@ import {
   tableWithFilterReducer,
   tableWithFilterState,
 } from '@app/reducers/tableWithFilter.reducer'
-import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
 import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TabGroup from '@components/base/TabGroup'
@@ -20,6 +19,7 @@ import {
 import {
   Checkbox,
   FormControlLabel,
+  Icon,
   makeStyles,
   Theme,
 } from '@material-ui/core'
@@ -27,12 +27,13 @@ import CarePlanService from '@services/CarePlanService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
   tableWrapper: {
     ['& .MuiTableCell-stickyHeader']: {
-      top: 30,
+      top: 45,
     },
     flex: 1,
   },
@@ -43,10 +44,24 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
+export const PatientCarePlanTableWithConnector: React.FunctionComponent<any> = () => {
+  const state = useSelector((state: any) => state.patientCarePlanTable)
+
+  return (
+    <PatientCarePlanTable
+      patientId={_.get(state, 'patientId')}
+      max={_.get(state, 'max')}
+      initialFilter={_.get(state, 'initialFilter')}
+      isInitialize={true}
+    />
+  )
+}
+
 const PatientCarePlanTable: React.FunctionComponent<{
   patientId: any
   isInitialize?: boolean
   resourceList?: any[]
+  isContainer?: boolean
   max?: number
   initialFilter?: ICarePlanListFilterQuery
   name?: string
@@ -55,6 +70,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
   patientId,
   max = 20,
   isInitialize,
+  isContainer = true,
   initialFilter: customInitialFilter = {
     category: '',
     patientId,
@@ -104,6 +120,14 @@ const PatientCarePlanTable: React.FunctionComponent<{
       periodStart_lt: _.get(lastEntry, 'periodStart'),
     }
     const entryData = await fetchData(newFilter, max)
+    sendMessage({
+      message: 'handleLoadMore',
+      name,
+      params: {
+        filter: newFilter,
+        max,
+      },
+    })
     return entryData
   }
 
@@ -116,7 +140,11 @@ const PatientCarePlanTable: React.FunctionComponent<{
     setIsMore,
     setIsFetch,
     isMore,
-  } = useInfinitScroll(null, fetchMoreAsync, resourceList)
+  } = useInfinitScroll(
+    isContainer ? myscroll.current : null,
+    fetchMoreAsync,
+    resourceList,
+  )
 
   React.useEffect(() => {
     if (isInitialize) {
@@ -341,11 +369,12 @@ const PatientCarePlanTable: React.FunctionComponent<{
     return <ErrorSection error={error} />
   }
   return (
-    <>
+    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Care Plan'}
           onClickIcon={showModal}
+          Icon={<Icon className='fas fa-solar-panel' />}
           filterActive={countFilterActive(submitedFilter, initialFilter, [
             'periodStart_lt',
             'patientId',
@@ -383,11 +412,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
           />
         )}
       </div>
-      <div
-        ref={myscroll}
-        className={classes.tableWrapper}
-        data-testid='scroll-container'
-      >
+      <div className={classes.tableWrapper} data-testid='scroll-container'>
         <TableBase
           id='carePlan'
           entryList={data}
@@ -472,7 +497,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
           ]}
         />
       </div>
-    </>
+    </div>
   )
 }
 

@@ -134,6 +134,7 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
         <Icon style={{ color: '#c62828fa' }} className={'fas fa-stethoscope'} />
       }
       option={{
+        isHideIcon: true,
         style: {
           backgroundColor: lighten('#ef5350', 0.85),
           color: '#ef5350',

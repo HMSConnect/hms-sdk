@@ -8,6 +8,18 @@ URL: `/embedded-widget/observation/laboratory-table`
 ## Setup this widget to iframe
 Replace `/embedded-widget/observation/laboratory-table` url to your iframe project.
 
+## Redux Structure
+**Redux Store**
+Store name is `observationLaboratoryTable`
+| Key         | Type/Format | Default | Description                                               |
+| ----------- | ----------- | ------- | --------------------------------------------------------- |
+| patientId   | string      | -       | Patient identification for fetch `laboratory information` |
+| encounterId | string      | -       | Patient identification for fetch `laboratory information` |
+**Redux Action**
+| Action               | Parameters | Description                  |
+| -------------------- | ---------- | ---------------------------- |
+| INIT_PATIENT_SUMMARY | any        | Initial Store for fetch data |
+
 ## Request HTTP GET
 **Query Params**
 | Key         | Type/Format | Default | Description                           |

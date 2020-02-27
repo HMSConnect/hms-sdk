@@ -3,8 +3,8 @@ import CloseIcon from '@material-ui/icons/Close'
 import * as _ from 'lodash'
 import React from 'react'
 import { Responsive, WidthProvider } from 'react-grid-layout'
-import 'react-grid-layout/css/styles.css'
-import 'react-resizable/css/styles.css'
+// import 'react-grid-layout/css/styles.css'
+// import 'react-resizable/css/styles.css'
 
 const useStyles = makeStyles((theme: Theme) => ({
   gridItem: {
@@ -136,7 +136,6 @@ const GridLayout: React.FunctionComponent<{
     }
 
     function handleLayoutChange(layout: any) {
-      // console.log('handleLayoutChange', layout)
       dispatch({
         payload: layout,
         type: 'LAYOUT_CHANGE',
@@ -154,8 +153,16 @@ const GridLayout: React.FunctionComponent<{
       })
     }
 
-    function handleWidthChange() {
-      // console.log('handle width change')
+    function handleWidthChange(
+      containerWidth: number,
+      margin: [number, number],
+      cols: number,
+      containerPadding: [number, number],
+    ) {
+      // console.log('handle width change', containerWidth)
+      // console.log('margin :', margin);
+      // console.log('cols :', cols);
+      // console.log('containerPadding :', containerPadding);
     }
 
     function renderRemoveComponent(item: any) {

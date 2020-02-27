@@ -21,7 +21,7 @@ const PatientDemographicSummaryWidget: IStatelessPage<{
         <CssBaseline />
         <PatientSummaryCards
           patientId={get(query, 'patientId')}
-          encounterId={get(query, 'patientId')}
+          encounterId={get(query, 'encounterId')}
           name={get(query, 'name')}
         />
       </>

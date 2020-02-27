@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import {
   tableWithFilterReducer,
   tableWithFilterState,
@@ -17,13 +19,13 @@ import {
   Checkbox,
   FormControlLabel,
   FormGroup,
+  Icon,
   Typography,
 } from '@material-ui/core'
 import { lighten } from '@material-ui/core/styles'
 import { parse } from '@utils'
 import { scaleTime } from 'd3-scale'
 import * as _ from 'lodash'
-import * as React from 'react'
 import { useSelector } from 'react-redux'
 
 const mapObservaionCode = (codes: string[]) => {
@@ -224,7 +226,7 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
     return _.reduce(
       normalRangeObject,
       (acc: any, normalRange: any) => {
-        let temp: any = {}
+        const temp: any = {}
         if (_.get(normalRange[0], 'low')) {
           _.camelCase(`normal${normalRange[0].codeText}low`)
           temp[_.camelCase(`normal${normalRange[0].codeText}Low`)] = _.get(
@@ -297,6 +299,7 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
         <ToolbarWithFilter
           title={'Summary Graph'}
           onClickIcon={showModal}
+          Icon={<Icon className={'fas fa-chart-line'} />}
           option={{
             style: {
               backgroundColor: lighten('#7e57c2', 0.85),
@@ -328,6 +331,7 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
       <ToolbarWithFilter
         title={'Summary Graph'}
         onClickIcon={showModal}
+        Icon={<Icon className={'fas fa-chart-line'} />}
         option={{
           style: {
             backgroundColor: lighten('#7e57c2', 0.85),

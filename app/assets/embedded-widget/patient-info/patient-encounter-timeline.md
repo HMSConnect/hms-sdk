@@ -8,12 +8,23 @@ URL: `/embedded-widget/patient-info/encounter-timeline`
 ## Setup this widget to iframe
 Replace `/embedded-widget/patient-info/encounter-timeline` url to your iframe project.
 
+## Redux Structure
+**Redux Store**
+Store name is `patientDemographic`
+| Key       | Type/Format | Default | Description                                            |
+| --------- | ----------- | ------- | ------------------------------------------------------ |
+| patientId | string      | -       | Patient identification for fetch `patient information` |
+**Redux Action**
+| Action               | Parameters | Description                  |
+| -------------------- | ---------- | ---------------------------- |
+| INIT_PATIENT_SUMMARY | any        | Initial Store for fetch data |
+
 ## Request HTTP GET
 
 **Query Params**
-| Key       | Type/Format | Default                    | Description |
-| --------- | ----------- | -------------------------- | ----------- |
-| patientId | string      | ฅ `required` ID of patient |
+| Key       | Type/Format | Default                  | Description |
+| --------- | ----------- | ------------------------ | ----------- |
+| patientId | string      | `required` ID of patient |
 
 | initialFilter[status] | string      | undefined | InitialFilter is original filter, when click `reset` filter value will equal initialFilter |
 | max                   | number      | 20        | Number of total records in one page                                                        |

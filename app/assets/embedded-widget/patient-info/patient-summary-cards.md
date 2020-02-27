@@ -8,6 +8,18 @@ URL: `/embedded-widget/patient-info/summary-cards`
 ## Setup this widget to iframe
 Replace `/embedded-widget/patient-info/summary-cards` url to your iframe project.
 
+
+## Redux Structure
+**Redux Store**
+Store name is `patientSummaryCards`
+| Key       | Type/Format | Default | Description                                           |
+| --------- | ----------- | ------- | ----------------------------------------------------- |
+| patientId | string      | -       | Patient identification for fetch `observation result` |
+**Redux Action**
+| Action               | Parameters | Description                  |
+| -------------------- | ---------- | ---------------------------- |
+| INIT_PATIENT_SUMMARY | any        | Initial Store for fetch data |
+
 ## Request HTTP GET
 **Query Params**
 | Key         | Type/Format | Default | Description                |

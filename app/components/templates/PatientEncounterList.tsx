@@ -9,6 +9,7 @@ import {
   Divider,
   Icon,
   IconButton,
+  lighten,
   List,
   ListItem,
   ListItemIcon,
@@ -18,7 +19,6 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core'
-import CommentIcon from '@material-ui/icons/Comment'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import clsx from 'clsx'
@@ -45,6 +45,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'inline',
     textAlign: 'right',
   },
+  listButton: {
+    '&:hover': {
+      backgroundColor: lighten('#5c6bc0', 0.85),
+    },
+  },
+
+  itemSelected: {
+    backgroundColor: `${lighten('#5c6bc0', 0.7)}!important`,
+  },
   line: {
     borderLeft: '10px solid lightgrey',
     height: '100%',
@@ -66,6 +75,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingLeft: theme.spacing(4),
   },
   root: {},
+
   topicTitle: {
     color: 'grey',
   },
@@ -188,7 +198,10 @@ const EncounterListItem: React.FunctionComponent<{
   return (
     <>
       <ListItem
-        style={{ paddingRight: '80px' }}
+        classes={{
+          button: classes.listButton,
+          selected: classes.itemSelected,
+        }}
         button
         onClick={event => handleClick(event, data, index)}
         selected={selectedIndex === index}
@@ -269,7 +282,6 @@ const EncounterListItem: React.FunctionComponent<{
           <div style={{ flex: 10 }}>
             <List component='div'>
               <ListItem
-                button
                 className={classes.nested}
                 // onClick={event => onEntrySelected(event, data, index)}
               >

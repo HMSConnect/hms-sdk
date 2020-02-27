@@ -33,7 +33,7 @@ Replace `/embedded-widget/patient-info/procedure-table` url to your iframe proje
 ## Example
 
 ### Request
- - pathname: `/embedded-widget/patient-info/procedure-table?patientId=6f8f470e-07e8-4273-ad11-6e3fdc384a09&max=20` 
+ - pathname: `/embedded-widget/patient-info/procedure-table?patientId=0debf275-d585-4897-a8eb-25726def1ed5&max=20` 
 
 ### Action
  - Scroll to bottom of table
@@ -42,12 +42,12 @@ Replace `/embedded-widget/patient-info/procedure-table` url to your iframe proje
 ```json
 {
     "message": "handleLoadMore",
-    "name": "patientProcedureTable",
+    "name": "patientProcedureTable",****
     "params": {
         "filter": {
             "code": "",
-            "patientId": "6f8f470e-07e8-4273-ad11-6e3fdc384a09",
-            "periodStart_lt": Fri Apr 06 2012 07:31:15 GMT+0700 (Indochina Time),
+            "patientId": "0debf275-d585-4897-a8eb-25726def1ed5",
+            "periodStart_lt": Sat Aug 06 2016 10:39:53 GMT+0700 (Indochina Time),
         },
         "max": 20
     },

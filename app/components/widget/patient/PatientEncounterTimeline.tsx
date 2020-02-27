@@ -1,3 +1,5 @@
+import React, { useEffect, useRef } from 'react'
+
 import {
   tableWithFilterReducer,
   tableWithFilterState,
@@ -12,11 +14,10 @@ import {
   IEncounterListQuery,
   mergeWithEncounterInitialFilterQuery,
 } from '@data-managers/EncounterDataManager'
-import { makeStyles, Theme } from '@material-ui/core'
+import { Icon, makeStyles, Theme } from '@material-ui/core'
 import { lighten } from '@material-ui/core/styles'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
-import React, { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import routes from '../../../routes'
 import RouteManager from '../../../routes/RouteManager'
@@ -169,6 +170,14 @@ const PatientEncounterTimeline: React.FunctionComponent<{
       periodStart_lt: _.get(lastEntry, 'startTime'),
     }
     const entryData = await fetchData(newFilter, max)
+    sendMessage({
+      message: 'handleLoadMore',
+      name,
+      params: {
+        filter: newFilter,
+        max,
+      },
+    })
     return entryData
   }
 
@@ -322,6 +331,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
         <ToolbarWithFilter
           title={'Encounter'}
           onClickIcon={showModal}
+          Icon={<Icon className='fas fa-book-reader' />}
           filterActive={countFilterActive(submitedFilter, initialFilter, [
             'periodStart_lt',
             'patientId',

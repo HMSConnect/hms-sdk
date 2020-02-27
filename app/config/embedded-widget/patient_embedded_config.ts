@@ -503,7 +503,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/procedure-table',
       queryParams: [
         {
-          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',

@@ -113,6 +113,14 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
       patientId,
     }
     const entryData = await fetchData(newFilter, max)
+    sendMessage({
+      message: 'handleLoadMore',
+      name,
+      params: {
+        filter: newFilter,
+        max,
+      },
+    })
     return entryData
   }
 

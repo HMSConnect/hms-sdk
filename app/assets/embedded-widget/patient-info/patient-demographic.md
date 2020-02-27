@@ -6,11 +6,22 @@ URL: `/embedded-widget/patient-info/patient-demographic`
 ## Setup this widget to iframe
 Replace `/embedded-widget/patient-info/patient-demographic` url to your iframe project.
 
+## Redux Structure
+**Redux Store**
+Store name is `patientEncounterTimeline`
+| Key       | Type/Format | Default | Description                                            |
+| --------- | ----------- | ------- | ------------------------------------------------------ |
+| patientId | string      | -       | Patient identification for fetch `patient information` |
+**Redux Action**
+| Action               | Parameters | Description                  |
+| -------------------- | ---------- | ---------------------------- |
+| INIT_PATIENT_SUMMARY | any        | Initial Store for fetch data |
+
 ## Request HTTP GET
 **Query Params**
-| Key         | Type/Format | Default | Description                |
-| ----------- | ----------- | ------- | -------------------------- |
-| patientId   | string      |         | `required` ID of patient   |
+| Key       | Type/Format | Default | Description              |
+| --------- | ----------- | ------- | ------------------------ |
+| patientId | string      |         | `required` ID of patient |
 
 ## Example
 

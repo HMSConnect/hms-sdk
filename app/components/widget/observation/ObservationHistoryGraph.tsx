@@ -20,16 +20,13 @@ const useStyles = makeStyles(theme => ({
 
 export const ObservationHistoryGraphWithConnector: React.FunctionComponent = () => {
   const state = useSelector((state: any) => state.observationHistoryGraph)
-  return (
-    <ObservationHistoryGraph query={state.query} patientId={state.patientId} />
-  )
+  return <ObservationHistoryGraph patientId={state.patientId} />
 }
 
 const ObservationHistoryGraph: React.FunctionComponent<{
-  query: any
   patientId: string
   selectedCard?: string
-}> = ({ query, patientId, selectedCard = '' }) => {
+}> = ({ patientId, selectedCard = '' }) => {
   const [Component, setComponent] = React.useState<any>(<EmptyComponent />)
   const classes = useStyles()
   const patientSummaryCardsState = useSelector(
@@ -39,10 +36,10 @@ const ObservationHistoryGraph: React.FunctionComponent<{
   React.useEffect(() => {
     setComponent(
       renderGraph(
-        _.get(patientSummaryCardsState, 'selectedCard') || selectedCard,
+        selectedCard || _.get(patientSummaryCardsState, 'selectedCard'),
       ),
     )
-  }, [query, patientSummaryCardsState])
+  }, [patientSummaryCardsState])
 
   const renderGraph = (selected: string) => {
     switch (selected) {

@@ -124,6 +124,7 @@ export const ObservationTemperatureCardView: React.FunctionComponent<{
         />
       }
       option={{
+        isHideIcon: true,
         style: {
           backgroundColor: lighten('#afb42b', 0.85),
           color: '#afb42b',

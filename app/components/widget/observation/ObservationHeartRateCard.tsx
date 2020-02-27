@@ -126,6 +126,7 @@ export const ObservationHeartRateCardView: React.FunctionComponent<{
         />
       }
       option={{
+        isHideIcon: true,
         style: {
           backgroundColor: lighten('#c2185b', 0.85),
           color: '#c2185b',

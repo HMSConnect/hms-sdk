@@ -23,6 +23,7 @@ const PatientCarePlanTableWidget: IStatelessPage<{
           patientId={get(query, 'patientId')}
           max={get(query, 'max')}
           isInitialize={get(query, 'isInitialize') || true}
+          isContainer={false}
           initialFilter={get(query, 'initialFilter')}
           name={get(query, 'name')}
         />
