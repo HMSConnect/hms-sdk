@@ -4,6 +4,7 @@ import ErrorSection from '@components/base/ErrorSection'
 import usePatient from '@components/hooks/usePatient'
 import {
   Avatar,
+  Chip,
   CircularProgress,
   Grid,
   makeStyles,
@@ -100,6 +101,18 @@ export const PatientDemographicView: React.FunctionComponent<{
                     ? _.join(_.get(info, 'name.family'), ' ')
                     : _.get(info, 'name.family')}
                 </Typography>
+              </Grid>
+              <Grid container>
+                {/* <Paper elevation={0}> */}
+                <Chip label='Thai' style={{ margin: '4px' }} size='small' />
+                <Chip label='English' style={{ margin: '4px' }} size='small' />
+                <Chip
+                  label='German (Austria)'
+                  style={{ margin: '4px' }}
+                  size='small'
+                />
+                <Chip label='French' style={{ margin: '4px' }} size='small' />
+                {/* </Paper> */}
               </Grid>
             </Grid>
           </Grid>
@@ -239,6 +252,22 @@ export const PatientDemographicView: React.FunctionComponent<{
                             'address[0].city',
                           )} ${_.get(info, 'address[0].country')}`
                         : 'Unknow'}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      variant='body1'
+                      className={classes.topicTitle}
+                      component='span'
+                    >
+                      Smoke :{' '}
+                    </Typography>
+                    <Typography
+                      component='span'
+                      variant='body1'
+                      className={classes.contentText}
+                    >
+                      Never smoker
                     </Typography>
                   </Grid>
                 </Grid>

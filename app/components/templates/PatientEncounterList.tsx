@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 450,
   },
   iconAvatar: {
+    backgroundColor: '#5c6bc0',
     height: 50,
     margin: 10,
     width: 50,
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: `${lighten('#5c6bc0', 0.7)}!important`,
   },
   line: {
-    borderLeft: '10px solid lightgrey',
+    borderLeft: '10px solid #5c6bc0',
     height: '100%',
     marginLeft: '6.7rem',
     // left: '10%',
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     zIndex: 100,
   },
   lineColapse: {
-    borderLeft: '10px solid lightgrey',
+    borderLeft: '10px solid #5c6bc0',
     height: '100%',
     marginLeft: '7.7rem',
   },
