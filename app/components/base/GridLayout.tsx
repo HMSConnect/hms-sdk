@@ -31,6 +31,7 @@ const initialGridSelectorState = {
   breakpoint: undefined,
   cols: undefined,
   items: [],
+  key: 'default',
 }
 
 function gridSelectorReducer(
@@ -60,13 +61,19 @@ function gridSelectorReducer(
         action.payload.key,
         JSON.stringify(action.payload.items),
       )
-      return state
+      return {
+        ...state,
+        ...action.payload,
+      }
     case 'RESET_LAYOUT':
       window.localStorage.setItem(
         action.payload.key,
         JSON.stringify(action.payload.items),
       )
-      return action.payload
+      return {
+        ...state,
+        ...action.payload,
+      }
     default:
       return state
   }
@@ -96,6 +103,7 @@ const GridLayout: React.FunctionComponent<{
     )
 
     const classes = useStyles()
+    const handleLayoutChangeDebound = _.debounce(handleLayoutChange, 500)
 
     // for passing child fn. to parent by reference
     React.useImperativeHandle(ref, () => ({ addItem }))
@@ -113,16 +121,19 @@ const GridLayout: React.FunctionComponent<{
     function restoreItems() {
       const layout: any = window.localStorage.getItem('layout')
       if (!_.isEmpty(layout)) {
-        return _.map(JSON.parse(layout), (l: any) => {
-          const component = _.find(defaultItems, { i: l.i })
-          return {
-            componentKey: component.componentKey,
-            isCard: component.isCard,
-            ...l,
-          }
-        })
+        return mappingItems(JSON.parse(layout))
       }
       return defaultItems
+    }
+
+    function mappingItems(layout: any) {
+      return _.map(layout, (l: any) => {
+        const component = _.find(defaultItems, { i: l.i })
+        return {
+          ...component,
+          ...l,
+        }
+      })
     }
 
     function addItem(newItem: any = {}) {
@@ -146,7 +157,7 @@ const GridLayout: React.FunctionComponent<{
     function saveLayout(layout: any) {
       dispatch({
         payload: {
-          items: layout,
+          items: mappingItems(layout),
           key: 'layout',
         },
         type: 'SAVE_LAYOUT',
@@ -272,7 +283,7 @@ const GridLayout: React.FunctionComponent<{
           breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
           cols={defaultCols}
           rowHeight={50}
-          onLayoutChange={handleLayoutChange}
+          onLayoutChange={handleLayoutChangeDebound}
           onBreakpointChange={handleBreakpointChange}
           onWidthChange={handleWidthChange}
         >
