@@ -48,9 +48,23 @@ router.get('/', (req, res) => {
 
 router.get('/:id/resource-list', async (req, res) => {
   try {
-    const domainResources = mockStorage
-      .getDomainNameResourceList()
-      .filter(domainResouce => domainResouce !== 'patient')
+    let domainResources
+    if (req.query.filter && req.query.filter.domainResouce) {
+      const domainResourcesArray = req.query.filter.domainResouce.split(',')
+      domainResourcesArray.forEach(resourceName => {
+        domainResources = mockStorage
+          .getDomainNameResourceList()
+          .filter(domainResouce => domainResouce === resourceName)
+      })
+    } else {
+      domainResources = mockStorage
+        .getDomainNameResourceList()
+        .filter(domainResouce => domainResouce !== 'patient')
+    }
+
+    // const domainResources = mockStorage
+    // .getDomainNameResourceList()
+    // .filter(domainResouce => domainResouce !== 'patient')
 
     const results = []
     for (const domainResouce of domainResources) {
@@ -58,6 +72,7 @@ router.get('/:id/resource-list', async (req, res) => {
         query: req.query,
         params: req.params
       })
+      console.log('result :', result)
       results.push(result)
     }
 
