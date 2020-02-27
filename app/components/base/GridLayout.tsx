@@ -3,8 +3,6 @@ import CloseIcon from '@material-ui/icons/Close'
 import * as _ from 'lodash'
 import React from 'react'
 import { Responsive, WidthProvider } from 'react-grid-layout'
-// import 'react-grid-layout/css/styles.css'
-// import 'react-resizable/css/styles.css'
 
 const useStyles = makeStyles((theme: Theme) => ({
   gridItem: {
@@ -57,6 +55,18 @@ function gridSelectorReducer(
         ...state,
         ...action.payload,
       }
+    case 'SAVE_LAYOUT':
+      window.localStorage.setItem(
+        action.payload.key,
+        JSON.stringify(action.payload.items),
+      )
+      return state
+    case 'RESET_LAYOUT':
+      window.localStorage.setItem(
+        action.payload.key,
+        JSON.stringify(action.payload.items),
+      )
+      return action.payload
     default:
       return state
   }
@@ -91,13 +101,29 @@ const GridLayout: React.FunctionComponent<{
     React.useImperativeHandle(ref, () => ({ addItem }))
 
     React.useEffect(() => {
+      const resotoreItems = restoreItems()
       dispatch({
         payload: {
-          items: defaultItems,
+          items: resotoreItems,
         },
         type: 'INIT',
       })
     }, [defaultItems])
+
+    function restoreItems() {
+      const layout: any = window.localStorage.getItem('layout')
+      if (!_.isEmpty(layout)) {
+        return _.map(JSON.parse(layout), (l: any) => {
+          const component = _.find(defaultItems, { i: l.i })
+          return {
+            componentKey: component.componentKey,
+            isCard: component.isCard,
+            ...l,
+          }
+        })
+      }
+      return defaultItems
+    }
 
     function addItem(newItem: any = {}) {
       const nextIdx = items.length
@@ -114,6 +140,26 @@ const GridLayout: React.FunctionComponent<{
       dispatch({
         payload: item,
         type: 'ADD_ITEM',
+      })
+    }
+
+    function saveLayout(layout: any) {
+      dispatch({
+        payload: {
+          items: layout,
+          key: 'layout',
+        },
+        type: 'SAVE_LAYOUT',
+      })
+    }
+
+    function handleResetLayout() {
+      dispatch({
+        payload: {
+          items: defaultItems,
+          key: 'layout',
+        },
+        type: 'RESET_LAYOUT',
       })
     }
 
@@ -136,6 +182,7 @@ const GridLayout: React.FunctionComponent<{
     }
 
     function handleLayoutChange(layout: any) {
+      saveLayout(layout)
       dispatch({
         payload: layout,
         type: 'LAYOUT_CHANGE',
@@ -205,6 +252,14 @@ const GridLayout: React.FunctionComponent<{
     return (
       <div data-testid='grid-selector'>
         <div className={classes.gridSelectionLayout}>
+          <Button
+            size='small'
+            variant='outlined'
+            onClick={handleResetLayout}
+            style={{ marginRight: 8 }}
+          >
+            RESET
+          </Button>
           <Button size='small' variant='outlined' onClick={handleItemAdd}>
             Add +{' '}
           </Button>
