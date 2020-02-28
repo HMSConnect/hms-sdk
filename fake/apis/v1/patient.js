@@ -72,7 +72,6 @@ router.get('/:id/resource-list', async (req, res) => {
         query: req.query,
         params: req.params
       })
-      console.log('result :', result)
       results.push(result)
     }
 

@@ -114,7 +114,11 @@ const GridLayout: React.FunctionComponent<{
       const layout: any = window.localStorage.getItem('layout')
       if (!_.isEmpty(layout)) {
         return _.map(JSON.parse(layout), (l: any) => {
-          const component = _.find(defaultItems, { i: l.i })
+          const iKey = l.i.split('_')
+          const component = _.find(
+            defaultItems,
+            item => _.split(item.i, '_')[0] === iKey[0],
+          )
           return {
             componentKey: component.componentKey,
             isCard: component.isCard,
@@ -130,7 +134,8 @@ const GridLayout: React.FunctionComponent<{
 
       const item = {
         h: 2,
-        i: 'grid-' + nextIdx,
+        // i: `init_${newItem.componentKey}`,
+        i: `${newItem.componentKey}_${nextIdx}`,
         w: 2,
         x: (items.length * 2) % (cols || 12),
         y: Infinity, // puts it at the bottom
@@ -248,7 +253,6 @@ const GridLayout: React.FunctionComponent<{
         </div>
       )
     }
-
     return (
       <div data-testid='grid-selector'>
         <div className={classes.gridSelectionLayout}>

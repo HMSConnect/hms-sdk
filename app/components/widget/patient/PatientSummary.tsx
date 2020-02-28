@@ -184,13 +184,14 @@ const componentResource: any = {
     layout: { h: 12, w: 4, isCard: false },
   },
 }
-
+let index = 0
 const defaultItems = _.chain(componentResource)
   .omitBy(c => _.isEmpty(c.defaultPosition))
   .map((c, componentKey) => {
     return {
       componentKey,
-      i: `init_${componentKey}`,
+      i: `${componentKey}_${index++}`,
+      // i: `init_${componentKey}`,
       ...(c?.defaultPosition || { x: 0, y: 9 }),
       ...(c?.layout || {}),
     }
