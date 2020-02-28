@@ -383,7 +383,10 @@ const WidgetManager: IStatelessPage<{
         iframeObject.contentWindow.location.replace(url)
       }
     }
-    dispatch({ type: 'IFRAME_SUBMIT' })
+    dispatch({
+      payload: createURL(selectedWidget, null, queryParams),
+      type: 'IFRAME_SUBMIT',
+    })
   }
 
   const decodeURI = (uri: string) => {

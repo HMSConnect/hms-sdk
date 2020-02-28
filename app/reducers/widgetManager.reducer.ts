@@ -115,7 +115,10 @@ export function widgetReducer(state: any = {}, action: IWidgetReducerAction) {
         outputs: [],
       }
     case 'IFRAME_SUBMIT':
-      return state
+      return {
+        ...state,
+        urlText: action.payload,
+      }
     case 'UPDATE_URL_TEXT':
       return {
         ...state,
