@@ -4,7 +4,10 @@ const utilService = require('./utils')
 exports.createSelector = (filter = {}) => {
   const selector = {}
   const andSelector = []
-
+  if (filter.id) {
+    const regExp = { $regex: new RegExp(`.*${filter.id}.*`, 'i') }
+    andSelector.push({ id: regExp })
+  }
   if (filter.patientId) {
     andSelector.push({ 'subject.reference': `Patient/${filter.patientId}` })
   }

@@ -64,6 +64,7 @@ app.use('/smart-fhir/imaging-study', require('./apis/v1/imaging_study'))
 app.use('/smart-fhir/observation', require('./apis/v1/observation'))
 app.use('/smart-fhir/organization', require('./apis/v1/organization'))
 app.use('/smart-fhir/patient', require('./apis/v1/patient'))
+app.use('/smart-fhir/practitioner', require('./apis/v1/practitioner'))
 app.use('/smart-fhir/procedure', require('./apis/v1/procedure'))
 app.use(
   '/smart-fhir/medication-request',
