@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import ObservationBodyMeasurementCard from '@components/widget/observation/ObservationBodyMeasurementCard'
+import ObservationTabacoSmokingStatusCard from '@components/widget/observation/ObservationTabacoSmokingStatusCard'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const ObservationBodyMeasurementCardWidget: IStatelessPage<{
+const ObservationTabacoSmokingStatusCardWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -22,7 +22,7 @@ const ObservationBodyMeasurementCardWidget: IStatelessPage<{
         <CssBaseline />
         <div style={{ height: '100vh' }}>
           {/* <div style={_.get(query, 'optionStyle')}> */}
-          <ObservationBodyMeasurementCard
+          <ObservationTabacoSmokingStatusCard
             patientId={get(query, 'patientId')}
             encounterId={get(query, 'encounterId')}
           />
@@ -32,7 +32,7 @@ const ObservationBodyMeasurementCardWidget: IStatelessPage<{
   )
 }
 
-ObservationBodyMeasurementCardWidget.getInitialProps = async ({
+ObservationTabacoSmokingStatusCardWidget.getInitialProps = async ({
   req,
   res,
   query,
@@ -42,4 +42,4 @@ ObservationBodyMeasurementCardWidget.getInitialProps = async ({
   }
 }
 
-export default withAuthSync(ObservationBodyMeasurementCardWidget)
+export default withAuthSync(ObservationTabacoSmokingStatusCardWidget)

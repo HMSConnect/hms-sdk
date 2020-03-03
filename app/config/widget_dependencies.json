@@ -50,5 +50,9 @@
   "organization": {
     "services": [],
     "validators": ["$SFHIR_ORGANIZATION_V1"]
+  },
+  "practitioner": {
+    "services": [],
+    "validators": ["$SFHIR_PRACTITIONER_V1"]
   }
 }

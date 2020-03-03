@@ -101,7 +101,7 @@ export const ObservationBodyTemperatureGraphView: React.FunctionComponent<{
             }}
             options={{
               ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
-              ValueScale: <ValueScale modifyDomain={() => [10, 200]} />,
+              ValueScale: <ValueScale modifyDomain={() => [10, 50]} />,
               type: 'area',
             }}
           />

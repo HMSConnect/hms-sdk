@@ -1,19 +1,22 @@
-import * as React from 'react'
+import React from 'react'
 
-import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
-import { Grid, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
-import { lighten } from '@material-ui/core/styles'
-import { sendMessage } from '@utils'
+import {
+  Grid,
+  Icon,
+  lighten,
+  makeStyles,
+  Theme,
+  Typography,
+} from '@material-ui/core'
 import clsx from 'clsx'
-import _ from 'lodash'
 import get from 'lodash/get'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -48,42 +51,26 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const ObservationTemperatureCardWithConnector: React.FunctionComponent = () => {
+export const ObservationTabacoSmokingStatusCardWithConnector: React.FunctionComponent = () => {
   const state = useSelector((state: any) => state.patientSummaryCards)
-  const dispatch = useDispatch()
-  const handleCardClick = (cardName: string) => {
-    dispatch(cardClick(cardName))
-    sendMessage({
-      message: 'handleCardClick',
-      name,
-      params: {
-        cardName,
-      },
-    })
-  }
-
   return (
-    <ObservationTemperatureCard
-      key={`ObservationTemperatureCard${_.get(state, 'encounterId')}`}
+    <ObservationTabacoSmokingStatusCard
+      key={`ObservationTabacoSmokingStatusCard${get(state, 'encounterId')}`}
       patientId={state.patientId}
       encounterId={state.encounterId}
-      onClick={handleCardClick}
-      selectedCard={_.get(state, 'selectedCard')}
     />
   )
 }
 
-const ObservationTemperatureCard: React.FunctionComponent<{
-  patientId: string
-  encounterId: string
-  onClick?: any
-  selectedCard?: any
-}> = ({ patientId, encounterId, onClick, selectedCard }) => {
-  const params = {
-    code: OBSERVATION_CODE.BODY_TEMPERATURE.code,
+const ObservationTabacoSmokingStatusCard: React.FunctionComponent<any> = ({
+  patientId,
+  encounterId,
+}) => {
+  const params: IObservationListFilterQuery = {
+    code: OBSERVATION_CODE.TABACO_SMOKING_STATUS.code,
     encounterId,
     patientId,
-  } as IObservationListFilterQuery
+  }
   const { isLoading, data: observationList, error } = useObservationList(
     {
       filter: params || {},
@@ -91,6 +78,7 @@ const ObservationTemperatureCard: React.FunctionComponent<{
     },
     ['patientId'],
   )
+
   if (error) {
     return <ErrorSection error={error} />
   }
@@ -99,35 +87,27 @@ const ObservationTemperatureCard: React.FunctionComponent<{
     return <LoadingSection />
   }
   return (
-    <ObservationTemperatureCardView
-      observation={observationList[0]}
-      onClick={onClick}
-      selectedCard={selectedCard}
-    />
+    <ObservationTabacoSmokingStatusCardView observation={observationList[0]} />
   )
 }
 
-export default ObservationTemperatureCard
-export const ObservationTemperatureCardView: React.FunctionComponent<{
-  observation: any
-  onClick?: any
-  selectedCard?: any
-}> = ({ observation, onClick, selectedCard }) => {
+export default ObservationTabacoSmokingStatusCard
+
+const ObservationTabacoSmokingStatusCardView: React.FunctionComponent<any> = ({
+  observation,
+}) => {
   const classes = useStyles()
   return (
     <CardLayout
-      header='Temperature'
+      header='Tabaco Smoking Status'
       Icon={
-        <Icon
-          style={{ color: '#cddc39' }}
-          className={clsx('fas fa-thermometer-quarter')}
-        />
+        <Icon style={{ color: '#558b2f' }} className={clsx('fas fa-smoking')} />
       }
       option={{
         isHideIcon: true,
         style: {
-          backgroundColor: lighten('#afb42b', 0.85),
-          color: '#afb42b',
+          backgroundColor: lighten('#558b2f', 0.85),
+          color: '#558b2f',
         },
       }}
     >
@@ -145,22 +125,12 @@ export const ObservationTemperatureCardView: React.FunctionComponent<{
               paddingLeft: 16,
               paddingRight: 16,
             }}
-            className={clsx(
-              classes.bodyCard,
-              classes.clickable,
-              classes.hover,
-              selectedCard === OBSERVATION_CODE.BODY_TEMPERATURE.value
-                ? classes.selectedCard
-                : null,
-            )}
-            onClick={() =>
-              onClick ? onClick(OBSERVATION_CODE.BODY_TEMPERATURE.value) : null
-            }
+            className={clsx(classes.bodyCard)}
           >
             <div>
               <Typography
                 component='span'
-                variant='h4'
+                variant='h6'
                 className={classes.contentText}
                 style={{
                   color: get(observation, 'value') ? undefined : 'gray',
@@ -169,13 +139,13 @@ export const ObservationTemperatureCardView: React.FunctionComponent<{
               >
                 {get(observation, 'value') || 'N/A'}
               </Typography>{' '}
-              <Typography
+              {/* <Typography
                 component='span'
-                variant='h5'
+                variant='h4'
                 className={classes.unitText}
               >
                 {get(observation, 'unit') || ''}
-              </Typography>
+              </Typography> */}
             </div>
           </Typography>
         </Grid>

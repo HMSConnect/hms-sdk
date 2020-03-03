@@ -14,10 +14,9 @@ export default abstract class AbstractService implements IService {
 
   abstract createDataManager(resource: string, adapter: IAdapter): DataManager
 
-  async load(id: string): Promise<any> {
+  async load(id: string, options?: any): Promise<any> {
     // console.info(`[service] loading resource id = ${id}`)
-    const result = await this.dataManager.load(id)
-
+    const result = await this.dataManager.load(id, options)
     const validator = ValidatorManager.compile(result.schema)
 
     if (validator) {

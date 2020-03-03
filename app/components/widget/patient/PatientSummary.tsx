@@ -11,6 +11,7 @@ import { ObservationHeartRateCardWithConnector } from '../observation/Observatio
 import { ObservationHistoryGraphWithConnector } from '../observation/ObservationHistoryGraph'
 import { ObservationLaboratoryTableWithConnector } from '../observation/ObservationLaboratoryTable'
 import { ObservationSummaryGraphWithConnector } from '../observation/ObservationSummaryGraph'
+import { ObservationTabacoSmokingStatusCardWithConnector } from '../observation/ObservationTabacoSmokingStatusCard'
 import { ObservationTemperatureCardWithConnector } from '../observation/ObservationTemperatureCard'
 import { PatientAllergyListWithConnector } from './PatientAllergyList'
 import { PatientAllergySummerCardWithConnector } from './PatientAllergySummaryCard'
@@ -22,7 +23,7 @@ import { PatientImmunizationSummerCardWithConnector } from './PatientImmunizatio
 import { PatientImmunizationTableWithConnector } from './PatientImmunizationTable'
 import { PatientMedicationListWithConnector } from './PatientMedication'
 import { PatientMedicationSummaryCardWithConnector } from './PatientMedicationSummaryCard'
-import { PatientPhysicianWithConnector } from './PatientPhysician'
+import { PatientPractitionerWithConnector } from './PatientPractitioner'
 import { PatientProcedureTableWithConnector } from './PatientProcedureTable'
 import { PatientSummaryCardsWithConnector } from './PatientSummaryCards'
 
@@ -108,6 +109,11 @@ const componentResource: any = {
     defaultPosition: { x: 8, y: 34 },
     layout: { h: 9, w: 4, isCard: true },
   },
+  observationTabacoSmokingstatusCard: {
+    component: ObservationTabacoSmokingStatusCardWithConnector,
+    defaultPosition: { x: 4, y: 16 },
+    layout: { h: 2, w: 4, isCard: true },
+  },
   observationTemperatureCard: {
     component: ObservationTemperatureCardWithConnector,
     defaultPosition: { x: 4, y: 12 },
@@ -130,7 +136,7 @@ const componentResource: any = {
   },
   patientConditionTable: {
     component: PatientconditionTableWithConnector,
-    defaultPosition: { x: 6, y: 16 },
+    defaultPosition: { x: 6, y: 20 },
     layout: { h: 9, w: 6, isCard: true },
   },
   patientDemographic: {
@@ -150,7 +156,7 @@ const componentResource: any = {
   },
   patientImmunizationTable: {
     component: PatientImmunizationTableWithConnector,
-    defaultPosition: { x: 0, y: 16 },
+    defaultPosition: { x: 0, y: 20 },
     layout: { h: 9, w: 6, isCard: true },
   },
   patientMedicationList: {
@@ -168,8 +174,8 @@ const componentResource: any = {
   //   defaultPosition: { x: 8, y: 0 },
   //   layout: { h: 4, w: 4, isCard: true },
   // },
-  patientPhysician: {
-    component: PatientPhysicianWithConnector,
+  patientPractitioner: {
+    component: PatientPractitionerWithConnector,
     defaultPosition: { x: 6, y: 0 },
     layout: { h: 4, w: 2, isCard: true },
   },
@@ -227,7 +233,7 @@ const PatientSummary: React.FunctionComponent<{
         patientImmunizationTable: { patientId },
         patientMedicationList: { patientId },
         patientMedicationSummaryCard: { patientId },
-        patientPhysician: { patientId },
+        patientPractitioner: { encounterId, maxDisplay: 2 },
         patientProcedureTable: { patientId },
         patientSummaryCards: {
           encounterId,

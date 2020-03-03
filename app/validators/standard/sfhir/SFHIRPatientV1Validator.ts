@@ -1,4 +1,6 @@
 import IValidator from '@validators/IValidator'
+import get from 'lodash/get'
+import map from 'lodash/map'
 
 class SFHIRPatientV1Validator implements IValidator {
   isValid(schema: any): boolean {
@@ -91,6 +93,10 @@ class SFHIRPatientV1Validator implements IValidator {
       address.geolocation = Object.assign({}, geolocation)
     }
 
+    const communication = map(patient.communication, com =>
+      get(com, 'language.text'),
+    )
+
     // Remove "unused" key
     delete name['use']
 
@@ -98,6 +104,7 @@ class SFHIRPatientV1Validator implements IValidator {
       address: [address],
       age,
       birthDate: patient.birthDate,
+      communication,
       deceasedDateTime: patient.deceasedDateTime,
       email: patient.email,
       gender: patient.gender,

@@ -12,7 +12,7 @@ import patientImmunizationSummaryCard from './patientImmunizationSummaryCard.red
 import patientImmunizationTable from './patientImmunizationTable.reducer'
 import patientMedicationList from './patientMedicationList.reducer'
 import patientMedicationSummaryCard from './patientMedicationSummaryCard.reducer'
-import patientPhysician from './patientPhysician.reducer'
+import patientPractitioner from './patientPractitioner.reducer'
 import patientProcedureTable from './patientProcedureTable.reducer'
 import patientSummaryCards from './patientSummaryCards.reducer'
 
@@ -37,15 +37,15 @@ export const rootReducer = combineReducers({
   observationSummaryGraph,
   patientAllergyList,
   patientAllergySummaryCard,
-  patientImmunizationSummaryCard,
-  patientMedicationSummaryCard,
   patientCarePlanTable,
   patientConditionTable,
   patientDemographic,
   patientEncounterTimeline,
+  patientImmunizationSummaryCard,
   patientImmunizationTable,
   patientMedicationList,
-  patientPhysician,
+  patientMedicationSummaryCard,
+  patientPractitioner,
   patientProcedureTable,
   patientSummaryCards,
 })

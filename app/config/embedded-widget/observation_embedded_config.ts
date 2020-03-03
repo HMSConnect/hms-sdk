@@ -47,6 +47,28 @@ export const observationWidgetConfig: IWidgetGroup = {
       value: 'observation-temperature-card',
     },
     {
+      document: require('@assets/embedded-widget/observation/observation-tabaco-smoking-status-card.md')
+        .default,
+      label: 'Observation Tabaco Smoking Status Card',
+      parameters: [],
+      path: '/embedded-widget/observation/tabaco-smoking-status-card',
+      queryParams: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          label: 'Encounter ID',
+          type: 'text',
+          value: 'encounterId',
+        },
+      ],
+      value: 'observation-tabaco-smoking-status-card',
+    },
+    {
       document: require('@assets/embedded-widget/observation/observation-body-measurement-card.md')
         .default,
       label: 'Observation Body Measurement Card',

@@ -2,35 +2,41 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientMedicationRequestTable from '@components/widget/patient/PatientMedicationRequestTable'
+import PatientPractitioner from '@components/widget/patient/PatientPractitioner'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
-import { get } from 'lodash'
+import get from 'lodash/get'
+
 // import PatientPhysician from '@components/widget/patient/PatientPhysician'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const PatientPhysicianCardWidget: IStatelessPage<{
+const PatientPractitionerCardWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <BootstrapWrapper dependencies={['patient', 'medication_request']}>
+    <BootstrapWrapper dependencies={['patient', 'encounter', 'practitioner']}>
       <>
         <CssBaseline />
-        {/* <PatientPhysician /> */}
+        <div style={{ height: '100vh' }}>
+          <PatientPractitioner
+            encounterId={get(query, 'encounterId')}
+            maxDisplay={get(query, 'maxDisplay')}
+          />
+        </div>
       </>
     </BootstrapWrapper>
   )
 }
 
-PatientPhysicianCardWidget.getInitialProps = async ({ req, res, query }) => {
+PatientPractitionerCardWidget.getInitialProps = async ({ req, res, query }) => {
   return {
     query: parse(query),
   }
 }
 
-export default withAuthSync(PatientPhysicianCardWidget)
+export default withAuthSync(PatientPractitionerCardWidget)

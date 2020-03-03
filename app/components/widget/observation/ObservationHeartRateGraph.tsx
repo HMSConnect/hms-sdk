@@ -12,6 +12,7 @@ import { Divider, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
 import { lighten } from '@material-ui/core/styles'
 import { scaleTime } from 'd3-scale'
 import maxBy from 'lodash/maxBy'
+import get from 'lodash/get'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -102,7 +103,7 @@ export const ObservationHeartRateGraphView: React.FunctionComponent<{
             }}
             options={{
               ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
-              ValueScale: <ValueScale modifyDomain={() => [10, 200]} />,
+              ValueScale: <ValueScale modifyDomain={() => [0, 160]} />,
               type: 'area',
             }}
           />
@@ -113,14 +114,14 @@ export const ObservationHeartRateGraphView: React.FunctionComponent<{
             <>
               {' '}
               <Typography variant='body1' style={{}}>
-                {lastData.issued}
+                {get(lastData, 'issued')}
               </Typography>
               <Typography
                 variant='body1'
                 style={{ fontSize: '1.5rem', color: '#c2185b' }}
               >
-                {lastData.value}
-                {lastData.unit}
+                {Number(get(lastData, 'value')).toFixed(0) || 'N/A'}
+                {get(lastData, 'unit')}
               </Typography>
             </>
           ) : (

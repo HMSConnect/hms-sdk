@@ -21,6 +21,19 @@ class SFHIREncounterV1Validator implements IValidator {
         organizationData = organizationValidator.parse(encounter.organization)
       }
     }
+    const participant = _.map(encounter.participant, participant => {
+      const participantSchema = _.get(participant, 'schema')
+      if (participantSchema) {
+        const practitionerValidator = ValidatorManager.compile(
+          participantSchema,
+        )
+        if (practitionerValidator) {
+          return practitionerValidator.parse(participant)
+        }
+      }
+      return participant
+    })
+
     const type = _.chain(_.get(encounter, 'type'))
       .map(type => type.text)
       .join(', ')
@@ -52,13 +65,14 @@ class SFHIREncounterV1Validator implements IValidator {
       endDateTime: endTime,
       endTime,
       id: _.get(encounter, 'id'),
+      organization: organizationData,
       organizationId,
+      participant,
       reason,
       startDateTime: startTime,
       startTime,
       status,
       type,
-      organization: organizationData,
     }
   }
 }

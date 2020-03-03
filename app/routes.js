@@ -154,6 +154,11 @@ module.exports = nextRoutes()
     'embedded-widget/observation/observation-temperature-card',
   )
   .add(
+    'embedded-widget/observation/tabaco-smoking-status-card',
+    '/embedded-widget/observation/tabaco-smoking-status-card',
+    'embedded-widget/observation/observation-tabaco-smoking-status-card',
+  )
+  .add(
     'embedded-widget/observation/encounter/body-measurement-card',
     '/embedded-widget/observation/body-measurement-card',
     'embedded-widget/observation/observation-body-measurement-card',
@@ -169,9 +174,9 @@ module.exports = nextRoutes()
     'embedded-widget/patient-info/patient-allergy-list-card',
   )
   .add(
-    'embedded-widget/patient-info/patient-physician-card',
-    '/embedded-widget/patient-info/patient-physician-card',
-    'embedded-widget/patient-info/patient-physician-card',
+    'embedded-widget/patient-info/patient-practitioner-card',
+    '/embedded-widget/patient-info/patient-practitioner-card',
+    'embedded-widget/patient-info/patient-practitioner-card',
   )
   .add(
     'embedded-widget/patient-info/patient-medication-request-list-card',

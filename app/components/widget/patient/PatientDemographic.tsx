@@ -104,14 +104,16 @@ export const PatientDemographicView: React.FunctionComponent<{
               </Grid>
               <Grid container>
                 {/* <Paper elevation={0}> */}
-                <Chip label='Thai' style={{ margin: '4px' }} size='small' />
-                <Chip label='English' style={{ margin: '4px' }} size='small' />
-                <Chip
-                  label='German (Austria)'
-                  style={{ margin: '4px' }}
-                  size='small'
-                />
-                <Chip label='French' style={{ margin: '4px' }} size='small' />
+                {_.map(info.communication, (com: string, index: any) => {
+                  return (
+                    <Chip
+                      key={`lan-${index}`}
+                      label={com}
+                      style={{ margin: '4px' }}
+                      size='small'
+                    />
+                  )
+                })}
                 {/* </Paper> */}
               </Grid>
             </Grid>
