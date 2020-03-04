@@ -7,7 +7,6 @@ import { HMSService } from '@services/HMSServiceFactory'
 import { fireEvent, render, waitForDomChange } from '@testing-library/react'
 import PatientAllergyIntoleranceTable from '../../patient/PatientAllergyIntoleranceTable'
 
-
 jest.mock('@components/hooks/useAllergyIntoleranceList', () => ({
   __esModule: true,
   default: jest.fn(),
@@ -122,9 +121,7 @@ describe('<PatientAllergyIntoleranceTable />', () => {
 
     fireEvent.click(filterIconElement)
 
-    const nameInputElement = getByTestId(
-      'adaptive-input-text-codeText',
-    ).getElementsByTagName('input')[0]
+    const nameInputElement = getByTestId('adaptive-input-text-codeText')
 
     fireEvent.change(nameInputElement, { target: { value: 'test' } })
 
@@ -158,7 +155,6 @@ describe('<PatientAllergyIntoleranceTable />', () => {
         id: '3',
       },
     ])
-
   })
   it('reset Search data PatientAllergyIntoleranceTable', async () => {
     const setResult = jest.fn()

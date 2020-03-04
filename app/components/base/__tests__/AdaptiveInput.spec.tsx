@@ -1,6 +1,7 @@
+import { fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import * as React from 'react'
-import AdaptiveInput, { IAdaptiveInput } from '../AdaptiveInput'
-import { render, fireEvent, waitForDomChange } from '@testing-library/react'
+import AdaptiveInput from '../AdaptiveInput'
 
 describe('<AdaptiveInput />', () => {
   it('render Text AdaptiveInput ', () => {
@@ -16,9 +17,8 @@ describe('<AdaptiveInput />', () => {
     const { queryByText, getByTestId } = render(
       <AdaptiveInput onChange={onChange} {...adaptiveProps} />,
     )
-    expect(queryByText('Text')).toBeTruthy()
     const textElement = getByTestId('adaptive-input-text-textInput')
-    fireEvent.change(textElement.getElementsByTagName('input')[0], {
+    fireEvent.change(textElement, {
       target: { value: 'hello' },
     })
 
@@ -54,9 +54,9 @@ describe('<AdaptiveInput />', () => {
 
     const option2Element = getByText('Option2')
 
-    fireEvent.click(option2Element)
+    userEvent.click(option2Element)
     const option1Element = getByText('Option1')
-    fireEvent.click(option1Element)
+    userEvent.click(option1Element)
     expect(queryByText('Option1')).toBeTruthy()
     expect(onChange).toBeCalled()
   })
@@ -94,10 +94,9 @@ describe('<AdaptiveInput />', () => {
     const { getByTestId } = render(
       <AdaptiveInput onChange={onChange} {...adaptiveProps} />,
     )
-    const switchBoolean = getByTestId('adaptive-input-number-numberInput')
-    expect(switchBoolean.getElementsByTagName('input')[0].value).toBe('10')
+    const numberInput = getByTestId('adaptive-input-number-numberInput')
 
-    fireEvent.change(switchBoolean.getElementsByTagName('input')[0], {
+    fireEvent.change(numberInput, {
       target: { value: 20 },
     })
 
@@ -146,12 +145,12 @@ describe('<AdaptiveInput />', () => {
       },
     }
 
-    const { queryByText, getByTestId } = render(
+    const { queryAllByText, getByTestId } = render(
       <AdaptiveInput onChange={onChange} {...adaptiveProps} />,
     )
-    expect(queryByText('Default')).toBeTruthy()
+    expect(queryAllByText('Default')).toBeTruthy()
     const textElement = getByTestId('adaptive-input-default-defaultInput')
-    fireEvent.change(textElement.getElementsByTagName('input')[0], {
+    fireEvent.change(textElement, {
       target: { value: 'hello' },
     })
 

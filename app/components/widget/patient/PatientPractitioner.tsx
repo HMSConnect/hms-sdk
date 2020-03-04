@@ -192,6 +192,15 @@ export const PatientPractitionerSingleView: React.FunctionComponent<any> = ({
   participant: info,
 }) => {
   const classes = useStyles()
+  if (!info) {
+    return (
+      <div className={classes.root}>
+        <Typography variant='h6' style={{ textAlign: 'center' }}>
+          No Practitioner to Display
+        </Typography>
+      </div>
+    )
+  }
   return (
     <div className={classes.root}>
       <Typography

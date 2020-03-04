@@ -33,9 +33,7 @@ describe('<PatientSearchPanel/>', () => {
         onHightlightChange={onHightlightChange}
       />,
     )
-    const textFieldElement = getByTestId('text-field').getElementsByTagName(
-      'input',
-    )[0]
+    const textFieldElement = getByTestId('text-field')
     fireEvent.change(textFieldElement, { target: { value: 'test' } })
     expect(onHightlightChange).toBeCalled()
     fireEvent.click(getByTestId('submit-button'))
