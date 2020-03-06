@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+
+import { fireEvent, render } from '@testing-library/react'
 import TableFilterPanel from '../TableFilterPanel'
 
 describe('<TableFilterPanel>', () => {
@@ -17,17 +18,17 @@ describe('<TableFilterPanel>', () => {
         },
       ],
     }
-    const { queryByText } = render(
+    const { queryAllByText } = render(
       <TableFilterPanel
         onSearchSubmit={onSearchSubmit}
         onParameterChange={onParameterChange}
         {...tableFilterPanelProps}
       />,
     )
-    expect(queryByText('Text')).toBeTruthy()
+    expect(queryAllByText('Text')).toBeTruthy()
   })
 
-  it('submit search TabllFilterPanel', () => {
+  it('submit search TableFilterPanel', () => {
     const onParameterChange = jest.fn()
     const onSearchSubmit = jest.fn()
 
@@ -41,16 +42,16 @@ describe('<TableFilterPanel>', () => {
         },
       ],
     }
-    const { queryByText, getByTestId } = render(
+    const { queryByText, getByTestId, queryAllByText } = render(
       <TableFilterPanel
         onSearchSubmit={onSearchSubmit}
         onParameterChange={onParameterChange}
         {...tableFilterPanelProps}
       />,
     )
-    expect(queryByText('Text')).toBeTruthy()
+    expect(queryAllByText('Text')).toBeTruthy()
     const textElement = getByTestId('adaptive-input-text-textInput')
-    fireEvent.change(textElement.getElementsByTagName('input')[0], {
+    fireEvent.change(textElement, {
       target: { value: 'hello' },
     })
     fireEvent.click(textElement)

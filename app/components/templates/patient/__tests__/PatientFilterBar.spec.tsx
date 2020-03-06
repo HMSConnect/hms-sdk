@@ -1,16 +1,17 @@
 import * as React from 'react'
-import PatientFilterBar, { IPatientFilterValue } from '../PatientFilterBar'
+
 import { render } from '@testing-library/react'
+import PatientFilterBar, { IPatientFilterValue } from '../PatientFilterBar'
 
 describe('PatientFilterBar', () => {
   it('render <PatientFilterBar />', () => {
     const filter: IPatientFilterValue = {
       gender: 'male',
-      searchText: ''
+      searchText: '',
     }
     const onFilterChange = jest.fn()
     const { findAllByText } = render(
-      <PatientFilterBar filter={filter} onFilterChange={onFilterChange} />
+      <PatientFilterBar filter={filter} onFilterChange={onFilterChange} />,
     )
     expect(findAllByText('male')).toBeTruthy()
   })

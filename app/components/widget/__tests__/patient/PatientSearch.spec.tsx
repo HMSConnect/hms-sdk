@@ -5,6 +5,7 @@ import usePatientList, {
 } from '@components/hooks/usePatientList'
 import { routesMock } from '@routes/__mocks__/routesMock'
 import { cleanup, fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { stringify } from 'qs'
 import routes from '../../../../routes'
 import PatientSearch from '../../patient/PatientSearch'
@@ -139,18 +140,15 @@ describe('<PatientSearch />', () => {
     )
   })
 
-  it('search submit/reset by gender patient PatientSearch', () => {
+  it('search submit/reset by gender patient PatientSearch', async () => {
     const { getAllByText, getByTestId, getByText } = render(
       <PatientSearch query={mockQuery} />,
     )
-    const genderOption = getAllByText('All')[0]
+    const genderOption = getByTestId('select-option-input-gender-select')
+    userEvent.click(getAllByText('All')[0])
+    userEvent.click(getByText('Male'))
 
-    fireEvent.click(genderOption)
-    fireEvent.click(getAllByText('Male')[0])
-
-    const textFieldElement = getByTestId('text-field').getElementsByTagName(
-      'input',
-    )[0]
+    const textFieldElement = getByTestId('text-field')
     fireEvent.change(textFieldElement, { target: { value: 'test' } })
 
     fireEvent.click(getByTestId('submit-button'))

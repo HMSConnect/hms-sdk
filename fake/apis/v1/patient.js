@@ -14,6 +14,7 @@ const medicationRequestService = require('../../services/medication_request')
 const observationService = require('../../services/observation')
 const claimService = require('../../services/claim')
 const imagingStudyService = require('../../services/imaging_study')
+const practitionerStudyService = require('../../services/practitioner')
 
 const db = mockStorage.getDB()
 
@@ -109,6 +110,8 @@ async function queryResource(domainResource, option) {
       options = claimService.createOptions(option.query)
     } else if (domainResource === 'imaging_study') {
       options = imagingStudyService.createOptions(option.query)
+    } else if (domainResource === 'practitioner') {
+      options = practitionerStudyService.createOptions(option.query)
     } else {
       options = utilsService.createOptions(option.query)
     }

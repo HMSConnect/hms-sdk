@@ -662,7 +662,6 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       value: 'patient-allergy-list-card',
     },
     {
-      // document: ,
       document: require('@assets/embedded-widget/patient-info/patient-medication-request-list-card.md')
         .default,
       label: 'Patient Medication Request List Card',
@@ -684,6 +683,28 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
         },
       ],
       value: 'patient-medication-request-list-card',
+    },
+    {
+      document: require('@assets/embedded-widget/patient-info/patient-practitioner-card.md')
+        .default,
+      label: 'Patient Practitioner Card',
+      parameters: [],
+      path: '/embedded-widget/patient-info/patient-practitioner-card',
+      queryParams: [
+        {
+          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          label: 'Encounter ID',
+          type: 'text',
+          value: 'encounterId',
+        },
+        {
+          defaultValue: 2,
+          label: 'Max Display',
+          type: 'number',
+          value: 'maxDisplay',
+        },
+      ],
+      value: 'patient-practitioner-card',
     },
   ],
   label: 'Patient',

@@ -23,6 +23,7 @@ import SFHIRMedicationRequestV1Validator from '@validators/standard/sfhir/SFHIRM
 import SFHIRObservationV1Validator from '@validators/standard/sfhir/SFHIRObservationV1Validator'
 import SFHIROrganizationV1Validator from '@validators/standard/sfhir/SFHIROrganizationV1Validator'
 import SFHIRPatientV1Validator from '@validators/standard/sfhir/SFHIRPatientV1Validator'
+import SFHIRPractitionerV1Validator from '@validators/standard/sfhir/SFHIRPractitionerV1Validator'
 import SFHIRProcedureV1Validator from '@validators/standard/sfhir/SFHIRProcedureV1Validator'
 import {
   allergyIntoleranceCriticalityOption,
@@ -95,6 +96,10 @@ export const validatorConfig = {
   },
   ['$SFHIR_ORGANIZATION_V1']: {
     clazz: SFHIROrganizationV1Validator,
+    priority: 1,
+  },
+  ['$SFHIR_PRACTITIONER_V1']: {
+    clazz: SFHIRPractitionerV1Validator,
     priority: 1,
   },
   ['$SFHIR_CLAIM_V1']: {

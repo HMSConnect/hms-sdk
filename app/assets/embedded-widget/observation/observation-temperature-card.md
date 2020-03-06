@@ -10,10 +10,10 @@ Replace `/embedded-widget/observation/temperature-card` url to your iframe proje
 
 ## Request HTTP GET
 **Query Params**
-| Key         | Type/Format | Default Description |
-| ----------- | ----------- | ------------------- | -------------------------- |
-| patientId   | string      |                     | `required` ID of patient   |
-| encounterId | string      |                     | `required` ID of encounter |
+| Key         | Type/Format | Default | Description                |
+| ----------- | ----------- | ------- | -------------------------- |
+| patientId   | string      |         | `required` ID of patient   |
+| encounterId | string      |         | `required` ID of encounter |
 
 ## Example
 

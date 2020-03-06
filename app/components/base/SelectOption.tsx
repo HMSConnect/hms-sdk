@@ -49,7 +49,11 @@ const SelectOption: React.FunctionComponent<{
       className={classOption}
       data-testid={`form-controll-select-option-label-${labelId}`}
     >
-      <InputLabel ref={inputLabel} id={labelId} data-testid={`select-option-label-${labelId}`}>
+      <InputLabel
+        ref={inputLabel}
+        id={labelId}
+        data-testid={`select-option-label-${labelId}`}
+      >
         {label}
       </InputLabel>
       <Select
@@ -60,6 +64,9 @@ const SelectOption: React.FunctionComponent<{
         variant='outlined'
         labelWidth={labelWidth}
         data-testid={`select-option-${id}`}
+        inputProps={{
+          'data-testid': `select-option-input-${id}`,
+        }}
       >
         {options.map((item, index) => {
           return (

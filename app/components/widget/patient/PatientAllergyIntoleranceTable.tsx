@@ -233,6 +233,9 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
             'assertedDate_lt',
             'patientId',
           ])}
+          option={{
+            isHideIcon: false,
+          }}
         >
           {renderModal}
         </ToolbarWithFilter>

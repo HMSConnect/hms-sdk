@@ -160,18 +160,18 @@ export const ObservationHeartRateCardView: React.FunctionComponent<{
             }
           >
             <Typography
-              variant='h3'
+              variant='h4'
               className={classes.contentText}
               style={{
                 color: get(observation, 'value') ? undefined : 'gray',
                 paddingRight: 8,
               }}
             >
-              {get(observation, 'value') || 'N/A'}
+              {Number(get(observation, 'value')).toFixed(0) || 'N/A'}
             </Typography>
             <Typography
               component='span'
-              variant='h4'
+              variant='h5'
               className={classes.unitText}
             >
               {get(observation, 'unit') || ''}

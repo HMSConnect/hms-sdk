@@ -43,6 +43,7 @@ const EncounterPage: IStatelessPage<{
           'claim',
           'care_plan',
           'organization',
+          'practitioner',
         ]}
       >
         <>

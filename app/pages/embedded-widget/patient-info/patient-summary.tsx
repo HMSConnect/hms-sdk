@@ -32,6 +32,7 @@ const PatientSummaryWidget: IStatelessPage<{
         'claim',
         'care_plan',
         'organization',
+        'practitioner',
       ]}
     >
       <>

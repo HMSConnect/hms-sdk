@@ -43,7 +43,10 @@ describe('<ObservaionBloodPressureCard />', () => {
       patientId: '1',
     }
     const { queryByText, queryAllByText } = render(
-      <ObservationHeartRateCard query={query} />,
+      <ObservationHeartRateCard
+        patientId={query.patientId}
+        encounterId={query.encounterId}
+      />,
     )
 
     expect(queryByText('130')).toBeTruthy()
@@ -63,7 +66,10 @@ describe('<ObservaionBloodPressureCard />', () => {
       patientId: '1',
     }
     const { queryByText, queryAllByText } = render(
-      <ObservationHeartRateCard query={query} />,
+      <ObservationHeartRateCard
+        patientId={query.patientId}
+        encounterId={query.encounterId}
+      />,
     )
     expect(queryByText('loading..')).toBeTruthy()
   })
@@ -80,7 +86,12 @@ describe('<ObservaionBloodPressureCard />', () => {
       encounterId: '1',
       patientId: '1',
     }
-    const { queryByText } = render(<ObservationHeartRateCard query={query} />)
+    const { queryByText } = render(
+      <ObservationHeartRateCard
+        patientId={query.patientId}
+        encounterId={query.encounterId}
+      />,
+    )
     expect(queryByText('Error')).toBeTruthy()
   })
 })

@@ -95,7 +95,7 @@ const AdaptiveInput: React.FunctionComponent<{
           id={id}
           value={value[keyValue]}
           options={choices}
-          // data-testid={`adaptive-input-select-option-${name}`}
+          data-testid={`adaptive-input-select-option-${name}`}
           onChange={(
             event: React.ChangeEvent<{ name?: string; value: unknown }>,
           ) => {
@@ -112,7 +112,7 @@ const AdaptiveInput: React.FunctionComponent<{
               checked={value[keyValue]}
               onChange={event => onChange(name, event.target.checked)}
               color='primary'
-              // data-testid={`adaptive-input-boolean-${name}`}
+              data-testid={`adaptive-input-boolean-${name}`}
             />
           }
           label={label}
@@ -128,7 +128,9 @@ const AdaptiveInput: React.FunctionComponent<{
           value={value[keyValue]}
           onChange={event => onChange(name, event.target.value)}
           type='number'
-          // data-testid={`adaptive-input-number-${name}`}
+          inputProps={{
+            'data-testid': `adaptive-input-number-${name}`,
+          }}
         />
       )
     case 'text':
@@ -140,7 +142,9 @@ const AdaptiveInput: React.FunctionComponent<{
           variant='outlined'
           value={value[keyValue]}
           onChange={event => onChange(name, event.target.value)}
-          // data-testid={`adaptive-input-text-${name}`}
+          inputProps={{
+            'data-testid': `adaptive-input-text-${name}`,
+          }}
         />
       )
     default:
@@ -152,7 +156,9 @@ const AdaptiveInput: React.FunctionComponent<{
           variant='outlined'
           value={value[keyValue]}
           onChange={event => onChange(name, event.target.value)}
-          // data-testid={`adaptive-input-default-${name}`}
+          inputProps={{
+            'data-testid': `adaptive-input-default-${name}`,
+          }}
         />
       )
   }

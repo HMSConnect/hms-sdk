@@ -24,7 +24,7 @@ const ObservationTemperatureCardWidget: IStatelessPage<{
           {/* <div style={_.get(query, 'optionStyle')}> */}
           <ObservationTemperatureCard
             patientId={get(query, 'patientId')}
-            encounterId={get(query, 'patientId')}
+            encounterId={get(query, 'encounterId')}
           />
         </div>
       </>

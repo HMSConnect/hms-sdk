@@ -27,7 +27,8 @@ router.get('/', async (req, res) => {
       let results = []
       if (
         req.query.withOrganization == 'true' ||
-        req.query.withDiagnosticReport == 'true'
+        req.query.withDiagnosticReport == 'true' ||
+        req.query.withPractitioner == 'true'
       ) {
         // query not cast boolean
         for (const encounterResult of encounterResults) {
@@ -51,6 +52,25 @@ router.get('/', async (req, res) => {
               )
             } else {
               encounterResult.diagnosticReport = {}
+            }
+          }
+
+          if (req.query.withPractitioner == 'true') {
+            if (encounterResult.participant) {
+              let practitionerIds = []
+              for (let i = 0; i < encounterResult.participant.length; i++) {
+                practitionerIds.push(
+                  encounterResult.participant[i].individual.reference.split(
+                    '/'
+                  )[1]
+                )
+              }
+              encounterResult.participant = await createPractitioner(
+                practitionerIds,
+                encounterResult.participant
+              )
+            } else {
+              encounterResult.participant = []
             }
           }
 
@@ -120,6 +140,24 @@ async function createOrganization(organizationId) {
   }
 }
 
+async function createPractitioner(practitionerIds, oldData) {
+  const practitioners = await new Promise((resolve, reject) => {
+    db['practitioner']
+      .find({ id: { $in: practitionerIds } }, { limit: null })
+      .fetch(resolve, reject)
+  })
+  const newPractitioner = oldData.map(data => {
+    return {
+      schema: { ...config.defaultSchema, resourceType: 'practitioner' },
+      ...data,
+      individual: practitioners.find(practitioner => {
+        return practitioner.id === data.individual.reference.split('/')[1]
+      })
+    }
+  })
+  return newPractitioner
+}
+
 async function createDiagnosticReport(encounterId) {
   const diagnosticReport = await new Promise((resolve, reject) => {
     db['diagnostic_report'].findOne(
@@ -134,6 +172,60 @@ async function createDiagnosticReport(encounterId) {
     ...diagnosticReport
   }
 }
+
+router.get('/:id', async (req, res) => {
+  try {
+    if (db['encounter']) {
+      const encounterResult = await new Promise((resolve, reject) => {
+        db['encounter'].findOne({ id: req.params.id }, {}, resolve, reject)
+      })
+
+      if (encounterResult.serviceProvider.reference) {
+        const organizationId = encounterResult.serviceProvider.reference.split(
+          '/'
+        )[1]
+        encounterResult.organization = await createOrganization(organizationId)
+      } else {
+        encounterResult.organization = {}
+      }
+
+      if (req.query.withDiagnosticReport == 'true') {
+        if (encounterResult.id) {
+          encounterResult.diagnosticReport = await createDiagnosticReport(
+            encounterResult.id
+          )
+        } else {
+          encounterResult.diagnosticReport = {}
+        }
+      }
+
+      if (encounterResult.participant) {
+        let practitionerIds = []
+        for (let i = 0; i < encounterResult.participant.length; i++) {
+          practitionerIds.push(
+            encounterResult.participant[i].individual.reference.split('/')[1]
+          )
+        }
+        encounterResult.participant = await createPractitioner(
+          practitionerIds,
+          encounterResult.participant
+        )
+      } else {
+        encounterResult.participant = []
+      }
+      res.json({
+        error: null,
+        schema: { ...config.defaultSchema, resourceType: 'encounter' },
+        data: encounterResult
+      })
+    } else {
+      throw new Error("The domain resource doesn't exist")
+    }
+  } catch (error) {
+    console.error(error)
+    res.json({ error: error.message, data: null })
+  }
+})
 // router.get('/resource-list', async (req, res) => {
 //   const domainResources = mockStorage
 //     .getDomainNameResourceList()

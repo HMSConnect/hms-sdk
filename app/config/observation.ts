@@ -5,6 +5,7 @@ export const OBSERVATION_CODE = {
   BODY_TEMPERATURE: { code: '8310-5', value: 'bodyTemperature' },
   BODY_WEIGHT: { code: '29463-7', value: 'bodyWeight' },
   HEART_RATE: { code: '8867-4', value: 'heartRate' },
+  TABACO_SMOKING_STATUS: {code: '72166-2', value: 'tabacoSmokingStatue'}
 }
 // export const OBSERVATION_CODE = [
 //   { code: '55284-4', value: 'bloodPressure' },

@@ -114,6 +114,7 @@ const PatientSearchPanel: React.FunctionComponent<{
               className={classes.searchBar}
               variant='outlined'
               fullWidth
+              placeholder={`Ex Christene`}
               inputProps={{
                 'data-testid': 'text-field',
               }}

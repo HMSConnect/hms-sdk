@@ -160,7 +160,7 @@ export const ObservationTemperatureCardView: React.FunctionComponent<{
             <div>
               <Typography
                 component='span'
-                variant='h3'
+                variant='h4'
                 className={classes.contentText}
                 style={{
                   color: get(observation, 'value') ? undefined : 'gray',
@@ -171,7 +171,7 @@ export const ObservationTemperatureCardView: React.FunctionComponent<{
               </Typography>{' '}
               <Typography
                 component='span'
-                variant='h4'
+                variant='h5'
                 className={classes.unitText}
               >
                 {get(observation, 'unit') || ''}

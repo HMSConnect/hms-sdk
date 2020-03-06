@@ -1,17 +1,17 @@
+import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import * as React from 'react'
 
-import useInfinitScroll from '@components/hooks/useInfinitScroll'
+import CarePlanServiceMock from '@components/hooks/__mocks__/CarePlanServiceMock'
+import PatientCarePlanTable from '@components/widget/patient/PatientCarePlanTable'
+import CarePlanService from '@services/CarePlanService'
 import { HMSService } from '@services/HMSServiceFactory'
 import {
   fireEvent,
   render,
-  waitForDomChange,
   wait,
-  act,
+  waitForDomChange,
 } from '@testing-library/react'
-import PatientCarePlanTable from '@components/widget/patient/PatientCarePlanTable'
-import CarePlanService from '@services/CarePlanService'
-import CarePlanServiceMock from '@components/hooks/__mocks__/CarePlanServiceMock'
+import userEvent from '@testing-library/user-event'
 
 jest.mock('@components/hooks/useInfinitScroll', () => ({
   __esModule: true,
@@ -239,19 +239,16 @@ describe('<PatientCarePlanTable />', () => {
     expect(setResult).toBeCalledTimes(0)
     const filterIconElement = getByTestId('toolbar-filter-icon')
 
-    fireEvent.click(filterIconElement)
-
-    await wait(() => getAllByText('Acitve'))
+    userEvent.click(filterIconElement)
 
     const activeOptionElement = getAllByText('Acitve')
 
-    fireEvent.click(activeOptionElement[0]),
-      await wait(() => getByText('Draft'))
+    userEvent.click(activeOptionElement[0])
     const draftOptionElement = getByText('Draft')
-    fireEvent.click(draftOptionElement)
+    userEvent.click(draftOptionElement)
 
     const submitButtonElement = getByTestId('modal-submit-button')
-    fireEvent.click(submitButtonElement)
+    userEvent.click(submitButtonElement)
 
     await waitForDomChange()
     expect(carePlanServiceListMock).toBeCalledTimes(1)
