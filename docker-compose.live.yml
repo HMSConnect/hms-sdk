@@ -1,5 +1,25 @@
 version: "3"
 services:
+  hms-jenkins:
+    container_name: hms-jenkins
+    image: jenkinsci/blueocean:1.22.0-bcc31d32159f
+    restart: always
+    environment:
+      - CHROME_BIN:/usr/bin/google-chrome
+      # - BUILD_ID:1
+    user: root
+    # passwd: tcuser
+    privileged: true
+    # net: host
+    ports:
+      - 8081:8080
+    volumes:
+      - ./app:/app/hms-sdk-widget
+      - ./fake:/app/hms-fake-data
+      # - ./fake:/var/jenkins_home/workspace/hms-jenkins_live/fake
+      - /var/lib/jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
   hms-sdk-widget:
     container_name: hms-sdk-widget
     environment:
