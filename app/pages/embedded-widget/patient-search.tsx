@@ -62,4 +62,5 @@ export function initialPagination(query: any) {
   }
 }
 
-export default withAuthSync(PatientSearchWidget)
+export default PatientSearchWidget
+// export default withAuthSync(PatientSearchWidget)
