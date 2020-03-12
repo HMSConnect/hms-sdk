@@ -52,6 +52,10 @@ export const tableWithFilterReducer = (
     case 'UN_GROUP_BY':
       return {
         ...state,
+        filter: {
+          ...state.filter,
+          ...action?.payload?.filter,
+        },
         isGroup: false,
         tab: {
           ...state.tab,

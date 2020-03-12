@@ -7,11 +7,12 @@ interface IPatientSummaryCardsAction {
   payload: any
 }
 
-const initialState: any = {
+export const patientSummaryCardsInitialState: any = {
   selectedCard: OBSERVATION_CODE.BLOOD_PRESSURE.value,
 }
+
 const patientSummaryCards = (
-  state = initialState,
+  state = patientSummaryCardsInitialState,
   action: IPatientSummaryCardsAction,
 ) => {
   switch (action.type) {

@@ -199,7 +199,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
         },
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleGroupByType',
         name,
@@ -240,7 +240,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
         },
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleGroupByType',
         name,
@@ -280,7 +280,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
         },
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: `handleTabChange:`,
         name,
@@ -319,7 +319,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
         params: filter,
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleSearchSubmit',
         name,
@@ -344,7 +344,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
         params: filter,
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleSearchReset',
         name,

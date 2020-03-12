@@ -83,7 +83,7 @@ const WIDGET_GROUP: IWidgetGroup[] = [
   },
   widgetGalleryPatientConfig,
   widgetGalleryObservationConfig,
-  widgetGalleryEncounterConfig,
+  // widgetGalleryEncounterConfig,
   widgetGalleryDiagnosticReportConfig,
   widgetGalleryAllergyIntoleranceConfig,
 ]

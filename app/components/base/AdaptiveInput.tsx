@@ -55,10 +55,10 @@ const AdaptiveInput: React.FunctionComponent<{
 }) => {
   switch (type) {
     case 'checkbox-group':
-      const filterMui = value[keyValue]
       if (!group || isEmpty(group)) {
         return <Typography variant='body2'>Need group..</Typography>
       }
+      const filterMui = value[keyValue]
       return (
         <FormControl component='fieldset'>
           <FormLabel component='legend'>{label}</FormLabel>

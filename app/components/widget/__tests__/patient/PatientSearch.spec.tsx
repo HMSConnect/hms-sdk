@@ -1,14 +1,12 @@
-import * as React from 'react'
-
-import usePatientList, {
-  IPaginationOption,
-} from '@components/hooks/usePatientList'
+import usePatientList, { IPaginationOption } from '@components/hooks/usePatientList'
 import { routesMock } from '@routes/__mocks__/routesMock'
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { stringify } from 'qs'
+import * as React from 'react'
 import routes from '../../../../routes'
 import PatientSearch from '../../patient/PatientSearch'
+
 
 beforeEach(() => {
   cleanup()

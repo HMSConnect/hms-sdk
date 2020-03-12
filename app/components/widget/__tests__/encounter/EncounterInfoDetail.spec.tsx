@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import useEncounter from '@components/hooks/useEncounter'
 import { render } from '@testing-library/react'
-import EncounterInfoDetail from '../encounter/EncounterInfoDetail'
+import EncounterInfoDetail from '../../encounter/EncounterInfoDetail'
 
 jest.mock('@components/hooks/useEncounter', () => ({
   __esModule: true,

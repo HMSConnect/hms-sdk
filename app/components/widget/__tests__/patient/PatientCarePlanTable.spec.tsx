@@ -1,16 +1,11 @@
-import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import * as React from 'react'
 
+import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import CarePlanServiceMock from '@components/hooks/__mocks__/CarePlanServiceMock'
 import PatientCarePlanTable from '@components/widget/patient/PatientCarePlanTable'
 import CarePlanService from '@services/CarePlanService'
 import { HMSService } from '@services/HMSServiceFactory'
-import {
-  fireEvent,
-  render,
-  wait,
-  waitForDomChange,
-} from '@testing-library/react'
+import { fireEvent, render, waitForDomChange } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 jest.mock('@components/hooks/useInfinitScroll', () => ({
@@ -118,6 +113,28 @@ describe('<PatientCarePlanTable />', () => {
     expect(queryByText('Allergy to bee venom')).toBeTruthy()
     expect(queryByText('House dust mite allergy2')).toBeTruthy()
   })
+
+  // it('scroll PatientCarePlanTable', () => {
+  //   const { queryByText, getByTestId, queryAllByText } = render(
+  //     <div style={{ height: 100 }} data-testid='container'>
+  //       <PatientCarePlanTable patientId={'1'} isInitialize={true} />
+  //     </div>,
+  //   )
+
+  //   expect(queryByText('Allergy to bee venom')).toBeTruthy()
+  //   expect(queryByText('House dust mite allergy2')).toBeTruthy()
+
+  //   const element = getByTestId('container')
+  //   element.scrollTop = 100
+  //   const event = createEvent.scroll(element)
+  //   fireEvent(element, event)
+
+  //   expect(queryAllByText('Allergy to bee venom')).toHaveLength(2)
+  //   // window.innerHeight +
+  //   // (window.pageYOffset || document.documentElement.scrollTop) +
+  //   // 200 <
+  //   // document.documentElement.offsetHeight
+  // })
 
   it('submit search data PatientCarePlanTable', async () => {
     const setResult = jest.fn()
@@ -632,86 +649,218 @@ describe('<PatientCarePlanTable />', () => {
     expect(queryByText('Test Error')).toBeTruthy()
   })
 
-  // it('click group PatientCarePlanTable', async () => {
-  //   const setResult = jest.fn()
-  //   const useObservaionLaboratoryListResult: any = useInfinitScroll as any
-  //   const results: any = {
-  //     data: [],
-  //     error: null,
-  //     isFetch: false,
-  //     isLoading: false,
-  //     isMore: false,
-  //     setIsFetch: jest.fn(),
-  //     setIsMore: jest.fn(),
-  //     setResult,
-  //   }
-  //   useObservaionLaboratoryListResult.mockImplementation(() => results)
-  //   jest.spyOn(HMSService, 'getService').mockImplementation(() => {
-  //     return CarePlanServiceMock as CarePlanService
-  //   })
+  it('group/ungroup group PatientCarePlanTable', async () => {
+    const setResult = jest.fn()
+    const useObservaionLaboratoryListResult: any = useInfinitScroll as any
+    const results: any = {
+      data: [],
+      error: null,
+      isFetch: false,
+      isLoading: false,
+      isMore: false,
+      setIsFetch: jest.fn(),
+      setIsMore: jest.fn(),
+      setResult,
+    }
+    useObservaionLaboratoryListResult.mockImplementation(() => results)
+    jest.spyOn(HMSService, 'getService').mockImplementation(() => {
+      return CarePlanServiceMock as CarePlanService
+    })
 
-  //   const testFn = jest.fn()
+    const testFn = jest.fn()
+    jest
+      .spyOn(React, 'useReducer')
+      .mockReturnValueOnce([
+        {
+          isGroup: false,
+        },
+        jest.fn(),
+      ])
+      .mockReturnValueOnce([
+        {
+          isGroup: true,
+        },
+        jest.fn(),
+      ])
+    jest
+      .spyOn(CarePlanServiceMock, 'list')
+      .mockImplementation((params: any) => {
+        testFn(params)
+        // expect(params.filter.category).toStrictEqual('Respiratory therapy')
+        return Promise.resolve({
+          data: [
+            {
+              activity: [
+                {
+                  detail: {
+                    code: {
+                      status: 'completed',
+                      text: 'Recommendation to avoid exercise',
+                    },
+                  },
+                },
+                {
+                  detail: {
+                    code: {
+                      status: 'completed',
+                      text: 'Deep breathing and coughing exercises',
+                    },
+                  },
+                },
+              ],
+              category: 'Allergy to bee venom',
+              id: '1',
+              periodStartText: '2019-01-01',
+              status: 'low',
+            },
+          ],
+          error: null,
+          totalCount: 1,
+        })
+      })
+    const { getByTestId } = render(<PatientCarePlanTable patientId={'1'} />)
 
-  //   jest
-  //     .spyOn(React, 'useReducer')
-  //     .mockReturnValueOnce([
-  //       {
-  //         isGroup: false,
-  //       },
-  //       jest.fn(),
-  //     ])
-  //     .mockReturnValueOnce([
-  //       {
-  //         isGroup: true,
-  //       },
-  //       jest.fn(),
-  //     ])
-  //   jest
-  //     .spyOn(CarePlanServiceMock, 'list')
-  //     .mockImplementation((params: any) => {
-  //       testFn(params)
-  //       // expect(params.filter.category).toStrictEqual('Respiratory therapy')
-  //       return Promise.resolve({
-  //         data: [
-  //           {
-  //             activity: [
-  //               {
-  //                 detail: {
-  //                   code: {
-  //                     status: 'completed',
-  //                     text: 'Recommendation to avoid exercise',
-  //                   },
-  //                 },
-  //               },
-  //               {
-  //                 detail: {
-  //                   code: {
-  //                     status: 'completed',
-  //                     text: 'Deep breathing and coughing exercises',
-  //                   },
-  //                 },
-  //               },
-  //             ],
-  //             category: 'Allergy to bee venom',
-  //             id: '1',
-  //             periodStartText: '2019-01-01',
-  //             status: 'low',
-  //           },
-  //         ],
-  //         error: null,
-  //         totalCount: 1,
-  //       })
-  //     })
-  //   const { getByTestId } = render(<PatientCarePlanTable patientId={'1'} />)
-  //   const groupByCheckboxElement = getByTestId('check-by-type-input')
+    const groupByCheckboxElement = getByTestId('check-by-type-input')
+    userEvent.click(groupByCheckboxElement)
+    await waitForDomChange()
+    expect(testFn.mock.calls[0][0].filter.category).toStrictEqual(
+      'Respiratory therapy',
+    )
 
-  //   await act(async () => {
-  //     fireEvent.click(groupByCheckboxElement)
-  //     await wait(() => getByTestId('tab-group-care-plan'))
-  //   })
+    userEvent.click(groupByCheckboxElement)
+    await waitForDomChange()
+    expect(testFn.mock.calls[1][0].filter.category).toStrictEqual(undefined)
+  })
 
-  //   expect(testFn.mock.calls[0][0].filter.category).toStrictEqual(
-  //     'Respiratory therapy',
-  //   )
-  // })
+  it('tab change group PatientCarePlanTable', async () => {
+    const setResult = jest.fn()
+    const useObservaionLaboratoryListResult: any = useInfinitScroll as any
+    const results: any = {
+      data: [],
+      error: null,
+      isFetch: false,
+      isLoading: false,
+      isMore: false,
+      setIsFetch: jest.fn(),
+      setIsMore: jest.fn(),
+      setResult,
+    }
+    useObservaionLaboratoryListResult.mockImplementation(() => results)
+    jest.spyOn(HMSService, 'getService').mockImplementation(() => {
+      return CarePlanServiceMock as CarePlanService
+    })
+
+    const testFn = jest.fn()
+    jest
+      .spyOn(React, 'useReducer')
+      .mockReturnValueOnce([
+        {
+          isGroup: false,
+        },
+        jest.fn(),
+      ])
+      .mockReturnValueOnce([
+        {
+          isGroup: true,
+        },
+        jest.fn(),
+      ])
+    jest
+      .spyOn(CarePlanServiceMock, 'list')
+      .mockImplementation((params: any) => {
+        testFn(params)
+        // expect(params.filter.category).toStrictEqual('Respiratory therapy')
+        return Promise.resolve({
+          data: [
+            {
+              activity: [
+                {
+                  detail: {
+                    code: {
+                      status: 'completed',
+                      text: 'Recommendation to avoid exercise',
+                    },
+                  },
+                },
+                {
+                  detail: {
+                    code: {
+                      status: 'completed',
+                      text: 'Deep breathing and coughing exercises',
+                    },
+                  },
+                },
+              ],
+              category: 'Allergy to bee venom',
+              id: '1',
+              periodStartText: '2019-01-01',
+              status: 'low',
+            },
+          ],
+          error: null,
+          totalCount: 1,
+        })
+      })
+    const { getByTestId, getAllByText } = render(
+      <PatientCarePlanTable patientId={'1'} />,
+    )
+
+    const groupByCheckboxElement = getByTestId('check-by-type-input')
+    userEvent.click(groupByCheckboxElement)
+    await waitForDomChange()
+    expect(testFn.mock.calls[0][0].filter.category).toStrictEqual(
+      'Respiratory therapy',
+    )
+
+    const textTabElement = getAllByText('Self care')
+    userEvent.click(textTabElement[0])
+    await waitForDomChange()
+    expect(testFn.mock.calls[1][0].filter.category).toStrictEqual('Self care')
+  })
+
+  it('group error PatientCarePlanTable', async () => {
+    const setResult = jest.fn()
+    const useObservaionLaboratoryListResult: any = useInfinitScroll as any
+    const results: any = {
+      data: [],
+      error: null,
+      isFetch: false,
+      isLoading: false,
+      isMore: false,
+      setIsFetch: jest.fn(),
+      setIsMore: jest.fn(),
+      setResult,
+    }
+    useObservaionLaboratoryListResult.mockImplementation(() => results)
+    jest.spyOn(HMSService, 'getService').mockImplementation(() => {
+      return CarePlanServiceMock as CarePlanService
+    })
+    jest
+      .spyOn(React, 'useReducer')
+      .mockReturnValueOnce([
+        {
+          isGroup: false,
+        },
+        jest.fn(),
+      ])
+      .mockReturnValueOnce([
+        {
+          isGroup: true,
+        },
+        jest.fn(),
+      ])
+    jest
+      .spyOn(CarePlanServiceMock, 'categoryList')
+      .mockImplementation((params: any) => {
+        return Promise.reject(new Error('test error'))
+      })
+    const { getByTestId, queryByText } = render(
+      <PatientCarePlanTable patientId={'1'} />,
+    )
+
+    const groupByCheckboxElement = getByTestId('check-by-type-input')
+    userEvent.click(groupByCheckboxElement)
+    await waitForDomChange()
+    expect(setResult.mock.calls[0][0].error.message).toBe('test error')
+  })
 })

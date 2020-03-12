@@ -2,7 +2,7 @@ import useObservationList from '@components/hooks/useObservationList'
 import { render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
 import * as React from 'react'
-import ObservationBloodPressureGraph from '../observation/ObservationBloodPressureGraph'
+import ObservationBodyWeightGraph from '../../observation/ObservationBodyWeightGraph'
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
@@ -21,43 +21,34 @@ describe('<ObservaionBloodPressureCard />', () => {
   afterEach(() => {
     jest.clearAllMocks()
   })
-//   it('render ObservaionBloodPressureCard', () => {
-//     const useObservationListResult: any = useObservationList as any
-//     const results: any = {
-//       data: [
-//         {
-//           codeText: 'Code Text1',
-//           id: '1',
-//           issued: '2019-01-01',
-//           valueModal: [
-//             {
-//               code: 'Systolic Blood Pressure',
-//               unit: 'mmHg',
-//               value: 120,
-//             },
-//             {
-//               code: 'Diastolic Blood Pressure',
-//               unit: 'mmHg',
-//               value: 89,
-//             },
-//           ],
-//         },
-//       ],
-//       error: null,
-//       totalCount: 2,
-//     }
-//     useObservationListResult.mockImplementation(() => results)
-//     const query = {
-//       encounterId: '1',
-//       patientId: '1',
-//     }
-//     const { queryByText, queryAllByText } = render(
-//       <ObservationBloodPressureGraph query={query} />,
-//     )
+  //   it('render ObservaionBloodPressureCard', () => {
+  //     const useObservationListResult: any = useObservationList as any
+  //     const results: any = {
+  //   data: [
+  //     {
+  //     code: '29463-7',
+  //     codeText: 'Body Weight',
+  //     id: '3',
+  //     issued: '2019-01-01',
+  //     unit: 'kg',
+  //     value: 59,
+  //   },
+  //   ],
+  //       error: null,
+  //       totalCount: 2,
+  //     }
+  //     useObservationListResult.mockImplementation(() => results)
+  //     const query = {
+  //       encounterId: '1',
+  //       patientId: '1',
+  //     }
+  //     const { queryByText, queryAllByText } = render(
+  //       <ObservationBodyWeightGraph query={query} />,
+  //     )
 
-//     expect(queryByText('31')).toBeTruthy()
-//     expect(queryAllByText('C')).toBeTruthy()
-//   })
+  //     expect(queryByText('31')).toBeTruthy()
+  //     expect(queryAllByText('C')).toBeTruthy()
+  //   })
 
   it('loading ObservaionBloodPressureCard', () => {
     const useObservationListResult: any = useObservationList as any
@@ -72,7 +63,7 @@ describe('<ObservaionBloodPressureCard />', () => {
       patientId: '1',
     }
     const { queryByText, queryAllByText } = render(
-      <ObservationBloodPressureGraph patientId={query.patientId} />,
+      <ObservationBodyWeightGraph patientId={query.patientId} />,
     )
     expect(queryByText('loading..')).toBeTruthy()
   })
@@ -90,7 +81,7 @@ describe('<ObservaionBloodPressureCard />', () => {
       patientId: '1',
     }
     const { queryByText } = render(
-      <ObservationBloodPressureGraph patientId={query.patientId} />,
+      <ObservationBodyWeightGraph patientId={query.patientId} />,
     )
     expect(queryByText('Error')).toBeTruthy()
   })

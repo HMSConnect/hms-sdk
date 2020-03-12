@@ -1,5 +1,6 @@
 import React from 'react'
 
+import useWindowSize from '@components/hooks/useWindowSize'
 import { EventTracker, SplineSeries } from '@devexpress/dx-react-chart'
 import {
   AreaSeries,
@@ -12,12 +13,11 @@ import {
   ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui'
 import environment from '@environment'
-import { makeStyles, Theme, Typography, Grid } from '@material-ui/core'
+import { makeStyles, Theme, Typography } from '@material-ui/core'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import { area, curveCatmullRom, symbol, symbolCircle } from 'd3-shape'
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import useWindowSize from '@components/hooks/useWindowSize'
 
 interface IGraphLineOption {
   includeLegend?: boolean
@@ -294,7 +294,7 @@ export const GraphLine: React.FunctionComponent<any> = ({
       </span>
     )
   }
-  
+
   return (
     <Chart
       height={optionStyle.height}
@@ -329,7 +329,10 @@ export const GraphLine: React.FunctionComponent<any> = ({
       <EventTracker />
       <TooltipContent graphData={graphData} argumentField={argumentField} />
       {options.includeLegend ? (
-        _.includes(options.standardSizeForResizeLegendToBottom, standardSize) ? (
+        _.includes(
+          options.standardSizeForResizeLegendToBottom,
+          standardSize,
+        ) ? (
           <Legend
             key={`legend-bottom${standardSize}`}
             position={'bottom'}

@@ -64,6 +64,15 @@ describe('<PatientAllergyIntoleranceTable />', () => {
     expect(queryByText('House dust mite allergy2')).toBeTruthy()
   })
 
+  // it('scroll PatientAllergyIntoleranceTable', () => {
+  //   const { queryByText } = render(
+  //     <PatientAllergyIntoleranceTable patientId={'1'} isInitialize={true} />,
+  //   )
+
+  //   expect(queryByText('Allergy to bee venom')).toBeTruthy()
+  //   expect(queryByText('House dust mite allergy2')).toBeTruthy()
+  // })
+
   it('submit search data PatientAllergyIntoleranceTable', async () => {
     const setResult = jest.fn()
     const useObservaionLaboratoryListResult: any = useInfinitScroll as any
@@ -156,6 +165,7 @@ describe('<PatientAllergyIntoleranceTable />', () => {
       },
     ])
   })
+
   it('reset Search data PatientAllergyIntoleranceTable', async () => {
     const setResult = jest.fn()
     const useObservaionLaboratoryListResult: any = useInfinitScroll as any

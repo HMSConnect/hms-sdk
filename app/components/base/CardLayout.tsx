@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export const CardHeader: React.FunctionComponent<{
-  title: string
+  title?: string
   Icon?: any
 }> = ({
   title = 'Header',
@@ -61,9 +61,7 @@ const CardLayout: React.FunctionComponent<{
     <Paper className={classes.paperContainer} elevation={1}>
       {/* <CardHeader title={header} Icon={Icon} /> */}
       <ToolbarWithFilter title={header} Icon={Icon} option={option} />
-      {/* <Typography component='div' className={classes.content}> */}
       {children}
-      {/* </Typography> */}
     </Paper>
   )
 }

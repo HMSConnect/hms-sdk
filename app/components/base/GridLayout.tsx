@@ -57,7 +57,7 @@ function gridSelectorReducer(
         ...action.payload,
       }
     case 'SAVE_LAYOUT':
-      window.localStorage.setItem(
+      window.sessionStorage.setItem(
         action.payload.key,
         JSON.stringify(action.payload.items),
       )
@@ -66,7 +66,7 @@ function gridSelectorReducer(
         ...action.payload,
       }
     case 'RESET_LAYOUT':
-      window.localStorage.setItem(
+      window.sessionStorage.setItem(
         action.payload.key,
         JSON.stringify(action.payload.items),
       )
@@ -119,7 +119,7 @@ const GridLayout: React.FunctionComponent<{
     }, [defaultItems])
 
     function restoreItems() {
-      const layout: any = window.localStorage.getItem('layout')
+      const layout: any = window.sessionStorage.getItem('layout')
       if (!_.isEmpty(layout)) {
         return mappingItems(JSON.parse(layout))
       }
@@ -273,10 +273,16 @@ const GridLayout: React.FunctionComponent<{
             variant='outlined'
             onClick={handleResetLayout}
             style={{ marginRight: 8 }}
+            data-testid='reset-button-grid-layout'
           >
             RESET
           </Button>
-          <Button size='small' variant='outlined' onClick={handleItemAdd}>
+          <Button
+            size='small'
+            variant='outlined'
+            onClick={handleItemAdd}
+            data-testid='add-button-grid-layout'
+          >
             Add +{' '}
           </Button>
         </div>

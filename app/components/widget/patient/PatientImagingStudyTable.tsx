@@ -136,78 +136,78 @@ const PatientImagingStudyTable: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  const submitSearch = async (filter: any) => {
-    dispatch({ type: 'SUBMIT_SEARCH', payload: filter })
-    setIsMore(true)
-    const newFilter = {
-      ...filter,
-      started_lt: initialFilter.started_lt,
-    }
-    const entryData = await fetchData(newFilter, max)
-    return entryData
-  }
+  // const submitSearch = async (filter: any) => {
+  //   dispatch({ type: 'SUBMIT_SEARCH', payload: filter })
+  //   setIsMore(true)
+  //   const newFilter = {
+  //     ...filter,
+  //     started_lt: initialFilter.started_lt,
+  //   }
+  //   const entryData = await fetchData(newFilter, max)
+  //   return entryData
+  // }
 
-  const handleParameterChange = (type: string, value: any) => {
-    dispatch({ type: 'FILTER_ON_CHANGE', payload: { [type]: value } })
-  }
+  // const handleParameterChange = (type: string, value: any) => {
+  //   dispatch({ type: 'FILTER_ON_CHANGE', payload: { [type]: value } })
+  // }
 
-  const handleSearchSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
-    try {
-      const newData = await submitSearch(filter)
-      setResult({ data: newData, error: null })
-      sendMessage({
-        message: 'handleSearchSubmit',
-        name,
-        params: filter,
-      })
-    } catch (error) {
-      setResult({ data: [], error })
-      sendMessage({
-        message: 'handleSearchSubmit',
-        name,
-        params: filter,
-      })
-    } finally {
-      closeModal()
-    }
-  }
+  // const handleSearchSubmit = async (event: React.FormEvent) => {
+  //   event.preventDefault()
+  //   try {
+  //     const newData = await submitSearch(filter)
+  //     setResult({ data: newData, error: null })
+  //     sendMessage({
+  //       message: 'handleSearchSubmit',
+  //       name,
+  //       params: filter,
+  //     })
+  //   } catch (error) {
+  //     setResult({ data: [], error })
+  //     sendMessage({
+  //       message: 'handleSearchSubmit',
+  //       name,
+  //       params: filter,
+  //     })
+  //   } finally {
+  //     closeModal()
+  //   }
+  // }
 
-  const handleSearchReset = async () => {
-    try {
-      const newData = await submitSearch(initialFilter)
-      setResult({ data: newData, error: null })
-      sendMessage({
-        message: 'handleSearchReset',
-        name,
-        params: filter,
-      })
-    } catch (error) {
-      setResult({ data: [], error })
-      sendMessage({
-        message: 'handleSearchReset',
-        name,
-        params: filter,
-      })
-    } finally {
-      closeModal()
-    }
-  }
-  const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
-    CustomModal: FormModalContent,
-    modalTitle: 'Imaging Study Filter',
-    name: `${name}Modal`,
-    optionCustomModal: {
-      onReset: handleSearchReset,
-      onSubmit: handleSearchSubmit,
-    },
-    params: {
-      filter,
-      filterOptions: [],
-      onParameterChange: handleParameterChange,
-      onSearchSubmit: handleSearchSubmit,
-    },
-  })
+  // const handleSearchReset = async () => {
+  //   try {
+  //     const newData = await submitSearch(initialFilter)
+  //     setResult({ data: newData, error: null })
+  //     sendMessage({
+  //       message: 'handleSearchReset',
+  //       name,
+  //       params: filter,
+  //     })
+  //   } catch (error) {
+  //     setResult({ data: [], error })
+  //     sendMessage({
+  //       message: 'handleSearchReset',
+  //       name,
+  //       params: filter,
+  //     })
+  //   } finally {
+  //     closeModal()
+  //   }
+  // }
+  // const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
+  //   CustomModal: FormModalContent,
+  //   modalTitle: 'Imaging Study Filter',
+  //   name: `${name}Modal`,
+  //   optionCustomModal: {
+  //     onReset: handleSearchReset,
+  //     onSubmit: handleSearchSubmit,
+  //   },
+  //   params: {
+  //     filter,
+  //     filterOptions: [],
+  //     onParameterChange: handleParameterChange,
+  //     onSearchSubmit: handleSearchSubmit,
+  //   },
+  // })
 
   if (error) {
     return <ErrorSection error={error} />
@@ -222,7 +222,7 @@ const PatientImagingStudyTable: React.FunctionComponent<{
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Imaging Study'}
-          onClickIcon={showModal}
+          // onClickIcon={showModal}
           filterActive={countFilterActive(submitedFilter, initialFilter, [
             'started_lt',
             'patientId',
@@ -231,7 +231,7 @@ const PatientImagingStudyTable: React.FunctionComponent<{
             isHideIcon: true,
           }}
         >
-          {renderModal}
+          {/* {renderModal} */}
         </ToolbarWithFilter>
       </div>
 

@@ -161,7 +161,7 @@ const PatientClaimTable: React.FunctionComponent<{
         params: filter,
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleSearchSubmit',
         name,
@@ -182,7 +182,7 @@ const PatientClaimTable: React.FunctionComponent<{
         params: filter,
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleSearchReset',
         name,
@@ -232,6 +232,9 @@ const PatientClaimTable: React.FunctionComponent<{
             'billablePeriodStart_lt',
             'patientId',
           ])}
+          option={{
+            isHideIcon: false,
+          }}
         >
           {renderModal}
         </ToolbarWithFilter>

@@ -256,22 +256,6 @@ export const PatientDemographicView: React.FunctionComponent<{
                         : 'Unknow'}
                     </Typography>
                   </Grid>
-                  <Grid item xs={12}>
-                    <Typography
-                      variant='body1'
-                      className={classes.topicTitle}
-                      component='span'
-                    >
-                      Smoke :{' '}
-                    </Typography>
-                    <Typography
-                      component='span'
-                      variant='body1'
-                      className={classes.contentText}
-                    >
-                      Never smoker
-                    </Typography>
-                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
