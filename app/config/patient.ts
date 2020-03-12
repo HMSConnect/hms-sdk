@@ -256,7 +256,7 @@ export const claimStatus = {
 
 export const claimStatusOption = [
   {
-    label: 'Acitve',
+    label: 'Active',
     value: claimStatus.ACTIVE,
   },
   {

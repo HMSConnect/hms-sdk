@@ -93,6 +93,9 @@ const Login: React.FunctionComponent<any> = () => {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               handleOnAuthDataChange('username', event.target.value)
             }
+            inputProps={{
+              'data-testid': 'username-login-page',
+            }}
           />
           <TextField
             required
@@ -104,8 +107,16 @@ const Login: React.FunctionComponent<any> = () => {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               handleOnAuthDataChange('username', event.target.value)
             }
+            inputProps={{
+              'data-testid': 'password-login-page',
+            }}
           />
-          <Button type='submit' variant='contained' color='primary'>
+          <Button
+            type='submit'
+            variant='contained'
+            color='primary'
+            data-testid='submit-login-page'
+          >
             <Icon className={clsx('fas fa-sign-in-alt')} />
             <Typography
               style={{ paddingLeft: '8px' }}

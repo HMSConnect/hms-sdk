@@ -149,7 +149,7 @@ const PatientMedicationList: React.FunctionComponent<{
     >
       <div className={classes.toolbar}>
         <ToolbarWithFilter
-          title={'Medcation Request'}
+          title={'Medication Request'}
           Icon={<Icon className='fas fa-pills' />}
           option={{
             isHideIcon: true,

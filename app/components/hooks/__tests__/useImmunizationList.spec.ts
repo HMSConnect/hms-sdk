@@ -28,13 +28,13 @@ describe('useImmunizationList', () => {
 
     expect(result.current.data).toStrictEqual([
       {
-        clinicalStatus: 'completed',
+        status: 'completed',
         dateText: '2019-01-01',
         id: '1',
         vaccineCode: 'Influenza, seasonal, injectable, preservative free',
       },
       {
-        clinicalStatus: 'not-done',
+        status: 'not-done',
         dateText: '2019-01-02',
         id: '2',
         vaccineCode: 'Td (adult) preservative free',

@@ -273,10 +273,16 @@ const GridLayout: React.FunctionComponent<{
             variant='outlined'
             onClick={handleResetLayout}
             style={{ marginRight: 8 }}
+            data-testid='reset-button-grid-layout'
           >
             RESET
           </Button>
-          <Button size='small' variant='outlined' onClick={handleItemAdd}>
+          <Button
+            size='small'
+            variant='outlined'
+            onClick={handleItemAdd}
+            data-testid='add-button-grid-layout'
+          >
             Add +{' '}
           </Button>
         </div>

@@ -8,7 +8,7 @@ const authData = {
   token: null,
 }
 
-const patientSummaryCards = (state = authData, action: IAuthData) => {
+const auth = (state = authData, action: IAuthData) => {
   switch (action.type) {
     case 'UPDATE_AUTH_DATA':
       return {
@@ -31,4 +31,4 @@ const patientSummaryCards = (state = authData, action: IAuthData) => {
   }
 }
 
-export default patientSummaryCards
+export default auth

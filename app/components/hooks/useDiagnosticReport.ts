@@ -8,8 +8,7 @@ const useDiagnosticReport = (id: string): IServiceResult => {
     const diagnosticReportService = HMSService.getService(
       'diagnostic_report',
     ) as DiagnosticReportService
-    const test = diagnosticReportService.load(id)
-    return test
+    return diagnosticReportService.load(id)
   }, [id])
 }
 

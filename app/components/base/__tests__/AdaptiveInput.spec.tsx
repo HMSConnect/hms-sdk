@@ -79,6 +79,57 @@ describe('<AdaptiveInput />', () => {
     expect(queryByText('Need choices..')).toBeTruthy()
   })
 
+  it('render checkbox group AdaptiveInput', () => {
+    const onChange = jest.fn()
+    const adaptiveProps: any = {
+      group: [
+        {
+          label: 'Blood Pressure',
+          name: 'bloodName',
+          value: 'bloodValue',
+        },
+        {
+          label: 'Body Mass Index',
+          name: 'bmiName',
+          value: 'bmivalue',
+        },
+      ],
+      label: 'Selection',
+      name: 'selection',
+      type: 'checkbox-group',
+      value: {
+        selection: { bloodName: false, bmiName: false },
+      },
+    }
+
+    const { queryByText, getByText } = render(
+      <AdaptiveInput onChange={onChange} {...adaptiveProps} />,
+    )
+    expect(queryByText('Body Mass Index')).toBeTruthy()
+
+    const bmiElement = getByText('Body Mass Index')
+
+    userEvent.click(bmiElement)
+    expect(onChange).toBeCalled()
+  })
+
+  it('render checkbox group Without choice AdaptiveInput', () => {
+    const onChange = jest.fn()
+    const adaptiveProps: any = {
+      label: 'Selection',
+      name: 'selection',
+      type: 'checkbox-group',
+      value: {
+        selection: { bloodName: false, bmiName: false },
+      },
+    }
+
+    const { queryByText } = render(
+      <AdaptiveInput onChange={onChange} {...adaptiveProps} />,
+    )
+    expect(queryByText('Need group..')).toBeTruthy()
+  })
+
   it('render number AdaptiveInput ', () => {
     const onChange = jest.fn()
     const adaptiveProps: any = {

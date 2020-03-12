@@ -60,7 +60,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export const ObservationBloodPressureCardWithConnector: React.FunctionComponent = () => {
-  const state = useSelector((state: any) => state.patientSummaryCards)
+  const state = useSelector((state: any) => {
+    return state.patientSummaryCards
+  })
   const dispatch = useDispatch()
   const handleCardClick = (cardName: string) => {
     dispatch(cardClick(cardName))

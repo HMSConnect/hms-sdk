@@ -1,10 +1,8 @@
 import * as React from 'react'
 
-import useObservationList from '@components/hooks/useObservationList'
-import { render } from '@testing-library/react'
-import * as nextRouter from 'next/router'
-import ObservationLaboratoryTable from '../observation/ObservationLaboratoryTable'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
+import { render } from '@testing-library/react'
+import ObservationLaboratoryTable from '../../observation/ObservationLaboratoryTable'
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,

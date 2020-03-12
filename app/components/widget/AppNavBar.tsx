@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 )
-
 const AppNavBar: React.FunctionComponent<any> = () => {
   const classes = useStyles()
 
@@ -43,7 +42,11 @@ const AppNavBar: React.FunctionComponent<any> = () => {
           HMS Widget
         </Typography>
         <div>
-          <Button onClick={handleLogout} color='inherit'>
+          <Button
+            onClick={handleLogout}
+            color='inherit'
+            data-testid='logout-app-nav-bar'
+          >
             <Icon className={clsx('fas fa-sign-out-alt', classes.icon)} />{' '}
             <Typography
               style={{ paddingLeft: '8px' }}

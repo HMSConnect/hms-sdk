@@ -1,4 +1,3 @@
-import GridSelection from '@components/base/GridSelector'
 import DiagnosticReportCard from '@components/widget/medical-records/DiagnosticReportCard'
 import { Paper } from '@material-ui/core'
 import * as React from 'react'
@@ -12,7 +11,7 @@ const EncounterInfoDetailSub: React.FunctionComponent<any> = ({
 }) => {
   return (
     <div>
-      <GridSelection
+      {/* <GridSelection
         defaultDimention={defaultDimention}
         componentResource={{
           allergy: AllergyIntoleranceCard,
@@ -21,7 +20,7 @@ const EncounterInfoDetailSub: React.FunctionComponent<any> = ({
           observation_laboratory: ObservationLaboratoryCard,
           observation_virtualSign: ObservationVitalSignCard,
         }}
-      />
+      /> */}
     </div>
   )
 }

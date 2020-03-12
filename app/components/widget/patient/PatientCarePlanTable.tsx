@@ -164,14 +164,17 @@ const PatientCarePlanTable: React.FunctionComponent<{
   const handleUnGroup = async (filter: ICarePlanListFilterQuery) => {
     const newFilter = {
       ...filter,
-      date_lt: undefined,
+      category: undefined,
+      periodStart_lt: undefined,
       vaccineCode: undefined,
     }
     try {
       const newData = await fetchData(newFilter, max)
-      if (newData.length < max) {
-        setIsMore(false)
-      }
+      // console.log('newData :', newData)
+      // if (newData.length < max) {
+      //   setIsMore(false)
+      // }
+      setIsMore(true)
       setResult({ data: newData, error: null })
       sendMessage({
         message: 'handleGroupByType',
@@ -194,6 +197,9 @@ const PatientCarePlanTable: React.FunctionComponent<{
       })
     } finally {
       dispatch({
+        payload: {
+          filter: initialFilter,
+        },
         type: 'UN_GROUP_BY',
       })
     }
@@ -223,6 +229,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
         },
       })
     } catch (error) {
+      // console.log('error :', error);
       setResult({ data: [], error })
       sendMessage({
         message: 'handleGroupByType',
@@ -369,7 +376,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
     return <ErrorSection error={error} />
   }
   return (
-    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
+    <div ref={myscroll} style={{ height: '100%' }}>
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Care Plan'}

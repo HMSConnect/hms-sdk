@@ -13,14 +13,13 @@ import {
   ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui'
 import environment from '@environment'
-import { makeStyles, Theme, Typography, styled } from '@material-ui/core'
+import { Tooltip as TooltipMatterial, Typography } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import { area, curveCatmullRom, symbol, symbolCircle } from 'd3-shape'
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
-import { Tooltip as TooltipMatterial } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
 
 interface IGraphLineOption {
   includeLegend?: boolean

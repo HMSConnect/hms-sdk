@@ -5,7 +5,7 @@ interface IPatientPractitionerListAction {
   payload: any
 }
 
-const initialState: any = {}
+export const initialState: any = {}
 const patientPractitioner = (
   state = initialState,
   action: IPatientPractitionerListAction,

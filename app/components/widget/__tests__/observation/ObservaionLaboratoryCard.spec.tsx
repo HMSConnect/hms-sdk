@@ -3,14 +3,14 @@ import * as React from 'react'
 import useObservationList from '@components/hooks/useObservationList'
 import { render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
-import ObservationVitalSignCard from '../medical-records/ObservationVitalSignCard'
+import ObservationLaboratoryCard from '../../medical-records/ObservationLaboratoryCard'
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
   default: jest.fn(),
 }))
 
-describe('<ObservationVitalSignCard />', () => {
+describe('<ObservationLaboratoryCard />', () => {
   beforeAll(() => {
     const router = jest.spyOn(nextRouter, 'useRouter') as any
     router.mockImplementation(() => ({
@@ -23,7 +23,7 @@ describe('<ObservationVitalSignCard />', () => {
   afterEach(() => {
     jest.clearAllMocks()
   })
-  it('render ObservationVitalSignCard', () => {
+  it('render ObservationLaboratoryCard', () => {
     const useObservationListResult: any = useObservationList as any
     const results: any = {
       data: [
@@ -42,12 +42,12 @@ describe('<ObservationVitalSignCard />', () => {
       totalCount: 2,
     }
     useObservationListResult.mockImplementation(() => results)
-    const { queryByText } = render(<ObservationVitalSignCard />)
+    const { queryByText } = render(<ObservationLaboratoryCard />)
 
     expect(queryByText('Code Text1')).toBeTruthy()
   })
 
-  it('loading ObservationVitalSignCard', () => {
+  it('loading ObservationLaboratoryCard', () => {
     const useObservationListResult: any = useObservationList as any
     const results: any = {
       data: [],
@@ -55,12 +55,12 @@ describe('<ObservationVitalSignCard />', () => {
       isLoading: true,
     }
     useObservationListResult.mockImplementation(() => results)
-    const { queryByText } = render(<ObservationVitalSignCard />)
+    const { queryByText } = render(<ObservationLaboratoryCard />)
 
     expect(queryByText('loading..')).toBeTruthy()
   })
 
-  it('error ObservationVitalSignCard', () => {
+  it('error ObservationLaboratoryCard', () => {
     const errorText = 'Test Error'
     const useObservationListResult: any = useObservationList as any
     const results: any = {
@@ -69,7 +69,7 @@ describe('<ObservationVitalSignCard />', () => {
       isLoading: false,
     }
     useObservationListResult.mockImplementation(() => results)
-    const { queryByText } = render(<ObservationVitalSignCard />)
+    const { queryByText } = render(<ObservationLaboratoryCard />)
 
     expect(queryByText('Test Error')).toBeTruthy()
   })
