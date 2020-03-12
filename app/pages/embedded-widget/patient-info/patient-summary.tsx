@@ -55,4 +55,5 @@ PatientSummaryWidget.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default withAuthSync(PatientSummaryWidget)
+export default PatientSummaryWidget
+// export default withAuthSync(PatientSummaryWidget)

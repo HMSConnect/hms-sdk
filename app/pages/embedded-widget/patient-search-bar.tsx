@@ -117,5 +117,5 @@ PatientSearchBarWidget.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default withAuthSync(PatientSearchBarWidget)
-// export default PatientSearchBarWidget
+// export default withAuthSync(PatientSearchBarWidget)
+export default PatientSearchBarWidget
