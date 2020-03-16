@@ -168,7 +168,7 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
         params: filter,
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleSearchSubmit',
         name,
@@ -189,7 +189,7 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
         params: filter,
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleSearchReset',
         name,
@@ -245,6 +245,9 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
             'patientId',
             'authoredOn_lt',
           ])}
+          option={{
+            isHideIcon: false
+          }}
         >
           {renderModal}
         </ToolbarWithFilter>

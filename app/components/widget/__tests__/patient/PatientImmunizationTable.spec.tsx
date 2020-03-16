@@ -1,7 +1,9 @@
 import * as React from 'react'
 
+import ImmunizationServiceMock from '@components/hooks/__mocks__/ImmunizationServiceMock'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { HMSService } from '@services/HMSServiceFactory'
+import ImmunizationService from '@services/ImmunizationService'
 import {
   act,
   fireEvent,
@@ -10,8 +12,6 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import PatientImmunizationTable from '../../patient/PatientImmunizationTable'
-import ImmunizationServiceMock from '@components/hooks/__mocks__/ImmunizationServiceMock'
-import ImmunizationService from '@services/ImmunizationService'
 
 jest.mock('@components/hooks/useAllergyIntoleranceList', () => ({
   __esModule: true,
@@ -29,15 +29,15 @@ describe('<PatientImmunizationTable />', () => {
     const results: any = {
       data: [
         {
-          status: 'completed',
           dateText: '2019-01-01',
           id: '1',
+          status: 'completed',
           vaccineCode: 'Influenza, seasonal, injectable, preservative free',
         },
         {
-          status: 'not-done',
           dateText: '2019-01-02',
           id: '2',
+          status: 'not-done',
           vaccineCode: 'Td (adult) preservative free',
         },
       ],
@@ -90,15 +90,15 @@ describe('<PatientImmunizationTable />', () => {
         return Promise.resolve({
           data: [
             {
-              status: 'completed',
               dateText: '2019-01-01',
               id: '1',
+              status: 'completed',
               vaccineCode: 'Influenza, seasonal, injectable, preservative free',
             },
             {
-              status: 'not-done',
               dateText: '2019-01-02',
               id: '2',
+              status: 'not-done',
               vaccineCode: 'Td (adult) preservative free',
             },
           ],
@@ -350,6 +350,24 @@ describe('<PatientImmunizationTable />', () => {
         jest.fn(),
       ])
     jest
+      .spyOn(ImmunizationServiceMock, 'typeList')
+      .mockImplementation((params: any) => {
+        // expect(params.filter.category).toStrictEqual('Respiratory therapy')
+        return Promise.resolve({
+          data: [
+            {
+              totalCount: 1,
+              type: 'Influenza, seasonal, injectable, preservative free',
+            },
+            {
+              totalCount: 1,
+              type: 'Td (adult) preservative free',
+            },
+          ],
+        })
+      })
+
+    jest
       .spyOn(ImmunizationServiceMock, 'list')
       .mockImplementation((params: any) => {
         testFn(params)
@@ -357,15 +375,15 @@ describe('<PatientImmunizationTable />', () => {
         return Promise.resolve({
           data: [
             {
-              status: 'completed',
               dateText: '2019-01-01',
               id: '1',
+              status: 'completed',
               vaccineCode: 'Influenza, seasonal, injectable, preservative free',
             },
             {
-              status: 'not-done',
               dateText: '2019-01-02',
               id: '2',
+              status: 'not-done',
               vaccineCode: 'Td (adult) preservative free',
             },
           ],
@@ -393,5 +411,129 @@ describe('<PatientImmunizationTable />', () => {
       await waitForDomChange()
     })
     expect(testFn.mock.calls[1][0].filter.vaccineCode).toStrictEqual(undefined)
+  })
+
+  it('tab change group PatientCarePlanTable', async () => {
+    const setResult = jest.fn()
+    const useObservaionLaboratoryListResult: any = useInfinitScroll as any
+    const results: any = {
+      data: [],
+      error: null,
+      isFetch: false,
+      isLoading: false,
+      isMore: false,
+      setIsFetch: jest.fn(),
+      setIsMore: jest.fn(),
+      setResult,
+    }
+    useObservaionLaboratoryListResult.mockImplementation(() => results)
+    jest.spyOn(HMSService, 'getService').mockImplementation(() => {
+      return ImmunizationServiceMock as ImmunizationService
+    })
+
+    const testFn = jest.fn()
+    jest
+      .spyOn(React, 'useReducer')
+      .mockReturnValueOnce([
+        {
+          isGroup: false,
+        },
+        jest.fn(),
+      ])
+      .mockReturnValueOnce([
+        {
+          isGroup: true,
+        },
+        jest.fn(),
+      ])
+    jest
+      .spyOn(ImmunizationServiceMock, 'list')
+      .mockImplementation((params: any) => {
+        testFn(params)
+        // expect(params.filter.category).toStrictEqual('Respiratory therapy')
+        return Promise.resolve({
+          data: [
+            {
+              dateText: '2019-01-01',
+              id: '1',
+              status: 'completed',
+              vaccineCode: 'Influenza, seasonal, injectable, preservative free',
+            },
+            {
+              dateText: '2019-01-02',
+              id: '2',
+              status: 'not-done',
+              vaccineCode: 'Td (adult) preservative free',
+            },
+          ],
+          error: null,
+          totalCount: 1,
+        })
+      })
+    const { getByTestId, getAllByText } = render(
+      <PatientImmunizationTable patientId={'1'} />,
+    )
+
+    const groupByCheckboxElement = getByTestId('check-by-type-input')
+    userEvent.click(groupByCheckboxElement)
+    await waitForDomChange()
+    expect(testFn.mock.calls[0][0].filter.vaccineCode).toStrictEqual(
+      'Influenza, seasonal, injectable, preservative free',
+    )
+
+    const textTabElement = getAllByText('Td (adult) preservative free')
+    userEvent.click(textTabElement[0])
+    await waitForDomChange()
+    expect(testFn.mock.calls[1][0].filter.vaccineCode).toStrictEqual(
+      'Td (adult) preservative free',
+    )
+  })
+
+  it('group error PatientCarePlanTable', async () => {
+    const setResult = jest.fn()
+    const useObservaionLaboratoryListResult: any = useInfinitScroll as any
+    const results: any = {
+      data: [],
+      error: null,
+      isFetch: false,
+      isLoading: false,
+      isMore: false,
+      setIsFetch: jest.fn(),
+      setIsMore: jest.fn(),
+      setResult,
+    }
+    useObservaionLaboratoryListResult.mockImplementation(() => results)
+    jest.spyOn(HMSService, 'getService').mockImplementation(() => {
+      return ImmunizationServiceMock as ImmunizationService
+    })
+    jest
+      .spyOn(React, 'useReducer')
+      .mockReturnValueOnce([
+        {
+          isGroup: false,
+        },
+        jest.fn(),
+      ])
+      .mockReturnValueOnce([
+        {
+          isGroup: true,
+        },
+        jest.fn(),
+      ])
+    jest
+      .spyOn(ImmunizationServiceMock, 'typeList')
+      .mockImplementation((params: any) => {
+        return Promise.reject(new Error('test error'))
+      })
+    const { getByTestId, queryByText } = render(
+      <PatientImmunizationTable patientId={'1'} />,
+    )
+
+    const groupByCheckboxElement = getByTestId('check-by-type-input')
+    userEvent.click(groupByCheckboxElement)
+    await waitForDomChange()
+
+    console.log('setResult.mock.calls[0][0] :', setResult.mock.calls[0][0]);
+    expect(setResult.mock.calls[0][0].error).toBe('test error')
   })
 })

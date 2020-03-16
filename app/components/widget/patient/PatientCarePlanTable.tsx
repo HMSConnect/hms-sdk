@@ -185,7 +185,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
         },
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleGroupByType',
         name,
@@ -230,7 +230,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
       })
     } catch (error) {
       // console.log('error :', error);
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleGroupByType',
         name,
@@ -270,7 +270,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
         },
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: `handleTabChange:`,
         name,

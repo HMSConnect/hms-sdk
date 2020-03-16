@@ -200,6 +200,21 @@ module.exports = nextRoutes()
     'embedded-widget/observation/observation-body-height-graph',
   )
   .add(
+    'embedded-widget/observation/body-mass-index-graph',
+    '/embedded-widget/observation/body-mass-index-graph',
+    'embedded-widget/observation/observation-body-mass-index-graph',
+  )
+  .add(
+    'embedded-widget/observation/body-temperature-graph',
+    '/embedded-widget/observation/body-temperature-graph',
+    'embedded-widget/observation/observation-body-temperature-graph',
+  )
+  .add(
+    'embedded-widget/observation/heart-rate-graph',
+    '/embedded-widget/observation/heart-rate-graph',
+    'embedded-widget/observation/observation-heart-rate-graph',
+  )
+  .add(
     'embedded-widget/observation/history-graph',
     '/embedded-widget/observation/history-graph',
     'embedded-widget/observation/observation-history-graph',

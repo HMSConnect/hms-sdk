@@ -7,6 +7,8 @@ export interface IEncounterListQuery extends IListDefaultQuery {
   filter?: IEncounterListFilterQuery
   max?: number
   withOrganization?: boolean
+  withPractitioner?: boolean
+  withDiagnosis?: boolean
 }
 
 export interface IEncounterListFilterQuery {

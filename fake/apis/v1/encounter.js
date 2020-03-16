@@ -19,7 +19,6 @@ router.get('/', async (req, res) => {
             utilsService.createOptions(req.query)
           )
         : {}
-
       const encounterResults = await new Promise((resolve, reject) => {
         db['encounter'].find(selector, options).fetch(resolve, reject)
       })
@@ -28,7 +27,8 @@ router.get('/', async (req, res) => {
       if (
         req.query.withOrganization == 'true' ||
         req.query.withDiagnosticReport == 'true' ||
-        req.query.withPractitioner == 'true'
+        req.query.withPractitioner == 'true' ||
+        req.query.withDiagnosis == 'true'
       ) {
         // query not cast boolean
         for (const encounterResult of encounterResults) {
@@ -71,6 +71,37 @@ router.get('/', async (req, res) => {
               )
             } else {
               encounterResult.participant = []
+            }
+          }
+          if (req.query.withDiagnosis == 'true') {
+            if (encounterResult.diagnosis) {
+              const procedureIds = []
+              const conditionIds = []
+              for (let i = 0; i < encounterResult.diagnosis.length; i++) {
+                const conditionDomain = encounterResult.diagnosis[
+                  i
+                ].condition.reference.split('/')
+                switch (conditionDomain[0]) {
+                  case 'Condition':
+                    conditionIds.push(conditionDomain[1])
+                    break
+                  case 'Procedure':
+                    procedureIds.push(conditionDomain[1])
+                }
+              }
+              const encounterResultProcedure = await createProcedure(
+                procedureIds,
+                encounterResult.diagnosis
+              )
+
+              const encounterResultCondition = await createCondition(
+                conditionIds,
+                encounterResult.diagnosis
+              )
+
+              encounterResult.diagnosis =  [...encounterResultProcedure, ...encounterResultCondition]
+            } else {
+              encounterResult.diagnosis = []
             }
           }
 
@@ -156,6 +187,41 @@ async function createPractitioner(practitionerIds, oldData) {
     }
   })
   return newPractitioner
+}
+async function createProcedure(procedureIds, oldData) {
+  const procedure = await new Promise((resolve, reject) => {
+    db['procedure']
+      .find({ id: { $in: procedureIds } }, { limit: null })
+      .fetch(resolve, reject)
+  })
+  const newProcedure = oldData.map(data => {
+    return {
+      schema: { ...config.defaultSchema, resourceType: 'procedure' },
+      ...data,
+      condition: procedure.find(procedure => {
+        return procedure.id === data.condition.reference.split('/')[1]
+      })
+    }
+  })
+  return newProcedure
+}
+
+async function createCondition(conditionIds, oldData) {
+  const condition = await new Promise((resolve, reject) => {
+    db['condition']
+      .find({ id: { $in: conditionIds } }, { limit: null })
+      .fetch(resolve, reject)
+  })
+  const newCondition = oldData.map(data => {
+    return {
+      schema: { ...config.defaultSchema, resourceType: 'condition' },
+      ...data,
+      individual: condition.find(condition => {
+        return condition.id === data.individual.reference.split('/')[1]
+      })
+    }
+  })
+  return newCondition
 }
 
 async function createDiagnosticReport(encounterId) {

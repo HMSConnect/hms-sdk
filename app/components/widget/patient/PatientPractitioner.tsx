@@ -131,7 +131,7 @@ export const PatientPractitionerGroupView: React.FunctionComponent<{
   const renderGroupIcon = (participants: any, maxDisplay: number) => {
     const iconArray = []
     const minNumber = _.min([participants.length, maxDisplay])
-    for (let i = 0; i < minNumber; i++) {
+    for (let i = 0;  _.get(participants[i], 'name[0].given[0]') !== undefined &&  i < minNumber; i++) {
       iconArray.push(
         <Avatar key={`avatar-${i}`} className={classes.groupAvatar}>
           <Typography variant='h5' component='span' style={{ color: 'white' }}>
@@ -148,7 +148,11 @@ export const PatientPractitionerGroupView: React.FunctionComponent<{
   const renderGroupName = (participants: any, maxDisplay: number) => {
     const displayNames = []
     const minNumber = _.min([participants.length, maxDisplay])
-    for (let i = 0; i < minNumber; i++) {
+    for (
+      let i = 0;
+      _.get(participants[i], 'name[0].given[0]') !== undefined && i < minNumber;
+      i++
+    ) {
       displayNames.push(_.get(participants[i], 'name[0].given[0]'))
     }
     return `${_.join(displayNames, ', ')} ${

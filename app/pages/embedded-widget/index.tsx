@@ -84,8 +84,8 @@ const WIDGET_GROUP: IWidgetGroup[] = [
   widgetGalleryPatientConfig,
   widgetGalleryObservationConfig,
   // widgetGalleryEncounterConfig,
-  widgetGalleryDiagnosticReportConfig,
-  widgetGalleryAllergyIntoleranceConfig,
+  // widgetGalleryDiagnosticReportConfig,
+  // widgetGalleryAllergyIntoleranceConfig,
 ]
 
 const useStyles = makeStyles((theme: Theme) =>

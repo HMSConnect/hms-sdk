@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core'
 import AuthService from '@services/AuthService'
 import clsx from 'clsx'
+import { codeVersion } from '@config/embedded-widget'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,7 +40,7 @@ const AppNavBar: React.FunctionComponent<any> = () => {
     <AppBar position='static'>
       <Toolbar>
         <Typography variant='h6' className={classes.title}>
-          HMS Widget
+          HMS Widget <Typography variant='body1'>V. {codeVersion}</Typography>
         </Typography>
         <div>
           <Button
