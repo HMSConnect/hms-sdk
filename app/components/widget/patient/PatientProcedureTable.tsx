@@ -181,7 +181,7 @@ const PatientProcedureTable: React.FunctionComponent<{
         params: filter,
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleSearchSubmit',
         name,
@@ -202,7 +202,7 @@ const PatientProcedureTable: React.FunctionComponent<{
         params: filter,
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleSearchReset',
         name,
@@ -244,6 +244,9 @@ const PatientProcedureTable: React.FunctionComponent<{
             'patientId',
             'periodStart_lt',
           ])}
+          option={{
+            isHideIcon: false,
+          }}
         >
           {renderModal}
         </ToolbarWithFilter>

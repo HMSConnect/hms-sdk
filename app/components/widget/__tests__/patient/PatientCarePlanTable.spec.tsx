@@ -861,6 +861,6 @@ describe('<PatientCarePlanTable />', () => {
     const groupByCheckboxElement = getByTestId('check-by-type-input')
     userEvent.click(groupByCheckboxElement)
     await waitForDomChange()
-    expect(setResult.mock.calls[0][0].error.message).toBe('test error')
+    expect(setResult.mock.calls[0][0].error).toBe('test error')
   })
 })

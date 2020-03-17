@@ -153,7 +153,9 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     const newLazyLoad: IEncounterListQuery = {
       filter: newFilter,
       max,
+      withDiagnosis: true,
       withOrganization: true,
+      withPractitioner: true,
     }
     const entryData = await encounterService.list(newLazyLoad)
     if (_.get(entryData, 'error')) {

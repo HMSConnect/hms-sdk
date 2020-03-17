@@ -17,7 +17,16 @@ const PatientEncounterTimelineWidget: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <BootstrapWrapper dependencies={['patient', 'encounter', 'organization']}>
+    <BootstrapWrapper
+      dependencies={[
+        'patient',
+        'encounter',
+        'organization',
+        'practitioner',
+        'procedure',
+        'condition',
+      ]}
+    >
       <>
         <CssBaseline />
         <PatientEncounterTimeline
@@ -35,7 +44,11 @@ const PatientEncounterTimelineWidget: IStatelessPage<{
   )
 }
 
-PatientEncounterTimelineWidget.getInitialProps = async ({ req, res, query }) => {
+PatientEncounterTimelineWidget.getInitialProps = async ({
+  req,
+  res,
+  query,
+}) => {
   return {
     query: parse(query),
   }

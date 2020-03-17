@@ -34,6 +34,17 @@ class SFHIREncounterV1Validator implements IValidator {
       return participant
     })
 
+    const diagnosis = _.map(encounter.diagnosis, diagnosis => {
+      const diagnosisSchema = _.get(diagnosis, 'schema')
+      if (diagnosisSchema) {
+        const diagnosisValidator = ValidatorManager.compile(diagnosisSchema)
+        if (diagnosisValidator) {
+          return diagnosisValidator.parse(diagnosis.condition)
+        }
+      }
+      return diagnosis
+    })
+
     const type = _.chain(_.get(encounter, 'type'))
       .map(type => type.text)
       .join(', ')
@@ -68,6 +79,7 @@ class SFHIREncounterV1Validator implements IValidator {
       organization: organizationData,
       organizationId,
       participant,
+      diagnosis,
       reason,
       startDateTime: startTime,
       startTime,

@@ -126,12 +126,6 @@ export const observationWidgetConfig: IWidgetGroup = {
           value: 'patientId',
         },
         {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
-          label: 'Encounter ID',
-          type: 'text',
-          value: 'encounterId',
-        },
-        {
           defaultValue: 20,
           label: 'Max',
           type: 'number',
@@ -152,12 +146,6 @@ export const observationWidgetConfig: IWidgetGroup = {
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
-        },
-        {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
-          label: 'Encounter ID',
-          type: 'text',
-          value: 'encounterId',
         },
         {
           defaultValue: 20,
@@ -182,10 +170,26 @@ export const observationWidgetConfig: IWidgetGroup = {
           value: 'patientId',
         },
         {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
-          label: 'Encounter ID',
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
+      ],
+      value: 'observaion-body-weight-graph',
+    },
+    {
+      document: require('@assets/embedded-widget/observation/observation-body-mass-index-graph.md')
+        .default,
+      label: 'Observaion Body Mass Index Graph',
+      parameters: [],
+      path: '/embedded-widget/observation/body-mass-index-graph',
+      queryParams: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
           type: 'text',
-          value: 'encounterId',
+          value: 'patientId',
         },
         {
           defaultValue: 20,
@@ -194,7 +198,51 @@ export const observationWidgetConfig: IWidgetGroup = {
           value: 'max',
         },
       ],
-      value: 'observaion-body-weight-graph',
+      value: 'observaion-body-mass-index-graph',
+    },
+    {
+      document: require('@assets/embedded-widget/observation/observation-body-temperature-graph.md')
+        .default,
+      label: 'Observaion Body Temperature Graph',
+      parameters: [],
+      path: '/embedded-widget/observation/body-temperature-graph',
+      queryParams: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
+      ],
+      value: 'observaion-body-temperature-graph',
+    },
+    {
+      document: require('@assets/embedded-widget/observation/observation-heart-rate-graph.md')
+        .default,
+      label: 'Observaion Heart Rate Graph',
+      parameters: [],
+      path: '/embedded-widget/observation/heart-rate-graph',
+      queryParams: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
+      ],
+      value: 'observaion-heart-rate-graph',
     },
     {
       document: require('@assets/embedded-widget/observation/observation-laboratory-table.md')
@@ -224,48 +272,48 @@ export const observationWidgetConfig: IWidgetGroup = {
       ],
       value: 'patient-observaion-laboratory-table',
     },
-    {
-      document: require('@assets/embedded-widget/medical-record/observation-laboratory-card.md')
-        .default,
-      label: 'Observation - Laboraory',
-      path: '/embedded-widget/observation/laboratory-card',
-      queryParams: [
-        {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
-          label: 'Encounter Id',
-          type: 'text',
-          value: 'encounterId',
-        },
-        {
-          defaultValue: 20,
-          label: 'Max',
-          type: 'number',
-          value: 'max',
-        },
-      ],
-      value: 'observation-laboratory-card',
-    },
-    {
-      document: require('@assets/embedded-widget/medical-record/observation-vital-sign-card.md')
-        .default,
-      label: 'Observation - VitalSign',
-      path: '/embedded-widget/observation/vital-sign-card',
-      queryParams: [
-        {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
-          label: 'Encounter Id',
-          type: 'text',
-          value: 'encounterId',
-        },
-        {
-          defaultValue: 20,
-          label: 'Max',
-          type: 'number',
-          value: 'max',
-        },
-      ],
-      value: 'observation-vital-sign-card',
-    },
+    // {
+    //   document: require('@assets/embedded-widget/medical-record/observation-laboratory-card.md')
+    //     .default,
+    //   label: 'Observation - Laboraory',
+    //   path: '/embedded-widget/observation/laboratory-card',
+    //   queryParams: [
+    //     {
+    //       defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+    //       label: 'Encounter Id',
+    //       type: 'text',
+    //       value: 'encounterId',
+    //     },
+    //     {
+    //       defaultValue: 20,
+    //       label: 'Max',
+    //       type: 'number',
+    //       value: 'max',
+    //     },
+    //   ],
+    //   value: 'observation-laboratory-card',
+    // },
+    // {
+    //   document: require('@assets/embedded-widget/medical-record/observation-vital-sign-card.md')
+    //     .default,
+    //   label: 'Observation - VitalSign',
+    //   path: '/embedded-widget/observation/vital-sign-card',
+    //   queryParams: [
+    //     {
+    //       defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+    //       label: 'Encounter Id',
+    //       type: 'text',
+    //       value: 'encounterId',
+    //     },
+    //     {
+    //       defaultValue: 20,
+    //       label: 'Max',
+    //       type: 'number',
+    //       value: 'max',
+    //     },
+    //   ],
+    //   value: 'observation-vital-sign-card',
+    // },
     {
       document: require('@assets/embedded-widget/observation/observation-summary-graph.md')
         .default,
@@ -278,12 +326,6 @@ export const observationWidgetConfig: IWidgetGroup = {
           type: 'text',
           value: 'patientId',
         },
-        // {
-        //   defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
-        //   label: 'Encounter ID',
-        //   type: 'text',
-        //   value: 'encounterId',
-        // },
       ],
       value: 'observation-summary-card',
     },

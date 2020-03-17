@@ -24,7 +24,10 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import clsx from 'clsx'
 import findIndex from 'lodash/findIndex'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import join from 'lodash/join'
 import map from 'lodash/map'
+import min from 'lodash/min'
 import * as moment from 'moment'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -196,6 +199,41 @@ const EncounterListItem: React.FunctionComponent<{
       </Avatar>
     )
   }
+  const renderGroupName = (participants: any, maxDisplay: number) => {
+    if (isEmpty(participants)) {
+      return 'Unknow'
+    }
+    const displayNames = []
+    const minNumber = min([participants.length, maxDisplay])
+    for (
+      let i = 0;
+      get(participants[i], 'name[0].given[0]') !== undefined && i < minNumber;
+      i++
+    ) {
+      displayNames.push(get(participants[i], 'name[0].given[0]'))
+    }
+    return `${join(displayNames, ', ')} ${
+      participants.length - minNumber > 0 ? '...' : ''
+    }`
+  }
+
+  const renderDiagnosisGroup = (conditions: any, maxDisplay: number) => {
+    if (isEmpty(conditions)) {
+      return 'Unknow'
+    }
+    const displayNames = []
+    const minNumber = min([conditions.length, maxDisplay])
+    for (
+      let i = 0;
+      get(conditions[i], 'codeText') !== undefined && i < minNumber;
+      i++
+    ) {
+      displayNames.push(get(conditions[i], 'codeText'))
+    }
+    return `${join(displayNames, ', ')} ${
+      conditions.length - minNumber > 0 ? '...' : ''
+    }`
+  }
   return (
     <>
       <ListItem
@@ -318,7 +356,10 @@ const EncounterListItem: React.FunctionComponent<{
                           component='span'
                           className={classes.contentText}
                         >
-                          {get(data, 'reason') || 'Unknow'}
+                          {/* {get(data, 'reason') || 'Unknow'} */}
+                          {get(data, 'diagnosis')
+                            ? renderDiagnosisGroup(get(data, 'diagnosis'), 5)
+                            : 'Unknow'}
                         </Typography>
                       </div>
                       <div>
@@ -343,14 +384,17 @@ const EncounterListItem: React.FunctionComponent<{
                           component='span'
                           className={classes.topicTitle}
                         >
-                          Practition :{' '}
+                          Practitioner :{' '}
                         </Typography>
                         <Typography
                           variant='body2'
                           component='span'
                           className={classes.contentText}
                         >
-                          {get(data, 'participant[0].name') || 'Unknow'}
+                          {get(data, 'participant')
+                            ? renderGroupName(get(data, 'participant'), 5)
+                            : 'Unknow'}
+                          {/* {get(data, 'participant[0].name') || 'Unknow'} */}
                         </Typography>
                       </div>
                     </>

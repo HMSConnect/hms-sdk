@@ -8,6 +8,7 @@ import { cardClick } from '../../../actions/patientsummaryCards.action'
 import ObservationBloodPressureCard from '../observation/ObservationBloodPressureCard'
 import ObservationBodyMeasurementCard from '../observation/ObservationBodyMeasurementCard'
 import ObservationHeartRateCard from '../observation/ObservationHeartRateCard'
+import ObservationTabacoSmokingStatusCard from '../observation/ObservationTabacoSmokingStatusCard'
 import ObservationTemperatureCard from '../observation/ObservationTemperatureCard'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -156,6 +157,22 @@ export const PatientSummaryCardsView: React.FunctionComponent<{
         className={classes.cardContent}
       >
         <ObservationHeartRateCard
+          patientId={patientId}
+          encounterId={encounterId}
+          onClick={onClickCard}
+          selectedCard={selectedCard}
+        />
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={12}
+        lg={12}
+        xl={12}
+        className={classes.cardContent}
+      >
+        <ObservationTabacoSmokingStatusCard
           patientId={patientId}
           encounterId={encounterId}
           onClick={onClickCard}
