@@ -11,16 +11,22 @@ jest.mock('@services/AuthService', () => ({
   },
 }))
 
+jest.mock('@config/embedded-widget', () => ({
+  __esModule: true,
+  default: {
+    codeVersion: '0.1.0',
+  },
+}))
+
 describe('<AppNavBar />', () => {
   it('render <AppNavBar />', () => {
     const { queryAllByText } = render(<AppNavBar />)
     expect(queryAllByText('HMS Widget')).toBeTruthy()
   })
 
-  it('สนเนีะ <AppNavBar />', () => {
+  it('logout <AppNavBar />', () => {
     const { queryAllByText, getByTestId } = render(<AppNavBar />)
     expect(queryAllByText('HMS Widget')).toBeTruthy()
-
     const logoutButtonElement = getByTestId('logout-app-nav-bar')
 
     fireEvent.click(logoutButtonElement)
