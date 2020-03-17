@@ -61,11 +61,11 @@ describe('PatientEncounterTimeline', () => {
     )
 
     const encounterTimelineElement = getByText('ServiceTest3')
-    fireEvent.click(encounterTimelineElement)
+    userEvent.click(encounterTimelineElement)
 
     await waitForDomChange()
 
-    fireEvent.click(getByText('Reason3'))
+    fireEvent.click(getByText('Ty003'))
     const replaceRouteFn = routes.Router.replaceRoute
 
     expect(replaceRouteFn).toBeCalled()
