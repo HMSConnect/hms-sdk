@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { codeVersion } from '@config/embedded-widget'
 import {
   AppBar,
   Button,
@@ -12,7 +13,6 @@ import {
 } from '@material-ui/core'
 import AuthService from '@services/AuthService'
 import clsx from 'clsx'
-import { codeVersion } from '@config/embedded-widget'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
