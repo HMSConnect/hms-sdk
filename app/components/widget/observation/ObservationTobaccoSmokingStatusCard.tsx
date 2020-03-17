@@ -51,18 +51,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const ObservationTabacoSmokingStatusCardWithConnector: React.FunctionComponent = () => {
+export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionComponent = () => {
   const state = useSelector((state: any) => state.patientSummaryCards)
   return (
-    <ObservationTabacoSmokingStatusCard
-      key={`ObservationTabacoSmokingStatusCard${get(state, 'encounterId')}`}
+    <ObservationTobaccoSmokingStatusCard
+      key={`ObservationTobaccoSmokingStatusCard${get(state, 'encounterId')}`}
       patientId={state.patientId}
       encounterId={state.encounterId}
     />
   )
 }
 
-const ObservationTabacoSmokingStatusCard: React.FunctionComponent<any> = ({
+const ObservationTobaccoSmokingStatusCard: React.FunctionComponent<any> = ({
   patientId,
   encounterId,
 }) => {
@@ -91,7 +91,7 @@ const ObservationTabacoSmokingStatusCard: React.FunctionComponent<any> = ({
   )
 }
 
-export default ObservationTabacoSmokingStatusCard
+export default ObservationTobaccoSmokingStatusCard
 
 const ObservationTabacoSmokingStatusCardView: React.FunctionComponent<any> = ({
   observation,
@@ -99,7 +99,7 @@ const ObservationTabacoSmokingStatusCardView: React.FunctionComponent<any> = ({
   const classes = useStyles()
   return (
     <CardLayout
-      header='Tabaco Smoking Status'
+      header='Tobacco Smoking Status'
       Icon={
         <Icon style={{ color: '#558b2f' }} className={clsx('fas fa-smoking')} />
       }

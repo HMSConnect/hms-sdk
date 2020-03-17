@@ -6,6 +6,13 @@ import theme from '../../../src/theme'
 import SideMenuMockList from '../__mocks__/SideMenuWithContent'
 import SideMenuWithContent from '../SideMenuWithContent'
 
+jest.mock('@config/embedded-widget', () => ({
+  __esModule: true,
+  default: {
+    codeVersion: '0.1.0',
+  },
+}))
+
 describe('<SideMenuWithContent />', () => {
   it('render SideMenuWithContent', () => {
     const { queryByText } = render(
