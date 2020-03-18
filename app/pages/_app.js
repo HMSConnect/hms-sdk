@@ -5,15 +5,14 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import * as _ from 'lodash'
 import App from 'next/app'
 import Head from 'next/head'
+import 'react-grid-layout/css/styles.css'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import 'react-resizable/css/styles.css'
 import { AdapterManager } from '../adapters/DataAdapterManager'
 import store from '../reducers-redux/index.reducer'
 import RouteManager from '../routes/RouteManager'
+import { GoogleAnalytics } from '../services/GoogleAnalyticsService'
 import theme from '../src/theme'
-
-import 'react-grid-layout/css/styles.css'
-import 'react-resizable/css/styles.css'
 
 class AASApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -37,6 +36,7 @@ class AASApp extends App {
     if (jssStyles) {
       jssStyles.parentNode.removeChild(jssStyles)
     }
+    GoogleAnalytics.initializeGoogleGA()
   }
 
   render() {

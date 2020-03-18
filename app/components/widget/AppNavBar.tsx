@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { codeVersion } from '@config/embedded-widget'
+import environment from '@environment'
 import {
   AppBar,
   Button,
@@ -40,7 +40,8 @@ const AppNavBar: React.FunctionComponent<any> = () => {
     <AppBar position='static'>
       <Toolbar>
         <Typography variant='h6' className={classes.title}>
-          HMS Widget <Typography variant='body1'>V. {codeVersion}</Typography>
+          HMS Widget{' '}
+          <Typography variant='body1'>V. {environment.codeVersion}</Typography>
         </Typography>
         <div>
           <Button

@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import environment from '@environment'
 import {
   Grid,
   List,
@@ -12,7 +13,6 @@ import {
 import CssBaseline from '@material-ui/core/CssBaseline'
 import * as _ from 'lodash'
 import getConfig from 'next/config'
-import { codeVersion } from '@config/embedded-widget'
 
 const config = getConfig()
 const staticFolder = _.get(config, 'publicRuntimeConfig.staticFolder')
@@ -63,7 +63,7 @@ export default function App() {
             aria-label='main menu'
             subheader={
               <ListSubheader component='div' id='nested-list-subheader'>
-                Main Menu Verion {codeVersion}
+                Main Menu Verion {environment.codeVersion}
               </ListSubheader>
             }
           >

@@ -1,7 +1,9 @@
+import React from 'react'
+
 import { Button, makeStyles, Paper, Theme } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import * as _ from 'lodash'
-import React from 'react'
+import ReactGA from 'react-ga'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -157,6 +159,12 @@ const GridLayout: React.FunctionComponent<{
         payload: item,
         type: 'ADD_ITEM',
       })
+
+      ReactGA.event({
+        action: 'add_component',
+        category: 'patient_summary',
+        label: `${newItem.componentKey}`,
+      })
     }
 
     function saveLayout(layout: any) {
@@ -190,10 +198,15 @@ const GridLayout: React.FunctionComponent<{
       addItem()
     }
 
-    function handleItemRemove(i: string) {
+    function handleItemRemove(i: string, componentKey: string) {
       dispatch({
         payload: { i },
         type: 'REMOVE_ITEM',
+      })
+      ReactGA.event({
+        action: 'remove_component',
+        category: 'patient_summary',
+        label: `${componentKey}`,
       })
     }
 
@@ -229,11 +242,29 @@ const GridLayout: React.FunctionComponent<{
       // console.log('containerPadding :', containerPadding);
     }
 
+    function handleResizeStop(layout: any, oldItem: any, newItem: any) {
+      const componentKey = newItem.i.split('_')[0]
+      ReactGA.event({
+        action: 'resize',
+        category: 'patient_summary',
+        label: `(${newItem.w},${newItem.h}),(w,h)__${_.snakeCase(componentKey)}`,
+      })
+    }
+
+    function handleDragStop(layout: any, oldItem: any, newItem: any) {
+      const componentKey = newItem.i.split('_')[0]
+      ReactGA.event({
+        action: 'reposition',
+        category: 'patient_summary',
+        label: `(${newItem.x},${newItem.y}),(x,y)__${_.snakeCase(componentKey)}`,
+      })
+    }
+
     function renderRemoveComponent(item: any) {
       return (
         <span
           className={classes.remove}
-          onClick={() => handleItemRemove(item.i)}
+          onClick={() => handleItemRemove(item.i, item.componentKey)}
         >
           <CloseIcon fontSize={'small'} />
         </span>
@@ -297,6 +328,8 @@ const GridLayout: React.FunctionComponent<{
           onLayoutChange={handleLayoutChangeDebound}
           onBreakpointChange={handleBreakpointChange}
           onWidthChange={handleWidthChange}
+          onResizeStop={handleResizeStop}
+          onDragStop={handleDragStop}
         >
           {items.map((item: any) => createItem(item))}
         </ResponsiveGridLayout>

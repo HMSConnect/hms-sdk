@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { withAuthSync } from '@components/base/Auth'
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
+import Tracker from '@components/base/Tracker'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import AppNavBar from '@components/widget/AppNavBar'
 import PatientSummary from '@components/widget/patient/PatientSummary'
@@ -9,7 +9,6 @@ import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import { IStatelessPage } from '@pages/patient-search'
 import get from 'lodash/get'
-
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const EncounterPage: IStatelessPage<{
+const PatientSummaryPage: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -63,11 +62,13 @@ const EncounterPage: IStatelessPage<{
                 },
               ]}
             ></BreadcrumbsBase>
-            <PatientSummary
-              patientId={get(query, 'patientId')}
-              encounterId={get(query, 'encounterId')}
-              name={get(query, 'name')}
-            />
+            <Tracker>
+              <PatientSummary
+                patientId={get(query, 'patientId')}
+                encounterId={get(query, 'encounterId')}
+                name={get(query, 'name')}
+              />
+            </Tracker>
             {/* <PatientInfoDetail query={query} /> */}
           </Typography>
           {/* </Container> */}
@@ -77,10 +78,10 @@ const EncounterPage: IStatelessPage<{
   )
 }
 
-EncounterPage.getInitialProps = async ({ req, res, query }) => {
+PatientSummaryPage.getInitialProps = async ({ req, res, query }) => {
   return {
     query,
   }
 }
 
-export default EncounterPage
+export default PatientSummaryPage

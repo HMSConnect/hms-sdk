@@ -3,8 +3,6 @@ import { observationWidgetConfig } from '@config/embedded-widget/observation_emb
 import diagnostic_report_embedded_config from './diagnostic_report_embedded_config'
 import patientEmbeddedWidgetConfig from './patient_embedded_config'
 
-export const codeVersion = '0.1.0'
-
 export const widgetGalleryPatientConfig: IWidgetGroup = patientEmbeddedWidgetConfig
 
 export const widgetGalleryDiagnosticReportConfig: IWidgetGroup = diagnostic_report_embedded_config

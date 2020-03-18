@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Grid, makeStyles, Theme } from '@material-ui/core'
 import { sendMessage } from '@utils'
 import get from 'lodash/get'
+import ReactGA from 'react-ga'
 import routes from '../../../routes'
 import { default as RouteManager } from '../../../routes/RouteManager'
 import { IPageOptionResult } from '../../base/Pagination'
@@ -126,7 +127,11 @@ const PatientSearch: React.FunctionComponent<{
       params,
       path,
     })
-
+    ReactGA.event({
+      action: 'select_patient',
+      category: 'patient_search',
+      label: `${get(patient, 'identifier.id.value')}`,
+    })
     routes.Router.pushRoute(path)
   }
 
@@ -134,7 +139,6 @@ const PatientSearch: React.FunctionComponent<{
     const path = RouteManager.getPath(`patient-search`, {
       matchBy: 'url',
     })
-
     sendMessage({
       action: 'REPLACE_ROUTE',
       message: 'handlePaginationReset',

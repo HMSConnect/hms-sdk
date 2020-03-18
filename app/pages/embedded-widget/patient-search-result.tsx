@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import { IPageOptionResult } from '@components/base/Pagination'
+import Tracker from '@components/base/Tracker'
 import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
@@ -13,6 +14,7 @@ import { IStatelessPage } from '@pages/patient-search'
 import RouteManager from '@routes/RouteManager'
 import { parse, sendMessage } from '@utils'
 import * as _ from 'lodash'
+import ReactGA from 'react-ga'
 import routes from '../../routes'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -80,6 +82,11 @@ const PatientSearchResultWidget: IStatelessPage<{
     const params = {
       patientId: _.get(patient, 'identifier.id.value'),
     }
+    ReactGA.event({
+      action: 'Select Patient',
+      category: 'Select Patient',
+      label: params.patientId,
+    })
     const path = RouteManager.getPath(`prepare/patient-summary`, {
       matchBy: 'url',
       params,
@@ -98,15 +105,17 @@ const PatientSearchResultWidget: IStatelessPage<{
 
   return (
     <BootstrapWrapper dependencies={['patient']}>
-      <>
-        <CssBaseline />
-        <PatientSearchResultWithPaginate
-          paginationOption={pagination}
-          onRequestSort={handleRequestSort}
-          onPageChange={handlePageChange}
-          onPatientSelect={handlePatientSelect}
-        />
-      </>
+      <Tracker>
+        <>
+          <CssBaseline />
+          <PatientSearchResultWithPaginate
+            paginationOption={pagination}
+            onRequestSort={handleRequestSort}
+            onPageChange={handlePageChange}
+            onPatientSelect={handlePatientSelect}
+          />
+        </>
+      </Tracker>
     </BootstrapWrapper>
   )
 }
@@ -138,5 +147,5 @@ export function initialPagination(query: any) {
   }
 }
 
-// export default withAuthSync(PatientSearchResultWidget)
-export default PatientSearchResultWidget
+export default withAuthSync(PatientSearchResultWidget)
+// export default PatientSearchResultWidget
