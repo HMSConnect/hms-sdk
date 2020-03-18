@@ -376,7 +376,10 @@ const PatientCarePlanTable: React.FunctionComponent<{
     return <ErrorSection error={error} />
   }
   return (
-    <div ref={myscroll} style={{ height: '100%' }}>
+    <div
+      ref={myscroll}
+      style={{ height: '100%', overflow: isContainer ? 'auto' : '' }}
+    >
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Care Plan'}
