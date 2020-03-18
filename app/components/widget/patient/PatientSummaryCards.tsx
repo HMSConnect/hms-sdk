@@ -8,7 +8,7 @@ import { cardClick } from '../../../actions/patientsummaryCards.action'
 import ObservationBloodPressureCard from '../observation/ObservationBloodPressureCard'
 import ObservationBodyMeasurementCard from '../observation/ObservationBodyMeasurementCard'
 import ObservationHeartRateCard from '../observation/ObservationHeartRateCard'
-import ObservationTabacoSmokingStatusCard from '../observation/ObservationTabacoSmokingStatusCard'
+import ObservationTabacoSmokingStatusCard from '../observation/ObservationTobaccoSmokingStatusCard'
 import ObservationTemperatureCard from '../observation/ObservationTemperatureCard'
 
 const useStyles = makeStyles((theme: Theme) => ({

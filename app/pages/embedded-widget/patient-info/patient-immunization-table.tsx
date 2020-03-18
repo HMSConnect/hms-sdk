@@ -24,6 +24,7 @@ const PatientImmunizationWidget: IStatelessPage<{
           max={get(query, 'max')}
           isInitialize={get(query, 'isInitialize') || true}
           initialFilter={get(query, 'initialFilter')}
+          isContainer={false}
           name={get(query, 'name')}
         />
       </>

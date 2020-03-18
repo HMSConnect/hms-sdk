@@ -1,17 +1,16 @@
 import * as React from 'react'
 
-import * as patientSummaryAction from '@app/actions/patientsummaryCards.action'
 import patientSummaryCards, {
   patientSummaryCardsInitialState,
 } from '@app/reducers-redux/patientSummaryCards.reducer'
 import useObservationList from '@components/hooks/useObservationList'
-import { fireEvent, render } from '@testing-library/react'
+import ObservationTobaccoSmokingStatusCard, {
+  ObservationTobaccoSmokingStatusCardWithConnector,
+} from '@components/widget/observation/ObservationTobaccoSmokingStatusCard'
+import { render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import ObservationTabacoSmokingStatusCard, {
-  ObservationTabacoSmokingStatusCardWithConnector,
-} from '../../observation/ObservationTabacoSmokingStatusCard'
 
 function renderWithRedux(
   ui: any,
@@ -32,7 +31,7 @@ jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
   default: jest.fn(),
 }))
-describe('<ObservationTabacoSmokingStatusCard />', () => {
+describe('<ObservationTobaccoSmokingStatusCard />', () => {
   beforeAll(() => {
     const router = jest.spyOn(nextRouter, 'useRouter') as any
     router.mockImplementation(() => ({
@@ -45,7 +44,7 @@ describe('<ObservationTabacoSmokingStatusCard />', () => {
   afterEach(() => {
     jest.clearAllMocks()
   })
-  it('render ObservationTabacoSmokingStatusCard', () => {
+  it('render ObservationTobaccoSmokingStatusCard', () => {
     const useObservationListResult: any = useObservationList as any
     const results: any = {
       data: [
@@ -67,7 +66,7 @@ describe('<ObservationTabacoSmokingStatusCard />', () => {
       patientId: '1',
     }
     const { queryByText, queryAllByText } = render(
-      <ObservationTabacoSmokingStatusCard
+      <ObservationTobaccoSmokingStatusCard
         patientId={query.patientId}
         encounterId={query.encounterId}
       />,
@@ -95,14 +94,14 @@ describe('<ObservationTabacoSmokingStatusCard />', () => {
     }
     useObservationListResult.mockImplementation(() => results)
     const { queryByText, queryAllByText } = renderWithRedux(
-      <ObservationTabacoSmokingStatusCardWithConnector />,
+      <ObservationTobaccoSmokingStatusCardWithConnector />,
     )
 
     expect(queryByText('31')).toBeTruthy()
     expect(queryAllByText('C')).toBeTruthy()
   })
 
-  it('loading ObservationTabacoSmokingStatusCard', () => {
+  it('loading ObservationTobaccoSmokingStatusCard', () => {
     const useObservationListResult: any = useObservationList as any
     const results: any = {
       data: [],
@@ -115,14 +114,14 @@ describe('<ObservationTabacoSmokingStatusCard />', () => {
       patientId: '1',
     }
     const { queryByText, queryAllByText } = render(
-      <ObservationTabacoSmokingStatusCard
+      <ObservationTobaccoSmokingStatusCard
         patientId={query.patientId}
         encounterId={query.encounterId}
       />,
     )
     expect(queryByText('loading..')).toBeTruthy()
   })
-  it('error ObservationTabacoSmokingStatusCard', () => {
+  it('error ObservationTobaccoSmokingStatusCard', () => {
     const errorText = 'Error'
     const useObservationListResult: any = useObservationList as any
     const results: any = {
@@ -136,7 +135,7 @@ describe('<ObservationTabacoSmokingStatusCard />', () => {
       patientId: '1',
     }
     const { queryByText } = render(
-      <ObservationTabacoSmokingStatusCard
+      <ObservationTobaccoSmokingStatusCard
         patientId={query.patientId}
         encounterId={query.encounterId}
       />,

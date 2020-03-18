@@ -154,9 +154,9 @@ module.exports = nextRoutes()
     'embedded-widget/observation/observation-temperature-card',
   )
   .add(
-    'embedded-widget/observation/tabaco-smoking-status-card',
-    '/embedded-widget/observation/tabaco-smoking-status-card',
-    'embedded-widget/observation/observation-tabaco-smoking-status-card',
+    'embedded-widget/observation/tobacco-smoking-status-card',
+    '/embedded-widget/observation/tobacco-smoking-status-card',
+    'embedded-widget/observation/observation-tobacco-smoking-status-card',
   )
   .add(
     'embedded-widget/observation/encounter/body-measurement-card',

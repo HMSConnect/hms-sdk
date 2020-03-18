@@ -11,8 +11,8 @@ import { ObservationHeartRateCardWithConnector } from '../observation/Observatio
 import { ObservationHistoryGraphWithConnector } from '../observation/ObservationHistoryGraph'
 import { ObservationLaboratoryTableWithConnector } from '../observation/ObservationLaboratoryTable'
 import { ObservationSummaryGraphWithConnector } from '../observation/ObservationSummaryGraph'
-import { ObservationTabacoSmokingStatusCardWithConnector } from '../observation/ObservationTabacoSmokingStatusCard'
 import { ObservationTemperatureCardWithConnector } from '../observation/ObservationTemperatureCard'
+import { ObservationTobaccoSmokingStatusCardWithConnector } from '../observation/ObservationTobaccoSmokingStatusCard'
 import { PatientAllergyListWithConnector } from './PatientAllergyList'
 import { PatientAllergySummerCardWithConnector } from './PatientAllergySummaryCard'
 import { PatientCarePlanTableWithConnector } from './PatientCarePlanTable'
@@ -110,7 +110,7 @@ const componentResource: any = {
     layout: { h: 9, w: 4, isCard: true },
   },
   observationTabacoSmokingstatusCard: {
-    component: ObservationTabacoSmokingStatusCardWithConnector,
+    component: ObservationTobaccoSmokingStatusCardWithConnector,
     defaultPosition: { x: 4, y: 16 },
     layout: { h: 2, w: 4, isCard: true },
   },

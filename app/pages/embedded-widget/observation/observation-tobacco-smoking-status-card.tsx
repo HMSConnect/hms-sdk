@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import ObservationTabacoSmokingStatusCard from '@components/widget/observation/ObservationTabacoSmokingStatusCard'
+import ObservationTabacoSmokingStatusCard from '@components/widget/observation/ObservationTobaccoSmokingStatusCard'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
 }))
 
-const ObservationTabacoSmokingStatusCardWidget: IStatelessPage<{
+const ObservationTobaccoSmokingStatusCardWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   const classes = useStyles()
@@ -32,7 +32,7 @@ const ObservationTabacoSmokingStatusCardWidget: IStatelessPage<{
   )
 }
 
-ObservationTabacoSmokingStatusCardWidget.getInitialProps = async ({
+ObservationTobaccoSmokingStatusCardWidget.getInitialProps = async ({
   req,
   res,
   query,
@@ -42,4 +42,4 @@ ObservationTabacoSmokingStatusCardWidget.getInitialProps = async ({
   }
 }
 
-export default withAuthSync(ObservationTabacoSmokingStatusCardWidget)
+export default withAuthSync(ObservationTobaccoSmokingStatusCardWidget)

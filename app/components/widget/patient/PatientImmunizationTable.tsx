@@ -387,7 +387,10 @@ const PatientImmunizationTable: React.FunctionComponent<{
   }
 
   return (
-    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
+    <div
+      ref={myscroll}
+      style={{ height: '100%', overflow: isContainer ? 'auto' : '' }}
+    >
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Immunization'}
