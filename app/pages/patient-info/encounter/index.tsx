@@ -11,6 +11,7 @@ import { IStatelessPage } from '@pages/patient-search'
 import get from 'lodash/get'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
+import MouseTrack from '@components/base/MouseTrack'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -45,34 +46,37 @@ const PatientSummaryPage: IStatelessPage<{
           'practitioner',
         ]}
       >
-        <>
-          {/* <Container maxWidth='lg'> */}
-          <Typography component='div' className={classes.root}>
-            <AppNavBar />
-            <BreadcrumbsBase
-              currentPath='Patient Info'
-              parentPath={[
-                {
-                  icon: <HomeIcon />,
-                  label: 'Home',
-                  url: '/',
-                },
-                {
-                  label: 'Patient Search',
-                },
-              ]}
-            ></BreadcrumbsBase>
-            <Tracker>
-              <PatientSummary
-                patientId={get(query, 'patientId')}
-                encounterId={get(query, 'encounterId')}
-                name={get(query, 'name')}
-              />
-            </Tracker>
-            {/* <PatientInfoDetail query={query} /> */}
-          </Typography>
-          {/* </Container> */}
-        </>
+        <Tracker>
+          <MouseTrack category='patient_summary'>
+            <>
+              {/* <Container maxWidth='lg'> */}
+              <Typography component='div' className={classes.root}>
+                <AppNavBar />
+                <BreadcrumbsBase
+                  currentPath='Patient Info'
+                  parentPath={[
+                    {
+                      icon: <HomeIcon />,
+                      label: 'Home',
+                      url: '/',
+                    },
+                    {
+                      label: 'Patient Search',
+                    },
+                  ]}
+                ></BreadcrumbsBase>
+
+                <PatientSummary
+                  patientId={get(query, 'patientId')}
+                  encounterId={get(query, 'encounterId')}
+                  name={get(query, 'name')}
+                />
+                {/* <PatientInfoDetail query={query} /> */}
+              </Typography>
+              {/* </Container> */}
+            </>
+          </MouseTrack>
+        </Tracker>
       </BootstrapWrapper>
     </React.Fragment>
   )
