@@ -10,6 +10,7 @@ import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import {
   IProcedureListFilterQuery,
@@ -52,6 +53,7 @@ export const PatientProcedureTableWithConnector: React.FunctionComponent<any> = 
   return (
     <PatientProcedureTable
       patientId={_.get(state, 'patientId')}
+      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
       max={_.get(state, 'max')}
       initialFilter={_.get(state, 'initialFilter')}
       isInitialize={true}
@@ -67,6 +69,8 @@ const PatientProcedureTable: React.FunctionComponent<{
   max?: number
   initialFilter?: IProcedureListFilterQuery
   name?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
 }> = ({
   resourceList,
   patientId,
@@ -79,6 +83,8 @@ const PatientProcedureTable: React.FunctionComponent<{
     periodStart_lt: undefined,
   },
   name = 'patientProcedureTable',
+  mouseTrackCategory = 'patient_procedure_table',
+  mouseTrackLabel = 'patient_procedure_table',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithProcedureInitialFilterQuery(customInitialFilter, {
@@ -234,80 +240,86 @@ const PatientProcedureTable: React.FunctionComponent<{
   }
 
   return (
-    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
-      <div className={classes.toolbar}>
-        <ToolbarWithFilter
-          title={'Procedure'}
-          onClickIcon={showModal}
-          Icon={<Icon className='fas fa-procedures' />}
-          filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'patientId',
-            'periodStart_lt',
-          ])}
-          option={{
-            isHideIcon: false,
-          }}
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%', overflow: 'auto' }}>
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Procedure'}
+            onClickIcon={showModal}
+            Icon={<Icon className='fas fa-procedures' />}
+            filterActive={countFilterActive(submitedFilter, initialFilter, [
+              'patientId',
+              'periodStart_lt',
+            ])}
+            option={{
+              isHideIcon: false,
+            }}
+          >
+            {renderModal}
+          </ToolbarWithFilter>
+        </div>
+        <div
+          ref={myscroll}
+          className={classes.tableWrapper}
+          data-testid='scroll-container'
         >
-          {renderModal}
-        </ToolbarWithFilter>
-      </div>
-      <div className={classes.tableWrapper} data-testid='scroll-container'>
-        <TableBase
-          id='procedure'
-          entryList={data}
-          isLoading={isLoading}
-          isMore={isMore}
-          data-testid='table-base'
-          tableCells={[
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'code',
-              },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'code',
-                label: 'Code',
-                styles: {
-                  width: '5em',
+          <TableBase
+            id='procedure'
+            entryList={data}
+            isLoading={isLoading}
+            isMore={isMore}
+            data-testid='table-base'
+            tableCells={[
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'code',
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'code',
+                  label: 'Code',
+                  styles: {
+                    width: '5em',
+                  },
                 },
               },
-            },
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'codeText',
-              },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'codeText',
-                label: 'Detail',
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'performedPeriodStartText',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: true,
-                disableSort: true,
-                id: 'performedPeriodStartText',
-                label: 'Date',
-                styles: {
-                  width: '15em',
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'codeText',
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'codeText',
+                  label: 'Detail',
                 },
               },
-            },
-          ]}
-        />
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'performedPeriodStartText',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: true,
+                  disableSort: true,
+                  id: 'performedPeriodStartText',
+                  label: 'Date',
+                  styles: {
+                    width: '15em',
+                  },
+                },
+              },
+            ]}
+          />
+        </div>
       </div>
-    </div>
+    </TrackerMouseClick>
   )
 }
 

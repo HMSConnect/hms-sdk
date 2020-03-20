@@ -10,6 +10,7 @@ import LoadingSection from '@components/base/LoadingSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useObservationList from '@components/hooks/useObservationList'
 import usePatient from '@components/hooks/usePatient'
 import { OBSERVATION_CODE } from '@config/observation'
@@ -53,6 +54,7 @@ export const ObservationSummaryGraphWithConnector: React.FunctionComponent = () 
   return (
     <ObservationSummaryGraph
       patientId={state.patientId}
+      mouseTrackCategory={state.mouseTrackCategory}
       optionsGraph={{
         standardSizeForResizeLegendToBottom: [
           'xsmall',
@@ -79,6 +81,8 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
   },
   max = 100,
   optionsGraph = {},
+  mouseTrackCategory = 'observation_summary_graph',
+  mouseTrackLabel = 'observation_summary_graph',
 }) => {
   const initialFilter = React.useMemo(() => {
     const codes = `${OBSERVATION_CODE.BLOOD_PRESSURE.code},${OBSERVATION_CODE.BODY_MASS_INDEX.code}`
@@ -295,6 +299,41 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
 
   if (!submitedFilter.codes) {
     return (
+      <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+        <div style={{ height: '100%' }}>
+          <ToolbarWithFilter
+            title={'Summary Graph'}
+            onClickIcon={showModal}
+            Icon={<Icon className={'fas fa-chart-line'} />}
+            option={{
+              style: {
+                backgroundColor: lighten('#7e57c2', 0.85),
+                color: '#7e57c2',
+                height: '13%',
+              },
+            }}
+          >
+            {renderModal}
+          </ToolbarWithFilter>
+          <Typography
+            component='div'
+            style={{
+              alignItems: 'center',
+              display: 'flex',
+              height: '87%',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography variant='body1'>
+              Please Choose Category to display
+            </Typography>
+          </Typography>
+        </div>
+      </TrackerMouseClick>
+    )
+  }
+  return (
+    <TrackerMouseClick category={mouseTrackCategory}>
       <div style={{ height: '100%' }}>
         <ToolbarWithFilter
           title={'Summary Graph'}
@@ -304,54 +343,23 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
             style: {
               backgroundColor: lighten('#7e57c2', 0.85),
               color: '#7e57c2',
-              height: '13%',
+              // height: '10%',
             },
           }}
         >
           {renderModal}
         </ToolbarWithFilter>
-        <Typography
-          component='div'
-          style={{
-            alignItems: 'center',
-            display: 'flex',
-            height: '87%',
-            justifyContent: 'center',
-          }}
-        >
-          <Typography variant='body1'>
-            Please Choose Category to display
-          </Typography>
-        </Typography>
+        <div style={{}}>
+          <ObservationSummaryGraphView
+            key={`${observationList.length}`}
+            observationList={observationList}
+            submitedFilter={submitedFilter}
+            prepareGraphData={prepareGraphData}
+            options={optionsGraph}
+          />
+        </div>
       </div>
-    )
-  }
-  return (
-    <>
-      <ToolbarWithFilter
-        title={'Summary Graph'}
-        onClickIcon={showModal}
-        Icon={<Icon className={'fas fa-chart-line'} />}
-        option={{
-          style: {
-            backgroundColor: lighten('#7e57c2', 0.85),
-            color: '#7e57c2',
-            // height: '10%',
-          },
-        }}
-      >
-        {renderModal}
-      </ToolbarWithFilter>
-      <div style={{}}>
-        <ObservationSummaryGraphView
-          key={`${observationList.length}`}
-          observationList={observationList}
-          submitedFilter={submitedFilter}
-          prepareGraphData={prepareGraphData}
-          options={optionsGraph}
-        />
-      </div>
-    </>
+    </TrackerMouseClick>
   )
 }
 

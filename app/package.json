@@ -68,6 +68,7 @@
     "query-string": "^6.8.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-ga": "^2.7.0",
     "react-grid-layout": "^0.17.1",
     "react-inspector": "^4.0.0",
     "react-map-gl": "^5.0.0",
@@ -80,6 +81,7 @@
     "react-twitter-embed": "^2.0.8",
     "recharts": "^1.6.2",
     "redux": "^4.0.5",
+    "rxjs": "^6.5.4",
     "styled-jsx-plugin-postcss": "0.1.0",
     "stylus": "^0.54.5",
     "url-loader": "^2.0.0"

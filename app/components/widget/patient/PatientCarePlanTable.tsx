@@ -10,6 +10,7 @@ import TabGroup from '@components/base/TabGroup'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { noneOption, selectOptions } from '@config'
 import {
@@ -50,6 +51,7 @@ export const PatientCarePlanTableWithConnector: React.FunctionComponent<any> = (
   return (
     <PatientCarePlanTable
       patientId={_.get(state, 'patientId')}
+      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
       max={_.get(state, 'max')}
       initialFilter={_.get(state, 'initialFilter')}
       isInitialize={true}
@@ -65,6 +67,8 @@ const PatientCarePlanTable: React.FunctionComponent<{
   max?: number
   initialFilter?: ICarePlanListFilterQuery
   name?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
 }> = ({
   resourceList,
   patientId,
@@ -78,6 +82,8 @@ const PatientCarePlanTable: React.FunctionComponent<{
     status: '',
   },
   name = 'patientCarePlanTable',
+  mouseTrackCategory = 'patient_care_plan_table',
+  mouseTrackLabel = 'patient_care_plan_table',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithCarePlanInitialFilterQuery(customInitialFilter, {
@@ -376,138 +382,140 @@ const PatientCarePlanTable: React.FunctionComponent<{
     return <ErrorSection error={error} />
   }
   return (
-    <div
-      ref={myscroll}
-      style={{ height: '100%', overflow: isContainer ? 'auto' : '' }}
-    >
-      <div className={classes.toolbar}>
-        <ToolbarWithFilter
-          title={'Care Plan'}
-          onClickIcon={showModal}
-          Icon={<Icon className='fas fa-solar-panel' />}
-          filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'periodStart_lt',
-            'patientId',
-            'category',
-          ])}
-          option={{
-            additionButton: (
-              <FormControlLabel
-                value='start'
-                control={
-                  <Checkbox
-                    onChange={(event, isGroup) => {
-                      handleGroupByType(isGroup)
-                    }}
-                    data-testid='check-by-type-input'
-                    value={isGroup}
-                    inputProps={{
-                      'aria-label': 'primary checkbox',
-                    }}
-                  />
-                }
-                label='Group By Category'
-                labelPlacement='start'
-              />
-            ),
-          }}
-        >
-          {renderModal}
-        </ToolbarWithFilter>
-        {isGroup && (
-          <TabGroup
-            data-testid='tab-group-care-plan'
-            tabList={tab.tabList}
-            onTabChange={handleTabChange}
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div
+        ref={myscroll}
+        style={{ height: '100%', overflow: isContainer ? 'auto' : '' }}
+      >
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Care Plan'}
+            onClickIcon={showModal}
+            Icon={<Icon className='fas fa-solar-panel' />}
+            filterActive={countFilterActive(submitedFilter, initialFilter, [
+              'periodStart_lt',
+              'patientId',
+              'category',
+            ])}
+            option={{
+              additionButton: (
+                <FormControlLabel
+                  value='start'
+                  control={
+                    <Checkbox
+                      onChange={(event, isGroup) => {
+                        handleGroupByType(isGroup)
+                      }}
+                      data-testid='check-by-type-input'
+                      value={isGroup}
+                      inputProps={{
+                        'aria-label': 'primary checkbox',
+                      }}
+                    />
+                  }
+                  label='Group By Category'
+                  labelPlacement='start'
+                />
+              ),
+            }}
+          >
+            {renderModal}
+          </ToolbarWithFilter>
+          {isGroup && (
+            <TabGroup
+              data-testid='tab-group-care-plan'
+              tabList={tab.tabList}
+              onTabChange={handleTabChange}
+            />
+          )}
+        </div>
+        <div className={classes.tableWrapper} data-testid='scroll-container'>
+          <TableBase
+            id='carePlan'
+            entryList={data}
+            isLoading={isLoading}
+            isMore={isMore}
+            data-testid='table-base'
+            size='small'
+            tableCells={[
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'activity',
+                  render: (carePlan: any) => {
+                    return (
+                      <ul>
+                        {_.map(carePlan.activity, (activity: any, index) => (
+                          <li key={`list${index}`}>
+                            {_.get(activity, 'detail.code.text') || 'Unknow'} (
+                            {_.get(activity, 'detail.status') || 'Unknkow'})
+                          </li>
+                        ))}
+                      </ul>
+                    )
+                  },
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'activity',
+                  label: 'Activity',
+                },
+              },
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'category',
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'category',
+                  label: 'Category',
+                  styles: {
+                    width: '15em',
+                  },
+                },
+              },
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'status',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'status',
+                  label: 'Status',
+                  styles: {
+                    width: '5em',
+                  },
+                },
+              },
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'periodStartText',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'periodStartText',
+                  label: 'Period Start',
+                  styles: {
+                    width: '15em',
+                  },
+                },
+              },
+            ]}
           />
-        )}
+        </div>
       </div>
-      <div className={classes.tableWrapper} data-testid='scroll-container'>
-        <TableBase
-          id='carePlan'
-          entryList={data}
-          isLoading={isLoading}
-          isMore={isMore}
-          data-testid='table-base'
-          size='small'
-          tableCells={[
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'activity',
-                render: (carePlan: any) => {
-                  return (
-                    <ul>
-                      {_.map(carePlan.activity, (activity: any, index) => (
-                        <li key={`list${index}`}>
-                          {_.get(activity, 'detail.code.text') || 'Unknow'} (
-                          {_.get(activity, 'detail.status') || 'Unknkow'})
-                        </li>
-                      ))}
-                    </ul>
-                  )
-                },
-              },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'activity',
-                label: 'Activity',
-              },
-            },
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'category',
-              },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'category',
-                label: 'Category',
-                styles: {
-                  width: '15em',
-                },
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'status',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'status',
-                label: 'Status',
-                styles: {
-                  width: '5em',
-                },
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'periodStartText',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'periodStartText',
-                label: 'Period Start',
-                styles: {
-                  width: '15em',
-                },
-              },
-            },
-          ]}
-        />
-      </div>
-    </div>
+    </TrackerMouseClick>
   )
 }
 

@@ -10,6 +10,7 @@ import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { noneOption, selectOptions } from '@config'
 import {
@@ -55,6 +56,8 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
   max?: number
   initialFilter?: IMedicationRequestFilterQuery
   name?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
 }> = ({
   resourceList,
   patientId,
@@ -67,6 +70,8 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
     status: '',
   },
   name = 'patientMedicationRequestTable',
+  mouseTrackCategory = 'patient_medication_request_table',
+  mouseTrackLabel = 'patient_medication_request_table',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithMedicationRequestInitialFilterQuery(customInitialFilter, {
@@ -236,84 +241,86 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
   }
 
   return (
-    <>
-      <div className={classes.toolbar}>
-        <ToolbarWithFilter
-          title={'Medical Request'}
-          onClickIcon={showModal}
-          filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'patientId',
-            'authoredOn_lt',
-          ])}
-          option={{
-            isHideIcon: false
-          }}
-        >
-          {renderModal}
-        </ToolbarWithFilter>
-      </div>
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Medical Request'}
+            onClickIcon={showModal}
+            filterActive={countFilterActive(submitedFilter, initialFilter, [
+              'patientId',
+              'authoredOn_lt',
+            ])}
+            option={{
+              isHideIcon: false,
+            }}
+          >
+            {renderModal}
+          </ToolbarWithFilter>
+        </div>
 
-      <div
-        ref={myscroll}
-        className={classes.tableWrapper}
-        data-testid='scroll-container'
-      >
-        <TableBase
-          id='allergyIntolerance'
-          entryList={data}
-          isLoading={isLoading}
-          isMore={isMore}
-          data-testid='table-base'
-          tableCells={[
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'medicationCodeableConcept',
-              },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'medicationCodeableConcept',
-                label: 'Medication',
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'status',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'status',
-                label: 'Status',
-                styles: {
-                  width: '10em',
+        <div
+          ref={myscroll}
+          className={classes.tableWrapper}
+          data-testid='scroll-container'
+        >
+          <TableBase
+            id='allergyIntolerance'
+            entryList={data}
+            isLoading={isLoading}
+            isMore={isMore}
+            data-testid='table-base'
+            tableCells={[
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'medicationCodeableConcept',
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'medicationCodeableConcept',
+                  label: 'Medication',
                 },
               },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'authoredOnText',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: true,
-                disableSort: true,
-                id: 'authoredOnText',
-                label: 'Authorred On',
-                styles: {
-                  width: '15em',
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'status',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'status',
+                  label: 'Status',
+                  styles: {
+                    width: '10em',
+                  },
                 },
               },
-            },
-          ]}
-        />
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'authoredOnText',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: true,
+                  disableSort: true,
+                  id: 'authoredOnText',
+                  label: 'Authorred On',
+                  styles: {
+                    width: '15em',
+                  },
+                },
+              },
+            ]}
+          />
+        </div>
       </div>
-    </>
+    </TrackerMouseClick>
   )
 }
 

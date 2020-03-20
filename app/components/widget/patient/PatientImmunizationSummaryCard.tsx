@@ -3,6 +3,7 @@ import React from 'react'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useResourceList from '@components/hooks/useResourceList'
 import {
   Grid,
@@ -53,11 +54,13 @@ export const PatientImmunizationSummerCardWithConnector: React.FunctionComponent
   const state = useSelector(
     (state: any) => state.patientImmunizationSummaryCard,
   )
-  return <PatientImmunizationSummerCard patientId={get(state, 'patientId')} />
+  return <PatientImmunizationSummerCard patientId={get(state, 'patientId')} mouseTrackCategory={get(state, 'mouseTrackCategory')} />
 }
 
 const PatientImmunizationSummerCard: React.FunctionComponent<any> = ({
   patientId,
+  mouseTrackCategory = 'patient_immunization_summary_card',
+  mouseTrackLabel = 'patient_immunization_summary_card',
 }) => {
   const {
     isLoading: isGroupResourceListLoading,
@@ -74,7 +77,13 @@ const PatientImmunizationSummerCard: React.FunctionComponent<any> = ({
     return <LoadingSection />
   }
   return (
-    <PatientImmunizationSummerCardView immunization={groupResourceList[1]} />
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <PatientImmunizationSummerCardView
+          immunization={groupResourceList[1]}
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 
@@ -105,7 +114,7 @@ const PatientImmunizationSummerCardView: React.FunctionComponent<any> = ({
             paddingLeft: 16,
             paddingRight: 16,
           }}
-          className={clsx(classes.bodyCard, classes.clickable, classes.hover)}
+          className={clsx(classes.bodyCard)}
         >
           <Icon
             style={{ color: 'white', fontSize: '2.2em', textAlign: 'center' }}
@@ -121,7 +130,7 @@ const PatientImmunizationSummerCardView: React.FunctionComponent<any> = ({
             paddingRight: 16,
             textAlign: 'center',
           }}
-          className={clsx(classes.bodyCard, classes.clickable, classes.hover)}
+          className={clsx(classes.bodyCard)}
         >
           <Typography
             component='span'

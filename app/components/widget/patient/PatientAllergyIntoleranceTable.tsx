@@ -9,6 +9,7 @@ import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { noneOption, selectOptions } from '@config'
 import {
@@ -43,6 +44,8 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   max?: number
   initialFilter?: IAllergyIntoleranceListFilterQuery
   name?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
 }> = ({
   resourceList,
   patientId,
@@ -57,6 +60,8 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
     type: '',
   },
   name = 'patientAllergyIntoleranceTable',
+  mouseTrackCategory = 'patient_allergy_intolerance_table',
+  mouseTrackLabel = 'patient_allergy_intolerance_table',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithAllergyIntoleranceInitialFilterQuery(customInitialFilter, {
@@ -224,121 +229,123 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   }
 
   return (
-    <>
-      <div className={classes.toolbar}>
-        <ToolbarWithFilter
-          title={'Allergy Intolerance'}
-          onClickIcon={showModal}
-          filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'assertedDate_lt',
-            'patientId',
-          ])}
-          option={{
-            isHideIcon: false,
-          }}
-        >
-          {renderModal}
-        </ToolbarWithFilter>
-      </div>
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Allergy Intolerance'}
+            onClickIcon={showModal}
+            filterActive={countFilterActive(submitedFilter, initialFilter, [
+              'assertedDate_lt',
+              'patientId',
+            ])}
+            option={{
+              isHideIcon: false,
+            }}
+          >
+            {renderModal}
+          </ToolbarWithFilter>
+        </div>
 
-      <Grid container>
-        <Grid item xs={10}>
-          <Typography variant='h6'></Typography>
+        <Grid container>
+          <Grid item xs={10}>
+            <Typography variant='h6'></Typography>
+          </Grid>
         </Grid>
-      </Grid>
-      <div
-        ref={myscroll}
-        className={classes.tableWrapper}
-        data-testid='scroll-container'
-      >
-        <TableBase
-          id='allergyIntolerance'
-          entryList={data}
-          isLoading={isLoading}
-          isMore={isMore}
-          data-testid='table-base'
-          tableCells={[
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'codeText',
-              },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'codeText',
-                label: 'Name',
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'type',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'type',
-                label: 'Type',
-                styles: {
-                  width: '5em',
+        <div
+          ref={myscroll}
+          className={classes.tableWrapper}
+          data-testid='scroll-container'
+        >
+          <TableBase
+            id='allergyIntolerance'
+            entryList={data}
+            isLoading={isLoading}
+            isMore={isMore}
+            data-testid='table-base'
+            tableCells={[
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'codeText',
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'codeText',
+                  label: 'Name',
                 },
               },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'criticality',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'criticality',
-                label: 'Criticality',
-                styles: {
-                  width: '5em',
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'type',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'type',
+                  label: 'Type',
+                  styles: {
+                    width: '5em',
+                  },
                 },
               },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'category',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'category',
-                label: 'Category',
-                styles: {
-                  width: '10em',
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'criticality',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'criticality',
+                  label: 'Criticality',
+                  styles: {
+                    width: '5em',
+                  },
                 },
               },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'assertedDateText',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: true,
-                disableSort: true,
-                id: 'assertedDateText',
-                label: 'Asserted Date',
-                styles: {
-                  width: '15em',
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'category',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'category',
+                  label: 'Category',
+                  styles: {
+                    width: '10em',
+                  },
                 },
               },
-            },
-          ]}
-        />
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'assertedDateText',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: true,
+                  disableSort: true,
+                  id: 'assertedDateText',
+                  label: 'Asserted Date',
+                  styles: {
+                    width: '15em',
+                  },
+                },
+              },
+            ]}
+          />
+        </div>
       </div>
-    </>
+    </TrackerMouseClick>
   )
 }
 

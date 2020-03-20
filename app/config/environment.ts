@@ -1,4 +1,8 @@
 const environment = {
+  codeVersion: '0.1.0',
+  googleApi: {
+    ga: 'UA-161449395-1',
+  },
   iframe: {
     targetOrigin: '*',
   },

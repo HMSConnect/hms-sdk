@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { withAuthSync } from '@components/base/Auth'
+import Tracker from '@components/base/Tracker'
 import { IPaginationOption } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
@@ -88,14 +88,16 @@ const PatientSearchBarWidget: IStatelessPage<{
 
   return (
     <BootstrapWrapper dependencies={['patient']}>
-      <>
-        <CssBaseline />
-        <PatientSearchPanel
-          initialFilter={pagination.filter}
-          onSearchSubmit={handleSearchSubmit}
-          onPaginationReset={handlePaginationReset}
-        />
-      </>
+      <Tracker>
+        <>
+          <CssBaseline />
+          <PatientSearchPanel
+            initialFilter={pagination.filter}
+            onSearchSubmit={handleSearchSubmit}
+            onPaginationReset={handlePaginationReset}
+          />
+        </>
+      </Tracker>
     </BootstrapWrapper>
   )
 }
@@ -117,5 +119,4 @@ PatientSearchBarWidget.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-// export default withAuthSync(PatientSearchBarWidget)
 export default PatientSearchBarWidget

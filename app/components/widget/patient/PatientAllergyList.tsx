@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import ErrorSection from '@components/base/ErrorSection'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import {
   IAllergyIntoleranceListFilterQuery,
@@ -49,6 +50,7 @@ export const PatientAllergyListWithConnector: React.FunctionComponent = () => {
   return (
     <PatientAllergyList
       patientId={_.get(state, 'patientId')}
+      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
       isInitialize={true}
       name={`${name}AllergyIntoleranceList`}
     />
@@ -64,6 +66,8 @@ const PatientAllergyList: React.FunctionComponent<{
   isContainer?: boolean
   option?: any
   name?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
 }> = ({
   resourceList,
   patientId,
@@ -80,6 +84,8 @@ const PatientAllergyList: React.FunctionComponent<{
   },
   option = {},
   name = 'patientAllergyList',
+  mouseTrackCategory = 'patient_allergy_list',
+  mouseTrackLabel = 'patient_allergy_list',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithAllergyIntoleranceInitialFilterQuery(customInitialFilter, {
@@ -183,57 +189,59 @@ const PatientAllergyList: React.FunctionComponent<{
   }
 
   return (
-    <div
-      ref={myscroll}
-      style={{ overflow: 'auto', width: '100%', height: '100%' }}
-    >
-      <div className={classes.toolbar}>
-        <ToolbarWithFilter
-          title={'Allergies'}
-          Icon={<Icon className='fas fa-allergies' />}
-          option={{
-            isHideIcon: true,
-            style: {
-              backgroundColor: lighten('#3c8dbc', 0.85),
-              color: '#3c8dbc',
-            },
-          }}
-        ></ToolbarWithFilter>
-      </div>
-      <List
-        className={classes.listPadding}
-        component='nav'
-        aria-labelledby='nested-list-subheader'
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div
+        ref={myscroll}
+        style={{ overflow: 'auto', width: '100%', height: '100%' }}
       >
-        {_.isEmpty(data) ? (
-          <div style={{ padding: '1em', textAlign: 'center' }}>
-            <Typography variant='body1'>No allergy found</Typography>
-          </div>
-        ) : (
-          <>
-            {_.map(data, (allergy: any, index: number) => (
-              <ListItem key={`allergy${index}`} style={{ padding: '0 0' }}>
-                {renderCriticalIcon(allergy)}
-                <ListItemText
-                  primary={
-                    <Typography variant='body1'>
-                      {_.get(allergy, 'codeText')}
-                    </Typography>
-                  }
-                />
-              </ListItem>
-            ))}
-            {isMore ? (
-              <ListItem>
-                <ListItemText style={{ textAlign: 'center' }}>
-                  {isLoading ? <CircularProgress /> : null}
-                </ListItemText>
-              </ListItem>
-            ) : null}
-          </>
-        )}
-      </List>
-    </div>
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Allergies'}
+            Icon={<Icon className='fas fa-allergies' />}
+            option={{
+              isHideIcon: true,
+              style: {
+                backgroundColor: lighten('#3c8dbc', 0.85),
+                color: '#3c8dbc',
+              },
+            }}
+          ></ToolbarWithFilter>
+        </div>
+        <List
+          className={classes.listPadding}
+          component='nav'
+          aria-labelledby='nested-list-subheader'
+        >
+          {_.isEmpty(data) ? (
+            <div style={{ padding: '1em', textAlign: 'center' }}>
+              <Typography variant='body1'>No allergy found</Typography>
+            </div>
+          ) : (
+            <>
+              {_.map(data, (allergy: any, index: number) => (
+                <ListItem key={`allergy${index}`} style={{ padding: '0 0' }}>
+                  {renderCriticalIcon(allergy)}
+                  <ListItemText
+                    primary={
+                      <Typography variant='body1'>
+                        {_.get(allergy, 'codeText')}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              ))}
+              {isMore ? (
+                <ListItem>
+                  <ListItemText style={{ textAlign: 'center' }}>
+                    {isLoading ? <CircularProgress /> : null}
+                  </ListItemText>
+                </ListItem>
+              ) : null}
+            </>
+          )}
+        </List>
+      </div>
+    </TrackerMouseClick>
   )
 }
 

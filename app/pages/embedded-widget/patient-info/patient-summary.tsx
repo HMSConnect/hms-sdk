@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { withAuthSync } from '@components/base/Auth'
+import Tracker from '@components/base/Tracker'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PatientSummary from '@components/widget/patient/PatientSummary'
 import { CssBaseline, makeStyles, Paper, Theme } from '@material-ui/core'
@@ -35,16 +35,18 @@ const PatientSummaryWidget: IStatelessPage<{
         'practitioner',
       ]}
     >
-      <>
-        <CssBaseline />
-        <Paper>
-          <PatientSummary
-            patientId={get(query, 'patientId')}
-            encounterId={get(query, 'encounterId')}
-            name={get(query, 'name')}
-          />
-        </Paper>
-      </>
+      <Tracker>
+        <>
+          <CssBaseline />
+          <Paper>
+            <PatientSummary
+              patientId={get(query, 'patientId')}
+              encounterId={get(query, 'encounterId')}
+              name={get(query, 'name')}
+            />
+          </Paper>
+        </>
+      </Tracker>
     </BootstrapWrapper>
   )
 }
@@ -56,4 +58,3 @@ PatientSummaryWidget.getInitialProps = async ({ req, res, query }) => {
 }
 
 export default PatientSummaryWidget
-// export default withAuthSync(PatientSummaryWidget)

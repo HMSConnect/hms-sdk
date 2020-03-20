@@ -3,8 +3,8 @@ import React from 'react'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useResourceList from '@components/hooks/useResourceList'
-import { IAllergyIntoleranceListFilterQuery } from '@data-managers/AllergyIntoleranceDataManager'
 import {
   Grid,
   Icon,
@@ -51,11 +51,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const PatientAllergySummerCardWithConnector: React.FunctionComponent = () => {
   const state = useSelector((state: any) => state.patientAllergySummaryCard)
-  return <PatientAllergySummerCard patientId={get(state, 'patientId')} />
+  return (
+    <PatientAllergySummerCard
+      patientId={get(state, 'patientId')}
+      mouseTrackCategory={get(state, 'mouseTrackCategory')}
+    />
+  )
 }
 
 const PatientAllergySummerCard: React.FunctionComponent<any> = ({
   patientId,
+  mouseTrackCategory = 'patient_allergy_summary_card',
+  mouseTrackLabel = 'patient_allergy_summary_card',
 }) => {
   const {
     isLoading: isGroupResourceListLoading,
@@ -71,7 +78,13 @@ const PatientAllergySummerCard: React.FunctionComponent<any> = ({
   if (isGroupResourceListLoading) {
     return <LoadingSection />
   }
-  return <PatientAllergySummerCardView allergyResource={groupResourceList[1]} />
+  return (
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <PatientAllergySummerCardView allergyResource={groupResourceList[1]} />
+      </div>
+    </TrackerMouseClick>
+  )
 }
 
 export default PatientAllergySummerCard
@@ -101,7 +114,7 @@ const PatientAllergySummerCardView: React.FunctionComponent<any> = ({
             paddingLeft: 16,
             paddingRight: 16,
           }}
-          className={clsx(classes.bodyCard, classes.clickable, classes.hover)}
+          className={clsx(classes.bodyCard)}
         >
           <Icon
             style={{ color: 'white', fontSize: '2.2em', textAlign: 'center' }}
@@ -117,7 +130,7 @@ const PatientAllergySummerCardView: React.FunctionComponent<any> = ({
             paddingRight: 16,
             textAlign: 'center',
           }}
-          className={clsx(classes.bodyCard, classes.clickable, classes.hover)}
+          className={clsx(classes.bodyCard)}
         >
           <Typography
             component='span'

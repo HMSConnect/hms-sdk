@@ -4,6 +4,7 @@ import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
@@ -67,6 +68,7 @@ export const ObservationTemperatureCardWithConnector: React.FunctionComponent = 
       key={`ObservationTemperatureCard${_.get(state, 'encounterId')}`}
       patientId={state.patientId}
       encounterId={state.encounterId}
+      mouseTrackCategory={state.mouseTrackCategory}
       onClick={handleCardClick}
       selectedCard={_.get(state, 'selectedCard')}
     />
@@ -78,7 +80,16 @@ const ObservationTemperatureCard: React.FunctionComponent<{
   encounterId: string
   onClick?: any
   selectedCard?: any
-}> = ({ patientId, encounterId, onClick, selectedCard }) => {
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({
+  patientId,
+  encounterId,
+  onClick,
+  selectedCard,
+  mouseTrackCategory = 'observaion_temperature_card',
+  mouseTrackLabel = 'observaion_temperature_card',
+}) => {
   const params = {
     code: OBSERVATION_CODE.BODY_TEMPERATURE.code,
     encounterId,
@@ -99,11 +110,15 @@ const ObservationTemperatureCard: React.FunctionComponent<{
     return <LoadingSection />
   }
   return (
-    <ObservationTemperatureCardView
-      observation={observationList[0]}
-      onClick={onClick}
-      selectedCard={selectedCard}
-    />
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <ObservationTemperatureCardView
+          observation={observationList[0]}
+          onClick={onClick}
+          selectedCard={selectedCard}
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 
