@@ -29,32 +29,56 @@ const ObservationHistoryGraph: React.FunctionComponent<{
 }> = ({ patientId, selectedCard = '' }) => {
   const [Component, setComponent] = React.useState<any>(<EmptyComponent />)
   const classes = useStyles()
-  const patientSummaryCardsState = useSelector(
-    (state: any) => state.patientSummaryCards,
-  )
+  const state = useSelector((state: any) => state.patientSummaryCards)
 
   React.useEffect(() => {
-    setComponent(
-      renderGraph(
-        selectedCard || _.get(patientSummaryCardsState, 'selectedCard'),
-      ),
-    )
-  }, [patientSummaryCardsState])
+    setComponent(renderGraph(selectedCard || _.get(state, 'selectedCard')))
+  }, [state])
 
   const renderGraph = (selected: string) => {
     switch (selected) {
       case OBSERVATION_CODE.BODY_WEIGHT.value:
-        return <ObservationBodyWeightGraph patientId={patientId} />
+        return (
+          <ObservationBodyWeightGraph
+            patientId={patientId}
+            mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
+          />
+        )
       case OBSERVATION_CODE.BODY_HEIGHT.value:
-        return <ObservationBodyHeightGraph patientId={patientId} />
+        return (
+          <ObservationBodyHeightGraph
+            patientId={patientId}
+            mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
+          />
+        )
       case OBSERVATION_CODE.BODY_MASS_INDEX.value:
-        return <ObservationBodyMassIndexGraph patientId={patientId} />
+        return (
+          <ObservationBodyMassIndexGraph
+            patientId={patientId}
+            mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
+          />
+        )
       case OBSERVATION_CODE.BLOOD_PRESSURE.value:
-        return <ObservationBloodPressureGraph patientId={patientId} />
+        return (
+          <ObservationBloodPressureGraph
+            patientId={patientId}
+            mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
+          />
+        )
       case OBSERVATION_CODE.BODY_TEMPERATURE.value:
-        return <ObservationBodyTemperatureGraph patientId={patientId} />
+        return (
+          <ObservationBodyTemperatureGraph
+            patientId={patientId}
+            mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
+          />
+        )
       case OBSERVATION_CODE.HEART_RATE.value:
-        return <ObservationHeartRateGraph patientId={patientId} />
+        return (
+          <ObservationHeartRateGraph
+            patientId={patientId}
+            mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
+          />
+        )
       default:
         return <EmptyComponent />
     }

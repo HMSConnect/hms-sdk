@@ -4,6 +4,7 @@ import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
@@ -69,6 +70,7 @@ export const ObservationHeartRateCardWithConnector: React.FunctionComponent = ()
       encounterId={state.encounterId}
       onClick={handleCardClick}
       selectedCard={_.get(state, 'selectedCard')}
+      mouseTrackCategory={state.mouseTrackCategory}
     />
   )
 }
@@ -79,7 +81,17 @@ const ObservationHeartRateCard: React.FunctionComponent<{
   max?: number
   onClick?: any
   selectedCard?: any
-}> = ({ patientId, encounterId, max = 20, onClick, selectedCard }) => {
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({
+  patientId,
+  encounterId,
+  max = 20,
+  onClick,
+  selectedCard,
+  mouseTrackCategory = 'observation_heart_rate_Card',
+  mouseTrackLabel = 'observation_heart_rate_Card',
+}) => {
   const params = {
     code: OBSERVATION_CODE.HEART_RATE.code,
     encounterId,
@@ -100,11 +112,15 @@ const ObservationHeartRateCard: React.FunctionComponent<{
     return <LoadingSection />
   }
   return (
-    <ObservationHeartRateCardView
-      observation={observationList[0]}
-      onClick={onClick}
-      selectedCard={selectedCard}
-    />
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <ObservationHeartRateCardView
+          observation={observationList[0]}
+          onClick={onClick}
+          selectedCard={selectedCard}
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 

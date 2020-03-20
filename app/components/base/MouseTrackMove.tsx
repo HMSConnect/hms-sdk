@@ -1,12 +1,12 @@
 import * as React from 'react'
 
 import useWindowSize from '@components/hooks/useWindowSize'
-import { Button, makeStyles, Theme, Fab, Icon } from '@material-ui/core'
+import { Fab, makeStyles, Theme } from '@material-ui/core'
+import GridOffIcon from '@material-ui/icons/GridOff'
+import GridOnIcon from '@material-ui/icons/GridOn'
+import { GoogleAnalytics } from '@services/GoogleAnalyticsService'
 import { fromEvent, interval } from 'rxjs'
 import { debounce, filter, map } from 'rxjs/operators'
-import ReactGa from 'react-ga'
-import GridOnIcon from '@material-ui/icons/GridOn'
-import GridOffIcon from '@material-ui/icons/GridOff'
 
 const useStyles = makeStyles((theme: Theme) => ({
   gridCell: (props: any) => ({
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const MouseTrack: React.FunctionComponent<{
+const MouseTrackMove: React.FunctionComponent<{
   category: string
   gridWidth?: number
   gridHeight?: number
@@ -54,15 +54,11 @@ const MouseTrack: React.FunctionComponent<{
     })
   }, [document.body.clientHeight, document.body.clientWidth])
   React.useEffect(() => {
-    // const move = new Subject
-    // console.log('useEffect')
     const move$ = fromEvent(document, 'mousemove')
     const mouseSub = move$
       .pipe(
         debounce(() => interval(1000)),
         map((x: any) => {
-          // const minX = (bodySize.width || 0) / 12
-          // const minY = (bodySize.height || 0) / 12
           return {
             x: Math.floor(x.pageX / gridWidth),
             y: Math.floor(x.pageY / gridHeight),
@@ -73,10 +69,10 @@ const MouseTrack: React.FunctionComponent<{
         }),
       )
       .subscribe(x => {
-        ReactGa.event({
-          category,
+        GoogleAnalytics.createEvent({
           action: 'mouse_move',
-          label: `(x,y), (${x.x},${x.y})__${windowSize.standardSize} `,
+          category,
+          label: `(x,y), (${x.x},${x.y})__${windowSize.standardSize}`,
         })
         setCoord(prev => {
           return { x: x.x, y: x.y }
@@ -96,21 +92,7 @@ const MouseTrack: React.FunctionComponent<{
     const grid = []
     const minNumCellx = Math.round((bodySize.width || 0) / gridWidth)
     const minNumCelly = Math.round((bodySize.height || 0) / gridHeight)
-    const minX = (bodySize.width || 0) / 12
-    const minY = (bodySize.height || 0) / 12
-    // for (let i = 0; i < 12; i++) {
-    //   for (let j = 0; j < 12; j++) {
-    //     grid.push(
-    //       <div
-    //         className={classes.gridContainer}
-    //         style={{ top: `${j * minY}px`, left: `${i * minX}px` }}
-    //         key={`grid-layout-(${i},${j})`}
-    //       >
-    //         <div className={classes.gridCell}></div>
-    //       </div>,
-    //     )
-    //   }
-    // }
+    
     for (let i = 0; i < minNumCellx; i++) {
       for (let j = 0; j < minNumCelly; j++) {
         grid.push(
@@ -150,4 +132,4 @@ const MouseTrack: React.FunctionComponent<{
   )
 }
 
-export default MouseTrack
+export default MouseTrackMove

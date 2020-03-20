@@ -4,6 +4,7 @@ import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
@@ -79,6 +80,7 @@ export const ObservationBloodPressureCardWithConnector: React.FunctionComponent 
     <ObservationBloodPressureCard
       key={`ObservationBloodPressureCard${_.get(state, 'encounterId')}`}
       patientId={state.patientId}
+      mouseTrackCategory={state.mouseTrackCategory}
       encounterId={state.encounterId}
       onClick={handleCardClick}
       selectedCard={_.get(state, 'selectedCard')}
@@ -91,7 +93,16 @@ const ObservationBloodPressureCard: React.FunctionComponent<{
   encounterId?: string
   onClick?: any
   selectedCard?: string
-}> = ({ patientId, encounterId, onClick, selectedCard }) => {
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({
+  patientId,
+  encounterId,
+  onClick,
+  selectedCard,
+  mouseTrackCategory = 'observaion_blood_pressure_card',
+  mouseTrackLabel = 'observaion_blood_pressure_card',
+}) => {
   const params: IObservationListFilterQuery = {
     code: OBSERVATION_CODE.BLOOD_PRESSURE.code,
     encounterId,
@@ -113,11 +124,15 @@ const ObservationBloodPressureCard: React.FunctionComponent<{
     return <LoadingSection />
   }
   return (
-    <ObservationBloodPressureCardView
-      observation={observationList[0]}
-      onClick={onClick}
-      selectedCard={selectedCard}
-    />
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <ObservationBloodPressureCardView
+          observation={observationList[0]}
+          onClick={onClick}
+          selectedCard={selectedCard}
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 

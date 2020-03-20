@@ -10,6 +10,7 @@ import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { noneOption, selectOptions } from '@config'
 import {
@@ -21,7 +22,6 @@ import ClaimService from '@services/ClaimService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
-import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -56,6 +56,8 @@ const PatientClaimTable: React.FunctionComponent<{
   max?: number
   initialFilter?: IClaimListFilterQuery
   name?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
 }> = ({
   resourceList,
   patientId,
@@ -68,6 +70,8 @@ const PatientClaimTable: React.FunctionComponent<{
     status: '',
   },
   name = 'patientClaimTable',
+  mouseTrackCategory = 'patient_claim_table',
+  mouseTrackLabel = 'patient_claim_table',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithClaimInitialFilterQuery(customInitialFilter, {
@@ -223,122 +227,124 @@ const PatientClaimTable: React.FunctionComponent<{
   }
 
   return (
-    <>
-      <div className={classes.toolbar}>
-        <ToolbarWithFilter
-          title={'Claim'}
-          onClickIcon={showModal}
-          filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'billablePeriodStart_lt',
-            'patientId',
-          ])}
-          option={{
-            isHideIcon: false,
-          }}
-        >
-          {renderModal}
-        </ToolbarWithFilter>
-      </div>
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Claim'}
+            onClickIcon={showModal}
+            filterActive={countFilterActive(submitedFilter, initialFilter, [
+              'billablePeriodStart_lt',
+              'patientId',
+            ])}
+            option={{
+              isHideIcon: false,
+            }}
+          >
+            {renderModal}
+          </ToolbarWithFilter>
+        </div>
 
-      <Grid container>
-        <Grid item xs={10}>
-          <Typography variant='h6'></Typography>
+        <Grid container>
+          <Grid item xs={10}>
+            <Typography variant='h6'></Typography>
+          </Grid>
         </Grid>
-      </Grid>
-      <div
-        ref={myscroll}
-        className={classes.tableWrapper}
-        data-testid='scroll-container'
-      >
-        <TableBase
-          id='claim'
-          entryList={data}
-          isLoading={isLoading}
-          isMore={isMore}
-          data-testid='table-base'
-          tableCells={[
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'organization.reference',
-              },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'organization.reference',
-                label: 'Name',
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'use',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'use',
-                label: 'Use',
-                styles: {
-                  width: '5em',
+        <div
+          ref={myscroll}
+          className={classes.tableWrapper}
+          data-testid='scroll-container'
+        >
+          <TableBase
+            id='claim'
+            entryList={data}
+            isLoading={isLoading}
+            isMore={isMore}
+            data-testid='table-base'
+            tableCells={[
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'organization.reference',
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'organization.reference',
+                  label: 'Name',
                 },
               },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'status',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'status',
-                label: 'Status',
-                styles: {
-                  width: '5em',
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'use',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'use',
+                  label: 'Use',
+                  styles: {
+                    width: '5em',
+                  },
                 },
               },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'totalPrice',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'totalPrice',
-                label: 'Total Price',
-                styles: {
-                  width: '10em',
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'status',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'status',
+                  label: 'Status',
+                  styles: {
+                    width: '5em',
+                  },
                 },
               },
-            },
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'totalPrice',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'totalPrice',
+                  label: 'Total Price',
+                  styles: {
+                    width: '10em',
+                  },
+                },
+              },
 
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'billablePeriodStartText',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: true,
-                disableSort: true,
-                id: 'billablePeriodStartText',
-                label: 'Billable Period Date',
-                styles: {
-                  width: '20em',
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'billablePeriodStartText',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: true,
+                  disableSort: true,
+                  id: 'billablePeriodStartText',
+                  label: 'Billable Period Date',
+                  styles: {
+                    width: '20em',
+                  },
                 },
               },
-            },
-          ]}
-        />
+            ]}
+          />
+        </div>
       </div>
-    </>
+    </TrackerMouseClick>
   )
 }
 

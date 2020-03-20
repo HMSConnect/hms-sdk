@@ -12,9 +12,9 @@ import PatientSearchResultWithPaginate, {
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import RouteManager from '@routes/RouteManager'
+import { GoogleAnalytics } from '@services/GoogleAnalyticsService'
 import { parse, sendMessage } from '@utils'
 import * as _ from 'lodash'
-import ReactGA from 'react-ga'
 import routes from '../../routes'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -82,7 +82,7 @@ const PatientSearchResultWidget: IStatelessPage<{
     const params = {
       patientId: _.get(patient, 'identifier.id.value'),
     }
-    ReactGA.event({
+    GoogleAnalytics.createEvent({
       action: 'Select Patient',
       category: 'Select Patient',
       label: params.patientId,

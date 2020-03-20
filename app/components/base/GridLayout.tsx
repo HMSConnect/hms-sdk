@@ -2,9 +2,10 @@ import React from 'react'
 
 import { Button, makeStyles, Paper, Theme } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
+import { GoogleAnalytics } from '@services/GoogleAnalyticsService'
 import * as _ from 'lodash'
-import ReactGA from 'react-ga'
 import { Responsive, WidthProvider } from 'react-grid-layout'
+import TrackerMouseClick from './TrackerMouseClick'
 
 const useStyles = makeStyles((theme: Theme) => ({
   gridItem: {
@@ -160,7 +161,7 @@ const GridLayout: React.FunctionComponent<{
         type: 'ADD_ITEM',
       })
 
-      ReactGA.event({
+      GoogleAnalytics.createEvent({
         action: 'add_component',
         category: 'patient_summary',
         label: `${newItem.componentKey}`,
@@ -203,7 +204,7 @@ const GridLayout: React.FunctionComponent<{
         payload: { i },
         type: 'REMOVE_ITEM',
       })
-      ReactGA.event({
+      GoogleAnalytics.createEvent({
         action: 'remove_component',
         category: 'patient_summary',
         label: `${componentKey}`,
@@ -244,19 +245,23 @@ const GridLayout: React.FunctionComponent<{
 
     function handleResizeStop(layout: any, oldItem: any, newItem: any) {
       const componentKey = newItem.i.split('_')[0]
-      ReactGA.event({
+      GoogleAnalytics.createEvent({
         action: 'resize',
         category: 'patient_summary',
-        label: `(${newItem.w},${newItem.h}),(w,h)__${_.snakeCase(componentKey)}`,
+        label: `(${newItem.w},${newItem.h}),(w,h)__${_.snakeCase(
+          componentKey,
+        )}`,
       })
     }
 
     function handleDragStop(layout: any, oldItem: any, newItem: any) {
       const componentKey = newItem.i.split('_')[0]
-      ReactGA.event({
+      GoogleAnalytics.createEvent({
         action: 'reposition',
         category: 'patient_summary',
-        label: `(${newItem.x},${newItem.y}),(x,y)__${_.snakeCase(componentKey)}`,
+        label: `(${newItem.x},${newItem.y}),(x,y)__${_.snakeCase(
+          componentKey,
+        )}`,
       })
     }
 
@@ -296,6 +301,7 @@ const GridLayout: React.FunctionComponent<{
         </div>
       )
     }
+
     return (
       <div data-testid='grid-selector'>
         <div className={classes.gridSelectionLayout}>

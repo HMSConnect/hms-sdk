@@ -3,6 +3,7 @@ import React from 'react'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useResourceList from '@components/hooks/useResourceList'
 import {
   Grid,
@@ -49,11 +50,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 export const PatientMedicationSummaryCardWithConnector: React.FunctionComponent = () => {
   const state = useSelector((state: any) => state.patientMedicationSummaryCard)
-  return <PatientMedicationSummaryCard patientId={get(state, 'patientId')} />
+  return (
+    <PatientMedicationSummaryCard
+      patientId={get(state, 'patientId')}
+      mouseTrackCategory={get(state, 'mouseTrackCategory')}
+    />
+  )
 }
 
 const PatientMedicationSummaryCard: React.FunctionComponent<any> = ({
   patientId,
+  mouseTrackCategory = 'patient_medication_summary_card',
+  mouseTrackLabel = 'patient_medication_summary_card',
 }) => {
   const {
     isLoading: isGroupResourceListLoading,
@@ -70,9 +78,13 @@ const PatientMedicationSummaryCard: React.FunctionComponent<any> = ({
     return <LoadingSection />
   }
   return (
-    <PatientMedicationSummaryCardView
-      medicationResource={groupResourceList[1]}
-    />
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <PatientMedicationSummaryCardView
+          medicationResource={groupResourceList[1]}
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 

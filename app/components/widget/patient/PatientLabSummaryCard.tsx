@@ -3,8 +3,8 @@ import React from 'react'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useResourceList from '@components/hooks/useResourceList'
-import { IAllergyIntoleranceListFilterQuery } from '@data-managers/AllergyIntoleranceDataManager'
 import {
   Grid,
   Icon,
@@ -48,7 +48,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const PatientLabSummaryCard: React.FunctionComponent<any> = ({ patientId }) => {
+const PatientLabSummaryCard: React.FunctionComponent<any> = ({
+  patientId,
+  mouseTrackCategory = 'patient_lab_summary_card',
+  mouseTrackLabel = 'patient_lab_summary_card',
+}) => {
   const {
     isLoading: isGroupResourceListLoading,
     data: groupResourceList,
@@ -63,7 +67,13 @@ const PatientLabSummaryCard: React.FunctionComponent<any> = ({ patientId }) => {
   if (isGroupResourceListLoading) {
     return <LoadingSection />
   }
-  return <PatientLabSummaryCardView labResource={groupResourceList[1]} />
+  return (
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <PatientLabSummaryCardView labResource={groupResourceList[1]} />
+      </div>
+    </TrackerMouseClick>
+  )
 }
 
 export default PatientLabSummaryCard
@@ -93,7 +103,7 @@ const PatientLabSummaryCardView: React.FunctionComponent<any> = ({
             paddingLeft: 16,
             paddingRight: 16,
           }}
-          className={clsx(classes.bodyCard, classes.clickable, classes.hover)}
+          className={clsx(classes.bodyCard)}
         >
           <Icon
             style={{ color: 'white', zoom: '3em', textAlign: 'center' }}
@@ -109,7 +119,7 @@ const PatientLabSummaryCardView: React.FunctionComponent<any> = ({
             paddingRight: 16,
             textAlign: 'center',
           }}
-          className={clsx(classes.bodyCard, classes.clickable, classes.hover)}
+          className={clsx(classes.bodyCard)}
         >
           <Typography
             component='span'

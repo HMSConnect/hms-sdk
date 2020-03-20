@@ -1,9 +1,12 @@
+import React from 'react'
+
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
 import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import {
   IObservationListFilterQuery,
@@ -15,7 +18,6 @@ import { HMSService } from '@services/HMSServiceFactory'
 import ObservationService from '@services/ObservationService'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
-import React from 'react'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -51,6 +53,7 @@ export const ObservationLaboratoryTableWithConnector: React.FunctionComponent = 
       key={`ObservationLaboratoryTable${_.get(state, 'encounterId')}`}
       patientId={_.get(state, 'patientId')}
       encounterId={_.get(state, 'encounterId')}
+      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
       isInitialize={true}
       max={state?.max || 10}
     />
@@ -66,6 +69,8 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
   max?: number
   initialFilter?: IObservationListFilterQuery
   name?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
 }> = ({
   resourceList,
   patientId,
@@ -80,6 +85,8 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
     patientId,
   },
   name = 'observationLaboratoryTable',
+  mouseTrackCategory = 'observation_laboratory_table',
+  mouseTrackLabel = 'observation_laboratory_table',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithObservationInitialFilterQuery(customInitialFilter, {
@@ -222,151 +229,153 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
   }
 
   return (
-    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
-      <div className={classes.toolbar}>
-        <ToolbarWithFilter
-          title={'Laboratory Results'}
-          onClickIcon={showModal}
-          Icon={<Icon className='fas fa-vial' />}
-          filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'patientId',
-            'periodStart_lt',
-          ])}
-          option={{
-            isHideIcon: true,
-            style: {
-              backgroundColor: lighten('#c37d0e', 0.85),
-              color: '#c37d0e',
-            },
-          }}
-        >
-          {renderModal}
-        </ToolbarWithFilter>
-      </div>
-      <div className={classes.tableWrapper} data-testid='scroll-container'>
-        <TableBase
-          id='laboratory results'
-          entryList={data}
-          isLoading={isLoading}
-          isMore={isMore}
-          data-testid='table-base'
-          size='small'
-          tableCells={[
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'codeText',
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Laboratory Results'}
+            onClickIcon={showModal}
+            Icon={<Icon className='fas fa-vial' />}
+            filterActive={countFilterActive(submitedFilter, initialFilter, [
+              'patientId',
+              'periodStart_lt',
+            ])}
+            option={{
+              isHideIcon: true,
+              style: {
+                backgroundColor: lighten('#c37d0e', 0.85),
+                color: '#c37d0e',
               },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'codeText',
-                label: 'Name',
+            }}
+          >
+            {renderModal}
+          </ToolbarWithFilter>
+        </div>
+        <div className={classes.tableWrapper} data-testid='scroll-container'>
+          <TableBase
+            id='laboratory results'
+            entryList={data}
+            isLoading={isLoading}
+            isMore={isMore}
+            data-testid='table-base'
+            size='small'
+            tableCells={[
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'codeText',
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'codeText',
+                  label: 'Name',
+                },
               },
-            },
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'value',
-                render: (laboratory: any) => {
-                  if (laboratory.referenceRange) {
-                    const nomalRange = _.find(laboratory.referenceRange, {
-                      type: 'normal',
-                    })
-                    if (!nomalRange) {
-                      return <>{laboratory.value} </>
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'value',
+                  render: (laboratory: any) => {
+                    if (laboratory.referenceRange) {
+                      const nomalRange = _.find(laboratory.referenceRange, {
+                        type: 'normal',
+                      })
+                      if (!nomalRange) {
+                        return <>{laboratory.value} </>
+                      }
+                      if (nomalRange.low && laboratory.value < nomalRange.low) {
+                        return (
+                          <Typography
+                            variant='body1'
+                            style={{ color: '#f44336' }}
+                          >
+                            {laboratory.value}{' '}
+                            <Icon
+                              className='fas fa-chevron-circle-down'
+                              style={{ zoom: '0.7' }}
+                            />
+                          </Typography>
+                        )
+                      } else if (
+                        nomalRange.high &&
+                        laboratory.value > nomalRange.high
+                      ) {
+                        return (
+                          <Typography
+                            variant='body1'
+                            style={{ color: '#f44336' }}
+                          >
+                            {laboratory.value}{' '}
+                            <Icon
+                              className='fas fa-chevron-circle-up'
+                              style={{ zoom: '0.7' }}
+                            />
+                          </Typography>
+                        )
+                      } else {
+                        return (
+                          <Typography
+                            variant='body1'
+                            style={{ color: '#66bb6a' }}
+                          >
+                            {laboratory.value}{' '}
+                          </Typography>
+                        )
+                      }
                     }
-                    if (nomalRange.low && laboratory.value < nomalRange.low) {
-                      return (
-                        <Typography
-                          variant='body1'
-                          style={{ color: '#f44336' }}
-                        >
-                          {laboratory.value}{' '}
-                          <Icon
-                            className='fas fa-chevron-circle-down'
-                            style={{ zoom: '0.7' }}
-                          />
-                        </Typography>
-                      )
-                    } else if (
-                      nomalRange.high &&
-                      laboratory.value > nomalRange.high
-                    ) {
-                      return (
-                        <Typography
-                          variant='body1'
-                          style={{ color: '#f44336' }}
-                        >
-                          {laboratory.value}{' '}
-                          <Icon
-                            className='fas fa-chevron-circle-up'
-                            style={{ zoom: '0.7' }}
-                          />
-                        </Typography>
-                      )
-                    } else {
-                      return (
-                        <Typography
-                          variant='body1'
-                          style={{ color: '#66bb6a' }}
-                        >
-                          {laboratory.value}{' '}
-                        </Typography>
-                      )
-                    }
-                  }
-                  return <>{laboratory.value} </>
+                    return <>{laboratory.value} </>
+                  },
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'value',
+                  label: 'Value',
+                  styles: {
+                    width: '10em',
+                  },
                 },
               },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'value',
-                label: 'Value',
-                styles: {
-                  width: '10em',
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'unit',
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'unit',
+                  label: 'Unit',
+                  styles: {
+                    width: '5em',
+                  },
                 },
               },
-            },
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'unit',
-              },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'unit',
-                label: 'Unit',
-                styles: {
-                  width: '5em',
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'issued',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: true,
+                  disableSort: true,
+                  id: 'issued',
+                  label: 'Time',
+                  styles: {
+                    width: '15em',
+                  },
                 },
               },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'issued',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: true,
-                disableSort: true,
-                id: 'issued',
-                label: 'Time',
-                styles: {
-                  width: '15em',
-                },
-              },
-            },
-          ]}
-        />
+            ]}
+          />
+        </div>
       </div>
-    </div>
+    </TrackerMouseClick>
   )
 }
 

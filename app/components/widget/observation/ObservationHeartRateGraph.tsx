@@ -4,6 +4,7 @@ import ErrorSection from '@components/base/ErrorSection'
 import GraphBase from '@components/base/GraphBase'
 import LoadingSection from '@components/base/LoadingSection'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
@@ -11,8 +12,8 @@ import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
 import { Divider, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
 import { lighten } from '@material-ui/core/styles'
 import { scaleTime } from 'd3-scale'
-import maxBy from 'lodash/maxBy'
 import get from 'lodash/get'
+import maxBy from 'lodash/maxBy'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -29,7 +30,15 @@ const ObservationHeartRateGraph: React.FunctionComponent<{
   patientId: string
   max?: number
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ patientId, max = 20, optionStyle }) => {
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({
+  patientId,
+  max = 20,
+  optionStyle,
+  mouseTrackCategory = 'observation_heart_rate_graph',
+  mouseTrackLabel = 'observation_heart_rate_graph',
+}) => {
   const params = {
     code: OBSERVATION_CODE.HEART_RATE.code,
     // encounterId: get(query, 'encounterId'),
@@ -51,12 +60,14 @@ const ObservationHeartRateGraph: React.FunctionComponent<{
     return <LoadingSection />
   }
   return (
-    <>
-      <ObservationHeartRateGraphView
-        observationList={observationList}
-        optionStyle={optionStyle}
-      />
-    </>
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <ObservationHeartRateGraphView
+          observationList={observationList}
+          optionStyle={optionStyle}
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 

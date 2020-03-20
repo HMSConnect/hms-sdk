@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useEncounter from '@components/hooks/useEncounter'
 import { Avatar, makeStyles, Theme, Typography } from '@material-ui/core'
 import AvatarGroup from '@material-ui/lab/AvatarGroup'
@@ -58,10 +59,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const PatientPractitionerWithConnector: React.FunctionComponent = () => {
   const state = useSelector((state: any) => state.patientPractitioner)
   return (
+    // <TrackerMouseClick>
     <PatientPractitioner
       encounterId={state?.encounterId}
+      mouseTrackCategory={state?.mouseTrackCategory}
       maxDisplay={state?.maxDisplay}
     />
+    // </TrackerMouseClick>
   )
 }
 
@@ -81,7 +85,16 @@ export const PatientPractitionerWithConnector: React.FunctionComponent = () => {
 const PatientPractitioner: React.FunctionComponent<{
   encounterId: string
   maxDisplay?: number
-}> = ({ encounterId, maxDisplay }) => {
+  customOnClickEvent?: any
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({
+  encounterId,
+  maxDisplay,
+  customOnClickEvent,
+  mouseTrackCategory = 'patient_practitioner',
+  mouseTrackLabel = 'patient_practitioner',
+}) => {
   const classes = useStyles({})
   const { data, error, isLoading } = useEncounter(encounterId)
   if (isLoading) {
@@ -92,18 +105,26 @@ const PatientPractitioner: React.FunctionComponent<{
   }
   if (_.isArray(data.participant) && data.participant.length >= 2) {
     return (
-      <PatientPractitionerGroupView
-        participants={data.participant}
-        maxDisplay={maxDisplay}
-      />
+      <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+        <div className={classes.root}>
+          <PatientPractitionerGroupView
+            participants={data.participant}
+            maxDisplay={maxDisplay}
+          />
+        </div>
+      </TrackerMouseClick>
     )
   }
   return (
-    <PatientPractitionerSingleView
-      participant={
-        _.isArray(data.participant) ? data.participant[0] : data.participant
-      }
-    />
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div className={classes.root}>
+        <PatientPractitionerSingleView
+          participant={
+            _.isArray(data.participant) ? data.participant[0] : data.participant
+          }
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 
@@ -131,7 +152,11 @@ export const PatientPractitionerGroupView: React.FunctionComponent<{
   const renderGroupIcon = (participants: any, maxDisplay: number) => {
     const iconArray = []
     const minNumber = _.min([participants.length, maxDisplay])
-    for (let i = 0;  _.get(participants[i], 'name[0].given[0]') !== undefined &&  i < minNumber; i++) {
+    for (
+      let i = 0;
+      _.get(participants[i], 'name[0].given[0]') !== undefined && i < minNumber;
+      i++
+    ) {
       iconArray.push(
         <Avatar key={`avatar-${i}`} className={classes.groupAvatar}>
           <Typography variant='h5' component='span' style={{ color: 'white' }}>
@@ -161,7 +186,7 @@ export const PatientPractitionerGroupView: React.FunctionComponent<{
   }
   const info = participants[0]
   return (
-    <div className={classes.root}>
+    <>
       <Typography
         component='div'
         style={{
@@ -188,7 +213,7 @@ export const PatientPractitionerGroupView: React.FunctionComponent<{
       <Typography variant='h6' component='h6' style={{ textAlign: 'center' }}>
         {renderGroupName(participants, maxDisplay)}
       </Typography>
-    </div>
+    </>
   )
 }
 
@@ -206,7 +231,7 @@ export const PatientPractitionerSingleView: React.FunctionComponent<any> = ({
     )
   }
   return (
-    <div className={classes.root}>
+    <>
       <Typography
         component='div'
         style={{
@@ -230,6 +255,6 @@ export const PatientPractitionerSingleView: React.FunctionComponent<any> = ({
       <Typography className={classes.pos} color='textSecondary'>
         {_.get(info, 'telecom')}
       </Typography>
-    </div>
+    </>
   )
 }

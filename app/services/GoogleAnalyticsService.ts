@@ -1,6 +1,12 @@
 import environment from '@environment'
 import ReactGA, { FieldsObject } from 'react-ga'
 
+interface IGAEvent {
+  category: string
+  action: string
+  label?: string
+}
+
 class GoogleAnalyticsFactory {
   initializeGoogleGA(options?: any) {
     if (process.env.NODE_ENV.trim() !== 'development') {
@@ -19,6 +25,12 @@ class GoogleAnalyticsFactory {
     if (process.env.NODE_ENV.trim() !== 'development') {
       ReactGA.set({ page, ...options })
       ReactGA.pageview(page)
+    }
+  }
+
+  createEvent(eventObject: IGAEvent) {
+    if (process.env.NODE_ENV.trim() !== 'development') {
+      ReactGA.event(eventObject)
     }
   }
 }

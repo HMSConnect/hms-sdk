@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
+import MouseTrackMove from '@components/base/MouseTrackMove'
 import Tracker from '@components/base/Tracker'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import AppNavBar from '@components/widget/AppNavBar'
@@ -11,7 +12,6 @@ import { IStatelessPage } from '@pages/patient-search'
 import get from 'lodash/get'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
-import MouseTrack from '@components/base/MouseTrack'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -47,7 +47,7 @@ const PatientSummaryPage: IStatelessPage<{
         ]}
       >
         <Tracker>
-          <MouseTrack category='patient_summary'>
+          <MouseTrackMove category='patient_summary'>
             <>
               {/* <Container maxWidth='lg'> */}
               <Typography component='div' className={classes.root}>
@@ -75,7 +75,7 @@ const PatientSummaryPage: IStatelessPage<{
               </Typography>
               {/* </Container> */}
             </>
-          </MouseTrack>
+          </MouseTrackMove>
         </Tracker>
       </BootstrapWrapper>
     </React.Fragment>

@@ -4,6 +4,7 @@ import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
@@ -77,6 +78,7 @@ export const ObservationBodyMeasurementCardWithConnector: React.FunctionComponen
       key={`ObservationBodyMeasurementCard${_.get(state, 'encounterId')}`}
       patientId={state.patientId}
       encounterId={state.encounterId}
+      mouseTrackCategory={state.mouseTrackCategory}
       onClick={handleCardClick}
       selectedCard={_.get(state, 'selectedCard')}
     />
@@ -88,7 +90,16 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
   encounterId?: string
   onClick?: any
   selectedCard?: any
-}> = ({ patientId, encounterId, onClick, selectedCard }) => {
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({
+  patientId,
+  encounterId,
+  onClick,
+  selectedCard,
+  mouseTrackCategory = 'observation_body_measurement_card',
+  mouseTrackLabel = 'observation_body_measurement_card',
+}) => {
   let params: IObservationListFilterQuery = {}
   params = {
     codes: `${OBSERVATION_CODE.BODY_HEIGHT.code},${OBSERVATION_CODE.BODY_WEIGHT.code},${OBSERVATION_CODE.BODY_MASS_INDEX.code}`,
@@ -110,11 +121,15 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
     return <LoadingSection />
   }
   return (
-    <ObservationBodyMeasurementCardView
-      observations={observationList}
-      onClick={onClick}
-      selectedCard={selectedCard}
-    />
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <ObservationBodyMeasurementCardView
+          observations={observationList}
+          onClick={onClick}
+          selectedCard={selectedCard}
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 

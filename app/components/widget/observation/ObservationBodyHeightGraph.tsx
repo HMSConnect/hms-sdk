@@ -4,6 +4,7 @@ import ErrorSection from '@components/base/ErrorSection'
 import GraphBase from '@components/base/GraphBase'
 import LoadingSection from '@components/base/LoadingSection'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
@@ -28,7 +29,15 @@ const ObservationBodyHeightGraph: React.FunctionComponent<{
   patientId: string
   max?: number
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ patientId, max = 20, optionStyle }) => {
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({
+  patientId,
+  max = 20,
+  optionStyle,
+  mouseTrackCategory = 'observation_body_height_graph',
+  mouseTrackLabel = 'observation_body_height_graph',
+}) => {
   const params = {
     code: OBSERVATION_CODE.BODY_HEIGHT.code,
     patientId,
@@ -49,12 +58,14 @@ const ObservationBodyHeightGraph: React.FunctionComponent<{
     return <LoadingSection />
   }
   return (
-    <>
-      <ObservationBodyHeightGraphView
-        observationList={observationList}
-        optionStyle={optionStyle}
-      />
-    </>
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <ObservationBodyHeightGraphView
+          observationList={observationList}
+          optionStyle={optionStyle}
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 
