@@ -152,8 +152,8 @@ const PatientObservationTable: React.FunctionComponent<{
   const handleUnGroup = async (filter: IObservationListFilterQuery) => {
     const newFilter = {
       ...filter,
-      date_lt: undefined,
-      vaccineCode: undefined,
+      categoryCode: undefined,
+      issued_lt: undefined,
     }
     try {
       const newData = await fetchData(newFilter, max)
@@ -170,7 +170,7 @@ const PatientObservationTable: React.FunctionComponent<{
         },
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleGroupByType',
         name,
@@ -211,7 +211,7 @@ const PatientObservationTable: React.FunctionComponent<{
         },
       })
     } catch (error) {
-      setResult({ data: [], error })
+      setResult({ data: [], error: error.message })
       sendMessage({
         message: 'handleGroupByType',
         name,
@@ -263,80 +263,6 @@ const PatientObservationTable: React.FunctionComponent<{
       })
     }
   }
-  const submitSearch = async (filter: any) => {
-    dispatch({ type: 'SUBMIT_SEARCH', payload: filter })
-    setIsMore(true)
-
-    const newFilter = {
-      ...filter,
-      issued_lt: initialFilter.issued_lt,
-    }
-    const entryData = await fetchData(newFilter, max)
-    return entryData
-  }
-
-  const handleParameterChange = (type: string, value: any) => {
-    dispatch({ type: 'FILTER_ON_CHANGE', payload: { [type]: value } })
-  }
-
-  const handleSearchSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
-    try {
-      const newData = await submitSearch(filter)
-      setResult({ data: newData, error: null })
-      sendMessage({
-        message: 'handleSearchSubmit',
-        name,
-        params: filter,
-      })
-    } catch (error) {
-      setResult({ data: [], error })
-      sendMessage({
-        message: 'handleSearchSubmit',
-        name,
-        params: filter,
-      })
-    } finally {
-      closeModal()
-    }
-  }
-
-  const handleSearchReset = async () => {
-    try {
-      const newData = await submitSearch(initialFilter)
-      setResult({ data: newData, error: null })
-      sendMessage({
-        message: 'handleSearchReset',
-        name,
-        params: filter,
-      })
-    } catch (error) {
-      setResult({ data: [], error })
-      sendMessage({
-        message: 'handleSearchReset',
-        name,
-        params: filter,
-      })
-    } finally {
-      closeModal()
-    }
-  }
-
-  const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
-    CustomModal: FormModalContent,
-    modalTitle: 'Observation Filter',
-    name: `${name}Modal`,
-    optionCustomModal: {
-      onReset: handleSearchReset,
-      onSubmit: handleSearchSubmit,
-    },
-    params: {
-      filter,
-      filterOptions: [],
-      onParameterChange: handleParameterChange,
-      onSearchSubmit: handleSearchSubmit,
-    },
-  })
 
   if (error) {
     return <ErrorSection error={error} />
@@ -347,11 +273,10 @@ const PatientObservationTable: React.FunctionComponent<{
       <div className={classes.toolbar}>
         <ToolbarWithFilter
           title={'Observation'}
-          onClickIcon={showModal}
           filterActive={countFilterActive(submitedFilter, initialFilter, [
             'issued_lt',
-            'patientId',
             'categoryCode',
+            'patientId',
           ])}
           option={{
             additionButton: (
@@ -374,9 +299,7 @@ const PatientObservationTable: React.FunctionComponent<{
               />
             ),
           }}
-        >
-          {renderModal}
-        </ToolbarWithFilter>
+        ></ToolbarWithFilter>
         {isGroup && (
           <TabGroup tabList={tab.tabList} onTabChange={handleTabChange} />
         )}
