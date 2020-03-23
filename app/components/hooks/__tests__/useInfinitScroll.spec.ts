@@ -1,9 +1,5 @@
-import * as React from 'react'
-
 import { act, renderHook } from '@testing-library/react-hooks'
 import useInfinitScroll from '../useInfinitScroll'
-import { fireEvent } from '@testing-library/dom'
-import { render } from '@testing-library/react'
 
 describe('useInfinitScroll', () => {
   it('initial useInfinitScroll', async () => {
@@ -37,7 +33,7 @@ describe('useInfinitScroll', () => {
     )
     expect(result.current.data).toStrictEqual(initialResourceList)
   })
-  
+
   // it('ref infinit scroll call useInfinitScroll', async () => {
   //   const fetchMoreAsync = jest.fn()
   //   const div = document.createElement('div')

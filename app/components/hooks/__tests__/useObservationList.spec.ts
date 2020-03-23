@@ -1,7 +1,7 @@
+import ObservationServiceMock from '@services/__mocks__/ObservationServiceMock'
 import ObservationService from '@services/ObservationService'
 import { renderHook } from '@testing-library/react-hooks'
 import { HMSService } from '../../../services/HMSServiceFactory'
-import ObservationServiceMock from '../__mocks__/ObservationServiceMock'
 import useObservationList from '../useObservationList'
 
 describe('useObservationList', () => {

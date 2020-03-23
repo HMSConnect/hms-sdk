@@ -1,8 +1,8 @@
 import { renderHook } from '@testing-library/react-hooks'
 
+import PatientServiceMock from '@services/__mocks__/PatientServiceMock'
 import { HMSService } from '../../../services/HMSServiceFactory'
 import PatientService from '../../../services/PatientService'
-import PatientServiceMock from '../__mocks__/PatientServiceMock'
 import usePatient from '../usePatient'
 
 describe('UsePatient', () => {
@@ -26,8 +26,6 @@ describe('UsePatient', () => {
       name: 'test1',
     })
   })
-
-  
 
   it('error UsePatient', async () => {
     jest.spyOn(PatientServiceMock, 'load').mockImplementation(() => {

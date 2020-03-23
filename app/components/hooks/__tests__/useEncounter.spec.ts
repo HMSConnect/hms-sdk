@@ -1,9 +1,8 @@
+import EncounterServiceMock from '@services/__mocks__/EncounterServiceMock'
 import { renderHook } from '@testing-library/react-hooks'
 import EncounterService from '../../../services/EncounterService'
 import { HMSService } from '../../../services/HMSServiceFactory'
-import EncounterServiceMock from '../__mocks__/EncounterServiceMock'
 import useEncounter from '../useEncounter'
-
 describe('useEncounter', () => {
   beforeAll(() => {
     jest.spyOn(HMSService, 'getService').mockImplementation(() => {

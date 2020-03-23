@@ -5,7 +5,9 @@ import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { render } from '@testing-library/react'
 import { createStore } from 'redux'
 import observationLaboratoryTable from '../../../../reducers-redux/observationLaboratoryTable.reducer'
-import ObservationLaboratoryTable from '../../observation/ObservationLaboratoryTable'
+import ObservationLaboratoryTable, {
+  ObservationLaboratoryTableWithConnector,
+} from '../../observation/ObservationLaboratoryTable'
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
@@ -25,12 +27,54 @@ describe('<ObservationLaboratoryTable />', () => {
         {
           codeText: 'Code Text1',
           id: '1',
+          value: 20,
           issued: '2019-01-01',
+          referenceRange: [
+            {
+              high: 30,
+              low: 10,
+              type: 'normal',
+            },
+          ],
         },
         {
           codeText: 'Code Text2',
           id: '2',
           issued: '2019-01-01',
+          value: 40,
+          referenceRange: [
+            {
+              high: 30,
+              low: 10,
+              type: 'normal',
+            },
+          ],
+        },
+        {
+          codeText: 'Code Text3',
+          id: '1',
+          value: 1,
+          issued: '2018-01-01',
+          referenceRange: [
+            {
+              high: 30,
+              low: 10,
+              type: 'normal',
+            },
+          ],
+        },
+        {
+          codeText: 'Code Text4',
+          id: '1',
+          value: 1,
+          issued: '2018-01-09',
+          referenceRange: [
+            {
+              high: 30,
+              low: 10,
+              type: 'test',
+            },
+          ],
         },
       ],
       error: null,
@@ -53,7 +97,7 @@ describe('<ObservationLaboratoryTable />', () => {
 
   it('render ObservationLaboratoryTableConnector with Redux', () => {
     const { queryByText } = renderWithRedux(
-      <ObservationLaboratoryTable patientId={'1'} encounterId={1} />,
+      <ObservationLaboratoryTableWithConnector />,
       {
         initialState: {},
         store: createStore(observationLaboratoryTable, {
@@ -90,20 +134,4 @@ describe('<ObservationLaboratoryTable />', () => {
     )
     expect(queryByText('Test Error')).toBeTruthy()
   })
-
-  // it('error ObservationLaboratoryTable', () => {
-  //   const errorText = 'Test Error'
-  //   const useObservaionLaboratoryListResult: any = useInfinitScroll as any
-  //   const results: any = {
-  //     data: [],
-  //     error: errorText,
-  //     isLoading: false,
-  //   }
-  //   useObservaionLaboratoryListResult.mockImplementation(() => results)
-  //   const { queryByText } = render(
-  //     <ObservationLaboratoryTable patientId={'1'} isInitialize={true} />,
-  //   )
-
-  //   expect(queryByText('Test Error')).toBeTruthy()
-  // })
 })

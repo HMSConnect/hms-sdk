@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import ImmunizationServiceMock from '@components/hooks/__mocks__/ImmunizationServiceMock'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
+import ImmunizationServiceMock from '@services/__mocks__/ImmunizationServiceMock'
 import { HMSService } from '@services/HMSServiceFactory'
 import ImmunizationService from '@services/ImmunizationService'
 import {

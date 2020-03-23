@@ -1,13 +1,13 @@
-import ClaimService from '@services/ClaimService'
+import ConditionServiceMock from '@services/__mocks__/ConditionServiceMock'
+import ConditionService from '@services/ConditionService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { renderHook } from '@testing-library/react-hooks'
-import ConditionServiceMock from '../__mocks__/ConditionServiceMock'
 import useConditionList from '../useConditionList'
 
 describe('useConditionList', () => {
   beforeAll(() => {
     jest.spyOn(HMSService, 'getService').mockImplementation(() => {
-      return ConditionServiceMock as ClaimService
+      return ConditionServiceMock as ConditionService
     })
   })
 

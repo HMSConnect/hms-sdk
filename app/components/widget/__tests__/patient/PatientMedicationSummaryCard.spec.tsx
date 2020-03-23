@@ -3,9 +3,9 @@ import * as React from 'react'
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import patientAllergySummaryCard from '@app/reducers-redux/patientAllergySummaryCard.reducer'
 import useResourceList from '@components/hooks/useResourceList'
-import PatientAllergySummerCard, {
-  PatientAllergySummerCardWithConnector,
-} from '@components/widget/patient/PatientAllergySummaryCard'
+import PatientMedicationSummaryCard, {
+  PatientMedicationSummaryCardWithConnector,
+} from '@components/widget/patient/PatientMedicationSummaryCard'
 import { render } from '@testing-library/react'
 import { createStore } from 'redux'
 
@@ -14,7 +14,7 @@ jest.mock('@components/hooks/useResourceList', () => ({
   default: jest.fn(),
 }))
 
-describe('<PatientAllergySummerCard />', () => {
+describe('<PatientMedicationSummaryCard />', () => {
   beforeAll(() => {
     const useResourceListResult: any = useResourceList as any
     const results: any = {
@@ -30,14 +30,16 @@ describe('<PatientAllergySummerCard />', () => {
     jest.clearAllMocks()
   })
 
-  it('render PatientAllergySummerCard', () => {
-    const { queryByText } = render(<PatientAllergySummerCard patientId={'1'} />)
-    expect(queryByText('Total Allergies')).toBeTruthy()
+  it('render PatientMedicationSummaryCard', () => {
+    const { queryByText } = render(
+      <PatientMedicationSummaryCard patientId={'1'} />,
+    )
+    expect(queryByText('Total Medication')).toBeTruthy()
   })
 
-  it('render PatientAllergySummerCard', () => {
+  it('render PatientMedicationSummaryCard', () => {
     const { queryByText } = renderWithRedux(
-      <PatientAllergySummerCardWithConnector />,
+      <PatientMedicationSummaryCardWithConnector />,
       {
         initialState: {},
         store: createStore(patientAllergySummaryCard, {
@@ -45,10 +47,10 @@ describe('<PatientAllergySummerCard />', () => {
         }),
       },
     )
-    expect(queryByText('Total Allergies')).toBeTruthy()
+    expect(queryByText('Total Medication')).toBeTruthy()
   })
 
-  it('loading PatientAllergySummerCard', () => {
+  it('loading PatientMedicationSummaryCard', () => {
     const useResourceListResult: any = useResourceList as any
     useResourceListResult.mockImplementation(() => ({
       data: [
@@ -57,11 +59,13 @@ describe('<PatientAllergySummerCard />', () => {
       error: null,
       isLoading: true,
     }))
-    const { queryByText } = render(<PatientAllergySummerCard patientId={'1'} />)
-    expect(queryByText('Total Allergies')).toBeFalsy()
+    const { queryByText } = render(
+      <PatientMedicationSummaryCard patientId={'1'} />,
+    )
+    expect(queryByText('Total Medication')).toBeFalsy()
   })
 
-  it('error PatientAllergySummerCard', () => {
+  it('error PatientMedicationSummaryCard', () => {
     const useResourceListResult: any = useResourceList as any
     useResourceListResult.mockImplementation(() => ({
       data: [
@@ -70,8 +74,10 @@ describe('<PatientAllergySummerCard />', () => {
       error: 'Test Error',
       isLoading: true,
     }))
-    const { queryByText } = render(<PatientAllergySummerCard patientId={'1'} />)
-    expect(queryByText('Total Allergies')).toBeFalsy()
+    const { queryByText } = render(
+      <PatientMedicationSummaryCard patientId={'1'} />,
+    )
+    expect(queryByText('Total Medication')).toBeFalsy()
     expect(queryByText('Test Error')).toBeTruthy()
   })
 })

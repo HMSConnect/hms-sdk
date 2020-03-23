@@ -9,8 +9,8 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testMatch: ['**/?(*.)+(spec|test).(js|ts|tsx)'],
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
-    "^.+\\.jsx?$": "babel-jest",
+    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.jsx?$': 'babel-jest',
   },
   testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
@@ -23,6 +23,9 @@ module.exports = {
     prefix: '<rootDir>/',
   }),
   collectCoverageFrom: ['components/**/*.(ts|tsx)'],
+  coveragePathIgnorePatterns: [
+    '<rootDir>/components/templates/widget-manager/',
+  ],
   coverageReporters: ['html'],
   transformIgnorePatterns: ['<rootDir>/node_modules'],
 }

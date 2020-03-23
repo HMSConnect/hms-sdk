@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-import ClaimServiceMock from '@components/hooks/__mocks__/ClaimServiceMock'
+import ImagingStudyServiceMock from '@services/__mocks__/ImagingStudyServiceMock'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
-import ClaimService from '@services/ClaimService'
+import ImagingStudyService from '@services/ImagingStudyService'
 import { HMSService } from '@services/HMSServiceFactory'
 import {
   act,
@@ -99,11 +99,11 @@ describe('<PatientImagingStudyTable />', () => {
   //     }
   //     useObservaionLaboratoryListResult.mockImplementation(() => results)
   //     jest.spyOn(HMSService, 'getService').mockImplementation(() => {
-  //       return ClaimServiceMock as ClaimService
+  //       return ImagingStudyServiceMock as ImagingStudyService
   //     })
 
   //     const allergyServiceListMock = jest.fn()
-  //     jest.spyOn(ClaimServiceMock, 'list').mockImplementation((params: any) => {
+  //     jest.spyOn(ImagingStudyServiceMock, 'list').mockImplementation((params: any) => {
   //       allergyServiceListMock(params)
   //       return Promise.resolve({
   //         data: [
@@ -166,11 +166,11 @@ describe('<PatientImagingStudyTable />', () => {
   //     }
   //     useObservaionLaboratoryListResult.mockImplementation(() => results)
   //     jest.spyOn(HMSService, 'getService').mockImplementation(() => {
-  //       return ClaimServiceMock as ClaimService
+  //       return ImagingStudyServiceMock as ImagingStudyService
   //     })
 
   //     const allergyServiceListMock = jest.fn()
-  //     jest.spyOn(ClaimServiceMock, 'list').mockImplementation((params: any) => {
+  //     jest.spyOn(ImagingStudyServiceMock, 'list').mockImplementation((params: any) => {
   //       allergyServiceListMock(params)
   //       return Promise.resolve({
   //         data: [
@@ -226,9 +226,9 @@ describe('<PatientImagingStudyTable />', () => {
   //     }
   //     useObservaionLaboratoryListResult.mockImplementation(() => results)
   //     jest.spyOn(HMSService, 'getService').mockImplementation(() => {
-  //       return ClaimServiceMock as ClaimService
+  //       return ImagingStudyServiceMock as ImagingStudyService
   //     })
-  //     jest.spyOn(ClaimServiceMock, 'list').mockImplementation(() => {
+  //     jest.spyOn(ImagingStudyServiceMock, 'list').mockImplementation(() => {
   //       throw Error('error!!!')
   //     })
 
@@ -271,9 +271,9 @@ describe('<PatientImagingStudyTable />', () => {
   //     }
   //     useObservaionLaboratoryListResult.mockImplementation(() => results)
   //     jest.spyOn(HMSService, 'getService').mockImplementation(() => {
-  //       return ClaimServiceMock as ClaimService
+  //       return ImagingStudyServiceMock as ImagingStudyService
   //     })
-  //     jest.spyOn(ClaimServiceMock, 'list').mockImplementation(() => {
+  //     jest.spyOn(ImagingStudyServiceMock, 'list').mockImplementation(() => {
   //       throw Error('error!!!')
   //     })
 

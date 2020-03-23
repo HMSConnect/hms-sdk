@@ -1,10 +1,10 @@
 import * as React from 'react'
 
 import * as patientSummaryAction from '@app/actions/patientsummaryCards.action'
+import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import patientSummaryCards, {
   patientSummaryCardsInitialState,
 } from '@app/reducers-redux/patientSummaryCards.reducer'
-import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import useObservationList from '@components/hooks/useObservationList'
 import { fireEvent, render } from '@testing-library/react'
 import * as nextRouter from 'next/router'

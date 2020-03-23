@@ -1,8 +1,8 @@
 import * as React from 'react'
 
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
-import CarePlanServiceMock from '@components/hooks/__mocks__/CarePlanServiceMock'
 import PatientCarePlanTable from '@components/widget/patient/PatientCarePlanTable'
+import CarePlanServiceMock from '@services/__mocks__/CarePlanServiceMock'
 import CarePlanService from '@services/CarePlanService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { fireEvent, render, waitForDomChange } from '@testing-library/react'

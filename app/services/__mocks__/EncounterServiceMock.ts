@@ -1,6 +1,6 @@
-import IAdapter from '../../../adapters/IAdapter'
-import DataManager from '../../../data-managers/DataManager'
-import PatientDataManager from '../../../data-managers/PatientDataManager'
+import IAdapter from "@adapters/IAdapter"
+import DataManager from "@data-managers/DataManager"
+import PatientDataManager from "@data-managers/PatientDataManager"
 
 class EncounterServiceMock {
   getResource(): string {
