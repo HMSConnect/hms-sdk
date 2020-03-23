@@ -1,28 +1,13 @@
 import * as React from 'react'
 
 import patientAllergyList from '@app/reducers-redux/patientAllergyList.reducer'
+import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { render } from '@testing-library/react'
-import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import PatientAllergyList, {
   PatientAllergyListWithConnector,
 } from '../../patient/PatientAllergyList'
-
-function renderWithRedux(
-  ui: any,
-  {
-    initialState = {},
-    store = createStore(patientAllergyList, {
-      patientAllergyList: initialState,
-    }),
-  }: any = {},
-) {
-  return {
-    ...render(<Provider store={store}>{ui}</Provider>),
-    store,
-  }
-}
 
 jest.mock('@components/hooks/useAllergyIntoleranceList', () => ({
   __esModule: true,
@@ -82,7 +67,15 @@ describe('<PatientAllergyList />', () => {
   })
 
   it('render PatientAllergyListWithConnector with redux', () => {
-    const { queryByText } = renderWithRedux(<PatientAllergyListWithConnector />)
+    const { queryByText } = renderWithRedux(
+      <PatientAllergyListWithConnector />,
+      {
+        initialState: {},
+        store: createStore(patientAllergyList, {
+          patientAllergyList: {},
+        }),
+      },
+    )
 
     expect(queryByText('Allergy to bee venom')).toBeTruthy()
     expect(queryByText('House dust mite allergy2')).toBeTruthy()
