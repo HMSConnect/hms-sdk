@@ -1,5 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks'
 import useInfinitScroll from '../useInfinitScroll'
+import { fireEvent } from '@testing-library/react'
 
 describe('useInfinitScroll', () => {
   it('initial useInfinitScroll', async () => {
@@ -34,45 +35,81 @@ describe('useInfinitScroll', () => {
     expect(result.current.data).toStrictEqual(initialResourceList)
   })
 
-  // it('ref infinit scroll call useInfinitScroll', async () => {
-  //   const fetchMoreAsync = jest.fn()
-  //   const div = document.createElement('div')
-  //   div.style.height = '200px'
-  //   div.style.maxHeight = '50px'
-  //   div.style.overflow = 'auto'
-  //   // const elementMock = { addEventListener: jest.fn() }
-  //   // jest
-  //   //   .spyOn(div, 'scroll')
-  //   //   .mockImplementationOnce(() => elementMock.addEventListener)
+  it('window infinit scroll call useInfinitScroll', async () => {
+    const fetchMoreAsync = jest.fn()
+    const initialResourceList = [
+      {
+        type: 'ADMS',
+      },
+      {
+        type: 'EECM',
+      },
+    ]
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useInfinitScroll(null, fetchMoreAsync, initialResourceList),
+    )
+    expect(result.current.data).toStrictEqual(initialResourceList)
+    // await act(async () => {
+    //   result.current.setIsFetch(true)
+    //   await waitForNextUpdate()
+    // })
 
-  //   const initialResourceList = [
-  //     {
-  //       type: 'ADMS'
-  //     },
-  //     {
-  //       type: 'EECM'
-  //     }
-  //   ]
-  //   const { result, waitForNextUpdate } = renderHook(() =>
-  //     useInfinitScroll(null, fetchMoreAsync, initialResourceList)
-  //   )
+    // console.log('div,scrollTop  :', div.scrollTop)
+    // div.scrollTop = 100
+    // window.scrollTo(0, 100)
+    // console.log('div,scrollTop  :', div.scrollTop)
 
-  //   // const { result, waitForNextUpdate } = renderHook(() =>
-  //   //   useInfinitScroll(div, fetchMoreAsync, initialResourceList)
-  //   // )
+    // expect(result.current.isFetch).toBeTruthy()
 
-  //   expect(result.current.data).toStrictEqual(initialResourceList)
-  //   // console.log('div,scrollTop  :', div.scrollTop)
-  //   // div.scrollTop = 100
-  //   // window.scrollTo(0, 100)
-  //   // console.log('div,scrollTop  :', div.scrollTop)
+    // fireEvent.scroll(window, { target: { scrollY: 100 } })
+    await act(async () => {
+      fireEvent.scroll(window, { target: { pageYOffset: 100 } })
+      // await waitForNextUpdate()
+    })
 
-  //   // expect(result.current.isFetch).toBeTruthy()
+    await act(async () => {
+      fireEvent.scroll(window, { target: { pageYOffset: 1000 } })
+      await waitForNextUpdate()
+    })
 
-  //   fireEvent.scroll(div, {})
+    // expect(elementMock.addEventListener).toBeCalled()
+    expect(fetchMoreAsync).toHaveBeenCalled()
+    expect(fetchMoreAsync).toBeCalledTimes(1)
+    // expect(false).toBeTruthy()
+  })
 
-  //   // expect(elementMock.addEventListener).toBeCalled()
-  // })
+  it('ref infinit scroll call useInfinitScroll', async () => {
+    const fetchMoreAsync = jest.fn()
+    const div = document.createElement('div')
+    // div.style.height = '2800px'
+    div.style.maxHeight = '50px'
+    div.style.overflow = 'auto'
+    const div2 = document.createElement('div')
+    div.style.height = '2800px'
+    div.appendChild(div2)
+    const initialResourceList = [
+      {
+        type: 'ADMS',
+      },
+      {
+        type: 'EECM',
+      },
+    ]
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useInfinitScroll(div, fetchMoreAsync, initialResourceList),
+    )
+    expect(result.current.data).toStrictEqual(initialResourceList)
+    await act(async () => {
+      fireEvent.scroll(div, { target: { scrollTop: 100 } })
+      // await waitForNextUpdate()
+    })
+    await act(async () => {
+      fireEvent.scroll(div, { target: { scrollTop: 1000 } })
+      await waitForNextUpdate()
+    })
+    expect(fetchMoreAsync).toHaveBeenCalled()
+    expect(fetchMoreAsync).toBeCalledTimes(1)
+  })
 
   it('initial useInfinitScroll with manual fetch', async () => {
     const initialResourceList = [
