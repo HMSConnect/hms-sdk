@@ -21,6 +21,10 @@ import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.denary?.light || '',
+    color: theme.palette.denary?.main || '',
+  },
   tableWrapper: {
     ['& .MuiTableCell-stickyHeader']: {
       top: 30,
@@ -173,10 +177,7 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
             ])}
             option={{
               isHideIcon: true,
-              style: {
-                backgroundColor: lighten('#c37d0e', 0.85),
-                color: '#c37d0e',
-              },
+              headerClass: classes.headerCard,
             }}
           ></ToolbarWithFilter>
         </div>

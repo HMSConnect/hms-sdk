@@ -31,12 +31,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   contentText: {
     fontWeight: 'normal',
   },
-  footerContainer: { height: 36, color: 'grey' },
+  footerContainer: { height: 36, color: theme.palette.text.secondary },
+  headerCard: {
+    backgroundColor: theme.palette.septenary?.light || '',
+    color: theme.palette.septenary?.main || '',
+  },
   hover: {
     '&:hover': {
       backgroundColor: '#ddd4',
     },
     textDecoration: 'none',
+  },
+  iconCard: {
+    color: theme.palette.septenary?.dark || '',
   },
   infoIcon: {
     color: '#1976d2',
@@ -117,15 +124,10 @@ const ObservationTabacoSmokingStatusCardView: React.FunctionComponent<any> = ({
   return (
     <CardLayout
       header='Tobacco Smoking Status'
-      Icon={
-        <Icon style={{ color: '#558b2f' }} className={clsx('fas fa-smoking')} />
-      }
+      Icon={<Icon className={clsx('fas fa-smoking', classes.iconCard)} />}
       option={{
+        headerClass: classes.headerCard,
         isHideIcon: true,
-        style: {
-          backgroundColor: lighten('#558b2f', 0.85),
-          color: '#558b2f',
-        },
       }}
     >
       <Grid

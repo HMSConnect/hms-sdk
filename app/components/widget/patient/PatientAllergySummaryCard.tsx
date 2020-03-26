@@ -29,15 +29,24 @@ const useStyles = makeStyles((theme: Theme) => ({
   contentText: {
     fontWeight: 'normal',
   },
+  headerCard: {
+    backgroundColor: theme.palette.quinary?.light || '',
+    color: theme.palette.quinary?.main || '',
+  },
   hover: {
     '&:hover': {
       backgroundColor: '#ddd4',
     },
     textDecoration: 'none',
   },
-  infoIcon: {
-    color: '#1976d2',
-    zoom: 0.7,
+  iconContainer: {
+    backgroundColor: theme.palette.quinary?.main || '',
+    flex: 1,
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
+  noneItem: {
+    color: theme.palette.text.secondary,
   },
   selectedCard: {
     backgroundColor: '#ddd4',
@@ -97,24 +106,15 @@ const PatientAllergySummerCardView: React.FunctionComponent<any> = ({
     <CardLayout
       header='Total Allergies'
       option={{
+        headerClass: classes.headerCard,
         isHideIcon: true,
-        style: {
-          backgroundColor: lighten('#3c8dbc', 0.85),
-          color: '#3c8dbc',
-        },
       }}
     >
       <Grid container style={{ height: '100%' }}>
         <Typography
           component='div'
           variant='body1'
-          style={{
-            backgroundColor: '#3c8dbc',
-            flex: 1,
-            paddingLeft: 16,
-            paddingRight: 16,
-          }}
-          className={clsx(classes.bodyCard)}
+          className={clsx(classes.bodyCard, classes.iconContainer)}
         >
           <Icon
             style={{ color: 'white', fontSize: '2.2em', textAlign: 'center' }}
@@ -135,10 +135,10 @@ const PatientAllergySummerCardView: React.FunctionComponent<any> = ({
           <Typography
             component='span'
             variant='h4'
-            className={classes.contentText}
+            className={clsx(classes.contentText, {
+              [classes.noneItem]: get(allergyResource, 'totalCount') === 0,
+            })}
             style={{
-              color:
-                get(allergyResource, 'totalCount') === 0 ? undefined : 'gray',
               paddingRight: 8,
             }}
           >

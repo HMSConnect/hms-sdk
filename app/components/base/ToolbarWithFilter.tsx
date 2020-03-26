@@ -17,6 +17,7 @@ import Truncate from './Truncate'
 
 interface IToolbarWithFilterOption {
   style?: any
+  headerClass?: any
   additionButton?: any
   isHideIcon?: boolean
 }
@@ -90,9 +91,13 @@ const ToolbarWithFilter: React.FC<{
     <>
       <Toolbar
         variant='dense'
-        className={clsx(classes.root, {
-          [classes.highlight]: !toolbarOption.style,
-        })}
+        className={clsx(
+          classes.root,
+          {
+            [classes.highlight]: !toolbarOption.headerClass,
+          },
+          toolbarOption.headerClass,
+        )}
         style={toolbarOption.style}
       >
         <Typography

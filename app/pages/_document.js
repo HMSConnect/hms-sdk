@@ -1,8 +1,8 @@
 import * as React from 'react'
 import getConfig from 'next/config'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
-import { ServerStyleSheets } from '@material-ui/core/styles';
-import theme from '../src/theme'
+import { ServerStyleSheets } from '@material-ui/core/styles'
+// import theme from '../src/theme'
 
 const { staticFolder } = getConfig().publicRuntimeConfig
 
@@ -61,7 +61,7 @@ class HMSWidgetSDKDocument extends Document {
             content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no'
           />
           {/* PWA primary color */}
-          <meta name='theme-color' content={theme.palette.primary.main} />
+          {/* <meta name='theme-color' content={theme.palette.primary.main} /> */}
 
           <link
             rel='icon'

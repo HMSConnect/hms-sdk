@@ -22,21 +22,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: theme.spacing(10),
   },
   contentText: {
-    color: '#37474f',
+    color: theme.palette.text.primary,
     fontWeight: 'normal',
   },
   headerTitle: {
-    color: 'grey',
+    color: theme.palette.text.secondary,
   },
   nameTitle: {
-    color: '#808080',
+    color: theme.palette.text.primary,
+    // color: '#808080',
   },
   root: {
     height: '100%',
     padding: theme.spacing(2),
   },
   topicTitle: {
-    color: 'grey',
+    color: theme.palette.text.secondary,
   },
 }))
 

@@ -28,20 +28,27 @@ const useStyles = makeStyles((theme: Theme) => ({
   contentText: {
     fontWeight: 'normal',
   },
-  footerContainer: { height: 36, color: 'grey' },
+  footerContainer: { height: 36, color: theme.palette.text.secondary },
+  headerCard: {
+    backgroundColor: theme.palette.senary?.light || '',
+    color: theme.palette.senary?.main || '',
+  },
   hover: {
     '&:hover': {
-      backgroundColor: '#ddd4',
+      backgroundColor: theme.palette.action.hover,
     },
     textDecoration: 'none',
+  },
+  iconCard: {
+    color: theme.palette.senary?.dark || '',
   },
   infoIcon: {
     color: '#1976d2',
     zoom: 0.7,
   },
   selectedCard: {
-    backgroundColor: '#ddd4',
-    border: '2px solid #00b0ff',
+    backgroundColor: theme.palette.action.selected,
+    border: `2px solid ${theme.palette.action.active}`,
     borderRadius: 4,
   },
   unitText: {
@@ -134,16 +141,12 @@ export const ObservationTemperatureCardView: React.FunctionComponent<{
       header='Temperature'
       Icon={
         <Icon
-          style={{ color: '#cddc39' }}
-          className={clsx('fas fa-thermometer-quarter')}
+          className={clsx('fas fa-thermometer-quarter', classes.iconCard)}
         />
       }
       option={{
+        headerClass: classes.headerCard,
         isHideIcon: true,
-        style: {
-          backgroundColor: lighten('#afb42b', 0.85),
-          color: '#afb42b',
-        },
       }}
     >
       <Grid

@@ -12,7 +12,8 @@ import { AdapterManager } from '../adapters/DataAdapterManager'
 import store from '../reducers-redux/index.reducer'
 import RouteManager from '../routes/RouteManager'
 import { GoogleAnalytics } from '../services/GoogleAnalyticsService'
-import theme from '../src/theme'
+// import theme from '../src/theme'
+import ThemeManager from '../styles/ThemeManager'
 
 class AASApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -25,10 +26,14 @@ class AASApp extends App {
 
   constructor(props) {
     super(props)
+    ThemeManager.setDefaultTheme('theme1')
     if (typeof window !== 'undefined') {
       AdapterManager.createAdapter(_.get(props, 'router.query.mode'))
       const pathName = props.router.pathname
       RouteManager.registryMode(pathName)
+    }
+    this.state = {
+      theme: ThemeManager.getThmeObject(props.router?.query?.theme),
     }
   }
   componentDidMount() {
@@ -40,8 +45,12 @@ class AASApp extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props
+    // const theme = createMuiTheme({
+    //   widgetType: 'tertriry',
+    // })
 
+    const { Component, pageProps } = this.props
+    const { theme } = this.state
     return (
       <>
         <Provider store={store}>

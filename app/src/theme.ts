@@ -1,9 +1,14 @@
 import { red } from '@material-ui/core/colors'
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import {
+  createMuiTheme,
+  responsiveFontSizes,
+  SimplePaletteColorOptions,
+} from '@material-ui/core/styles'
 
 // Create a theme instance.
 const theme = createMuiTheme({
   palette: {
+    type: 'light',
     background: {
       default: '#fff',
     },
@@ -16,7 +21,9 @@ const theme = createMuiTheme({
     secondary: {
       main: '#19857b',
     },
-    type: 'light',
+    // tertiary: {
+    //   main: '#19857b',
+    // },
   },
 })
 
