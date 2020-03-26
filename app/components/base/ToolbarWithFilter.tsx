@@ -33,16 +33,10 @@ const useStyles = makeStyles((theme: Theme) => {
     anchorOriginTopRightRectangle: {
       top: '10px',
     },
-    highlight:
-      theme.palette.type === 'light'
-        ? {
-            backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-            color: theme.palette.secondary.main,
-          }
-        : {
-            backgroundColor: theme.palette.secondary.dark,
-            color: theme.palette.text.primary,
-          },
+    highlight: {
+      backgroundColor: theme.palette.tertiary?.light || '',
+      color: theme.palette.tertiary?.main || '',
+    },
     iconContainer: {
       alignItems: 'center',
       display: 'flex',

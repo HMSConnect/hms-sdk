@@ -344,40 +344,38 @@ const PatientEncounterTimeline: React.FunctionComponent<{
 
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
-      <MouseTrackMove category='patient_summary'>
-        <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
-          <div className={classes.toolbar}>
-            <ToolbarWithFilter
-              title={'Encounter'}
-              onClickIcon={showModal}
-              Icon={
-                <Icon
-                  className={clsx('fas fa-book-reader', classes.iconCard)}
-                />
-              }
-              filterActive={countFilterActive(submitedFilter, initialFilter, [
-                'periodStart_lt',
-                'patientId',
-                'type',
-              ])}
-              option={{
-                headerClass: classes.headerCard,
-              }}
-            >
-              {renderModal}
-            </ToolbarWithFilter>
-          </div>
-          <div className={classes.tableWrapper} data-testid='scroll-container'>
-            <PatientEncounterList
-              entryList={data}
-              onEntrySelected={handleEncounterSelect}
-              isLoading={isLoading}
-              isMore={isMore}
-              selectedEncounterId={selectedEncounterId}
-            />
-          </div>
+      {/* <MouseTrackMove category='patient_summary'> */}
+      <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Encounter'}
+            onClickIcon={showModal}
+            Icon={
+              <Icon className={clsx('fas fa-book-reader', classes.iconCard)} />
+            }
+            filterActive={countFilterActive(submitedFilter, initialFilter, [
+              'periodStart_lt',
+              'patientId',
+              'type',
+            ])}
+            option={{
+              headerClass: classes.headerCard,
+            }}
+          >
+            {renderModal}
+          </ToolbarWithFilter>
         </div>
-      </MouseTrackMove>
+        <div className={classes.tableWrapper} data-testid='scroll-container'>
+          <PatientEncounterList
+            entryList={data}
+            onEntrySelected={handleEncounterSelect}
+            isLoading={isLoading}
+            isMore={isMore}
+            selectedEncounterId={selectedEncounterId}
+          />
+        </div>
+      </div>
+      {/* </MouseTrackMove> */}
     </TrackerMouseClick>
   )
 }

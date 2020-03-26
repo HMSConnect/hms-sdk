@@ -23,30 +23,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     justifyContent: 'center',
   },
-  clickable: {
-    cursor: 'pointer',
-  },
   contentText: {
     fontWeight: 'normal',
   },
-  footerContainer: { height: 36, color: 'grey' },
-  hover: {
-    '&:hover': {
-      backgroundColor: '#ddd4',
-    },
-    textDecoration: 'none',
+  headerCard: {
+    backgroundColor: theme.palette.denary?.light || '',
+    color: theme.palette.denary?.main || '',
   },
-  infoIcon: {
-    color: '#1976d2',
-    zoom: 0.7,
+  iconContainer: {
+    backgroundColor: theme.palette.denary?.dark || '',
+    flex: 1,
+    paddingLeft: 16,
+    paddingRight: 16,
   },
-  selectedCard: {
-    backgroundColor: '#ddd4',
-    border: '2px solid #00b0ff',
-    borderRadius: 4,
-  },
-  unitText: {
-    fontWeight: 'normal',
+  noneItem: {
+    color: theme.palette.text.secondary,
   },
 }))
 
@@ -54,7 +45,12 @@ export const PatientImmunizationSummerCardWithConnector: React.FunctionComponent
   const state = useSelector(
     (state: any) => state.patientImmunizationSummaryCard,
   )
-  return <PatientImmunizationSummerCard patientId={get(state, 'patientId')} mouseTrackCategory={get(state, 'mouseTrackCategory')} />
+  return (
+    <PatientImmunizationSummerCard
+      patientId={get(state, 'patientId')}
+      mouseTrackCategory={get(state, 'mouseTrackCategory')}
+    />
+  )
 }
 
 const PatientImmunizationSummerCard: React.FunctionComponent<any> = ({
@@ -97,24 +93,15 @@ const PatientImmunizationSummerCardView: React.FunctionComponent<any> = ({
     <CardLayout
       header='Total Immunization'
       option={{
+        headerClass: classes.headerCard,
         isHideIcon: true,
-        style: {
-          backgroundColor: lighten('#afb42b', 0.85),
-          color: '#afb42b',
-        },
       }}
     >
       <Grid container style={{ height: '100%' }}>
         <Typography
           component='div'
           variant='body1'
-          style={{
-            backgroundColor: '#afb42b',
-            flex: 1,
-            paddingLeft: 16,
-            paddingRight: 16,
-          }}
-          className={clsx(classes.bodyCard)}
+          className={clsx(classes.bodyCard, classes.iconContainer)}
         >
           <Icon
             style={{ color: 'white', fontSize: '2.2em', textAlign: 'center' }}
@@ -135,9 +122,10 @@ const PatientImmunizationSummerCardView: React.FunctionComponent<any> = ({
           <Typography
             component='span'
             variant='h4'
-            className={classes.contentText}
+            className={clsx(classes.contentText, {
+              [classes.noneItem]: get(immunization, 'totalCount') === 0,
+            })}
             style={{
-              color: get(immunization, 'totalCount') === 0 ? undefined : 'gray',
               paddingRight: 8,
             }}
           >

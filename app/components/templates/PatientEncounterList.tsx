@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: `${theme.palette.nonary?.light || ''}!important`,
   },
   line: {
-    borderLeft: '10px solid #5c6bc0',
+    borderLeft: `10px solid ${theme.palette.nonary?.main}`,
     height: '100%',
     marginLeft: '6.7rem',
     // left: '10%',
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     zIndex: 100,
   },
   lineColapse: {
-    borderLeft: '10px solid #5c6bc0',
+    borderLeft: `10px solid ${theme.palette.nonary?.main}`,
     height: '100%',
     marginLeft: '7.7rem',
   },

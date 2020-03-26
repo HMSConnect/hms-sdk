@@ -14,46 +14,46 @@ const theme = createMuiTheme({
       secondary: '#607d8b',
     },
     primary: {
-      main: '#009688',
+      main: '#ff6977',
     },
     secondary: {
-      main: '#00b0ff',
+      main: '#ff4f00',
     },
     error: {
-      main: red.A400,
+      main: '#ef5350',
     },
     background: {
       default: '#fff',
     },
     tertiary: generateDarkAndLight({
-      main: '#ef5350',
+      main: '#10acaf',
     }),
     quaternary: generateDarkAndLight({
-      main: '#c62828',
+      main: '#39d7d7',
     }),
     quinary: generateDarkAndLight({
-      main: '#00b0ff',
+      main: '#ff4f00',
     }),
     senary: generateDarkAndLight({
-      main: '#afb42b',
+      main: '#504bd4',
     }),
     septenary: generateDarkAndLight({
-      main: '#558b2f',
+      main: '#aa74d0',
     }),
     octonary: generateDarkAndLight({
-      main: '#afb42b',
+      main: '#504bd4',
     }),
     nonary: generateDarkAndLight({
-      main: '#5c6bc0',
+      main: '#a3943f',
     }),
     denary: generateDarkAndLight({
-      main: '#c37d0e',
+      main: '#3c82f1',
     }),
     eleventh: generateDarkAndLight({
-      main: '#7e57c2',
+      main: '#81a83d',
     }),
     duodenary: generateDarkAndLight({
-      main: '#3d5afe',
+      main: '#c2a501',
     }),
   },
 })

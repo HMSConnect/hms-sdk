@@ -23,21 +23,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     justifyContent: 'center',
   },
-  clickable: {
-    cursor: 'pointer',
-  },
   contentText: {
     fontWeight: 'normal',
   },
   headerCard: {
     backgroundColor: theme.palette.quinary?.light || '',
     color: theme.palette.quinary?.main || '',
-  },
-  hover: {
-    '&:hover': {
-      backgroundColor: '#ddd4',
-    },
-    textDecoration: 'none',
   },
   iconContainer: {
     backgroundColor: theme.palette.quinary?.main || '',
@@ -48,11 +39,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   noneItem: {
     color: theme.palette.text.secondary,
   },
-  selectedCard: {
-    backgroundColor: '#ddd4',
-    border: '2px solid #00b0ff',
-    borderRadius: 4,
-  },
+  
   unitText: {
     fontWeight: 'normal',
   },
