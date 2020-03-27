@@ -38,8 +38,14 @@ class ThemeManager {
   }
 
   getThmeObject(name: string) {
-    const themeObject = require(`./${name || this.defaultTheme}`)?.default
-    return themeObject
+    try {
+      const themeObject = require(`./${name || this.defaultTheme}`)?.default
+      return themeObject
+    } catch (e) {
+      console.info('error load theme: ', e)
+      const themeObject = require(`./${this.defaultTheme}`)?.default
+      return themeObject
+    }
   }
 }
 

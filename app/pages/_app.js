@@ -26,7 +26,7 @@ class AASApp extends App {
 
   constructor(props) {
     super(props)
-    ThemeManager.setDefaultTheme('theme1')
+    ThemeManager.setDefaultTheme('normal')
     if (typeof window !== 'undefined') {
       AdapterManager.createAdapter(_.get(props, 'router.query.mode'))
       const pathName = props.router.pathname
