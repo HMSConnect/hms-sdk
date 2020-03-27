@@ -25,6 +25,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.denary?.light || '',
     color: theme.palette.denary?.main || '',
   },
+  warningValue: {
+    color: theme.palette.error.main,
+  },
+  successValue: {
+    color: theme.palette.success.main,
+  },
   tableWrapper: {
     ['& .MuiTableCell-stickyHeader']: {
       top: 30,
@@ -219,7 +225,8 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
                         return (
                           <Typography
                             variant='body1'
-                            style={{ color: '#f44336' }}
+                            // style={{ color: '#f44336' }}
+                            className={classes.warningValue}
                           >
                             {laboratory.value}{' '}
                             <Icon
@@ -235,7 +242,8 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
                         return (
                           <Typography
                             variant='body1'
-                            style={{ color: '#f44336' }}
+                            // style={{ color: '#f44336' }}
+                            className={classes.warningValue}
                           >
                             {laboratory.value}{' '}
                             <Icon
@@ -248,7 +256,8 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
                         return (
                           <Typography
                             variant='body1'
-                            style={{ color: '#66bb6a' }}
+                            // style={{ color: '#66bb6a' }}
+                            className={classes.successValue}
                           >
                             {laboratory.value}{' '}
                           </Typography>

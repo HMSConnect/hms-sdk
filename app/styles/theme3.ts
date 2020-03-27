@@ -9,7 +9,6 @@ const theme = createMuiTheme({
       selected: '#ddd4',
     },
     text: {
-      disabled: 'rgba(255, 255, 255, 0.5)',
       primary: '#37474f',
       secondary: '#607d8b',
     },

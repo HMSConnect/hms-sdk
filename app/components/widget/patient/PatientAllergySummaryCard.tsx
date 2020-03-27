@@ -30,16 +30,24 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.quinary?.light || '',
     color: theme.palette.quinary?.main || '',
   },
-  iconContainer: {
-    backgroundColor: theme.palette.quinary?.main || '',
-    flex: 1,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
+  iconContainer:
+    theme.palette.type === 'dark'
+      ? {
+          backgroundColor: theme.palette.quinary?.light || '',
+          flex: 1,
+          paddingLeft: 16,
+          paddingRight: 16,
+        }
+      : {
+          backgroundColor: theme.palette.quinary?.main || '',
+          flex: 1,
+          paddingLeft: 16,
+          paddingRight: 16,
+        },
   noneItem: {
     color: theme.palette.text.secondary,
   },
-  
+
   unitText: {
     fontWeight: 'normal',
   },

@@ -5,6 +5,7 @@ import { generateDarkAndLight } from './utils'
 // Create a theme instance.
 const theme = createMuiTheme({
   palette: {
+    type: 'dark',
     action: {
       active: '#fff',
       disabled: 'rgba(255, 255, 255, 0.3)',
@@ -32,65 +33,78 @@ const theme = createMuiTheme({
     },
     tertiary: generateDarkAndLight(
       {
-        main: '#BB86FC',
+        main: '#ef5350',
       },
+      true,
       0.6,
       0.3,
     ),
     quaternary: generateDarkAndLight(
       {
-        main: '#03DAC6',
+        main: '#c62828',
       },
+      true,
       0.6,
       0.3,
     ),
     quinary: generateDarkAndLight(
       {
-        main: '#BB86FC',
+        main: '#00b0ff',
       },
+      true,
       0.6,
       0.3,
     ),
     senary: generateDarkAndLight(
       {
-        main: '#03DAC6',
+        main: '#afb42b',
       },
+      true,
       0.6,
       0.3,
     ),
     septenary: generateDarkAndLight(
       {
-        main: '#BB86FC',
+        main: '#558b2f',
       },
+      true,
       0.6,
       0.3,
     ),
     octonary: generateDarkAndLight(
       {
-        main: '#03DAC6',
+        main: '#afb42b',
       },
+      true,
       0.6,
       0.3,
     ),
     nonary: generateDarkAndLight(
       {
-        main: '#BB86FC',
+        main: '#5c6bc0',
       },
+      true,
       0.6,
       0.3,
     ),
     denary: generateDarkAndLight(
       {
-        main: '#03DAC6',
+        main: '#c37d0e',
       },
+      true,
       0.6,
       0.3,
     ),
-    eleventh: generateDarkAndLight({
-      main: '#BB86FC',
-    }),
+    eleventh: generateDarkAndLight(
+      {
+        main: '#7e57c2',
+      },
+      true,
+      0.6,
+      0.3,
+    ),
     duodenary: generateDarkAndLight({
-      main: '#03DAC6',
+      main: '#3d5afe',
     }),
     divider: 'rgba(255, 255, 255, 0.12)',
   },

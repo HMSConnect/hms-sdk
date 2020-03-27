@@ -26,8 +26,8 @@ import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
-    backgroundColor: theme.palette.octonary?.light || '',
-    color: theme.palette.octonary?.main || '',
+    backgroundColor: theme.palette.senary?.light || '',
+    color: theme.palette.senary?.main || '',
   },
   root: {},
   tableWrapper: {
