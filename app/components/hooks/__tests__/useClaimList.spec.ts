@@ -1,7 +1,7 @@
+import ClaimServiceMock from '@services/__mocks__/ClaimServiceMock'
 import ClaimService from '@services/ClaimService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { renderHook } from '@testing-library/react-hooks'
-import ClaimServiceMock from '../__mocks__/ClaimServiceMock'
 import useClaimList from '../useClaimList'
 
 describe('useClaimList', () => {

@@ -1,7 +1,7 @@
+import PatientServiceMock from '@services/__mocks__/PatientServiceMock'
 import { renderHook } from '@testing-library/react-hooks'
 import { HMSService } from '../../../services/HMSServiceFactory'
 import PatientService from '../../../services/PatientService'
-import PatientServiceMock from '../__mocks__/PatientServiceMock'
 import usePatientList from '../usePatientList'
 
 describe('usePatientList', () => {

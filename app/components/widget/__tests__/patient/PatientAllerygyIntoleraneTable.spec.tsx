@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import AllergyIntoleranceServiceMock from '@components/hooks/__mocks__/AllergyIntoleranceServiceMock'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
+import AllergyIntoleranceServiceMock from '@services/__mocks__/AllergyIntoleranceServiceMock'
 import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { fireEvent, render, waitForDomChange } from '@testing-library/react'

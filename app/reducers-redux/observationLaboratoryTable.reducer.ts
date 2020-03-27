@@ -5,7 +5,7 @@ interface IObservationLaboratoryTableAction {
   payload: any
 }
 
-const initialState: any = {}
+export const initialState: any = {}
 const observationLaboratoryTable = (
   state = initialState,
   action: IObservationLaboratoryTableAction,

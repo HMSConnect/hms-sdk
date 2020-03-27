@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
-import ConditionServiceMock from '@components/hooks/__mocks__/ConditionServiceMock'
+import ConditionServiceMock from '@services/__mocks__/ConditionServiceMock'
 import ConditionService from '@services/ConditionService'
 import { HMSService } from '@services/HMSServiceFactory'
 import {

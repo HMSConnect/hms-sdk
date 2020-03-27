@@ -1,7 +1,7 @@
+import ImagingStudyServiceMock from '@services/__mocks__/ImagingStudyServiceMock'
 import ImagingStudyService from '@services/ImagingStudyService'
 import { renderHook } from '@testing-library/react-hooks'
 import { HMSService } from '../../../services/HMSServiceFactory'
-import ImagingStudyServiceMock from '../__mocks__/ImagingStudyServiceMock'
 import useImagingStudyList from '../useImagingStudyList'
 
 describe('useImagingStudyList', () => {

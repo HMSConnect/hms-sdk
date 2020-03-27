@@ -21,6 +21,8 @@ import {
   FormControlLabel,
   FormGroup,
   Icon,
+  makeStyles,
+  Theme,
   Typography,
 } from '@material-ui/core'
 import { lighten } from '@material-ui/core/styles'
@@ -29,6 +31,15 @@ import { scaleTime } from 'd3-scale'
 import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
 
+const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.eleventh?.light || '',
+    color: theme.palette.eleventh?.main || '',
+  },
+  iconCard: {
+    color: theme.palette.eleventh?.dark || '',
+  },
+}))
 const mapObservaionCode = (codes: string[]) => {
   return _.reduce(
     codes,
@@ -84,6 +95,7 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
   mouseTrackCategory = 'observation_summary_graph',
   mouseTrackLabel = 'observation_summary_graph',
 }) => {
+  const classes = useStyles()
   const initialFilter = React.useMemo(() => {
     const codes = `${OBSERVATION_CODE.BLOOD_PRESSURE.code},${OBSERVATION_CODE.BODY_MASS_INDEX.code}`
     const codeArray = _.split(codes || '', ',')
@@ -340,9 +352,8 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
           onClickIcon={showModal}
           Icon={<Icon className={'fas fa-chart-line'} />}
           option={{
+            headerClass: classes.headerCard,
             style: {
-              backgroundColor: lighten('#7e57c2', 0.85),
-              color: '#7e57c2',
               // height: '10%',
             },
           }}

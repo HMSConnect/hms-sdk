@@ -17,22 +17,22 @@ describe('<AdaptiveCard />', () => {
     expect(findAllByText('title')).toBeTruthy()
   })
 
-  it('should click submit and response to onExecuteAction', () => {
-    const onExecuteAction = jest.fn()
+  // it('should click submit and response to onExecuteAction', () => {
+  //   const onExecuteAction = jest.fn()
 
-    const { getByText } = render(
-      <AdaptiveCard
-        templatePayload={templatePayload}
-        data={{
-          title: 'title',
-        }}
-        onExecuteAction={onExecuteAction}
-      />,
-    )
+  //   const { getByText } = render(
+  //     <AdaptiveCard
+  //       templatePayload={templatePayload}
+  //       data={{
+  //         title: 'title',
+  //       }}
+  //       onExecuteAction={onExecuteAction}
+  //     />,
+  //   )
 
-    fireEvent.click(getByText('Show All'))
-    expect(onExecuteAction).toBeCalled()
-  })
+  //   fireEvent.click(getByText('Show All'))
+  //   expect(onExecuteAction).toBeCalled()
+  // })
 
   it('should error when data or template payload empty', () => {
     const onExecuteAction = jest.fn()

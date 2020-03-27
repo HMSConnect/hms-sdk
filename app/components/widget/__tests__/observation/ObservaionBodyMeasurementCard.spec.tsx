@@ -7,26 +7,11 @@ import patientSummaryCards, {
 import useObservationList from '@components/hooks/useObservationList'
 import { fireEvent, render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
-import { Provider } from 'react-redux'
 import { createStore } from 'redux'
+import { renderWithRedux } from '../../../../reducers-redux/__mocks__/renderWithRedux'
 import ObservationBodyMeasurementCard, {
   ObservationBodyMeasurementCardWithConnector,
 } from '../../observation/ObservationBodyMeasurementCard'
-
-function renderWithRedux(
-  ui: any,
-  {
-    initialState = patientSummaryCardsInitialState,
-    store = createStore(patientSummaryCards, {
-      patientSummaryCards: initialState,
-    }),
-  }: any = {},
-) {
-  return {
-    ...render(<Provider store={store}>{ui}</Provider>),
-    store,
-  }
-}
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
@@ -127,6 +112,12 @@ describe('<ObservaionBloodPressureCard />', () => {
     useObservationListResult.mockImplementation(() => results)
     const { queryByText, queryAllByText } = renderWithRedux(
       <ObservationBodyMeasurementCardWithConnector />,
+      {
+        initialState: patientSummaryCardsInitialState,
+        store: createStore(patientSummaryCards, {
+          patientSummaryCards: patientSummaryCardsInitialState,
+        }),
+      },
     )
 
     expect(queryByText('168.00')).toBeTruthy()
@@ -134,7 +125,7 @@ describe('<ObservaionBloodPressureCard />', () => {
     expect(queryByText('24.13')).toBeTruthy()
     expect(queryAllByText('kg')).toBeTruthy()
   })
-  
+
   it('click ObservaionBloodPressureCardConnector with Redux', () => {
     const useObservationListResult: any = useObservationList as any
     const results: any = {
@@ -176,6 +167,12 @@ describe('<ObservaionBloodPressureCard />', () => {
       })
     const { queryByText, queryAllByText, getByText } = renderWithRedux(
       <ObservationBodyMeasurementCardWithConnector />,
+      {
+        initialState: patientSummaryCardsInitialState,
+        store: createStore(patientSummaryCards, {
+          patientSummaryCards: patientSummaryCardsInitialState,
+        }),
+      },
     )
 
     expect(queryByText('168.00')).toBeTruthy()

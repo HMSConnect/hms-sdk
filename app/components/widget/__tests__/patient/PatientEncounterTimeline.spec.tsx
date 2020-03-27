@@ -1,15 +1,19 @@
 import * as React from 'react'
 
-import EncounterServiceMock from '@components/hooks/__mocks__/EncounterServiceMock'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { routesMock } from '@routes/__mocks__/routesMock'
+import EncounterServiceMock from '@services/__mocks__/EncounterServiceMock'
 import EncounterService from '@services/EncounterService'
 import { HMSService } from '@services/HMSServiceFactory'
-import { act, fireEvent, render, waitForDomChange } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  waitForDomChange,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import routes from '../../../../routes'
 import PatientEncounterTimeline from '../../patient/PatientEncounterTimeline'
-
 
 jest.mock('@components/hooks/useInfinitScroll', () => ({
   __esModule: true,

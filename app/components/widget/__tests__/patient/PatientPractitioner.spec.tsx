@@ -1,28 +1,13 @@
 import * as React from 'react'
 
+import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import patientPractitioner from '@app/reducers-redux/patientPractitioner.reducer'
 import useEncounter from '@components/hooks/useEncounter'
 import PatientPractitioner, {
   PatientPractitionerWithConnector,
 } from '@components/widget/patient/PatientPractitioner'
 import { render } from '@testing-library/react'
-import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-
-function renderWithRedux(
-  ui: any,
-  {
-    initialState = {},
-    store = createStore(patientPractitioner, {
-      patientPractitioner: initialState,
-    }),
-  }: any = {},
-) {
-  return {
-    ...render(<Provider store={store}>{ui}</Provider>),
-    store,
-  }
-}
 
 jest.mock('@components/hooks/useEncounter', () => ({
   __esModule: true,
@@ -128,8 +113,15 @@ describe('<PatientPractitioner />', () => {
       error: null,
       isLoading: false,
     }))
+
     const { queryByText } = renderWithRedux(
       <PatientPractitionerWithConnector />,
+      {
+        initialState: {},
+        store: createStore(patientPractitioner, {
+          patientPractitioner: {},
+        }),
+      },
     )
     expect(queryByText('Test2, Test1')).toBeTruthy()
   })

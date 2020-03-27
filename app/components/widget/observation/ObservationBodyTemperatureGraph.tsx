@@ -16,6 +16,10 @@ import maxBy from 'lodash/maxBy'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.senary?.light || '',
+    color: theme.palette.senary?.main || '',
+  },
   summaryContainer: {
     alignItems: 'center',
     display: 'flex',
@@ -84,10 +88,9 @@ export const ObservationBodyTemperatureGraphView: React.FunctionComponent<{
         title={'Body Temperature'}
         Icon={<Icon className={'fas fa-chart-area'} />}
         option={{
+          headerClass: classes.headerCard,
           isHideIcon: true,
           style: {
-            backgroundColor: lighten('#afb42b', 0.85),
-            color: '#afb42b',
             height: '5%',
           },
         }}

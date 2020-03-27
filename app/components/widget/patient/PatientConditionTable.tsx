@@ -25,6 +25,10 @@ import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.senary?.light || '',
+    color: theme.palette.senary?.main || '',
+  },
   root: {},
   tableWrapper: {
     ['& .MuiTableCell-stickyHeader']: {
@@ -272,6 +276,7 @@ const PatientConditionTable: React.FunctionComponent<{
             onClickIcon={showModal}
             Icon={<Icon className='fas fa-clipboard' />}
             option={{
+              headerClass: classes.headerCard,
               isHideIcon: false,
             }}
             filterActive={countFilterActive(submitedFilter, initialFilter, [

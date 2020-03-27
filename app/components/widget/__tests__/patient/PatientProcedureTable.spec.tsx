@@ -1,9 +1,9 @@
 import * as React from 'react'
 
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
-import ProcedureServiceMock from '@components/hooks/__mocks__/ProcedureServiceMock'
-import ProcedureService from '@services/ProcedureService'
+import ProcedureServiceMock from '@services/__mocks__/ProcedureServiceMock'
 import { HMSService } from '@services/HMSServiceFactory'
+import ProcedureService from '@services/ProcedureService'
 import {
   act,
   fireEvent,

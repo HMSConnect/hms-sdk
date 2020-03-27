@@ -27,8 +27,17 @@ import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
 import useInfinitScroll from '../../hooks/useInfinitScroll'
 import PatientEncounterList from '../../templates/PatientEncounterList'
+import MouseTrackMove from '@components/base/MouseTrackMove'
+import clsx from 'clsx'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.nonary?.light || '',
+    color: theme.palette.nonary?.main || '',
+  },
+  iconCard: {
+    color: theme.palette.nonary?.main || '',
+  },
   listRoot: { maxHeight: '60vh', overflow: 'auto' },
   root: {
     justifyContent: 'center',
@@ -335,22 +344,22 @@ const PatientEncounterTimeline: React.FunctionComponent<{
 
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      {/* <MouseTrackMove category='patient_summary'> */}
       <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
         <div className={classes.toolbar}>
           <ToolbarWithFilter
             title={'Encounter'}
             onClickIcon={showModal}
-            Icon={<Icon className='fas fa-book-reader' />}
+            Icon={
+              <Icon className={clsx('fas fa-book-reader', classes.iconCard)} />
+            }
             filterActive={countFilterActive(submitedFilter, initialFilter, [
               'periodStart_lt',
               'patientId',
               'type',
             ])}
             option={{
-              style: {
-                backgroundColor: lighten('#5c6bc0', 0.85),
-                color: '#5c6bc0',
-              },
+              headerClass: classes.headerCard,
             }}
           >
             {renderModal}
@@ -366,6 +375,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
           />
         </div>
       </div>
+      {/* </MouseTrackMove> */}
     </TrackerMouseClick>
   )
 }

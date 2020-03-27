@@ -28,6 +28,10 @@ import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.septenary?.light || '',
+    color: theme.palette.septenary?.main || '',
+  },
   listPadding: {
     paddingLeft: theme.spacing(1),
   },
@@ -162,11 +166,8 @@ const PatientMedicationList: React.FunctionComponent<{
             title={'Medication Request'}
             Icon={<Icon className='fas fa-pills' />}
             option={{
+              headerClass: classes.headerCard,
               isHideIcon: true,
-              style: {
-                backgroundColor: lighten('#008448', 0.85),
-                color: '#008448',
-              },
             }}
           ></ToolbarWithFilter>
         </div>

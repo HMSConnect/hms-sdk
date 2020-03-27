@@ -21,6 +21,16 @@ import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.denary?.light || '',
+    color: theme.palette.denary?.main || '',
+  },
+  warningValue: {
+    color: theme.palette.error.main,
+  },
+  successValue: {
+    color: theme.palette.success.main,
+  },
   tableWrapper: {
     ['& .MuiTableCell-stickyHeader']: {
       top: 30,
@@ -142,8 +152,6 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
     error,
     isLoading,
     setIsFetch,
-    setResult,
-    setIsMore,
     isMore,
   } = useInfinitScroll(
     isContainer ? myscroll.current : null,
@@ -157,72 +165,6 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
     }
   }, [isInitialize])
 
-  const fetchData = async (filter: any) => {
-    setFilter(filter)
-    setIsMore(true)
-    const observationService = HMSService.getService(
-      'observation',
-    ) as ObservationService
-    const newLazyLoad = {
-      filter: {
-        ...filter,
-        issued_lt: filter.issued_lt || initialFilter.issued_lt,
-      },
-      max,
-    }
-    const entryData = await observationService.list(newLazyLoad)
-    if (_.get(entryData, 'error')) {
-      sendMessage({
-        error: _.get(entryData, 'error'),
-        message: 'handleSearchSubmit',
-        name,
-      })
-      return Promise.reject(new Error(entryData.error))
-    }
-
-    sendMessage({
-      message: 'handleSearchSubmit',
-      name,
-      params: filter,
-    })
-    setResult(entryData)
-    closeModal()
-  }
-
-  const handleParameterChange = (type: string, value: any) => {
-    setFilter((prevFilter: any) => ({
-      ...prevFilter,
-      [type]: value,
-    }))
-  }
-
-  const handleSearchSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    fetchData(filter)
-    setSubmitedFilter(filter)
-  }
-
-  const handleSearchReset = () => {
-    fetchData(initialFilter)
-    setSubmitedFilter(initialFilter)
-  }
-
-  const { showModal, renderModal, closeModal } = useModal(TableFilterPanel, {
-    CustomModal: FormModalContent,
-    modalTitle: 'Procedure Filter',
-    name: `${name}Modal`,
-    optionCustomModal: {
-      onReset: handleSearchReset,
-      onSubmit: handleSearchSubmit,
-    },
-    params: {
-      filter,
-      filterOptions: [{ type: 'text', name: 'code', label: 'Code' }],
-      onParameterChange: handleParameterChange,
-      onSearchSubmit: handleSearchSubmit,
-    },
-  })
-
   const classes = useStyles()
   if (error) {
     return <ErrorSection error={error} />
@@ -234,7 +176,6 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
         <div className={classes.toolbar}>
           <ToolbarWithFilter
             title={'Laboratory Results'}
-            onClickIcon={showModal}
             Icon={<Icon className='fas fa-vial' />}
             filterActive={countFilterActive(submitedFilter, initialFilter, [
               'patientId',
@@ -242,14 +183,9 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
             ])}
             option={{
               isHideIcon: true,
-              style: {
-                backgroundColor: lighten('#c37d0e', 0.85),
-                color: '#c37d0e',
-              },
+              headerClass: classes.headerCard,
             }}
-          >
-            {renderModal}
-          </ToolbarWithFilter>
+          ></ToolbarWithFilter>
         </div>
         <div className={classes.tableWrapper} data-testid='scroll-container'>
           <TableBase
@@ -289,7 +225,8 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
                         return (
                           <Typography
                             variant='body1'
-                            style={{ color: '#f44336' }}
+                            // style={{ color: '#f44336' }}
+                            className={classes.warningValue}
                           >
                             {laboratory.value}{' '}
                             <Icon
@@ -305,7 +242,8 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
                         return (
                           <Typography
                             variant='body1'
-                            style={{ color: '#f44336' }}
+                            // style={{ color: '#f44336' }}
+                            className={classes.warningValue}
                           >
                             {laboratory.value}{' '}
                             <Icon
@@ -318,7 +256,8 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
                         return (
                           <Typography
                             variant='body1'
-                            style={{ color: '#66bb6a' }}
+                            // style={{ color: '#66bb6a' }}
+                            className={classes.successValue}
                           >
                             {laboratory.value}{' '}
                           </Typography>

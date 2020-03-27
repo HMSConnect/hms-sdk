@@ -42,6 +42,7 @@ import MarkdownIt from 'markdown-it'
 import { parse, stringify } from 'qs'
 import '../../github-markdown.css'
 import routes from '../../routes'
+import clsx from 'clsx'
 
 const md = MarkdownIt({ html: true })
 
@@ -113,6 +114,18 @@ const useStyles = makeStyles((theme: Theme) =>
     iframe: {
       flex: '1 1 auto',
     },
+    mdContainer: {
+      '& pre': {
+        backgroundColor: theme.palette.background.paper || '',
+      },
+      '& th': {
+        backgroundColor: theme.palette.background.paper || '',
+      },
+      '& td': {
+        backgroundColor: theme.palette.background.paper || '',
+      },
+      color: theme.palette.text.primary,
+    },
     nested: {
       paddingLeft: theme.spacing(4),
     },
@@ -121,6 +134,9 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
     },
     root: {},
+    tabContainer: {
+      backgroundColor: theme.palette.background.paper || '',
+    },
     urlInputProps: {
       height: 45,
     },
@@ -438,6 +454,7 @@ const WidgetManager: IStatelessPage<{
                 textColor='primary'
                 variant='scrollable'
                 scrollButtons='auto'
+                className={classes.tabContainer}
               >
                 {selectedWidget && selectedWidget.path ? (
                   <Tab label='Playground' id='0' value={0} />
@@ -556,7 +573,7 @@ const WidgetManager: IStatelessPage<{
             </TabPanel>
             <TabPanel value={tabState} index={1}>
               <div
-                className='markdown-body'
+                className={clsx('markdown-body')}
                 dangerouslySetInnerHTML={{
                   __html: md.render(
                     _.get(selectedWidget, 'document') || `# Comming soon`,

@@ -11,6 +11,22 @@ class ObservationServiceMock {
     })
   }
 
+  async categoryList(params?: any): Promise<any> {
+    // console.info(`[service] loading resource typeList`, params)
+    return Promise.resolve({
+      data: [
+        {
+          totalCounr: 130,
+          type: 'Laboratory',
+        },
+        {
+          totalCounr: 10,
+          type: 'Vital-signs',
+        },
+      ],
+    })
+  }
+
   async list(params: any): Promise<any> {
     return Promise.resolve({
       data: [

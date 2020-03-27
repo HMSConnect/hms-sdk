@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import ClaimServiceMock from '@components/hooks/__mocks__/ClaimServiceMock'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
+import ClaimServiceMock from '@services/__mocks__/ClaimServiceMock'
 import ClaimService from '@services/ClaimService'
 import { HMSService } from '@services/HMSServiceFactory'
 import {

@@ -25,12 +25,22 @@ export interface IOptionsStyleGraphOption {
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.tertiary?.light || '',
+    color: theme.palette.tertiary?.main || '',
+  },
+  iconCard: {
+    color: theme.palette.tertiary?.dark || '',
+  },
   summaryContainer: {
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     padding: theme.spacing(2),
+  },
+  summaryContent: {
+    color: theme.palette.tertiary?.main || '',
   },
 }))
 
@@ -95,10 +105,9 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
         title={'Blood Pressure'}
         Icon={<Icon className={'fas fa-chart-area'} />}
         option={{
+          headerClass: classes.headerCard,
           isHideIcon: true,
           style: {
-            backgroundColor: lighten('#ef5350', 0.85),
-            color: '#ef5350',
             height: '5%',
           },
         }}
@@ -117,7 +126,6 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
             argumentField='issuedDate'
             optionStyle={{
               color: '#e57373',
-              ...optionStyle,
               height:
                 optionStyle && optionStyle.height && optionStyle.height - 200,
             }}
@@ -138,7 +146,8 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
               </Typography>
               <Typography
                 variant='body1'
-                style={{ fontSize: '1.5rem', color: '#ef5350' }}
+                className={classes.summaryContent}
+                style={{ fontSize: '1.5rem' }}
               >
                 {lastData.value}
                 {lastData.unit}

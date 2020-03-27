@@ -1,31 +1,16 @@
 import * as React from 'react'
 
+import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import patientDemographic from '@app/reducers-redux/patientDemographic.reducer'
 import useEncounter from '@components/hooks/useEncounter'
 import usePatient from '@components/hooks/usePatient'
 import useResourceList from '@components/hooks/useResourceList'
 import { routesMock } from '@routes/__mocks__/routesMock'
 import { render } from '@testing-library/react'
-import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import PatientDemographic, {
   PatientDemographicWithConnector,
 } from '../../patient/PatientDemographic'
-
-function renderWithRedux(
-  ui: any,
-  {
-    initialState = {},
-    store = createStore(patientDemographic, {
-      patientDemographic: initialState,
-    }),
-  }: any = {},
-) {
-  return {
-    ...render(<Provider store={store}>{ui}</Provider>),
-    store,
-  }
-}
 
 jest.mock('@components/hooks/usePatient', () => ({
   __esModule: true,
@@ -126,6 +111,12 @@ describe('<PatientDemographic />', () => {
   it('render PatientDemographicWithConnector with Redux', () => {
     const { queryAllByText, getByText } = renderWithRedux(
       <PatientDemographicWithConnector />,
+      {
+        initialState: {},
+        store: createStore(patientDemographic, {
+          patientDemographic: {},
+        }),
+      },
     )
     expect(queryAllByText('Mr. Test1 FTest1')[0]).toBeTruthy()
   })

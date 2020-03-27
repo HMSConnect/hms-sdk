@@ -4,29 +4,14 @@ import * as patientSummaryAction from '@app/actions/patientsummaryCards.action'
 import patientSummaryCards, {
   patientSummaryCardsInitialState,
 } from '@app/reducers-redux/patientSummaryCards.reducer'
+import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import useObservationList from '@components/hooks/useObservationList'
 import { fireEvent, render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
-import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import ObservationHeartRateCard, {
   ObservationHeartRateCardWithConnector,
 } from '../../observation/ObservationHeartRateCard'
-
-function renderWithRedux(
-  ui: any,
-  {
-    initialState = patientSummaryCardsInitialState,
-    store = createStore(patientSummaryCards, {
-      patientSummaryCards: initialState,
-    }),
-  }: any = {},
-) {
-  return {
-    ...render(<Provider store={store}>{ui}</Provider>),
-    store,
-  }
-}
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
@@ -94,8 +79,15 @@ describe('<ObservaionHeartRateCard />', () => {
       totalCount: 1,
     }
     useObservationListResult.mockImplementation(() => results)
+
     const { queryByText, queryAllByText } = renderWithRedux(
       <ObservationHeartRateCardWithConnector />,
+      {
+        initialState: patientSummaryCardsInitialState,
+        store: createStore(patientSummaryCards, {
+          patientSummaryCards: patientSummaryCardsInitialState,
+        }),
+      },
     )
 
     expect(queryByText('130')).toBeTruthy()
@@ -126,6 +118,12 @@ describe('<ObservaionHeartRateCard />', () => {
       })
     const { queryByText, queryAllByText, getByText } = renderWithRedux(
       <ObservationHeartRateCardWithConnector />,
+      {
+        initialState: patientSummaryCardsInitialState,
+        store: createStore(patientSummaryCards, {
+          patientSummaryCards: patientSummaryCardsInitialState,
+        }),
+      },
     )
 
     expect(queryByText('130')).toBeTruthy()

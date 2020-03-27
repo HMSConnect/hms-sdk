@@ -33,6 +33,10 @@ import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.denary?.light || '',
+    color: theme.palette.denary?.main || '',
+  },
   root: {},
   tableWrapper: {
     ['& .MuiTableCell-stickyHeader']: {
@@ -428,10 +432,11 @@ const PatientImmunizationTable: React.FunctionComponent<{
                   labelPlacement='start'
                 />
               ),
-              style: {
-                backgroundColor: lighten('#afb42b', 0.85),
-                color: '#afb42b',
-              },
+              headerClass: classes.headerCard,
+              // style: {
+              //   backgroundColor: lighten('#afb42b', 0.85),
+              //   color: '#afb42b',
+              // },
             }}
           >
             {renderModal}

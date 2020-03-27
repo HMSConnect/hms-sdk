@@ -24,41 +24,50 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 import { useDispatch, useSelector } from 'react-redux'
 
-const useStyles = makeStyles((theme: Theme) => ({
-  bodyCard: {
-    alignItems: 'flex-end',
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  clickable: {
-    cursor: 'pointer',
-  },
-  contentText: {
-    fontWeight: 'normal',
-  },
-  footerContainer: { height: 36, color: 'grey' },
-  hover: {
-    '&:hover': {
-      backgroundColor: '#ddd4',
+const useStyles = makeStyles((theme: Theme) => {
+  return {
+    bodyCard: {
+      alignItems: 'flex-end',
+      display: 'flex',
+      justifyContent: 'space-between',
     },
-    textDecoration: 'none',
-  },
-  infoIcon: {
-    color: '#1976d2',
-    zoom: 0.7,
-  },
-  selectedCard: {
-    backgroundColor: '#ddd4',
-    border: '2px solid #00b0ff',
-    borderRadius: 4,
-  },
-  topicTitle: {
-    color: 'grey',
-  },
-  unitText: {
-    fontWeight: 'normal',
-  },
-}))
+    clickable: {
+      cursor: 'pointer',
+    },
+    contentText: {
+      fontWeight: 'normal',
+    },
+    footerContainer: { height: 36, color: theme.palette.text.secondary },
+    headerCard: {
+      backgroundColor: theme.palette.tertiary?.light || '',
+      color: theme.palette.tertiary?.main || '',
+    },
+    hover: {
+      '&:hover': {
+        backgroundColor: theme.palette.action.hover,
+      },
+      textDecoration: 'none',
+    },
+    iconCard: {
+      color: theme.palette.tertiary?.dark || '',
+    },
+    infoIcon: {
+      color: '#1976d2',
+      zoom: 0.7,
+    },
+    selectedCard: {
+      backgroundColor: theme.palette.action.selected,
+      border: `2px solid ${theme.palette.action.active}`,
+      borderRadius: 4,
+    },
+    topicTitle: {
+      color: theme.palette.text.secondary,
+    },
+    unitText: {
+      fontWeight: 'normal',
+    },
+  }
+})
 
 export const ObservationBloodPressureCardWithConnector: React.FunctionComponent = () => {
   const state = useSelector((state: any) => {
@@ -147,15 +156,10 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
   return (
     <CardLayout
       header='Blood Pressure'
-      Icon={
-        <Icon style={{ color: '#c62828fa' }} className={'fas fa-stethoscope'} />
-      }
+      Icon={<Icon className={clsx('fas fa-stethoscope', classes.iconCard)} />}
       option={{
+        headerClass: classes.headerCard,
         isHideIcon: true,
-        style: {
-          backgroundColor: lighten('#ef5350', 0.85),
-          color: '#ef5350',
-        },
       }}
     >
       <Grid

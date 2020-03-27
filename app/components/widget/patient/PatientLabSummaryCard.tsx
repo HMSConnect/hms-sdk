@@ -84,7 +84,7 @@ const PatientLabSummaryCardView: React.FunctionComponent<any> = ({
   const classes = useStyles()
   return (
     <CardLayout
-      header='Total Allergies'
+      header='Total Lab'
       option={{
         isHideIcon: true,
         style: {
