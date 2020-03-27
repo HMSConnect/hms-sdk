@@ -33,7 +33,7 @@ const theme = createMuiTheme({
     },
     tertiary: generateDarkAndLight(
       {
-        main: '#ef5350',
+        main: '#e57373',
       },
       true,
       0.6,
@@ -103,9 +103,14 @@ const theme = createMuiTheme({
       0.6,
       0.3,
     ),
-    duodenary: generateDarkAndLight({
-      main: '#3d5afe',
-    }),
+    duodenary: generateDarkAndLight(
+      {
+        main: '#3d5afe',
+      },
+      true,
+      0.6,
+      0.3,
+    ),
     divider: 'rgba(255, 255, 255, 0.12)',
   },
 })

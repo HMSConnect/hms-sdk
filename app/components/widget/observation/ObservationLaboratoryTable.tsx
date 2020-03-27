@@ -25,9 +25,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.denary?.light || '',
     color: theme.palette.denary?.main || '',
   },
-  warningValue: {
-    color: theme.palette.error.main,
-  },
   successValue: {
     color: theme.palette.success.main,
   },
@@ -41,6 +38,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: 'sticky',
     top: 0,
     zIndex: 1000,
+  },
+  warningValue: {
+    color: theme.palette.error.main,
   },
 }))
 
@@ -182,8 +182,8 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
               'periodStart_lt',
             ])}
             option={{
-              isHideIcon: true,
               headerClass: classes.headerCard,
+              isHideIcon: true,
             }}
           ></ToolbarWithFilter>
         </div>

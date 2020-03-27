@@ -9,8 +9,7 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
-import { Divider, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
-import { lighten } from '@material-ui/core/styles'
+import { Divider, Icon, makeStyles, Theme, Typography, withTheme } from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
 import get from 'lodash/get'
 import maxBy from 'lodash/maxBy'
@@ -66,7 +65,7 @@ const ObservationHeartRateGraph: React.FunctionComponent<{
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
       <div style={{ height: '100%' }}>
-        <ObservationHeartRateGraphView
+        <ObservationHeartRateGraphViewWithTheme
           observationList={observationList}
           optionStyle={optionStyle}
         />
@@ -79,8 +78,9 @@ export default ObservationHeartRateGraph
 
 export const ObservationHeartRateGraphView: React.FunctionComponent<{
   observationList: any
+  theme?: any
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ observationList, optionStyle }) => {
+}> = ({ observationList, optionStyle, theme }) => {
   const lastData: any = maxBy(observationList, 'issuedDate')
 
   const classes = useStyles()
@@ -110,7 +110,7 @@ export const ObservationHeartRateGraphView: React.FunctionComponent<{
             data={observationList}
             argumentField='issuedDate'
             optionStyle={{
-              color: '#c2185b',
+              color: theme?.palette?.quaternary?.main || '#c2185b',
               ...optionStyle,
               height:
                 optionStyle && optionStyle.height && optionStyle.height - 200,
@@ -149,3 +149,7 @@ export const ObservationHeartRateGraphView: React.FunctionComponent<{
     </>
   )
 }
+
+const ObservationHeartRateGraphViewWithTheme = withTheme(
+  ObservationHeartRateGraphView
+)

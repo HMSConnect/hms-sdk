@@ -9,8 +9,14 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
-import { Divider, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
-import { lighten } from '@material-ui/core/styles'
+import {
+  Divider,
+  Icon,
+  makeStyles,
+  Theme,
+  Typography,
+  withTheme,
+} from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
 import maxBy from 'lodash/maxBy'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
@@ -64,7 +70,7 @@ const ObservationBodyTemperatureGraph: React.FunctionComponent<{
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
       <div style={{ height: '100%' }}>
-        <ObservationBodyTemperatureGraphView
+        <ObservationBodyTemperatureGraphViewWithTheme
           observationList={observationList}
           optionStyle={optionStyle}
         />
@@ -77,8 +83,9 @@ export default ObservationBodyTemperatureGraph
 
 export const ObservationBodyTemperatureGraphView: React.FunctionComponent<{
   observationList: any
+  theme?: any
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ observationList, optionStyle }) => {
+}> = ({ observationList, optionStyle, theme }) => {
   const lastData: any = maxBy(observationList, 'issuedDate')
 
   const classes = useStyles()
@@ -108,7 +115,7 @@ export const ObservationBodyTemperatureGraphView: React.FunctionComponent<{
             data={observationList}
             argumentField='issuedDate'
             optionStyle={{
-              color: '#afb42b',
+              color: theme.palette.senary?.main || '#afb42b',
               ...optionStyle,
               height:
                 optionStyle && optionStyle.height && optionStyle.height - 200,
@@ -147,3 +154,7 @@ export const ObservationBodyTemperatureGraphView: React.FunctionComponent<{
     </>
   )
 }
+
+const ObservationBodyTemperatureGraphViewWithTheme = withTheme(
+  ObservationBodyTemperatureGraphView,
+)
