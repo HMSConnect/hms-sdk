@@ -9,8 +9,14 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
-import { Divider, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
-import { lighten } from '@material-ui/core/styles'
+import {
+  Divider,
+  Icon,
+  makeStyles,
+  Theme,
+  Typography,
+  withTheme,
+} from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
 import maxBy from 'lodash/maxBy'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
@@ -64,7 +70,7 @@ const ObservationBodyMassIndexGraph: React.FunctionComponent<{
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
       <div style={{ height: '100%' }}>
-        <ObservationBodyMassIndexGraphView
+        <ObservationBodyMassIndexGraphViewWithTheme
           observationList={observationList}
           optionStyle={optionStyle}
         />
@@ -77,8 +83,9 @@ export default ObservationBodyMassIndexGraph
 
 export const ObservationBodyMassIndexGraphView: React.FunctionComponent<{
   observationList: any
+  theme?: any
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ observationList, optionStyle }) => {
+}> = ({ observationList, optionStyle, theme }) => {
   const lastData: any = maxBy(observationList, 'issuedDate')
 
   const classes = useStyles()
@@ -108,7 +115,7 @@ export const ObservationBodyMassIndexGraphView: React.FunctionComponent<{
             data={observationList}
             argumentField='issuedDate'
             optionStyle={{
-              color: '#ff3d00',
+              color: theme?.palette?.denary?.main || '#ff3d00',
               ...optionStyle,
               height:
                 optionStyle && optionStyle.height && optionStyle.height - 200,
@@ -148,3 +155,6 @@ export const ObservationBodyMassIndexGraphView: React.FunctionComponent<{
     </>
   )
 }
+const ObservationBodyMassIndexGraphViewWithTheme = withTheme(
+  ObservationBodyMassIndexGraphView,
+)
