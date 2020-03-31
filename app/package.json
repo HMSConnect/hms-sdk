@@ -45,7 +45,7 @@
     "material-table": "^1.43.0",
     "mui-datatables": "^2.10.1",
     "mui-layout": "^1.2.9",
-    "next": "9.0.2",
+    "next": "9.3.2",
     "next-routes": "^1.4.2",
     "postcss-nested": "2.1.2",
     "query-string": "^6.8.2",
