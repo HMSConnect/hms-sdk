@@ -1,3 +1,20 @@
+var me = null;
+var domain = null;
+
+function isMe(scriptElem) {
+  return scriptElem.getAttribute("src").includes("hms-widget-sdk");
+}
+
+var scripts = document.getElementsByTagName("script");
+for (var i = 0; i < scripts.length; ++i) {
+  if (isMe(scripts[i])) {
+    me = scripts[i];
+    const meArray = me.split("/");
+    meArray.pop();
+    domain = meArray.join("/");
+  }
+}
+
 var loadJsFile = function(src, callback) {
   let script = document.createElement("script");
   script.src = src;
@@ -17,7 +34,9 @@ var defaultIframe = {
   iframeElement: undefined,
   theme: undefined,
   customTheme: undefined,
-  href: "http://localhost:3000",
+  width: "300px",
+  height: "300px",
+  href: "https://hms-widget.bonmek.com",
   pathPrefix: "embedded-widget"
 };
 
@@ -27,8 +46,14 @@ var hmsWidget = {
     iframeObject = defaultIframe;
     const divElement = document.getElementById(config.selector);
     iframeObject.iframeElement = document.createElement("iframe");
-    iframeObject.iframeElement.setAttribute("width", config.width || "300px");
-    iframeObject.iframeElement.setAttribute("height", config.height || "300px");
+    iframeObject.iframeElement.setAttribute(
+      "width",
+      config.width || iframeObject.width
+    );
+    iframeObject.iframeElement.setAttribute(
+      "height",
+      config.height || iframeObject.height
+    );
     divElement.appendChild(iframeObject.iframeElement);
     if (config.href) {
       iframeObject.href = config.href;
@@ -83,8 +108,8 @@ var hmsWidget = {
 };
 
 window.hmsWidgetAsyncInit = function(callback) {
-  loadJsFile("message-utils.min.js");
-  loadJsFile("stringify.min.js", () => {
+  loadJsFile(`${domain}/message-utils.min.js`);
+  loadJsFile(`${domain}/stringify.min.js`, () => {
     hmsWidget.render(function() {
       callback(hmsWidget);
     });

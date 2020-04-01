@@ -50,7 +50,7 @@ const WIDGET_GROUP: IWidgetGroup[] = [
   {
     child: [
       {
-        document: require('@assets/embedded-widget/get-started.md').default,
+        document: require('@assets/embedded-widget/get-started-iframe-sdk.md').default,
         label: 'Get Started',
         value: 'get-started',
       },

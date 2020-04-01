@@ -52,18 +52,19 @@ class ThemeManager {
   }
 
   mergeThemeWithCustomTheme(themeObject: any, custhomThemeObject: any) {
-    const test = _.reduce(
+    const newThemeObject = _.reduce(
       custhomThemeObject,
       (acc, value, key) => {
         let palette = null
         if (key === 'palette') {
           palette = this.createPallete(value)
+          return { ...acc, palette }
         }
-        return { ...acc, palette }
+        return { ...acc, [key]: _.cloneDeep(value) }
       },
       {},
     )
-    return _.defaultsDeep(test, themeObject)
+    return _.defaultsDeep(newThemeObject, themeObject)
   }
 
   createPallete(themeObject: any) {
