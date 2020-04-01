@@ -9,7 +9,7 @@ var scripts = document.getElementsByTagName("script");
 for (var i = 0; i < scripts.length; ++i) {
   if (isMe(scripts[i])) {
     me = scripts[i];
-    const meArray = me.split("/");
+    const meArray = me.getAttribute("src").split("/");
     meArray.pop();
     domain = meArray.join("/");
   }
