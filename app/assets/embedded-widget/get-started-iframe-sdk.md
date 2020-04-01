@@ -7,35 +7,42 @@
 ```html
 <script
     type="text/javascript"
-    src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@c38fdc73b2cfa7cd7a581a678f8aceedd0a510f3/sdk/iframe-sdk.min.js"
+    src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@dc3e3e48c674fcba470524d6e91ab69116223a67/sdk/iframe-sdk.min.js"
 ></script>
 ```
 
 **Reference Iframe-API**
-- referance iframe-api
+- hmsWidget api
 
-| api name          | type/format                                                           | description                   |
-| ----------------- | --------------------------------------------------------------------- | ----------------------------- |
-| init              | IInitObject                                                           | Initial for create iframe     |
-| setParams         | any                                                                   | params for selected widget    |
-| setTheme          | `normal`, `dark`, `invert`                                            | theme for render              |
-| setCustomizeTheme | [ThemeOptions](https://v4-8-3.material-ui.com/customization/theming/) | Name of widget for emit event |
+| api name          | type/format                                                           | description                                      |
+| ----------------- | --------------------------------------------------------------------- | ------------------------------------------------ |
+| init              | IInitObject                                                           | Initial for create iframe                        |
+| setParams         | any                                                                   | params for selected widget                       |
+| setTheme          | `normal`, `dark`, `invert`                                            | theme for render                                 |
+| setCustomizeTheme | [ThemeOptions](https://v4-8-3.material-ui.com/customization/theming/) | Name of widget for emit event                    |
+| onMessage         | function                                                              | Function callback when iframe got event response |
 
+
+- window.messageListenerService api
+
+| api name                 | type/format | description                                          |
+| ------------------------ | ----------- | ---------------------------------------------------- |
+| addExtendMessagelistener | function    | Function call when window.eventmessage has been call |
 
 **Interfaces**
 - IInitObject
 
-| key         | type/format | default                       | description                                      |
-| ----------- | ----------- | ----------------------------- | ------------------------------------------------ |
-| *selector   | string      | -                             | div element id for create iframe                 |
-| *widgetPath | string      | -                             | path for render widget from `href`               |
-| width       | string      | 300px                         | width of iframe                                  |
-| height      | string      | 300px                         | height of iframe                                 |
-| href        | string      | https://hms-widget.bonmek.com | href for point to server that serve widget       |
-| pathPrefix  | string      | embedded-widget               | pathPrefix for point to server that serve widget |
+| key        | require | type/format | default                       | description                                      |
+| ---------- | ------- | ----------- | ----------------------------- | ------------------------------------------------ |
+| selector   | true    | string      | -                             | div element id for create iframe                 |
+| widgetPath | true    | string      | -                             | path for render widget from `href`               |
+| width      | false   | string      | 300px                         | width of iframe                                  |
+| height     | false   | string      | 300px                         | height of iframe                                 |
+| href       | false   | string      | https://hms-widget.bonmek.com | href for point to server that serve widget       |
+| pathPrefix | false   | string      | embedded-widget               | pathPrefix for point to server that serve widget |
 
 
-2 Add script to initialize iframe-sdk 
+2 Add script to initialize iframe-sdk by use `window.hmsWidgetAsyncInit`. it receive callback function and will call when ready
 ```html
 <script>
     window.hmsWidgetAsyncInit(function(hmsWidget) {
@@ -67,7 +74,6 @@
     });
 </script>
 ```
-
 
 Global Query Param 
 | key  | type/format | description                   |
