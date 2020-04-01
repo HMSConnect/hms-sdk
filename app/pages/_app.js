@@ -12,6 +12,7 @@ import { AdapterManager } from '../adapters/DataAdapterManager'
 import store from '../reducers-redux/index.reducer'
 import RouteManager from '../routes/RouteManager'
 import { GoogleAnalytics } from '../services/GoogleAnalyticsService'
+import { MessageListenerService } from '../services/MessageListenerService'
 // import theme from '../src/theme'
 import ThemeManager from '../styles/ThemeManager'
 
@@ -27,13 +28,45 @@ class AASApp extends App {
   constructor(props) {
     super(props)
     ThemeManager.setDefaultTheme('normal')
+    let themeObject = ThemeManager.getThemeObject(props.router?.query?.theme)
+    let isWaitForIframeLoaded
     if (typeof window !== 'undefined') {
       AdapterManager.createAdapter(_.get(props, 'router.query.mode'))
+      isWaitForIframeLoaded =
+        _.get(props, 'router.query.isWaitForIframeLoaded') || false
       const pathName = props.router.pathname
       RouteManager.registryMode(pathName)
+
+      MessageListenerService.registerMessage('finishIframeLoading', () => {
+        this.setState({
+          ...this.state,
+          loading: false,
+        })
+      })
+      MessageListenerService.registerMessage('setTheme', data => {
+        themeObject = ThemeManager.getThemeObject(data)
+        this.setState({
+          ...this.state,
+          theme: themeObject,
+        })
+      })
+      MessageListenerService.registerMessage('setCustomTheme', data => {
+        themeObject = ThemeManager.mergeThemeWithCustomTheme(themeObject, data)
+        this.setState({
+          ...this.state,
+          theme: themeObject,
+        })
+      })
+      MessageListenerService.registerMessage('setIframeName', data => {
+        MessageListenerService.setIframeName(data)
+      })
+
+      MessageListenerService.initialMessageListener()
     }
     this.state = {
-      theme: ThemeManager.getThmeObject(props.router?.query?.theme),
+      theme: themeObject,
+      isWaitForIframeLoaded,
+      loading: true,
     }
   }
   componentDidMount() {
@@ -50,7 +83,7 @@ class AASApp extends App {
     // })
 
     const { Component, pageProps } = this.props
-    const { theme } = this.state
+    const { theme, isWaitForIframeLoaded, loading } = this.state
     return (
       <>
         <Provider store={store}>
@@ -61,7 +94,16 @@ class AASApp extends App {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <Component {...pageProps} />
+            {isWaitForIframeLoaded ? (
+              loading ? (
+                <div>Loading...</div>
+              ) : (
+                <Component {...pageProps} />
+              )
+            ) : (
+              <Component {...pageProps} />
+            )}
+            {/* <Component {...pageProps} /> */}
           </ThemeProvider>
           {/* </AppContextProvider> */}
         </Provider>
