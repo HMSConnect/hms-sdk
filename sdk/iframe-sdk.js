@@ -45,7 +45,7 @@ class MessageListenerServiceFactory {
           data => data.iframeName === iframeName
         );
         if (listener) {
-          listener.listener(event.data.data);
+          listener.listener(event.data);
         }
         if (this.extendMessageListener) {
           this.extendMessageListener();
