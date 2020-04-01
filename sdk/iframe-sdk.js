@@ -9,7 +9,7 @@ var scripts = document.getElementsByTagName("script");
 for (var i = 0; i < scripts.length; ++i) {
   if (isMe(scripts[i])) {
     me = scripts[i];
-    const meArray = me.getAttribute("src").split("/");
+    const meArray = me.split("/");
     meArray.pop();
     domain = meArray.join("/");
   }
@@ -28,91 +28,151 @@ var loadJsFile = function(src, callback) {
   oldScript.parentNode && oldScript.parentNode.insertBefore(script, oldScript);
 };
 
-var defaultIframe = {
-  src: "",
-  qs: "",
-  iframeElement: undefined,
-  theme: undefined,
-  customTheme: undefined,
-  width: "300px",
-  height: "300px",
-  href: "https://hms-widget.bonmek.com",
-  pathPrefix: "embedded-widget"
-};
+class MessageListenerServiceFactory {
+  register = [];
+  origin;
+  extendMessageListener = null;
+  registerMessage(iframeName, listener) {
+    this.register.push({ iframeName, listener });
+  }
 
-var hmsWidget = {
-  iframeObject: undefined,
-  init: function(config) {
-    iframeObject = defaultIframe;
+  initialMessageListener() {
+    window.addEventListener("message", event => {
+      if (this.origin && event.origin !== this.origin) return;
+      if (event.data.eventType === "embedded-widget") {
+        const iframeName = event.data.iframeName;
+        const listener = this.register.find(
+          data => data.iframeName === iframeName
+        );
+        if (listener) {
+          listener.listener(event.data.data);
+        }
+        if (this.extendMessageListener) {
+          this.extendMessageListener();
+        }
+      }
+    });
+  }
+
+  addExtendMessagelistener(callback) {
+    this.extendMessageListener = callback;
+  }
+
+  setOrigin(origin) {
+    this.origin = origin;
+  }
+}
+
+var messageListenerService = new MessageListenerServiceFactory();
+window.messageListenerService = messageListenerService;
+messageListenerService.initialMessageListener();
+
+class HmsWidgetFactory {
+  iframeObject = {
+    src: "",
+    qs: "",
+    name: "",
+    selector: "",
+    iframeElement: undefined,
+    theme: undefined,
+    customTheme: undefined,
+    width: "300px",
+    height: "300px",
+    href: "https://hms-widget.bonmek.com",
+    pathPrefix: "embedded-widget"
+  };
+
+  init = config => {
     const divElement = document.getElementById(config.selector);
-    iframeObject.iframeElement = document.createElement("iframe");
-    iframeObject.iframeElement.setAttribute(
+    this.iframeObject.selector = config.selector;
+    this.iframeObject.name = config.name;
+    this.iframeObject.iframeElement = document.createElement("iframe");
+    this.iframeObject.iframeElement.setAttribute(
       "width",
-      config.width || iframeObject.width
+      config.width || this.iframeObject.width
     );
-    iframeObject.iframeElement.setAttribute(
+    this.iframeObject.iframeElement.setAttribute(
       "height",
-      config.height || iframeObject.height
+      config.height || this.iframeObject.height
     );
-    divElement.appendChild(iframeObject.iframeElement);
     if (config.href) {
-      iframeObject.href = config.href;
+      this.iframeObject.href = config.href;
     }
     if (config.pathPrefix) {
-      iframeObject.pathPrefix = config.pathPrefix;
+      this.iframeObject.pathPrefix = config.pathPrefix;
     }
-    iframeObject.src = `${iframeObject.href}/${iframeObject.pathPrefix}/${config.widgetPath}`;
-  },
-  setParams: function(params, name) {
+    this.iframeObject.src = `${this.iframeObject.href}/${this.iframeObject.pathPrefix}/${config.widgetPath}`;
+
+    divElement.appendChild(this.iframeObject.iframeElement);
+  };
+  setParams = params => {
     const qs = queryStringify({
       ...params,
       isWaitForIframeLoaded: true
     });
-    iframeObject.qs = qs;
-  },
-  setTheme: function(data) {
-    iframeObject.theme = data;
-  },
-  setCustomizeTheme: function(data) {
-    iframeObject.customTheme = data;
-  },
-  render: function(initSetup) {
+    this.iframeObject.qs = qs;
+  };
+  setTheme = theme => {
+    this.iframeObject.theme = theme;
+  };
+  setCustomizeTheme = customTheme => {
+    this.iframeObject.customTheme = customTheme;
+  };
+  render = initSetup => {
     initSetup();
     try {
-      iframeObject.iframeElement.onload = function() {
-        const actions = ["finishIframeLoading", "setTheme", "setCustomTheme"];
-        const messageEvent = createMessageEvents(
-          iframeObject.iframeElement,
-          actions
-        );
-        if (iframeObject.theme) {
-          messageEvent.setTheme(iframeObject.theme);
-        }
-        if (iframeObject.customTheme) {
-          messageEvent.setCustomTheme(iframeObject.customTheme);
-        }
-        messageEvent.finishIframeLoading();
-      };
+      this.iframeObject.iframeElement.onload = () =>
+        this.onIframeLoaded(this.iframeObject);
+      const url = `${this.iframeObject.src}${
+        this.iframeObject.qs ? `?${this.iframeObject.qs}` : ""
+      }`;
       console.info(
-        "iframeObject.src :",
-        `${iframeObject.src}${iframeObject.qs ? `?${iframeObject.qs}` : ""}`
+        "this.iframeObject.src :",
+        `${this.iframeObject.src}${
+          this.iframeObject.qs ? `?${this.iframeObject.qs}` : ""
+        }`
       );
-      iframeObject.iframeElement.setAttribute(
-        "src",
-        `${iframeObject.src}${iframeObject.qs ? `?${iframeObject.qs}` : ""}`
-      );
+      this.iframeObject.iframeElement.setAttribute("src", `${url}`);
     } catch (e) {
       console.error("error: ", e);
     }
-  }
-};
+  };
+
+  onIframeLoaded = iframeObject => {
+    const actions = [
+      "finishIframeLoading",
+      "setTheme",
+      "setCustomTheme",
+      "setIframeName"
+    ];
+    const messageEvent = createMessageEvents(
+      iframeObject.iframeElement,
+      actions
+    );
+    messageEvent.setIframeName(iframeObject.selector);
+    if (iframeObject.theme) {
+      messageEvent.setTheme(iframeObject.theme);
+    }
+    if (iframeObject.customTheme) {
+      messageEvent.setCustomTheme(iframeObject.customTheme);
+    }
+    messageEvent.finishIframeLoading();
+  };
+
+  onMessage = callback => {
+    messageListenerService.registerMessage(
+      this.iframeObject.selector,
+      callback
+    );
+  };
+}
 
 window.hmsWidgetAsyncInit = function(callback) {
+  const hmswidgetObject = new HmsWidgetFactory();
   loadJsFile(`${domain}/message-utils.min.js`);
   loadJsFile(`${domain}/stringify.min.js`, () => {
-    hmsWidget.render(function() {
-      callback(hmsWidget);
+    hmswidgetObject.render(function() {
+      callback(hmswidgetObject);
     });
   });
 };
-window.hmsWidget = hmsWidget;

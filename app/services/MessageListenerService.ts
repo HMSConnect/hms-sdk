@@ -1,6 +1,7 @@
 import * as _ from 'lodash'
 class MessageListenerServiceFactory {
   private register: any = []
+  private iframeName: string | null = null
 
   registerMessage(action: string, listener: any) {
     this.register.push({ action, listener })
@@ -14,6 +15,14 @@ class MessageListenerServiceFactory {
         listener.listener(event.data.data)
       }
     })
+  }
+
+  setIframeName(iframeName: string) {
+    this.iframeName = iframeName
+  }
+
+  getIframeName() {
+    return this.iframeName
   }
 
   //   registerMessage(actions: string[], listen) {

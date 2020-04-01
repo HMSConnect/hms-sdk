@@ -57,6 +57,9 @@ class AASApp extends App {
           theme: themeObject,
         })
       })
+      MessageListenerService.registerMessage('setIframeName', data => {
+        MessageListenerService.setIframeName(data)
+      })
 
       MessageListenerService.initialMessageListener()
     }

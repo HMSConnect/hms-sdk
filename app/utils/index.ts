@@ -1,6 +1,7 @@
 import environment from '@environment'
 import * as _ from 'lodash'
 import qs from 'qs'
+import { MessageListenerService } from '@services/MessageListenerService'
 
 interface IPostMessage {
   message?: string
@@ -43,10 +44,12 @@ export function parse(s: string) {
 
 export const sendMessage = (message: IPostMessage) => {
   if (typeof window !== undefined) {
+    const iframeName = MessageListenerService.getIframeName()
     window.parent.postMessage(
       {
         ...message,
         eventType: 'embedded-widget',
+        iframeName,
       },
       environment.iframe.targetOrigin,
     )
