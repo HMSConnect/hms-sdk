@@ -42,17 +42,15 @@
 | pathPrefix | false   | string      | embedded-widget               | pathPrefix for point to server that serve widget |
 
 
-2 Add script to initialize iframe-sdk by use `window.hmsWidgetAsyncInit`. it receive callback function and will call when ready
+2. Add script to initialize iframe-sdk by use `window.hmsWidgetAsyncInit`. it receive callback function and will call when ready
 ```html
 <script>
     window.hmsWidgetAsyncInit(function(hmsWidget) {
-            hmsWidget.init({
+        hmsWidget.init({
             selector: "widget-example",
             widgetPath: "patient-summary",
             width: "1600px",
             height: "1080px",
-            href: "http://localhost:3000",
-            pathPrefix: "embedded-widget"
         });
 
         hmsWidget.setParams(
@@ -71,31 +69,13 @@
                 quinary: { main: "#ffffff" }
             }
         });
+        hmsWidget.onMessage(data => {
+            console.log('data :', data);
+        });
     });
 </script>
 ```
 
-Global Query Param 
-| key  | type/format | description                   |
-| ---- | ----------- | ----------------------------- |
-| name | string      | Name of widget for emit event |
-
-1. (Optional if you want to listen event from widget) Apply `eventListener` with `message` type to your `<script>`
-
-```html
-<script>
-  window.addEventListener("message", function(event) {
-    if (event.origin !== "https://hms-widget.bonmek.com") return;
-    if(event.data.eventType !== 'embedded-widget') return
-
-    console.log("message received:  ", event.data.message);
-    console.log("action received:  ", event.data.action);
-    console.log("params received:  ", event.data.params);
-    console.log("path received:  ", event.data.path);
-    console.log("eventType received:  ", event.data.eventType);
-  });
-</script>
-```
 object response 
   | key       | type/format     | description                                                          |
   | --------- | --------------- | -------------------------------------------------------------------- |
@@ -107,46 +87,40 @@ object response
   | result    | object          | Result of loading                                                    |
   | action    | object          | Action to `window.router` such as `REPLACE_ROUTE`                    |
 
-4. Finally, your html source code will be
+
+3. Finally, your html source code will be
 
 ```html
 <!DOCTYPE html>
 <html>
   <head>
     <script
-    type="text/javascript"
-    src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@c38fdc73b2cfa7cd7a581a678f8aceedd0a510f3/sdk/iframe-sdk.min.js"
-></script>
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@dc3e3e48c674fcba470524d6e91ab69116223a67/sdk/iframe-sdk.min.js"
+    ></script>
   </head>
   <body>
-    <div id="widget-example">
-      --- iframe rendered here ---
+    <div id="widget-example1">
+      --- iframe rendered here 1 ---
       <br />
     </div>
-    ​ ​
-    <script>
-      window.addEventListener("message", function(event) {
-        if (event.origin !== "https://hms-widget.bonmek.com") return;
-        if (event.data.eventType !== "embedded-widget") return;
-
-        console.log("message received:  ", event.data.message);
-        console.log("action received:  ", event.data.action);
-        console.log("params received:  ", event.data.params);
-        console.log("path received:  ", event.data.path);
-        console.log("eventType received:  ", event.data.eventType);
-      });
-    </script>
+    <div id="widget-example2">
+      --- iframe rendered here 2 ---
+      <br />
+    </div>
+    <div id="widget-example3">
+      --- iframe rendered here 3 ---
+      <br />
+    </div>
     <script>
       window.hmsWidgetAsyncInit(function(hmsWidget) {
         hmsWidget.init({
-          selector: "widget-example",
+          selector: "widget-example1",
           widgetPath: "patient-summary",
-          width: "1600px",
-          height: "1080px",
-          href: "http://localhost:3000",
-          pathPrefix: "embedded-widget"
+          width: "1200px",
+          height: "720px",
         });
-
+        hmsWidget.setTheme("dark");
         hmsWidget.setParams(
           {
             patientId: "0debf275-d585-4897-a8eb-25726def1ed5",
@@ -154,15 +128,93 @@ object response
           },
           "widgetName"
         );
-
-        hmsWidget.setTheme("dark"); // select theme: 'normal', 'dark', 'invert'
         hmsWidget.setCustomizeTheme({
+          typography: {
+            h4: {
+              fontSize: "3.5rem",
+              color: "blue"
+            },
+            body2: {
+              fontSize: "1rem",
+              color: "red"
+            }
+          },
           palette: {
             primary: { main: "#03a9f4" },
             secondary: { main: "#00bfa5" },
             quinary: { main: "#ffffff" }
           }
         });
+      });
+
+      window.hmsWidgetAsyncInit(function(hmsWidget) {
+        hmsWidget.init({
+          selector: "widget-example2",
+          widgetPath: "patient-search-bar",
+          width: "500px",
+          height: "400px",
+        });
+
+        hmsWidget.setParams(
+          {
+            max: 10,
+            offset: 0,
+            page: 0,
+            filter: {
+              gender: "male"
+            }
+          },
+          "widgetName"
+        );
+        hmsWidget.setTheme("invert");
+        hmsWidget.setCustomizeTheme({
+          typography: {
+            h4: {
+              fontSize: "3.5rem",
+              color: "blue"
+            },
+            body2: {
+              fontSize: "1rem",
+              color: "red"
+            }
+          },
+          palette: {
+            primary: { main: "#03a9f4" },
+            secondary: { main: "#00bfa5" },
+            quinary: { main: "#ffffff" }
+          }
+        });
+
+        hmsWidget.onMessage(() => {
+          console.log("test widget 2 :");
+        });
+      });
+
+      window.hmsWidgetAsyncInit(function(hmsWidget) {
+        hmsWidget.init({
+          selector: "widget-example3",
+          widgetPath: "patient-search-bar",
+          width: "500px",
+          height: "400px",
+        });
+
+        hmsWidget.setParams({
+          max: 10,
+          offset: 0,
+          page: 0,
+          filter: {
+            gender: "male"
+          }
+        });
+
+        hmsWidget.onMessage(data => {
+          console.log('data :', data);
+          console.log("test widget 3 :");
+        });
+      });
+
+      window.messageListenerService.addExtendMessagelistener(() => {
+        console.log("event CALl :");
       });
     </script>
   </body>
