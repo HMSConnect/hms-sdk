@@ -79,7 +79,8 @@ class HmsWidgetFactory {
     width: "300px",
     height: "300px",
     href: "https://hms-widget.bonmek.com",
-    pathPrefix: "embedded-widget"
+    pathPrefix: "embedded-widget",
+    isFirstRender: true
   };
 
   init = config => {
@@ -105,19 +106,32 @@ class HmsWidgetFactory {
 
     divElement.appendChild(this.iframeObject.iframeElement);
   };
+
   setParams = params => {
     const qs = queryStringify({
       ...params,
       isWaitForIframeLoaded: true
     });
     this.iframeObject.qs = qs;
+    if (!this.iframeObject.isFirstRender) {
+      this.render();
+    }
   };
+
   setTheme = theme => {
     this.iframeObject.theme = theme;
+    if (!this.iframeObject.isFirstRender) {
+      this.render();
+    }
   };
+
   setCustomizeTheme = customTheme => {
     this.iframeObject.customTheme = customTheme;
+    if (!this.iframeObject.isFirstRender) {
+      this.render();
+    }
   };
+
   render = initSetup => {
     initSetup();
     try {
@@ -133,6 +147,7 @@ class HmsWidgetFactory {
         }`
       );
       this.iframeObject.iframeElement.setAttribute("src", `${url}`);
+      this.iframeObject.isFirstRender = false;
     } catch (e) {
       console.error("error: ", e);
     }
@@ -175,4 +190,5 @@ window.hmsWidgetAsyncInit = function(callback) {
       callback(hmswidgetObject);
     });
   });
+  return hmswidgetObject;
 };
