@@ -80,7 +80,8 @@ class HmsWidgetFactory {
     height: "300px",
     href: "https://hms-widget.bonmek.com",
     pathPrefix: "embedded-widget",
-    isFirstRender: true
+    isFirstRender: true,
+    structure: {}
   };
 
   init = config => {
@@ -132,6 +133,16 @@ class HmsWidgetFactory {
     }
   };
 
+  setStructure = structure => {
+    this.iframeObject.structure = {
+      ...this.iframeObject.structure,
+      ...structure
+    };
+    if (!this.iframeObject.isFirstRender) {
+      this.render();
+    }
+  };
+
   render = initSetup => {
     if (initSetup) {
       initSetup();
@@ -160,7 +171,8 @@ class HmsWidgetFactory {
       "finishIframeLoading",
       "setTheme",
       "setCustomTheme",
-      "setIframeName"
+      "setIframeName",
+      "setStructure"
     ];
     const messageEvent = createMessageEvents(
       iframeObject.iframeElement,
@@ -173,6 +185,7 @@ class HmsWidgetFactory {
     if (iframeObject.customTheme) {
       messageEvent.setCustomTheme(iframeObject.customTheme);
     }
+    messageEvent.setStructure(this.iframeObject.structure);
     messageEvent.finishIframeLoading();
   };
 
