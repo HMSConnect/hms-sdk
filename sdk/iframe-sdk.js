@@ -133,7 +133,9 @@ class HmsWidgetFactory {
   };
 
   render = initSetup => {
-    initSetup();
+    if (initSetup) {
+      initSetup();
+    }
     try {
       this.iframeObject.iframeElement.onload = () =>
         this.onIframeLoaded(this.iframeObject);
