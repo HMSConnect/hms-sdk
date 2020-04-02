@@ -1,6 +1,8 @@
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientDemographic from '@components/widget/patient/PatientDemographic'
+import PatientDemographic, {
+  PatientDemographicWithStructureConnector,
+} from '@components/widget/patient/PatientDemographic'
 import { CssBaseline, Paper } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -15,7 +17,7 @@ const PatientInfoPanelWidget: IStatelessPage<{
         <CssBaseline />
         <Paper>
           <div style={{ height: '100vh' }}>
-            <PatientDemographic
+            <PatientDemographicWithStructureConnector
               patientId={_.get(query, 'patientId')}
               name={_.get(query, 'name')}
             />

@@ -41,13 +41,40 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
+export const PatientDemographicWithConnector: React.FunctionComponent = () => {
+  const state = useSelector((state: any) => state.patientDemographic)
+  return (
+    <PatientDemographicWithStructureConnector
+      patientId={state.patientId}
+      mouseTrackCategory={state.mouseTrackCategory}
+      structure={state.structure}
+    />
+  )
+}
+
+export const PatientDemographicWithStructureConnector: React.FunctionComponent<any> = ({
+  patientId,
+  mouseTrackCategory,
+}) => {
+  const state = useSelector((state: any) => state.patientDemographic)
+  return (
+    <PatientDemographic
+      patientId={patientId}
+      mouseTrackCategory={mouseTrackCategory}
+      structure={state.structure}
+    />
+  )
+}
+
 const PatientDemographic: React.FunctionComponent<{
   patientId: string
+  structure: any
   name?: string
   mouseTrackCategory?: string
   mouseTrackLabel?: string
 }> = ({
   patientId,
+  structure,
   name = 'PatientDemographic',
   mouseTrackCategory = 'patient_demographic',
   mouseTrackLabel = 'patient_demographic',
@@ -67,25 +94,16 @@ const PatientDemographic: React.FunctionComponent<{
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
       <Grid container className={classes.root} spacing={1}>
-        <PatientDemographicView patient={patient} />
+        <PatientDemographicView patient={patient} structure={structure} />
       </Grid>
     </TrackerMouseClick>
   )
 }
 
-export const PatientDemographicWithConnector: React.FunctionComponent = () => {
-  const state = useSelector((state: any) => state.patientDemographic)
-  return (
-    <PatientDemographic
-      patientId={state.patientId}
-      mouseTrackCategory={state.mouseTrackCategory}
-    />
-  )
-}
-
 export const PatientDemographicView: React.FunctionComponent<{
   patient: any
-}> = ({ patient: info }) => {
+  structure: any
+}> = ({ patient: info, structure }) => {
   const classes = useStyles()
   return (
     <Grid item sm={12} md={12} lg={12}>
@@ -110,30 +128,35 @@ export const PatientDemographicView: React.FunctionComponent<{
           </Grid>
           <Grid item sm={12} md={12} lg={9} style={{ paddingLeft: '1em' }}>
             <Grid container>
-              <Typography variant='h4' className={classes.nameTitle}>
-                {_.isArray(_.get(info, 'name.prefix'))
-                  ? _.join(_.get(info, 'name.prefix'), ' ')
-                  : _.get(info, 'name.prefix')}{' '}
-                {_.isArray(_.get(info, 'name.given'))
-                  ? _.join(_.get(info, 'name.given'), ' ')
-                  : _.get(info, 'name.given')}{' '}
-                {_.isArray(_.get(info, 'name.family'))
-                  ? _.join(_.get(info, 'name.family'), ' ')
-                  : _.get(info, 'name.family')}
-              </Typography>
+              {_.get(structure, 'nameField') ? (
+                <Typography variant='h4' className={classes.nameTitle}>
+                  {_.isArray(_.get(info, 'name.prefix'))
+                    ? _.join(_.get(info, 'name.prefix'), ' ')
+                    : _.get(info, 'name.prefix')}{' '}
+                  {_.isArray(_.get(info, 'name.given'))
+                    ? _.join(_.get(info, 'name.given'), ' ')
+                    : _.get(info, 'name.given')}{' '}
+                  {_.isArray(_.get(info, 'name.family'))
+                    ? _.join(_.get(info, 'name.family'), ' ')
+                    : _.get(info, 'name.family')}
+                </Typography>
+              ) : null}
             </Grid>
             <Grid container>
               {/* <Paper elevation={0}> */}
-              {_.map(info.communication, (com: string, index: any) => {
-                return (
-                  <Chip
-                    key={`lan-${index}`}
-                    label={com}
-                    style={{ margin: '4px' }}
-                    size='small'
-                  />
-                )
-              })}
+              {_.get(structure, 'languageField')
+                ? _.map(info.communication, (com: string, index: any) => {
+                    return (
+                      <Chip
+                        key={`lan-${index}`}
+                        label={com}
+                        style={{ margin: '4px' }}
+                        size='small'
+                      />
+                    )
+                  })
+                : null}
+
               {/* </Paper> */}
             </Grid>
           </Grid>
@@ -147,135 +170,146 @@ export const PatientDemographicView: React.FunctionComponent<{
                 justify='space-between'
                 alignContent='space-between'
               >
-                <Grid item xs={12}>
-                  <Typography
-                    variant='body1'
-                    className={classes.topicTitle}
-                    component='span'
-                  >
-                    Age :{' '}
-                  </Typography>
-                  <Typography
-                    component='span'
-                    variant='body1'
-                    className={classes.contentText}
-                  >
-                    {_.get(info, 'age') || 'Unknow'}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography component='div' variant='body1'>
-                    <Typography
-                      variant='body1'
-                      className={classes.topicTitle}
-                      component='span'
-                    >
-                      Gender :{' '}
-                    </Typography>
-                    <Typography
-                      component='span'
-                      variant='body1'
-                      className={classes.contentText}
-                    >
-                      {_.startCase(_.get(info, 'gender')) || 'Unknow'}
-                    </Typography>
-                  </Typography>
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Typography
-                    variant='body1'
-                    className={classes.topicTitle}
-                    component='span'
-                  >
-                    DOB :{' '}
-                  </Typography>
-                  <Typography
-                    component='span'
-                    variant='body1'
-                    className={classes.contentText}
-                  >
-                    {_.get(info, 'birthDate')}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-
-            <Grid item xs={12} sm={4}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Typography
-                    variant='body1'
-                    className={classes.topicTitle}
-                    component='span'
-                  >
-                    Phone :{' '}
-                  </Typography>
-                  <Typography
-                    component='span'
-                    variant='body1'
-                    className={classes.contentText}
-                  >
-                    {_.get(info, 'telecom')
-                      ? _.isArray(_.get(info, 'telecom'))
-                        ? _.join(
-                            _.map(_.get(info, 'telecom'), (tel: any) =>
-                              _.get(tel, 'value'),
-                            ),
-                            ' ',
-                          )
-                        : _.get(info, 'telecom')
-                      : 'Unknow'}
-                  </Typography>
-                </Grid>
-                {info.email && (
+                {_.get(structure, 'ageField') ? (
                   <Grid item xs={12}>
                     <Typography
                       variant='body1'
                       className={classes.topicTitle}
                       component='span'
                     >
-                      Email :{' '}
+                      Age :{' '}
                     </Typography>
                     <Typography
                       component='span'
                       variant='body1'
                       className={classes.contentText}
                     >
-                      {_.get(info, 'email') || 'Unknow'}
+                      {_.get(info, 'age') || 'Unknow'}
                     </Typography>
                   </Grid>
-                )}
+                ) : null}
+                {_.get(structure, 'genderField') ? (
+                  <Grid item xs={12}>
+                    <Typography component='div' variant='body1'>
+                      <Typography
+                        variant='body1'
+                        className={classes.topicTitle}
+                        component='span'
+                      >
+                        Gender :{' '}
+                      </Typography>
+                      <Typography
+                        component='span'
+                        variant='body1'
+                        className={classes.contentText}
+                      >
+                        {_.startCase(_.get(info, 'gender')) || 'Unknow'}
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                ) : null}
+                {_.get(structure, 'dobField') ? (
+                  <Grid item xs={12}>
+                    <Typography
+                      variant='body1'
+                      className={classes.topicTitle}
+                      component='span'
+                    >
+                      DOB :{' '}
+                    </Typography>
+                    <Typography
+                      component='span'
+                      variant='body1'
+                      className={classes.contentText}
+                    >
+                      {_.get(info, 'birthDate')}
+                    </Typography>
+                  </Grid>
+                ) : null}
               </Grid>
             </Grid>
 
             <Grid item xs={12} sm={4}>
               <Grid container>
-                <Grid item xs={12}>
-                  <Typography
-                    variant='body1'
-                    className={classes.topicTitle}
-                    component='span'
-                  >
-                    Address :{' '}
-                  </Typography>
-                  <Typography
-                    component='span'
-                    variant='body1'
-                    className={classes.contentText}
-                  >
-                    {_.get(info, 'address')
-                      ? `${
-                          _.isArray(_.get(info, 'address[0].line'))
-                            ? _.join(_.get(info, 'address[0].line'), ' ')
-                            : _.get(info, 'address[0].line')
-                        } ${_.get(info, 'address[0].postalCode')} ${_.get(
-                          info,
-                          'address[0].city',
-                        )} ${_.get(info, 'address[0].country')}`
-                      : 'Unknow'}
-                  </Typography>
-                </Grid>
+                {_.get(structure, 'phoneField') ? (
+                  <Grid item xs={12}>
+                    <Typography
+                      variant='body1'
+                      className={classes.topicTitle}
+                      component='span'
+                    >
+                      Phone :{' '}
+                    </Typography>
+                    <Typography
+                      component='span'
+                      variant='body1'
+                      className={classes.contentText}
+                    >
+                      {_.get(info, 'telecom')
+                        ? _.isArray(_.get(info, 'telecom'))
+                          ? _.join(
+                              _.map(_.get(info, 'telecom'), (tel: any) =>
+                                _.get(tel, 'value'),
+                              ),
+                              ' ',
+                            )
+                          : _.get(info, 'telecom')
+                        : 'Unknow'}
+                    </Typography>
+                  </Grid>
+                ) : null}
+                {_.get(structure, 'emailField')
+                  ? info.email && (
+                      <Grid item xs={12}>
+                        <Typography
+                          variant='body1'
+                          className={classes.topicTitle}
+                          component='span'
+                        >
+                          Email :{' '}
+                        </Typography>
+                        <Typography
+                          component='span'
+                          variant='body1'
+                          className={classes.contentText}
+                        >
+                          {_.get(info, 'email') || 'Unknow'}
+                        </Typography>
+                      </Grid>
+                    )
+                  : null}
+              </Grid>
+            </Grid>
+
+            <Grid item xs={12} sm={4}>
+              <Grid container>
+                {_.get(structure, 'addressField') ? (
+                  <Grid item xs={12}>
+                    <Typography
+                      variant='body1'
+                      className={classes.topicTitle}
+                      component='span'
+                    >
+                      Address :{' '}
+                    </Typography>
+                    <Typography
+                      component='span'
+                      variant='body1'
+                      className={classes.contentText}
+                    >
+                      {_.get(info, 'address')
+                        ? `${
+                            _.isArray(_.get(info, 'address[0].line'))
+                              ? _.join(_.get(info, 'address[0].line'), ' ')
+                              : _.get(info, 'address[0].line')
+                          } ${_.get(info, 'address[0].postalCode')} ${_.get(
+                            info,
+                            'address[0].city',
+                          )} ${_.get(info, 'address[0].country')}`
+                        : 'Unknow'}
+                    </Typography>
+                  </Grid>
+                ) : null}
               </Grid>
             </Grid>
           </Grid>
