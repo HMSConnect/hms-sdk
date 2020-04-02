@@ -96,7 +96,7 @@ object response
   <head>
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@dc3e3e48c674fcba470524d6e91ab69116223a67/sdk/iframe-sdk.min.js"
+      src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@befa56d14ee566e7c3e92244e4c585c336a76dda/sdk/iframe-sdk.min.js"
     ></script>
   </head>
   <body>
