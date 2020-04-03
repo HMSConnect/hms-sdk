@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import ThemeSelect from '@components/base/ThemeSelect'
 import environment from '@environment'
 import {
   AppBar,
@@ -13,11 +14,6 @@ import {
 } from '@material-ui/core'
 import AuthService from '@services/AuthService'
 import clsx from 'clsx'
-import SelectOption from '@components/base/SelectOption'
-import ThemeManager from '@app/styles/ThemeManager'
-import { useDispatch, useSelector } from 'react-redux'
-import { themeChange, themeCustom } from '@app/actions/theme.action'
-import ThemeSelect from '@components/base/ThemeSelect'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

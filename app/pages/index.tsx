@@ -11,10 +11,10 @@ import {
   Paper,
 } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import RouteManager from '@routes/RouteManager'
 import * as _ from 'lodash'
 import getConfig from 'next/config'
 import routes from '../routes'
-import RouteManager from '@routes/RouteManager'
 
 const config = getConfig()
 const staticFolder = _.get(config, 'publicRuntimeConfig.staticFolder')
