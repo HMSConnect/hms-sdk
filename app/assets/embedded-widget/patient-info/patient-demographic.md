@@ -23,6 +23,23 @@ Store name is `patientEncounterTimeline`
 | --------- | ----------- | ------- | ------------------------ |
 | patientId | string      |         | `required` ID of patient |
 
+## Iframe-sdk Setup
+widgetName is `patientDemographic`
+
+**Structure Setup**
+
+| Key           | Default | Description                             |
+| ------------- | ------- | --------------------------------------- |
+| nameField     | True    | if true will render patient's name      |
+| ageField      | True    | if true will render patient's age       |
+| addressField  | True    | if true will render patient's address   |
+| dobField      | True    | if true will render patient's birthdath |
+| emailField    | True    | if true will render patient's email     |
+| genderField   | True    | if true will render patient's gender    |
+| iconField     | True    | if true will render patient's icon      |
+| languageField | True    | if true will render patient's language  |
+| phoneField    | True    | if true will render patient's phone     |
+
 ## Example
 
 ### Request
