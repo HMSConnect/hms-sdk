@@ -1,10 +1,6 @@
 import * as React from 'react'
 
-import {
-  themeChange,
-  themeCustom,
-  themeObjectSet,
-} from '@app/actions/theme.action'
+import { setCustomTheme, setTheme } from '@app/actions/theme.action'
 import ThemeManager from '@app/styles/ThemeManager'
 import LoadingSection from '@components/base/LoadingSection'
 import { ThemeOptions, ThemeProvider } from '@material-ui/core'
@@ -14,18 +10,13 @@ import { connect } from 'react-redux'
 class ThemeLayout extends React.Component<any> {
   componentDidMount() {
     ThemeManager.setDefaultTheme(this.props.defaultTheme)
-    this.props.onThemeChange(this.props.defaultTheme)
+    this.props.setTheme(this.props.defaultTheme)
     if (typeof window !== 'undefined') {
       MessageListenerService.registerMessage('setTheme', (data: any) => {
-        this.props.onThemeChange(data)
+        this.props.setTheme(data)
       })
       MessageListenerService.registerMessage('setCustomTheme', (data: any) => {
-        const themeObject = ThemeManager.getThemeObject(data.themeName)
-        const newThemeObject = ThemeManager.mergeThemeWithCustomTheme(
-          themeObject,
-          data.themeObject,
-        )
-        this.props.onThemeSet(newThemeObject)
+        this.props.setCustomTheme(data.themeObject, data.themeName)
       })
     }
   }
@@ -51,14 +42,11 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    onThemeChange: (theme: string) => {
-      dispatch(themeChange(theme))
+    setCustomTheme: (themeObject: ThemeOptions, themeName: string) => {
+      dispatch(setCustomTheme(themeObject, themeName))
     },
-    onThemeSet: (themeObject: ThemeOptions) => {
-      dispatch(themeObjectSet(themeObject))
-    },
-    onThemeCustom: (themeObject: ThemeOptions, themeName: string) => {
-      dispatch(themeCustom(themeObject, themeName))
+    setTheme: (theme: string) => {
+      dispatch(setTheme(theme))
     },
   }
 }

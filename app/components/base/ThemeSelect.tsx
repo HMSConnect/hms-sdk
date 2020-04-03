@@ -1,5 +1,6 @@
-import { themeChange, themeCustom } from '@app/actions/theme.action'
 import * as React from 'react'
+
+import { setCustomTheme, setTheme } from '@app/actions/theme.action'
 import { useDispatch, useSelector } from 'react-redux'
 import SelectOption from './SelectOption'
 
@@ -7,14 +8,14 @@ const ThemeSelect: React.FunctionComponent<any> = () => {
   const state = useSelector((state: any) => {
     return state.themeType
   })
-  const [theme, setTheme] = React.useState<string>(state.themeName)
+  const [themeName, setThemeName] = React.useState<string>(state.themeName)
   const dispath = useDispatch()
 
   const onThemeChange = (value: any) => {
     const name = value
     if (value === 'custom') {
       dispath(
-        themeCustom(
+        setCustomTheme(
           {
             palette: {
               nonary: { main: '#00bfa5' },
@@ -26,9 +27,9 @@ const ThemeSelect: React.FunctionComponent<any> = () => {
         ),
       )
     } else {
-      dispath(themeChange(name))
+      dispath(setTheme(name))
     }
-    setTheme(value)
+    setThemeName(value)
   }
 
   return (
@@ -36,7 +37,7 @@ const ThemeSelect: React.FunctionComponent<any> = () => {
       label='Theme'
       labelId='theme-select-label'
       id='theme-select'
-      value={theme || 'normal'}
+      value={themeName || 'normal'}
       options={[
         { value: 'normal', label: 'Normal' },
         { value: 'dark', label: 'Dark' },

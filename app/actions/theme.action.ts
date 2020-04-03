@@ -1,6 +1,6 @@
 import ThemeManager from '../styles/ThemeManager'
 
-export const themeChange = (themeName: string) => {
+export const setTheme = (themeName: string) => {
   const themeObject = ThemeManager.getThemeObject(themeName)
   return {
     payload: { themeName, themeObject },
@@ -8,14 +8,7 @@ export const themeChange = (themeName: string) => {
   }
 }
 
-export const themeObjectSet = (themeObject: any) => {
-  return {
-    payload: themeObject,
-    type: 'THEME_SET',
-  }
-}
-
-export const themeCustom = (customThemeObject: any, themeName?: string) => {
+export const setCustomTheme = (customThemeObject: any, themeName?: string) => {
   const themeObject = ThemeManager.mergeThemeWithCustomTheme(
     ThemeManager.getThemeObject(themeName),
     customThemeObject,

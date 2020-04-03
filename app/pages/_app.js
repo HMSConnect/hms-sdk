@@ -25,8 +25,6 @@ class AASApp extends App {
 
   constructor(props) {
     super(props)
-    // ThemeManager.setDefaultTheme('normal')
-    // store.dispatch(themeChange('normal'))
     let isWaitForIframeLoaded
     if (typeof window !== 'undefined') {
       AdapterManager.createAdapter(_.get(props, 'router.query.mode'))
@@ -36,7 +34,6 @@ class AASApp extends App {
       RouteManager.registryMode(pathName)
 
       MessageListenerService.registerMessage('finishIframeLoading', () => {
-        console.log('finishIframeLoading')
         this.setState({
           ...this.state,
           loading: false,
@@ -81,7 +78,7 @@ class AASApp extends App {
           <ThemeLayoutWithConnect defaultTheme='normal'>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            
+
             {isWaitForIframeLoaded ? (
               loading ? (
                 <div>Loading...</div>
@@ -97,6 +94,5 @@ class AASApp extends App {
     )
   }
 }
-
 
 export default AASApp
