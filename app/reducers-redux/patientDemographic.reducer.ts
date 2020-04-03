@@ -7,7 +7,7 @@ interface IPatientDemographicAction {
   payload: any
 }
 
-const initialState: any = {
+export const patientDemographicInitialState: any = {
   structure: {
     addressField: true,
     ageField: true,
@@ -21,7 +21,7 @@ const initialState: any = {
   },
 }
 const patientDemographic = (
-  state = initialState,
+  state = patientDemographicInitialState,
   action: IPatientDemographicAction,
 ) => {
   switch (action.type) {
