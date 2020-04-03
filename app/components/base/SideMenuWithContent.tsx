@@ -18,6 +18,7 @@ import {
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import MenuIcon from '@material-ui/icons/Menu'
 import clsx from 'clsx'
+import ThemeSelect from './ThemeSelect'
 
 const drawerWidth = 240
 const useSideMenuStyles = makeStyles((theme: Theme) =>
@@ -121,6 +122,7 @@ const SideMenuWithContent: React.FunctionComponent<{
           <Typography variant='h6' noWrap style={{ flexGrow: 1 }}>
             {appBarTitle}
           </Typography>
+          <ThemeSelect />
           <Typography variant='body1'>V. {environment.codeVersion}</Typography>
         </Toolbar>
       </AppBar>
