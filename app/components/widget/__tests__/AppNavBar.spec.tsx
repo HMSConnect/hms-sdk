@@ -1,8 +1,12 @@
-import AuthService from '@services/AuthService'
-import { fireEvent, render } from '@testing-library/react'
 import * as React from 'react'
-import AppNavBar from '../AppNavBar'
+
+import themeType, { themeInitialState } from '@app/reducers-redux/theme.reducer'
+import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
+import AuthService from '@services/AuthService'
+import { fireEvent } from '@testing-library/react'
 import * as useRedux from 'react-redux'
+import { createStore } from 'redux'
+import AppNavBar from '../AppNavBar'
 
 jest.mock('@services/AuthService', () => ({
   __esModule: true,
@@ -17,7 +21,12 @@ describe('<AppNavBar />', () => {
     const dispatch = jest.spyOn(useRedux, 'useDispatch') as any
     const dispatchFn = jest.fn()
     dispatch.mockImplementation((params: any) => dispatchFn)
-    const { queryAllByText } = render(<AppNavBar />)
+    const { queryAllByText } = renderWithRedux(<AppNavBar />, {
+      initialState: {},
+      store: createStore(themeType, {
+        themeType: themeInitialState,
+      }),
+    })
     expect(queryAllByText('HMS Widget')).toBeTruthy()
   })
 
@@ -25,7 +34,13 @@ describe('<AppNavBar />', () => {
     const dispatch = jest.spyOn(useRedux, 'useDispatch') as any
     const dispatchFn = jest.fn()
     dispatch.mockImplementation((params: any) => dispatchFn)
-    const { queryAllByText, getByTestId } = render(<AppNavBar />)
+
+    const { queryAllByText, getByTestId } = renderWithRedux(<AppNavBar />, {
+      initialState: {},
+      store: createStore(themeType, {
+        themeType: themeInitialState,
+      }),
+    })
     expect(queryAllByText('HMS Widget')).toBeTruthy()
     const logoutButtonElement = getByTestId('logout-app-nav-bar')
 
