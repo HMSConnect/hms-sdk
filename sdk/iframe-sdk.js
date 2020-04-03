@@ -79,7 +79,9 @@ class HmsWidgetFactory {
     width: "300px",
     height: "300px",
     href: "https://hms-widget.bonmek.com",
-    pathPrefix: "embedded-widget"
+    pathPrefix: "embedded-widget",
+    isFirstRender: true,
+    structure: {}
   };
 
   init = config => {
@@ -105,21 +107,46 @@ class HmsWidgetFactory {
 
     divElement.appendChild(this.iframeObject.iframeElement);
   };
+
   setParams = params => {
     const qs = queryStringify({
       ...params,
       isWaitForIframeLoaded: true
     });
     this.iframeObject.qs = qs;
+    if (!this.iframeObject.isFirstRender) {
+      this.render();
+    }
   };
+
   setTheme = theme => {
     this.iframeObject.theme = theme;
+    if (!this.iframeObject.isFirstRender) {
+      this.render();
+    }
   };
-  setCustomizeTheme = customTheme => {
-    this.iframeObject.customTheme = customTheme;
+
+  setCustomizeTheme = (customTheme, themeName) => {
+    this.iframeObject.customTheme = { themeObject: customTheme, themeName };
+    if (!this.iframeObject.isFirstRender) {
+      this.render();
+    }
   };
+
+  setStructure = structure => {
+    this.iframeObject.structure = {
+      ...this.iframeObject.structure,
+      ...structure
+    };
+    if (!this.iframeObject.isFirstRender) {
+      this.render();
+    }
+  };
+
   render = initSetup => {
-    initSetup();
+    if (initSetup) {
+      initSetup();
+    }
     try {
       this.iframeObject.iframeElement.onload = () =>
         this.onIframeLoaded(this.iframeObject);
@@ -133,6 +160,7 @@ class HmsWidgetFactory {
         }`
       );
       this.iframeObject.iframeElement.setAttribute("src", `${url}`);
+      this.iframeObject.isFirstRender = false;
     } catch (e) {
       console.error("error: ", e);
     }
@@ -143,7 +171,8 @@ class HmsWidgetFactory {
       "finishIframeLoading",
       "setTheme",
       "setCustomTheme",
-      "setIframeName"
+      "setIframeName",
+      "setStructure"
     ];
     const messageEvent = createMessageEvents(
       iframeObject.iframeElement,
@@ -156,6 +185,7 @@ class HmsWidgetFactory {
     if (iframeObject.customTheme) {
       messageEvent.setCustomTheme(iframeObject.customTheme);
     }
+    messageEvent.setStructure(this.iframeObject.structure);
     messageEvent.finishIframeLoading();
   };
 
@@ -175,4 +205,5 @@ window.hmsWidgetAsyncInit = function(callback) {
       callback(hmswidgetObject);
     });
   });
+  return hmswidgetObject;
 };

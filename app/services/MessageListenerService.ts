@@ -17,6 +17,13 @@ class MessageListenerServiceFactory {
     })
   }
 
+  unRegisterMessage(action: string) {
+    const newRegister = this.register.filter(
+      (data: any) => data.action === action,
+    )
+    this.register = newRegister
+  }
+
   setIframeName(iframeName: string) {
     this.iframeName = iframeName
   }

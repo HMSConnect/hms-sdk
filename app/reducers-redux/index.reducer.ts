@@ -15,6 +15,7 @@ import patientMedicationSummaryCard from './patientMedicationSummaryCard.reducer
 import patientPractitioner from './patientPractitioner.reducer'
 import patientProcedureTable from './patientProcedureTable.reducer'
 import patientSummaryCards from './patientSummaryCards.reducer'
+import themeType from './theme.reducer'
 
 const middlewares: any[] = []
 
@@ -48,6 +49,7 @@ export const rootReducer = combineReducers({
   patientPractitioner,
   patientProcedureTable,
   patientSummaryCards,
+  themeType,
 })
 
 const store = createStore(rootReducer, enhancer)

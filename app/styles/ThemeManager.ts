@@ -1,4 +1,4 @@
-import { parse } from '@utils'
+import { ThemeOptions } from '@material-ui/core'
 import * as _ from 'lodash'
 import { generateDarkAndLight } from './utils'
 declare module '@material-ui/core/styles/createPalette' {
@@ -39,8 +39,11 @@ class ThemeManager {
   setDefaultTheme(name: string) {
     this.defaultTheme = name
   }
+  getDefaultTheme() {
+    return this.defaultTheme
+  }
 
-  getThemeObject(name: string) {
+  getThemeObject(name?: string | null) {
     try {
       const themeObject = require(`./${name || this.defaultTheme}`)?.default
       return themeObject
@@ -51,10 +54,13 @@ class ThemeManager {
     }
   }
 
-  mergeThemeWithCustomTheme(themeObject: any, custhomThemeObject: any) {
+  mergeThemeWithCustomTheme(
+    themeObject: ThemeOptions,
+    custhomThemeObject: ThemeOptions,
+  ) {
     const newThemeObject = _.reduce(
       custhomThemeObject,
-      (acc, value, key) => {
+      (acc, value: any, key: string) => {
         let palette = null
         if (key === 'palette') {
           palette = this.createPallete(value)
@@ -67,10 +73,10 @@ class ThemeManager {
     return _.defaultsDeep(newThemeObject, themeObject)
   }
 
-  createPallete(themeObject: any) {
+  createPallete(themeObject: ThemeOptions) {
     return _.reduce(
       themeObject,
-      (acc, value, key) => {
+      (acc, value: any, key: string) => {
         const isDarkMode = value.type === 'dark' ? true : false
         const themeWithDarkLight = generateDarkAndLight(value, isDarkMode)
         const themeObject: any = themeWithDarkLight
@@ -85,8 +91,6 @@ class ThemeManager {
       {},
     )
   }
-
-  // mergePalleteWithCustomTheme(oldPallete: any, newPallete: any) {}
 }
 
 export default new ThemeManager()

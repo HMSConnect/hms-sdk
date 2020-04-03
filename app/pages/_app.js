@@ -6,16 +6,14 @@ import * as _ from 'lodash'
 import App from 'next/app'
 import Head from 'next/head'
 import 'react-grid-layout/css/styles.css'
-import { Provider } from 'react-redux'
+import { Provider, connect, useSelector, useDispatch } from 'react-redux'
 import 'react-resizable/css/styles.css'
 import { AdapterManager } from '../adapters/DataAdapterManager'
 import store from '../reducers-redux/index.reducer'
 import RouteManager from '../routes/RouteManager'
 import { GoogleAnalytics } from '../services/GoogleAnalyticsService'
 import { MessageListenerService } from '../services/MessageListenerService'
-// import theme from '../src/theme'
-import ThemeManager from '../styles/ThemeManager'
-
+import ThemeLayoutWithConnect from '../components/templates/ThemeLayout'
 class AASApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {}
@@ -27,8 +25,8 @@ class AASApp extends App {
 
   constructor(props) {
     super(props)
-    ThemeManager.setDefaultTheme('normal')
-    let themeObject = ThemeManager.getThemeObject(props.router?.query?.theme)
+    // ThemeManager.setDefaultTheme('normal')
+    // store.dispatch(themeChange('normal'))
     let isWaitForIframeLoaded
     if (typeof window !== 'undefined') {
       AdapterManager.createAdapter(_.get(props, 'router.query.mode'))
@@ -38,25 +36,20 @@ class AASApp extends App {
       RouteManager.registryMode(pathName)
 
       MessageListenerService.registerMessage('finishIframeLoading', () => {
+        console.log('finishIframeLoading')
         this.setState({
           ...this.state,
           loading: false,
         })
       })
-      MessageListenerService.registerMessage('setTheme', data => {
-        themeObject = ThemeManager.getThemeObject(data)
-        this.setState({
-          ...this.state,
-          theme: themeObject,
+
+      MessageListenerService.registerMessage('setStructure', data => {
+        _.each(data, (value, key) => {
+          const type = `SET_STRUCTURE_${_.toUpper(_.snakeCase(key))}`
+          store.dispatch({ type, payload: value })
         })
       })
-      MessageListenerService.registerMessage('setCustomTheme', data => {
-        themeObject = ThemeManager.mergeThemeWithCustomTheme(themeObject, data)
-        this.setState({
-          ...this.state,
-          theme: themeObject,
-        })
-      })
+
       MessageListenerService.registerMessage('setIframeName', data => {
         MessageListenerService.setIframeName(data)
       })
@@ -64,7 +57,6 @@ class AASApp extends App {
       MessageListenerService.initialMessageListener()
     }
     this.state = {
-      theme: themeObject,
       isWaitForIframeLoaded,
       loading: true,
     }
@@ -78,10 +70,6 @@ class AASApp extends App {
   }
 
   render() {
-    // const theme = createMuiTheme({
-    //   widgetType: 'tertriry',
-    // })
-
     const { Component, pageProps } = this.props
     const { theme, isWaitForIframeLoaded, loading } = this.state
     return (
@@ -90,10 +78,10 @@ class AASApp extends App {
           <Head>
             <title>HMS Widget SDK</title>
           </Head>
-          {/* <AppContextProvider> */}
-          <ThemeProvider theme={theme}>
+          <ThemeLayoutWithConnect defaultTheme='normal'>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
+            
             {isWaitForIframeLoaded ? (
               loading ? (
                 <div>Loading...</div>
@@ -103,13 +91,12 @@ class AASApp extends App {
             ) : (
               <Component {...pageProps} />
             )}
-            {/* <Component {...pageProps} /> */}
-          </ThemeProvider>
-          {/* </AppContextProvider> */}
+          </ThemeLayoutWithConnect>
         </Provider>
       </>
     )
   }
 }
+
 
 export default AASApp
