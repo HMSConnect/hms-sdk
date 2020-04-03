@@ -76,7 +76,7 @@ const AppNavBar: React.FunctionComponent<any> = () => {
           label='Theme'
           labelId='theme-select-label'
           id='theme-select'
-          value={theme}
+          value={theme || 'normal'}
           options={[
             { value: 'normal', label: 'Normal' },
             { value: 'dark', label: 'Dark' },

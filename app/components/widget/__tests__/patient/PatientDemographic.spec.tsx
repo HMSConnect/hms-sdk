@@ -1,7 +1,9 @@
 import * as React from 'react'
 
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
-import patientDemographic from '@app/reducers-redux/patientDemographic.reducer'
+import patientDemographic, {
+  patientDemographicInitialState,
+} from '@app/reducers-redux/patientDemographic.reducer'
 import useEncounter from '@components/hooks/useEncounter'
 import usePatient from '@components/hooks/usePatient'
 import useResourceList from '@components/hooks/useResourceList'
@@ -102,8 +104,9 @@ describe('<PatientDemographic />', () => {
   })
 
   it('render PatientDemographic', () => {
+    const structure = patientDemographicInitialState.structure
     const { queryAllByText, getByText } = render(
-      <PatientDemographic patientId='1' />,
+      <PatientDemographic patientId='1' structure={structure} />,
     )
     expect(queryAllByText('Mr. Test1 FTest1')[0]).toBeTruthy()
   })
@@ -114,7 +117,7 @@ describe('<PatientDemographic />', () => {
       {
         initialState: {},
         store: createStore(patientDemographic, {
-          patientDemographic: {},
+          patientDemographic: patientDemographicInitialState,
         }),
       },
     )
@@ -128,8 +131,9 @@ describe('<PatientDemographic />', () => {
       error: null,
       isLoading: true,
     }))
+    const structure = patientDemographicInitialState.structure
     const { queryAllByText, getByText } = render(
-      <PatientDemographic patientId='1' />,
+      <PatientDemographic patientId='1' structure={structure} />,
     )
     expect(queryAllByText('Mr. Test1 FTest1')[0]).toBeFalsy()
   })
@@ -142,8 +146,9 @@ describe('<PatientDemographic />', () => {
       error: errorMessage,
       isLoading: true,
     }))
+    const structure = patientDemographicInitialState.structure
     const { queryAllByText, getByText } = render(
-      <PatientDemographic patientId='1' />,
+      <PatientDemographic patientId='1' structure={structure} />,
     )
     expect(queryAllByText(`ERR: ${errorMessage}`)).toBeTruthy()
   })
