@@ -13,9 +13,7 @@ import store from '../reducers-redux/index.reducer'
 import RouteManager from '../routes/RouteManager'
 import { GoogleAnalytics } from '../services/GoogleAnalyticsService'
 import { MessageListenerService } from '../services/MessageListenerService'
-import ThemeManager from '../styles/ThemeManager'
-import { themeChange, themeObjectSet } from '../actions/theme.action'
-
+import ThemeLayoutWithConnect from '../components/templates/ThemeLayout'
 class AASApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {}
@@ -27,7 +25,8 @@ class AASApp extends App {
 
   constructor(props) {
     super(props)
-    ThemeManager.setDefaultTheme('normal')
+    // ThemeManager.setDefaultTheme('normal')
+    // store.dispatch(themeChange('normal'))
     let isWaitForIframeLoaded
     if (typeof window !== 'undefined') {
       AdapterManager.createAdapter(_.get(props, 'router.query.mode'))
@@ -58,7 +57,6 @@ class AASApp extends App {
       MessageListenerService.initialMessageListener()
     }
     this.state = {
-      // theme: themeObject,
       isWaitForIframeLoaded,
       loading: true,
     }
@@ -80,9 +78,10 @@ class AASApp extends App {
           <Head>
             <title>HMS Widget SDK</title>
           </Head>
-          <ThemeLayoutWithConnect>
+          <ThemeLayoutWithConnect defaultTheme='normal'>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
+            
             {isWaitForIframeLoaded ? (
               loading ? (
                 <div>Loading...</div>
@@ -99,59 +98,5 @@ class AASApp extends App {
   }
 }
 
-class ThemeLayout extends React.Component {
-  constructor(props) {
-    super(props)
-
-    ThemeManager.setDefaultTheme('normal')
-    props.onThemeSet(ThemeManager.getThemeObject(null))
-
-    let themeObject = ThemeManager.getThemeObject(props.router?.query?.theme)
-    if (typeof window !== 'undefined') {
-      MessageListenerService.registerMessage('setTheme', data => {
-        props.onThemeChange(data)
-      })
-      MessageListenerService.registerMessage('setCustomTheme', data => {
-        themeObject = ThemeManager.mergeThemeWithCustomTheme(themeObject, data)
-        props.onThemeSet(themeObject)
-      })
-    }
-  }
-
-  render() {
-    const { themeType } = this.props
-
-    if (!themeType.themeObject) {
-      return <></>
-    }
-    return (
-      <ThemeProvider theme={themeType.themeObject}>
-        {this.props.children}
-      </ThemeProvider>
-    )
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    themeType: state.themeType,
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onThemeChange: theme => {
-      dispatch(themeChange(theme))
-    },
-    onThemeSet: themeObject => {
-      dispatch(themeObjectSet(themeObject))
-    },
-  }
-}
-
-const ThemeLayoutWithConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ThemeLayout)
 
 export default AASApp

@@ -1,3 +1,5 @@
+import ThemeManager from '@app/styles/ThemeManager'
+
 type ThemeType = 'THEME_CHANGE' | 'THEME_SET'
 
 interface IThemeAction {
@@ -6,6 +8,7 @@ interface IThemeAction {
 }
 
 const initialState: any = {
+  isCustom: false,
   themeName: 'normal',
   themeObject: null,
 }
@@ -15,10 +18,12 @@ const themeType = (state = initialState, action: IThemeAction) => {
       return {
         ...state,
         ...action.payload,
+        isCustom: false,
       }
     case 'THEME_SET':
       return {
         ...state,
+        isCustom: true,
         themeObject: action.payload,
       }
     default:

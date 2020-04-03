@@ -13,6 +13,10 @@ import {
 } from '@material-ui/core'
 import AuthService from '@services/AuthService'
 import clsx from 'clsx'
+import SelectOption from '@components/base/SelectOption'
+import ThemeManager from '@app/styles/ThemeManager'
+import { useDispatch } from 'react-redux'
+import { themeChange, themeCustom } from '@app/actions/theme.action'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,11 +35,36 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 )
 const AppNavBar: React.FunctionComponent<any> = () => {
+  const [theme, setTheme] = React.useState<string>(
+    ThemeManager.getDefaultTheme(),
+  )
+  const dispath = useDispatch()
+
   const classes = useStyles()
 
   const handleLogout = (event: any) => {
     AuthService.logout()
   }
+  const onThemeChange = (value: any) => {
+    const name = value
+    if (value === 'custom') {
+      dispath(
+        themeCustom(
+          {
+            palette: {
+              nonary: { main: '#00bfa5' },
+              primary: { main: '#03a9f4' },
+              secondary: { main: '#00bfa5' },
+            },
+          },
+          'dark',
+        ),
+      )
+    } else {
+      dispath(themeChange(name))
+    }
+  }
+
   return (
     <AppBar position='static'>
       <Toolbar>
@@ -43,6 +72,23 @@ const AppNavBar: React.FunctionComponent<any> = () => {
           HMS Widget{' '}
           <Typography variant='body1'>V. {environment.codeVersion}</Typography>
         </Typography>
+        <SelectOption
+          label='Theme'
+          labelId='theme-select-label'
+          id='theme-select'
+          value={theme}
+          options={[
+            { value: 'normal', label: 'Normal' },
+            { value: 'dark', label: 'Dark' },
+            { value: 'invert', label: 'Invert' },
+            { value: 'custom', label: 'Custom' },
+          ]}
+          onChange={(
+            event: React.ChangeEvent<{ name?: string; value: unknown }>,
+          ) => {
+            onThemeChange(event.target.value)
+          }}
+        ></SelectOption>
         <div>
           <Button
             onClick={handleLogout}
