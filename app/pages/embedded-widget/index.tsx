@@ -50,7 +50,8 @@ const WIDGET_GROUP: IWidgetGroup[] = [
   {
     child: [
       {
-        document: require('@assets/embedded-widget/get-started-iframe-sdk.md').default,
+        document: require('@assets/embedded-widget/get-started-iframe-sdk.md')
+          .default,
         label: 'Get Started',
         value: 'get-started',
       },
@@ -116,13 +117,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     mdContainer: {
       '& pre': {
-        backgroundColor: theme.palette.background.paper || '',
+        color: '#24292e',
       },
       '& th': {
-        backgroundColor: theme.palette.background.paper || '',
+        color: '#24292e',
       },
       '& td': {
-        backgroundColor: theme.palette.background.paper || '',
+        color: '#24292e',
       },
       color: theme.palette.text.primary,
     },
@@ -573,7 +574,7 @@ const WidgetManager: IStatelessPage<{
             </TabPanel>
             <TabPanel value={tabState} index={1}>
               <div
-                className={clsx('markdown-body')}
+                className={clsx('markdown-body', classes.mdContainer)}
                 dangerouslySetInnerHTML={{
                   __html: md.render(
                     _.get(selectedWidget, 'document') || `# Comming soon`,
