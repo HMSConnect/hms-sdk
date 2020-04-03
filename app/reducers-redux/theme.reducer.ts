@@ -5,12 +5,12 @@ interface IThemeAction {
   payload: any
 }
 
-const initialState: any = {
+export const themeInitialState: any = {
   isCustom: false,
   themeName: 'normal',
   themeObject: null,
 }
-const themeType = (state = initialState, action: IThemeAction) => {
+export const themeType = (state = themeInitialState, action: IThemeAction) => {
   switch (action.type) {
     case 'THEME_CHANGE':
       return {
