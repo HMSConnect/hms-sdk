@@ -126,8 +126,8 @@ class HmsWidgetFactory {
     }
   };
 
-  setCustomizeTheme = customTheme => {
-    this.iframeObject.customTheme = customTheme;
+  setCustomizeTheme = (customTheme, themeName) => {
+    this.iframeObject.customTheme = { themeObject: customTheme, themeName };
     if (!this.iframeObject.isFirstRender) {
       this.render();
     }
