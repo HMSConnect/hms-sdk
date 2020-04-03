@@ -230,26 +230,6 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           type: 'text',
           value: 'encounterId',
         },
-        {
-          choices: [
-            {
-              label: 'Normal',
-              value: 'normal',
-            },
-            {
-              label: 'Dark',
-              value: 'dark',
-            },
-            {
-              label: 'Invert',
-              value: 'invert',
-            },
-          ],
-          defaultValue: 'normal',
-          label: 'Theme',
-          type: 'options',
-          value: 'theme',
-        },
       ],
       value: 'patient-summary',
     },

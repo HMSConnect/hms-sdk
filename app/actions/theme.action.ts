@@ -1,9 +1,9 @@
 import ThemeManager from '../styles/ThemeManager'
 
-export const themeChange = (theme: string) => {
-  const themeObject = ThemeManager.getThemeObject(theme)
+export const themeChange = (themeName: string) => {
+  const themeObject = ThemeManager.getThemeObject(themeName)
   return {
-    payload: { theme, themeObject },
+    payload: { themeName, themeObject },
     type: 'THEME_CHANGE',
   }
 }
@@ -21,7 +21,7 @@ export const themeCustom = (customThemeObject: any, themeName?: string) => {
     customThemeObject,
   )
   return {
-    payload: { theme: themeName, themeObject },
+    payload: { themeName, themeObject },
     type: 'THEME_CHANGE',
   }
 }

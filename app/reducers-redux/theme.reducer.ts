@@ -1,5 +1,3 @@
-import ThemeManager from '@app/styles/ThemeManager'
-
 type ThemeType = 'THEME_CHANGE' | 'THEME_SET'
 
 interface IThemeAction {

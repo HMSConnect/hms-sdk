@@ -39,6 +39,7 @@ const MouseTrackMove: React.FunctionComponent<{
   const [coord, setCoord] = React.useState({ x: undefined, y: undefined })
   const [bodySize, setBodySize] = React.useState({
     height: 0,
+    temp: new Date(), // for call useMemo when document.body change without change value
     width: 0,
   })
   const [displayGridLayout, setDisplayGridLayout] = React.useState(false)
@@ -50,9 +51,11 @@ const MouseTrackMove: React.FunctionComponent<{
   React.useEffect(() => {
     setBodySize({
       height: document.body.clientHeight,
+      temp: new Date(),
       width: document.body.clientWidth,
     })
   }, [document.body.clientHeight, document.body.clientWidth])
+
   React.useEffect(() => {
     const move$ = fromEvent(document, 'mousemove')
     const mouseSub = move$
@@ -92,7 +95,7 @@ const MouseTrackMove: React.FunctionComponent<{
     const grid = []
     const minNumCellx = Math.round((bodySize.width || 0) / gridWidth)
     const minNumCelly = Math.round((bodySize.height || 0) / gridHeight)
-    
+
     for (let i = 0; i < minNumCellx; i++) {
       for (let j = 0; j < minNumCelly; j++) {
         grid.push(
@@ -109,7 +112,7 @@ const MouseTrackMove: React.FunctionComponent<{
       }
     }
     return grid
-  }, [bodySize.width, bodySize.height])
+  }, [bodySize.width, bodySize.height, bodySize.temp])
 
   return (
     <>
