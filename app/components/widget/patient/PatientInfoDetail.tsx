@@ -17,7 +17,10 @@ import PatientAllergyIntoleranceTable from './PatientAllergyIntoleranceTable'
 import PatientCarePlanTable from './PatientCarePlanTable'
 import PatientClaimTable from './PatientClaimTable'
 import PatientConditionTable from './PatientConditionTable'
-import { PatientDemographicView } from './PatientDemographic'
+import {
+  PatientDemographicView,
+  PatientDemographicWithStructureConnector,
+} from './PatientDemographic'
 import PatientEncounterTimeline from './PatientEncounterTimeline'
 import PatientImagingStudyTable from './PatientImagingStudyTable'
 import PatientImmunizationTable from './PatientImmunizationTable'
@@ -80,7 +83,7 @@ const PatientInfoDetail: React.FunctionComponent<{
     <>
       <div className={classes.infoPanel}>
         <Paper>
-          <PatientDemographicView patient={patient} />
+          <PatientDemographicWithStructureConnector patient={patient} />
         </Paper>
       </div>
       <div className={classes.detailSelector}>
