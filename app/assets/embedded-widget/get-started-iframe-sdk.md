@@ -7,20 +7,21 @@
 ```html
 <script
     type="text/javascript"
-    src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@dc3e3e48c674fcba470524d6e91ab69116223a67/sdk/iframe-sdk.min.js"
+    src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@eb2f898e993bbbf30e2fa54593dab266e37045ee/sdk/iframe-sdk.min.js"
 ></script>
 ```
 
 **Reference Iframe-API**
 - hmsWidget api
 
-| api name          | type/format                                                           | description                                      |
-| ----------------- | --------------------------------------------------------------------- | ------------------------------------------------ |
-| init              | IInitObject                                                           | Initial for create iframe                        |
-| setParams         | any                                                                   | params for selected widget                       |
-| setTheme          | `normal`, `dark`, `invert`                                            | theme for render                                 |
-| setCustomizeTheme | [ThemeOptions](https://v4-8-3.material-ui.com/customization/theming/) | Name of widget for emit event                    |
-| onMessage         | function                                                              | Function callback when iframe got event response |
+| api name          | type/format                                                                   | description                                      |
+| ----------------- | ----------------------------------------------------------------------------- | ------------------------------------------------ |
+| init              | IInitObject                                                                   | Initial for create iframe                        |
+| setParams         | any                                                                           | params for selected widget                       |
+| setStructure      | any                                                                           | structure for render widget                      |
+| setTheme          | `normal` `dark` or `invert`                                                   | theme for render                                 |
+| setCustomizeTheme | [ThemeOptions](https://v4-8-3.material-ui.com/customization/theming/), string | Name of widget for emit event                    |
+| onMessage         | function                                                                      | Function callback when iframe got event response |
 
 
 - window.messageListenerService api
@@ -45,34 +46,40 @@
 2. Add script to initialize iframe-sdk by use `window.hmsWidgetAsyncInit`. it receive callback function and will call when ready
 ```html
 <script>
-    window.hmsWidgetAsyncInit(function(hmsWidget) {
+    const widget2 = window.hmsWidgetAsyncInit(function(hmsWidget) {
         hmsWidget.init({
-            selector: "widget-example",
-            widgetPath: "patient-summary",
-            width: "1600px",
-            height: "1080px",
+          selector: "widget-example2",
+          widgetPath: "patient-summary",
+          width: "1600px",
+          height: "720px",
+          href: "http://localhost:3000",
+          pathPrefix: "embedded-widget"
         });
 
-        hmsWidget.setParams(
-            {
-                patientId: "0debf275-d585-4897-a8eb-25726def1ed5",
-                encounterId: "3898f0f9-385e-478d-be25-5f05719e80af"
-            },
-            "widgetName"
-        );
+        hmsWidget.setParams({
+          patientId: "0debf275-d585-4897-a8eb-25726def1ed5",
+          encounterId: "3898f0f9-385e-478d-be25-5f05719e80af"
+        });
 
-        hmsWidget.setTheme("dark"); // select theme: 'normal', 'dark', 'invert'
-        hmsWidget.setCustomizeTheme({
+        hmsWidget.setTheme("dark"); // use default theme name dark
+        hmsWidget.setCustomizeTheme(  // use theme name dark with custom
+          {
             palette: {
-                primary: { main: "#03a9f4" },
-                secondary: { main: "#00bfa5" },
-                quinary: { main: "#ffffff" }
+              primary: { main: "#03a9f4" },
+              secondary: { main: "#00bfa5" },
+              nonary: { main: "#00bfa5" }
             }
+          },
+          "dark"
+        );
+        hmsWidget.setStructure({
+          patientDemographic: { 
+            nameField: false,
+            ageField: false
+          }
         });
-        hmsWidget.onMessage(data => {
-            console.log('data :', data);
-        });
-    });
+      });
+
 </script>
 ```
 
@@ -96,120 +103,70 @@ object response
   <head>
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@befa56d14ee566e7c3e92244e4c585c336a76dda/sdk/iframe-sdk.min.js"
+      src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@eb2f898e993bbbf30e2fa54593dab266e37045ee/sdk/iframe-sdk.min.js"
     ></script>
+
   </head>
   <body>
-    <div id="widget-example1">
-      --- iframe rendered here 1 ---
-      <br />
+    <div style="display: flex;">
+      <div id="widget-example1">
+        --- iframe rendered here 1 ---
+        <br />
+      </div>
     </div>
     <div id="widget-example2">
       --- iframe rendered here 2 ---
       <br />
     </div>
-    <div id="widget-example3">
-      --- iframe rendered here 3 ---
-      <br />
-    </div>
+    <button id="test-button">
+      Test
+    </button>
     <script>
-      window.hmsWidgetAsyncInit(function(hmsWidget) {
+
+      const widget1 = window.hmsWidgetAsyncInit(function(hmsWidget) {
         hmsWidget.init({
           selector: "widget-example1",
-          widgetPath: "patient-summary",
-          width: "1200px",
-          height: "720px",
+          widgetPath: "patient-info/patient-demographic",
+          width: "500px",
+          height: "400px",
+          href: "http://localhost:3000",
+          pathPrefix: "embedded-widget"
         });
         hmsWidget.setTheme("dark");
-        hmsWidget.setParams(
-          {
-            patientId: "0debf275-d585-4897-a8eb-25726def1ed5",
-            encounterId: "3898f0f9-385e-478d-be25-5f05719e80af"
-          },
-          "widgetName"
-        );
-        hmsWidget.setCustomizeTheme({
-          typography: {
-            h4: {
-              fontSize: "3.5rem",
-              color: "blue"
-            },
-            body2: {
-              fontSize: "1rem",
-              color: "red"
-            }
-          },
-          palette: {
-            primary: { main: "#03a9f4" },
-            secondary: { main: "#00bfa5" },
-            quinary: { main: "#ffffff" }
-          }
+        hmsWidget.setParams({
+          patientId: "0debf275-d585-4897-a8eb-25726def1ed5"
         });
       });
 
-      window.hmsWidgetAsyncInit(function(hmsWidget) {
+      const widget2 = window.hmsWidgetAsyncInit(function(hmsWidget) {
         hmsWidget.init({
           selector: "widget-example2",
-          widgetPath: "patient-search-bar",
-          width: "500px",
-          height: "400px",
-        });
-
-        hmsWidget.setParams(
-          {
-            max: 10,
-            offset: 0,
-            page: 0,
-            filter: {
-              gender: "male"
-            }
-          },
-          "widgetName"
-        );
-        hmsWidget.setTheme("invert");
-        hmsWidget.setCustomizeTheme({
-          typography: {
-            h4: {
-              fontSize: "3.5rem",
-              color: "blue"
-            },
-            body2: {
-              fontSize: "1rem",
-              color: "red"
-            }
-          },
-          palette: {
-            primary: { main: "#03a9f4" },
-            secondary: { main: "#00bfa5" },
-            quinary: { main: "#ffffff" }
-          }
-        });
-
-        hmsWidget.onMessage(() => {
-          console.log("test widget 2 :");
-        });
-      });
-
-      window.hmsWidgetAsyncInit(function(hmsWidget) {
-        hmsWidget.init({
-          selector: "widget-example3",
-          widgetPath: "patient-search-bar",
-          width: "500px",
-          height: "400px",
+          widgetPath: "patient-summary",
+          width: "1600px",
+          height: "720px",
+          href: "http://localhost:3000",
+          pathPrefix: "embedded-widget"
         });
 
         hmsWidget.setParams({
-          max: 10,
-          offset: 0,
-          page: 0,
-          filter: {
-            gender: "male"
-          }
+          patientId: "0debf275-d585-4897-a8eb-25726def1ed5",
+          encounterId: "3898f0f9-385e-478d-be25-5f05719e80af"
         });
-
-        hmsWidget.onMessage(data => {
-          console.log('data :', data);
-          console.log("test widget 3 :");
+        hmsWidget.setCustomizeTheme(
+          {
+            palette: {
+              primary: { main: "#03a9f4" },
+              secondary: { main: "#00bfa5" },
+              nonary: { main: "#00bfa5" }
+            }
+          },
+          "dark"
+        );
+        hmsWidget.setStructure({
+          patientDemographic: { 
+            nameField: false,
+            ageField: false
+          }
         });
       });
 
@@ -219,4 +176,5 @@ object response
     </script>
   </body>
 </html>
+
 ```
