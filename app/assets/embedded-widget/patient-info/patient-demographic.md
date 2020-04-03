@@ -12,6 +12,8 @@ Store name is `patientEncounterTimeline`
 | Key       | Type/Format | Default | Description                                            |
 | --------- | ----------- | ------- | ------------------------------------------------------ |
 | patientId | string      | -       | Patient identification for fetch `patient information` |
+
+
 **Redux Action**
 | Action               | Parameters | Description                  |
 | -------------------- | ---------- | ---------------------------- |
