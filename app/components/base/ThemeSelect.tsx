@@ -6,7 +6,7 @@ import SelectOption from './SelectOption'
 
 const ThemeSelect: React.FunctionComponent<any> = () => {
   const state = useSelector((state: any) => {
-    return state.themeType
+    return state.themeReducer
   })
   const [themeName, setThemeName] = React.useState<string>(state.themeName)
   const dispath = useDispatch()

@@ -1,7 +1,7 @@
-type ThemeType = 'THEME_CHANGE' | 'THEME_SET'
+type themeReducer = 'THEME_CHANGE' | 'THEME_SET'
 
 interface IThemeAction {
-  type: ThemeType
+  type: themeReducer
   payload: any
 }
 
@@ -10,7 +10,7 @@ export const themeInitialState: any = {
   themeName: 'normal',
   themeObject: null,
 }
-export const themeType = (state = themeInitialState, action: IThemeAction) => {
+export const themeReducer = (state = themeInitialState, action: IThemeAction) => {
   switch (action.type) {
     case 'THEME_CHANGE':
       return {
@@ -29,4 +29,4 @@ export const themeType = (state = themeInitialState, action: IThemeAction) => {
   }
 }
 
-export default themeType
+export default themeReducer

@@ -1,6 +1,9 @@
+import {
+  themeInitialState,
+  themeReducer,
+} from '@app/reducers-redux/theme.reducer'
 import * as React from 'react'
 
-import themeType, { themeInitialState } from '@app/reducers-redux/theme.reducer'
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import AuthService from '@services/AuthService'
 import { fireEvent } from '@testing-library/react'
@@ -23,8 +26,8 @@ describe('<AppNavBar />', () => {
     dispatch.mockImplementation((params: any) => dispatchFn)
     const { queryAllByText } = renderWithRedux(<AppNavBar />, {
       initialState: {},
-      store: createStore(themeType, {
-        themeType: themeInitialState,
+      store: createStore(themeReducer, {
+        themeReducer: themeInitialState,
       }),
     })
     expect(queryAllByText('HMS Widget')).toBeTruthy()
@@ -37,8 +40,8 @@ describe('<AppNavBar />', () => {
 
     const { queryAllByText, getByTestId } = renderWithRedux(<AppNavBar />, {
       initialState: {},
-      store: createStore(themeType, {
-        themeType: themeInitialState,
+      store: createStore(themeReducer, {
+        themeReducer: themeInitialState,
       }),
     })
     expect(queryAllByText('HMS Widget')).toBeTruthy()
