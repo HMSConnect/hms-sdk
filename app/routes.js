@@ -14,11 +14,6 @@ module.exports = nextRoutes()
   //   'patient-info/encounter',
   //   '/patient-info/:patientId/encounter/:encounterId',
   // )
-  .add(
-    'patient-info/patient-encounter-medical-record',
-    '/patient-info/patient-medical-records',
-    'patient-info/patient-encounter-medical-record',
-  )
   .add('patient-summary', '/patient-summary', 'patient-info/encounter/index')
   .add(
     'patient-info/patient-info-with-table',
@@ -75,11 +70,6 @@ module.exports = nextRoutes()
     'embedded-widget/patient-info/patient-demographic',
     '/embedded-widget/patient-info/patient-demographic',
     'embedded-widget/patient-info/patient-demographic',
-  )
-  .add(
-    'embedded-widget/medical-records',
-    '/embedded-widget/medical-records',
-    'embedded-widget/medical-records',
   )
   .add(
     ////////////////// Associated Patient Table Start /////////////////////////

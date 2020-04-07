@@ -168,49 +168,49 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       ],
       value: 'patient-search-result',
     },
-    // {
-    //   document: require('@assets/embedded-widget/patient-info/patient-info.md')
-    //     .default,
-    //   label: 'Patient Info Table',
-    //   parameters: [
-    //     // {
-    //     //   defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
-    //     //   label: 'Patient ID',
-    //     //   type: 'text',
-    //     //   value: 'patientId',
-    //     // },
-    //   ],
-    //   path: '/embedded-widget/patient-info-with-table',
-    //   queryParams: [
-    //     {
-    //       defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
-    //       label: 'Patient ID',
-    //       type: 'text',
-    //       value: 'patientId',
-    //     },
-    //     {
-    //       choices: [
-    //         {
-    //           label: 'None',
-    //           value: '',
-    //         },
-    //         { label: 'care plan', value: 'care_plan' },
-    //         { label: 'condition', value: 'condition' },
-    //         { label: 'diagnostic report', value: 'diagnostic_report' },
-    //         { label: 'encounter', value: 'encounter' },
-    //         { label: 'medication request', value: 'medication_request' },
-    //         { label: 'observation', value: 'observation' },
-    //         { label: 'patient', value: 'patient' },
-    //         { label: 'procedure', value: 'procedure' },
-    //       ],
-    //       defaultValue: 'encounter',
-    //       label: 'Menu Navigate',
-    //       type: 'options',
-    //       value: 'menuNavigate',
-    //     },
-    //   ],
-    //   value: 'patient-info-table',
-    // },
+    {
+      document: require('@assets/embedded-widget/patient-info/patient-info.md')
+        .default,
+      label: 'Patient Info Table',
+      parameters: [
+        // {
+        //   defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+        //   label: 'Patient ID',
+        //   type: 'text',
+        //   value: 'patientId',
+        // },
+      ],
+      path: '/embedded-widget/patient-info-with-table',
+      queryParams: [
+        {
+          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          choices: [
+            {
+              label: 'None',
+              value: '',
+            },
+            { label: 'care plan', value: 'care_plan' },
+            { label: 'condition', value: 'condition' },
+            { label: 'diagnostic report', value: 'diagnostic_report' },
+            { label: 'encounter', value: 'encounter' },
+            { label: 'medication request', value: 'medication_request' },
+            { label: 'observation', value: 'observation' },
+            { label: 'patient', value: 'patient' },
+            { label: 'procedure', value: 'procedure' },
+          ],
+          defaultValue: 'encounter',
+          label: 'Menu Navigate',
+          type: 'options',
+          value: 'menuNavigate',
+        },
+      ],
+      value: 'patient-info-table',
+    },
     {
       document: require('@assets/embedded-widget/patient-info/patient-summary.md')
         .default,
