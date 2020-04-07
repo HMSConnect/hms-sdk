@@ -23,3 +23,9 @@ Object.defineProperty(window, 'localStorage', {
 Object.defineProperty(document.documentElement, 'offsetHeight', {
   value: 1400,
 })
+Object.defineProperty(document.body, 'clientHeight', {
+  value: 900,
+})
+Object.defineProperty(document.body, 'clientWidth', {
+  value: 1440,
+})

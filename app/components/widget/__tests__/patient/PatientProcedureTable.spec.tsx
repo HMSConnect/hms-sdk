@@ -57,7 +57,7 @@ describe('<PatientProcedureTable />', () => {
     }
     useInfinitScrollResult.mockImplementation(() => results)
   })
-  afterEach(() => {
+  afterAll(() => {
     jest.clearAllMocks()
   })
 

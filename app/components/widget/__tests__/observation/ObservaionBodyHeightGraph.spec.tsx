@@ -8,7 +8,20 @@ jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
   default: jest.fn(),
 }))
-describe('<ObservaionBloodPressureCard />', () => {
+
+jest.mock('@devexpress/dx-react-chart-material-ui', () => {
+  const RealModule = require.requireActual(
+    '@devexpress/dx-react-chart-material-ui',
+  )
+  const MyModule = {
+    ...RealModule,
+    ArgumentAxis: () => <></>,
+    ValueAxis: () => <></>,
+  }
+  return MyModule
+})
+
+describe('<ObservationBodyHeightGraph />', () => {
   beforeAll(() => {
     const router = jest.spyOn(nextRouter, 'useRouter') as any
     router.mockImplementation(() => ({
@@ -21,36 +34,40 @@ describe('<ObservaionBloodPressureCard />', () => {
   afterEach(() => {
     jest.clearAllMocks()
   })
-  //   it('render ObservaionBloodPressureCard', () => {
-  //     const useObservationListResult: any = useObservationList as any
-  //     const results: any = {
-  //   data: [
-  //     {
-  //       code: '8302-2',
-  //       codeText: 'Body Height',
-  //       id: '2',
-  //       issued: '2019-01-01',
-  //       unit: 'm',
-  //       value: 168,
-  //     },
-  //   ],
-  //       error: null,
-  //       totalCount: 2,
-  //     }
-  //     useObservationListResult.mockImplementation(() => results)
-  //     const query = {
-  //       encounterId: '1',
-  //       patientId: '1',
-  //     }
-  //     const { queryByText, queryAllByText } = render(
-  //       <ObservationBodyHeightGraph query={query} />,
-  //     )
+  it('render ObservationBodyHeightGraph', () => {
+    const useObservationListResult: any = useObservationList as any
+    const results: any = {
+      data: [
+        {
+          code: '8302-2',
+          codeText: 'Body Height',
+          id: '2',
+          issued: '2019-01-01',
+          issuedDate: '2019-01-01',
+          unit: 'C',
+          value: 31,
+        },
+        {
+          code: '8302-2',
+          codeText: 'Body Height',
+          id: '2',
+          issued: '2018-12-01',
+          issuedDate: '2018-12-01',
+          unit: 'C',
+          value: 33,
+        },
+      ],
+      error: null,
+      totalCount: 2,
+    }
+    useObservationListResult.mockImplementation(() => results)
+    const { queryByText, getByText } = render(
+      <ObservationBodyHeightGraph patientId={'1'} />,
+    )
+    expect(queryByText('31C')).toBeTruthy()
+  })
 
-  //     expect(queryByText('31')).toBeTruthy()
-  //     expect(queryAllByText('C')).toBeTruthy()
-  //   })
-
-  it('loading ObservaionBloodPressureCard', () => {
+  it('loading ObservationBodyHeightGraph', () => {
     const useObservationListResult: any = useObservationList as any
     const results: any = {
       data: [],
@@ -67,7 +84,7 @@ describe('<ObservaionBloodPressureCard />', () => {
     )
     expect(queryByText('loading..')).toBeTruthy()
   })
-  it('error ObservaionBloodPressureCard', () => {
+  it('error ObservationBodyHeightGraph', () => {
     const errorText = 'Error'
     const useObservationListResult: any = useObservationList as any
     const results: any = {
@@ -80,7 +97,9 @@ describe('<ObservaionBloodPressureCard />', () => {
       encounterId: '1',
       patientId: '1',
     }
-    const { queryByText } = render(<ObservationBodyHeightGraph patientId={query.patientId} />)
+    const { queryByText } = render(
+      <ObservationBodyHeightGraph patientId={query.patientId} />,
+    )
     expect(queryByText('Error')).toBeTruthy()
   })
 })

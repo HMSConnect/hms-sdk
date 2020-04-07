@@ -9,6 +9,18 @@ jest.mock('@components/hooks/useObservationList', () => ({
   default: jest.fn(),
 }))
 
+jest.mock('@devexpress/dx-react-chart-material-ui', () => {
+  const RealModule = require.requireActual(
+    '@devexpress/dx-react-chart-material-ui',
+  )
+  const MyModule = {
+    ...RealModule,
+    ArgumentAxis: () => <></>,
+    ValueAxis: () => <></>,
+  }
+  return MyModule
+})
+
 describe('<ObservationBodyMassIndexGraph />', () => {
   beforeAll(() => {
     const router = jest.spyOn(nextRouter, 'useRouter') as any
@@ -23,43 +35,43 @@ describe('<ObservationBodyMassIndexGraph />', () => {
     jest.clearAllMocks()
   })
 
-  // it('render ObservationBodyMassIndexGraph', () => {
-  //   const useObservationListResult: any = useObservationList as any
-  //   const results: any = {
-  //     data: [
-  //       {
-  //         codeText: 'Code Text1',
-  //         id: '1',
-  //         issued: '2019-01-01',
-  //         valueModal: [
-  //           {
-  //             code: 'Systolic Blood Pressure',
-  //             unit: 'mmHg',
-  //             value: 120,
-  //           },
-  //           {
-  //             code: 'Diastolic Blood Pressure',
-  //             unit: 'mmHg',
-  //             value: 89,
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //     error: null,
-  //     totalCount: 2,
-  //   }
-  //   useObservationListResult.mockImplementation(() => results)
-  //   const query = {
-  //     encounterId: '1',
-  //     patientId: '1',
-  //   }
-  //   const { queryByText, queryAllByText } = render(
-  //     <ObservationBodyMassIndexGraph patientId={'1'} />,
-  //   )
+  it('render ObservationBodyMassIndexGraph', () => {
+    const useObservationListResult: any = useObservationList as any
+    const results: any = {
+      data: [
+        {
+          code: '8302-2',
+          codeText: 'Body Height',
+          id: '2',
+          issued: '2019-01-01',
+          issuedDate: '2019-01-01',
+          unit: 'kg/m2',
+          value: 28.01,
+        },
+        {
+          code: '8302-2',
+          codeText: 'Body Height',
+          id: '2',
+          issued: '2018-12-01',
+          issuedDate: '2018-12-01',
+          unit: 'kg/m2',
+          value: 27.22,
+        },
+      ],
+      error: null,
+      totalCount: 2,
+    }
+    useObservationListResult.mockImplementation(() => results)
+    const query = {
+      encounterId: '1',
+      patientId: '1',
+    }
+    const { queryByText, queryAllByText } = render(
+      <ObservationBodyMassIndexGraph patientId={'1'} />,
+    )
 
-  //   expect(queryByText('31')).toBeTruthy()
-  //   expect(queryAllByText('C')).toBeTruthy()
-  // })
+    expect(queryByText('28.01kg/m2')).toBeTruthy()
+  })
 
   it('loading ObservationBodyMassIndexGraph', () => {
     const useObservationListResult: any = useObservationList as any

@@ -59,4 +59,28 @@ describe('<Tracker />', () => {
     expect(googleAnalyticTrackpageFn).toHaveBeenCalled()
     // expect(googleAnalyticTrackpageFn.mock.calls[0][0]).toStrictEqual('test')
   })
+
+  it('render grid when click', async () => {
+    const googleAnalyticTrackpageFn = jest.fn()
+    jest.spyOn(GoogleAnalytics, 'createEvent').mockImplementation(param => {
+      googleAnalyticTrackpageFn(param)
+    })
+    const { getByTestId, queryByText } = render(
+      <div style={{ width: '400px', height: '400px' }}>
+        <MouseTrackMove category='test'>
+          <>
+            <div style={{ width: '100%', height: '200px' }}>box1</div>
+            <div style={{ width: '100%', height: '200px' }}>box2</div>
+          </>
+        </MouseTrackMove>
+        ,
+      </div>,
+    )
+    act(() => {
+      fireEvent.click(getByTestId('grid-layout-render-icon'))
+      jest.runAllTimers()
+    })
+
+    expect(queryByText('0,0')).toBeTruthy()
+  })
 })
