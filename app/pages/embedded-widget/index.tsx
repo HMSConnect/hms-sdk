@@ -10,7 +10,6 @@ import { IWidgetGroup } from '@config'
 import {
   widgetGalleryAllergyIntoleranceConfig,
   widgetGalleryDiagnosticReportConfig,
-  widgetGalleryEncounterConfig,
   widgetGalleryObservationConfig,
   widgetGalleryPatientConfig,
 } from '@config/embedded-widget'
@@ -85,7 +84,6 @@ const WIDGET_GROUP: IWidgetGroup[] = [
   },
   widgetGalleryPatientConfig,
   widgetGalleryObservationConfig,
-  // widgetGalleryEncounterConfig,
   // widgetGalleryDiagnosticReportConfig,
   // widgetGalleryAllergyIntoleranceConfig,
 ]
