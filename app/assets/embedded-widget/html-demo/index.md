@@ -56,9 +56,6 @@ Example code
         })
 
         hmsWidget.onMessage(data => {
-          const summaryCardsIframeElement = document.getElementById(
-            'widget-example3-iframe-sdk',
-          )
           if (data.message === 'handleEncounterSelect') {
             widget2.setParams({
               patientId: '0debf275-d585-4897-a8eb-25726def1ed5',
@@ -87,7 +84,7 @@ Example code
       })
 
       window.messageListenerService.addExtendMessagelistener(() => {
-        console.log('event CALl :')
+        console.log('event CALL :')
       })
     </script>
   </body>
