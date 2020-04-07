@@ -1,7 +1,7 @@
+import AllergyIntoleranceServiceMock from '@services/__mocks__/AllergyIntoleranceServiceMock'
 import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
 import { renderHook } from '@testing-library/react-hooks'
 import { HMSService } from '../../../services/HMSServiceFactory'
-import AllergyIntoleranceServiceMock from '../__mocks__/AllergyIntoleranceServiceMock'
 import useAllergyIntoleranceList from '../useAllergyIntoleranceList'
 
 describe('useAllergyIntoleranceList', () => {

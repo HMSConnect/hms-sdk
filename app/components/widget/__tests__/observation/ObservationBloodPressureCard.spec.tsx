@@ -1,32 +1,17 @@
 import * as React from 'react'
 
 import * as patientSummaryAction from '@app/actions/patientsummaryCards.action'
+import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import patientSummaryCards, {
   patientSummaryCardsInitialState,
 } from '@app/reducers-redux/patientSummaryCards.reducer'
 import useObservationList from '@components/hooks/useObservationList'
 import { fireEvent, render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
-import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import ObservationBloodPressureCard, {
   ObservationBloodPressureCardWithConnector,
 } from '../../observation/ObservationBloodPressureCard'
-
-function renderWithRedux(
-  ui: any,
-  {
-    initialState = patientSummaryCardsInitialState,
-    store = createStore(patientSummaryCards, {
-      patientSummaryCards: initialState,
-    }),
-  }: any = {},
-) {
-  return {
-    ...render(<Provider store={store}>{ui}</Provider>),
-    store,
-  }
-}
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
@@ -122,6 +107,12 @@ describe('<ObservaionBloodPressureCard />', () => {
     }
     const { queryByText, queryAllByText } = renderWithRedux(
       <ObservationBloodPressureCardWithConnector />,
+      {
+        initialState: patientSummaryCardsInitialState,
+        store: createStore(patientSummaryCards, {
+          patientSummaryCards: patientSummaryCardsInitialState,
+        }),
+      },
     )
 
     expect(queryByText('120.00')).toBeTruthy()
@@ -166,6 +157,12 @@ describe('<ObservaionBloodPressureCard />', () => {
 
     const { queryByText, queryAllByText, getByText } = renderWithRedux(
       <ObservationBloodPressureCardWithConnector />,
+      {
+        initialState: patientSummaryCardsInitialState,
+        store: createStore(patientSummaryCards, {
+          patientSummaryCards: patientSummaryCardsInitialState,
+        }),
+      },
     )
 
     expect(queryByText('120.00')).toBeTruthy()

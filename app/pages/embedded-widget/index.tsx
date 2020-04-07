@@ -42,6 +42,7 @@ import MarkdownIt from 'markdown-it'
 import { parse, stringify } from 'qs'
 import '../../github-markdown.css'
 import routes from '../../routes'
+import clsx from 'clsx'
 
 const md = MarkdownIt({ html: true })
 
@@ -49,7 +50,8 @@ const WIDGET_GROUP: IWidgetGroup[] = [
   {
     child: [
       {
-        document: require('@assets/embedded-widget/get-started.md').default,
+        document: require('@assets/embedded-widget/get-started-iframe-sdk.md')
+          .default,
         label: 'Get Started',
         value: 'get-started',
       },
@@ -113,6 +115,18 @@ const useStyles = makeStyles((theme: Theme) =>
     iframe: {
       flex: '1 1 auto',
     },
+    mdContainer: {
+      '& pre': {
+        color: '#24292e',
+      },
+      '& th': {
+        color: '#24292e',
+      },
+      '& td': {
+        color: '#24292e',
+      },
+      color: theme.palette.text.primary,
+    },
     nested: {
       paddingLeft: theme.spacing(4),
     },
@@ -121,6 +135,9 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
     },
     root: {},
+    tabContainer: {
+      backgroundColor: theme.palette.background.paper || '',
+    },
     urlInputProps: {
       height: 45,
     },
@@ -438,6 +455,7 @@ const WidgetManager: IStatelessPage<{
                 textColor='primary'
                 variant='scrollable'
                 scrollButtons='auto'
+                className={classes.tabContainer}
               >
                 {selectedWidget && selectedWidget.path ? (
                   <Tab label='Playground' id='0' value={0} />
@@ -556,7 +574,7 @@ const WidgetManager: IStatelessPage<{
             </TabPanel>
             <TabPanel value={tabState} index={1}>
               <div
-                className='markdown-body'
+                className={clsx('markdown-body', classes.mdContainer)}
                 dangerouslySetInnerHTML={{
                   __html: md.render(
                     _.get(selectedWidget, 'document') || `# Comming soon`,

@@ -1,9 +1,8 @@
+import DiagnosticReportServiceMock from '@services/__mocks__/DiagnosticReportServiceMock'
 import { renderHook } from '@testing-library/react-hooks'
 import DiagnosticReportService from '../../../services/DiagnosticReportService'
 import { HMSService } from '../../../services/HMSServiceFactory'
-import DiagnosticReportServiceMock from '../__mocks__/DiagnosticReportServiceMock'
 import useDiagnosticReportList from '../useDiagnosticReportList'
-
 describe('useDiagnosticReportList', () => {
   beforeAll(() => {
     jest.spyOn(HMSService, 'getService').mockImplementation(() => {

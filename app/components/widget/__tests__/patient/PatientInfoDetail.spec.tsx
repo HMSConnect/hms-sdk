@@ -7,6 +7,11 @@ import { routesMock } from '@routes/__mocks__/routesMock'
 import { fireEvent, render } from '@testing-library/react'
 import routes from '../../../../routes'
 import PatientInfoDetail from '../../patient/PatientInfoDetail'
+import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
+import { createStore } from 'redux'
+import patientDemographic, {
+  patientDemographicInitialState,
+} from '@app/reducers-redux/patientDemographic.reducer'
 
 jest.mock('@components/hooks/usePatient', () => ({
   __esModule: true,
@@ -91,8 +96,14 @@ describe('<PatientInfoDetail />', () => {
   })
 
   it('render PatientInfoDetail', () => {
-    const { queryAllByText, getByText } = render(
+    const { queryAllByText, getByText } = renderWithRedux(
       <PatientInfoDetail query={mockQuery} />,
+      {
+        initialState: {},
+        store: createStore(patientDemographic, {
+          patientDemographic: patientDemographicInitialState,
+        }),
+      },
     )
     expect(queryAllByText('Mr. Test1 FTest1')[0]).toBeTruthy()
   })
@@ -102,8 +113,14 @@ describe('<PatientInfoDetail />', () => {
       ...mockQuery,
       encounterId: '0001',
     }
-    const { queryAllByText, getByText } = render(
+    const { queryAllByText, getByText } = renderWithRedux(
       <PatientInfoDetail query={newQuery} />,
+      {
+        initialState: {},
+        store: createStore(patientDemographic, {
+          patientDemographic: patientDemographicInitialState,
+        }),
+      },
     )
     expect(queryAllByText('Encounter Type1')[0]).toBeTruthy()
   })
@@ -115,8 +132,14 @@ describe('<PatientInfoDetail />', () => {
       error: null,
       isLoading: true,
     }))
-    const { queryAllByText, getByText } = render(
+    const { queryAllByText, getByText } = renderWithRedux(
       <PatientInfoDetail query={mockQuery} />,
+      {
+        initialState: {},
+        store: createStore(patientDemographic, {
+          patientDemographic: patientDemographicInitialState,
+        }),
+      },
     )
     expect(queryAllByText('Mr. Test1 FTest1')[0]).toBeFalsy()
   })
@@ -129,8 +152,15 @@ describe('<PatientInfoDetail />', () => {
       error: errorMessage,
       isLoading: true,
     }))
-    const { queryAllByText, getByText } = render(
+
+    const { queryAllByText, getByText } = renderWithRedux(
       <PatientInfoDetail query={mockQuery} />,
+      {
+        initialState: {},
+        store: createStore(patientDemographic, {
+          patientDemographic: patientDemographicInitialState,
+        }),
+      },
     )
     expect(queryAllByText(`ERR: ${errorMessage}`)).toBeTruthy()
   })
@@ -149,8 +179,14 @@ describe('<PatientInfoDetail />', () => {
       error: null,
       isLoading: false,
     }))
-    const { queryAllByText, getByText, queryByText } = render(
+    const { queryAllByText, getByText } = renderWithRedux(
       <PatientInfoDetail query={mockQuery} />,
+      {
+        initialState: {},
+        store: createStore(patientDemographic, {
+          patientDemographic: patientDemographicInitialState,
+        }),
+      },
     )
     expect(queryAllByText('Mr. Test1 FTest1')[0]).toBeTruthy()
 

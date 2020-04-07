@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
+import Tracker from '@components/base/Tracker'
 import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
@@ -26,10 +27,12 @@ const PatientSearchWidget: IStatelessPage<{
   const classes = useStyles()
   return (
     <BootstrapWrapper dependencies={['patient']}>
-      <>
-        <CssBaseline />
-        <PatientSearch query={query} name={_.get(query, 'name')} />
-      </>
+      <Tracker>
+        <>
+          <CssBaseline />
+          <PatientSearch query={query} name={_.get(query, 'name')} />
+        </>
+      </Tracker>
     </BootstrapWrapper>
   )
 }
@@ -62,5 +65,5 @@ export function initialPagination(query: any) {
   }
 }
 
-export default PatientSearchWidget
-// export default withAuthSync(PatientSearchWidget)
+// export default PatientSearchWidget
+export default withAuthSync(PatientSearchWidget)

@@ -1,15 +1,27 @@
-import { OBSERVATION_CODE } from '@config/observation'
-
-type PatientDemographicType = 'INIT_PATIENT_SUMMARY'
+type PatientDemographicType =
+  | 'INIT_PATIENT_SUMMARY'
+  | 'SET_STRUCTURE_PATIENT_DEMOGRAPHIC'
 
 interface IPatientDemographicAction {
   type: PatientDemographicType
   payload: any
 }
 
-const initialState: any = {}
+export const patientDemographicInitialState: any = {
+  structure: {
+    addressField: true,
+    ageField: true,
+    dobField: true,
+    emailField: true,
+    genderField: true,
+    iconField: true,
+    languageField: true,
+    nameField: true,
+    phoneField: true,
+  },
+}
 const patientDemographic = (
-  state = initialState,
+  state = patientDemographicInitialState,
   action: IPatientDemographicAction,
 ) => {
   switch (action.type) {
@@ -17,6 +29,14 @@ const patientDemographic = (
       return {
         ...state,
         ...action.payload.patientDemographic,
+      }
+    case 'SET_STRUCTURE_PATIENT_DEMOGRAPHIC':
+      return {
+        ...state,
+        structure: {
+          ...state.structure,
+          ...action.payload,
+        },
       }
     default:
       return state

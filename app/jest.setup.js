@@ -1,3 +1,5 @@
+const JSDOM = require('jsdom').JSDOM
+const jsdom = new JSDOM('<!DOCTYPE html><html>...')
 var localStorageMock = (function() {
   var store = {}
 
@@ -16,4 +18,8 @@ var localStorageMock = (function() {
 
 Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
+})
+
+Object.defineProperty(document.documentElement, 'offsetHeight', {
+  value: 1400,
 })

@@ -32,14 +32,14 @@ import * as moment from 'moment'
 
 const useStyles = makeStyles((theme: Theme) => ({
   contentText: {
-    color: '#37474f',
+    color: theme.palette.text.primary,
     fontWeight: 'normal',
   },
   headerText: {
     fontWeight: 450,
   },
   iconAvatar: {
-    backgroundColor: '#5c6bc0',
+    backgroundColor: theme.palette.nonary?.main,
     height: 50,
     margin: 10,
     width: 50,
@@ -51,15 +51,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   listButton: {
     '&:hover': {
-      backgroundColor: lighten('#5c6bc0', 0.85),
+      backgroundColor: theme.palette.nonary?.light || '',
     },
   },
-
   itemSelected: {
-    backgroundColor: `${lighten('#5c6bc0', 0.7)}!important`,
+    backgroundColor: `${theme.palette.nonary?.light || ''}!important`,
   },
   line: {
-    borderLeft: '10px solid #5c6bc0',
+    borderLeft: `10px solid ${theme.palette.nonary?.main}`,
     height: '100%',
     marginLeft: '6.7rem',
     // left: '10%',
@@ -67,21 +66,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     zIndex: 100,
   },
   lineColapse: {
-    borderLeft: '10px solid #5c6bc0',
+    borderLeft: `10px solid ${theme.palette.nonary?.main}`,
     height: '100%',
     marginLeft: '7.7rem',
-  },
-  listIcon: {
-    color: 'green',
-    zIndex: 200,
   },
   nested: {
     paddingLeft: theme.spacing(4),
   },
   root: {},
-
   topicTitle: {
-    color: 'grey',
+    color: theme.palette.text.secondary,
   },
 }))
 

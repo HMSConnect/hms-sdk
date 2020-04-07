@@ -1,7 +1,7 @@
+import EncounterServiceMock from '@services/__mocks__/EncounterServiceMock'
 import EncounterService from '@services/EncounterService'
 import { renderHook } from '@testing-library/react-hooks'
 import { HMSService } from '../../../services/HMSServiceFactory'
-import EncounterServiceMock from '../__mocks__/EncounterServiceMock'
 import useEncounterList from '../useEncounterList'
 
 describe('useEncounterList', () => {

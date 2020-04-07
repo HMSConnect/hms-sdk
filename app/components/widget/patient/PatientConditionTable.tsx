@@ -10,6 +10,7 @@ import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { noneOption, selectOptions } from '@config'
 import {
@@ -24,6 +25,10 @@ import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.senary?.light || '',
+    color: theme.palette.senary?.main || '',
+  },
   root: {},
   tableWrapper: {
     ['& .MuiTableCell-stickyHeader']: {
@@ -55,6 +60,7 @@ export const PatientconditionTableWithConnector: React.FunctionComponent<any> = 
   return (
     <PatientConditionTable
       patientId={_.get(state, 'patientId')}
+      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
       max={_.get(state, 'max')}
       initialFilter={_.get(state, 'initialFilter')}
       isInitialize={true}
@@ -69,6 +75,8 @@ const PatientConditionTable: React.FunctionComponent<{
   max?: number
   initialFilter?: IConditionListFilterQuery
   name?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
 }> = ({
   resourceList,
   patientId,
@@ -77,6 +85,8 @@ const PatientConditionTable: React.FunctionComponent<{
   isContainer = true,
   initialFilter: customInitialFilter = {},
   name = 'patientConditionTable',
+  mouseTrackCategory = 'patient_condition_table',
+  mouseTrackLabel = 'patient_condition_table',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithConditionInitialFilterQuery(customInitialFilter, {
@@ -258,97 +268,104 @@ const PatientConditionTable: React.FunctionComponent<{
   }
 
   return (
-    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
-      <div className={classes.toolbar}>
-        <ToolbarWithFilter
-          title={'Condition'}
-          onClickIcon={showModal}
-          Icon={<Icon className='fas fa-clipboard' />}
-          option={{
-            isHideIcon: false,
-          }}
-          filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'onsetDateTime_lt',
-            'patientId',
-          ])}
-        >
-          {renderModal}
-        </ToolbarWithFilter>
-      </div>
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%', overflow: 'auto' }}>
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Condition'}
+            onClickIcon={showModal}
+            Icon={<Icon className='fas fa-clipboard' />}
+            option={{
+              headerClass: classes.headerCard,
+              isHideIcon: false,
+            }}
+            filterActive={countFilterActive(submitedFilter, initialFilter, [
+              'onsetDateTime_lt',
+              'patientId',
+            ])}
+          >
+            {renderModal}
+          </ToolbarWithFilter>
+        </div>
 
-      <div className={classes.tableWrapper} data-testid='scroll-container'>
-        <TableBase
-          id='condition'
-          entryList={data}
-          isLoading={isLoading}
-          isMore={isMore}
-          data-testid='table-base'
-          tableCells={[
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'codeText',
-              },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'codeText',
-                label: 'Condition',
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'clinicalStatus',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'clinicalStatus',
-                label: 'ClinicalStatus',
-                styles: {
-                  width: '5em',
+        <div
+          ref={myscroll}
+          className={classes.tableWrapper}
+          data-testid='scroll-container'
+        >
+          <TableBase
+            id='condition'
+            entryList={data}
+            isLoading={isLoading}
+            isMore={isMore}
+            data-testid='table-base'
+            tableCells={[
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'codeText',
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'codeText',
+                  label: 'Condition',
                 },
               },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'verificationStatus',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'verificationStatus',
-                label: 'VerificationStatus',
-                styles: {
-                  width: '5em',
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'clinicalStatus',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'clinicalStatus',
+                  label: 'ClinicalStatus',
+                  styles: {
+                    width: '5em',
+                  },
                 },
               },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'onset',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: true,
-                disableSort: true,
-                id: 'onset',
-                label: 'Onset Date',
-                styles: {
-                  width: '15em',
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'verificationStatus',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'verificationStatus',
+                  label: 'VerificationStatus',
+                  styles: {
+                    width: '5em',
+                  },
                 },
               },
-            },
-          ]}
-        />
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'onset',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: true,
+                  disableSort: true,
+                  id: 'onset',
+                  label: 'Onset Date',
+                  styles: {
+                    width: '15em',
+                  },
+                },
+              },
+            ]}
+          />
+        </div>
       </div>
-    </div>
+    </TrackerMouseClick>
   )
 }
 

@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import ErrorSection from '@components/base/ErrorSection'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import {
   IMedicationRequestFilterQuery,
@@ -27,6 +28,10 @@ import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.septenary?.light || '',
+    color: theme.palette.septenary?.main || '',
+  },
   listPadding: {
     paddingLeft: theme.spacing(1),
   },
@@ -50,6 +55,10 @@ export const PatientMedicationListWithConnector = () => {
   return (
     <PatientMedicationList
       patientId={_.get(patientMedicationListState, 'patientId')}
+      mouseTrackCategory={_.get(
+        patientMedicationListState,
+        'mouseTrackCategory',
+      )}
       isInitialize={true}
       name={`${name}MedicationList`}
     />
@@ -64,6 +73,8 @@ const PatientMedicationList: React.FunctionComponent<{
   initialFilter?: IMedicationRequestFilterQuery
   isContainer?: boolean
   name?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
 }> = ({
   resourceList,
   patientId,
@@ -77,6 +88,8 @@ const PatientMedicationList: React.FunctionComponent<{
     status: '',
   },
   name = 'patientMedication',
+  mouseTrackCategory = 'patient_medication',
+  mouseTrackLabel = 'patient_medication',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithMedicationRequestInitialFilterQuery(customInitialFilter, {
@@ -143,60 +156,59 @@ const PatientMedicationList: React.FunctionComponent<{
   }
 
   return (
-    <div
-      ref={myscroll}
-      style={{ overflow: 'auto', width: '100%', height: '100%' }}
-    >
-      <div className={classes.toolbar}>
-        <ToolbarWithFilter
-          title={'Medication Request'}
-          Icon={<Icon className='fas fa-pills' />}
-          option={{
-            isHideIcon: true,
-            style: {
-              backgroundColor: lighten('#008448', 0.85),
-              color: '#008448',
-            },
-          }}
-        ></ToolbarWithFilter>
-      </div>
-
-      <List
-        className={classes.listPadding}
-        component='nav'
-        aria-labelledby='nested-list-subheader'
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div
+        ref={myscroll}
+        style={{ overflow: 'auto', width: '100%', height: '100%' }}
       >
-        {_.isEmpty(data) ? (
-          <div style={{ padding: '1em', textAlign: 'center' }}>
-            <Typography variant='body1'>No Medcation found</Typography>
-          </div>
-        ) : (
-          <>
-            {_.map(data, (medication: any, index: number) => (
-              <ListItem key={`medication${index}`} style={{ padding: '0 0' }}>
-                <ListItemIcon>
-                  <FiberManualRecordIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    <Typography variant='body1'>
-                      {_.get(medication, 'medicationCodeableConcept')}
-                    </Typography>
-                  }
-                />
-              </ListItem>
-            ))}
-            {isMore ? (
-              <ListItem>
-                <ListItemText style={{ textAlign: 'center' }}>
-                  {isLoading ? <CircularProgress /> : null}
-                </ListItemText>
-              </ListItem>
-            ) : null}
-          </>
-        )}
-      </List>
-    </div>
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Medication Request'}
+            Icon={<Icon className='fas fa-pills' />}
+            option={{
+              headerClass: classes.headerCard,
+              isHideIcon: true,
+            }}
+          ></ToolbarWithFilter>
+        </div>
+
+        <List
+          className={classes.listPadding}
+          component='nav'
+          aria-labelledby='nested-list-subheader'
+        >
+          {_.isEmpty(data) ? (
+            <div style={{ padding: '1em', textAlign: 'center' }}>
+              <Typography variant='body1'>No Medcation found</Typography>
+            </div>
+          ) : (
+            <>
+              {_.map(data, (medication: any, index: number) => (
+                <ListItem key={`medication${index}`} style={{ padding: '0 0' }}>
+                  <ListItemIcon>
+                    <FiberManualRecordIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Typography variant='body1'>
+                        {_.get(medication, 'medicationCodeableConcept')}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              ))}
+              {isMore ? (
+                <ListItem>
+                  <ListItemText style={{ textAlign: 'center' }}>
+                    {isLoading ? <CircularProgress /> : null}
+                  </ListItemText>
+                </ListItem>
+              ) : null}
+            </>
+          )}
+        </List>
+      </div>
+    </TrackerMouseClick>
   )
 }
 

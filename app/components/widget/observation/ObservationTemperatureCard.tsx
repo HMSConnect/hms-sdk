@@ -4,6 +4,7 @@ import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
@@ -27,20 +28,27 @@ const useStyles = makeStyles((theme: Theme) => ({
   contentText: {
     fontWeight: 'normal',
   },
-  footerContainer: { height: 36, color: 'grey' },
+  footerContainer: { height: 36, color: theme.palette.text.secondary },
+  headerCard: {
+    backgroundColor: theme.palette.senary?.light || '',
+    color: theme.palette.senary?.main || '',
+  },
   hover: {
     '&:hover': {
-      backgroundColor: '#ddd4',
+      backgroundColor: theme.palette.action.hover,
     },
     textDecoration: 'none',
+  },
+  iconCard: {
+    color: theme.palette.senary?.dark || '',
   },
   infoIcon: {
     color: '#1976d2',
     zoom: 0.7,
   },
   selectedCard: {
-    backgroundColor: '#ddd4',
-    border: '2px solid #00b0ff',
+    backgroundColor: theme.palette.action.selected,
+    border: `2px solid ${theme.palette.action.active}`,
     borderRadius: 4,
   },
   unitText: {
@@ -67,6 +75,7 @@ export const ObservationTemperatureCardWithConnector: React.FunctionComponent = 
       key={`ObservationTemperatureCard${_.get(state, 'encounterId')}`}
       patientId={state.patientId}
       encounterId={state.encounterId}
+      mouseTrackCategory={state.mouseTrackCategory}
       onClick={handleCardClick}
       selectedCard={_.get(state, 'selectedCard')}
     />
@@ -78,7 +87,16 @@ const ObservationTemperatureCard: React.FunctionComponent<{
   encounterId: string
   onClick?: any
   selectedCard?: any
-}> = ({ patientId, encounterId, onClick, selectedCard }) => {
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({
+  patientId,
+  encounterId,
+  onClick,
+  selectedCard,
+  mouseTrackCategory = 'observaion_temperature_card',
+  mouseTrackLabel = 'observaion_temperature_card',
+}) => {
   const params = {
     code: OBSERVATION_CODE.BODY_TEMPERATURE.code,
     encounterId,
@@ -99,11 +117,15 @@ const ObservationTemperatureCard: React.FunctionComponent<{
     return <LoadingSection />
   }
   return (
-    <ObservationTemperatureCardView
-      observation={observationList[0]}
-      onClick={onClick}
-      selectedCard={selectedCard}
-    />
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <ObservationTemperatureCardView
+          observation={observationList[0]}
+          onClick={onClick}
+          selectedCard={selectedCard}
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 
@@ -119,16 +141,12 @@ export const ObservationTemperatureCardView: React.FunctionComponent<{
       header='Temperature'
       Icon={
         <Icon
-          style={{ color: '#cddc39' }}
-          className={clsx('fas fa-thermometer-quarter')}
+          className={clsx('fas fa-thermometer-quarter', classes.iconCard)}
         />
       }
       option={{
+        headerClass: classes.headerCard,
         isHideIcon: true,
-        style: {
-          backgroundColor: lighten('#afb42b', 0.85),
-          color: '#afb42b',
-        },
       }}
     >
       <Grid

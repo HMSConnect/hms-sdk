@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
+import Tracker from '@components/base/Tracker'
 import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
@@ -36,24 +37,26 @@ const PatientSearchView: IStatelessPage<{
     <React.Fragment>
       <CssBaseline />
       <BootstrapWrapper dependencies={['patient']}>
-        <>
-          <AppNavBar />
-          <Container maxWidth='lg' className={classes.root}>
-            <Typography component='div' className={classes.body}>
-              <BreadcrumbsBase
-                currentPath='Patient Search'
-                parentPath={[
-                  {
-                    icon: <HomeIcon />,
-                    label: 'Home',
-                    url: '/',
-                  },
-                ]}
-              ></BreadcrumbsBase>
-              <PatientSearch query={query} name={_.get(query, 'name')} />
-            </Typography>
-          </Container>
-        </>
+        <Tracker>
+          <>
+            <AppNavBar />
+            <Container maxWidth='lg' className={classes.root}>
+              <Typography component='div' className={classes.body}>
+                <BreadcrumbsBase
+                  currentPath='Patient Search'
+                  parentPath={[
+                    {
+                      icon: <HomeIcon />,
+                      label: 'Home',
+                      url: '/',
+                    },
+                  ]}
+                ></BreadcrumbsBase>
+                <PatientSearch query={query} name={_.get(query, 'name')} />
+              </Typography>
+            </Container>
+          </>
+        </Tracker>
       </BootstrapWrapper>
     </React.Fragment>
   )
@@ -86,5 +89,5 @@ export function initialPagination(query: any) {
     sort: _.isEmpty(query.sort) ? initialSort : query.sort,
   }
 }
+
 export default withAuthSync(PatientSearchView)
-// export default PatientSearchView

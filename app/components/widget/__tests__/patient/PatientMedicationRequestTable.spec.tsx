@@ -1,17 +1,17 @@
 import * as React from 'react'
 
-import MedicationRequestServiceMock from '@components/hooks/__mocks__/MedicationRequestServiceMock'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
-import MedicationRequestService from '@services/MedicationRequestService'
+import MedicationRequestServiceMock from '@services/__mocks__/MedicationRequestServiceMock'
 import { HMSService } from '@services/HMSServiceFactory'
+import MedicationRequestService from '@services/MedicationRequestService'
 import {
+  act,
   fireEvent,
   render,
   waitForDomChange,
-  act,
 } from '@testing-library/react'
-import PatientMedicationRequestTable from '../../patient/PatientMedicationRequestTable'
 import userEvent from '@testing-library/user-event'
+import PatientMedicationRequestTable from '../../patient/PatientMedicationRequestTable'
 
 jest.mock('@components/hooks/useAllergyIntoleranceList', () => ({
   __esModule: true,
@@ -134,9 +134,9 @@ describe('<PatientMedicationRequestTable />', () => {
     })
 
     expect(allergyServiceListMock).toBeCalledTimes(1)
-    expect(
-      allergyServiceListMock.mock.calls[0][0].filter.status,
-    ).toStrictEqual('completed')
+    expect(allergyServiceListMock.mock.calls[0][0].filter.status).toStrictEqual(
+      'completed',
+    )
     // expect(
     //   allergyServiceListMock.mock.calls[0][0].filter.codeText,
     // ).toStrictEqual('Hello Test')

@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import environment from '@environment'
 import {
   Grid,
   List,
@@ -10,9 +11,10 @@ import {
   Paper,
 } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import RouteManager from '@routes/RouteManager'
 import * as _ from 'lodash'
 import getConfig from 'next/config'
-import { codeVersion } from '@config/embedded-widget'
+import routes from '../routes'
 
 const config = getConfig()
 const staticFolder = _.get(config, 'publicRuntimeConfig.staticFolder')
@@ -47,6 +49,11 @@ export default function App() {
     },
   }
 
+  const routeNavigate = (routeName: string) => {
+    const path = RouteManager.getPath(routeName)
+    routes.Router.pushRoute(routeName)
+  }
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -63,14 +70,14 @@ export default function App() {
             aria-label='main menu'
             subheader={
               <ListSubheader component='div' id='nested-list-subheader'>
-                Main Menu Verion {codeVersion}
+                Main Menu Verion {environment.codeVersion}
               </ListSubheader>
             }
           >
-            <ListItemLink href='/patient-search'>
+            <ListItemLink onClick={() => routeNavigate('patient-search')}>
               <ListItemText primary='Demo App' />
             </ListItemLink>
-            <ListItemLink href='/embedded-widget'>
+            <ListItemLink onClick={() => routeNavigate('embedded-widget')}>
               <ListItemText primary='Embedded Widget' />
             </ListItemLink>
           </List>

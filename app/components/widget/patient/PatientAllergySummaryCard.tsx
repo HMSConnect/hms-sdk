@@ -3,8 +3,8 @@ import React from 'react'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useResourceList from '@components/hooks/useResourceList'
-import { IAllergyIntoleranceListFilterQuery } from '@data-managers/AllergyIntoleranceDataManager'
 import {
   Grid,
   Icon,
@@ -23,27 +23,31 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     justifyContent: 'center',
   },
-  clickable: {
-    cursor: 'pointer',
-  },
   contentText: {
     fontWeight: 'normal',
   },
-  hover: {
-    '&:hover': {
-      backgroundColor: '#ddd4',
-    },
-    textDecoration: 'none',
+  headerCard: {
+    backgroundColor: theme.palette.quinary?.light || '',
+    color: theme.palette.quinary?.main || '',
   },
-  infoIcon: {
-    color: '#1976d2',
-    zoom: 0.7,
+  iconContainer:
+    theme.palette.type === 'dark'
+      ? {
+          backgroundColor: theme.palette.quinary?.light || '',
+          flex: 1,
+          paddingLeft: 16,
+          paddingRight: 16,
+        }
+      : {
+          backgroundColor: theme.palette.quinary?.main || '',
+          flex: 1,
+          paddingLeft: 16,
+          paddingRight: 16,
+        },
+  noneItem: {
+    color: theme.palette.text.secondary,
   },
-  selectedCard: {
-    backgroundColor: '#ddd4',
-    border: '2px solid #00b0ff',
-    borderRadius: 4,
-  },
+
   unitText: {
     fontWeight: 'normal',
   },
@@ -51,11 +55,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const PatientAllergySummerCardWithConnector: React.FunctionComponent = () => {
   const state = useSelector((state: any) => state.patientAllergySummaryCard)
-  return <PatientAllergySummerCard patientId={get(state, 'patientId')} />
+  return (
+    <PatientAllergySummerCard
+      patientId={get(state, 'patientId')}
+      mouseTrackCategory={get(state, 'mouseTrackCategory')}
+    />
+  )
 }
 
 const PatientAllergySummerCard: React.FunctionComponent<any> = ({
   patientId,
+  mouseTrackCategory = 'patient_allergy_summary_card',
+  mouseTrackLabel = 'patient_allergy_summary_card',
 }) => {
   const {
     isLoading: isGroupResourceListLoading,
@@ -71,7 +82,13 @@ const PatientAllergySummerCard: React.FunctionComponent<any> = ({
   if (isGroupResourceListLoading) {
     return <LoadingSection />
   }
-  return <PatientAllergySummerCardView allergyResource={groupResourceList[1]} />
+  return (
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <PatientAllergySummerCardView allergyResource={groupResourceList[1]} />
+      </div>
+    </TrackerMouseClick>
+  )
 }
 
 export default PatientAllergySummerCard
@@ -84,24 +101,15 @@ const PatientAllergySummerCardView: React.FunctionComponent<any> = ({
     <CardLayout
       header='Total Allergies'
       option={{
+        headerClass: classes.headerCard,
         isHideIcon: true,
-        style: {
-          backgroundColor: lighten('#3c8dbc', 0.85),
-          color: '#3c8dbc',
-        },
       }}
     >
       <Grid container style={{ height: '100%' }}>
         <Typography
           component='div'
           variant='body1'
-          style={{
-            backgroundColor: '#3c8dbc',
-            flex: 1,
-            paddingLeft: 16,
-            paddingRight: 16,
-          }}
-          className={clsx(classes.bodyCard, classes.clickable, classes.hover)}
+          className={clsx(classes.bodyCard, classes.iconContainer)}
         >
           <Icon
             style={{ color: 'white', fontSize: '2.2em', textAlign: 'center' }}
@@ -117,15 +125,15 @@ const PatientAllergySummerCardView: React.FunctionComponent<any> = ({
             paddingRight: 16,
             textAlign: 'center',
           }}
-          className={clsx(classes.bodyCard, classes.clickable, classes.hover)}
+          className={clsx(classes.bodyCard)}
         >
           <Typography
             component='span'
             variant='h4'
-            className={classes.contentText}
+            className={clsx(classes.contentText, {
+              [classes.noneItem]: get(allergyResource, 'totalCount') === 0,
+            })}
             style={{
-              color:
-                get(allergyResource, 'totalCount') === 0 ? undefined : 'gray',
               paddingRight: 8,
             }}
           >

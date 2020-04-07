@@ -4,17 +4,28 @@ import ErrorSection from '@components/base/ErrorSection'
 import GraphBase from '@components/base/GraphBase'
 import LoadingSection from '@components/base/LoadingSection'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
-import { Divider, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
-import { lighten } from '@material-ui/core/styles'
+import {
+  Divider,
+  Icon,
+  makeStyles,
+  Theme,
+  Typography,
+  withTheme,
+} from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
 import maxBy from 'lodash/maxBy'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.duodenary?.light || '',
+    color: theme.palette.duodenary?.main || '',
+  },
   summaryContainer: {
     alignItems: 'center',
     display: 'flex',
@@ -28,7 +39,15 @@ const ObservationBodyWeightGraph: React.FunctionComponent<{
   patientId: string
   max?: number
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ patientId, max = 20, optionStyle }) => {
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({
+  patientId,
+  max = 20,
+  optionStyle,
+  mouseTrackCategory = 'observation_body_weight_graph',
+  mouseTrackLabel = 'observation_body_weight_graph',
+}) => {
   const params = {
     code: OBSERVATION_CODE.BODY_WEIGHT.code,
     // encounterId: get(query, 'encounterId'),
@@ -50,12 +69,14 @@ const ObservationBodyWeightGraph: React.FunctionComponent<{
     return <LoadingSection />
   }
   return (
-    <>
-      <ObservationBodyWeightGraphView
-        observationList={observationList}
-        optionStyle={optionStyle}
-      />
-    </>
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <ObservationBodyWeightGraphViewWithTheme
+          observationList={observationList}
+          optionStyle={optionStyle}
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 
@@ -63,8 +84,9 @@ export default ObservationBodyWeightGraph
 
 export const ObservationBodyWeightGraphView: React.FunctionComponent<{
   observationList: any
+  theme?: any
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ observationList, optionStyle }) => {
+}> = ({ observationList, optionStyle, theme }) => {
   const lastData: any = maxBy(observationList, 'issuedDate')
 
   const classes = useStyles()
@@ -74,10 +96,9 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
         title={'Body Weight'}
         Icon={<Icon className={'fas fa-chart-area'} />}
         option={{
+          headerClass: classes.headerCard,
           isHideIcon: true,
           style: {
-            backgroundColor: lighten('#3d5afe', 0.85),
-            color: '#3d5afe',
             height: '5%',
           },
         }}
@@ -95,7 +116,7 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
             data={observationList}
             argumentField='issuedDate'
             optionStyle={{
-              color: '#3d5afe',
+              color: theme?.palette?.duodenary?.main || '#3d5afe',
               ...optionStyle,
               height:
                 optionStyle && optionStyle.height && optionStyle.height - 200,
@@ -134,3 +155,6 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
     </>
   )
 }
+const ObservationBodyWeightGraphViewWithTheme = withTheme(
+  ObservationBodyWeightGraphView,
+)

@@ -214,29 +214,72 @@ const PatientSummary: React.FunctionComponent<{
   React.useEffect(() => {
     dispatch({
       payload: {
-        observationHistoryGraph: { patientId },
+        observationHistoryGraph: {
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
         observationLaboratoryTable: {
           encounterId,
+          mouseTrackCategory: 'patient_summary',
           patientId,
         },
-        observationSummaryGraph: { patientId },
-        patientAllergyList: { patientId },
-        patientAllergySummaryCard: { patientId },
-        patientCarePlanTable: { patientId },
-        patientConditionTable: { patientId },
-        patientDemographic: { patientId },
+        observationSummaryGraph: {
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
+        patientAllergyList: {
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
+        patientAllergySummaryCard: {
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
+        patientCarePlanTable: {
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
+        patientConditionTable: {
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
+        patientDemographic: {
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
         patientEncounterTimeline: {
           encounterId,
+          mouseTrackCategory: 'patient_summary',
           patientId,
         },
-        patientImmunizationSummaryCard: { patientId },
-        patientImmunizationTable: { patientId },
-        patientMedicationList: { patientId },
-        patientMedicationSummaryCard: { patientId },
-        patientPractitioner: { encounterId, maxDisplay: 2 },
-        patientProcedureTable: { patientId },
+        patientImmunizationSummaryCard: {
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
+        patientImmunizationTable: {
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
+        patientMedicationList: {
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
+        patientMedicationSummaryCard: {
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
+        patientPractitioner: {
+          encounterId,
+          maxDisplay: 2,
+          mouseTrackCategory: 'patient_summary',
+        },
+        patientProcedureTable: {
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
         patientSummaryCards: {
           encounterId,
+          mouseTrackCategory: 'patient_summary',
           patientId,
         },
       },

@@ -4,6 +4,7 @@ import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
@@ -27,20 +28,23 @@ const useStyles = makeStyles((theme: Theme) => ({
   contentText: {
     fontWeight: 'normal',
   },
-  footerContainer: { height: 36, color: 'grey' },
+  footerContainer: { height: 36, color: theme.palette.text.secondary },
+  headerCard: {
+    backgroundColor: theme.palette.quaternary?.light || '',
+    color: theme.palette.quaternary?.main || '',
+  },
   hover: {
     '&:hover': {
-      backgroundColor: '#ddd4',
+      backgroundColor: theme.palette.action.hover,
     },
     textDecoration: 'none',
   },
-  infoIcon: {
-    color: '#1976d2',
-    zoom: 0.7,
+  iconCard: {
+    color: theme.palette.quaternary?.dark || '',
   },
   selectedCard: {
-    backgroundColor: '#ddd4',
-    border: '2px solid #00b0ff',
+    backgroundColor: theme.palette.action.selected,
+    border: `2px solid ${theme.palette.action.active}`,
     borderRadius: 4,
   },
   unitText: {
@@ -69,6 +73,7 @@ export const ObservationHeartRateCardWithConnector: React.FunctionComponent = ()
       encounterId={state.encounterId}
       onClick={handleCardClick}
       selectedCard={_.get(state, 'selectedCard')}
+      mouseTrackCategory={state.mouseTrackCategory}
     />
   )
 }
@@ -79,7 +84,17 @@ const ObservationHeartRateCard: React.FunctionComponent<{
   max?: number
   onClick?: any
   selectedCard?: any
-}> = ({ patientId, encounterId, max = 20, onClick, selectedCard }) => {
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({
+  patientId,
+  encounterId,
+  max = 20,
+  onClick,
+  selectedCard,
+  mouseTrackCategory = 'observation_heart_rate_Card',
+  mouseTrackLabel = 'observation_heart_rate_Card',
+}) => {
   const params = {
     code: OBSERVATION_CODE.HEART_RATE.code,
     encounterId,
@@ -100,11 +115,15 @@ const ObservationHeartRateCard: React.FunctionComponent<{
     return <LoadingSection />
   }
   return (
-    <ObservationHeartRateCardView
-      observation={observationList[0]}
-      onClick={onClick}
-      selectedCard={selectedCard}
-    />
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <ObservationHeartRateCardView
+          observation={observationList[0]}
+          onClick={onClick}
+          selectedCard={selectedCard}
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 
@@ -121,16 +140,13 @@ export const ObservationHeartRateCardView: React.FunctionComponent<{
       header='Heart Rate'
       Icon={
         <Icon
-          style={{ color: '#c62828', paddingRight: 5 }}
-          className={clsx('fas fa-heartbeat')}
+          style={{ paddingRight: 5 }}
+          className={clsx('fas fa-heartbeat', classes.iconCard)}
         />
       }
       option={{
+        headerClass: classes.headerCard,
         isHideIcon: true,
-        style: {
-          backgroundColor: lighten('#c2185b', 0.85),
-          color: '#c2185b',
-        },
       }}
     >
       <Grid

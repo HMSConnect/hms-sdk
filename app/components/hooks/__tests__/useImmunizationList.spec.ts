@@ -1,7 +1,7 @@
+import ImmunizationServiceMock from '@services/__mocks__/ImmunizationServiceMock'
 import ImmunizationService from '@services/ImmunizationService'
 import { renderHook } from '@testing-library/react-hooks'
 import { HMSService } from '../../../services/HMSServiceFactory'
-import ImmunizationServiceMock from '../__mocks__/ImmunizationServiceMock'
 import useImmunizationList from '../useImmunizationList'
 
 describe('useImmunizationList', () => {
@@ -28,15 +28,15 @@ describe('useImmunizationList', () => {
 
     expect(result.current.data).toStrictEqual([
       {
-        status: 'completed',
         dateText: '2019-01-01',
         id: '1',
+        status: 'completed',
         vaccineCode: 'Influenza, seasonal, injectable, preservative free',
       },
       {
-        status: 'not-done',
         dateText: '2019-01-02',
         id: '2',
+        status: 'not-done',
         vaccineCode: 'Td (adult) preservative free',
       },
     ])

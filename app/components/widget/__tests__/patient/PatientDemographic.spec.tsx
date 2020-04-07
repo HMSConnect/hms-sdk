@@ -1,31 +1,18 @@
 import * as React from 'react'
 
-import patientDemographic from '@app/reducers-redux/patientDemographic.reducer'
+import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
+import patientDemographic, {
+  patientDemographicInitialState,
+} from '@app/reducers-redux/patientDemographic.reducer'
 import useEncounter from '@components/hooks/useEncounter'
 import usePatient from '@components/hooks/usePatient'
 import useResourceList from '@components/hooks/useResourceList'
 import { routesMock } from '@routes/__mocks__/routesMock'
 import { render } from '@testing-library/react'
-import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import PatientDemographic, {
   PatientDemographicWithConnector,
 } from '../../patient/PatientDemographic'
-
-function renderWithRedux(
-  ui: any,
-  {
-    initialState = {},
-    store = createStore(patientDemographic, {
-      patientDemographic: initialState,
-    }),
-  }: any = {},
-) {
-  return {
-    ...render(<Provider store={store}>{ui}</Provider>),
-    store,
-  }
-}
 
 jest.mock('@components/hooks/usePatient', () => ({
   __esModule: true,
@@ -117,8 +104,9 @@ describe('<PatientDemographic />', () => {
   })
 
   it('render PatientDemographic', () => {
+    const structure = patientDemographicInitialState.structure
     const { queryAllByText, getByText } = render(
-      <PatientDemographic patientId='1' />,
+      <PatientDemographic patientId='1' structure={structure} />,
     )
     expect(queryAllByText('Mr. Test1 FTest1')[0]).toBeTruthy()
   })
@@ -126,6 +114,12 @@ describe('<PatientDemographic />', () => {
   it('render PatientDemographicWithConnector with Redux', () => {
     const { queryAllByText, getByText } = renderWithRedux(
       <PatientDemographicWithConnector />,
+      {
+        initialState: {},
+        store: createStore(patientDemographic, {
+          patientDemographic: patientDemographicInitialState,
+        }),
+      },
     )
     expect(queryAllByText('Mr. Test1 FTest1')[0]).toBeTruthy()
   })
@@ -137,8 +131,9 @@ describe('<PatientDemographic />', () => {
       error: null,
       isLoading: true,
     }))
+    const structure = patientDemographicInitialState.structure
     const { queryAllByText, getByText } = render(
-      <PatientDemographic patientId='1' />,
+      <PatientDemographic patientId='1' structure={structure} />,
     )
     expect(queryAllByText('Mr. Test1 FTest1')[0]).toBeFalsy()
   })
@@ -151,8 +146,9 @@ describe('<PatientDemographic />', () => {
       error: errorMessage,
       isLoading: true,
     }))
+    const structure = patientDemographicInitialState.structure
     const { queryAllByText, getByText } = render(
-      <PatientDemographic patientId='1' />,
+      <PatientDemographic patientId='1' structure={structure} />,
     )
     expect(queryAllByText(`ERR: ${errorMessage}`)).toBeTruthy()
   })

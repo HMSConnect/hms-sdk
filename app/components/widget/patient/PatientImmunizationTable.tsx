@@ -11,6 +11,7 @@ import TabGroup from '@components/base/TabGroup'
 import TableBase from '@components/base/TableBase'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { noneOption, selectOptions } from '@config'
 import {
@@ -32,6 +33,10 @@ import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.denary?.light || '',
+    color: theme.palette.denary?.main || '',
+  },
   root: {},
   tableWrapper: {
     ['& .MuiTableCell-stickyHeader']: {
@@ -63,6 +68,7 @@ export const PatientImmunizationTableWithConnector: React.FunctionComponent<any>
   return (
     <PatientImmunizationTable
       patientId={_.get(state, 'patientId')}
+      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
       max={_.get(state, 'max')}
       initialFilter={_.get(state, 'initialFilter')}
       isInitialize={true}
@@ -78,6 +84,8 @@ const PatientImmunizationTable: React.FunctionComponent<{
   max?: number
   initialFilter?: IImmunizationListFilterQuery
   name?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
 }> = ({
   resourceList,
   patientId,
@@ -91,6 +99,8 @@ const PatientImmunizationTable: React.FunctionComponent<{
     vaccineCode: undefined,
   },
   name = 'patientImmunizationTable',
+  mouseTrackCategory = 'patient_immunization_table',
+  mouseTrackLabel = 'patient_immunization_table',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithImmunizationInitialFilterQuery(customInitialFilter, {
@@ -387,109 +397,112 @@ const PatientImmunizationTable: React.FunctionComponent<{
   }
 
   return (
-    <div
-      ref={myscroll}
-      style={{ height: '100%', overflow: isContainer ? 'auto' : '' }}
-    >
-      <div className={classes.toolbar}>
-        <ToolbarWithFilter
-          title={'Immunization'}
-          onClickIcon={showModal}
-          Icon={<Icon className='fas fa-syringe' />}
-          filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'date_lt',
-            'patientId',
-            'vaccineCode',
-          ])}
-          option={{
-            additionButton: (
-              <FormControlLabel
-                value='start'
-                control={
-                  <Checkbox
-                    onChange={(event, isGroup) => {
-                      handleGroupByType(isGroup)
-                    }}
-                    data-testid='check-by-type-input'
-                    value={isGroup}
-                    inputProps={{
-                      'aria-label': 'primary checkbox',
-                    }}
-                  />
-                }
-                label='Group By Type'
-                labelPlacement='start'
-              />
-            ),
-            style: {
-              backgroundColor: lighten('#afb42b', 0.85),
-              color: '#afb42b',
-            },
-          }}
-        >
-          {renderModal}
-        </ToolbarWithFilter>
-        {isGroup && (
-          <TabGroup tabList={tab.tabList} onTabChange={handleTabChange} />
-        )}
-      </div>
-      <div className={classes.tableWrapper} data-testid='scroll-container'>
-        <TableBase
-          id='immunization'
-          entryList={data}
-          isLoading={isLoading}
-          isMore={isMore}
-          data-testid='table-base'
-          tableCells={[
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'vaccineCode',
-              },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'vaccineCode',
-                label: 'Vaccine Code',
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'status',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'status',
-                label: 'Status',
-                styles: {
-                  width: '5em',
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div
+        ref={myscroll}
+        style={{ height: '100%', overflow: isContainer ? 'auto' : '' }}
+      >
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Immunization'}
+            onClickIcon={showModal}
+            Icon={<Icon className='fas fa-syringe' />}
+            filterActive={countFilterActive(submitedFilter, initialFilter, [
+              'date_lt',
+              'patientId',
+              'vaccineCode',
+            ])}
+            option={{
+              additionButton: (
+                <FormControlLabel
+                  value='start'
+                  control={
+                    <Checkbox
+                      onChange={(event, isGroup) => {
+                        handleGroupByType(isGroup)
+                      }}
+                      data-testid='check-by-type-input'
+                      value={isGroup}
+                      inputProps={{
+                        'aria-label': 'primary checkbox',
+                      }}
+                    />
+                  }
+                  label='Group By Type'
+                  labelPlacement='start'
+                />
+              ),
+              headerClass: classes.headerCard,
+              // style: {
+              //   backgroundColor: lighten('#afb42b', 0.85),
+              //   color: '#afb42b',
+              // },
+            }}
+          >
+            {renderModal}
+          </ToolbarWithFilter>
+          {isGroup && (
+            <TabGroup tabList={tab.tabList} onTabChange={handleTabChange} />
+          )}
+        </div>
+        <div className={classes.tableWrapper} data-testid='scroll-container'>
+          <TableBase
+            id='immunization'
+            entryList={data}
+            isLoading={isLoading}
+            isMore={isMore}
+            data-testid='table-base'
+            tableCells={[
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'vaccineCode',
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'vaccineCode',
+                  label: 'Vaccine Code',
                 },
               },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'dateText',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'dateText',
-                label: 'Date',
-                styles: {
-                  width: '15em',
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'status',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'status',
+                  label: 'Status',
+                  styles: {
+                    width: '5em',
+                  },
                 },
               },
-            },
-          ]}
-        />
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'dateText',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'dateText',
+                  label: 'Date',
+                  styles: {
+                    width: '15em',
+                  },
+                },
+              },
+            ]}
+          />
+        </div>
       </div>
-    </div>
+    </TrackerMouseClick>
   )
 }
 

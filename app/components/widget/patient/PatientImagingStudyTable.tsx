@@ -6,10 +6,9 @@ import {
 } from '@app/reducers/tableWithFilter.reducer'
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
 import ErrorSection from '@components/base/ErrorSection'
-import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
-import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import {
   IImagingStudyListFilterQuery,
@@ -54,6 +53,8 @@ const PatientImagingStudyTable: React.FunctionComponent<{
   max?: number
   initialFilter?: IImagingStudyListFilterQuery
   name?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
 }> = ({
   resourceList,
   patientId,
@@ -64,6 +65,8 @@ const PatientImagingStudyTable: React.FunctionComponent<{
     started_lt: undefined,
   },
   name = 'patientImagingStudyTable',
+  mouseTrackCategory = 'patient_imaging_study_table',
+  mouseTrackLabel = 'patient_imaging_study_table',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithImagingStudyInitialFilterQuery(customInitialFilter, {
@@ -218,101 +221,103 @@ const PatientImagingStudyTable: React.FunctionComponent<{
   // }
 
   return (
-    <>
-      <div className={classes.toolbar}>
-        <ToolbarWithFilter
-          title={'Imaging Study'}
-          // onClickIcon={showModal}
-          filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'started_lt',
-            'patientId',
-          ])}
-          option={{
-            isHideIcon: true,
-          }}
-        >
-          {/* {renderModal} */}
-        </ToolbarWithFilter>
-      </div>
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Imaging Study'}
+            // onClickIcon={showModal}
+            filterActive={countFilterActive(submitedFilter, initialFilter, [
+              'started_lt',
+              'patientId',
+            ])}
+            option={{
+              isHideIcon: true,
+            }}
+          >
+            {/* {renderModal} */}
+          </ToolbarWithFilter>
+        </div>
 
-      <Grid container>
-        <Grid item xs={10}>
-          <Typography variant='h6'></Typography>
+        <Grid container>
+          <Grid item xs={10}>
+            <Typography variant='h6'></Typography>
+          </Grid>
         </Grid>
-      </Grid>
-      <div
-        ref={myscroll}
-        className={classes.tableWrapper}
-        data-testid='scroll-container'
-      >
-        <TableBase
-          id='imagingStudy'
-          entryList={data}
-          isLoading={isLoading}
-          isMore={isMore}
-          data-testid='table-base'
-          size='small'
-          tableCells={[
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'instance',
-                render: (imagingStudy: any) => {
-                  return (
-                    <ul>
-                      {_.map(imagingStudy.series, (serie, index) => (
-                        <li key={`instanceTitle${index}`}>
-                          {_.get(serie, 'instance[0].title')}
-                        </li>
-                      ))}
-                    </ul>
-                  )
+        <div
+          ref={myscroll}
+          className={classes.tableWrapper}
+          data-testid='scroll-container'
+        >
+          <TableBase
+            id='imagingStudy'
+            entryList={data}
+            isLoading={isLoading}
+            isMore={isMore}
+            data-testid='table-base'
+            size='small'
+            tableCells={[
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'instance',
+                  render: (imagingStudy: any) => {
+                    return (
+                      <ul>
+                        {_.map(imagingStudy.series, (serie, index) => (
+                          <li key={`instanceTitle${index}`}>
+                            {_.get(serie, 'instance[0].title')}
+                          </li>
+                        ))}
+                      </ul>
+                    )
+                  },
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'instance',
+                  label: 'Instance Title',
+                  styles: {
+                    width: '15em',
+                  },
                 },
               },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'instance',
-                label: 'Instance Title',
-                styles: {
-                  width: '15em',
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'encounter',
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'encounter',
+                  label: 'Encounter',
                 },
               },
-            },
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'encounter',
-              },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'encounter',
-                label: 'Encounter',
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'startedText',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: true,
-                disableSort: true,
-                id: 'startedText',
-                label: 'Start Date',
-                styles: {
-                  width: '15em',
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'startedText',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: true,
+                  disableSort: true,
+                  id: 'startedText',
+                  label: 'Start Date',
+                  styles: {
+                    width: '15em',
+                  },
                 },
               },
-            },
-          ]}
-        />
+            ]}
+          />
+        </div>
       </div>
-    </>
+    </TrackerMouseClick>
   )
 }
 

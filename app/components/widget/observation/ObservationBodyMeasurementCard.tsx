@@ -4,6 +4,7 @@ import { cardClick } from '@app/actions/patientsummaryCards.action'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
@@ -34,24 +35,31 @@ const useStyles = makeStyles((theme: Theme) => ({
   contentText: {
     fontWeight: 'normal',
   },
-  footerContainer: { height: 36, color: 'grey' },
+  footerContainer: { height: 36, color: theme.palette.text.secondary },
+  headerCard: {
+    backgroundColor: theme.palette.quinary?.light || '',
+    color: theme.palette.quinary?.main || '',
+  },
   hover: {
     '&:hover': {
-      backgroundColor: '#ddd4',
+      backgroundColor: theme.palette.action.hover,
     },
     textDecoration: 'none',
+  },
+  iconCard: {
+    color: theme.palette.quinary?.dark || '',
   },
   infoIcon: {
     color: '#1976d2',
     zoom: 0.7,
   },
   selectedCard: {
-    backgroundColor: '#ddd4',
-    border: '2px solid #00b0ff',
+    backgroundColor: theme.palette.action.selected,
+    border: `2px solid ${theme.palette.action.active}`,
     borderRadius: 4,
   },
   topicTitle: {
-    color: 'grey',
+    color: theme.palette.text.secondary,
   },
   unitText: {
     fontWeight: 'normal',
@@ -77,6 +85,7 @@ export const ObservationBodyMeasurementCardWithConnector: React.FunctionComponen
       key={`ObservationBodyMeasurementCard${_.get(state, 'encounterId')}`}
       patientId={state.patientId}
       encounterId={state.encounterId}
+      mouseTrackCategory={state.mouseTrackCategory}
       onClick={handleCardClick}
       selectedCard={_.get(state, 'selectedCard')}
     />
@@ -88,7 +97,16 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
   encounterId?: string
   onClick?: any
   selectedCard?: any
-}> = ({ patientId, encounterId, onClick, selectedCard }) => {
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({
+  patientId,
+  encounterId,
+  onClick,
+  selectedCard,
+  mouseTrackCategory = 'observation_body_measurement_card',
+  mouseTrackLabel = 'observation_body_measurement_card',
+}) => {
   let params: IObservationListFilterQuery = {}
   params = {
     codes: `${OBSERVATION_CODE.BODY_HEIGHT.code},${OBSERVATION_CODE.BODY_WEIGHT.code},${OBSERVATION_CODE.BODY_MASS_INDEX.code}`,
@@ -110,11 +128,15 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
     return <LoadingSection />
   }
   return (
-    <ObservationBodyMeasurementCardView
-      observations={observationList}
-      onClick={onClick}
-      selectedCard={selectedCard}
-    />
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <ObservationBodyMeasurementCardView
+          observations={observationList}
+          onClick={onClick}
+          selectedCard={selectedCard}
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 
@@ -129,13 +151,10 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
   return (
     <CardLayout
       header='Body Measurement'
-      Icon={<Icon className={'fas fa-male'} style={{ color: '#00b0ff' }} />}
+      Icon={<Icon className={clsx('fas fa-male', classes.iconCard)} />}
       option={{
+        headerClass: classes.headerCard,
         isHideIcon: true,
-        style: {
-          backgroundColor: lighten('#00b0ff', 0.85),
-          color: '#00b0ff',
-        },
       }}
     >
       <Grid

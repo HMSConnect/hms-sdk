@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import EncounterServiceMock from '@services/__mocks__/EncounterServiceMock'
 import {
   act,
   fireEvent,
@@ -8,7 +9,6 @@ import {
 } from '@testing-library/react'
 import EncounterService from '../../../../services/EncounterService'
 import { HMSService } from '../../../../services/HMSServiceFactory'
-import EncounterServiceMock from '../../../hooks/__mocks__/EncounterServiceMock'
 import PatientEncounterTable from '../PatientEncounterTable'
 
 describe('<PatientEncounterTable />', () => {

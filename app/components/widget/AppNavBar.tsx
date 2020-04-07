@@ -1,6 +1,7 @@
 import * as React from 'react'
 
-import { codeVersion } from '@config/embedded-widget'
+import ThemeSelect from '@components/base/ThemeSelect'
+import environment from '@environment'
 import {
   AppBar,
   Button,
@@ -36,12 +37,15 @@ const AppNavBar: React.FunctionComponent<any> = () => {
   const handleLogout = (event: any) => {
     AuthService.logout()
   }
+
   return (
     <AppBar position='static'>
       <Toolbar>
         <Typography variant='h6' className={classes.title}>
-          HMS Widget <Typography variant='body1'>V. {codeVersion}</Typography>
+          HMS Widget{' '}
+          <Typography variant='body1'>V. {environment.codeVersion}</Typography>
         </Typography>
+        <ThemeSelect />
         <div>
           <Button
             onClick={handleLogout}

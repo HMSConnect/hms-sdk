@@ -8,6 +8,7 @@ import ErrorSection from '@components/base/ErrorSection'
 import { FormModalContent, useModal } from '@components/base/Modal'
 import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import { noneOption, selectOptions } from '@config'
 import {
   IEncounterListFilterQuery,
@@ -26,8 +27,17 @@ import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
 import useInfinitScroll from '../../hooks/useInfinitScroll'
 import PatientEncounterList from '../../templates/PatientEncounterList'
+import MouseTrackMove from '@components/base/MouseTrackMove'
+import clsx from 'clsx'
 
 const useStyles = makeStyles((theme: Theme) => ({
+  headerCard: {
+    backgroundColor: theme.palette.nonary?.light || '',
+    color: theme.palette.nonary?.main || '',
+  },
+  iconCard: {
+    color: theme.palette.nonary?.main || '',
+  },
   listRoot: { maxHeight: '60vh', overflow: 'auto' },
   root: {
     justifyContent: 'center',
@@ -84,6 +94,7 @@ export const PatientEncounterTimelineWithConnector: React.FunctionComponent = ()
   return (
     <PatientEncounterTimeline
       patientId={_.get(state, 'patientId')}
+      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
       selectedEncounterId={_.get(state, 'encounterId')}
       isInitialize={true}
       max={state?.query?.max}
@@ -107,6 +118,8 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     selectedEncounter: any,
   ) => void
   name?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
 }> = ({
   patientId,
   resourceList,
@@ -123,6 +136,8 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   selectedEncounterId,
   onEncounterSelected,
   name = 'patientEncounterTimeline',
+  mouseTrackCategory = 'patient_encounter_timeline',
+  mouseTrackLabel = 'patient_encounter_timeline',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithEncounterInitialFilterQuery(customInitialFilter, {
@@ -328,37 +343,40 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   }
 
   return (
-    <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
-      <div className={classes.toolbar}>
-        <ToolbarWithFilter
-          title={'Encounter'}
-          onClickIcon={showModal}
-          Icon={<Icon className='fas fa-book-reader' />}
-          filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'periodStart_lt',
-            'patientId',
-            'type',
-          ])}
-          option={{
-            style: {
-              backgroundColor: lighten('#5c6bc0', 0.85),
-              color: '#5c6bc0',
-            },
-          }}
-        >
-          {renderModal}
-        </ToolbarWithFilter>
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      {/* <MouseTrackMove category='patient_summary'> */}
+      <div ref={myscroll} style={{ height: '100%', overflow: 'auto' }}>
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Encounter'}
+            onClickIcon={showModal}
+            Icon={
+              <Icon className={clsx('fas fa-book-reader', classes.iconCard)} />
+            }
+            filterActive={countFilterActive(submitedFilter, initialFilter, [
+              'periodStart_lt',
+              'patientId',
+              'type',
+            ])}
+            option={{
+              headerClass: classes.headerCard,
+            }}
+          >
+            {renderModal}
+          </ToolbarWithFilter>
+        </div>
+        <div className={classes.tableWrapper} data-testid='scroll-container'>
+          <PatientEncounterList
+            entryList={data}
+            onEntrySelected={handleEncounterSelect}
+            isLoading={isLoading}
+            isMore={isMore}
+            selectedEncounterId={selectedEncounterId}
+          />
+        </div>
       </div>
-      <div className={classes.tableWrapper} data-testid='scroll-container'>
-        <PatientEncounterList
-          entryList={data}
-          onEntrySelected={handleEncounterSelect}
-          isLoading={isLoading}
-          isMore={isMore}
-          selectedEncounterId={selectedEncounterId}
-        />
-      </div>
-    </div>
+      {/* </MouseTrackMove> */}
+    </TrackerMouseClick>
   )
 }
 

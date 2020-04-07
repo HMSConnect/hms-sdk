@@ -4,29 +4,14 @@ import * as patientSummaryAction from '@app/actions/patientsummaryCards.action'
 import patientSummaryCards, {
   patientSummaryCardsInitialState,
 } from '@app/reducers-redux/patientSummaryCards.reducer'
+import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import useObservationList from '@components/hooks/useObservationList'
 import { fireEvent, render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
-import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import ObservationTemperatureCard, {
   ObservationTemperatureCardWithConnector,
 } from '../../observation/ObservationTemperatureCard'
-
-function renderWithRedux(
-  ui: any,
-  {
-    initialState = patientSummaryCardsInitialState,
-    store = createStore(patientSummaryCards, {
-      patientSummaryCards: initialState,
-    }),
-  }: any = {},
-) {
-  return {
-    ...render(<Provider store={store}>{ui}</Provider>),
-    store,
-  }
-}
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
@@ -96,6 +81,12 @@ describe('<ObservationBodyTemperatureCard />', () => {
     useObservationListResult.mockImplementation(() => results)
     const { queryByText, queryAllByText } = renderWithRedux(
       <ObservationTemperatureCardWithConnector />,
+      {
+        initialState: patientSummaryCardsInitialState,
+        store: createStore(patientSummaryCards, {
+          patientSummaryCards: patientSummaryCardsInitialState,
+        }),
+      },
     )
 
     expect(queryByText('31')).toBeTruthy()
@@ -127,6 +118,12 @@ describe('<ObservationBodyTemperatureCard />', () => {
       })
     const { queryByText, queryAllByText, getByText } = renderWithRedux(
       <ObservationTemperatureCardWithConnector />,
+      {
+        initialState: patientSummaryCardsInitialState,
+        store: createStore(patientSummaryCards, {
+          patientSummaryCards: patientSummaryCardsInitialState,
+        }),
+      },
     )
 
     expect(queryByText('31')).toBeTruthy()

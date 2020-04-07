@@ -3,6 +3,7 @@ import React from 'react'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
@@ -30,12 +31,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   contentText: {
     fontWeight: 'normal',
   },
-  footerContainer: { height: 36, color: 'grey' },
+  footerContainer: { height: 36, color: theme.palette.text.secondary },
+  headerCard: {
+    backgroundColor: theme.palette.septenary?.light || '',
+    color: theme.palette.septenary?.main || '',
+  },
   hover: {
     '&:hover': {
       backgroundColor: '#ddd4',
     },
     textDecoration: 'none',
+  },
+  iconCard: {
+    color: theme.palette.septenary?.dark || '',
   },
   infoIcon: {
     color: '#1976d2',
@@ -58,13 +66,23 @@ export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionCom
       key={`ObservationTobaccoSmokingStatusCard${get(state, 'encounterId')}`}
       patientId={state.patientId}
       encounterId={state.encounterId}
+      mouseTrackCategory={state.mouseTrackCategory}
     />
   )
 }
 
-const ObservationTobaccoSmokingStatusCard: React.FunctionComponent<any> = ({
+const ObservationTobaccoSmokingStatusCard: React.FunctionComponent<{
+  patientId: string
+  encounterId: string
+  onClick?: any
+  selectedCard?: any
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({
   patientId,
   encounterId,
+  mouseTrackCategory = 'observaion_tobacco_smoking_status_card',
+  mouseTrackLabel = 'observaion_tobacco_smoking_status_card',
 }) => {
   const params: IObservationListFilterQuery = {
     code: OBSERVATION_CODE.TABACO_SMOKING_STATUS.code,
@@ -87,7 +105,13 @@ const ObservationTobaccoSmokingStatusCard: React.FunctionComponent<any> = ({
     return <LoadingSection />
   }
   return (
-    <ObservationTabacoSmokingStatusCardView observation={observationList[0]} />
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%' }}>
+        <ObservationTabacoSmokingStatusCardView
+          observation={observationList[0]}
+        />
+      </div>
+    </TrackerMouseClick>
   )
 }
 
@@ -100,15 +124,10 @@ const ObservationTabacoSmokingStatusCardView: React.FunctionComponent<any> = ({
   return (
     <CardLayout
       header='Tobacco Smoking Status'
-      Icon={
-        <Icon style={{ color: '#558b2f' }} className={clsx('fas fa-smoking')} />
-      }
+      Icon={<Icon className={clsx('fas fa-smoking', classes.iconCard)} />}
       option={{
+        headerClass: classes.headerCard,
         isHideIcon: true,
-        style: {
-          backgroundColor: lighten('#558b2f', 0.85),
-          color: '#558b2f',
-        },
       }}
     >
       <Grid

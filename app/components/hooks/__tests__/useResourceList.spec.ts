@@ -1,7 +1,7 @@
+import PatientServiceMock from '@services/__mocks__/PatientServiceMock'
 import { renderHook } from '@testing-library/react-hooks'
 import { HMSService } from '../../../services/HMSServiceFactory'
 import PatientService from '../../../services/PatientService'
-import PatientServiceMock from '../__mocks__/PatientServiceMock'
 import useResourceList from '../useResourceList'
 
 describe('useResourceList', () => {
@@ -13,7 +13,7 @@ describe('useResourceList', () => {
 
   it('initial useResourceList', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
-      useResourceList('1234')
+      useResourceList('1234'),
     )
     expect(result.error).toBeUndefined()
     expect(result.current.isLoading).toBeTruthy()
@@ -24,15 +24,15 @@ describe('useResourceList', () => {
       {
         data: [
           {
-            type: 'ADMS'
+            type: 'ADMS',
           },
           {
-            type: 'EECM'
-          }
+            type: 'EECM',
+          },
         ],
         resourceType: 'encounter',
-        totalCount: 2
-      }
+        totalCount: 2,
+      },
     ])
   })
 
@@ -41,7 +41,7 @@ describe('useResourceList', () => {
       return Promise.reject(Error('error Test'))
     })
     const { result, waitForNextUpdate } = renderHook(() =>
-      useResourceList('1234')
+      useResourceList('1234'),
     )
     expect(result.error).toBeUndefined()
     expect(result.current.isLoading).toBeTruthy()
