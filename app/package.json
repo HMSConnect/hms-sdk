@@ -11,7 +11,8 @@
     "build": "next build ",
     "start": "node server.js",
     "export": "next export",
-    "prod": "export NODE_ENV=production && npm run build && npm run start -- -p 8882",
+    "prod": "export NODE_ENV=production && npm run build && npm run start",
+    "win_prod": "set NODE_ENV=production && npm run build && npm run start",
     "serverless": "export NODE_ENV=production && npm run build && node server.js"
   },
   "author": "HMSConnect",
