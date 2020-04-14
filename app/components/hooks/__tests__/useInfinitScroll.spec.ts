@@ -109,6 +109,8 @@ describe('useInfinitScroll', () => {
     })
     expect(fetchMoreAsync).toHaveBeenCalled()
     expect(fetchMoreAsync).toBeCalledTimes(1)
+
+    // expect(false).toBeTruthy()
   })
 
   it('initial useInfinitScroll with manual fetch', async () => {
