@@ -52,4 +52,4 @@ PatientInfoView.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default PatientInfoView
+export default withAuthSync(PatientInfoView)
