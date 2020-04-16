@@ -32,25 +32,16 @@
           max: 20,
           isRouteable: false,
         })
-        hmsWidget.setTheme('invert')
-        hmsWidget.setCustomizeTheme({
-          typography: {
-            h4: {
-              fontSize: '3.5rem',
-              color: 'blue',
-            },
-            body2: {
-              fontSize: '1rem',
-              color: 'red',
-            },
+        hmsWidget.setCustomizeTheme(  // use theme name dark with custom
+          {
+            palette: {
+              primary: { main: "#03a9f4" },
+              secondary: { main: "#00bfa5" },
+              nonary: { main: "#00bfa5" }
+            }
           },
-          palette: {
-            primary: { main: '#03a9f4' },
-            secondary: { main: '#00bfa5' },
-            nonary: { main: '#00bfa5' },
-          },
-        })
-
+          "dark"
+        );
         hmsWidget.onMessage(data => {
           const summaryCardsIframeElement = document.getElementById(
             'widget-example3-iframe-sdk',
