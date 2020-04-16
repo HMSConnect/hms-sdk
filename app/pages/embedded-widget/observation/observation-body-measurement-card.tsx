@@ -25,6 +25,7 @@ const ObservationBodyMeasurementCardWidget: IStatelessPage<{
           <ObservationBodyMeasurementCard
             patientId={get(query, 'patientId')}
             encounterId={get(query, 'encounterId')}
+            isSelectable={get(query, 'isSelectable')}
           />
         </div>
       </>

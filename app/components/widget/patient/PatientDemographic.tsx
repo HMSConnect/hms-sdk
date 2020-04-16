@@ -41,27 +41,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const PatientDemographicWithConnector: React.FunctionComponent = () => {
-  const state = useSelector((state: any) => state.patientDemographic)
-  return (
-    <PatientDemographicWithStructureConnector
-      patientId={state.patientId}
-      mouseTrackCategory={state.mouseTrackCategory}
-      structure={state.structure}
-    />
-  )
-}
-
-export const PatientDemographicWithStructureConnector: React.FunctionComponent<any> = ({
-  patientId,
-  mouseTrackCategory,
-}) => {
+export const PatientDemographicWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  name?: string
+}> = ({ patientId, mouseTrackCategory, name }) => {
   const state = useSelector((state: any) => state.patientDemographic)
   return (
     <PatientDemographic
-      patientId={patientId}
-      mouseTrackCategory={mouseTrackCategory}
+      patientId={patientId || state.patientId}
+      mouseTrackCategory={mouseTrackCategory || state.mouseTrackCategory}
       structure={state.structure}
+      name={name}
     />
   )
 }

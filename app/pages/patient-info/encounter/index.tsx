@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import MouseTrackMove from '@components/base/MouseTrackMove'
 import Tracker from '@components/base/Tracker'
@@ -88,4 +89,4 @@ PatientSummaryPage.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default PatientSummaryPage
+export default withAuthSync(PatientSummaryPage)

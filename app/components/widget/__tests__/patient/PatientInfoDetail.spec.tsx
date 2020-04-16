@@ -108,23 +108,6 @@ describe('<PatientInfoDetail />', () => {
     expect(queryAllByText('Mr. Test1 FTest1')[0]).toBeTruthy()
   })
 
-  it('render With encounterId PatientInfoDetail', () => {
-    const newQuery = {
-      ...mockQuery,
-      encounterId: '0001',
-    }
-    const { queryAllByText, getByText } = renderWithRedux(
-      <PatientInfoDetail query={newQuery} />,
-      {
-        initialState: {},
-        store: createStore(patientDemographic, {
-          patientDemographic: patientDemographicInitialState,
-        }),
-      },
-    )
-    expect(queryAllByText('Encounter Type1')[0]).toBeTruthy()
-  })
-
   it('loading PatientInfoDetail', () => {
     const usePatientResult: any = usePatient as any
     usePatientResult.mockImplementation(() => ({

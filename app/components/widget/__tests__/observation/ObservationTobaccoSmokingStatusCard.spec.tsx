@@ -1,9 +1,7 @@
 import * as React from 'react'
 
-import patientSummaryCards, {
-  patientSummaryCardsInitialState,
-} from '@app/reducers-redux/patientSummaryCards.reducer'
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
+import observationTobaccoSmokingStatusCard from '@app/reducers-redux/observationTobaccoSmokingStatusCard.reducer'
 import useObservationList from '@components/hooks/useObservationList'
 import ObservationTobaccoSmokingStatusCard, {
   ObservationTobaccoSmokingStatusCardWithConnector,
@@ -82,9 +80,9 @@ describe('<ObservationTobaccoSmokingStatusCard />', () => {
     const { queryByText, queryAllByText } = renderWithRedux(
       <ObservationTobaccoSmokingStatusCardWithConnector />,
       {
-        initialState: patientSummaryCardsInitialState,
-        store: createStore(patientSummaryCards, {
-          patientSummaryCards: patientSummaryCardsInitialState,
+        initialState: {},
+        store: createStore(observationTobaccoSmokingStatusCard, {
+          observationTobaccoSmokingStatusCard: {},
         }),
       },
     )

@@ -16,7 +16,6 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core'
-import { lighten } from '@material-ui/core/styles'
 import { sendMessage } from '@utils'
 import clsx from 'clsx'
 import _ from 'lodash'
@@ -71,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) => {
 
 export const ObservationBloodPressureCardWithConnector: React.FunctionComponent = () => {
   const state = useSelector((state: any) => {
-    return state.patientSummaryCards
+    return state.observationBloodPressureCard
   })
   const dispatch = useDispatch()
   const handleCardClick = (cardName: string) => {
@@ -101,6 +100,7 @@ const ObservationBloodPressureCard: React.FunctionComponent<{
   patientId: string
   encounterId?: string
   onClick?: any
+  isSelectable?: boolean
   selectedCard?: string
   mouseTrackCategory?: string
   mouseTrackLabel?: string
@@ -108,6 +108,7 @@ const ObservationBloodPressureCard: React.FunctionComponent<{
   patientId,
   encounterId,
   onClick,
+  isSelectable = true,
   selectedCard,
   mouseTrackCategory = 'observaion_blood_pressure_card',
   mouseTrackLabel = 'observaion_blood_pressure_card',
@@ -132,13 +133,31 @@ const ObservationBloodPressureCard: React.FunctionComponent<{
   if (isLoading) {
     return <LoadingSection />
   }
+
+  const handleCardClick = (cardName: any, cardCode?: string) => {
+    if (!isSelectable) {
+      return
+    }
+    if (onClick) {
+      onClick(cardName)
+    }
+    sendMessage({
+      message: 'handleCardClick',
+      name,
+      params: {
+        cardCode,
+        cardName,
+      },
+    })
+  }
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
       <div style={{ height: '100%' }}>
         <ObservationBloodPressureCardView
           observation={observationList[0]}
-          onClick={onClick}
+          onClick={handleCardClick}
           selectedCard={selectedCard}
+          isSelectable={isSelectable}
         />
       </div>
     </TrackerMouseClick>
@@ -151,7 +170,8 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
   observation: any
   onClick?: any
   selectedCard?: string
-}> = ({ observation, onClick, selectedCard }) => {
+  isSelectable?: boolean
+}> = ({ observation, onClick, selectedCard, isSelectable }) => {
   const classes = useStyles()
   return (
     <CardLayout
@@ -174,14 +194,18 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
           container
           direction='column'
           className={clsx(
-            classes.clickable,
-            classes.hover,
+            isSelectable ? [classes.clickable, classes.hover] : null,
             selectedCard === OBSERVATION_CODE.BLOOD_PRESSURE.value
               ? classes.selectedCard
               : null,
           )}
           onClick={() =>
-            onClick ? onClick(OBSERVATION_CODE.BLOOD_PRESSURE.value) : null
+            onClick
+              ? onClick(
+                  OBSERVATION_CODE.BLOOD_PRESSURE.value,
+                  OBSERVATION_CODE.BLOOD_PRESSURE.code,
+                )
+              : null
           }
         >
           <Typography
@@ -204,12 +228,12 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
               >
                 {find(
                   get(observation, 'valueModal'),
-                  value => value.code === 'Systolic Blood Pressure',
+                  (value) => value.code === 'Systolic Blood Pressure',
                 )
                   ? Number(
                       find(
                         get(observation, 'valueModal'),
-                        value => value.code === 'Systolic Blood Pressure',
+                        (value) => value.code === 'Systolic Blood Pressure',
                       ).value,
                     ).toFixed(2)
                   : 'N/A'}
@@ -244,12 +268,12 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
               >
                 {find(
                   get(observation, 'valueModal'),
-                  value => value.code === 'Diastolic Blood Pressure',
+                  (value) => value.code === 'Diastolic Blood Pressure',
                 )
                   ? Number(
                       find(
                         get(observation, 'valueModal'),
-                        value => value.code === 'Diastolic Blood Pressure',
+                        (value) => value.code === 'Diastolic Blood Pressure',
                       ).value,
                     ).toFixed(2)
                   : 'N/A'}

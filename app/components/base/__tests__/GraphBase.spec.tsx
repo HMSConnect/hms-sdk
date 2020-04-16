@@ -38,7 +38,6 @@ describe('<GraphBase />', () => {
   it('render GraphBase', () => {
     const data = generateData(2.5, 12, 0.5)
     // console.log('global.innerWidth = 500; :', global.innerWidth)
-    console.log('window.innerWidth :', window.innerWidth)
     // const data = [
     //   {
     //     value: 10,

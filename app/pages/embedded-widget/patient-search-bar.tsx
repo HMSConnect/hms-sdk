@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { withAuthSync } from '@components/base/Auth'
 import Tracker from '@components/base/Tracker'
 import { IPaginationOption } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
@@ -28,7 +29,7 @@ const PatientSearchBarWidget: IStatelessPage<{
 
   React.useEffect(() => {
     const path = RouteManager.getPath('patient-search-bar')
-    fetchPatientList(query).then(result => {
+    fetchPatientList(query).then((result) => {
       sendMessage({
         message: 'initialize',
         name: _.get(query, 'name') || 'patientSearchBar',
@@ -55,7 +56,7 @@ const PatientSearchBarWidget: IStatelessPage<{
       params: newPagination,
     })
 
-    fetchPatientList(newPagination).then(result => {
+    fetchPatientList(newPagination).then((result) => {
       sendMessage({
         message: 'handleSearchSubmit',
         name: _.get(query, 'name') || 'patientSearchBar',
@@ -74,7 +75,7 @@ const PatientSearchBarWidget: IStatelessPage<{
       params: newPagination,
     })
 
-    fetchPatientList(newPagination).then(result => {
+    fetchPatientList(newPagination).then((result) => {
       sendMessage({
         message: 'handlePaginationReset',
         name: _.get(query, 'name') || 'patientSearchBar',
@@ -119,4 +120,4 @@ PatientSearchBarWidget.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default PatientSearchBarWidget
+export default withAuthSync(PatientSearchBarWidget)
