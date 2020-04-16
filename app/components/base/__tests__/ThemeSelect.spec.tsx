@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import themeType, { themeInitialState } from '@app/reducers-redux/theme.reducer'
+import themeApp, { themeInitialState } from '@app/reducers-redux/theme.reducer'
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import { GoogleAnalytics } from '@services/GoogleAnalyticsService'
 import { createStore } from 'redux'
@@ -15,8 +15,8 @@ describe('<ThemeSelect />', () => {
     dispatch.mockImplementation((params: any) => dispatchFn)
     const { queryByText } = renderWithRedux(<ThemeSelect />, {
       initialState: {},
-      store: createStore(themeType, {
-        themeType: themeInitialState,
+      store: createStore(themeApp, {
+        themeApp: themeInitialState,
       }),
     })
 
@@ -29,8 +29,8 @@ describe('<ThemeSelect />', () => {
     dispatch.mockImplementation((params: any) => dispatchFn)
     const { queryByText, getByText } = renderWithRedux(<ThemeSelect />, {
       initialState: {},
-      store: createStore(themeType, {
-        themeType: themeInitialState,
+      store: createStore(themeApp, {
+        themeApp: themeInitialState,
       }),
     })
 

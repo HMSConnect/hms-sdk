@@ -27,11 +27,7 @@ declare module '@material-ui/core/styles/createPalette' {
     duodenary?: SimplePaletteColorOptions
   }
 }
-// declare module '@material-ui/core/styles/createMuiTheme' {
-//   interface ThemeOptions {
-//     tertiary?: SimplePaletteColorOptions
-//   }
-// }
+
 
 class ThemeManager {
   private defaultTheme: any

@@ -7,7 +7,7 @@ import SideMenuMockList from '../__mocks__/SideMenuWithContent'
 import SideMenuWithContent from '../SideMenuWithContent'
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import { createStore } from 'redux'
-import themeType, { themeInitialState } from '@app/reducers-redux/theme.reducer'
+import themeApp, { themeInitialState } from '@app/reducers-redux/theme.reducer'
 
 describe('<SideMenuWithContent />', () => {
   it('render SideMenuWithContent', () => {
@@ -20,8 +20,8 @@ describe('<SideMenuWithContent />', () => {
       </ThemeProvider>,
       {
         initialState: {},
-        store: createStore(themeType, {
-          themeType: themeInitialState,
+        store: createStore(themeApp, {
+          themeApp: themeInitialState,
         }),
       },
     )
@@ -43,8 +43,8 @@ describe('<SideMenuWithContent />', () => {
       </ThemeProvider>,
       {
         initialState: {},
-        store: createStore(themeType, {
-          themeType: themeInitialState,
+        store: createStore(themeApp, {
+          themeApp: themeInitialState,
         }),
       },
     )
@@ -67,8 +67,8 @@ describe('<SideMenuWithContent />', () => {
       </ThemeProvider>,
       {
         initialState: {},
-        store: createStore(themeType, {
-          themeType: themeInitialState,
+        store: createStore(themeApp, {
+          themeApp: themeInitialState,
         }),
       },
     )
