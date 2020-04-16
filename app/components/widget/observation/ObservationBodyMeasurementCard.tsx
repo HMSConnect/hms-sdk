@@ -67,9 +67,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export const ObservationBodyMeasurementCardWithConnector: React.FunctionComponent = () => {
-  const state = useSelector(
-    (state: any) => state.observationBodyMeasurementCard,
-  )
+  const state = useSelector((state: any) => ({
+    observationBodyMeasurementCard: state.observationBodyMeasurementCard,
+    patientSummaryCards: state.patientSummaryCards,
+  }))
   const dispatch = useDispatch()
   const handleCardClick = (cardName: string) => {
     dispatch(cardClick(cardName))
@@ -78,11 +79,13 @@ export const ObservationBodyMeasurementCardWithConnector: React.FunctionComponen
   return (
     <ObservationBodyMeasurementCard
       key={`ObservationBodyMeasurementCard${_.get(state, 'encounterId')}`}
-      patientId={state.patientId}
-      encounterId={state.encounterId}
-      mouseTrackCategory={state.mouseTrackCategory}
+      patientId={state.observationBodyMeasurementCard.patientId}
+      encounterId={state.observationBodyMeasurementCard.encounterId}
+      mouseTrackCategory={
+        state.observationBodyMeasurementCard.mouseTrackCategory
+      }
       onClick={handleCardClick}
-      selectedCard={_.get(state, 'selectedCard')}
+      selectedCard={_.get(state, 'patientSummaryCards.selectedCard')}
     />
   )
 }

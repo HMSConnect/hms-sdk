@@ -54,16 +54,21 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionComponent = () => {
-  const state = useSelector(
-    (state: any) => state.observationTobaccoSmokingStatusCard,
-  )
+  const state = useSelector((state: any) => ({
+    observationTobaccoSmokingStatusCard:
+      state.observationTobaccoSmokingStatusCard,
+    patientSummaryCards: state.patientSummaryCards,
+  }))
   return (
     <ObservationTobaccoSmokingStatusCard
       key={`ObservationTobaccoSmokingStatusCard${get(state, 'encounterId')}`}
-      patientId={state.patientId}
-      encounterId={state.encounterId}
-      mouseTrackCategory={state.mouseTrackCategory}
+      patientId={state.observationTobaccoSmokingStatusCard.patientId}
+      encounterId={state.observationTobaccoSmokingStatusCard.encounterId}
+      mouseTrackCategory={
+        state.observationTobaccoSmokingStatusCard.mouseTrackCategory
+      }
       isSelectable={false}
+      selectedCard={get(state, 'patientSummaryCards.selectedCard')}
     />
   )
 }
@@ -83,6 +88,7 @@ const ObservationTobaccoSmokingStatusCard: React.FunctionComponent<{
   mouseTrackCategory = 'observaion_tobacco_smoking_status_card',
   mouseTrackLabel = 'observaion_tobacco_smoking_status_card',
   isSelectable = true,
+  selectedCard,
 }) => {
   const params: IObservationListFilterQuery = {
     code: OBSERVATION_CODE.TABACO_SMOKING_STATUS.code,
@@ -127,6 +133,7 @@ const ObservationTobaccoSmokingStatusCard: React.FunctionComponent<{
           observation={observationList[0]}
           onClick={handleCardClick}
           isSelectable={isSelectable}
+          selectedCard={selectedCard}
         />
       </div>
     </TrackerMouseClick>

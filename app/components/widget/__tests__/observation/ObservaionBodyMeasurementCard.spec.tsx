@@ -5,11 +5,12 @@ import observationBodyMeasurementCard from '@app/reducers-redux/observationBodyM
 import useObservationList from '@components/hooks/useObservationList'
 import { fireEvent, render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 import { renderWithRedux } from '../../../../reducers-redux/__mocks__/renderWithRedux'
 import ObservationBodyMeasurementCard, {
   ObservationBodyMeasurementCardWithConnector,
 } from '../../observation/ObservationBodyMeasurementCard'
+import patientSummaryCards from '@app/reducers-redux/patientSummaryCards.reducer'
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
@@ -108,12 +109,18 @@ describe('<ObservaionBloodPressureCard />', () => {
       totalCount: 4,
     }
     useObservationListResult.mockImplementation(() => results)
+
+    const rootReducer = combineReducers({
+      observationBodyMeasurementCard,
+      patientSummaryCards,
+    })
     const { queryByText, queryAllByText } = renderWithRedux(
       <ObservationBodyMeasurementCardWithConnector />,
       {
         initialState: {},
-        store: createStore(observationBodyMeasurementCard, {
+        store: createStore(rootReducer, {
           observationBodyMeasurementCard: {},
+          patientSummaryCards: { selectedCard: 'bloodPressure' },
         }),
       },
     )
@@ -163,12 +170,17 @@ describe('<ObservaionBloodPressureCard />', () => {
       .mockImplementation((res) => {
         return { type: 'test', payload: { name: 'gg' } }
       })
+    const rootReducer = combineReducers({
+      observationBodyMeasurementCard,
+      patientSummaryCards,
+    })
     const { queryByText, queryAllByText, getByText } = renderWithRedux(
       <ObservationBodyMeasurementCardWithConnector />,
       {
         initialState: {},
-        store: createStore(observationBodyMeasurementCard, {
+        store: createStore(rootReducer, {
           observationBodyMeasurementCard: {},
+          patientSummaryCards: { selectedCard: 'bloodPressure' },
         }),
       },
     )
