@@ -1,12 +1,12 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
-// import observationBloodPressureCard from './observationBloodPressureCard.reducer'
-// import observationBodyMeasurementCard from './observationBodyMeasurementCard.reducer'
-// import observationHeartRateCard from './observationHeartRateCard.reducer'
+import observationBloodPressureCard from './observationBloodPressureCard.reducer'
+import observationBodyMeasurementCard from './observationBodyMeasurementCard.reducer'
+import observationHeartRateCard from './observationHeartRateCard.reducer'
 import observationHistoryGraph from './observationHistoryGraph.reducer'
 import observationLaboratoryTable from './observationLaboratoryTable.reducer'
 import observationSummaryGraph from './observationSummaryGraph.reducer'
-// import observationTemperatureCard from './observationTemperatureCard.reducer'
-// import observationTobaccoSmokingStatusCard from './observationTobaccoSmokingStatusCard.reducer'
+import observationTemperatureCard from './observationTemperatureCard.reducer'
+import observationTobaccoSmokingStatusCard from './observationTobaccoSmokingStatusCard.reducer'
 import patientAllergyList from './patientAllergyList.reducer'
 import patientAllergySummaryCard from './patientAllergySummaryCard.reducer'
 import patientCarePlanTable from './patientCarePlanTable.reducer'
@@ -38,14 +38,14 @@ const enhancer = composeEnhancers(
 )
 
 export const rootReducer = combineReducers({
-  // observationBloodPressureCard,
-  // observationBodyMeasurementCard,
-  // observationHeartRateCard,
+  observationBloodPressureCard,
+  observationBodyMeasurementCard,
+  observationHeartRateCard,
   observationHistoryGraph,
   observationLaboratoryTable,
   observationSummaryGraph,
-  // observationTemperatureCard,
-  // observationTobaccoSmokingStatusCard,
+  observationTemperatureCard,
+  observationTobaccoSmokingStatusCard,
   patientAllergyList,
   patientAllergySummaryCard,
   patientCarePlanTable,
