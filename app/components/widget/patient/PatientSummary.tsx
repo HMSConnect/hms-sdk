@@ -26,6 +26,7 @@ import { PatientMedicationSummaryCardWithConnector } from './PatientMedicationSu
 import { PatientPractitionerWithConnector } from './PatientPractitioner'
 import { PatientProcedureTableWithConnector } from './PatientProcedureTable'
 import { PatientSummaryCardsWithConnector } from './PatientSummaryCards'
+import { OBSERVATION_CODE } from '@config/observation'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -306,6 +307,7 @@ const PatientSummary: React.FunctionComponent<{
           encounterId,
           mouseTrackCategory: 'patient_summary',
           patientId,
+          selectedCard: OBSERVATION_CODE.BLOOD_PRESSURE.value,
         },
       },
       type: 'INIT_PATIENT_SUMMARY',

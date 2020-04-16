@@ -56,7 +56,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const ObservationTemperatureCardWithConnector: React.FunctionComponent = () => {
+export const ObservationTemperatureCardWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  encounterId?: string
+  name?: string
+  isSelectable?: boolean
+}> = ({
+  patientId,
+  encounterId,
+  name,
+  mouseTrackCategory,
+  isSelectable = true,
+}) => {
   const state = useSelector((state: any) => ({
     observationTemperatureCard: state.observationTemperatureCard,
     patientSummaryCards: state.patientSummaryCards,
@@ -76,11 +88,15 @@ export const ObservationTemperatureCardWithConnector: React.FunctionComponent = 
   return (
     <ObservationTemperatureCard
       key={`ObservationTemperatureCard${_.get(state, 'encounterId')}`}
-      patientId={state.observationTemperatureCard.patientId}
-      encounterId={state.observationTemperatureCard.encounterId}
-      mouseTrackCategory={state.observationTemperatureCard.mouseTrackCategory}
+      patientId={patientId || state.observationTemperatureCard.patientId}
+      encounterId={encounterId || state.observationTemperatureCard.encounterId}
+      mouseTrackCategory={
+        mouseTrackCategory ||
+        state.observationTemperatureCard.mouseTrackCategory
+      }
       onClick={handleCardClick}
       selectedCard={_.get(state, 'patientSummaryCards.selectedCard')}
+      isSelectable={isSelectable}
     />
   )
 }

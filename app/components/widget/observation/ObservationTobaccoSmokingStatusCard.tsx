@@ -53,7 +53,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionComponent = () => {
+export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  encounterId?: string
+  name?: string
+  isSelectable?: boolean
+}> = ({
+  patientId,
+  encounterId,
+  name,
+  mouseTrackCategory,
+  isSelectable = true,
+}) => {
   const state = useSelector((state: any) => ({
     observationTobaccoSmokingStatusCard:
       state.observationTobaccoSmokingStatusCard,
@@ -62,13 +74,18 @@ export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionCom
   return (
     <ObservationTobaccoSmokingStatusCard
       key={`ObservationTobaccoSmokingStatusCard${get(state, 'encounterId')}`}
-      patientId={state.observationTobaccoSmokingStatusCard.patientId}
-      encounterId={state.observationTobaccoSmokingStatusCard.encounterId}
+      patientId={
+        patientId || state.observationTobaccoSmokingStatusCard.patientId
+      }
+      encounterId={
+        encounterId || state.observationTobaccoSmokingStatusCard.encounterId
+      }
       mouseTrackCategory={
+        mouseTrackCategory ||
         state.observationTobaccoSmokingStatusCard.mouseTrackCategory
       }
-      isSelectable={false}
       selectedCard={get(state, 'patientSummaryCards.selectedCard')}
+      isSelectable={isSelectable}
     />
   )
 }

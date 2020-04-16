@@ -8,7 +8,8 @@ interface IPatientSummaryCardsAction {
 }
 
 export const patientSummaryCardsInitialState: any = {
-  selectedCard: OBSERVATION_CODE.BLOOD_PRESSURE.value,
+  selectedCard: '',
+  // selectedCard: OBSERVATION_CODE.BLOOD_PRESSURE.value,
 }
 
 const patientSummaryCards = (
