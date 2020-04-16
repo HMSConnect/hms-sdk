@@ -5,9 +5,9 @@ interface IObservationHeartRateCardAction {
   payload: any
 }
 
-const initialState: any = {}
+export const observationHeartRateCardInitialState: any = {}
 const observationHeartRateCard = (
-  state = initialState,
+  state = observationHeartRateCardInitialState,
   action: IObservationHeartRateCardAction,
 ) => {
   switch (action.type) {

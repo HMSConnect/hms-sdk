@@ -5,9 +5,9 @@ interface IObservationBodyMeasurementCardAction {
   payload: any
 }
 
-const initialState: any = {}
+export const observationBodyMeasurementCardInitialState: any = {}
 const observationBodyMeasurementCard = (
-  state = initialState,
+  state = observationBodyMeasurementCardInitialState,
   action: IObservationBodyMeasurementCardAction,
 ) => {
   switch (action.type) {

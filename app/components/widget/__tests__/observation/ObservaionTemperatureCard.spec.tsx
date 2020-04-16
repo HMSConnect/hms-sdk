@@ -1,10 +1,8 @@
 import * as React from 'react'
 
 import * as patientSummaryAction from '@app/actions/patientsummaryCards.action'
-import patientSummaryCards, {
-  patientSummaryCardsInitialState,
-} from '@app/reducers-redux/patientSummaryCards.reducer'
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
+import observationTemperatureCard from '@app/reducers-redux/observationTemperatureCard.reducer'
 import useObservationList from '@components/hooks/useObservationList'
 import { fireEvent, render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
@@ -82,9 +80,9 @@ describe('<ObservationBodyTemperatureCard />', () => {
     const { queryByText, queryAllByText } = renderWithRedux(
       <ObservationTemperatureCardWithConnector />,
       {
-        initialState: patientSummaryCardsInitialState,
-        store: createStore(patientSummaryCards, {
-          patientSummaryCards: patientSummaryCardsInitialState,
+        initialState: {},
+        store: createStore(observationTemperatureCard, {
+          observationTemperatureCard: {},
         }),
       },
     )
@@ -113,15 +111,15 @@ describe('<ObservationBodyTemperatureCard />', () => {
 
     const cardClickFunction = jest
       .spyOn(patientSummaryAction, 'cardClick')
-      .mockImplementation(res => {
+      .mockImplementation((res) => {
         return { type: 'test', payload: { name: 'gg' } }
       })
     const { queryByText, queryAllByText, getByText } = renderWithRedux(
       <ObservationTemperatureCardWithConnector />,
       {
-        initialState: patientSummaryCardsInitialState,
-        store: createStore(patientSummaryCards, {
-          patientSummaryCards: patientSummaryCardsInitialState,
+        initialState: {},
+        store: createStore(observationTemperatureCard, {
+          observationTemperatureCard: {},
         }),
       },
     )

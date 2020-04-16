@@ -5,9 +5,9 @@ interface IObservationTobaccoSmokingStatusCardAction {
   payload: any
 }
 
-const initialState: any = {}
+const observationTobaccoSmokingStatusCardInitialState: any = {}
 const observationTobaccoSmokingStatusCard = (
-  state = initialState,
+  state = observationTobaccoSmokingStatusCardInitialState,
   action: IObservationTobaccoSmokingStatusCardAction,
 ) => {
   switch (action.type) {
