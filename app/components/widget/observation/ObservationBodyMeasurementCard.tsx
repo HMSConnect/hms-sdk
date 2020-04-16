@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export const ObservationBodyMeasurementCardWithConnector: React.FunctionComponent = () => {
-  const state = useSelector((state: any) => state.patientSummaryCards)
+  const state = useSelector((state: any) => state.observationBodyMeasurementCard)
   const dispatch = useDispatch()
   const handleCardClick = (cardName: string) => {
     dispatch(cardClick(cardName))

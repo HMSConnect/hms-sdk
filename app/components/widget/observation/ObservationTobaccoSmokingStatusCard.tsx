@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionComponent = () => {
-  const state = useSelector((state: any) => state.patientSummaryCards)
+  const state = useSelector((state: any) => state.observationTobaccoSmokingStatusCard)
   return (
     <ObservationTobaccoSmokingStatusCard
       key={`ObservationTobaccoSmokingStatusCard${get(state, 'encounterId')}`}

@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export const ObservationTemperatureCardWithConnector: React.FunctionComponent = () => {
-  const state = useSelector((state: any) => state.patientSummaryCards)
+  const state = useSelector((state: any) => state.observationTemperatureCard)
   const dispatch = useDispatch()
   const handleCardClick = (cardName: string) => {
     dispatch(cardClick(cardName))

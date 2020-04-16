@@ -37,7 +37,7 @@ export interface IPatientTableData {
   tableData: any
   tableNavigate: string
 }
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   associatedPatientCard: {
     flex: 1,
     height: '15em',
@@ -192,7 +192,7 @@ const componentResource: any = {
 }
 let index = 0
 const defaultItems = _.chain(componentResource)
-  .omitBy(c => _.isEmpty(c.defaultPosition))
+  .omitBy((c) => _.isEmpty(c.defaultPosition))
   .map((c, componentKey) => {
     return {
       componentKey,
@@ -214,6 +214,21 @@ const PatientSummary: React.FunctionComponent<{
   React.useEffect(() => {
     dispatch({
       payload: {
+        observationBloodPressureCard: {
+          encounterId,
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
+        observationBodyMeasurementCard: {
+          encounterId,
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
+        observationHeartRateCard: {
+          encounterId,
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
         observationHistoryGraph: {
           mouseTrackCategory: 'patient_summary',
           patientId,
@@ -224,6 +239,16 @@ const PatientSummary: React.FunctionComponent<{
           patientId,
         },
         observationSummaryGraph: {
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
+        observationTemperatureCard: {
+          encounterId,
+          mouseTrackCategory: 'patient_summary',
+          patientId,
+        },
+        observationTobaccoSmokingStatusCard: {
+          encounterId,
           mouseTrackCategory: 'patient_summary',
           patientId,
         },

@@ -16,6 +16,11 @@ import patientPractitioner from './patientPractitioner.reducer'
 import patientProcedureTable from './patientProcedureTable.reducer'
 import patientSummaryCards from './patientSummaryCards.reducer'
 import themeApp from './theme.reducer'
+import observationBloodPressureCard from './ObservationBloodPressureCard.reducer'
+import observationBodyMeasurementCard from './ObservationBodyMeasurementCard.reducer'
+import observationHeartRateCard from './ObservationHeartRateCard.reducer'
+import observationTemperatureCard from './ObservationTemperatureCard.reducer'
+import observationTobaccoSmokingStatusCard from './ObservationTobaccoSmokingStatusCard.reducer'
 
 const middlewares: any[] = []
 
@@ -33,9 +38,14 @@ const enhancer = composeEnhancers(
 )
 
 export const rootReducer = combineReducers({
+  observationBloodPressureCard,
+  observationBodyMeasurementCard,
+  observationHeartRateCard,
   observationHistoryGraph,
   observationLaboratoryTable,
   observationSummaryGraph,
+  observationTemperatureCard,
+  observationTobaccoSmokingStatusCard,
   patientAllergyList,
   patientAllergySummaryCard,
   patientCarePlanTable,

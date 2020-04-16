@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme: Theme) => {
 
 export const ObservationBloodPressureCardWithConnector: React.FunctionComponent = () => {
   const state = useSelector((state: any) => {
-    return state.patientSummaryCards
+    return state.observationBloodPressureCard
   })
   const dispatch = useDispatch()
   const handleCardClick = (cardName: string) => {
@@ -204,12 +204,12 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
               >
                 {find(
                   get(observation, 'valueModal'),
-                  value => value.code === 'Systolic Blood Pressure',
+                  (value) => value.code === 'Systolic Blood Pressure',
                 )
                   ? Number(
                       find(
                         get(observation, 'valueModal'),
-                        value => value.code === 'Systolic Blood Pressure',
+                        (value) => value.code === 'Systolic Blood Pressure',
                       ).value,
                     ).toFixed(2)
                   : 'N/A'}
@@ -244,12 +244,12 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
               >
                 {find(
                   get(observation, 'valueModal'),
-                  value => value.code === 'Diastolic Blood Pressure',
+                  (value) => value.code === 'Diastolic Blood Pressure',
                 )
                   ? Number(
                       find(
                         get(observation, 'valueModal'),
-                        value => value.code === 'Diastolic Blood Pressure',
+                        (value) => value.code === 'Diastolic Blood Pressure',
                       ).value,
                     ).toFixed(2)
                   : 'N/A'}
