@@ -25,6 +25,7 @@ const ObservationBloodPressureCardWidget: IStatelessPage<{
           <ObservationBloodPressureCard
             patientId={get(query, 'patientId')}
             encounterId={get(query, 'encounterId')}
+            isSelectable={get(query, 'isSelectable')}
           />
         </div>
       </>

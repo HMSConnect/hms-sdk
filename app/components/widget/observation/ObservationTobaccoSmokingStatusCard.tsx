@@ -7,14 +7,8 @@ import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
-import {
-  Grid,
-  Icon,
-  lighten,
-  makeStyles,
-  Theme,
-  Typography,
-} from '@material-ui/core'
+import { Grid, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
+import { sendMessage } from '@utils'
 import clsx from 'clsx'
 import get from 'lodash/get'
 import { useSelector } from 'react-redux'
@@ -38,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   hover: {
     '&:hover': {
-      backgroundColor: '#ddd4',
+      backgroundColor: theme.palette.action.hover,
     },
     textDecoration: 'none',
   },
@@ -60,13 +54,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionComponent = () => {
-  const state = useSelector((state: any) => state.observationTobaccoSmokingStatusCard)
+  const state = useSelector(
+    (state: any) => state.observationTobaccoSmokingStatusCard,
+  )
   return (
     <ObservationTobaccoSmokingStatusCard
       key={`ObservationTobaccoSmokingStatusCard${get(state, 'encounterId')}`}
       patientId={state.patientId}
       encounterId={state.encounterId}
       mouseTrackCategory={state.mouseTrackCategory}
+      isSelectable={false}
     />
   )
 }
@@ -78,11 +75,14 @@ const ObservationTobaccoSmokingStatusCard: React.FunctionComponent<{
   selectedCard?: any
   mouseTrackCategory?: string
   mouseTrackLabel?: string
+  isSelectable?: boolean
 }> = ({
   patientId,
   encounterId,
+  onClick,
   mouseTrackCategory = 'observaion_tobacco_smoking_status_card',
   mouseTrackLabel = 'observaion_tobacco_smoking_status_card',
+  isSelectable = true,
 }) => {
   const params: IObservationListFilterQuery = {
     code: OBSERVATION_CODE.TABACO_SMOKING_STATUS.code,
@@ -104,11 +104,29 @@ const ObservationTobaccoSmokingStatusCard: React.FunctionComponent<{
   if (isLoading) {
     return <LoadingSection />
   }
+  const handleCardClick = (cardName: any, cardCode?: string) => {
+    if (!isSelectable) {
+      return
+    }
+    if (onClick) {
+      onClick(cardName)
+    }
+    sendMessage({
+      message: 'handleCardClick',
+      name,
+      params: {
+        cardCode,
+        cardName,
+      },
+    })
+  }
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
       <div style={{ height: '100%' }}>
         <ObservationTabacoSmokingStatusCardView
           observation={observationList[0]}
+          onClick={handleCardClick}
+          isSelectable={isSelectable}
         />
       </div>
     </TrackerMouseClick>
@@ -117,9 +135,12 @@ const ObservationTobaccoSmokingStatusCard: React.FunctionComponent<{
 
 export default ObservationTobaccoSmokingStatusCard
 
-const ObservationTabacoSmokingStatusCardView: React.FunctionComponent<any> = ({
-  observation,
-}) => {
+const ObservationTabacoSmokingStatusCardView: React.FunctionComponent<{
+  observation: any
+  onClick?: any
+  selectedCard?: any
+  isSelectable?: boolean
+}> = ({ observation, onClick, selectedCard, isSelectable }) => {
   const classes = useStyles()
   return (
     <CardLayout
@@ -144,7 +165,21 @@ const ObservationTabacoSmokingStatusCardView: React.FunctionComponent<any> = ({
               paddingLeft: 16,
               paddingRight: 16,
             }}
-            className={clsx(classes.bodyCard)}
+            className={clsx(
+              classes.bodyCard,
+              isSelectable ? [classes.clickable, classes.hover] : null,
+              selectedCard === OBSERVATION_CODE.TABACO_SMOKING_STATUS.value
+                ? classes.selectedCard
+                : null,
+            )}
+            onClick={() =>
+              onClick
+                ? onClick(
+                    OBSERVATION_CODE.TABACO_SMOKING_STATUS.value,
+                    OBSERVATION_CODE.TABACO_SMOKING_STATUS.code,
+                  )
+                : null
+            }
           >
             <div>
               <Typography

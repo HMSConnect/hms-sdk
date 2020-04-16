@@ -25,6 +25,7 @@ const ObservationHeartRateCardWidget: IStatelessPage<{
           <ObservationHeartRateCard
             patientId={get(query, 'patientId')}
             encounterId={get(query, 'encounterId')}
+            isSelectable={get(query, 'isSelectable')}
           />
         </div>
       </>

@@ -67,17 +67,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export const ObservationBodyMeasurementCardWithConnector: React.FunctionComponent = () => {
-  const state = useSelector((state: any) => state.observationBodyMeasurementCard)
+  const state = useSelector(
+    (state: any) => state.observationBodyMeasurementCard,
+  )
   const dispatch = useDispatch()
   const handleCardClick = (cardName: string) => {
     dispatch(cardClick(cardName))
-    sendMessage({
-      message: 'handleCardClick',
-      name,
-      params: {
-        cardName,
-      },
-    })
   }
 
   return (
@@ -99,6 +94,7 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
   selectedCard?: any
   mouseTrackCategory?: string
   mouseTrackLabel?: string
+  isSelectable?: boolean
 }> = ({
   patientId,
   encounterId,
@@ -106,6 +102,7 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
   selectedCard,
   mouseTrackCategory = 'observation_body_measurement_card',
   mouseTrackLabel = 'observation_body_measurement_card',
+  isSelectable = true,
 }) => {
   let params: IObservationListFilterQuery = {}
   params = {
@@ -127,13 +124,32 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
   if (isLoading) {
     return <LoadingSection />
   }
+
+  const handleCardClick = (cardName: any, cardCode?: string) => {
+    if (!isSelectable) {
+      return
+    }
+    if (onClick) {
+      onClick(cardName)
+    }
+    sendMessage({
+      message: 'handleCardClick',
+      name,
+      params: {
+        cardCode,
+        cardName,
+      },
+    })
+  }
+
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
       <div style={{ height: '100%' }}>
         <ObservationBodyMeasurementCardView
           observations={observationList}
-          onClick={onClick}
+          onClick={handleCardClick}
           selectedCard={selectedCard}
+          isSelectable={isSelectable}
         />
       </div>
     </TrackerMouseClick>
@@ -146,7 +162,8 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
   observations: any
   onClick?: any
   selectedCard?: any
-}> = ({ observations, onClick, selectedCard }) => {
+  isSelectable?: boolean
+}> = ({ observations, onClick, selectedCard, isSelectable }) => {
   const classes = useStyles()
   return (
     <CardLayout
@@ -185,8 +202,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               variant='body1'
               className={clsx(
                 classes.bodyCard,
-                classes.clickable,
-                classes.hover,
+                isSelectable ? [classes.clickable, classes.hover] : null,
                 selectedCard === OBSERVATION_CODE.BODY_HEIGHT.value
                   ? classes.selectedCard
                   : null,
@@ -196,7 +212,12 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
                 paddingRight: 16,
               }}
               onClick={() =>
-                onClick ? onClick(OBSERVATION_CODE.BODY_HEIGHT.value) : null
+                onClick
+                  ? onClick(
+                      OBSERVATION_CODE.BODY_HEIGHT.value,
+                      OBSERVATION_CODE.BODY_HEIGHT.code,
+                    )
+                  : null
               }
             >
               <Typography variant='body2' className={classes.topicTitle}>
@@ -257,8 +278,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               variant='body1'
               className={clsx(
                 classes.bodyCard,
-                classes.clickable,
-                classes.hover,
+                isSelectable ? [classes.clickable, classes.hover] : null,
                 selectedCard === OBSERVATION_CODE.BODY_WEIGHT.value
                   ? classes.selectedCard
                   : null,
@@ -268,7 +288,12 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
                 paddingRight: 16,
               }}
               onClick={() =>
-                onClick ? onClick(OBSERVATION_CODE.BODY_WEIGHT.value) : null
+                onClick
+                  ? onClick(
+                      OBSERVATION_CODE.BODY_WEIGHT.value,
+                      OBSERVATION_CODE.BODY_WEIGHT.code,
+                    )
+                  : null
               }
             >
               <Typography variant='body2' className={classes.topicTitle}>
@@ -329,8 +354,7 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
               variant='body1'
               className={clsx(
                 classes.bodyCard,
-                classes.clickable,
-                classes.hover,
+                isSelectable ? [classes.clickable, classes.hover] : null,
                 selectedCard === OBSERVATION_CODE.BODY_MASS_INDEX.value
                   ? classes.selectedCard
                   : null,
@@ -340,7 +364,12 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
                 paddingRight: 16,
               }}
               onClick={() =>
-                onClick ? onClick(OBSERVATION_CODE.BODY_MASS_INDEX.value) : null
+                onClick
+                  ? onClick(
+                      OBSERVATION_CODE.BODY_MASS_INDEX.value,
+                      OBSERVATION_CODE.BODY_MASS_INDEX.code,
+                    )
+                  : null
               }
             >
               <Typography variant='body2' className={classes.topicTitle}>
