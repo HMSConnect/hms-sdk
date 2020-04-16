@@ -2,13 +2,14 @@ import * as React from 'react'
 
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import observationTobaccoSmokingStatusCard from '@app/reducers-redux/observationTobaccoSmokingStatusCard.reducer'
+import patientSummaryCards from '@app/reducers-redux/patientSummaryCards.reducer'
 import useObservationList from '@components/hooks/useObservationList'
 import ObservationTobaccoSmokingStatusCard, {
   ObservationTobaccoSmokingStatusCardWithConnector,
 } from '@components/widget/observation/ObservationTobaccoSmokingStatusCard'
 import { render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
-import { createStore } from 'redux'
+import { combineReducers, createStore } from 'redux'
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
@@ -76,13 +77,17 @@ describe('<ObservationTobaccoSmokingStatusCard />', () => {
       totalCount: 1,
     }
     useObservationListResult.mockImplementation(() => results)
-
+    const rootReducer = combineReducers({
+      observationTobaccoSmokingStatusCard,
+      patientSummaryCards,
+    })
     const { queryByText, queryAllByText } = renderWithRedux(
       <ObservationTobaccoSmokingStatusCardWithConnector />,
       {
         initialState: {},
-        store: createStore(observationTobaccoSmokingStatusCard, {
+        store: createStore(rootReducer, {
           observationTobaccoSmokingStatusCard: {},
+          patientSummaryCards: { selectedCard: 'bloodPressure' },
         }),
       },
     )

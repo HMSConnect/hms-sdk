@@ -3,10 +3,11 @@ import * as React from 'react'
 import * as patientSummaryAction from '@app/actions/patientsummaryCards.action'
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import observationBloodPressureCard from '@app/reducers-redux/observationBloodPressureCard.reducer'
+import patientSummaryCards from '@app/reducers-redux/patientSummaryCards.reducer'
 import useObservationList from '@components/hooks/useObservationList'
 import { fireEvent, render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
-import { createStore } from 'redux'
+import { combineReducers, createStore } from 'redux'
 import ObservationBloodPressureCard, {
   ObservationBloodPressureCardWithConnector,
 } from '../../observation/ObservationBloodPressureCard'
@@ -103,12 +104,17 @@ describe('<ObservaionBloodPressureCard />', () => {
       encounterId: '1',
       patientId: '1',
     }
+    const rootReducer = combineReducers({
+      observationBloodPressureCard,
+      patientSummaryCards,
+    })
     const { queryByText, queryAllByText } = renderWithRedux(
       <ObservationBloodPressureCardWithConnector />,
       {
         initialState: {},
-        store: createStore(observationBloodPressureCard, {
+        store: createStore(rootReducer, {
           observationBloodPressureCard: {},
+          patientSummaryCards: { selectedCard: 'bloodPressure' },
         }),
       },
     )
@@ -153,12 +159,17 @@ describe('<ObservaionBloodPressureCard />', () => {
         return { type: 'test', payload: { name: 'gg' } }
       })
 
+    const rootReducer = combineReducers({
+      observationBloodPressureCard,
+      patientSummaryCards,
+    })
     const { queryByText, queryAllByText, getByText } = renderWithRedux(
       <ObservationBloodPressureCardWithConnector />,
       {
         initialState: {},
-        store: createStore(observationBloodPressureCard, {
+        store: createStore(rootReducer, {
           observationBloodPressureCard: {},
+          patientSummaryCards: { selectedCard: 'bloodPressure' },
         }),
       },
     )
