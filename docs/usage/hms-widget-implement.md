@@ -51,9 +51,9 @@ example for use service
 
 ```js
     .add(
-        'embedded-widget/patient-summary', // name widget
-        '/embedded-widget/patient-summary', // path for access by url and acces by iframe-sdk
-        'embedded-widget/patient-info/patient-summary', // widget's location
+        'embedded-widget/patient-info/patient-demographic', // name widget
+        '/embedded-widget/patient-info/patient-demographic', // path for access by url and acces by iframe-sdk
+        'embedded-widget/patient-info/patient-demographic', // widget's location
     )
 ```
 (Optional) In HMS, we support our widget with redux by follow there step
