@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import ObservationTemperatureCard from '@components/widget/observation/ObservationTemperatureCard'
+import { ObservationTemperatureCardWithConnector } from '@components/widget/observation/ObservationTemperatureCard'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -22,7 +22,7 @@ const ObservationTemperatureCardWidget: IStatelessPage<{
         <CssBaseline />
         <div style={{ height: '100vh' }}>
           {/* <div style={_.get(query, 'optionStyle')}> */}
-          <ObservationTemperatureCard
+          <ObservationTemperatureCardWithConnector
             patientId={get(query, 'patientId')}
             encounterId={get(query, 'encounterId')}
             isSelectable={get(query, 'isSelectable')}
