@@ -23,6 +23,7 @@ const PatientDemographicSummaryWidget: IStatelessPage<{
           patientId={get(query, 'patientId')}
           encounterId={get(query, 'encounterId')}
           name={get(query, 'name')}
+          isSelectable={get(query, 'isSelectable')}
         />
       </>
     </BootstrapWrapper>
