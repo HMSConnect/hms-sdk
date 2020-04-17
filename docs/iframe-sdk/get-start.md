@@ -169,9 +169,9 @@ object response
           }
         });
       });
-d
+
       window.messageListenerService.addExtendMessagelistener(() => {
-        console.log("event CALl :");
+        console.log("exend message event call :");
       });
     </script>
   </body>
