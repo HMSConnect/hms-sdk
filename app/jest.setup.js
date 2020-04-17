@@ -1,16 +1,25 @@
 const JSDOM = require('jsdom').JSDOM
 const jsdom = new JSDOM('<!DOCTYPE html><html>...')
-var localStorageMock = (function() {
+
+global.document = jsdom
+global.window = document.parentWindow
+
+global.window.resizeTo = (width, height) => {
+  global.window.innerWidth = width || global.window.innerWidth
+  global.window.innerHeight = height || global.window.innerHeight
+  global.window.dispatchEvent(new Event('resize'))
+}
+var localStorageMock = (function () {
   var store = {}
 
   return {
-    getItem: function(key) {
+    getItem: function (key) {
       return store[key] || null
     },
-    setItem: function(key, value) {
+    setItem: function (key, value) {
       store[key] = value.toString()
     },
-    clear: function() {
+    clear: function () {
       store = {}
     },
   }
@@ -18,6 +27,12 @@ var localStorageMock = (function() {
 
 Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
+})
+
+Object.defineProperty(window, 'innerWidth', {
+  writable: true,
+  configurable: true,
+  value: 1024,
 })
 
 Object.defineProperty(document.documentElement, 'offsetHeight', {
