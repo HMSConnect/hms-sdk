@@ -1,17 +1,16 @@
 import * as React from 'react'
 
 import * as patientSummaryAction from '@app/actions/patientsummaryCards.action'
-import patientSummaryCards, {
-  patientSummaryCardsInitialState,
-} from '@app/reducers-redux/patientSummaryCards.reducer'
+import observationBodyMeasurementCard from '@app/reducers-redux/observationBodyMeasurementCard.reducer'
 import useObservationList from '@components/hooks/useObservationList'
 import { fireEvent, render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 import { renderWithRedux } from '../../../../reducers-redux/__mocks__/renderWithRedux'
 import ObservationBodyMeasurementCard, {
   ObservationBodyMeasurementCardWithConnector,
 } from '../../observation/ObservationBodyMeasurementCard'
+import patientSummaryCards from '@app/reducers-redux/patientSummaryCards.reducer'
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
@@ -110,12 +109,18 @@ describe('<ObservaionBloodPressureCard />', () => {
       totalCount: 4,
     }
     useObservationListResult.mockImplementation(() => results)
+
+    const rootReducer = combineReducers({
+      observationBodyMeasurementCard,
+      patientSummaryCards,
+    })
     const { queryByText, queryAllByText } = renderWithRedux(
       <ObservationBodyMeasurementCardWithConnector />,
       {
-        initialState: patientSummaryCardsInitialState,
-        store: createStore(patientSummaryCards, {
-          patientSummaryCards: patientSummaryCardsInitialState,
+        initialState: {},
+        store: createStore(rootReducer, {
+          observationBodyMeasurementCard: {},
+          patientSummaryCards: { selectedCard: 'bloodPressure' },
         }),
       },
     )
@@ -162,15 +167,20 @@ describe('<ObservaionBloodPressureCard />', () => {
 
     const cardClickFunction = jest
       .spyOn(patientSummaryAction, 'cardClick')
-      .mockImplementation(res => {
+      .mockImplementation((res) => {
         return { type: 'test', payload: { name: 'gg' } }
       })
+    const rootReducer = combineReducers({
+      observationBodyMeasurementCard,
+      patientSummaryCards,
+    })
     const { queryByText, queryAllByText, getByText } = renderWithRedux(
       <ObservationBodyMeasurementCardWithConnector />,
       {
-        initialState: patientSummaryCardsInitialState,
-        store: createStore(patientSummaryCards, {
-          patientSummaryCards: patientSummaryCardsInitialState,
+        initialState: {},
+        store: createStore(rootReducer, {
+          observationBodyMeasurementCard: {},
+          patientSummaryCards: { selectedCard: 'bloodPressure' },
         }),
       },
     )

@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import ObservationBloodPressureCard from '@components/widget/observation/ObservationBloodPressureCard'
+import ObservationBloodPressureCard, { ObservationBloodPressureCardWithConnector } from '@components/widget/observation/ObservationBloodPressureCard'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -22,9 +22,10 @@ const ObservationBloodPressureCardWidget: IStatelessPage<{
         <CssBaseline />
         <div style={{ height: '100vh' }}>
           {/* <div style={_.get(query, 'optionStyle')}> */}
-          <ObservationBloodPressureCard
+          <ObservationBloodPressureCardWithConnector
             patientId={get(query, 'patientId')}
             encounterId={get(query, 'encounterId')}
+            isSelectable={get(query, 'isSelectable')}
           />
         </div>
       </>

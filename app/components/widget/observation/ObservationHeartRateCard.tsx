@@ -52,28 +52,39 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const ObservationHeartRateCardWithConnector: React.FunctionComponent = () => {
-  const state = useSelector((state: any) => state.patientSummaryCards)
+export const ObservationHeartRateCardWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  encounterId?: string
+  name?: string
+  isSelectable?: boolean
+}> = ({
+  patientId,
+  encounterId,
+  name,
+  mouseTrackCategory,
+  isSelectable = true,
+}) => {
+  const state = useSelector((state: any) => ({
+    observationHeartRateCard: state.observationHeartRateCard,
+    patientSummaryCards: state.patientSummaryCards,
+  }))
   const dispatch = useDispatch()
   const handleCardClick = (cardName: string) => {
     dispatch(cardClick(cardName))
-    sendMessage({
-      message: 'handleCardClick',
-      name,
-      params: {
-        cardName,
-      },
-    })
   }
 
   return (
     <ObservationHeartRateCard
       key={`ObservationHeartRateCard${_.get(state, 'encounterId')}`}
-      patientId={state.patientId}
-      encounterId={state.encounterId}
+      patientId={patientId || state.observationHeartRateCard.patientId}
+      encounterId={encounterId || state.observationHeartRateCard.encounterId}
       onClick={handleCardClick}
-      selectedCard={_.get(state, 'selectedCard')}
-      mouseTrackCategory={state.mouseTrackCategory}
+      selectedCard={_.get(state, 'patientSummaryCards.selectedCard')}
+      mouseTrackCategory={
+        mouseTrackCategory || state.observationHeartRateCard.mouseTrackCategory
+      }
+      isSelectable={isSelectable}
     />
   )
 }
@@ -86,6 +97,7 @@ const ObservationHeartRateCard: React.FunctionComponent<{
   selectedCard?: any
   mouseTrackCategory?: string
   mouseTrackLabel?: string
+  isSelectable?: boolean
 }> = ({
   patientId,
   encounterId,
@@ -94,6 +106,7 @@ const ObservationHeartRateCard: React.FunctionComponent<{
   selectedCard,
   mouseTrackCategory = 'observation_heart_rate_Card',
   mouseTrackLabel = 'observation_heart_rate_Card',
+  isSelectable = true,
 }) => {
   const params = {
     code: OBSERVATION_CODE.HEART_RATE.code,
@@ -114,13 +127,31 @@ const ObservationHeartRateCard: React.FunctionComponent<{
   if (isLoading) {
     return <LoadingSection />
   }
+
+  const handleCardClick = (cardName: any, cardCode?: string) => {
+    if (!isSelectable) {
+      return
+    }
+    if (onClick) {
+      onClick(cardName)
+    }
+    sendMessage({
+      message: 'handleCardClick',
+      name,
+      params: {
+        cardCode,
+        cardName,
+      },
+    })
+  }
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
       <div style={{ height: '100%' }}>
         <ObservationHeartRateCardView
           observation={observationList[0]}
-          onClick={onClick}
+          onClick={handleCardClick}
           selectedCard={selectedCard}
+          isSelectable={isSelectable}
         />
       </div>
     </TrackerMouseClick>
@@ -133,7 +164,8 @@ export const ObservationHeartRateCardView: React.FunctionComponent<{
   observation: any
   onClick?: any
   selectedCard?: any
-}> = ({ observation, onClick, selectedCard }) => {
+  isSelectable?: boolean
+}> = ({ observation, onClick, selectedCard, isSelectable }) => {
   const classes = useStyles()
   return (
     <CardLayout
@@ -165,14 +197,18 @@ export const ObservationHeartRateCardView: React.FunctionComponent<{
             }}
             className={clsx(
               classes.bodyCard,
-              classes.clickable,
-              classes.hover,
+              isSelectable ? [classes.clickable, classes.hover] : null,
               selectedCard === OBSERVATION_CODE.HEART_RATE.value
                 ? classes.selectedCard
                 : null,
             )}
             onClick={() =>
-              onClick ? onClick(OBSERVATION_CODE.HEART_RATE.value) : null
+              onClick
+                ? onClick(
+                    OBSERVATION_CODE.HEART_RATE.value,
+                    OBSERVATION_CODE.HEART_RATE.code,
+                  )
+                : null
             }
           >
             <Typography

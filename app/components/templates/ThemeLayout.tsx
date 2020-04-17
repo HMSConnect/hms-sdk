@@ -22,12 +22,12 @@ class ThemeLayout extends React.Component<any> {
   }
 
   render() {
-    const { themeReducer } = this.props
-    if (!themeReducer.themeObject) {
+    const { themeApp } = this.props
+    if (!themeApp.themeObject) {
       return <LoadingSection />
     }
     return (
-      <ThemeProvider theme={themeReducer.themeObject}>
+      <ThemeProvider theme={themeApp.themeObject}>
         {this.props.children}
       </ThemeProvider>
     )
@@ -36,7 +36,7 @@ class ThemeLayout extends React.Component<any> {
 
 const mapStateToProps = (state: any) => {
   return {
-    themeReducer: state.themeReducer,
+    themeApp: state.themeApp,
   }
 }
 

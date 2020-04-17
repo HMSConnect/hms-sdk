@@ -20,10 +20,14 @@ Example code
         --- iframe rendered here 2 ---
         <br />
       </div>
+      <div id="widget-example3">
+        --- iframe rendered here 3 ---
+        <br />
+      </div>
     </div>
 
     <script>
-      window.hmsWidgetAsyncInit(function(hmsWidget) {
+      const encounterTimeline = window.hmsWidgetAsyncInit(function (hmsWidget) {
         hmsWidget.init({
           selector: 'widget-example1',
           widgetPath: 'patient-info/encounter-timeline',
@@ -36,36 +40,21 @@ Example code
           max: 20,
           isRouteable: false,
         })
-        hmsWidget.setTheme('invert')
-        hmsWidget.setCustomizeTheme({
-          typography: {
-            h4: {
-              fontSize: '3.5rem',
-              color: 'blue',
-            },
-            body2: {
-              fontSize: '1rem',
-              color: 'red',
+        hmsWidget.setCustomizeTheme(
+          // use theme name dark with custom
+          {
+            palette: {
+              primary: { main: '#03a9f4' },
+              secondary: { main: '#00bfa5' },
+              nonary: { main: '#00bfa5' },
             },
           },
-          palette: {
-            primary: { main: '#03a9f4' },
-            secondary: { main: '#00bfa5' },
-            nonary: { main: '#00bfa5' },
-          },
-        })
-
-        hmsWidget.onMessage(data => {
-          if (data.message === 'handleEncounterSelect') {
-            widget2.setParams({
-              patientId: '0debf275-d585-4897-a8eb-25726def1ed5',
-              encounterId: data.params.encounterId,
-            })
-          }
-        })
+          'dark',
+        )
+        hmsWidget.onMessage(handleEncounterTimelineEvent)
       })
 
-      const widget2 = window.hmsWidgetAsyncInit(function(hmsWidget) {
+      const summaryCards = window.hmsWidgetAsyncInit(function (hmsWidget) {
         hmsWidget.init({
           selector: 'widget-example2',
           widgetPath: 'patient-info/summary-cards',
@@ -76,19 +65,47 @@ Example code
         hmsWidget.setParams({
           patientId: '0debf275-d585-4897-a8eb-25726def1ed5',
           encounterId: '3898f0f9-385e-478d-be25-5f05719e80af',
-        })
-        hmsWidget.setTheme('dark')
-        hmsWidget.onMessage(data => {
-          console.log('data :', data)
+          isSelectable: false,
         })
       })
 
-      window.messageListenerService.addExtendMessagelistener(() => {
-        console.log('event CALL :')
+      const bodyMeasurementCard = window.hmsWidgetAsyncInit(function (
+        hmsWidget,
+      ) {
+        hmsWidget.init({
+          selector: 'widget-example3',
+          widgetPath: 'observation/body-measurement-card',
+          width: '500px',
+          height: '400px',
+        })
+
+        hmsWidget.setParams({
+          patientId: '0debf275-d585-4897-a8eb-25726def1ed5',
+          encounterId: '3898f0f9-385e-478d-be25-5f05719e80af',
+          isSelectable: false,
+        })
+        hmsWidget.setTheme('invert')
       })
+
+      function handleEncounterTimelineEvent(data) {
+        if (data.message === 'handleEncounterSelect') {
+          summaryCards.setParams({
+            patientId: '0debf275-d585-4897-a8eb-25726def1ed5',
+            encounterId: data.params.encounterId,
+            isSelectable: false,
+          })
+          console.log('data.params.encounterId :', data.params.encounterId)
+          bodyMeasurementCard.setParams({
+            patientId: '0debf275-d585-4897-a8eb-25726def1ed5',
+            encounterId: data.params.encounterId,
+            isSelectable: false,
+          })
+        }
+      }
     </script>
   </body>
 </html>
+
 
 ```
 Description code

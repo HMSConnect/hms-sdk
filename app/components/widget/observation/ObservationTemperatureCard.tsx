@@ -56,8 +56,23 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const ObservationTemperatureCardWithConnector: React.FunctionComponent = () => {
-  const state = useSelector((state: any) => state.patientSummaryCards)
+export const ObservationTemperatureCardWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  encounterId?: string
+  name?: string
+  isSelectable?: boolean
+}> = ({
+  patientId,
+  encounterId,
+  name,
+  mouseTrackCategory,
+  isSelectable = true,
+}) => {
+  const state = useSelector((state: any) => ({
+    observationTemperatureCard: state.observationTemperatureCard,
+    patientSummaryCards: state.patientSummaryCards,
+  }))
   const dispatch = useDispatch()
   const handleCardClick = (cardName: string) => {
     dispatch(cardClick(cardName))
@@ -73,11 +88,15 @@ export const ObservationTemperatureCardWithConnector: React.FunctionComponent = 
   return (
     <ObservationTemperatureCard
       key={`ObservationTemperatureCard${_.get(state, 'encounterId')}`}
-      patientId={state.patientId}
-      encounterId={state.encounterId}
-      mouseTrackCategory={state.mouseTrackCategory}
+      patientId={patientId || state.observationTemperatureCard.patientId}
+      encounterId={encounterId || state.observationTemperatureCard.encounterId}
+      mouseTrackCategory={
+        mouseTrackCategory ||
+        state.observationTemperatureCard.mouseTrackCategory
+      }
       onClick={handleCardClick}
-      selectedCard={_.get(state, 'selectedCard')}
+      selectedCard={_.get(state, 'patientSummaryCards.selectedCard')}
+      isSelectable={isSelectable}
     />
   )
 }
@@ -89,6 +108,7 @@ const ObservationTemperatureCard: React.FunctionComponent<{
   selectedCard?: any
   mouseTrackCategory?: string
   mouseTrackLabel?: string
+  isSelectable?: boolean
 }> = ({
   patientId,
   encounterId,
@@ -96,6 +116,7 @@ const ObservationTemperatureCard: React.FunctionComponent<{
   selectedCard,
   mouseTrackCategory = 'observaion_temperature_card',
   mouseTrackLabel = 'observaion_temperature_card',
+  isSelectable = true,
 }) => {
   const params = {
     code: OBSERVATION_CODE.BODY_TEMPERATURE.code,
@@ -116,13 +137,31 @@ const ObservationTemperatureCard: React.FunctionComponent<{
   if (isLoading) {
     return <LoadingSection />
   }
+  const handleCardClick = (cardName: any, cardCode?: string) => {
+    if (!isSelectable) {
+      return
+    }
+    if (onClick) {
+      onClick(cardName)
+    }
+    sendMessage({
+      message: 'handleCardClick',
+      name,
+      params: {
+        cardCode,
+        cardName,
+      },
+    })
+  }
+
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
       <div style={{ height: '100%' }}>
         <ObservationTemperatureCardView
           observation={observationList[0]}
-          onClick={onClick}
+          onClick={handleCardClick}
           selectedCard={selectedCard}
+          isSelectable={isSelectable}
         />
       </div>
     </TrackerMouseClick>
@@ -134,7 +173,8 @@ export const ObservationTemperatureCardView: React.FunctionComponent<{
   observation: any
   onClick?: any
   selectedCard?: any
-}> = ({ observation, onClick, selectedCard }) => {
+  isSelectable?: boolean
+}> = ({ observation, onClick, selectedCard, isSelectable }) => {
   const classes = useStyles()
   return (
     <CardLayout
@@ -165,14 +205,18 @@ export const ObservationTemperatureCardView: React.FunctionComponent<{
             }}
             className={clsx(
               classes.bodyCard,
-              classes.clickable,
-              classes.hover,
+              isSelectable ? [classes.clickable, classes.hover] : null,
               selectedCard === OBSERVATION_CODE.BODY_TEMPERATURE.value
                 ? classes.selectedCard
                 : null,
             )}
             onClick={() =>
-              onClick ? onClick(OBSERVATION_CODE.BODY_TEMPERATURE.value) : null
+              onClick
+                ? onClick(
+                    OBSERVATION_CODE.BODY_TEMPERATURE.value,
+                    OBSERVATION_CODE.BODY_TEMPERATURE.code,
+                  )
+                : null
             }
           >
             <div>

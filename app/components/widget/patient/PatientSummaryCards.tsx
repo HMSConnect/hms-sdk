@@ -62,7 +62,13 @@ const PatientSummaryCards: React.FunctionComponent<{
   patientId: string
   encounterId: string
   name?: string
-}> = ({ patientId, encounterId, name = 'PatientSummaryCards' }) => {
+  isSelectable?: boolean
+}> = ({
+  patientId,
+  encounterId,
+  name = 'PatientSummaryCards',
+  isSelectable = true,
+}) => {
   const patientSummaryCardsState = useSelector(
     (state: any) => state.patientSummaryCards,
   )
@@ -83,6 +89,7 @@ const PatientSummaryCards: React.FunctionComponent<{
       encounterId={encounterId}
       onClickCard={handleCardClick}
       selectedCard={_.get(patientSummaryCardsState, 'selectedCard')}
+      isSelectable={isSelectable}
     />
   )
 }
@@ -94,7 +101,8 @@ export const PatientSummaryCardsView: React.FunctionComponent<{
   encounterId: string
   onClickCard?: any
   selectedCard?: string
-}> = ({ patientId, encounterId, onClickCard, selectedCard }) => {
+  isSelectable?: boolean
+}> = ({ patientId, encounterId, onClickCard, selectedCard, isSelectable }) => {
   const classes = useStyles()
 
   return (
@@ -113,6 +121,7 @@ export const PatientSummaryCardsView: React.FunctionComponent<{
           encounterId={encounterId}
           onClick={onClickCard}
           selectedCard={selectedCard}
+          isSelectable={isSelectable}
         />
       </Grid>
       <Grid
@@ -129,6 +138,7 @@ export const PatientSummaryCardsView: React.FunctionComponent<{
           encounterId={encounterId}
           onClick={onClickCard}
           selectedCard={selectedCard}
+          isSelectable={isSelectable}
         />
       </Grid>
       <Grid
@@ -145,6 +155,7 @@ export const PatientSummaryCardsView: React.FunctionComponent<{
           encounterId={encounterId}
           onClick={onClickCard}
           selectedCard={selectedCard}
+          isSelectable={isSelectable}
         />
       </Grid>
       <Grid
@@ -161,6 +172,7 @@ export const PatientSummaryCardsView: React.FunctionComponent<{
           encounterId={encounterId}
           onClick={onClickCard}
           selectedCard={selectedCard}
+          isSelectable={isSelectable}
         />
       </Grid>
       <Grid
@@ -177,6 +189,7 @@ export const PatientSummaryCardsView: React.FunctionComponent<{
           encounterId={encounterId}
           onClick={onClickCard}
           selectedCard={selectedCard}
+          isSelectable={isSelectable}
         />
       </Grid>
     </Grid>

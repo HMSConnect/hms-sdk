@@ -10,7 +10,7 @@ export const themeInitialState: any = {
   themeName: 'normal',
   themeObject: null,
 }
-export const themeReducer = (state = themeInitialState, action: IThemeAction) => {
+export const themeApp = (state = themeInitialState, action: IThemeAction) => {
   switch (action.type) {
     case 'THEME_CHANGE':
       return {
@@ -29,4 +29,4 @@ export const themeReducer = (state = themeInitialState, action: IThemeAction) =>
   }
 }
 
-export default themeReducer
+export default themeApp

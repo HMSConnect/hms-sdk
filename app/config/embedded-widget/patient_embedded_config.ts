@@ -628,6 +628,12 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           type: 'text',
           value: 'encounterId',
         },
+        {
+          defaultValue: true,
+          label: 'Is Selectable',
+          type: 'boolean',
+          value: 'isSelectable',
+        },
       ],
       value: 'patient-summary-cards',
     },

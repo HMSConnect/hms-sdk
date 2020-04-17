@@ -1,13 +1,13 @@
-import { themeInitialState, themeReducer } from '@app/reducers-redux/theme.reducer'
-import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import { ThemeProvider } from '@material-ui/styles'
 import { fireEvent, waitForDomChange } from '@testing-library/react'
 import * as React from 'react'
-import { createStore } from 'redux'
 import theme from '../../../src/theme'
 import SideMenuWithContent from '../SideMenuWithContent'
 import SideMenuMockList from '../__mocks__/SideMenuWithContent'
 
+import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
+import { createStore } from 'redux'
+import themeApp, { themeInitialState } from '@app/reducers-redux/theme.reducer'
 
 describe('<SideMenuWithContent />', () => {
   it('render SideMenuWithContent', () => {
@@ -20,8 +20,8 @@ describe('<SideMenuWithContent />', () => {
       </ThemeProvider>,
       {
         initialState: {},
-        store: createStore(themeReducer, {
-          themeReducer: themeInitialState,
+        store: createStore(themeApp, {
+          themeApp: themeInitialState,
         }),
       },
     )
@@ -43,8 +43,8 @@ describe('<SideMenuWithContent />', () => {
       </ThemeProvider>,
       {
         initialState: {},
-        store: createStore(themeReducer, {
-          themeReducer: themeInitialState,
+        store: createStore(themeApp, {
+          themeApp: themeInitialState,
         }),
       },
     )
@@ -67,8 +67,8 @@ describe('<SideMenuWithContent />', () => {
       </ThemeProvider>,
       {
         initialState: {},
-        store: createStore(themeReducer, {
-          themeReducer: themeInitialState,
+        store: createStore(themeApp, {
+          themeApp: themeInitialState,
         }),
       },
     )
