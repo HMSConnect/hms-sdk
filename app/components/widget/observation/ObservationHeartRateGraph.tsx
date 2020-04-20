@@ -9,10 +9,18 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
-import { Divider, Icon, makeStyles, Theme, Typography, withTheme } from '@material-ui/core'
+import {
+  Divider,
+  Icon,
+  makeStyles,
+  Theme,
+  Typography,
+  withTheme,
+} from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
 import get from 'lodash/get'
 import maxBy from 'lodash/maxBy'
+import { useSelector } from 'react-redux'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -28,6 +36,23 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(2),
   },
 }))
+
+export const ObservationHeartRateGraphWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  max?: number
+  optionStyle?: IOptionsStyleGraphOption
+}> = ({ patientId, max, mouseTrackCategory, optionStyle }) => {
+  const state = useSelector((state: any) => state.observationHeartRateGraph)
+  return (
+    <ObservationHeartRateGraph
+      patientId={patientId || state.patientId}
+      max={max}
+      mouseTrackCategory={mouseTrackCategory}
+      optionStyle={optionStyle}
+    />
+  )
+}
 
 const ObservationHeartRateGraph: React.FunctionComponent<{
   patientId: string
@@ -151,5 +176,5 @@ export const ObservationHeartRateGraphView: React.FunctionComponent<{
 }
 
 const ObservationHeartRateGraphViewWithTheme = withTheme(
-  ObservationHeartRateGraphView
+  ObservationHeartRateGraphView,
 )

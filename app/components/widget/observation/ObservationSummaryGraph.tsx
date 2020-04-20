@@ -61,7 +61,6 @@ const mapObservaionCode = (codes: string[]) => {
 
 export const ObservationSummaryGraphWithConnector: React.FunctionComponent = () => {
   const state = useSelector((state: any) => state.observationSummaryGraph)
-
   return (
     <ObservationSummaryGraph
       patientId={state.patientId}

@@ -19,6 +19,7 @@ import {
 } from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
 import maxBy from 'lodash/maxBy'
+import { useSelector } from 'react-redux'
 
 export interface IOptionsStyleGraphOption {
   color?: string
@@ -49,6 +50,23 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.tertiary?.main || '',
   },
 }))
+
+export const ObservationBloodPressureGraphWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  max?: number
+  optionStyle?: IOptionsStyleGraphOption
+}> = ({ patientId, max, mouseTrackCategory, optionStyle }) => {
+  const state = useSelector((state: any) => state.observationBloodPressureGraph)
+  return (
+    <ObservationBloodPressureGraph
+      patientId={patientId || state.patientId}
+      max={max}
+      mouseTrackCategory={mouseTrackCategory}
+      optionStyle={optionStyle}
+    />
+  )
+}
 
 const ObservationBloodPressureGraph: React.FunctionComponent<{
   patientId: string

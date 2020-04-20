@@ -1,11 +1,15 @@
-type ObservationLaboratoryTableType = 'INIT_PATIENT_SUMMARY'
+type ObservationLaboratoryTableType =
+  | 'INIT_PATIENT_SUMMARY'
+  | 'SET_STRUCTURE_OBSERVATION_LABORATORY_TABLE'
 
 interface IObservationLaboratoryTableAction {
   type: ObservationLaboratoryTableType
   payload: any
 }
 
-export const initialState: any = {}
+export const initialState: any = {
+  structure: {},
+}
 const observationLaboratoryTable = (
   state = initialState,
   action: IObservationLaboratoryTableAction,
@@ -15,6 +19,14 @@ const observationLaboratoryTable = (
       return {
         ...state,
         ...action.payload.observationLaboratoryTable,
+      }
+    case 'SET_STRUCTURE_OBSERVATION_LABORATORY_TABLE':
+      return {
+        ...state,
+        structure: {
+          ...state.structure,
+          ...action.payload,
+        },
       }
     default:
       return state

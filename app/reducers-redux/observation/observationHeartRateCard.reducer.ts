@@ -1,11 +1,15 @@
-type ObservationHeartRateCardType = 'INIT_PATIENT_SUMMARY'
+type ObservationHeartRateCardType =
+  | 'INIT_PATIENT_SUMMARY'
+  | 'SET_STRUCTURE_OBSERVATION_HEART_RATE_CARD'
 
 interface IObservationHeartRateCardAction {
   type: ObservationHeartRateCardType
   payload: any
 }
 
-export const observationHeartRateCardInitialState: any = {}
+export const observationHeartRateCardInitialState: any = {
+  structure: {},
+}
 const observationHeartRateCard = (
   state = observationHeartRateCardInitialState,
   action: IObservationHeartRateCardAction,
@@ -15,6 +19,14 @@ const observationHeartRateCard = (
       return {
         ...state,
         ...action.payload.observationHeartRateCard,
+      }
+    case 'SET_STRUCTURE_OBSERVATION_HEART_RATE_CARD':
+      return {
+        ...state,
+        structure: {
+          ...state.structure,
+          ...action.payload,
+        },
       }
     default:
       return state

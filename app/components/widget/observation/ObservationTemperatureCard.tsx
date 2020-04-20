@@ -87,7 +87,9 @@ export const ObservationTemperatureCardWithConnector: React.FunctionComponent<{
 
   return (
     <ObservationTemperatureCard
-      key={`ObservationTemperatureCard${encounterId || state.observationTemperatureCard.encounterId}`}
+      key={`ObservationTemperatureCard${
+        encounterId || state.observationTemperatureCard.encounterId
+      }`}
       patientId={patientId || state.observationTemperatureCard.patientId}
       encounterId={encounterId || state.observationTemperatureCard.encounterId}
       mouseTrackCategory={

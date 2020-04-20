@@ -1,6 +1,9 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
 import appNavBar from './appNavBar.reducer'
 import observationBloodPressureCard from './observation/observationBloodPressureCard.reducer'
+import observationBloodPressureGraph from './observation/observationBloodPressureGraph.reducer'
+import observationBodyHeightGraph from './observation/observationBodyHeightGraph.reducer'
+import observationBodyMassIndexGraph from './observation/observationBodyMassIndexGraph.reducer'
 import observationBodyMeasurementCard from './observation/observationBodyMeasurementCard.reducer'
 import observationHeartRateCard from './observation/observationHeartRateCard.reducer'
 import observationHistoryGraph from './observation/observationHistoryGraph.reducer'
@@ -31,6 +34,9 @@ import patientSearchResultWithPaginate from './patient/patientSearchResultWithPa
 import patientSummary from './patient/patientSummary.reducer'
 import patientSummaryCards from './patient/patientSummaryCards.reducer'
 import themeApp from './theme.reducer'
+import observationBodyTemperatureGraph from './observation/observationBodyTemperatureGraph.reducer'
+import observationBodyWeightGraph from './observation/observationBodyWeightGraph.reducer'
+import observationHeartRateGraph from './observation/observationHeartRateGraph.reducer'
 
 const middlewares: any[] = []
 
@@ -50,8 +56,14 @@ const enhancer = composeEnhancers(
 export const rootReducer = combineReducers({
   appNavBar,
   observationBloodPressureCard,
+  observationBloodPressureGraph,
+  observationBodyHeightGraph,
+  observationBodyMassIndexGraph,
   observationBodyMeasurementCard,
+  observationBodyTemperatureGraph,
+  observationBodyWeightGraph,
   observationHeartRateCard,
+  observationHeartRateGraph,
   observationHistoryGraph,
   observationLaboratoryTable,
   observationSummaryGraph,

@@ -20,6 +20,7 @@ import {
 import { scaleTime } from 'd3-scale'
 import maxBy from 'lodash/maxBy'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
@@ -34,6 +35,23 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(2),
   },
 }))
+
+export const ObservationBodyMassIndexGraphWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  max?: number
+  optionStyle?: IOptionsStyleGraphOption
+}> = ({ patientId, max, mouseTrackCategory, optionStyle }) => {
+  const state = useSelector((state: any) => state.observationBodyMassIndexGraph)
+  return (
+    <ObservationBodyMassIndexGraph
+      patientId={patientId || state.patientId}
+      max={max}
+      mouseTrackCategory={mouseTrackCategory}
+      optionStyle={optionStyle}
+    />
+  )
+}
 
 const ObservationBodyMassIndexGraph: React.FunctionComponent<{
   patientId: string
