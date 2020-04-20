@@ -1,7 +1,7 @@
-type PatientConditionTable = 'INIT_PATIENT_SUMMARY' | 'SET_STRUCTURE_PATIENT_CONDITION_TABLE'
+type PatientConditionTableType = 'INIT_PATIENT_SUMMARY' | 'SET_STRUCTURE_PATIENT_CONDITION_TABLE'
 
 interface IPatientConditionTableAction {
-  type: PatientConditionTable
+  type: PatientConditionTableType
   payload: any
 }
 

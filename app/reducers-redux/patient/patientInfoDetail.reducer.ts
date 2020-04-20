@@ -1,7 +1,7 @@
-type PatientInfoDetail = 'SET_STRUCTURE_PATIENT_INFO_DETAIL'
+type PatientInfoDetailType = 'SET_STRUCTURE_PATIENT_INFO_DETAIL'
 
 interface IPatientInfoDetailAction {
-  type: PatientInfoDetail
+  type: PatientInfoDetailType
   payload: any
 }
 

@@ -1,9 +1,9 @@
-type PatientImmunizationTable =
+type PatientImmunizationTableType =
   | 'INIT_PATIENT_SUMMARY'
   | 'SET_STRUCTURE_PATIENT_IMMUNIZATION_TABLE'
 
 interface IPatientImmunizationTableAction {
-  type: PatientImmunizationTable
+  type: PatientImmunizationTableType
   payload: any
 }
 

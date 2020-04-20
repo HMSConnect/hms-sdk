@@ -1,7 +1,7 @@
-type PatientImagingStudyTable = 'SET_STRUCTURE_PATIENT_CONDITION_TABLE'
+type PatientImagingStudyTableType = 'SET_STRUCTURE_PATIENT_CONDITION_TABLE'
 
 interface IPatientImagingStudyTableAction {
-  type: PatientImagingStudyTable
+  type: PatientImagingStudyTableType
   payload: any
 }
 

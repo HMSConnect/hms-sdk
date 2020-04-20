@@ -1,7 +1,7 @@
-type PatientClaimTable = 'SET_STRUCTURE_PATIENT_CONDITION_TABLE'
+type PatientClaimTableType = 'SET_STRUCTURE_PATIENT_CONDITION_TABLE'
 
 interface IPatientClaimTableAction {
-  type: PatientClaimTable
+  type: PatientClaimTableType
   payload: any
 }
 

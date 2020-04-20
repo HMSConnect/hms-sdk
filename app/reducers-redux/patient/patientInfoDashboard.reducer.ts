@@ -1,7 +1,7 @@
-type PatientInfoDashboard = 'SET_STRUCTURE_PATIENT_INFO_DASHBOARD'
+type PatientInfoDashboardType = 'SET_STRUCTURE_PATIENT_INFO_DASHBOARD'
 
 interface IPatientInfoDashboardAction {
-  type: PatientInfoDashboard
+  type: PatientInfoDashboardType
   payload: any
 }
 

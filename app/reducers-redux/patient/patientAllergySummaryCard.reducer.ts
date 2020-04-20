@@ -1,9 +1,9 @@
-type PatientAllergySummaryCard =
+type PatientAllergySummaryCardType =
   | 'INIT_PATIENT_SUMMARY'
   | 'SET_STRUCTURE_PATIENT_ALLERGY_SUMMARY_CARD'
 
 interface IPatientAllergySummaryCardAction {
-  type: PatientAllergySummaryCard
+  type: PatientAllergySummaryCardType
   payload: any
 }
 

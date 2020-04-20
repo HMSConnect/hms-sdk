@@ -1,7 +1,7 @@
-type PatientLabSummaryCard = 'SET_STRUCTURE_PATIENT_LAB_SUMMARY_CARD'
+type PatientLabSummaryCardType = 'SET_STRUCTURE_PATIENT_LAB_SUMMARY_CARD'
 
 interface IPatientLabSummaryCardAction {
-  type: PatientLabSummaryCard
+  type: PatientLabSummaryCardType
   payload: any
 }
 

@@ -6,6 +6,7 @@ import {
   conditionVerificationStatusOption,
   encounterStatusOption,
   immunizationStatusOption,
+  medicationRequestStatusOption,
 } from '../patient'
 
 const patientEmbeddedWidgetConfig: IWidgetGroup = {
@@ -441,53 +442,53 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       ],
       value: 'patient-immunization-table',
     },
-    // {
-    //   document: require('@assets/embedded-widget/patient-info/patient-medication-request-table.md')
-    //     .default,
-    //   label: 'Patient Medication Request Table',
-    //   parameters: [
-    //     // {
-    //     //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
-    //     //   label: 'Patient ID',
-    //     //   type: 'text',
-    //     //   value: 'patientId',
-    //     // },
-    //   ],
-    //   path: '/embedded-widget/patient-info/medication-request-table',
-    //   queryParams: [
-    //     {
-    //       defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
-    //       label: 'Patient ID',
-    //       type: 'text',
-    //       value: 'patientId',
-    //     },
-    //     {
-    //       defaultValue: 20,
-    //       label: 'Max',
-    //       type: 'number',
-    //       value: 'max',
-    //     },
-    //     {
-    //       defaultValue: '',
-    //       label: 'InitialFilter[medicationCodeableConcept]',
-    //       type: 'text',
-    //       value: 'initialFilter[medicationCodeableConcept]',
-    //     },
-    //     {
-    //       choices: [
-    //         {
-    //           label: 'None',
-    //           value: '',
-    //         },
-    //       ].concat(medicationRequestStatusOption),
-    //       defaultValue: '',
-    //       label: 'InitialFilter[status]',
-    //       type: 'options',
-    //       value: 'initialFilter[status]',
-    //     },
-    //   ],
-    //   value: 'patient-medication-request-table',
-    // },
+    {
+      document: require('@assets/embedded-widget/patient-info/patient-medication-request-table.md')
+        .default,
+      label: 'Patient Medication Request Table',
+      parameters: [
+        // {
+        //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+        //   label: 'Patient ID',
+        //   type: 'text',
+        //   value: 'patientId',
+        // },
+      ],
+      path: '/embedded-widget/patient-info/medication-request-table',
+      queryParams: [
+        {
+          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
+        {
+          defaultValue: '',
+          label: 'InitialFilter[medicationCodeableConcept]',
+          type: 'text',
+          value: 'initialFilter[medicationCodeableConcept]',
+        },
+        {
+          choices: [
+            {
+              label: 'None',
+              value: '',
+            },
+          ].concat(medicationRequestStatusOption),
+          defaultValue: '',
+          label: 'InitialFilter[status]',
+          type: 'options',
+          value: 'initialFilter[status]',
+        },
+      ],
+      value: 'patient-medication-request-table',
+    },
     {
       document: require('@assets/embedded-widget/patient-info/patient-procedure-table.md')
         .default,

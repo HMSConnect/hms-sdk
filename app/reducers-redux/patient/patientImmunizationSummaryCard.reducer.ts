@@ -1,9 +1,9 @@
-type PatientImmunizationSummaryCard =
+type PatientImmunizationSummaryCardType =
   | 'INIT_PATIENT_SUMMARY'
   | 'SET_STRUCTURE_PATIENT_IMMUNIZATION_SUMMARY_CARD'
 
 interface IPatientImmunizationSummaryCardAction {
-  type: PatientImmunizationSummaryCard
+  type: PatientImmunizationSummaryCardType
   payload: any
 }
 
