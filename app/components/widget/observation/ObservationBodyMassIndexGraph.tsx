@@ -19,8 +19,8 @@ import {
 } from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
 import maxBy from 'lodash/maxBy'
-import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 import { useSelector } from 'react-redux'
+import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {

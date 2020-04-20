@@ -12,6 +12,16 @@ import get from 'lodash/get'
 import map from 'lodash/map'
 import { useRouter } from 'next/router'
 import { stringify } from 'qs'
+import { useSelector } from 'react-redux'
+
+export const ObservationLaboratoryCardWithConnector: React.FunctionComponent<{
+  patientId: string
+  selectedCard?: string
+  mouseTrackCategory?: string
+}> = ({ patientId, selectedCard, mouseTrackCategory }) => {
+  const state = useSelector((state: any) => state.ObservationLaboratoryCard)
+  return <ObservationLaboratoryCard />
+}
 
 export const ObservationLaboratoryCard: React.FunctionComponent<any> = () => {
   const { query: routerQuery } = useRouter()
@@ -59,7 +69,7 @@ export const ObservationLaboratoryCardView: React.FunctionComponent<any> = ({
   title = 'Observation',
 }) => {
   const data = {
-    results: map(observationList, observation => {
+    results: map(observationList, (observation) => {
       return {
         display: get(observation, 'codeText'),
         issued: get(observation, 'issued'),

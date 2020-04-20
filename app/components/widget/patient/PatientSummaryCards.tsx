@@ -45,15 +45,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const PatientSummaryCardsWithConnector: React.FunctionComponent = () => {
+export const PatientSummaryCardsWithConnector: React.FunctionComponent<{
+  patientId: string
+  encounterId: string
+  name?: string
+  isSelectable?: boolean
+}> = ({ patientId, encounterId, name, isSelectable }) => {
   const state = useSelector((state: any) => state.patientSummaryCards)
-
   return (
     <PatientSummaryCards
       key={`PatientSummaryCards${_.get(state, 'query.encounterId')}`}
-      patientId={state.patientId}
-      encounterId={state.encounterId}
-      name={`${name}DemographicSuumary`}
+      patientId={patientId || state.patientId}
+      encounterId={encounterId || state.encounterId}
+      name={name}
+      isSelectable={isSelectable}
     />
   )
 }

@@ -5,7 +5,10 @@ import observationBloodPressureGraph from './observation/observationBloodPressur
 import observationBodyHeightGraph from './observation/observationBodyHeightGraph.reducer'
 import observationBodyMassIndexGraph from './observation/observationBodyMassIndexGraph.reducer'
 import observationBodyMeasurementCard from './observation/observationBodyMeasurementCard.reducer'
+import observationBodyTemperatureGraph from './observation/observationBodyTemperatureGraph.reducer'
+import observationBodyWeightGraph from './observation/observationBodyWeightGraph.reducer'
 import observationHeartRateCard from './observation/observationHeartRateCard.reducer'
+import observationHeartRateGraph from './observation/observationHeartRateGraph.reducer'
 import observationHistoryGraph from './observation/observationHistoryGraph.reducer'
 import observationLaboratoryTable from './observation/observationLaboratoryTable.reducer'
 import observationSummaryGraph from './observation/observationSummaryGraph.reducer'
@@ -34,9 +37,6 @@ import patientSearchResultWithPaginate from './patient/patientSearchResultWithPa
 import patientSummary from './patient/patientSummary.reducer'
 import patientSummaryCards from './patient/patientSummaryCards.reducer'
 import themeApp from './theme.reducer'
-import observationBodyTemperatureGraph from './observation/observationBodyTemperatureGraph.reducer'
-import observationBodyWeightGraph from './observation/observationBodyWeightGraph.reducer'
-import observationHeartRateGraph from './observation/observationHeartRateGraph.reducer'
 
 const middlewares: any[] = []
 

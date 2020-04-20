@@ -59,11 +59,13 @@ const mapObservaionCode = (codes: string[]) => {
   )
 }
 
-export const ObservationSummaryGraphWithConnector: React.FunctionComponent = () => {
+export const ObservationSummaryGraphWithConnector: React.FunctionComponent<{
+  patientId?: string
+}> = ({ patientId }) => {
   const state = useSelector((state: any) => state.observationSummaryGraph)
   return (
     <ObservationSummaryGraph
-      patientId={state.patientId}
+      patientId={patientId || state.patientId}
       mouseTrackCategory={state.mouseTrackCategory}
       optionsGraph={{
         standardSizeForResizeLegendToBottom: [
@@ -225,7 +227,7 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
 
   const calculateNormalRage = (observation: any, patientInfo?: any) => {
     const normalRange = _.chain(observation.referenceRange)
-      .filter(range => {
+      .filter((range) => {
         return (
           range.type === 'normal' &&
           (_.get(range, 'age.low') < patientInfo.age ||
@@ -266,7 +268,7 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
 
   const prepareGraphData = (data: any) => {
     const newValue: any[] = _.chain(data)
-      .map(item => {
+      .map((item) => {
         const objectData = _.reduce(
           item['valueModal'],
           (acc, v) => {
@@ -422,7 +424,7 @@ const MultiSelectForm: React.FunctionComponent<any> = ({
             control={
               <Checkbox
                 checked={filterMui[option.name]}
-                onChange={event => handleChange(option, event.target.checked)}
+                onChange={(event) => handleChange(option, event.target.checked)}
                 value={option.value}
               />
             }

@@ -26,7 +26,11 @@ const ObservationVitalSignCardWidget: IStatelessPage<{
   )
 }
 
-ObservationVitalSignCardWidget.getInitialProps = async ({ req, res, query }) => {
+ObservationVitalSignCardWidget.getInitialProps = async ({
+  req,
+  res,
+  query,
+}) => {
   return {
     query: parse(query),
   }

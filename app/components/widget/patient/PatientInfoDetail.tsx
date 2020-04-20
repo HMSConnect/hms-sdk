@@ -59,16 +59,20 @@ const useStyles = makeStyles((theme) => ({
   root: { height: '100%', display: 'flex' },
 }))
 
-export const PatientClaimTableWithConnector: React.FunctionComponent<{
+export const PatientInfoDetailWithConnector: React.FunctionComponent<{
   patientId?: string
   name?: string
-}> = ({ patientId, name }) => {
+  menuNavigate?: string
+  max?: number
+}> = ({ patientId, name, menuNavigate, max }) => {
   const state = useSelector((state: any) => state.patientInfoDetail)
 
   return (
     <PatientInfoDetail
       patientId={patientId || _.get(state, 'patientId')}
       name={name}
+      menuNavigate={menuNavigate}
+      max={max}
     />
   )
 }
