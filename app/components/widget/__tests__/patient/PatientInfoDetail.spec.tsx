@@ -11,7 +11,7 @@ import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import { createStore } from 'redux'
 import patientDemographic, {
   patientDemographicInitialState,
-} from '@app/reducers-redux/patientDemographic.reducer'
+} from '@app/reducers-redux/patient/patientDemographic.reducer'
 
 jest.mock('@components/hooks/usePatient', () => ({
   __esModule: true,

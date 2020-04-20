@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
-import patientPractitioner from '@app/reducers-redux/patientPractitioner.reducer'
+import patientPractitioner from '@app/reducers-redux/patient/patientPractitioner.reducer'
 import useEncounter from '@components/hooks/useEncounter'
 import PatientPractitioner, {
   PatientPractitionerWithConnector,

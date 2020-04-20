@@ -1,25 +1,26 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
-import observationBloodPressureCard from './observationBloodPressureCard.reducer'
-import observationBodyMeasurementCard from './observationBodyMeasurementCard.reducer'
-import observationHeartRateCard from './observationHeartRateCard.reducer'
-import observationHistoryGraph from './observationHistoryGraph.reducer'
-import observationLaboratoryTable from './observationLaboratoryTable.reducer'
-import observationSummaryGraph from './observationSummaryGraph.reducer'
-import observationTemperatureCard from './observationTemperatureCard.reducer'
-import observationTobaccoSmokingStatusCard from './observationTobaccoSmokingStatusCard.reducer'
-import patientAllergyList from './patientAllergyList.reducer'
-import patientAllergySummaryCard from './patientAllergySummaryCard.reducer'
-import patientCarePlanTable from './patientCarePlanTable.reducer'
-import patientConditionTable from './patientConditionTable.reducer'
-import patientDemographic from './patientDemographic.reducer'
-import patientEncounterTimeline from './patientEncounterTimeline.reducer'
-import patientImmunizationSummaryCard from './patientImmunizationSummaryCard.reducer'
-import patientImmunizationTable from './patientImmunizationTable.reducer'
-import patientMedicationList from './patientMedicationList.reducer'
-import patientMedicationSummaryCard from './patientMedicationSummaryCard.reducer'
-import patientPractitioner from './patientPractitioner.reducer'
-import patientProcedureTable from './patientProcedureTable.reducer'
-import patientSummaryCards from './patientSummaryCards.reducer'
+import appNavBar from './appNavBar.reducer'
+import observationBloodPressureCard from './observation/observationBloodPressureCard.reducer'
+import observationBodyMeasurementCard from './observation/observationBodyMeasurementCard.reducer'
+import observationHeartRateCard from './observation/observationHeartRateCard.reducer'
+import observationHistoryGraph from './observation/observationHistoryGraph.reducer'
+import observationLaboratoryTable from './observation/observationLaboratoryTable.reducer'
+import observationSummaryGraph from './observation/observationSummaryGraph.reducer'
+import observationTemperatureCard from './observation/observationTemperatureCard.reducer'
+import observationTobaccoSmokingStatusCard from './observation/observationTobaccoSmokingStatusCard.reducer'
+import patientAllergyList from './patient/patientAllergyList.reducer'
+import patientAllergySummaryCard from './patient/patientAllergySummaryCard.reducer'
+import patientCarePlanTable from './patient/patientCarePlanTable.reducer'
+import patientConditionTable from './patient/patientConditionTable.reducer'
+import patientDemographic from './patient/patientDemographic.reducer'
+import patientEncounterTimeline from './patient/patientEncounterTimeline.reducer'
+import patientImmunizationSummaryCard from './patient/patientImmunizationSummaryCard.reducer'
+import patientImmunizationTable from './patient/patientImmunizationTable.reducer'
+import patientMedicationList from './patient/patientMedicationList.reducer'
+import patientMedicationSummaryCard from './patient/patientMedicationSummaryCard.reducer'
+import patientPractitioner from './patient/patientPractitioner.reducer'
+import patientProcedureTable from './patient/patientProcedureTable.reducer'
+import patientSummaryCards from './patient/patientSummaryCards.reducer'
 import themeApp from './theme.reducer'
 
 const middlewares: any[] = []
@@ -38,6 +39,7 @@ const enhancer = composeEnhancers(
 )
 
 export const rootReducer = combineReducers({
+  appNavBar,
   observationBloodPressureCard,
   observationBodyMeasurementCard,
   observationHeartRateCard,

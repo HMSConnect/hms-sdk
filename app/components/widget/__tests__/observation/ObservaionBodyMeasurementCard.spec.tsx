@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import * as patientSummaryAction from '@app/actions/patientsummaryCards.action'
-import observationBodyMeasurementCard from '@app/reducers-redux/observationBodyMeasurementCard.reducer'
+import observationBodyMeasurementCard from '@app/reducers-redux/observation/observationBodyMeasurementCard.reducer'
 import useObservationList from '@components/hooks/useObservationList'
 import { fireEvent, render } from '@testing-library/react'
 import * as nextRouter from 'next/router'
@@ -10,7 +10,7 @@ import { renderWithRedux } from '../../../../reducers-redux/__mocks__/renderWith
 import ObservationBodyMeasurementCard, {
   ObservationBodyMeasurementCardWithConnector,
 } from '../../observation/ObservationBodyMeasurementCard'
-import patientSummaryCards from '@app/reducers-redux/patientSummaryCards.reducer'
+import patientSummaryCards from '@app/reducers-redux/patient/patientSummaryCards.reducer'
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
