@@ -54,16 +54,25 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
-export const PatientconditionTableWithConnector: React.FunctionComponent<any> = () => {
+export const PatientconditionTableWithConnector: React.FunctionComponent<{
+  patientId?: string
+  max?: number
+  isInitialize?: boolean
+  initialFilter?: IConditionListFilterQuery
+  isContainer?: boolean
+  name?: string
+}> = ({ patientId, max, isInitialize, initialFilter, isContainer, name }) => {
   const state = useSelector((state: any) => state.patientConditionTable)
 
   return (
     <PatientConditionTable
-      patientId={_.get(state, 'patientId')}
+      patientId={patientId || _.get(state, 'patientId')}
       mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
-      max={_.get(state, 'max')}
-      initialFilter={_.get(state, 'initialFilter')}
-      isInitialize={true}
+      max={max || _.get(state, 'max')}
+      isContainer={isContainer}
+      initialFilter={initialFilter || _.get(state, 'initialFilter')}
+      isInitialize={isInitialize || true}
+      name={`${name || ''}ConditionTable`}
     />
   )
 }

@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientClaimTable from '@components/widget/patient/PatientClaimTable'
+import { PatientClaimTableWithConnector } from '@components/widget/patient/PatientClaimTable'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -19,7 +19,7 @@ const PatientClaimTableWidget: IStatelessPage<{
     <BootstrapWrapper dependencies={['patient', 'claim']}>
       <>
         <CssBaseline />
-        <PatientClaimTable
+        <PatientClaimTableWithConnector
           patientId={get(query, 'patientId')}
           max={get(query, 'max')}
           isInitialize={get(query, 'isInitialize') || true}

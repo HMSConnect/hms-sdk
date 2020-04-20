@@ -98,10 +98,11 @@ export const ObservationBloodPressureCardWithConnector: React.FunctionComponent<
       },
     })
   }
-
   return (
     <ObservationBloodPressureCard
-      key={`ObservationBloodPressureCard${_.get(state, 'encounterId')}`}
+      key={`ObservationBloodPressureCard${
+        encounterId || state.observationBloodPressureCard.encounterId
+      }`}
       patientId={patientId || state.observationBloodPressureCard.patientId}
       mouseTrackCategory={
         mouseTrackCategory ||

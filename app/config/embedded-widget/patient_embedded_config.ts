@@ -1,12 +1,11 @@
 import { IWidgetGroup } from '@config'
 import {
-  allergyIntoleranceCriticalityOption,
-  allergyIntoleranceTypeOption,
+  carePlanStatusOption,
   claimStatusOption,
   conditionClinicalStatusOption,
   conditionVerificationStatusOption,
+  encounterStatusOption,
   immunizationStatusOption,
-  medicationRequestStatusOption,
 } from '../patient'
 
 const patientEmbeddedWidgetConfig: IWidgetGroup = {
@@ -275,9 +274,10 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'isRouteable',
         },
         {
+          choices: [{ label: 'None', value: '' }].concat(encounterStatusOption),
           defaultValue: '',
           label: 'InitialFilter[status]',
-          type: 'text',
+          type: 'options',
           value: 'initialFilter[status]',
         },
       ],
@@ -543,10 +543,11 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'max',
         },
         {
+          choices: [{ label: 'None', value: '' }].concat(carePlanStatusOption),
           defaultValue: '',
-          label: 'InitialFilter[code]',
-          type: 'text',
-          value: 'initialFilter[code]',
+          label: 'InitialFilter[status]',
+          type: 'options',
+          value: 'initialFilter[status]',
         },
       ],
       value: 'patient-care-plan-table',
@@ -587,28 +588,28 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       ],
       value: 'patient-claim-table',
     },
-    // {
-    //   document: require('@assets/embedded-widget/patient-info/patient-imaging-study-table.md')
-    //     .default,
-    //   label: 'Patient Imaging Study Table',
-    //   parameters: [],
-    //   path: '/embedded-widget/patient-info/imaging-study-table',
-    //   queryParams: [
-    //     {
-    //       defaultValue: '03c2e1b5-9fe0-4735-bc7d-a54c449bfdae',
-    //       label: 'Patient ID',
-    //       type: 'text',
-    //       value: 'patientId',
-    //     },
-    //     {
-    //       defaultValue: 20,
-    //       label: 'Max',
-    //       type: 'number',
-    //       value: 'max',
-    //     },
-    //   ],
-    //   value: 'patient-imaging-study-table',
-    // },
+    {
+      document: require('@assets/embedded-widget/patient-info/patient-imaging-study-table.md')
+        .default,
+      label: 'Patient Imaging Study Table',
+      parameters: [],
+      path: '/embedded-widget/patient-info/imaging-study-table',
+      queryParams: [
+        {
+          defaultValue: '03c2e1b5-9fe0-4735-bc7d-a54c449bfdae',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
+      ],
+      value: 'patient-imaging-study-table',
+    },
     {
       document: require('@assets/embedded-widget/patient-info/patient-summary-cards.md')
         .default,

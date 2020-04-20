@@ -1,4 +1,4 @@
-type AppNavBarType = 'SET_STRUCTURE_PATIENT_DEMOGRAPHIC'
+type AppNavBarType = 'SET_STRUCTURE_APP_NAV_BAR'
 
 interface IAppNavBarAction {
   type: AppNavBarType
@@ -10,7 +10,7 @@ export const appNavBarInitialState: any = {
 }
 const appNavBar = (state = appNavBarInitialState, action: IAppNavBarAction) => {
   switch (action.type) {
-    case 'SET_STRUCTURE_PATIENT_DEMOGRAPHIC':
+    case 'SET_STRUCTURE_APP_NAV_BAR':
       return {
         ...state,
         structure: {

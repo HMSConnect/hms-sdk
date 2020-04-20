@@ -1,11 +1,15 @@
-type PatientImmunizationTable = 'INIT_PATIENT_SUMMARY'
+type PatientImmunizationTable =
+  | 'INIT_PATIENT_SUMMARY'
+  | 'SET_STRUCTURE_PATIENT_IMMUNIZATION_TABLE'
 
 interface IPatientImmunizationTableAction {
   type: PatientImmunizationTable
   payload: any
 }
 
-const initialState: any = {}
+const initialState: any = {
+  structure: {},
+}
 const patientImmunizationTable = (
   state = initialState,
   action: IPatientImmunizationTableAction,
@@ -15,6 +19,14 @@ const patientImmunizationTable = (
       return {
         ...state,
         ...action.payload.patientImmunizationTable,
+      }
+    case 'SET_STRUCTURE_PATIENT_IMMUNIZATION_TABLE':
+      return {
+        ...state,
+        structure: {
+          ...state.structure,
+          ...action.payload,
+        },
       }
     default:
       return state

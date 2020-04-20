@@ -1,11 +1,15 @@
-type PatientImmunizationSummaryCard = 'INIT_PATIENT_SUMMARY'
+type PatientImmunizationSummaryCard =
+  | 'INIT_PATIENT_SUMMARY'
+  | 'SET_STRUCTURE_PATIENT_IMMUNIZATION_SUMMARY_CARD'
 
 interface IPatientImmunizationSummaryCardAction {
   type: PatientImmunizationSummaryCard
   payload: any
 }
 
-const initialState: any = {}
+const initialState: any = {
+  structure: {},
+}
 const patientImmunizationSummaryCard = (
   state = initialState,
   action: IPatientImmunizationSummaryCardAction,
@@ -15,6 +19,14 @@ const patientImmunizationSummaryCard = (
       return {
         ...state,
         ...action.payload.patientImmunizationSummaryCard,
+      }
+    case 'SET_STRUCTURE_PATIENT_IMMUNIZATION_SUMMARY_CARD':
+      return {
+        ...state,
+        structure: {
+          ...state.structure,
+          ...action.payload,
+        },
       }
     default:
       return state

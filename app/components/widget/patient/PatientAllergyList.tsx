@@ -48,15 +48,36 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const PatientAllergyListWithConnector: React.FunctionComponent = () => {
+export const PatientAllergyListWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  name?: string
+  isInitialize?: boolean
+  max?: number
+  initialFilter?: IAllergyIntoleranceListFilterQuery
+  isContainer?: boolean
+}> = ({
+  patientId,
+  mouseTrackCategory,
+  name,
+  isInitialize,
+  max,
+  initialFilter,
+  isContainer,
+}) => {
   const state = useSelector((state: any) => state.patientAllergyList)
 
   return (
     <PatientAllergyList
-      patientId={_.get(state, 'patientId')}
-      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
-      isInitialize={true}
-      name={`${name}AllergyIntoleranceList`}
+      patientId={patientId || _.get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      isInitialize={isInitialize || true}
+      max={max}
+      initialFilter={initialFilter}
+      isContainer={isContainer}
+      name={`${name || ''}AllergyIntoleranceList`}
     />
   )
 }

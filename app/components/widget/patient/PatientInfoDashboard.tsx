@@ -1,8 +1,15 @@
 import React from 'react'
 
 import { Grid } from '@material-ui/core'
+import { useSelector } from 'react-redux'
 import PatientAllergySummerCard from './PatientAllergySummaryCard'
 import PatientImmunizationSummerCard from './PatientImmunizationSummaryCard'
+
+export const PatientInfoDashboardWithConnector: React.FunctionComponent<any> = () => {
+  const state = useSelector((state: any) => state.patientInfoDashboard)
+
+  return <PatientInfoDashboard />
+}
 
 const PatientInfoDashboard: React.FunctionComponent<any> = () => {
   return (

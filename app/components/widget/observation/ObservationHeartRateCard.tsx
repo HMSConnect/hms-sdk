@@ -76,7 +76,7 @@ export const ObservationHeartRateCardWithConnector: React.FunctionComponent<{
 
   return (
     <ObservationHeartRateCard
-      key={`ObservationHeartRateCard${_.get(state, 'encounterId')}`}
+      key={`ObservationHeartRateCard${encounterId || state.observationHeartRateCard.encounterId}`}
       patientId={patientId || state.observationHeartRateCard.patientId}
       encounterId={encounterId || state.observationHeartRateCard.encounterId}
       onClick={handleCardClick}

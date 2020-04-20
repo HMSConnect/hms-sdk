@@ -1,11 +1,15 @@
-type PatientAlleryListListType = 'INIT_PATIENT_SUMMARY'
+type PatientAlleryListListType =
+  | 'INIT_PATIENT_SUMMARY'
+  | 'SET_STRUCTURE_PATIENT_DEMOGRAPHIC'
 
 interface IPatientAlleryListListAction {
   type: PatientAlleryListListType
   payload: any
 }
 
-export const initialState: any = {}
+export const initialState: any = {
+  structure: {},
+}
 const patientAllergyList = (
   state = initialState,
   action: IPatientAlleryListListAction,
@@ -15,6 +19,15 @@ const patientAllergyList = (
       return {
         ...state,
         ...action.payload.patientAllergyList,
+      }
+
+    case 'SET_STRUCTURE_PATIENT_DEMOGRAPHIC':
+      return {
+        ...state,
+        structure: {
+          ...state.structure,
+          ...action.payload,
+        },
       }
     default:
       return state

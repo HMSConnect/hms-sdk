@@ -21,6 +21,7 @@ import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
 import { HMSService } from '@services/HMSServiceFactory'
 import { countFilterActive, sendMessage } from '@utils'
 import * as _ from 'lodash'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -37,6 +38,39 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
+export const PatientAllergyIntoleranceTableWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  name?: string
+  isInitialize?: boolean
+  max?: number
+  initialFilter?: IAllergyIntoleranceListFilterQuery
+}> = ({
+  patientId,
+  mouseTrackCategory,
+  name,
+  isInitialize,
+  max,
+  initialFilter,
+}) => {
+  const state = useSelector(
+    (state: any) => state.patientAllergyIntoleranceTable,
+  )
+
+  return (
+    <PatientAllergyIntoleranceTable
+      patientId={patientId || _.get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      max={max}
+      initialFilter={initialFilter}
+      isInitialize={isInitialize || true}
+      name={`${name || ''}AllergyIntoleranceTable`}
+    />
+  )
+}
+
 const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   patientId: string
   isInitialize?: boolean
@@ -50,7 +84,7 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   resourceList,
   patientId,
   max = 20,
-  isInitialize,
+  isInitialize = true,
   initialFilter: customInitialFilter = {
     assertedDate_lt: undefined,
     category: undefined,

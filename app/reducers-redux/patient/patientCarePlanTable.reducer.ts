@@ -1,11 +1,13 @@
-type PatientCarePlanTable = 'INIT_PATIENT_SUMMARY'
+type PatientCarePlanTable = 'INIT_PATIENT_SUMMARY' | 'SET_STRUCTURE_PATIENT_CARE_PLAN_TABLE'
 
 interface IPatientCarePlanTableAction {
   type: PatientCarePlanTable
   payload: any
 }
 
-const initialState: any = {}
+const initialState: any = {
+  structure: {},
+}
 const patientCarePlanTable = (
   state = initialState,
   action: IPatientCarePlanTableAction,
@@ -15,6 +17,15 @@ const patientCarePlanTable = (
       return {
         ...state,
         ...action.payload.patientCarePlanTable,
+      }
+
+    case 'SET_STRUCTURE_PATIENT_CARE_PLAN_TABLE':
+      return {
+        ...state,
+        structure: {
+          ...state.structure,
+          ...action.payload,
+        },
       }
     default:
       return state

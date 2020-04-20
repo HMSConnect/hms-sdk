@@ -8,9 +8,11 @@ import observationLaboratoryTable from './observation/observationLaboratoryTable
 import observationSummaryGraph from './observation/observationSummaryGraph.reducer'
 import observationTemperatureCard from './observation/observationTemperatureCard.reducer'
 import observationTobaccoSmokingStatusCard from './observation/observationTobaccoSmokingStatusCard.reducer'
+import patientAllergyIntoleranceTable from './patient/patientAllergyIntoleranceTable.reducer'
 import patientAllergyList from './patient/patientAllergyList.reducer'
 import patientAllergySummaryCard from './patient/patientAllergySummaryCard.reducer'
 import patientCarePlanTable from './patient/patientCarePlanTable.reducer'
+import patientClaimTable from './patient/patientClaimTable.reducer'
 import patientConditionTable from './patient/patientConditionTable.reducer'
 import patientDemographic from './patient/patientDemographic.reducer'
 import patientEncounterTimeline from './patient/patientEncounterTimeline.reducer'
@@ -22,6 +24,7 @@ import patientPractitioner from './patient/patientPractitioner.reducer'
 import patientProcedureTable from './patient/patientProcedureTable.reducer'
 import patientSummaryCards from './patient/patientSummaryCards.reducer'
 import themeApp from './theme.reducer'
+import patientImagingStudyTable from './patient/patientImagingStudyTable.reducer'
 
 const middlewares: any[] = []
 
@@ -48,12 +51,15 @@ export const rootReducer = combineReducers({
   observationSummaryGraph,
   observationTemperatureCard,
   observationTobaccoSmokingStatusCard,
+  patientAllergyIntoleranceTable,
   patientAllergyList,
   patientAllergySummaryCard,
   patientCarePlanTable,
+  patientClaimTable,
   patientConditionTable,
   patientDemographic,
   patientEncounterTimeline,
+  patientImagingStudyTable,
   patientImmunizationSummaryCard,
   patientImmunizationTable,
   patientMedicationList,

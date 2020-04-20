@@ -5,6 +5,7 @@ import LoadingSection from '@components/base/LoadingSection'
 import { CircularProgress, Grid, makeStyles, Paper } from '@material-ui/core'
 import { sendMessage } from '@utils'
 import * as _ from 'lodash'
+import { useSelector } from 'react-redux'
 import routes from '../../../routes'
 import RouteManager from '../../../routes/RouteManager'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
@@ -58,13 +59,29 @@ const useStyles = makeStyles((theme) => ({
   root: { height: '100%', display: 'flex' },
 }))
 
-const PatientInfoDetail: React.FunctionComponent<{
-  query: any
+export const PatientClaimTableWithConnector: React.FunctionComponent<{
+  patientId?: string
   name?: string
-}> = ({ query, name = 'patientInfoDetail' }) => {
+}> = ({ patientId, name }) => {
+  const state = useSelector((state: any) => state.patientInfoDetail)
+
+  return (
+    <PatientInfoDetail
+      patientId={patientId || _.get(state, 'patientId')}
+      name={`${name || ''}InfoDetail`}
+    />
+  )
+}
+
+const PatientInfoDetail: React.FunctionComponent<{
+  patientId: string
+  max?: number
+  menuNavigate?: string
+  name?: string
+}> = ({ patientId, max, menuNavigate, name = 'patientInfoDetail' }) => {
   const classes = useStyles()
   const { isLoading: isPatientLoading, data: patient, error } = usePatient(
-    _.get(query, 'patientId') || _.get(query, 'id'),
+    patientId,
   )
 
   if (error) {
@@ -79,48 +96,60 @@ const PatientInfoDetail: React.FunctionComponent<{
     <>
       <div className={classes.infoPanel}>
         <Paper>
-          <PatientDemographicWithConnector
-            patientId={_.get(query, 'patientId') || _.get(query, 'id')}
-          />
+          <PatientDemographicWithConnector patientId={patientId} />
         </Paper>
       </div>
       <div className={classes.detailSelector}>
-        <PatientDetailSelector patient={patient} query={query} name={name} />
+        <PatientDetailSelector
+          patient={patient}
+          max={max}
+          menuNavigate={menuNavigate}
+          name={name}
+        />
       </div>
     </>
   )
 }
 
 const PatientDetailSelector: React.FunctionComponent<any> = ({
-  query,
+  max,
+  menuNavigate,
   patient,
   name = 'patientDetailSelector',
 }) => {
   const PatientDetail = PatientDetailSub
 
   return (
-    <PatientDetail patient={patient} query={query} name={name}></PatientDetail>
+    <PatientDetail
+      patient={patient}
+      max={max}
+      menuNavigate={menuNavigate}
+      name={name}
+    ></PatientDetail>
   )
 }
 
 const PatientDetailSub: React.FunctionComponent<{
   patient: any
-  query: any
+  max?: number
+  menuNavigate?: string
   name?: string
-}> = ({ patient, query, name = 'patientDetailSub' }) => {
+}> = ({
+  patient,
+  menuNavigate: menuSelected,
+  max,
+  name = 'patientDetailSub',
+}) => {
   const classes = useStyles()
   const {
     isLoading: isGroupResourceListLoading,
     data: groupResourceList,
     error,
   } = useResourceList(_.get(patient, 'identifier.id.value'), {
-    ...query,
-    max: query.max || 20,
+    // ...query,
+    max: max || 20,
   })
-  const [menuNavigate, setMenuNavigate] = useState(
-    query.menuNavigate || 'patient',
-  )
-
+  const [menuNavigate, setMenuNavigate] = useState(menuSelected || 'patient')
   const handleNavigateChange = (newNavigateValue: string) => {
     const params = {
       menuNavigate: newNavigateValue,
@@ -150,7 +179,7 @@ const PatientDetailSub: React.FunctionComponent<{
             patientId={_.get(patient, 'identifier.id.value')}
             name={`${name}EncounterTimeline`}
             isInitialize={true}
-            max={query.max}
+            max={max}
             isRouteable={false}
           />
         )
@@ -160,7 +189,7 @@ const PatientDetailSub: React.FunctionComponent<{
             patientId={_.get(patient, 'identifier.id.value')}
             name={`${name}ConditionTable`}
             isInitialize={true}
-            max={query.max}
+            max={max}
           />
         )
       case 'allergy_intolerance':
@@ -169,7 +198,7 @@ const PatientDetailSub: React.FunctionComponent<{
             patientId={_.get(patient, 'identifier.id.value')}
             name={`${name}AllergyIntoleranceTable`}
             isInitialize={true}
-            max={query.max}
+            max={max}
           />
         )
       case 'immunization':
@@ -178,7 +207,7 @@ const PatientDetailSub: React.FunctionComponent<{
             patientId={_.get(patient, 'identifier.id.value')}
             name={`${name}ImmunizationTable`}
             isInitialize={true}
-            max={query.max}
+            max={max}
           />
         )
       case 'procedure':
@@ -187,7 +216,7 @@ const PatientDetailSub: React.FunctionComponent<{
             patientId={_.get(patient, 'identifier.id.value')}
             name={`${name}ProcedureTable`}
             isInitialize={true}
-            max={query.max}
+            max={max}
           />
         )
       case 'medication_request':
@@ -196,7 +225,7 @@ const PatientDetailSub: React.FunctionComponent<{
             patientId={_.get(patient, 'identifier.id.value')}
             name={`${name}MedicationRequestTable`}
             isInitialize={true}
-            max={query.max}
+            max={max}
           />
         )
       case 'observation':
@@ -205,7 +234,7 @@ const PatientDetailSub: React.FunctionComponent<{
             patientId={_.get(patient, 'identifier.id.value')}
             name={`${name}ObservationTable`}
             isInitialize={true}
-            max={query.max}
+            max={max}
           />
         )
       case 'imaging_study':
@@ -214,7 +243,7 @@ const PatientDetailSub: React.FunctionComponent<{
             patientId={_.get(patient, 'identifier.id.value')}
             name={`${name}ImagingStudyTable`}
             isInitialize={true}
-            max={query.max}
+            max={max}
           />
         )
       case 'claim':
@@ -223,7 +252,7 @@ const PatientDetailSub: React.FunctionComponent<{
             patientId={_.get(patient, 'identifier.id.value')}
             name={`${name}ClaimTable`}
             isInitialize={true}
-            max={query.max}
+            max={max}
           />
         )
       case 'care_plan':
@@ -232,7 +261,7 @@ const PatientDetailSub: React.FunctionComponent<{
             patientId={_.get(patient, 'identifier.id.value')}
             name={`${name}CarePlanTable`}
             isInitialize={true}
-            max={query.max}
+            max={max}
           />
         )
       default:

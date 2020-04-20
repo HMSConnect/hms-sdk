@@ -49,14 +49,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const PatientImmunizationSummerCardWithConnector: React.FunctionComponent = () => {
+export const PatientImmunizationSummerCardWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+}> = ({ patientId, mouseTrackCategory }) => {
   const state = useSelector(
     (state: any) => state.patientImmunizationSummaryCard,
   )
   return (
     <PatientImmunizationSummerCard
-      patientId={get(state, 'patientId')}
-      mouseTrackCategory={get(state, 'mouseTrackCategory')}
+      patientId={patientId || get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || get(state, 'mouseTrackCategory')
+      }
     />
   )
 }

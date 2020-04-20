@@ -16,8 +16,8 @@ import {
   mergeWithEncounterInitialFilterQuery,
 } from '@data-managers/EncounterDataManager'
 import { Icon, makeStyles, Theme } from '@material-ui/core'
-import { lighten } from '@material-ui/core/styles'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
+import clsx from 'clsx'
 import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
 import routes from '../../../routes'
@@ -27,8 +27,6 @@ import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
 import useInfinitScroll from '../../hooks/useInfinitScroll'
 import PatientEncounterList from '../../templates/PatientEncounterList'
-import MouseTrackMove from '@components/base/MouseTrackMove'
-import clsx from 'clsx'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
@@ -66,7 +64,27 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
-export const PatientEncounterTimelineWithConnector: React.FunctionComponent = () => {
+export const PatientEncounterTimelineWithConnector: React.FunctionComponent<{
+  patientId?: string
+  max?: number
+  isInitialize?: boolean
+  initialFilter?: IEncounterListFilterQuery
+  isContainer?: boolean
+  isRouteable?: boolean
+  name?: string
+  mouseTrackCategory?: string
+  selectedEncounterId?: string
+}> = ({
+  patientId,
+  max,
+  isInitialize,
+  initialFilter,
+  isContainer,
+  isRouteable = true,
+  name,
+  mouseTrackCategory,
+  selectedEncounterId,
+}) => {
   const state = useSelector((state: any) => state.patientEncounterTimeline)
 
   const handleEncounterSelect = (
@@ -88,18 +106,24 @@ export const PatientEncounterTimelineWithConnector: React.FunctionComponent = ()
       params: newParams,
       path,
     })
-    routes.Router.replaceRoute(path)
+    if (isRouteable) {
+      routes.Router.replaceRoute(path)
+    }
   }
-
   return (
     <PatientEncounterTimeline
-      patientId={_.get(state, 'patientId')}
-      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
-      selectedEncounterId={_.get(state, 'encounterId')}
-      isInitialize={true}
-      max={state?.query?.max}
+      patientId={patientId || _.get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      isRouteable={isRouteable}
+      selectedEncounterId={selectedEncounterId || _.get(state, 'encounterId')}
+      isInitialize={isInitialize || true}
+      initialFilter={initialFilter}
+      isContainer={isContainer}
+      max={max || state?.query?.max}
       onEncounterSelected={handleEncounterSelect}
-      name={`${name}EncounterTimeline`}
+      name={`${name || ''}EncounterTimeline`}
     />
   )
 }
