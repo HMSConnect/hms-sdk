@@ -60,13 +60,15 @@ export const PatientPractitionerWithConnector: React.FunctionComponent<{
   encounterId?: string
   maxDisplay?: number
   mouseTrackCategory?: string
-}> = ({ encounterId, maxDisplay, mouseTrackCategory }) => {
+  name?: string
+}> = ({ encounterId, maxDisplay, mouseTrackCategory, name }) => {
   const state = useSelector((state: any) => state.patientPractitioner)
   return (
     <PatientPractitioner
       encounterId={encounterId || state?.encounterId}
       mouseTrackCategory={mouseTrackCategory || state?.mouseTrackCategory}
       maxDisplay={maxDisplay || state?.maxDisplay}
+      name={name}
     />
   )
 }
@@ -90,12 +92,14 @@ const PatientPractitioner: React.FunctionComponent<{
   customOnClickEvent?: any
   mouseTrackCategory?: string
   mouseTrackLabel?: string
+  name?: string
 }> = ({
   encounterId,
   maxDisplay,
   customOnClickEvent,
   mouseTrackCategory = 'patient_practitioner',
   mouseTrackLabel = 'patient_practitioner',
+  name = 'patientPractitioner',
 }) => {
   const classes = useStyles({})
   const { data, error, isLoading } = useEncounter(encounterId)

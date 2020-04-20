@@ -123,7 +123,7 @@ export const PatientEncounterTimelineWithConnector: React.FunctionComponent<{
       isContainer={isContainer}
       max={max || state?.query?.max}
       onEncounterSelected={handleEncounterSelect}
-      name={`${name || ''}EncounterTimeline`}
+      name={name}
     />
   )
 }

@@ -74,7 +74,8 @@ export const PatientCarePlanTableWithConnector: React.FunctionComponent<{
       max={max}
       initialFilter={initialFilter}
       isContainer={isContainer}
-      name={`${name || ''}CarePlanTable`}
+      name={name}
+      // name={`${name || ''}CarePlanTable`}
     />
   )
 }

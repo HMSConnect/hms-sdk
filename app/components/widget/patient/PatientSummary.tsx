@@ -1,8 +1,8 @@
-import React from 'react'
-
 import GridLayoutWithComponentSelector from '@components/base/GridLayoutWithComponentSelector'
+import { OBSERVATION_CODE } from '@config/observation'
 import { makeStyles } from '@material-ui/core'
 import * as _ from 'lodash'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import { ObservationBloodPressureCardWithConnector } from '../observation/ObservationBloodPressureCard'
@@ -26,7 +26,6 @@ import { PatientMedicationSummaryCardWithConnector } from './PatientMedicationSu
 import { PatientPractitionerWithConnector } from './PatientPractitioner'
 import { PatientProcedureTableWithConnector } from './PatientProcedureTable'
 import { PatientSummaryCardsWithConnector } from './PatientSummaryCards'
-import { OBSERVATION_CODE } from '@config/observation'
 
 export interface IPatientTableProps {
   entry: any[]

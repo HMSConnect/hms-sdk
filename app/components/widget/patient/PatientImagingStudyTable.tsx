@@ -73,7 +73,7 @@ export const PatientImagingStudyTableWithConnector: React.FunctionComponent<{
       isInitialize={isInitialize || true}
       max={max}
       initialFilter={initialFilter}
-      name={`${name || ''}ImagingStudyTable`}
+      name={name}
     />
   )
 }

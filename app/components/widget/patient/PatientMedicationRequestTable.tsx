@@ -75,7 +75,7 @@ export const PatientMedicationRequestTableWithConnector: React.FunctionComponent
       isInitialize={isInitialize || true}
       max={max}
       initialFilter={initialFilter}
-      name={`${name || ''}ClaimTable`}
+      name={name}
     />
   )
 }

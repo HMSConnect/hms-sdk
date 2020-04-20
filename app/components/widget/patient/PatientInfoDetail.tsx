@@ -68,7 +68,7 @@ export const PatientClaimTableWithConnector: React.FunctionComponent<{
   return (
     <PatientInfoDetail
       patientId={patientId || _.get(state, 'patientId')}
-      name={`${name || ''}InfoDetail`}
+      name={name}
     />
   )
 }

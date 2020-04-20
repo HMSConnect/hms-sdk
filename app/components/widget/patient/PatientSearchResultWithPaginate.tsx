@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import { CircularProgress, Grid, makeStyles } from '@material-ui/core'
 import { Theme } from 'pretty-format/build/types'
+import { useSelector } from 'react-redux'
 import Pagination, { IPageOptionResult } from '../../base/Pagination'
 import usePatientList, {
   IPaginationOption,
@@ -22,6 +23,36 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   root: {},
 }))
+
+export const PatientSearchResultWithPaginateWithConnector: React.FunctionComponent<{
+  highlightText?: string
+  paginationOption?: IPaginationOption
+  onPatientSelect?: (patient: any) => void
+  onRequestSort?: (sortObject: ISortType) => void
+  onPageChange?: (pageOptions: IPageOptionResult) => void
+  name?: string
+}> = ({
+  highlightText,
+  paginationOption = defaultPagination,
+  onPatientSelect,
+  onRequestSort,
+  onPageChange,
+  name = 'patientSearchResult',
+}) => {
+  const state = useSelector(
+    (state: any) => state.patientSearchResultWithPaginate,
+  )
+  return (
+    <PatientSearchResultWithPaginate
+      highlightText={highlightText}
+      paginationOption={paginationOption}
+      onRequestSort={onRequestSort}
+      onPageChange={onPageChange}
+      onPatientSelect={onPatientSelect}
+      name={name}
+    />
+  )
+}
 
 const PatientSearchResultWithPaginate: React.FunctionComponent<{
   highlightText?: string

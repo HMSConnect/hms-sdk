@@ -70,7 +70,7 @@ export const PatientMedicationListWithConnector: React.FunctionComponent<{
       max={max}
       initialFilter={initialFilter}
       isContainer={isContainer}
-      name={`${name || ''}MedicationList`}
+      name={name}
     />
   )
 }

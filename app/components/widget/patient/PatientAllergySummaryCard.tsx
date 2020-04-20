@@ -56,7 +56,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const PatientAllergySummerCardWithConnector: React.FunctionComponent<{
   patientId?: string
   mouseTrackCategory?: string
-}> = ({ patientId, mouseTrackCategory }) => {
+  name?: string
+}> = ({ patientId, mouseTrackCategory, name }) => {
   const state = useSelector((state: any) => state.patientAllergySummaryCard)
   return (
     <PatientAllergySummerCard
@@ -64,6 +65,7 @@ export const PatientAllergySummerCardWithConnector: React.FunctionComponent<{
       mouseTrackCategory={
         mouseTrackCategory || get(state, 'mouseTrackCategory')
       }
+      name={name}
     />
   )
 }

@@ -16,17 +16,18 @@ import patientClaimTable from './patient/patientClaimTable.reducer'
 import patientConditionTable from './patient/patientConditionTable.reducer'
 import patientDemographic from './patient/patientDemographic.reducer'
 import patientEncounterTimeline from './patient/patientEncounterTimeline.reducer'
+import patientImagingStudyTable from './patient/patientImagingStudyTable.reducer'
 import patientImmunizationSummaryCard from './patient/patientImmunizationSummaryCard.reducer'
 import patientImmunizationTable from './patient/patientImmunizationTable.reducer'
 import patientMedicationList from './patient/patientMedicationList.reducer'
+import patientMedicationRequestTable from './patient/patientMedicationRequestTable.reducer'
 import patientMedicationSummaryCard from './patient/patientMedicationSummaryCard.reducer'
+import patientObservationTable from './patient/patientObservationTable.reducer'
 import patientPractitioner from './patient/patientPractitioner.reducer'
 import patientProcedureTable from './patient/patientProcedureTable.reducer'
+import patientSearch from './patient/patientSearch.reducer'
 import patientSummaryCards from './patient/patientSummaryCards.reducer'
 import themeApp from './theme.reducer'
-import patientImagingStudyTable from './patient/patientImagingStudyTable.reducer'
-import patientMedicationRequestTable from './patient/patientMedicationRequestTable.reducer'
-import patientObservationTable from './patient/patientObservationTable.reducer'
 
 const middlewares: any[] = []
 
@@ -70,6 +71,7 @@ export const rootReducer = combineReducers({
   patientObservationTable,
   patientPractitioner,
   patientProcedureTable,
+  patientSearch,
   patientSummaryCards,
   themeApp,
 })

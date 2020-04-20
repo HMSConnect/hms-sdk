@@ -72,7 +72,7 @@ export const PatientconditionTableWithConnector: React.FunctionComponent<{
       isContainer={isContainer}
       initialFilter={initialFilter || _.get(state, 'initialFilter')}
       isInitialize={isInitialize || true}
-      name={`${name || ''}ConditionTable`}
+      name={name}
     />
   )
 }

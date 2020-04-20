@@ -55,7 +55,8 @@ export const PatientMedicationSummaryCardWithConnector: React.FunctionComponent<
   patientId?: string
   mouseTrackCategory?: string
   mouseTrackLabel?: string
-}> = ({ patientId, mouseTrackCategory, mouseTrackLabel }) => {
+  name?: string
+}> = ({ patientId, mouseTrackCategory, mouseTrackLabel, name }) => {
   const state = useSelector((state: any) => state.patientMedicationSummaryCard)
   return (
     <PatientMedicationSummaryCard
@@ -64,6 +65,7 @@ export const PatientMedicationSummaryCardWithConnector: React.FunctionComponent<
         mouseTrackCategory || get(state, 'mouseTrackCategory')
       }
       mouseTrackLabel={mouseTrackLabel || get(state, 'mouseTrackLabel')}
+      name={name}
     />
   )
 }

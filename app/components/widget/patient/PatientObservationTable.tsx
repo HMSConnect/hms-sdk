@@ -6,11 +6,10 @@ import {
 } from '@app/reducers/tableWithFilter.reducer'
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
 import ErrorSection from '@components/base/ErrorSection'
-import { FormModalContent, useModal } from '@components/base/Modal'
 import TabGroup from '@components/base/TabGroup'
 import TableBase from '@components/base/TableBase'
-import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import {
   IObservationListFilterQuery,
@@ -27,7 +26,6 @@ import ObservationService from '@services/ObservationService'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
-import TrackerMouseClick from '@components/base/TrackerMouseClick'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -81,7 +79,7 @@ export const PatientObservationTableWithConnector: React.FunctionComponent<{
       isInitialize={isInitialize || true}
       max={max}
       initialFilter={initialFilter}
-      name={`${name || ''}ClaimTable`}
+      name={name}
     />
   )
 }

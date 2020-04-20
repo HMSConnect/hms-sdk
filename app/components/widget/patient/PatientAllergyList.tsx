@@ -77,7 +77,7 @@ export const PatientAllergyListWithConnector: React.FunctionComponent<{
       max={max}
       initialFilter={initialFilter}
       isContainer={isContainer}
-      name={`${name || ''}AllergyIntoleranceList`}
+      name={name}
     />
   )
 }

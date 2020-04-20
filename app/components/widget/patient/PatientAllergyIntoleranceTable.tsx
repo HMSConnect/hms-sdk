@@ -66,7 +66,7 @@ export const PatientAllergyIntoleranceTableWithConnector: React.FunctionComponen
       max={max}
       initialFilter={initialFilter}
       isInitialize={isInitialize || true}
-      name={`${name || ''}AllergyIntoleranceTable`}
+      name={name}
     />
   )
 }

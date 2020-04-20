@@ -63,6 +63,7 @@ export const PatientLabSummaryCardWithConnector: React.FunctionComponent<{
       mouseTrackCategory={
         mouseTrackCategory || _.get(state, 'mouseTrackCategory')
       }
+      name={name}
     />
   )
 }
