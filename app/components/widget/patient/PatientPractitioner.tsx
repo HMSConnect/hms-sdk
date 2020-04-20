@@ -56,16 +56,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const PatientPractitionerWithConnector: React.FunctionComponent = () => {
+export const PatientPractitionerWithConnector: React.FunctionComponent<{
+  encounterId?: string
+  maxDisplay?: number
+  mouseTrackCategory?: string
+}> = ({ encounterId, maxDisplay, mouseTrackCategory }) => {
   const state = useSelector((state: any) => state.patientPractitioner)
   return (
-    // <TrackerMouseClick>
     <PatientPractitioner
-      encounterId={state?.encounterId}
-      mouseTrackCategory={state?.mouseTrackCategory}
-      maxDisplay={state?.maxDisplay}
+      encounterId={encounterId || state?.encounterId}
+      mouseTrackCategory={mouseTrackCategory || state?.mouseTrackCategory}
+      maxDisplay={maxDisplay || state?.maxDisplay}
     />
-    // </TrackerMouseClick>
   )
 }
 

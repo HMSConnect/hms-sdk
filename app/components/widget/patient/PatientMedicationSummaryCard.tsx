@@ -51,12 +51,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 'normal',
   },
 }))
-export const PatientMedicationSummaryCardWithConnector: React.FunctionComponent = () => {
+export const PatientMedicationSummaryCardWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({ patientId, mouseTrackCategory, mouseTrackLabel }) => {
   const state = useSelector((state: any) => state.patientMedicationSummaryCard)
   return (
     <PatientMedicationSummaryCard
-      patientId={get(state, 'patientId')}
-      mouseTrackCategory={get(state, 'mouseTrackCategory')}
+      patientId={patientId || get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || get(state, 'mouseTrackCategory')
+      }
+      mouseTrackLabel={mouseTrackLabel || get(state, 'mouseTrackLabel')}
     />
   )
 }

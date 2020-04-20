@@ -66,7 +66,6 @@ export const PatientMedicationRequestTableWithConnector: React.FunctionComponent
   initialFilter,
 }) => {
   const state = useSelector((state: any) => state.patientMedicationRequestTable)
-  console.log('state :', state);
   return (
     <PatientMedicationRequestTable
       patientId={patientId || _.get(state, 'patientId')}

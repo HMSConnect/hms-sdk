@@ -278,7 +278,10 @@ const PatientConditionTable: React.FunctionComponent<{
 
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
-      <div style={{ height: '100%', overflow: 'auto' }}>
+      <div
+        ref={myscroll}
+        style={{ height: '100%', overflow: isContainer ? 'auto' : '' }}
+      >
         <div className={classes.toolbar}>
           <ToolbarWithFilter
             title={'Condition'}
@@ -297,11 +300,7 @@ const PatientConditionTable: React.FunctionComponent<{
           </ToolbarWithFilter>
         </div>
 
-        <div
-          ref={myscroll}
-          className={classes.tableWrapper}
-          data-testid='scroll-container'
-        >
+        <div className={classes.tableWrapper} data-testid='scroll-container'>
           <TableBase
             id='condition'
             entryList={data}

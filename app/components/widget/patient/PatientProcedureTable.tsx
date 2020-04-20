@@ -48,15 +48,35 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
-export const PatientProcedureTableWithConnector: React.FunctionComponent<any> = () => {
+export const PatientProcedureTableWithConnector: React.FunctionComponent<{
+  patientId?: string
+  max?: number
+  initialFilter?: IProcedureListFilterQuery
+  isInitialize?: boolean
+  isContainer?: boolean
+  mouseTrackCategory?: string
+  name?: string
+}> = ({
+  patientId,
+  max,
+  initialFilter,
+  isInitialize,
+  isContainer,
+  mouseTrackCategory,
+  name,
+}) => {
   const state = useSelector((state: any) => state.patientProcedureTable)
   return (
     <PatientProcedureTable
-      patientId={_.get(state, 'patientId')}
-      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
-      max={_.get(state, 'max')}
-      initialFilter={_.get(state, 'initialFilter')}
-      isInitialize={true}
+      patientId={patientId || _.get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      max={max || _.get(state, 'max')}
+      initialFilter={initialFilter || _.get(state, 'initialFilter')}
+      isInitialize={isInitialize || true}
+      isContainer={isContainer}
+      name={`${name || ''}ProcedureTable`}
     />
   )
 }
@@ -241,7 +261,10 @@ const PatientProcedureTable: React.FunctionComponent<{
 
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
-      <div style={{ height: '100%', overflow: 'auto' }}>
+      <div
+        ref={myscroll}
+        style={{ height: '100%', overflow: isContainer ? 'auto' : '' }}
+      >
         <div className={classes.toolbar}>
           <ToolbarWithFilter
             title={'Procedure'}
@@ -258,11 +281,7 @@ const PatientProcedureTable: React.FunctionComponent<{
             {renderModal}
           </ToolbarWithFilter>
         </div>
-        <div
-          ref={myscroll}
-          className={classes.tableWrapper}
-          data-testid='scroll-container'
-        >
+        <div className={classes.tableWrapper} data-testid='scroll-container'>
           <TableBase
             id='procedure'
             entryList={data}

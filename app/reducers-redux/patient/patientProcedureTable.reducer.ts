@@ -1,4 +1,4 @@
-type PatientProcedureTable = 'INIT_PATIENT_SUMMARY'
+type PatientProcedureTable = 'INIT_PATIENT_SUMMARY' | 'SET_STRUCTURE_PATIENT_PROCEDURE_TABLE'
 
 interface IPatientProcedureTableAction {
   type: PatientProcedureTable
@@ -15,6 +15,14 @@ const patientProcedureTable = (
       return {
         ...state,
         ...action.payload.patientProcedureTable,
+      }
+    case 'SET_STRUCTURE_PATIENT_PROCEDURE_TABLE':
+      return {
+        ...state,
+        structure: {
+          ...state.structure,
+          ...action.payload,
+        },
       }
     default:
       return state

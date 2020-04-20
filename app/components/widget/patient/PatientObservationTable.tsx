@@ -26,6 +26,8 @@ import { HMSService } from '@services/HMSServiceFactory'
 import ObservationService from '@services/ObservationService'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
+import { useSelector } from 'react-redux'
+import TrackerMouseClick from '@components/base/TrackerMouseClick'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -53,6 +55,37 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
+export const PatientObservationTableWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  name?: string
+  isInitialize?: boolean
+  max?: number
+  initialFilter?: IObservationListFilterQuery
+}> = ({
+  patientId,
+  mouseTrackCategory,
+  name,
+  isInitialize,
+  max,
+  initialFilter,
+}) => {
+  const state = useSelector((state: any) => state.patientObservationTable)
+
+  return (
+    <PatientObservationTable
+      patientId={patientId || _.get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      isInitialize={isInitialize || true}
+      max={max}
+      initialFilter={initialFilter}
+      name={`${name || ''}ClaimTable`}
+    />
+  )
+}
+
 const PatientObservationTable: React.FunctionComponent<{
   patientId: any
   isInitialize?: boolean
@@ -60,6 +93,8 @@ const PatientObservationTable: React.FunctionComponent<{
   max?: number
   initialFilter?: IObservationListFilterQuery
   name?: string
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
 }> = ({
   resourceList,
   patientId,
@@ -67,6 +102,8 @@ const PatientObservationTable: React.FunctionComponent<{
   isInitialize,
   initialFilter: customInitialFilter = {},
   name = 'patientObservationTable',
+  mouseTrackCategory = 'patient_observation_table',
+  mouseTrackLabel = 'patient_observation_table',
 }) => {
   const initialFilter = React.useMemo(() => {
     return mergeWithObservationInitialFilterQuery(customInitialFilter, {
@@ -269,118 +306,120 @@ const PatientObservationTable: React.FunctionComponent<{
   }
 
   return (
-    <>
-      <div className={classes.toolbar}>
-        <ToolbarWithFilter
-          title={'Observation'}
-          filterActive={countFilterActive(submitedFilter, initialFilter, [
-            'issued_lt',
-            'categoryCode',
-            'patientId',
-          ])}
-          option={{
-            additionButton: (
-              <FormControlLabel
-                value='start'
-                control={
-                  <Checkbox
-                    onChange={(event, isGroup) => {
-                      handleGroupByType(isGroup)
-                    }}
-                    data-testid='check-by-type-input'
-                    value={isGroup}
-                    inputProps={{
-                      'aria-label': 'primary checkbox',
-                    }}
-                  />
-                }
-                label='Group By Category'
-                labelPlacement='start'
-              />
-            ),
-          }}
-        ></ToolbarWithFilter>
-        {isGroup && (
-          <TabGroup tabList={tab.tabList} onTabChange={handleTabChange} />
-        )}
+    <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
+      <div style={{ height: '100%', overflow: 'auto' }}>
+        <div className={classes.toolbar}>
+          <ToolbarWithFilter
+            title={'Observation'}
+            filterActive={countFilterActive(submitedFilter, initialFilter, [
+              'issued_lt',
+              'categoryCode',
+              'patientId',
+            ])}
+            option={{
+              additionButton: (
+                <FormControlLabel
+                  value='start'
+                  control={
+                    <Checkbox
+                      onChange={(event, isGroup) => {
+                        handleGroupByType(isGroup)
+                      }}
+                      data-testid='check-by-type-input'
+                      value={isGroup}
+                      inputProps={{
+                        'aria-label': 'primary checkbox',
+                      }}
+                    />
+                  }
+                  label='Group By Category'
+                  labelPlacement='start'
+                />
+              ),
+            }}
+          ></ToolbarWithFilter>
+          {isGroup && (
+            <TabGroup tabList={tab.tabList} onTabChange={handleTabChange} />
+          )}
+        </div>
+        <div
+          ref={myscroll}
+          className={classes.tableWrapper}
+          data-testid='scroll-container'
+        >
+          <TableBase
+            id='immunization'
+            entryList={data}
+            isLoading={isLoading}
+            isMore={isMore}
+            data-testid='table-base'
+            tableCells={[
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'categoryText',
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'categoryText',
+                  label: 'Category',
+                  styles: {
+                    width: '15em',
+                  },
+                },
+              },
+              {
+                bodyCell: {
+                  align: 'left',
+                  id: 'codeText',
+                },
+                headCell: {
+                  align: 'left',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'codeText',
+                  label: 'Name',
+                },
+              },
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'value',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'value',
+                  label: 'Value',
+                  styles: {
+                    width: '10em',
+                  },
+                },
+              },
+              {
+                bodyCell: {
+                  align: 'center',
+                  id: 'issued',
+                },
+                headCell: {
+                  align: 'center',
+                  disablePadding: false,
+                  disableSort: true,
+                  id: 'issued',
+                  label: 'Date',
+                  styles: {
+                    width: '15em',
+                  },
+                },
+              },
+            ]}
+          />
+        </div>
       </div>
-      <div
-        ref={myscroll}
-        className={classes.tableWrapper}
-        data-testid='scroll-container'
-      >
-        <TableBase
-          id='immunization'
-          entryList={data}
-          isLoading={isLoading}
-          isMore={isMore}
-          data-testid='table-base'
-          tableCells={[
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'categoryText',
-              },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'categoryText',
-                label: 'Category',
-                styles: {
-                  width: '15em',
-                },
-              },
-            },
-            {
-              bodyCell: {
-                align: 'left',
-                id: 'codeText',
-              },
-              headCell: {
-                align: 'left',
-                disablePadding: false,
-                disableSort: true,
-                id: 'codeText',
-                label: 'Name',
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'value',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'value',
-                label: 'Value',
-                styles: {
-                  width: '10em',
-                },
-              },
-            },
-            {
-              bodyCell: {
-                align: 'center',
-                id: 'issued',
-              },
-              headCell: {
-                align: 'center',
-                disablePadding: false,
-                disableSort: true,
-                id: 'issued',
-                label: 'Date',
-                styles: {
-                  width: '15em',
-                },
-              },
-            },
-          ]}
-        />
-      </div>
-    </>
+    </TrackerMouseClick>
   )
 }
 
