@@ -3,7 +3,7 @@ import * as React from 'react'
 import { withAuthSync } from '@components/base/Auth'
 import Tracker from '@components/base/Tracker'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientSummary from '@components/widget/patient/PatientSummary'
+import { PatientSummaryWithConnector } from '@components/widget/patient/PatientSummary'
 import { CssBaseline, makeStyles, Paper, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -40,7 +40,7 @@ const PatientSummaryWidget: IStatelessPage<{
         <>
           <CssBaseline />
           <Paper>
-            <PatientSummary
+            <PatientSummaryWithConnector
               patientId={get(query, 'patientId')}
               encounterId={get(query, 'encounterId')}
               name={get(query, 'name')}

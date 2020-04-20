@@ -1,6 +1,9 @@
 import { OBSERVATION_CODE } from '@config/observation'
 
-type PatientSummaryCardsType = 'UPDATE_SELECTED_CARD' | 'INIT_PATIENT_SUMMARY'
+type PatientSummaryCardsType =
+  | 'UPDATE_SELECTED_CARD'
+  | 'INIT_PATIENT_SUMMARY'
+  | 'SET_STRUCTURE_PATIENT_SUMMARY_CARDS'
 
 interface IPatientSummaryCardsAction {
   type: PatientSummaryCardsType
@@ -9,6 +12,7 @@ interface IPatientSummaryCardsAction {
 
 export const patientSummaryCardsInitialState: any = {
   selectedCard: '',
+  structure: {},
   // selectedCard: OBSERVATION_CODE.BLOOD_PRESSURE.value,
 }
 
@@ -26,6 +30,14 @@ const patientSummaryCards = (
       return {
         ...state,
         selectedCard: action.payload.name,
+      }
+    case 'SET_STRUCTURE_PATIENT_SUMMARY_CARDS':
+      return {
+        ...state,
+        structure: {
+          ...state.structure,
+          ...action.payload,
+        },
       }
     default:
       return state

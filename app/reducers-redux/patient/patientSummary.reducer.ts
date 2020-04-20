@@ -1,19 +1,19 @@
-type PatientSearchPanelType = 'SET_STRUCTURE_PATIENT_SEARCH_PANEL'
+type PatientSummaryType = 'SET_STRUCTURE_PATIENT_SUMMARY'
 
-interface IPatientSearchPanelAction {
-  type: PatientSearchPanelType
+interface IPatientSummaryAction {
+  type: PatientSummaryType
   payload: any
 }
 
 const initialState: any = {
   structure: {},
 }
-const patientSearchPanel = (
+const patientSummary = (
   state = initialState,
-  action: IPatientSearchPanelAction,
+  action: IPatientSummaryAction,
 ) => {
   switch (action.type) {
-    case 'SET_STRUCTURE_PATIENT_SEARCH_PANEL':
+    case 'SET_STRUCTURE_PATIENT_SUMMARY':
       return {
         ...state,
         structure: {
@@ -26,4 +26,4 @@ const patientSearchPanel = (
   }
 }
 
-export default patientSearchPanel
+export default patientSummary

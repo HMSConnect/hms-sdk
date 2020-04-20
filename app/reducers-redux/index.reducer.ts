@@ -26,6 +26,9 @@ import patientObservationTable from './patient/patientObservationTable.reducer'
 import patientPractitioner from './patient/patientPractitioner.reducer'
 import patientProcedureTable from './patient/patientProcedureTable.reducer'
 import patientSearch from './patient/patientSearch.reducer'
+import patientSearchPanel from './patient/patientSearchPanel.reducer'
+import patientSearchResultWithPaginate from './patient/patientSearchResultWithPaginate.reducer'
+import patientSummary from './patient/patientSummary.reducer'
 import patientSummaryCards from './patient/patientSummaryCards.reducer'
 import themeApp from './theme.reducer'
 
@@ -72,6 +75,9 @@ export const rootReducer = combineReducers({
   patientPractitioner,
   patientProcedureTable,
   patientSearch,
+  patientSearchPanel,
+  patientSearchResultWithPaginate,
+  patientSummary,
   patientSummaryCards,
   themeApp,
 })

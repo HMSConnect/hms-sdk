@@ -27,6 +27,7 @@ export const PatientSearchWithConnector: React.FunctionComponent<{
   name?: string
 }> = ({ query, name }) => {
   const state = useSelector((state: any) => state.patientSearch)
+
   return <PatientSearch query={query} name={name} />
 }
 

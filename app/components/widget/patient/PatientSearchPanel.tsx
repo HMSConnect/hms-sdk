@@ -60,6 +60,7 @@ export const PatientSearchPanelWithConnector: React.FunctionComponent<{
   name?: string
 }> = ({ initialFilter, onSearchSubmit, onPaginationReset, name }) => {
   const state = useSelector((state: any) => state.patientSearchPanel)
+
   return (
     <PatientSearchPanel
       initialFilter={initialFilter}

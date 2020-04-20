@@ -1,4 +1,4 @@
-type PatientSearchType = 'SET_STRUCTURE_PATIENT_CONDITION_TABLE'
+type PatientSearchType = 'SET_STRUCTURE_PATIENT_SEARCH'
 
 interface IPatientSearchAction {
   type: PatientSearchType
@@ -10,7 +10,7 @@ const initialState: any = {
 }
 const patientSearch = (state = initialState, action: IPatientSearchAction) => {
   switch (action.type) {
-    case 'SET_STRUCTURE_PATIENT_CONDITION_TABLE':
+    case 'SET_STRUCTURE_PATIENT_SEARCH':
       return {
         ...state,
         structure: {
