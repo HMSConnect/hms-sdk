@@ -16,7 +16,7 @@ To create new `Service`, you can follow these step
 `Service` object is created automaticly by HMSServiceFactory when call method `getService` and return it to caller
 
 You can register your `Service` class by these step
-1. Modidy object `serviceConfig` in `config/index.ts` with your new `Service` class
+1. Modify object `serviceConfig` in `config/index.ts` with your new `Service` class
 ```ts
 // config/index.ts
 export const serviceConfig = {

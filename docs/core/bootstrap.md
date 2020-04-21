@@ -79,10 +79,10 @@ const PatientSearchView: IStatelessPage<{
   )
 }
 ```
-BootstrapWrapper will read `@config/widget_dependencies.json` for match name from `dependencies` props to `services` and `validators` class name. Finally, it register it by BootstrapHelper.
+BootstrapWrapper will read `@config/widget_dependencies.json` for match name from `dependencies` props to `services` and `validators` class name. Finally, it's registered by BootstrapHelper.
 
 # RouteManager
-In Hms-widget, we server two mode is `full` and `widget`. If it is `widget` mode, url path will startWith `/embedded-widget`. So in bootstrap, we need to know what mode that you use by use class `RouteManager`(More infomation can read [this link](route-widget.md))
+In Hms-widget, we serve two mode is `full` and `widget`. If it is `widget` mode, url path will startWith `/embedded-widget`. So in bootstrap, we need to know what mode that you use by use class `RouteManager`(More infomation can read [this link](route-widget.md))
 
 `RouteManager` have method `registryMode` by get pathName. If path name is includes `embedded-widget`, it will set mode to `widget`. If not, it will set mode to `full`
 
@@ -98,6 +98,7 @@ In Hms-widget, we server two mode is `full` and `widget`. If it is `widget` mode
         // ...
     }
 ```
+[More information](route-widget.md)
 
 # GoogleAnalyticsFactory
 In Hms-widget, we provide GA for anylize user. In bootstrap, you need to initialize by use `GoogleAnalyticsFactory` method `initializeGoogleGA`
@@ -111,3 +112,4 @@ In Hms-widget, we provide GA for anylize user. In bootstrap, you need to initial
         // ...
     }
 ```
+[More information](google-analytic.md)

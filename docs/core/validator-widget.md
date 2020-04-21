@@ -29,7 +29,7 @@ export default class SFHIRPatientV1Validator implements IValidator {
   parse(patient: any): any {
     // ... 
     compileStandard = {
-      address: [address],
+      address,
       age,
       birthDate: patient.birthDate,
       communication,
@@ -46,7 +46,7 @@ export default class SFHIRPatientV1Validator implements IValidator {
 
 ```
 You can register your `Validator` class by these step
-1. Modidy object `validatorConfig` in `config/index.ts` with your new `Validator` class
+1. Modify object `validatorConfig` in `config/index.ts` with your new `Validator` class
 ```ts
 // config/index.ts
 export const validatorConfig = {
