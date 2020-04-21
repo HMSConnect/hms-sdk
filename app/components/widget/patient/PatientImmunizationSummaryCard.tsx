@@ -27,13 +27,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 'normal',
   },
   headerCard: {
-    backgroundColor: theme.palette.denary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.denary?.dark
+        : theme.palette?.denary?.light,
     color: theme.palette.denary?.main || '',
   },
   iconContainer:
     theme.palette.type === 'dark'
       ? {
-          backgroundColor: theme.palette.denary?.light || '',
+          backgroundColor: theme.palette.denary?.dark || '',
           flex: 1,
           paddingLeft: 16,
           paddingRight: 16,

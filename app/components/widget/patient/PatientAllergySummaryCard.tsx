@@ -27,13 +27,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 'normal',
   },
   headerCard: {
-    backgroundColor: theme.palette.quinary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.quinary?.dark
+        : theme.palette?.quinary?.light,
     color: theme.palette.quinary?.main || '',
   },
   iconContainer:
     theme.palette.type === 'dark'
       ? {
-          backgroundColor: theme.palette.quinary?.light || '',
+          backgroundColor: theme.palette.quinary?.dark || '',
           flex: 1,
           paddingLeft: 16,
           paddingRight: 16,

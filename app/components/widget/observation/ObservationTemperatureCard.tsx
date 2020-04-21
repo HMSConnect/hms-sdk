@@ -30,7 +30,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   footerContainer: { height: 36, color: theme.palette.text.secondary },
   headerCard: {
-    backgroundColor: theme.palette.senary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.senary?.dark
+        : theme.palette?.senary?.light,
     color: theme.palette.senary?.main || '',
   },
   hover: {
@@ -40,7 +43,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     textDecoration: 'none',
   },
   iconCard: {
-    color: theme.palette.senary?.dark || '',
+    color:
+        theme.palette.type === 'dark'
+          ? theme.palette?.senary?.main
+          : theme.palette?.senary?.dark,
   },
   infoIcon: {
     color: '#1976d2',

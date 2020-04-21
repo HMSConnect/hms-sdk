@@ -33,11 +33,17 @@ import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
-    backgroundColor: theme.palette.eleventh?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.eleventh?.dark
+        : theme.palette?.eleventh?.light,
     color: theme.palette.eleventh?.main || '',
   },
   iconCard: {
-    color: theme.palette.eleventh?.dark || '',
+    color:
+      theme.palette.type === 'dark'
+        ? theme.palette?.eleventh?.main
+        : theme.palette?.eleventh?.dark,
   },
 }))
 const mapObservaionCode = (codes: string[]) => {

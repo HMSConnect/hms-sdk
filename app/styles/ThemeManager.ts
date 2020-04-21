@@ -13,6 +13,7 @@ declare module '@material-ui/core/styles/createPalette' {
     denary?: SimplePaletteColorOptions
     eleventh?: SimplePaletteColorOptions
     duodenary?: SimplePaletteColorOptions
+    loading?: SimplePaletteColorOptions
   }
   interface Palette {
     tertiary?: SimplePaletteColorOptions
@@ -25,9 +26,9 @@ declare module '@material-ui/core/styles/createPalette' {
     denary?: SimplePaletteColorOptions
     eleventh?: SimplePaletteColorOptions
     duodenary?: SimplePaletteColorOptions
+    loading?: SimplePaletteColorOptions
   }
 }
-
 
 class ThemeManager {
   private defaultTheme: any
@@ -73,8 +74,7 @@ class ThemeManager {
     return _.reduce(
       themeObject,
       (acc, value: any, key: string) => {
-        const isDarkMode = value.type === 'dark' ? true : false
-        const themeWithDarkLight = generateDarkAndLight(value, isDarkMode)
+        const themeWithDarkLight = generateDarkAndLight(value)
         const themeObject: any = themeWithDarkLight
         if (_.has(value, 'dark')) {
           themeObject.dark = themeWithDarkLight.dark

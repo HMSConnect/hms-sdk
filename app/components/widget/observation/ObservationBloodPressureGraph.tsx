@@ -33,11 +33,17 @@ export interface IOptionsStyleGraphOption {
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
-    backgroundColor: theme.palette.tertiary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.tertiary?.dark
+        : theme.palette?.tertiary?.light,
     color: theme.palette.tertiary?.main || '',
   },
   iconCard: {
-    color: theme.palette.tertiary?.dark || '',
+    color:
+      theme.palette.type === 'dark'
+        ? theme.palette?.tertiary?.main
+        : theme.palette?.tertiary?.dark,
   },
   summaryContainer: {
     alignItems: 'center',

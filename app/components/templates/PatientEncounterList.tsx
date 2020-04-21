@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   iconAvatar: {
     backgroundColor: theme.palette.nonary?.main,
+
     height: 50,
     margin: 10,
     width: 50,
@@ -51,11 +52,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   listButton: {
     '&:hover': {
-      backgroundColor: theme.palette.nonary?.light || '',
+      // backgroundColor: theme.palette.nonary?.light || '',
+      backgroundColor:
+        theme.palette.type === 'dark'
+          ? theme.palette?.nonary?.dark
+          : theme.palette?.nonary?.light,
+      color: theme.palette.nonary?.main || '',
     },
   },
   itemSelected: {
-    backgroundColor: `${theme.palette.nonary?.light || ''}!important`,
+    backgroundColor: `${
+      theme.palette.type === 'dark'
+        ? theme.palette?.nonary?.dark
+        : theme.palette?.nonary?.light
+    }!important`,
   },
   line: {
     borderLeft: `10px solid ${theme.palette.nonary?.main}`,
@@ -236,7 +246,7 @@ const EncounterListItem: React.FunctionComponent<{
           selected: classes.itemSelected,
         }}
         button
-        onClick={event => handleClick(event, data, index)}
+        onClick={(event) => handleClick(event, data, index)}
         selected={selectedIndex === index}
       >
         <div className={classes.line}></div>
@@ -301,7 +311,7 @@ const EncounterListItem: React.FunctionComponent<{
           <IconButton
             edge='end'
             aria-label='show all'
-            onClick={event => handleClick(event, data, index)}
+            onClick={(event) => handleClick(event, data, index)}
           >
             {open ? <ExpandLess /> : <ExpandMore />}
           </IconButton>

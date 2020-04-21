@@ -30,11 +30,17 @@ import PatientEncounterList from '../../templates/PatientEncounterList'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
-    backgroundColor: theme.palette.nonary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.nonary?.dark
+        : theme.palette?.nonary?.light,
     color: theme.palette.nonary?.main || '',
   },
   iconCard: {
-    color: theme.palette.nonary?.main || '',
+    color:
+      theme.palette.type === 'dark'
+        ? theme.palette?.nonary?.main
+        : theme.palette?.nonary?.dark,
   },
   listRoot: { maxHeight: '60vh', overflow: 'auto' },
   root: {

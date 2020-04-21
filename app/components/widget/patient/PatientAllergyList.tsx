@@ -29,7 +29,10 @@ import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
-    backgroundColor: theme.palette.quinary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.quinary?.dark
+        : theme.palette?.quinary?.light,
     color: theme.palette.quinary?.main || '',
   },
   listPadding: {

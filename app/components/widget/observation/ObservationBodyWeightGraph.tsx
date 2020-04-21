@@ -24,7 +24,10 @@ import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
-    backgroundColor: theme.palette.duodenary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.duodenary?.dark
+        : theme.palette?.duodenary?.light,
     color: theme.palette.duodenary?.main || '',
   },
   summaryContainer: {
