@@ -1,6 +1,10 @@
 import React from 'react'
 
 import {
+  initialPatientConditionTableStructure,
+  IPatientConditionTableStructure,
+} from '@app/reducers-redux/patient/patientConditionTable.reducer'
+import {
   tableWithFilterReducer,
   tableWithFilterState,
 } from '@app/reducers/tableWithFilter.reducer'
@@ -76,11 +80,13 @@ export const PatientconditionTableWithConnector: React.FunctionComponent<{
       initialFilter={initialFilter || _.get(state, 'initialFilter')}
       isInitialize={isInitialize || true}
       name={name}
+      structure={_.get(state, 'structure')}
     />
   )
 }
 const PatientConditionTable: React.FunctionComponent<{
   patientId: any
+  structure?: IPatientConditionTableStructure
   isInitialize?: boolean
   resourceList?: any[]
   isContainer?: boolean
@@ -92,6 +98,7 @@ const PatientConditionTable: React.FunctionComponent<{
 }> = ({
   resourceList,
   patientId,
+  structure = initialPatientConditionTableStructure,
   max = 20,
   isInitialize,
   isContainer = true,
@@ -289,7 +296,11 @@ const PatientConditionTable: React.FunctionComponent<{
           <ToolbarWithFilter
             title={'Condition'}
             onClickIcon={showModal}
-            Icon={<Icon className='fas fa-clipboard' />}
+            Icon={
+              _.get(structure, 'headerIcon') ? (
+                <Icon className='fas fa-clipboard' />
+              ) : null
+            }
             option={{
               headerClass: classes.headerCard,
               isHideIcon: false,

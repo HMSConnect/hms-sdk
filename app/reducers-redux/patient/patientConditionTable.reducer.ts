@@ -7,9 +7,13 @@ interface IPatientConditionTableAction {
   payload: any
 }
 
-export interface IPatientConditionTableStructure {}
+export interface IPatientConditionTableStructure {
+  headerIcon: boolean
+}
 
-export const initialPatientConditionTableStructure: IPatientConditionTableStructure = {}
+export const initialPatientConditionTableStructure: IPatientConditionTableStructure = {
+  headerIcon: true,
+}
 
 const initialState: any = {
   structure: initialPatientConditionTableStructure,

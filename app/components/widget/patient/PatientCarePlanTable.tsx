@@ -1,6 +1,10 @@
 import React from 'react'
 
 import {
+  initialPatientCarePlanTableStructure,
+  IPatientCarePlanTableStructure,
+} from '@app/reducers-redux/patient/patientCarePlanTable.reducer'
+import {
   tableWithFilterReducer,
   tableWithFilterState,
 } from '@app/reducers/tableWithFilter.reducer'
@@ -75,6 +79,7 @@ export const PatientCarePlanTableWithConnector: React.FunctionComponent<{
       initialFilter={initialFilter}
       isContainer={isContainer}
       name={name}
+      structure={_.get(state, 'structure')}
       // name={`${name || ''}CarePlanTable`}
     />
   )
@@ -82,6 +87,7 @@ export const PatientCarePlanTableWithConnector: React.FunctionComponent<{
 
 const PatientCarePlanTable: React.FunctionComponent<{
   patientId: any
+  structure?: IPatientCarePlanTableStructure
   isInitialize?: boolean
   resourceList?: any[]
   isContainer?: boolean
@@ -93,6 +99,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
 }> = ({
   resourceList,
   patientId,
+  structure = initialPatientCarePlanTableStructure,
   max = 20,
   isInitialize,
   isContainer = true,
@@ -412,7 +419,11 @@ const PatientCarePlanTable: React.FunctionComponent<{
           <ToolbarWithFilter
             title={'Care Plan'}
             onClickIcon={showModal}
-            Icon={<Icon className='fas fa-solar-panel' />}
+            Icon={
+              _.get(structure, 'headerIcon') ? (
+                <Icon className='fas fa-solar-panel' />
+              ) : null
+            }
             filterActive={countFilterActive(submitedFilter, initialFilter, [
               'periodStart_lt',
               'patientId',

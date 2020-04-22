@@ -1,7 +1,8 @@
-import AuthService from '@services/AuthService'
 import * as React from 'react'
-import routes from '../../routes'
+
 import environment from '@environment'
+import AuthService from '@services/AuthService'
+import routes from '../../routes'
 
 export const withAuthSync = (WrappedComponent: any) => {
   const Wrapper: any = (props: any) => {

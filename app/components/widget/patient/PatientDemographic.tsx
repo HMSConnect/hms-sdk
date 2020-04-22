@@ -1,5 +1,9 @@
 import * as React from 'react'
 
+import {
+  initialPatientDemographicStructure,
+  IPatientDemographicStructure,
+} from '@app/reducers-redux/patient/patientDemographic.reducer'
 import ErrorSection from '@components/base/ErrorSection'
 import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import usePatient from '@components/hooks/usePatient'
@@ -14,10 +18,6 @@ import {
 } from '@material-ui/core'
 import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
-import {
-  IPatientDemographicStructure,
-  initialPatientDemographicStructure,
-} from '@app/reducers-redux/patient/patientDemographic.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bigAvatar: {

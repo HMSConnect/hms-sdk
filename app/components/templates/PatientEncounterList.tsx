@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { IEncounterTimelistStructure } from '@app/reducers-redux/patient/patientEncounterTimeline.reducer'
 import environment from '@environment'
 import {
   Avatar,
@@ -9,7 +10,6 @@ import {
   Divider,
   Icon,
   IconButton,
-  lighten,
   List,
   ListItem,
   ListItemIcon,
@@ -29,7 +29,6 @@ import join from 'lodash/join'
 import map from 'lodash/map'
 import min from 'lodash/min'
 import * as moment from 'moment'
-import { IEncounterTimelistStructure } from '@app/reducers-redux/patient/patientEncounterTimeline.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   contentText: {

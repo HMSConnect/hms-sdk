@@ -7,9 +7,13 @@ interface IPatientCarePlanTableAction {
   payload: any
 }
 
-export interface IPatientCarePlanTableStructure {}
+export interface IPatientCarePlanTableStructure {
+  headerIcon: boolean
+}
 
-export const initialPatientCarePlanTableStructure: IPatientCarePlanTableStructure = {}
+export const initialPatientCarePlanTableStructure: IPatientCarePlanTableStructure = {
+  headerIcon: true,
+}
 
 const initialState: any = {
   structure: initialPatientCarePlanTableStructure,

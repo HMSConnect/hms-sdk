@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 
 import {
+  IEncounterTimelistStructure,
+  initialPatientEncounterTimelineStructure,
+} from '@app/reducers-redux/patient/patientEncounterTimeline.reducer'
+import {
   tableWithFilterReducer,
   tableWithFilterState,
 } from '@app/reducers/tableWithFilter.reducer'
@@ -27,10 +31,6 @@ import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
 import useInfinitScroll from '../../hooks/useInfinitScroll'
 import PatientEncounterList from '../../templates/PatientEncounterList'
-import {
-  IEncounterTimelistStructure,
-  initialPatientEncounterTimelineStructure,
-} from '@app/reducers-redux/patient/patientEncounterTimeline.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
