@@ -45,12 +45,18 @@ export interface IWidgetPatameter {
   choices?: any[]
 }
 
+export interface IWidgetStructure {
+  name: string
+  structure: IWidgetPatameter[]
+}
+
 export interface IWidgetGroup {
   label: string
   child: IWidgetChild[]
   value: string
   parameters?: IWidgetPatameter[]
   queryParams?: IWidgetPatameter[]
+  structure?: IWidgetStructure[]
 }
 
 export interface IWidgetChild {
@@ -61,6 +67,7 @@ export interface IWidgetChild {
   pathType?: 'url' | 'static'
   parameters?: IWidgetPatameter[]
   queryParams?: IWidgetPatameter[]
+  structure?: IWidgetStructure[]
 }
 
 export const serviceConfig = {

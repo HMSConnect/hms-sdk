@@ -18,6 +18,7 @@ type WidgetActionType =
   | 'IFRAME_REFRESH'
   | 'IFRAME_SUBMIT'
   | 'UPDATE_URL_TEXT'
+  | 'IFRAME_STRUCTURE_CHANGE'
 interface IWidgetReducerAction {
   type: WidgetActionType | OutputActionType
   payload?: any
@@ -27,6 +28,7 @@ export const widgetState = {
   iframeState: {
     parameters: {},
     queryParams: {},
+    structure: {},
     url: '', // store url for change iframe
   },
   loading: true,
@@ -82,8 +84,23 @@ export function widgetReducer(state: any = {}, action: IWidgetReducerAction) {
         iframeState: {
           ...state.iframeState,
           parameters: {
-            ...state.iframeState.queryParams,
+            ...state.iframeState.parameters,
             [action.payload.type]: action.payload.value,
+          },
+        },
+        outputs: [],
+      }
+    case 'IFRAME_STRUCTURE_CHANGE':
+      return {
+        ...state,
+        iframeState: {
+          ...state.iframeState,
+          structure: {
+            ...state.iframeState.structure,
+            [action.payload.name]: {
+              ...state.iframeState.structure[action.payload.name],
+              [action.payload.type]: action.payload.value,
+            },
           },
         },
         outputs: [],
