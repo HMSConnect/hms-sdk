@@ -1,6 +1,7 @@
 import AuthService from '@services/AuthService'
 import * as React from 'react'
 import routes from '../../routes'
+import { disableAuthen } from '@config'
 
 export const withAuthSync = (WrappedComponent: any) => {
   const Wrapper: any = (props: any) => {
@@ -26,6 +27,12 @@ export const withAuthSync = (WrappedComponent: any) => {
 
   Wrapper.getInitialProps = async (ctx: any) => {
     let callbackIfEmbeddedWidget
+    const componentProps =
+      WrappedComponent.getInitialProps &&
+      (await WrappedComponent.getInitialProps(ctx))
+    if (disableAuthen) {
+      return { ...componentProps }
+    }
     if (ctx.req && ctx.req.url.includes('embedded-widget')) {
       callbackIfEmbeddedWidget = () => {
         AuthService.redirect(ctx, '/login')
@@ -39,10 +46,6 @@ export const withAuthSync = (WrappedComponent: any) => {
       ctx,
       callbackIfEmbeddedWidget,
     )
-
-    const componentProps =
-      WrappedComponent.getInitialProps &&
-      (await WrappedComponent.getInitialProps(ctx))
 
     return { ...componentProps, token }
   }

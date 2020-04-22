@@ -146,3 +146,5 @@ export const selectOptions = {
     medicationRequestStatusOption,
   },
 }
+
+export const disableAuthen = true
