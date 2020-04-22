@@ -3,7 +3,6 @@ import * as React from 'react'
 import { Table } from '@material-ui/core'
 import { fireEvent, render } from '@testing-library/react'
 import EnhancedTableHead from '../EnhancedTableHead'
-import { Chart } from '@devexpress/dx-react-chart'
 const TestChildren = () => null
 const defaultProps: any = {
   data: 'test-data',

@@ -31,6 +31,7 @@ const EnhancedTableHead = ({
   orderBy,
   onRequestSort,
   headCells,
+  classes,
 }: IEnhancedTableProps) => {
   const createSortHandler = (property: any) => {
     if (onRequestSort) {

@@ -231,6 +231,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'encounterId',
         },
       ],
+
       value: 'patient-summary',
     },
     {
@@ -245,6 +246,25 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
+        },
+      ],
+      structure: [
+        {
+          name: 'patientDemographic',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Address Field',
+              type: 'boolean',
+              value: 'addressField',
+            },
+            {
+              defaultValue: true,
+              label: 'Age Field',
+              type: 'boolean',
+              value: 'ageField',
+            },
+          ],
         },
       ],
       value: 'patient-demographic',
@@ -280,6 +300,25 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           label: 'InitialFilter[status]',
           type: 'options',
           value: 'initialFilter[status]',
+        },
+      ],
+      structure: [
+        {
+          name: 'patientEncounterTimeline',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIcon',
+            },
+            {
+              defaultValue: true,
+              label: 'Filter Icon',
+              type: 'boolean',
+              value: 'filterIcon',
+            },
+          ],
         },
       ],
       value: 'patient-encounter-timeline',
