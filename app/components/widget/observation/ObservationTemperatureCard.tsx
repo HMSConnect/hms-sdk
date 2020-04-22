@@ -93,8 +93,8 @@ export const ObservationTemperatureCardWithConnector: React.FunctionComponent<{
 
   return (
     <ObservationTemperatureCard
-      key={`ObservationTemperatureCard${
-        encounterId || state.observationTemperatureCard.encounterId
+      key={`ObservationBloodPressureCard${
+        encounterId || _.get(state, 'observationTemperatureCard.encounterId')
       }`}
       patientId={patientId || state.observationTemperatureCard.patientId}
       encounterId={encounterId || state.observationTemperatureCard.encounterId}

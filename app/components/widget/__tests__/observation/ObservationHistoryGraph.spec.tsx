@@ -1,13 +1,14 @@
 import * as React from 'react'
 
-import observationHistoryGraph from '@app/reducers-redux/observationHistoryGraph.reducer'
-import patientSummaryCards from '@app/reducers-redux/patientSummaryCards.reducer'
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import useObservationList from '@components/hooks/useObservationList'
 import ObservationHistoryGraph, {
   ObservationHistoryGraphWithConnector,
 } from '@components/widget/observation/ObservationHistoryGraph'
 import { combineReducers, createStore } from 'redux'
+import patientSummaryCards from '@app/reducers-redux/patient/patientSummaryCards.reducer'
+import observationHistoryGraph from '@app/reducers-redux/observation/observationHistoryGraph.reducer'
+import { render } from '@testing-library/react'
 
 jest.mock('@components/hooks/useObservationList', () => ({
   __esModule: true,
@@ -35,16 +36,8 @@ describe('<ObservationHistoryGraph>', () => {
       totalCount: 2,
     }
     useObservationListResult.mockImplementation(() => results)
-    const { queryByText } = renderWithRedux(
-      <ObservationHistoryGraph patientId={'1'} />,
-      {
-        initialState: {},
-        store: createStore(patientSummaryCards, {
-          patientSummaryCards: {
-            selectedCard: 'bloodPressure',
-          },
-        }),
-      },
+    const { queryByText } = render(
+      <ObservationHistoryGraph patientId={'1'} selectedCard='bloodPressure' />,
     )
     expect(queryByText('Blood Pressure')).toBeTruthy()
   })
@@ -88,16 +81,8 @@ describe('<ObservationHistoryGraph>', () => {
       totalCount: 2,
     }
     useObservationListResult.mockImplementation(() => results)
-    const { queryByText } = renderWithRedux(
-      <ObservationHistoryGraph patientId={'1'} />,
-      {
-        initialState: {},
-        store: createStore(patientSummaryCards, {
-          patientSummaryCards: {
-            selectedCard: 'bodyHeight',
-          },
-        }),
-      },
+    const { queryByText } = render(
+      <ObservationHistoryGraph patientId={'1'} selectedCard='bodyHeight' />,
     )
     expect(queryByText('Body Height')).toBeTruthy()
   })
@@ -110,16 +95,8 @@ describe('<ObservationHistoryGraph>', () => {
       totalCount: 2,
     }
     useObservationListResult.mockImplementation(() => results)
-    const { queryByText } = renderWithRedux(
-      <ObservationHistoryGraph patientId={'1'} />,
-      {
-        initialState: {},
-        store: createStore(patientSummaryCards, {
-          patientSummaryCards: {
-            selectedCard: 'bodyWeight',
-          },
-        }),
-      },
+    const { queryByText } = render(
+      <ObservationHistoryGraph patientId={'1'} selectedCard='bodyWeight' />,
     )
     expect(queryByText('Body Weight')).toBeTruthy()
   })
@@ -132,16 +109,8 @@ describe('<ObservationHistoryGraph>', () => {
       totalCount: 2,
     }
     useObservationListResult.mockImplementation(() => results)
-    const { queryByText } = renderWithRedux(
-      <ObservationHistoryGraph patientId={'1'} />,
-      {
-        initialState: {},
-        store: createStore(patientSummaryCards, {
-          patientSummaryCards: {
-            selectedCard: 'bodyMassIndex',
-          },
-        }),
-      },
+    const { queryByText } = render(
+      <ObservationHistoryGraph patientId={'1'} selectedCard='bodyMassIndex' />,
     )
     expect(queryByText('Body Mass Index')).toBeTruthy()
   })
@@ -154,16 +123,11 @@ describe('<ObservationHistoryGraph>', () => {
       totalCount: 2,
     }
     useObservationListResult.mockImplementation(() => results)
-    const { queryByText } = renderWithRedux(
-      <ObservationHistoryGraph patientId={'1'} />,
-      {
-        initialState: {},
-        store: createStore(patientSummaryCards, {
-          patientSummaryCards: {
-            selectedCard: 'bodyTemperature',
-          },
-        }),
-      },
+    const { queryByText } = render(
+      <ObservationHistoryGraph
+        patientId={'1'}
+        selectedCard='bodyTemperature'
+      />,
     )
     expect(queryByText('Body Temperature')).toBeTruthy()
   })
@@ -176,16 +140,8 @@ describe('<ObservationHistoryGraph>', () => {
       totalCount: 2,
     }
     useObservationListResult.mockImplementation(() => results)
-    const { queryByText } = renderWithRedux(
-      <ObservationHistoryGraph patientId={'1'} />,
-      {
-        initialState: {},
-        store: createStore(patientSummaryCards, {
-          patientSummaryCards: {
-            selectedCard: 'heartRate',
-          },
-        }),
-      },
+    const { queryByText } = render(
+      <ObservationHistoryGraph patientId={'1'} selectedCard='heartRate' />,
     )
     expect(queryByText('Heart Rate')).toBeTruthy()
   })
@@ -202,16 +158,11 @@ describe('<ObservationHistoryGraph>', () => {
       encounterId: '1',
       patientId: '1',
     }
-    const { queryByText } = renderWithRedux(
-      <ObservationHistoryGraph patientId={query.patientId} />,
-      {
-        initialState: {},
-        store: createStore(patientSummaryCards, {
-          patientSummaryCards: {
-            selectedCard: 'bloodPressure',
-          },
-        }),
-      },
+    const { queryByText } = render(
+      <ObservationHistoryGraph
+        patientId={query.patientId}
+        selectedCard='bloodPressure'
+      />,
     )
     expect(queryByText('loading..')).toBeTruthy()
   })
@@ -229,16 +180,11 @@ describe('<ObservationHistoryGraph>', () => {
       encounterId: '1',
       patientId: '1',
     }
-    const { queryByText } = renderWithRedux(
-      <ObservationHistoryGraph patientId={query.patientId} />,
-      {
-        initialState: {},
-        store: createStore(patientSummaryCards, {
-          patientSummaryCards: {
-            selectedCard: 'bloodPressure',
-          },
-        }),
-      },
+    const { queryByText } = render(
+      <ObservationHistoryGraph
+        patientId={query.patientId}
+        selectedCard='bloodPressure'
+      />,
     )
     expect(queryByText('Error')).toBeTruthy()
   })

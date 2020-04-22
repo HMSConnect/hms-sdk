@@ -14,6 +14,7 @@ import {
 import userEvent from '@testing-library/user-event'
 import routes from '../../../../routes'
 import PatientEncounterTimeline from '../../patient/PatientEncounterTimeline'
+import { initialPatientEncounterTimelineStructure } from '@app/reducers-redux/patient/patientEncounterTimeline.reducer'
 
 jest.mock('../../../../routes', () => ({
   __esModule: true,
@@ -70,7 +71,11 @@ describe('<PatientEncounterTimeline With useInfinitescroll>', () => {
       return Promise.resolve(results)
     })
     const { queryByText } = render(
-      <PatientEncounterTimeline patientId={'0001'} isContainer={false} />,
+      <PatientEncounterTimeline
+        structure={initialPatientEncounterTimelineStructure}
+        patientId={'0001'}
+        isContainer={false}
+      />,
     )
     // expect(queryByText('ServiceTest3')).toBeTruthy()
     await act(async () => {

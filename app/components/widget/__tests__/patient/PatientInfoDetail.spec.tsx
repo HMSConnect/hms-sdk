@@ -97,7 +97,7 @@ describe('<PatientInfoDetail />', () => {
 
   it('render PatientInfoDetail', () => {
     const { queryAllByText, getByText } = renderWithRedux(
-      <PatientInfoDetail query={mockQuery} />,
+      <PatientInfoDetail patientId={'1'} />,
       {
         initialState: {},
         store: createStore(patientDemographic, {
@@ -116,7 +116,7 @@ describe('<PatientInfoDetail />', () => {
       isLoading: true,
     }))
     const { queryAllByText, getByText } = renderWithRedux(
-      <PatientInfoDetail query={mockQuery} />,
+      <PatientInfoDetail patientId={'1'} />,
       {
         initialState: {},
         store: createStore(patientDemographic, {
@@ -137,7 +137,7 @@ describe('<PatientInfoDetail />', () => {
     }))
 
     const { queryAllByText, getByText } = renderWithRedux(
-      <PatientInfoDetail query={mockQuery} />,
+      <PatientInfoDetail patientId={'1'} />,
       {
         initialState: {},
         store: createStore(patientDemographic, {
@@ -163,7 +163,7 @@ describe('<PatientInfoDetail />', () => {
       isLoading: false,
     }))
     const { queryAllByText, getByText } = renderWithRedux(
-      <PatientInfoDetail query={mockQuery} />,
+      <PatientInfoDetail patientId={'1'} />,
       {
         initialState: {},
         store: createStore(patientDemographic, {

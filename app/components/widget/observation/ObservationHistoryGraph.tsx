@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const ObservationHistoryGraphWithConnector: React.FunctionComponent<{
-  patientId: string
+  patientId?: string
   selectedCard?: string
   mouseTrackCategory?: string
 }> = ({ patientId, selectedCard, mouseTrackCategory }) => {
@@ -60,6 +60,7 @@ const ObservationHistoryGraph: React.FunctionComponent<{
   const renderGraph = (selected: string) => {
     switch (selected) {
       case OBSERVATION_CODE.BODY_WEIGHT.value:
+        console.log('BODY_WEIGHT :>> ', OBSERVATION_CODE.BODY_WEIGHT)
         return (
           <ObservationBodyWeightGraph
             patientId={patientId}

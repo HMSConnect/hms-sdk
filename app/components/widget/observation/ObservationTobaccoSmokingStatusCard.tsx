@@ -79,8 +79,9 @@ export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionCom
   }))
   return (
     <ObservationTobaccoSmokingStatusCard
-      key={`ObservationTobaccoSmokingStatusCard${
-        encounterId || state.observationTobaccoSmokingStatusCard.encounterId
+      key={`ObservationBloodPressureCard${
+        encounterId ||
+        get(state, 'observationTobaccoSmokingStatusCard.encounterId')
       }`}
       patientId={
         patientId || state.observationTobaccoSmokingStatusCard.patientId
