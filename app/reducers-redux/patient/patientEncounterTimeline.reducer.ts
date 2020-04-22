@@ -8,21 +8,21 @@ interface IPatientEncounterTimelineAction {
 }
 
 export interface IEncounterTimelistStructure {
-  filterIcon: boolean
-  headerIcon: boolean
-  practitioner: boolean
-  classCode: boolean
-  diagnosis: boolean
-  typeCure: boolean
+  filterIconField: boolean
+  headerIconField: boolean
+  practitionerField: boolean
+  classCodeField: boolean
+  diagnosisField: boolean
+  typeCureField: boolean
 }
 
 export const initialPatientEncounterTimelineStructure: IEncounterTimelistStructure = {
-  classCode: true,
-  diagnosis: true,
-  filterIcon: true,
-  headerIcon: true,
-  practitioner: true,
-  typeCure: true,
+  classCodeField: true,
+  diagnosisField: true,
+  filterIconField: true,
+  headerIconField: true,
+  practitionerField: true,
+  typeCureField: true,
 }
 
 const initialState: any = {

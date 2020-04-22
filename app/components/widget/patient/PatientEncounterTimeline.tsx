@@ -387,7 +387,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
             title={'Encounter'}
             onClickIcon={showModal}
             Icon={
-              structure.headerIcon ? (
+              structure.headerIconField ? (
                 <Icon
                   className={clsx('fas fa-book-reader', classes.iconCard)}
                 />
@@ -400,7 +400,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
             ])}
             option={{
               headerClass: classes.headerCard,
-              isHideIcon: structure.filterIcon ? false : true,
+              isHideIcon: structure.filterIconField ? false : true,
             }}
           >
             {renderModal}

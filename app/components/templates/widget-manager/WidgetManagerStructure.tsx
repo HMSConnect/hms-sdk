@@ -30,7 +30,9 @@ const WidgetManagerStructure: React.FC<{
       <br />
       {_.map(selectedWidget[type], (parameter, indexHead) => (
         <React.Fragment key={`${parameter.value}structures${indexHead}`}>
-          <Typography variant='body2'>{parameter.name}</Typography>
+          <Typography variant='body2'>
+            {_.startCase(parameter.name)}
+          </Typography>
           {_.map(parameter.structure, (structureParameter, indexTail) => (
             <React.Fragment
               key={`${structureParameter.value}structures${indexTail}`}

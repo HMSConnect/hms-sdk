@@ -335,7 +335,7 @@ const EncounterListItem: React.FunctionComponent<{
                 <ListItemText
                   primary={
                     <>
-                      {get(structure, 'typeCure') ? (
+                      {get(structure, 'typeCureField') ? (
                         <div>
                           <Typography
                             variant='body2'
@@ -354,7 +354,7 @@ const EncounterListItem: React.FunctionComponent<{
                         </div>
                       ) : null}
 
-                      {get(structure, 'diagnosis') ? (
+                      {get(structure, 'diagnosisField') ? (
                         <div>
                           <Typography
                             variant='body2'
@@ -375,7 +375,7 @@ const EncounterListItem: React.FunctionComponent<{
                           </Typography>
                         </div>
                       ) : null}
-                      {get(structure, 'classCode') ? (
+                      {get(structure, 'classCodeField') ? (
                         <div>
                           <Typography
                             variant='body2'
@@ -394,7 +394,7 @@ const EncounterListItem: React.FunctionComponent<{
                         </div>
                       ) : null}
 
-                      {get(structure, 'practitioner') ? (
+                      {get(structure, 'practitionerField') ? (
                         <div>
                           <Typography
                             variant='body2'
