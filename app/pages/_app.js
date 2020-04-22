@@ -13,6 +13,7 @@ import RouteManager from '../routes/RouteManager'
 import { GoogleAnalytics } from '../services/GoogleAnalyticsService'
 import { MessageListenerService } from '../services/MessageListenerService'
 
+import '@fortawesome/fontawesome-free/css/all.min.css'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 

@@ -12,7 +12,7 @@ class HMSWidgetSDKDocument extends Document {
 
     ctx.renderPage = () =>
       originalRenderPage({
-        enhanceApp: App => props => sheets.collect(<App {...props} />),
+        enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
       })
 
     const initialProps = await Document.getInitialProps(ctx)
@@ -80,10 +80,6 @@ class HMSWidgetSDKDocument extends Document {
             rel='stylesheet'
             href='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css'
           /> */}
-          <script
-            src='https://kit.fontawesome.com/e99afe3274.js'
-            crossOrigin='anonymous'
-          ></script>
 
           <style>{` body { margin:0; padding:0; } `}</style>
         </Head>
