@@ -27,6 +27,7 @@ import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
 import useInfinitScroll from '../../hooks/useInfinitScroll'
 import PatientEncounterList from '../../templates/PatientEncounterList'
+import { IEncounterTimelistStructure } from '@app/reducers-redux/patient/patientEncounterTimeline.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
@@ -92,7 +93,6 @@ export const PatientEncounterTimelineWithConnector: React.FunctionComponent<{
   selectedEncounterId,
 }) => {
   const state = useSelector((state: any) => state.patientEncounterTimeline)
-
   const handleEncounterSelect = (
     event: React.MouseEvent,
     selectedEncounter: any,
@@ -130,12 +130,14 @@ export const PatientEncounterTimelineWithConnector: React.FunctionComponent<{
       max={max || state?.query?.max}
       onEncounterSelected={handleEncounterSelect}
       name={name}
+      structure={state.structure}
     />
   )
 }
 
 const PatientEncounterTimeline: React.FunctionComponent<{
   patientId: any
+  structure: IEncounterTimelistStructure
   resourceList?: any[]
   isInitialize?: boolean
   max?: number
@@ -152,6 +154,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   mouseTrackLabel?: string
 }> = ({
   patientId,
+  structure,
   resourceList,
   isInitialize,
   max = 20,
@@ -381,7 +384,11 @@ const PatientEncounterTimeline: React.FunctionComponent<{
             title={'Encounter'}
             onClickIcon={showModal}
             Icon={
-              <Icon className={clsx('fas fa-book-reader', classes.iconCard)} />
+              structure.headerIcon ? (
+                <Icon
+                  className={clsx('fas fa-book-reader', classes.iconCard)}
+                />
+              ) : null
             }
             filterActive={countFilterActive(submitedFilter, initialFilter, [
               'periodStart_lt',
@@ -390,6 +397,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
             ])}
             option={{
               headerClass: classes.headerCard,
+              isHideIcon: structure.filterIcon ? false : true,
             }}
           >
             {renderModal}
@@ -402,6 +410,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
             isLoading={isLoading}
             isMore={isMore}
             selectedEncounterId={selectedEncounterId}
+            structure={structure}
           />
         </div>
       </div>

@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core'
 import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
+import { IPatientDemographicStructure } from '@app/reducers-redux/patient/patientDemographic.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bigAvatar: {
@@ -59,7 +60,7 @@ export const PatientDemographicWithConnector: React.FunctionComponent<{
 
 const PatientDemographic: React.FunctionComponent<{
   patientId: string
-  structure: any
+  structure: IPatientDemographicStructure
   name?: string
   mouseTrackCategory?: string
   mouseTrackLabel?: string
