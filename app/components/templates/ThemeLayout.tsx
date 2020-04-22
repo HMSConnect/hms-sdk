@@ -26,7 +26,6 @@ class ThemeLayout extends React.Component<any> {
     if (!themeApp.themeObject) {
       return <LoadingSection />
     }
-    console.log('themeApp :>> ', themeApp);
     return (
       <ThemeProvider theme={themeApp.themeObject}>
         {this.props.children}

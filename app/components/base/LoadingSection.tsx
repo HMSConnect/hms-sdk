@@ -6,8 +6,8 @@ const useStyles = makeStyles((theme: Theme) => {
     background: {
       backgroundColor:
         theme.palette.type === 'dark'
-          ? theme.palette?.loading?.dark
-          : theme.palette?.loading?.main,
+          ? theme.palette?.loading?.dark || '#81d4fa'
+          : theme.palette?.loading?.main || '#81d4fa',
     },
   }
 })

@@ -6,10 +6,10 @@ const useStyles = makeStyles((theme: Theme) => {
     background: {
       backgroundColor:
         theme.palette.type === 'dark'
-          ? theme.palette.error.dark
-          : theme.palette.error.light,
+          ? theme.palette.error?.dark || '#ffcdd2'
+          : theme.palette.error?.light || '#ffcdd2',
     },
-  }
+  }    
 })
 const ErrorSection: React.FunctionComponent<{
   error: Error | string
