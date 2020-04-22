@@ -5,6 +5,7 @@ module.exports = nextRoutes()
   .add('index', '/')
   .add('patient-search')
   .add('login')
+  .add('playground')
   .add(
     'embedded-widget/login',
     '/embedded-widget/login',
