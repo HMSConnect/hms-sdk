@@ -73,15 +73,6 @@ describe('<PatientMedicationList />', () => {
     expect(queryByText('Levora 0.33/30')).toBeTruthy()
   })
 
-  // it('scroll PatientMedicationList', () => {
-  //   const { queryByText } = render(
-  //     <PatientMedicationList patientId={'1'} isInitialize={true} />,
-  //   )
-
-  //   expect(queryByText('Levora 0.15/30')).toBeTruthy()
-  //   expect(queryByText('Levora 0.33/30')).toBeTruthy()
-  // })
-
   it('error PatientMedicationList', () => {
     const errorText = 'Test Error'
     const useObservaionLaboratoryListResult: any = useInfinitScroll as any

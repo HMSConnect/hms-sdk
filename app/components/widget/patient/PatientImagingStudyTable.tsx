@@ -87,10 +87,12 @@ const PatientImagingStudyTable: React.FunctionComponent<{
   name?: string
   mouseTrackCategory?: string
   mouseTrackLabel?: string
+  isContainer?: boolean
 }> = ({
   resourceList,
   patientId,
   max = 20,
+  isContainer = true,
   isInitialize,
   initialFilter: customInitialFilter = {
     patientId,
@@ -163,7 +165,11 @@ const PatientImagingStudyTable: React.FunctionComponent<{
     setIsMore,
     setResult,
     isMore,
-  } = useInfinitScroll(null, fetchMoreAsync, resourceList)
+  } = useInfinitScroll(
+    isContainer ? myscroll.current : null,
+    fetchMoreAsync,
+    resourceList,
+  )
 
   React.useEffect(() => {
     if (isInitialize) {

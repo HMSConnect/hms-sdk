@@ -95,7 +95,6 @@ const MouseTrackMove: React.FunctionComponent<{
     const grid = []
     const minNumCellx = Math.round((bodySize.width || 0) / gridWidth)
     const minNumCelly = Math.round((bodySize.height || 0) / gridHeight)
-
     for (let i = 0; i < minNumCellx; i++) {
       for (let j = 0; j < minNumCelly; j++) {
         grid.push(
@@ -126,6 +125,7 @@ const MouseTrackMove: React.FunctionComponent<{
           color='secondary'
           aria-label='edit'
           onClick={handleClickGridLayout}
+          data-testid='grid-layout-render-icon'
         >
           {displayGridLayout ? <GridOffIcon /> : <GridOnIcon />}
         </Fab>

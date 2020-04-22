@@ -14,17 +14,17 @@ import {
 import userEvent from '@testing-library/user-event'
 import routes from '../../../../routes'
 import PatientEncounterTimeline from '../../patient/PatientEncounterTimeline'
-
-jest.mock('@components/hooks/useInfinitScroll', () => ({
-  __esModule: true,
-  default: jest.fn(),
-}))
+import { initialPatientEncounterTimelineStructure } from '@app/reducers-redux/patient/patientEncounterTimeline.reducer'
 
 jest.mock('../../../../routes', () => ({
   __esModule: true,
   default: routesMock,
 }))
 
+jest.mock('@components/hooks/useInfinitScroll', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}))
 describe('PatientEncounterTimeline', () => {
   beforeAll(() => {
     jest.spyOn(HMSService, 'getService').mockImplementation(() => {
@@ -54,14 +54,49 @@ describe('PatientEncounterTimeline', () => {
 
   it('render PatientEncounterTimeline', () => {
     const { queryByText } = render(
-      <PatientEncounterTimeline patientId={'0001'} />,
+      <PatientEncounterTimeline
+        structure={initialPatientEncounterTimelineStructure}
+        patientId={'0001'}
+      />,
     )
     expect(queryByText('ServiceTest3')).toBeTruthy()
   })
 
+  it('window scroll PatientEncounterTimeline', async () => {
+    const listSpyon = jest.fn()
+    jest.spyOn(HMSService, 'getService').mockImplementation(() => {
+      return EncounterServiceMock as EncounterService
+    })
+    jest
+      .spyOn(EncounterServiceMock, 'list')
+      .mockImplementation((params: any) => {
+        listSpyon(params)
+        return Promise.resolve({})
+      })
+    const { queryByText } = render(
+      <PatientEncounterTimeline
+        structure={initialPatientEncounterTimelineStructure}
+        patientId={'0001'}
+        isContainer={false}
+      />,
+    )
+    expect(queryByText('ServiceTest3')).toBeTruthy()
+    await act(async () => {
+      fireEvent.scroll(window, { target: { pageYOffset: 100 } })
+      // await waitForNextUpdate()
+    })
+
+    await act(async () => {
+      fireEvent.scroll(window, { target: { pageYOffset: 1000 } })
+    })
+  })
+
   it('select PatientEncounterTimeline', async () => {
     const { queryByText, getByText, getByTestId } = render(
-      <PatientEncounterTimeline patientId={'0001'} />,
+      <PatientEncounterTimeline
+        structure={initialPatientEncounterTimelineStructure}
+        patientId={'0001'}
+      />,
     )
 
     const encounterTimelineElement = getByText('ServiceTest3')
@@ -124,6 +159,7 @@ describe('PatientEncounterTimeline', () => {
 
     const { getByTestId, getByText } = render(
       <PatientEncounterTimeline
+        structure={initialPatientEncounterTimelineStructure}
         patientId={'1'}
         initialFilter={{ status: 'arrived' }}
       />,
@@ -174,6 +210,7 @@ describe('PatientEncounterTimeline', () => {
 
     const { getByTestId, getByText } = render(
       <PatientEncounterTimeline
+        structure={initialPatientEncounterTimelineStructure}
         patientId={'1'}
         initialFilter={{ status: 'arrived' }}
       />,
@@ -244,7 +281,12 @@ describe('PatientEncounterTimeline', () => {
         })
       })
 
-    const { getByTestId } = render(<PatientEncounterTimeline patientId={'1'} />)
+    const { getByTestId } = render(
+      <PatientEncounterTimeline
+        structure={initialPatientEncounterTimelineStructure}
+        patientId={'1'}
+      />,
+    )
     expect(setResult).toBeCalledTimes(0)
     const filterIconElement = getByTestId('toolbar-filter-icon')
 
@@ -284,7 +326,12 @@ describe('PatientEncounterTimeline', () => {
       throw Error('error!!!')
     })
 
-    const { getByTestId } = render(<PatientEncounterTimeline patientId={'1'} />)
+    const { getByTestId } = render(
+      <PatientEncounterTimeline
+        structure={initialPatientEncounterTimelineStructure}
+        patientId={'1'}
+      />,
+    )
     expect(setResult).toBeCalledTimes(0)
     const filterIconElement = getByTestId('toolbar-filter-icon')
 
@@ -336,7 +383,11 @@ describe('PatientEncounterTimeline', () => {
     useObservaionLaboratoryListResult.mockImplementation(() => results)
 
     const { queryByText } = render(
-      <PatientEncounterTimeline patientId={'1'} isInitialize={true} />,
+      <PatientEncounterTimeline
+        structure={initialPatientEncounterTimelineStructure}
+        patientId={'1'}
+        isInitialize={true}
+      />,
     )
     expect(queryByText('Test Error')).toBeTruthy()
   })

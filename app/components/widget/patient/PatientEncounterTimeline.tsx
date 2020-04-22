@@ -27,7 +27,10 @@ import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
 import useInfinitScroll from '../../hooks/useInfinitScroll'
 import PatientEncounterList from '../../templates/PatientEncounterList'
-import { IEncounterTimelistStructure } from '@app/reducers-redux/patient/patientEncounterTimeline.reducer'
+import {
+  IEncounterTimelistStructure,
+  initialPatientEncounterTimelineStructure,
+} from '@app/reducers-redux/patient/patientEncounterTimeline.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
@@ -137,7 +140,7 @@ export const PatientEncounterTimelineWithConnector: React.FunctionComponent<{
 
 const PatientEncounterTimeline: React.FunctionComponent<{
   patientId: any
-  structure: IEncounterTimelistStructure
+  structure?: IEncounterTimelistStructure
   resourceList?: any[]
   isInitialize?: boolean
   max?: number
@@ -154,7 +157,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   mouseTrackLabel?: string
 }> = ({
   patientId,
-  structure,
+  structure = initialPatientEncounterTimelineStructure,
   resourceList,
   isInitialize,
   max = 20,

@@ -24,6 +24,7 @@ import PatientImmunizationTable from './PatientImmunizationTable'
 import PatientMedicationRequestTable from './PatientMedicationRequestTable'
 import PatientObservationTable from './PatientObservationTable'
 import PatientProcedureTable from './PatientProcedureTable'
+import { initialPatientEncounterTimelineStructure } from '@app/reducers-redux/patient/patientEncounterTimeline.reducer'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -181,6 +182,7 @@ const PatientDetailSub: React.FunctionComponent<{
         return (
           <PatientEncounterTimeline
             patientId={_.get(patient, 'identifier.id.value')}
+            structure={initialPatientEncounterTimelineStructure}
             name={`${name}EncounterTimeline`}
             isInitialize={true}
             max={max}

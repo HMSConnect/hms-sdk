@@ -3,7 +3,7 @@ import * as React from 'react'
 import routes from '../../routes'
 
 export const withAuthSync = (WrappedComponent: any) => {
-  const Wrapper = (props: any) => {
+  const Wrapper: any = (props: any) => {
     const syncLogout = (event: any) => {
       if (event.key === 'logout') {
         AuthService.logout(() => {

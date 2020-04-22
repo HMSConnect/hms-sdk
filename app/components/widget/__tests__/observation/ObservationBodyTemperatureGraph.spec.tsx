@@ -9,6 +9,18 @@ jest.mock('@components/hooks/useObservationList', () => ({
   default: jest.fn(),
 }))
 
+jest.mock('@devexpress/dx-react-chart-material-ui', () => {
+  const RealModule = require.requireActual(
+    '@devexpress/dx-react-chart-material-ui',
+  )
+  const MyModule = {
+    ...RealModule,
+    ArgumentAxis: () => <></>,
+    ValueAxis: () => <></>,
+  }
+  return MyModule
+})
+
 describe('<ObservationBodyTemperatureGraph />', () => {
   beforeAll(() => {
     const router = jest.spyOn(nextRouter, 'useRouter') as any
@@ -23,43 +35,40 @@ describe('<ObservationBodyTemperatureGraph />', () => {
     jest.clearAllMocks()
   })
 
-  // it('render ObservationBodyTemperatureGraph', () => {
-  //   const useObservationListResult: any = useObservationList as any
-  //   const results: any = {
-  //     data: [
-  //       {
-  //         codeText: 'Code Text1',
-  //         id: '1',
-  //         issued: '2019-01-01',
-  //         valueModal: [
-  //           {
-  //             code: 'Systolic Blood Pressure',
-  //             unit: 'mmHg',
-  //             value: 120,
-  //           },
-  //           {
-  //             code: 'Diastolic Blood Pressure',
-  //             unit: 'mmHg',
-  //             value: 89,
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //     error: null,
-  //     totalCount: 2,
-  //   }
-  //   useObservationListResult.mockImplementation(() => results)
-  //   const query = {
-  //     encounterId: '1',
-  //     patientId: '1',
-  //   }
-  //   const { queryByText, queryAllByText } = render(
-  //     <ObservationBodyTemperatureGraph patientId={'1'} />,
-  //   )
+  it('render ObservationBodyTemperatureGraph', () => {
+    const useObservationListResult: any = useObservationList as any
+    const results: any = {
+      data: [
+        {
+          code: '8302-2',
+          codeText: 'Body Height',
+          id: '2',
+          issued: '2019-01-01',
+          issuedDate: '2019-01-01',
+          unit: 'C',
+          value: 31,
+        },
+        {
+          code: '8302-2',
+          codeText: 'Body Height',
+          id: '2',
+          issued: '2018-12-01',
+          issuedDate: '2018-12-01',
+          unit: 'C',
+          value: 33,
+        },
+      ],
+      error: null,
+      totalCount: 2,
+    }
+    useObservationListResult.mockImplementation(() => results)
+    
+    const { queryByText, queryAllByText } = render(
+      <ObservationBodyTemperatureGraph patientId={'1'} />,
+    )
 
-  //   expect(queryByText('31')).toBeTruthy()
-  //   expect(queryAllByText('C')).toBeTruthy()
-  // })
+    expect(queryByText('31C')).toBeTruthy()
+  })
 
   it('loading ObservationBodyTemperatureGraph', () => {
     const useObservationListResult: any = useObservationList as any

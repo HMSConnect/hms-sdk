@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react'
 import * as React from 'react'
 import GraphBase from '../GraphBase'
+import { Chart, LineSeries, SplineSeries } from '@devexpress/dx-react-chart'
 
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom
@@ -37,7 +38,13 @@ describe('<GraphBase />', () => {
   })
   it('render GraphBase', () => {
     const data = generateData(2.5, 12, 0.5)
-    // console.log('global.innerWidth = 500; :', global.innerWidth)
+    const { queryByText } = render(
+      <Chart data={data} rootComponent={ChartRootComponent}>
+        <LineSeries valueField='value' argumentField='argument' />
+        <SplineSeries valueField='value' argumentField='argument' />
+      </Chart>,
+    )
+
     // const data = [
     //   {
     //     value: 10,
@@ -53,12 +60,6 @@ describe('<GraphBase />', () => {
     //   },
     // ]
     // const { queryByText } = render(
-    //   <Chart data={data} rootComponent={ChartRootComponent}>
-    //     <LineSeries valueField='value' argumentField='argument' />
-    //     <SplineSeries valueField='value' argumentField='argument' />
-    //   </Chart>,
-    // )
-    // const { queryByText } = render(
     //   <GraphBase
     //     data={data}
     //     argumentField='issuedDate'
@@ -70,5 +71,6 @@ describe('<GraphBase />', () => {
     // )
 
     expect(true).toBeTruthy()
+    // expect(false).toBeTruthy()
   })
 })

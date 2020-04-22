@@ -1,7 +1,7 @@
-type ThemeType = 'THEME_CHANGE' | 'THEME_SET'
+type themeReducer = 'THEME_CHANGE' | 'THEME_SET'
 
 interface IThemeAction {
-  type: ThemeType
+  type: themeReducer
   payload: any
 }
 

@@ -2,11 +2,10 @@ import * as React from 'react'
 
 import themeApp, { themeInitialState } from '@app/reducers-redux/theme.reducer'
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
-import { GoogleAnalytics } from '@services/GoogleAnalyticsService'
+import userEvent from '@testing-library/user-event'
+import * as useRedux from 'react-redux'
 import { createStore } from 'redux'
 import ThemeSelect from '../ThemeSelect'
-import * as useRedux from 'react-redux'
-import userEvent from '@testing-library/user-event'
 
 describe('<ThemeSelect />', () => {
   it('render <ThemeSelect />', () => {

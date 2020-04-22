@@ -96,8 +96,9 @@ export const ObservationBodyMeasurementCardWithConnector: React.FunctionComponen
 
   return (
     <ObservationBodyMeasurementCard
-      key={`ObservationBodyMeasurementCard${
-        encounterId || state.observationBodyMeasurementCard.encounterId
+      key={`ObservationBloodPressureCard${
+        encounterId ||
+        _.get(state, 'observationBodyMeasurementCard.encounterId')
       }`}
       patientId={patientId || state.observationBodyMeasurementCard.patientId}
       encounterId={

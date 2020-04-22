@@ -59,7 +59,7 @@ export interface ITableCellProp {
 }
 
 export const ObservationLaboratoryTableWithConnector: React.FunctionComponent<{
-  patientId: any
+  patientId?: any
   encounterId?: any
   isInitialize?: boolean
   isContainer?: boolean
@@ -80,7 +80,9 @@ export const ObservationLaboratoryTableWithConnector: React.FunctionComponent<{
   const state = useSelector((state: any) => state.observationLaboratoryTable)
   return (
     <ObservationLaboratoryTable
-      key={`ObservationLaboratoryTable${encounterId || state.encounterId}`}
+      key={`ObservationLaboratoryTable${
+        encounterId || _.get(state, 'encounterId')
+      }`}
       patientId={patientId || _.get(state, 'patientId')}
       encounterId={encounterId || _.get(state, 'encounterId')}
       max={max}

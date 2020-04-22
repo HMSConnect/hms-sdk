@@ -1,10 +1,10 @@
-import * as React from 'react'
-
 import { ThemeProvider } from '@material-ui/styles'
-import { fireEvent, render, waitForDomChange } from '@testing-library/react'
+import { fireEvent, waitForDomChange } from '@testing-library/react'
+import * as React from 'react'
 import theme from '../../../src/theme'
-import SideMenuMockList from '../__mocks__/SideMenuWithContent'
 import SideMenuWithContent from '../SideMenuWithContent'
+import SideMenuMockList from '../__mocks__/SideMenuWithContent'
+
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import { createStore } from 'redux'
 import themeApp, { themeInitialState } from '@app/reducers-redux/theme.reducer'
