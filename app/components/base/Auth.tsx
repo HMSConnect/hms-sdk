@@ -1,7 +1,7 @@
 import AuthService from '@services/AuthService'
 import * as React from 'react'
 import routes from '../../routes'
-import { disableAuthen } from '@config'
+import environment from '@environment'
 
 export const withAuthSync = (WrappedComponent: any) => {
   const Wrapper: any = (props: any) => {
@@ -30,7 +30,7 @@ export const withAuthSync = (WrappedComponent: any) => {
     const componentProps =
       WrappedComponent.getInitialProps &&
       (await WrappedComponent.getInitialProps(ctx))
-    if (disableAuthen) {
+    if (environment.disableAuthen) {
       return { ...componentProps }
     }
     if (ctx.req && ctx.req.url.includes('embedded-widget')) {
