@@ -27,7 +27,6 @@ const useLazyLoad = (
         try {
           setLoading(true)
           const moreDataList: any = await fetchMoreAsync()
-          // TODO: handle fetchMoreAsync isn't promise
           if (!isEmpty(moreDataList)) {
             setResult((prevData: any) => ({
               ...prevData,

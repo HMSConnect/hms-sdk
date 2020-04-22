@@ -19,11 +19,15 @@ import {
 } from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
 import maxBy from 'lodash/maxBy'
+import { useSelector } from 'react-redux'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
-    backgroundColor: theme.palette.senary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.senary?.dark
+        : theme.palette?.senary?.light,
     color: theme.palette.senary?.main || '',
   },
   summaryContainer: {
@@ -34,6 +38,25 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(2),
   },
 }))
+
+export const ObservationBodyTemperatureGraphWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  max?: number
+  optionStyle?: IOptionsStyleGraphOption
+}> = ({ patientId, max, mouseTrackCategory, optionStyle }) => {
+  const state = useSelector(
+    (state: any) => state.observationBodyTemperatureGraph,
+  )
+  return (
+    <ObservationBodyTemperatureGraph
+      patientId={patientId || state.patientId}
+      max={max}
+      mouseTrackCategory={mouseTrackCategory}
+      optionStyle={optionStyle}
+    />
+  )
+}
 
 const ObservationBodyTemperatureGraph: React.FunctionComponent<{
   patientId: string

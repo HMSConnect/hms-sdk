@@ -6,8 +6,9 @@ import Tracker from '@components/base/Tracker'
 import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
-import PatientSearchResultWithPaginate, {
+import {
   defaultPagination,
+  PatientSearchResultWithPaginateWithConnector,
 } from '@components/widget/patient/PatientSearchResultWithPaginate'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
@@ -108,7 +109,7 @@ const PatientSearchResultWidget: IStatelessPage<{
       <Tracker>
         <>
           <CssBaseline />
-          <PatientSearchResultWithPaginate
+          <PatientSearchResultWithPaginateWithConnector
             paginationOption={pagination}
             onRequestSort={handleRequestSort}
             onPageChange={handlePageChange}

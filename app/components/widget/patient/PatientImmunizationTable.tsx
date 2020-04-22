@@ -34,7 +34,10 @@ import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
-    backgroundColor: theme.palette.denary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.denary?.dark
+        : theme.palette?.denary?.light,
     color: theme.palette.denary?.main || '',
   },
   root: {},
@@ -62,16 +65,36 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
-export const PatientImmunizationTableWithConnector: React.FunctionComponent<any> = () => {
+export const PatientImmunizationTableWithConnector: React.FunctionComponent<{
+  patientId?: string
+  max?: number
+  isInitialize?: boolean
+  initialFilter?: IImmunizationListFilterQuery
+  isContainer?: boolean
+  name?: string
+  mouseTrackCategory?: string
+}> = ({
+  patientId,
+  max,
+  isInitialize,
+  initialFilter,
+  isContainer,
+  name,
+  mouseTrackCategory,
+}) => {
   const state = useSelector((state: any) => state.patientImmunizationTable)
 
   return (
     <PatientImmunizationTable
-      patientId={_.get(state, 'patientId')}
-      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
-      max={_.get(state, 'max')}
-      initialFilter={_.get(state, 'initialFilter')}
-      isInitialize={true}
+      patientId={patientId || _.get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      max={max || _.get(state, 'max')}
+      initialFilter={initialFilter || _.get(state, 'initialFilter')}
+      isInitialize={isInitialize || true}
+      isContainer={isContainer}
+      name={name}
     />
   )
 }

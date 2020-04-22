@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core'
 import AuthService from '@services/AuthService'
 import clsx from 'clsx'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,6 +32,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 )
+
+export const AppNavBarWithConnector: React.FunctionComponent<any> = ({
+  name,
+}) => {
+  const state = useSelector((state: any) => state.appNavBar)
+  return <AppNavBar />
+}
+
 const AppNavBar: React.FunctionComponent<any> = () => {
   const classes = useStyles()
 

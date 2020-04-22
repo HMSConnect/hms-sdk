@@ -38,7 +38,10 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     footerContainer: { height: 36, color: theme.palette.text.secondary },
     headerCard: {
-      backgroundColor: theme.palette.tertiary?.light || '',
+      backgroundColor:
+        theme.palette.type === 'dark'
+          ? theme.palette?.tertiary?.dark
+          : theme.palette?.tertiary?.light,
       color: theme.palette.tertiary?.main || '',
     },
     hover: {
@@ -48,7 +51,10 @@ const useStyles = makeStyles((theme: Theme) => {
       textDecoration: 'none',
     },
     iconCard: {
-      color: theme.palette.tertiary?.dark || '',
+      color:
+        theme.palette.type === 'dark'
+          ? theme.palette?.tertiary?.main
+          : theme.palette?.tertiary?.dark,
     },
     infoIcon: {
       color: '#1976d2',
@@ -98,10 +104,11 @@ export const ObservationBloodPressureCardWithConnector: React.FunctionComponent<
       },
     })
   }
-
   return (
     <ObservationBloodPressureCard
-      key={`ObservationBloodPressureCard${_.get(state, 'encounterId')}`}
+      key={`ObservationBloodPressureCard${
+        encounterId || state.observationBloodPressureCard.encounterId
+      }`}
       patientId={patientId || state.observationBloodPressureCard.patientId}
       mouseTrackCategory={
         mouseTrackCategory ||

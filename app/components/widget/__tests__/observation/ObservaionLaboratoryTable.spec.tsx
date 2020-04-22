@@ -4,7 +4,7 @@ import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { render } from '@testing-library/react'
 import { createStore } from 'redux'
-import observationLaboratoryTable from '../../../../reducers-redux/observationLaboratoryTable.reducer'
+import observationLaboratoryTable from '../../../../reducers-redux/observation/observationLaboratoryTable.reducer'
 import ObservationLaboratoryTable, {
   ObservationLaboratoryTableWithConnector,
 } from '../../observation/ObservationLaboratoryTable'

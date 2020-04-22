@@ -45,16 +45,37 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const PatientCarePlanTableWithConnector: React.FunctionComponent<any> = () => {
+export const PatientCarePlanTableWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  name?: string
+  isInitialize?: boolean
+  max?: number
+  initialFilter?: ICarePlanListFilterQuery
+  isContainer?: boolean
+}> = ({
+  patientId,
+  mouseTrackCategory,
+  name,
+  isInitialize,
+  max,
+  initialFilter,
+  isContainer,
+}) => {
   const state = useSelector((state: any) => state.patientCarePlanTable)
 
   return (
     <PatientCarePlanTable
-      patientId={_.get(state, 'patientId')}
-      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
-      max={_.get(state, 'max')}
-      initialFilter={_.get(state, 'initialFilter')}
-      isInitialize={true}
+      patientId={patientId || _.get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      isInitialize={isInitialize || true}
+      max={max}
+      initialFilter={initialFilter}
+      isContainer={isContainer}
+      name={name}
+      // name={`${name || ''}CarePlanTable`}
     />
   )
 }

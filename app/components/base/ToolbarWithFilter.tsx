@@ -34,7 +34,10 @@ const useStyles = makeStyles((theme: Theme) => {
       top: '10px',
     },
     highlight: {
-      backgroundColor: theme.palette.tertiary?.light || '',
+      backgroundColor:
+        theme.palette.type === 'dark'
+          ? theme.palette?.tertiary?.dark
+          : theme.palette?.tertiary?.light,
       color: theme.palette.tertiary?.main || '',
     },
     iconContainer: {

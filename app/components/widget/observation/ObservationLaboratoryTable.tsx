@@ -22,7 +22,10 @@ import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
-    backgroundColor: theme.palette.denary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.denary?.dark
+        : theme.palette?.denary?.light,
     color: theme.palette.denary?.main || '',
   },
   successValue: {
@@ -55,17 +58,39 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
-export const ObservationLaboratoryTableWithConnector: React.FunctionComponent = () => {
+export const ObservationLaboratoryTableWithConnector: React.FunctionComponent<{
+  patientId: any
+  encounterId?: any
+  isInitialize?: boolean
+  isContainer?: boolean
+  max?: number
+  initialFilter?: IObservationListFilterQuery
+  name?: string
+  mouseTrackCategory?: string
+}> = ({
+  patientId,
+  encounterId,
+  isInitialize,
+  isContainer = true,
+  max = 20,
+  initialFilter,
+  name = 'observationLaboratoryTable',
+  mouseTrackCategory = 'observation_laboratory_table',
+}) => {
   const state = useSelector((state: any) => state.observationLaboratoryTable)
-
   return (
     <ObservationLaboratoryTable
-      key={`ObservationLaboratoryTable${_.get(state, 'encounterId')}`}
-      patientId={_.get(state, 'patientId')}
-      encounterId={_.get(state, 'encounterId')}
-      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
-      isInitialize={true}
-      max={state?.max || 10}
+      key={`ObservationLaboratoryTable${encounterId || state.encounterId}`}
+      patientId={patientId || _.get(state, 'patientId')}
+      encounterId={encounterId || _.get(state, 'encounterId')}
+      max={max}
+      isInitialize={isInitialize}
+      initialFilter={initialFilter}
+      name={name}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      isContainer={isContainer}
     />
   )
 }
@@ -85,7 +110,7 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
   resourceList,
   patientId,
   encounterId,
-  isInitialize,
+  isInitialize = true,
   isContainer = true,
   max = 20,
   initialFilter: customInitialFilter = {

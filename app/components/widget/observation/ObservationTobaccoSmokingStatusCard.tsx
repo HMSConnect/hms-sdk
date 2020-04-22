@@ -27,7 +27,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   footerContainer: { height: 36, color: theme.palette.text.secondary },
   headerCard: {
-    backgroundColor: theme.palette.septenary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.septenary?.dark
+        : theme.palette?.septenary?.light,
     color: theme.palette.septenary?.main || '',
   },
   hover: {
@@ -37,7 +40,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     textDecoration: 'none',
   },
   iconCard: {
-    color: theme.palette.septenary?.dark || '',
+    color:
+      theme.palette.type === 'dark'
+        ? theme.palette?.septenary?.main
+        : theme.palette?.septenary?.dark,
   },
   infoIcon: {
     color: '#1976d2',
@@ -73,7 +79,9 @@ export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionCom
   }))
   return (
     <ObservationTobaccoSmokingStatusCard
-      key={`ObservationTobaccoSmokingStatusCard${get(state, 'encounterId')}`}
+      key={`ObservationTobaccoSmokingStatusCard${
+        encounterId || state.observationTobaccoSmokingStatusCard.encounterId
+      }`}
       patientId={
         patientId || state.observationTobaccoSmokingStatusCard.patientId
       }

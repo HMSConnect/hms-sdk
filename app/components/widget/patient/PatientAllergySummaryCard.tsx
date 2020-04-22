@@ -27,13 +27,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 'normal',
   },
   headerCard: {
-    backgroundColor: theme.palette.quinary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.quinary?.dark
+        : theme.palette?.quinary?.light,
     color: theme.palette.quinary?.main || '',
   },
   iconContainer:
     theme.palette.type === 'dark'
       ? {
-          backgroundColor: theme.palette.quinary?.light || '',
+          backgroundColor: theme.palette.quinary?.dark || '',
           flex: 1,
           paddingLeft: 16,
           paddingRight: 16,
@@ -53,12 +56,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const PatientAllergySummerCardWithConnector: React.FunctionComponent = () => {
+export const PatientAllergySummerCardWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  name?: string
+}> = ({ patientId, mouseTrackCategory, name }) => {
   const state = useSelector((state: any) => state.patientAllergySummaryCard)
   return (
     <PatientAllergySummerCard
-      patientId={get(state, 'patientId')}
-      mouseTrackCategory={get(state, 'mouseTrackCategory')}
+      patientId={patientId || get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || get(state, 'mouseTrackCategory')
+      }
+      name={name}
     />
   )
 }

@@ -2,7 +2,9 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientSummaryCards from '@components/widget/patient/PatientSummaryCards'
+import {
+  PatientSummaryCardsWithConnector,
+} from '@components/widget/patient/PatientSummaryCards'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -19,7 +21,7 @@ const PatientDemographicSummaryWidget: IStatelessPage<{
     <BootstrapWrapper dependencies={['patient', 'observation']}>
       <>
         <CssBaseline />
-        <PatientSummaryCards
+        <PatientSummaryCardsWithConnector
           patientId={get(query, 'patientId')}
           encounterId={get(query, 'encounterId')}
           name={get(query, 'name')}

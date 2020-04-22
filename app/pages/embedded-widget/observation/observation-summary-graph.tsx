@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import ObservationSummaryGraph from '@components/widget/observation/ObservationSummaryGraph'
+import ObservationSummaryGraph, { ObservationSummaryGraphWithConnector } from '@components/widget/observation/ObservationSummaryGraph'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -22,9 +22,8 @@ const ObservationSummaryGraphWidget: IStatelessPage<{
         <CssBaseline />
         <div style={{ height: '100vh' }}>
           {/* <div style={_.get(query, 'optionStyle')}> */}
-          <ObservationSummaryGraph
+          <ObservationSummaryGraphWithConnector
             patientId={get(query, 'patientId')}
-            encounterId={get(query, 'patientId')}
           />
         </div>
       </>

@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import ObservationLaboratoryTable from '@components/widget/observation/ObservationLaboratoryTable'
+import { ObservationLaboratoryTableWithConnector } from '@components/widget/observation/ObservationLaboratoryTable'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -20,7 +20,7 @@ const ObservationLaboratoryTableWidget: IStatelessPage<{
     <BootstrapWrapper dependencies={['patient', 'observation']}>
       <>
         <CssBaseline />
-        <ObservationLaboratoryTable
+        <ObservationLaboratoryTableWithConnector
           patientId={get(query, 'patientId')}
           encounterId={get(query, 'encounterId')}
           max={get(query, 'max')}

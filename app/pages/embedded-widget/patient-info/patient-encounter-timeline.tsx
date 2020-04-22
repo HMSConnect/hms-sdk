@@ -1,6 +1,6 @@
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientEncounterTimeline from '@components/widget/patient/PatientEncounterTimeline'
+import { PatientEncounterTimelineWithConnector } from '@components/widget/patient/PatientEncounterTimeline'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -28,7 +28,7 @@ const PatientEncounterTimelineWidget: IStatelessPage<{
           'condition',
         ]}
       >
-        <PatientEncounterTimeline
+        <PatientEncounterTimelineWithConnector
           patientId={get(query, 'patientId')}
           selectedEncounterId={get(query, 'encounterId')}
           max={get(query, 'max')}

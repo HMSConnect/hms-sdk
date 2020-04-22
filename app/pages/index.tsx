@@ -18,7 +18,7 @@ import routes from '../routes'
 
 const config = getConfig()
 const staticFolder = _.get(config, 'publicRuntimeConfig.staticFolder')
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     backgroundColor: theme.palette.background.paper,
     maxWidth: 360,

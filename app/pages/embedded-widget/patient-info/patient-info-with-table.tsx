@@ -2,9 +2,10 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
+import { PatientInfoDetailWithConnector } from '@components/widget/patient/PatientInfoDetail'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
+import * as _ from 'lodash'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
@@ -40,7 +41,12 @@ const PatientInfoWidget: IStatelessPage<{
       <>
         <CssBaseline />
         <Typography component='div'>
-          <PatientInfoDetail query={query} />
+          <PatientInfoDetailWithConnector
+            patientId={_.get(query, 'patientId')}
+            max={_.get(query, 'max')}
+            menuNavigate={_.get(query, 'menuNavigate')}
+            name={_.get(query, 'name')}
+          />
         </Typography>
       </>
     </BootstrapWrapper>

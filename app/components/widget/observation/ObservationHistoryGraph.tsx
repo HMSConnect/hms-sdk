@@ -11,29 +11,51 @@ import ObservationBodyTemperatureGraph from './ObservationBodyTemperatureGraph'
 import ObservationBodyWeightGraph from './ObservationBodyWeightGraph'
 import ObservationHeartRateGraph from './ObservationHeartRateGraph'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   virtalSignCard: {
     height: '100%',
     // overflow: 'auto',
   },
 }))
 
-export const ObservationHistoryGraphWithConnector: React.FunctionComponent = () => {
-  const state = useSelector((state: any) => state.observationHistoryGraph)
-  return <ObservationHistoryGraph patientId={state.patientId} />
+export const ObservationHistoryGraphWithConnector: React.FunctionComponent<{
+  patientId: string
+  selectedCard?: string
+  mouseTrackCategory?: string
+}> = ({ patientId, selectedCard, mouseTrackCategory }) => {
+  const state = useSelector((state: any) => ({
+    observationHistoryGraph: state.observationHistoryGraph,
+    patientSummaryCards: state.patientSummaryCards,
+  }))
+  return (
+    <ObservationHistoryGraph
+      patientId={patientId || _.get(state, 'observationHistoryGraph.patientId')}
+      selectedCard={
+        selectedCard || _.get(state, 'patientSummaryCards.selectedCard')
+      }
+      mouseTrackCategory={
+        mouseTrackCategory ||
+        _.get(state, 'patientSummaryCards.mouseTrackCategory')
+      }
+    />
+  )
 }
 
 const ObservationHistoryGraph: React.FunctionComponent<{
   patientId: string
   selectedCard?: string
-}> = ({ patientId, selectedCard = '' }) => {
+  mouseTrackCategory?: string
+}> = ({
+  patientId,
+  selectedCard = '',
+  mouseTrackCategory = 'observation_history_graph',
+}) => {
   const [Component, setComponent] = React.useState<any>(<EmptyComponent />)
   const classes = useStyles()
-  const state = useSelector((state: any) => state.patientSummaryCards)
 
   React.useEffect(() => {
-    setComponent(renderGraph(selectedCard || _.get(state, 'selectedCard')))
-  }, [state])
+    setComponent(renderGraph(selectedCard))
+  }, [selectedCard])
 
   const renderGraph = (selected: string) => {
     switch (selected) {
@@ -41,42 +63,42 @@ const ObservationHistoryGraph: React.FunctionComponent<{
         return (
           <ObservationBodyWeightGraph
             patientId={patientId}
-            mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
+            mouseTrackCategory={mouseTrackCategory}
           />
         )
       case OBSERVATION_CODE.BODY_HEIGHT.value:
         return (
           <ObservationBodyHeightGraph
             patientId={patientId}
-            mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
+            mouseTrackCategory={mouseTrackCategory}
           />
         )
       case OBSERVATION_CODE.BODY_MASS_INDEX.value:
         return (
           <ObservationBodyMassIndexGraph
             patientId={patientId}
-            mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
+            mouseTrackCategory={mouseTrackCategory}
           />
         )
       case OBSERVATION_CODE.BLOOD_PRESSURE.value:
         return (
           <ObservationBloodPressureGraph
             patientId={patientId}
-            mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
+            mouseTrackCategory={mouseTrackCategory}
           />
         )
       case OBSERVATION_CODE.BODY_TEMPERATURE.value:
         return (
           <ObservationBodyTemperatureGraph
             patientId={patientId}
-            mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
+            mouseTrackCategory={mouseTrackCategory}
           />
         )
       case OBSERVATION_CODE.HEART_RATE.value:
         return (
           <ObservationHeartRateGraph
             patientId={patientId}
-            mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
+            mouseTrackCategory={mouseTrackCategory}
           />
         )
       default:

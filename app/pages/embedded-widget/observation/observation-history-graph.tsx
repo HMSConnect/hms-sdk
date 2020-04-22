@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import ObservationHistoryGraph from '@components/widget/observation/ObservationHistoryGraph'
+import { ObservationHistoryGraphWithConnector } from '@components/widget/observation/ObservationHistoryGraph'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -22,7 +22,7 @@ const ObservationHistoryGraphWidget: IStatelessPage<{
         <CssBaseline />
         <div style={{ height: '100vh' }}>
           {/* <div style={_.get(query, 'optionStyle')}> */}
-          <ObservationHistoryGraph
+          <ObservationHistoryGraphWithConnector
             selectedCard={get(query, 'selectedCard')}
             patientId={get(query, 'patientId')}
           />

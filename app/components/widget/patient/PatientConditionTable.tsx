@@ -26,7 +26,10 @@ import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
-    backgroundColor: theme.palette.senary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.senary?.dark
+        : theme.palette?.senary?.light,
     color: theme.palette.senary?.main || '',
   },
   root: {},
@@ -54,16 +57,25 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
-export const PatientconditionTableWithConnector: React.FunctionComponent<any> = () => {
+export const PatientconditionTableWithConnector: React.FunctionComponent<{
+  patientId?: string
+  max?: number
+  isInitialize?: boolean
+  initialFilter?: IConditionListFilterQuery
+  isContainer?: boolean
+  name?: string
+}> = ({ patientId, max, isInitialize, initialFilter, isContainer, name }) => {
   const state = useSelector((state: any) => state.patientConditionTable)
 
   return (
     <PatientConditionTable
-      patientId={_.get(state, 'patientId')}
+      patientId={patientId || _.get(state, 'patientId')}
       mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
-      max={_.get(state, 'max')}
-      initialFilter={_.get(state, 'initialFilter')}
-      isInitialize={true}
+      max={max || _.get(state, 'max')}
+      isContainer={isContainer}
+      initialFilter={initialFilter || _.get(state, 'initialFilter')}
+      isInitialize={isInitialize || true}
+      name={name}
     />
   )
 }
@@ -269,7 +281,10 @@ const PatientConditionTable: React.FunctionComponent<{
 
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
-      <div style={{ height: '100%', overflow: 'auto' }}>
+      <div
+        ref={myscroll}
+        style={{ height: '100%', overflow: isContainer ? 'auto' : '' }}
+      >
         <div className={classes.toolbar}>
           <ToolbarWithFilter
             title={'Condition'}
@@ -288,11 +303,7 @@ const PatientConditionTable: React.FunctionComponent<{
           </ToolbarWithFilter>
         </div>
 
-        <div
-          ref={myscroll}
-          className={classes.tableWrapper}
-          data-testid='scroll-container'
-        >
+        <div className={classes.tableWrapper} data-testid='scroll-container'>
           <TableBase
             id='condition'
             entryList={data}

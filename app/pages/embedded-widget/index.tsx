@@ -364,7 +364,6 @@ const WidgetManager: IStatelessPage<{
   }
 
   const handleIFrameReset = (event: React.MouseEvent) => {
-    // TODO: iframe reset
     dispatch({ type: 'IFRAME_RESET' })
 
     if (selectedWidget) {

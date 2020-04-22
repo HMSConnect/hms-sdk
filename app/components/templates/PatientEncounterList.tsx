@@ -29,6 +29,7 @@ import join from 'lodash/join'
 import map from 'lodash/map'
 import min from 'lodash/min'
 import * as moment from 'moment'
+import { IEncounterTimelistStructure } from '@app/reducers-redux/patient/patientEncounterTimeline.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   contentText: {
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   iconAvatar: {
     backgroundColor: theme.palette.nonary?.main,
+
     height: 50,
     margin: 10,
     width: 50,
@@ -51,11 +53,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   listButton: {
     '&:hover': {
-      backgroundColor: theme.palette.nonary?.light || '',
+      // backgroundColor: theme.palette.nonary?.light || '',
+      backgroundColor:
+        theme.palette.type === 'dark'
+          ? theme.palette?.nonary?.dark
+          : theme.palette?.nonary?.light,
+      color: theme.palette.nonary?.main || '',
     },
   },
   itemSelected: {
-    backgroundColor: `${theme.palette.nonary?.light || ''}!important`,
+    backgroundColor: `${
+      theme.palette.type === 'dark'
+        ? theme.palette?.nonary?.dark
+        : theme.palette?.nonary?.light
+    }!important`,
   },
   line: {
     borderLeft: `10px solid ${theme.palette.nonary?.main}`,
@@ -81,6 +92,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const PatientEncounterList: React.FunctionComponent<{
   entryList: any[]
+  structure: IEncounterTimelistStructure
   onEntrySelected: (event: React.MouseEvent, selectedEncounter: any) => void
   selectedEncounterId?: any
   isLoading?: boolean
@@ -88,6 +100,7 @@ const PatientEncounterList: React.FunctionComponent<{
   onLazyLoad?: (event: any, type?: string) => void
 }> = ({
   entryList,
+  structure,
   onEntrySelected,
   isLoading,
   isMore,
@@ -120,6 +133,7 @@ const PatientEncounterList: React.FunctionComponent<{
         {map(entryList, (entry, index) => (
           <React.Fragment key={'encounterItem' + index}>
             <EncounterListItem
+              structure={structure}
               data={entry}
               onEntrySelected={handleEncounterSelected}
               index={index}
@@ -158,12 +172,13 @@ const EncounterListItem: React.FunctionComponent<{
   data: any
   selectedIndex: number
   index: number
+  structure: IEncounterTimelistStructure
   onEntrySelected: (
     event: React.MouseEvent,
     selectedEncounter: any,
     index: number,
   ) => void
-}> = ({ data, onEntrySelected, index, selectedIndex }) => {
+}> = ({ data, onEntrySelected, index, selectedIndex, structure }) => {
   const [open, setOpen] = React.useState(false)
 
   const handleClick = (event: any, data: any, index: any) => {
@@ -236,7 +251,7 @@ const EncounterListItem: React.FunctionComponent<{
           selected: classes.itemSelected,
         }}
         button
-        onClick={event => handleClick(event, data, index)}
+        onClick={(event) => handleClick(event, data, index)}
         selected={selectedIndex === index}
       >
         <div className={classes.line}></div>
@@ -301,7 +316,7 @@ const EncounterListItem: React.FunctionComponent<{
           <IconButton
             edge='end'
             aria-label='show all'
-            onClick={event => handleClick(event, data, index)}
+            onClick={(event) => handleClick(event, data, index)}
           >
             {open ? <ExpandLess /> : <ExpandMore />}
           </IconButton>
@@ -321,76 +336,86 @@ const EncounterListItem: React.FunctionComponent<{
                 <ListItemText
                   primary={
                     <>
-                      <div>
-                        <Typography
-                          variant='body2'
-                          component='span'
-                          className={classes.topicTitle}
-                        >
-                          ประเภทการรักษา :{' '}
-                        </Typography>
-                        <Typography
-                          variant='body2'
-                          component='span'
-                          className={classes.contentText}
-                        >
-                          {get(data, 'type') || 'Unknow'}
-                        </Typography>
-                      </div>
-                      <div>
-                        <Typography
-                          variant='body2'
-                          component='span'
-                          className={classes.topicTitle}
-                        >
-                          ผลการวินิจฉัย :{' '}
-                        </Typography>
-                        <Typography
-                          variant='body2'
-                          component='span'
-                          className={classes.contentText}
-                        >
-                          {/* {get(data, 'reason') || 'Unknow'} */}
-                          {get(data, 'diagnosis')
-                            ? renderDiagnosisGroup(get(data, 'diagnosis'), 5)
-                            : 'Unknow'}
-                        </Typography>
-                      </div>
-                      <div>
-                        <Typography
-                          variant='body2'
-                          component='span'
-                          className={classes.topicTitle}
-                        >
-                          Class Code :{' '}
-                        </Typography>
-                        <Typography
-                          variant='body2'
-                          component='span'
-                          className={classes.contentText}
-                        >
-                          {get(data, 'classCode') || 'Unknow'}
-                        </Typography>
-                      </div>
-                      <div>
-                        <Typography
-                          variant='body2'
-                          component='span'
-                          className={classes.topicTitle}
-                        >
-                          Practitioner :{' '}
-                        </Typography>
-                        <Typography
-                          variant='body2'
-                          component='span'
-                          className={classes.contentText}
-                        >
-                          {get(data, 'participant')
-                            ? renderGroupName(get(data, 'participant'), 5)
-                            : 'Unknow'}
-                          {/* {get(data, 'participant[0].name') || 'Unknow'} */}
-                        </Typography>
-                      </div>
+                      {get(structure, 'typeCure') ? (
+                        <div>
+                          <Typography
+                            variant='body2'
+                            component='span'
+                            className={classes.topicTitle}
+                          >
+                            ประเภทการรักษา :{' '}
+                          </Typography>
+                          <Typography
+                            variant='body2'
+                            component='span'
+                            className={classes.contentText}
+                          >
+                            {get(data, 'type') || 'Unknow'}
+                          </Typography>
+                        </div>
+                      ) : null}
+
+                      {get(structure, 'diagnosis') ? (
+                        <div>
+                          <Typography
+                            variant='body2'
+                            component='span'
+                            className={classes.topicTitle}
+                          >
+                            ผลการวินิจฉัย :{' '}
+                          </Typography>
+                          <Typography
+                            variant='body2'
+                            component='span'
+                            className={classes.contentText}
+                          >
+                            {/* {get(data, 'reason') || 'Unknow'} */}
+                            {get(data, 'diagnosis')
+                              ? renderDiagnosisGroup(get(data, 'diagnosis'), 5)
+                              : 'Unknow'}
+                          </Typography>
+                        </div>
+                      ) : null}
+                      {get(structure, 'classCode') ? (
+                        <div>
+                          <Typography
+                            variant='body2'
+                            component='span'
+                            className={classes.topicTitle}
+                          >
+                            Class Code :{' '}
+                          </Typography>
+                          <Typography
+                            variant='body2'
+                            component='span'
+                            className={classes.contentText}
+                          >
+                            {get(data, 'classCode') || 'Unknow'}
+                          </Typography>
+                        </div>
+                      ) : null}
+
+                      {get(structure, 'practitioner') ? (
+                        <div>
+                          <Typography
+                            variant='body2'
+                            component='span'
+                            className={classes.topicTitle}
+                          >
+                            Practitioner :{' '}
+                          </Typography>
+                          <Typography
+                            variant='body2'
+                            component='span'
+                            className={classes.contentText}
+                          >
+                            {get(data, 'participant')
+                              ? renderGroupName(get(data, 'participant'), 5)
+                              : 'Unknow'}
+                            {/* {get(data, 'participant[0].name') || 'Unknow'} */}
+                          </Typography>
+                        </div>
+                      ) : null}
                     </>
                   }
                 />

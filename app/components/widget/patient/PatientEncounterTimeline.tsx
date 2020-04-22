@@ -16,8 +16,8 @@ import {
   mergeWithEncounterInitialFilterQuery,
 } from '@data-managers/EncounterDataManager'
 import { Icon, makeStyles, Theme } from '@material-ui/core'
-import { lighten } from '@material-ui/core/styles'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
+import clsx from 'clsx'
 import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
 import routes from '../../../routes'
@@ -27,16 +27,21 @@ import { HMSService } from '../../../services/HMSServiceFactory'
 import { IHeaderCellProps } from '../../base/EnhancedTableHead'
 import useInfinitScroll from '../../hooks/useInfinitScroll'
 import PatientEncounterList from '../../templates/PatientEncounterList'
-import MouseTrackMove from '@components/base/MouseTrackMove'
-import clsx from 'clsx'
+import { IEncounterTimelistStructure } from '@app/reducers-redux/patient/patientEncounterTimeline.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
-    backgroundColor: theme.palette.nonary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.nonary?.dark
+        : theme.palette?.nonary?.light,
     color: theme.palette.nonary?.main || '',
   },
   iconCard: {
-    color: theme.palette.nonary?.main || '',
+    color:
+      theme.palette.type === 'dark'
+        ? theme.palette?.nonary?.main
+        : theme.palette?.nonary?.dark,
   },
   listRoot: { maxHeight: '60vh', overflow: 'auto' },
   root: {
@@ -66,9 +71,28 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
-export const PatientEncounterTimelineWithConnector: React.FunctionComponent = () => {
+export const PatientEncounterTimelineWithConnector: React.FunctionComponent<{
+  patientId?: string
+  max?: number
+  isInitialize?: boolean
+  initialFilter?: IEncounterListFilterQuery
+  isContainer?: boolean
+  isRouteable?: boolean
+  name?: string
+  mouseTrackCategory?: string
+  selectedEncounterId?: string
+}> = ({
+  patientId,
+  max,
+  isInitialize,
+  initialFilter,
+  isContainer,
+  isRouteable = true,
+  name,
+  mouseTrackCategory,
+  selectedEncounterId,
+}) => {
   const state = useSelector((state: any) => state.patientEncounterTimeline)
-
   const handleEncounterSelect = (
     event: React.MouseEvent,
     selectedEncounter: any,
@@ -88,24 +112,32 @@ export const PatientEncounterTimelineWithConnector: React.FunctionComponent = ()
       params: newParams,
       path,
     })
-    routes.Router.replaceRoute(path)
+    if (isRouteable) {
+      routes.Router.replaceRoute(path)
+    }
   }
-
   return (
     <PatientEncounterTimeline
-      patientId={_.get(state, 'patientId')}
-      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
-      selectedEncounterId={_.get(state, 'encounterId')}
-      isInitialize={true}
-      max={state?.query?.max}
+      patientId={patientId || _.get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      isRouteable={isRouteable}
+      selectedEncounterId={selectedEncounterId || _.get(state, 'encounterId')}
+      isInitialize={isInitialize || true}
+      initialFilter={initialFilter}
+      isContainer={isContainer}
+      max={max || state?.query?.max}
       onEncounterSelected={handleEncounterSelect}
-      name={`${name}EncounterTimeline`}
+      name={name}
+      structure={state.structure}
     />
   )
 }
 
 const PatientEncounterTimeline: React.FunctionComponent<{
   patientId: any
+  structure: IEncounterTimelistStructure
   resourceList?: any[]
   isInitialize?: boolean
   max?: number
@@ -122,6 +154,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
   mouseTrackLabel?: string
 }> = ({
   patientId,
+  structure,
   resourceList,
   isInitialize,
   max = 20,
@@ -351,7 +384,11 @@ const PatientEncounterTimeline: React.FunctionComponent<{
             title={'Encounter'}
             onClickIcon={showModal}
             Icon={
-              <Icon className={clsx('fas fa-book-reader', classes.iconCard)} />
+              structure.headerIcon ? (
+                <Icon
+                  className={clsx('fas fa-book-reader', classes.iconCard)}
+                />
+              ) : null
             }
             filterActive={countFilterActive(submitedFilter, initialFilter, [
               'periodStart_lt',
@@ -360,6 +397,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
             ])}
             option={{
               headerClass: classes.headerCard,
+              isHideIcon: structure.filterIcon ? false : true,
             }}
           >
             {renderModal}
@@ -372,6 +410,7 @@ const PatientEncounterTimeline: React.FunctionComponent<{
             isLoading={isLoading}
             isMore={isMore}
             selectedEncounterId={selectedEncounterId}
+            structure={structure}
           />
         </div>
       </div>

@@ -3,7 +3,7 @@ import * as React from 'react'
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import patientDemographic, {
   patientDemographicInitialState,
-} from '@app/reducers-redux/patientDemographic.reducer'
+} from '@app/reducers-redux/patient/patientDemographic.reducer'
 import useEncounter from '@components/hooks/useEncounter'
 import usePatient from '@components/hooks/usePatient'
 import useResourceList from '@components/hooks/useResourceList'

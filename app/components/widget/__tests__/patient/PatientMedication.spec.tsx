@@ -1,13 +1,13 @@
 import * as React from 'react'
 
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
-import patientMedicationList from '@app/reducers-redux/patientMedicationList.reducer'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import PatientMedicationList, {
   PatientMedicationListWithConnector,
 } from '@components/widget/patient/PatientMedication'
 import { render } from '@testing-library/react'
 import { createStore } from 'redux'
+import patientMedicationList from '@app/reducers-redux/patient/patientMedicationList.reducer'
 
 jest.mock('@components/hooks/useInfinitScroll', () => ({
   __esModule: true,

@@ -5,7 +5,7 @@ import Tracker from '@components/base/Tracker'
 import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
-import PatientSearch from '@components/widget/patient/PatientSearch'
+import { PatientSearchWithConnector } from '@components/widget/patient/PatientSearch'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { parse } from '@utils'
 import * as _ from 'lodash'
@@ -30,7 +30,10 @@ const PatientSearchWidget: IStatelessPage<{
       <Tracker>
         <>
           <CssBaseline />
-          <PatientSearch query={query} name={_.get(query, 'name')} />
+          <PatientSearchWithConnector
+            query={query}
+            name={_.get(query, 'name')}
+          />
         </>
       </Tracker>
     </BootstrapWrapper>

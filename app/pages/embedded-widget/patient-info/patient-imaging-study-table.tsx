@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientImagingStudyTable from '@components/widget/patient/PatientImagingStudyTable'
+import { PatientImagingStudyTableWithConnector } from '@components/widget/patient/PatientImagingStudyTable'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -19,7 +19,7 @@ const PatientImagingStudyTableWidget: IStatelessPage<{
     <BootstrapWrapper dependencies={['patient', 'imaging_study']}>
       <>
         <CssBaseline />
-        <PatientImagingStudyTable
+        <PatientImagingStudyTableWithConnector
           patientId={get(query, 'patientId')}
           max={get(query, 'max')}
           isInitialize={get(query, 'isInitialize') || true}
@@ -31,7 +31,11 @@ const PatientImagingStudyTableWidget: IStatelessPage<{
   )
 }
 
-PatientImagingStudyTableWidget.getInitialProps = async ({ req, res, query }) => {
+PatientImagingStudyTableWidget.getInitialProps = async ({
+  req,
+  res,
+  query,
+}) => {
   return {
     query: parse(query),
   }

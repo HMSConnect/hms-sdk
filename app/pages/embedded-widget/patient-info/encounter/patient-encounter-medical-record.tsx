@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
+import { PatientInfoDetailWithConnector } from '@components/widget/patient/PatientInfoDetail'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import * as _ from 'lodash'
@@ -33,7 +33,12 @@ const PatientInfoWidget: IStatelessPage<{
     >
       <>
         <CssBaseline />
-        <PatientInfoDetail query={query} name={_.get(query, 'name')} />
+        <PatientInfoDetailWithConnector
+          patientId={_.get(query, 'patientId')}
+          menuNavigate={_.get(query, 'menuNavigate')}
+          max={_.get(query, 'max')}
+          name={_.get(query, 'name')}
+        />
       </>
     </BootstrapWrapper>
   )
