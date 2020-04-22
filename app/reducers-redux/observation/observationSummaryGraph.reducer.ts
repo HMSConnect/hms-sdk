@@ -7,8 +7,11 @@ interface IObservationSummaryGraphAction {
   payload: any
 }
 
+export interface IObservationSummaryGraphStructure {}
+
+export const initialObservationSummaryGraphStructure: IObservationSummaryGraphStructure = {}
 const initialState: any = {
-  structure: {},
+  structure: initialObservationSummaryGraphStructure,
 }
 const observationSummaryGraph = (
   state = initialState,

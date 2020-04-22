@@ -7,8 +7,12 @@ interface IPatientPractitionerListAction {
   payload: any
 }
 
+export interface IPatientPractitionerListStructure {}
+
+export const initialPatientPractitionerStructure: IPatientPractitionerListStructure = {}
+
 export const initialState: any = {
-  structure: {},
+  structure: initialPatientPractitionerStructure,
 }
 const patientPractitioner = (
   state = initialState,

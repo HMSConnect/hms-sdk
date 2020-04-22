@@ -7,6 +7,9 @@ interface IObservationHeartRateGraphAction {
   payload: any
 }
 
+export interface IObservationHeartRateGraphStructure {}
+
+export const initialObservationHeartRateGraphStructure: IObservationHeartRateGraphStructure = {}
 export const observationHeartRateGraphInitialState: any = {
   structure: {},
 }

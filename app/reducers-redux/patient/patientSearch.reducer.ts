@@ -5,8 +5,12 @@ interface IPatientSearchAction {
   payload: any
 }
 
+export interface IPatientSearchStructure {}
+
+export const initialPatientSearchStructure: IPatientSearchStructure = {}
+
 const initialState: any = {
-  structure: {},
+  structure: initialPatientSearchStructure,
 }
 const patientSearch = (state = initialState, action: IPatientSearchAction) => {
   switch (action.type) {

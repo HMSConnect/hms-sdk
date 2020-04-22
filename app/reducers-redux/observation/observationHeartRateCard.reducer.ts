@@ -7,8 +7,11 @@ interface IObservationHeartRateCardAction {
   payload: any
 }
 
+export interface IObservationHeartRateCardStructure {}
+
+export const initialObservationHeartRateCardStructure: IObservationHeartRateCardStructure = {}
 export const observationHeartRateCardInitialState: any = {
-  structure: {},
+  structure: initialObservationHeartRateCardStructure,
 }
 const observationHeartRateCard = (
   state = observationHeartRateCardInitialState,

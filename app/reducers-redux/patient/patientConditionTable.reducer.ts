@@ -1,12 +1,18 @@
-type PatientConditionTableType = 'INIT_PATIENT_SUMMARY' | 'SET_STRUCTURE_PATIENT_CONDITION_TABLE'
+type PatientConditionTableType =
+  | 'INIT_PATIENT_SUMMARY'
+  | 'SET_STRUCTURE_PATIENT_CONDITION_TABLE'
 
 interface IPatientConditionTableAction {
   type: PatientConditionTableType
   payload: any
 }
 
+export interface IPatientConditionTableStructure {}
+
+export const initialPatientConditionTableStructure: IPatientConditionTableStructure = {}
+
 const initialState: any = {
-  structure: {},
+  structure: initialPatientConditionTableStructure,
 }
 const patientConditionTable = (
   state = initialState,

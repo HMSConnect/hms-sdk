@@ -4,9 +4,12 @@ interface IPatientLabSummaryCardAction {
   type: PatientLabSummaryCardType
   payload: any
 }
+export interface IPatientLabSummaryCardStructure {}
+
+export const initialPatientLabSummaryCardStructure: IPatientLabSummaryCardStructure = {}
 
 const initialState: any = {
-  structure: {},
+  structure: initialPatientLabSummaryCardStructure,
 }
 const patientLabSummaryCard = (
   state = initialState,

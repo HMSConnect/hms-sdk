@@ -5,8 +5,12 @@ interface IPatientSearchPanelAction {
   payload: any
 }
 
+export interface IPatientSearchPanelStructure {}
+
+export const initialPatientSearchPanelStructure: IPatientSearchPanelStructure = {}
+
 const initialState: any = {
-  structure: {},
+  structure: initialPatientSearchPanelStructure,
 }
 const patientSearchPanel = (
   state = initialState,

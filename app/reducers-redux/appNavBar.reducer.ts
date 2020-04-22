@@ -5,8 +5,11 @@ interface IAppNavBarAction {
   payload: any
 }
 
+export interface IAppNavBarStructure {}
+
+export const initialAppNavBarStructure: IAppNavBarStructure = {}
 export const appNavBarInitialState: any = {
-  structure: {},
+  structure: initialAppNavBarStructure,
 }
 const appNavBar = (state = appNavBarInitialState, action: IAppNavBarAction) => {
   switch (action.type) {

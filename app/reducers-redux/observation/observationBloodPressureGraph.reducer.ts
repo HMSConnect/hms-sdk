@@ -5,8 +5,12 @@ interface IObservationBloodPressureGraphAction {
   payload: any
 }
 
+export interface IObservationBloodPressureGraphStructure {}
+
+export const initialObservationBloodPressureGraphStructure: IObservationBloodPressureGraphStructure = {}
+
 export const observationBloodPressureGraphInitialState: any = {
-  structure: {},
+  structure: initialObservationBloodPressureGraphStructure,
 }
 const observationBloodPressureGraph = (
   state = observationBloodPressureGraphInitialState,

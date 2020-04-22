@@ -7,8 +7,11 @@ interface IPatientImmunizationTableAction {
   payload: any
 }
 
+export interface IPatientImmunizationTableStructure {}
+
+export const initialPatientImmunizationTableStructure: IPatientImmunizationTableStructure = {}
 const initialState: any = {
-  structure: {},
+  structure: initialPatientImmunizationTableStructure,
 }
 const patientImmunizationTable = (
   state = initialState,

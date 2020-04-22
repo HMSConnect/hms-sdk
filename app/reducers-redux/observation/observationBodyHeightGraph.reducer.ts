@@ -7,8 +7,12 @@ interface IObservationBodyHeightGraphAction {
   payload: any
 }
 
+export interface IObservationBodyHeightGraphStructure {}
+
+export const initialObservationBodyHeightGraphStructure: IObservationBodyHeightGraphStructure = {}
+
 export const observationBodyHeightGraphInitialState: any = {
-  structure: {},
+  structure: initialObservationBodyHeightGraphStructure,
 }
 const observationBodyHeightGraph = (
   state = observationBodyHeightGraphInitialState,

@@ -7,8 +7,12 @@ interface IObservationBloodPressureCardAction {
   payload: any
 }
 
+export interface IObservationBloodPressureCardStructure {}
+
+export const initialObservationBloodPressureCardStructure: IObservationBloodPressureCardStructure = {}
+
 export const observationBloodPressureCardInitialState: any = {
-  structure: {},
+  structure: initialObservationBloodPressureCardStructure,
 }
 const observationBloodPressureCard = (
   state = observationBloodPressureCardInitialState,

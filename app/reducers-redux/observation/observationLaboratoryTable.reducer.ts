@@ -7,8 +7,11 @@ interface IObservationLaboratoryTableAction {
   payload: any
 }
 
+export interface IObservationLaboratoryTableStructure {}
+
+export const initialObservationLaboratoryTableStructure: IObservationLaboratoryTableStructure = {}
 export const initialState: any = {
-  structure: {},
+  structure: initialObservationLaboratoryTableStructure,
 }
 const observationLaboratoryTable = (
   state = initialState,

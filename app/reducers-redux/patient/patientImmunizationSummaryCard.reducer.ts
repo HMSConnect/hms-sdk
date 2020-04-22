@@ -7,8 +7,12 @@ interface IPatientImmunizationSummaryCardAction {
   payload: any
 }
 
+export interface IPatientImmunizationSummaryCardStructure {}
+
+export const initialPatientImmunizationSummaryCardStructure: IPatientImmunizationSummaryCardStructure = {}
+
 const initialState: any = {
-  structure: {},
+  structure: initialPatientImmunizationSummaryCardStructure,
 }
 const patientImmunizationSummaryCard = (
   state = initialState,

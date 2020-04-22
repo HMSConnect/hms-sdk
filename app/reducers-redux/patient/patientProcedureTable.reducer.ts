@@ -1,11 +1,19 @@
-type PatientProcedureTable = 'INIT_PATIENT_SUMMARY' | 'SET_STRUCTURE_PATIENT_PROCEDURE_TABLE'
+type PatientProcedureTable =
+  | 'INIT_PATIENT_SUMMARY'
+  | 'SET_STRUCTURE_PATIENT_PROCEDURE_TABLE'
 
 interface IPatientProcedureTableAction {
   type: PatientProcedureTable
   payload: any
 }
 
-const initialState: any = {}
+export interface IPatientProcedureTableStructure {}
+
+export const initialPatientProcedureTableStructure: IPatientProcedureTableStructure = {}
+
+const initialState: any = {
+  structure: initialPatientProcedureTableStructure,
+}
 const patientProcedureTable = (
   state = initialState,
   action: IPatientProcedureTableAction,

@@ -5,8 +5,12 @@ interface IPatientClaimTableAction {
   payload: any
 }
 
+export interface IPatientClaimTableStructure {}
+
+export const initialPatientClaimTableStructure: IPatientClaimTableStructure = {}
+
 const initialState: any = {
-  structure: {},
+  structure: initialPatientClaimTableStructure,
 }
 const patientClaimTable = (
   state = initialState,

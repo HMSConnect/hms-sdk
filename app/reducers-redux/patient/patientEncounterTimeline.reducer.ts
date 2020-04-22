@@ -7,8 +7,26 @@ interface IPatientEncounterTimelineAction {
   payload: any
 }
 
+export interface IEncounterTimelistStructure {
+  filterIcon: boolean
+  headerIcon: boolean
+  practitioner: boolean
+  classCode: boolean
+  diagnosis: boolean
+  typeCure: boolean
+}
+
+export const initialPatientEncounterTimelineStructure: IEncounterTimelistStructure = {
+  classCode: true,
+  diagnosis: true,
+  filterIcon: true,
+  headerIcon: true,
+  practitioner: true,
+  typeCure: true,
+}
+
 const initialState: any = {
-  structure: {},
+  structure: initialPatientEncounterTimelineStructure,
 }
 const patientEncounterTimeline = (
   state = initialState,

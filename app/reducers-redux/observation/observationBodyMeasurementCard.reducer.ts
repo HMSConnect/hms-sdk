@@ -7,8 +7,12 @@ interface IObservationBodyMeasurementCardAction {
   payload: any
 }
 
+export interface IObservationBodyMeasurementCardStructure {}
+
+export const initialObservationBodyMeasurementCardStructure: IObservationBodyMeasurementCardStructure = {}
+
 export const observationBodyMeasurementCardInitialState: any = {
-  structure: {},
+  structure: initialObservationBodyMeasurementCardStructure,
 }
 const observationBodyMeasurementCard = (
   state = observationBodyMeasurementCardInitialState,

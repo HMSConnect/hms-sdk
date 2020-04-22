@@ -7,8 +7,11 @@ interface IObservationTemperatureCardAction {
   payload: any
 }
 
+export interface IObservationTemperatureCardStructure {}
+
+export const initialObservationTemperatureCardStructure: IObservationTemperatureCardStructure = {}
 export const observationTemperatureCardInitialState: any = {
-  structure: {},
+  structure: initialObservationTemperatureCardStructure,
 }
 const observationTemperatureCard = (
   state = observationTemperatureCardInitialState,

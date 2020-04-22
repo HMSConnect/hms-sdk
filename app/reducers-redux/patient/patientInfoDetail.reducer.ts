@@ -5,8 +5,12 @@ interface IPatientInfoDetailAction {
   payload: any
 }
 
+export interface IPatientInfoDetailStructure {}
+
+export const initialPatientInfoDetailStructure: IPatientInfoDetailStructure = {}
+
 const initialState: any = {
-  structure: {},
+  structure: initialPatientInfoDetailStructure,
 }
 const patientInfoDetail = (
   state = initialState,

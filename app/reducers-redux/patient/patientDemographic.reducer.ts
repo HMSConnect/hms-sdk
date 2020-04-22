@@ -7,19 +7,34 @@ interface IPatientDemographicAction {
   payload: any
 }
 
-export const patientDemographicInitialState: any = {
-  structure: {
-    addressField: true,
-    ageField: true,
-    dobField: true,
-    emailField: true,
-    genderField: true,
-    iconField: true,
-    languageField: true,
-    nameField: true,
-    phoneField: true,
-  },
+export interface IPatientDemographicStructure {
+  addressField: boolean
+  ageField: boolean
+  dobField: boolean
+  emailField: boolean
+  genderField: boolean
+  iconField: boolean
+  languageField: boolean
+  nameField: boolean
+  phoneField: boolean
 }
+
+export const initialPatientDemographicStructure: IPatientDemographicStructure = {
+  addressField: true,
+  ageField: true,
+  dobField: true,
+  emailField: true,
+  genderField: true,
+  iconField: true,
+  languageField: true,
+  nameField: true,
+  phoneField: true,
+}
+
+export const patientDemographicInitialState: any = {
+  structure: initialPatientDemographicStructure,
+}
+
 const patientDemographic = (
   state = patientDemographicInitialState,
   action: IPatientDemographicAction,

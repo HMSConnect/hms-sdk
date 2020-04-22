@@ -4,9 +4,12 @@ interface IPatientMedicationRequestTableAction {
   type: PatientMedicationRequestTableType
   payload: any
 }
+export interface IPatientMedicationRequestTableStructure {}
+
+export const initialPatientMedicationRequestTableStructure: IPatientMedicationRequestTableStructure = {}
 
 const initialState: any = {
-  structure: {},
+  structure: initialPatientMedicationRequestTableStructure,
 }
 const patientMedicationRequestTable = (
   state = initialState,

@@ -7,8 +7,11 @@ interface IObservationTobaccoSmokingStatusCardAction {
   payload: any
 }
 
+export interface IObservationTobaccoSmokingStatusCardStructure {}
+
+export const initialObservationTobaccoSmokingStatusCardStructure: IObservationTobaccoSmokingStatusCardStructure = {}
 const observationTobaccoSmokingStatusCardInitialState: any = {
-  structure: {},
+  structure: initialObservationTobaccoSmokingStatusCardStructure,
 }
 const observationTobaccoSmokingStatusCard = (
   state = observationTobaccoSmokingStatusCardInitialState,

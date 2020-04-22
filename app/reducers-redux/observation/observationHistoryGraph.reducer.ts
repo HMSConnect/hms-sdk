@@ -7,8 +7,11 @@ interface IObservationHistoryGraphAction {
   payload: any
 }
 
+export interface IObservationHistoryGraphStructure {}
+
+export const initialObservationHistoryGraphStructure: IObservationHistoryGraphStructure = {}
 const initialState: any = {
-  structure: {},
+  structure: initialObservationHistoryGraphStructure,
 }
 const observationHistoryGraph = (
   state = initialState,

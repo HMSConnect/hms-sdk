@@ -69,7 +69,6 @@ export const PatientAllergyListWithConnector: React.FunctionComponent<{
   isContainer,
 }) => {
   const state = useSelector((state: any) => state.patientAllergyList)
-
   return (
     <PatientAllergyList
       patientId={patientId || _.get(state, 'patientId')}

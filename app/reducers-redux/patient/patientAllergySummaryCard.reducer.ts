@@ -7,8 +7,12 @@ interface IPatientAllergySummaryCardAction {
   payload: any
 }
 
+export interface IPatientAllergySummaryCardStructure {}
+
+export const initialPatientAllergySummaryCardStructure: IPatientAllergySummaryCardStructure = {}
+
 const initialState: any = {
-  structure: {},
+  structure: initialPatientAllergySummaryCardStructure,
 }
 const patientAllergySummaryCard = (
   state = initialState,

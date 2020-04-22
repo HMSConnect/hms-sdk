@@ -7,8 +7,11 @@ interface IObservationBodyWeightGraphAction {
   payload: any
 }
 
+export interface IObservationBodyWeightGraphStructure {}
+
+export const initialObservationBodyWeightGraphStructure: IObservationBodyWeightGraphStructure = {}
 export const observationBodyWeightGraphInitialState: any = {
-  structure: {},
+  structure: initialObservationBodyWeightGraphStructure,
 }
 const observationBodyWeightGraph = (
   state = observationBodyWeightGraphInitialState,

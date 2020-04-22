@@ -7,8 +7,12 @@ interface IObservationBodyMassIndexGraphAction {
   payload: any
 }
 
+export interface IObservationBodyMassIndexGraphStructure {}
+
+export const initialObservationBodyMassIndexGraphStructure: IObservationBodyMassIndexGraphStructure = {}
+
 export const observationBodyMassIndexGraphInitialState: any = {
-  structure: {},
+  structure: initialObservationBodyMassIndexGraphStructure,
 }
 const observationBodyMassIndexGraph = (
   state = observationBodyMassIndexGraphInitialState,

@@ -5,8 +5,12 @@ interface IPatientSearchResultWithPaginateAction {
   payload: any
 }
 
+export interface IPatientSearchResultWithPaginateStructure {}
+
+export const initialPatientSearchResultWithPaginateStructure: IPatientSearchResultWithPaginateStructure = {}
+
 const initialState: any = {
-  structure: {},
+  structure: initialPatientSearchResultWithPaginateStructure,
 }
 const patientSearchResultWithPaginate = (
   state = initialState,

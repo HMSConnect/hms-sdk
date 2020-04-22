@@ -7,8 +7,11 @@ interface IObservationBodyTemperatureGraphAction {
   payload: any
 }
 
+export interface IObservationBodyTemperatureGraphStructure {}
+
+export const initialObservationBodyTemperatureGraphStructure: IObservationBodyTemperatureGraphStructure = {}
 export const observationBodyTemperatureGraphInitialState: any = {
-  structure: {},
+  structure: initialObservationBodyTemperatureGraphStructure,
 }
 const observationBodyTemperatureGraph = (
   state = observationBodyTemperatureGraphInitialState,

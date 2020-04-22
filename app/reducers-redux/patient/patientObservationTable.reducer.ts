@@ -5,8 +5,12 @@ interface IPatientObservationTableAction {
   payload: any
 }
 
+export interface IPatientMedicationSummaryCardStructure {}
+
+export const initialPatientObservationTableStructure: IPatientMedicationSummaryCardStructure = {}
+
 const initialState: any = {
-  structure: {},
+  structure: initialPatientObservationTableStructure,
 }
 const patientObservationTable = (
   state = initialState,

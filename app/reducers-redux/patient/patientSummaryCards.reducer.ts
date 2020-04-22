@@ -10,9 +10,13 @@ interface IPatientSummaryCardsAction {
   payload: any
 }
 
+export interface IPatientSummaryCardsStructure {}
+
+export const initialPatientSummaryCardsStructure: IPatientSummaryCardsStructure = {}
+
 export const patientSummaryCardsInitialState: any = {
   selectedCard: '',
-  structure: {},
+  structure: initialPatientSummaryCardsStructure,
   // selectedCard: OBSERVATION_CODE.BLOOD_PRESSURE.value,
 }
 

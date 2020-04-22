@@ -7,8 +7,12 @@ interface IPatientAlleryListListAction {
   payload: any
 }
 
+export interface IPatientAlleryListListStructure {}
+
+export const initialPatientAllergyListStructure: IPatientAlleryListListStructure = {}
+
 export const initialState: any = {
-  structure: {},
+  structure: initialPatientAllergyListStructure,
 }
 const patientAllergyList = (
   state = initialState,

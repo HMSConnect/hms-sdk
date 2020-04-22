@@ -5,8 +5,12 @@ interface IPatientSummaryAction {
   payload: any
 }
 
+export interface IPatientSummaryStructure {}
+
+export const initialPatientSummaryStructure: IPatientSummaryStructure = {}
+
 const initialState: any = {
-  structure: {},
+  structure: initialPatientSummaryStructure,
 }
 const patientSummary = (
   state = initialState,

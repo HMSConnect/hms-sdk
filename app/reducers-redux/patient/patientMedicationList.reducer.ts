@@ -6,9 +6,11 @@ interface IPatientMedicationListAction {
   type: PatientMedicationListType
   payload: any
 }
+export interface IPatientMedicationListStructure {}
 
+export const initialPatientMedicationListStructure: IPatientMedicationListStructure = {}
 const initialState: any = {
-  structure: {},
+  structure: initialPatientMedicationListStructure,
 }
 const patientMedicationList = (
   state = initialState,
