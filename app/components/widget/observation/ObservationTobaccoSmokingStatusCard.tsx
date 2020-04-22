@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     zoom: 0.7,
   },
   selectedCard: {
-    backgroundColor: '#ddd4',
+    backgroundColor: theme.palette.action.selected,
     border: '2px solid #00b0ff',
     borderRadius: 4,
   },

@@ -31,7 +31,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   headerCardTitle: {
     color: 'grey',
   },
-  headerContainer: { height: 64, backgroundColor: '#ddd4' },
+  headerContainer: {
+    height: 64,
+    backgroundColor: theme.palette.secondary.main,
+  },
   iconCard: {
     zoom: 3,
   },

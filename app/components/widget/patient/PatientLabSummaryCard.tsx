@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   hover: {
     '&:hover': {
-      backgroundColor: '#ddd4',
+      backgroundColor: theme.palette.action.hover,
     },
     textDecoration: 'none',
   },
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     zoom: 0.7,
   },
   selectedCard: {
-    backgroundColor: '#ddd4',
+    backgroundColor: theme.palette.action.selected,
     border: '2px solid #00b0ff',
     borderRadius: 4,
   },
