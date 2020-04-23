@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: 8,
   },
   remove: {
-    color: '#80808080',
+    color: theme.palette.action.active,
+    // color: '#80808080',
     cursor: 'pointer',
     position: 'absolute',
     right: '2px',

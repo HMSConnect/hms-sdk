@@ -22,6 +22,7 @@ import { HMSService } from '@services/HMSServiceFactory'
 import MedicationRequestService from '@services/MedicationRequestService'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -47,6 +48,36 @@ export interface IBodyCellProp {
 export interface ITableCellProp {
   headCell: IHeaderCellProps
   bodyCell: IBodyCellProp
+}
+
+export const PatientMedicationRequestTableWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  name?: string
+  isInitialize?: boolean
+  max?: number
+  initialFilter?: IMedicationRequestFilterQuery
+}> = ({
+  patientId,
+  mouseTrackCategory,
+  name,
+  isInitialize,
+  max,
+  initialFilter,
+}) => {
+  const state = useSelector((state: any) => state.patientMedicationRequestTable)
+  return (
+    <PatientMedicationRequestTable
+      patientId={patientId || _.get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      isInitialize={isInitialize || true}
+      max={max}
+      initialFilter={initialFilter}
+      name={name}
+    />
+  )
 }
 
 const PatientMedicationRequestTable: React.FunctionComponent<{

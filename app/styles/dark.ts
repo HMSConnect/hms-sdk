@@ -31,85 +31,82 @@ const theme = createMuiTheme({
       default: '#303030',
       paper: '#424242',
     },
+    loading: generateDarkAndLight(
+      {
+        main: '#81d4fa',
+      },
+      0.6,
+      0.6,
+    ),
     tertiary: generateDarkAndLight(
       {
         main: '#e57373',
       },
-      true,
       0.6,
-      0.3,
+      0.6,
     ),
     quaternary: generateDarkAndLight(
       {
         main: '#c62828',
       },
-      true,
       0.6,
-      0.3,
+      0.6,
     ),
     quinary: generateDarkAndLight(
       {
         main: '#00b0ff',
       },
-      true,
       0.6,
-      0.3,
+      0.6,
     ),
     senary: generateDarkAndLight(
       {
         main: '#afb42b',
       },
-      true,
       0.6,
-      0.3,
+      0.6,
     ),
     septenary: generateDarkAndLight(
       {
         main: '#558b2f',
       },
-      true,
       0.6,
-      0.3,
+      0.6,
     ),
     octonary: generateDarkAndLight(
       {
         main: '#afb42b',
       },
-      true,
       0.6,
-      0.3,
+      0.6,
     ),
     nonary: generateDarkAndLight(
       {
         main: '#5c6bc0',
       },
-      true,
       0.6,
-      0.3,
+      0.6,
     ),
     denary: generateDarkAndLight(
       {
         main: '#c37d0e',
       },
-      true,
       0.6,
-      0.3,
+      0.6,
     ),
     eleventh: generateDarkAndLight(
       {
         main: '#7e57c2',
       },
-      true,
       0.6,
-      0.3,
+      0.6,
     ),
     duodenary: generateDarkAndLight(
       {
         main: '#3d5afe',
       },
-      true,
       0.6,
-      0.3,
+      0.6,
     ),
     divider: 'rgba(255, 255, 255, 0.12)',
   },

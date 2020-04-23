@@ -26,10 +26,17 @@ import { HMSService } from '@services/HMSServiceFactory'
 import { sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
+import {
+  IPatientAlleryListListStructure,
+  initialPatientAllergyListStructure,
+} from '@app/reducers-redux/patient/patientAllergyList.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
-    backgroundColor: theme.palette.quinary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.quinary?.dark
+        : theme.palette?.quinary?.light,
     color: theme.palette.quinary?.main || '',
   },
   listPadding: {
@@ -48,21 +55,43 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const PatientAllergyListWithConnector: React.FunctionComponent = () => {
+export const PatientAllergyListWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  name?: string
+  isInitialize?: boolean
+  max?: number
+  initialFilter?: IAllergyIntoleranceListFilterQuery
+  isContainer?: boolean
+}> = ({
+  patientId,
+  mouseTrackCategory,
+  name,
+  isInitialize,
+  max,
+  initialFilter,
+  isContainer,
+}) => {
   const state = useSelector((state: any) => state.patientAllergyList)
-
   return (
     <PatientAllergyList
-      patientId={_.get(state, 'patientId')}
-      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
-      isInitialize={true}
-      name={`${name}AllergyIntoleranceList`}
+      patientId={patientId || _.get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      isInitialize={isInitialize || true}
+      max={max}
+      initialFilter={initialFilter}
+      isContainer={isContainer}
+      name={name}
+      structure={state.structure}
     />
   )
 }
 
 const PatientAllergyList: React.FunctionComponent<{
   patientId: any
+  structure?: IPatientAlleryListListStructure
   isInitialize?: boolean
   resourceList?: any[]
   max?: number
@@ -74,6 +103,7 @@ const PatientAllergyList: React.FunctionComponent<{
   mouseTrackLabel?: string
 }> = ({
   resourceList,
+  structure = initialPatientAllergyListStructure,
   patientId,
   max = 20,
   isInitialize,
@@ -201,7 +231,11 @@ const PatientAllergyList: React.FunctionComponent<{
         <div className={classes.toolbar}>
           <ToolbarWithFilter
             title={'Allergies'}
-            Icon={<Icon className='fas fa-allergies' />}
+            Icon={
+              _.get(structure, 'headerIcon') ? (
+                <Icon className='fas fa-allergies' />
+              ) : null
+            }
             option={{
               headerClass: classes.headerCard,
               isHideIcon: true,

@@ -24,6 +24,9 @@ const theme = createMuiTheme({
     background: {
       default: '#fff',
     },
+    loading: generateDarkAndLight({
+      main: '#81d4fa',
+    }),
     tertiary: generateDarkAndLight({
       main: '#10acaf',
     }),

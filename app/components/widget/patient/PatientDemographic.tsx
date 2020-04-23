@@ -1,5 +1,9 @@
 import * as React from 'react'
 
+import {
+  initialPatientDemographicStructure,
+  IPatientDemographicStructure,
+} from '@app/reducers-redux/patient/patientDemographic.reducer'
 import ErrorSection from '@components/base/ErrorSection'
 import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import usePatient from '@components/hooks/usePatient'
@@ -59,13 +63,13 @@ export const PatientDemographicWithConnector: React.FunctionComponent<{
 
 const PatientDemographic: React.FunctionComponent<{
   patientId: string
-  structure: any
+  structure?: IPatientDemographicStructure
   name?: string
   mouseTrackCategory?: string
   mouseTrackLabel?: string
 }> = ({
   patientId,
-  structure,
+  structure = initialPatientDemographicStructure,
   name = 'PatientDemographic',
   mouseTrackCategory = 'patient_demographic',
   mouseTrackLabel = 'patient_demographic',
@@ -108,7 +112,18 @@ export const PatientDemographicView: React.FunctionComponent<{
         }}
       >
         <Grid container alignItems='center'>
-          <Grid item sm={12} md={12} lg={2}>
+          {_.get(structure, 'iconField') ? (
+            <Grid item sm={12} md={12} lg={2}>
+              <Grid container alignItems='center'>
+                <Avatar
+                  alt='Image'
+                  src='../../../../../static/images/mock-person-profile.png'
+                  className={classes.bigAvatar}
+                />
+              </Grid>
+            </Grid>
+          ) : null}
+          {/* <Grid item sm={12} md={2} lg={2}>
             <Grid container alignItems='center'>
               <Avatar
                 alt='Image'
@@ -116,7 +131,8 @@ export const PatientDemographicView: React.FunctionComponent<{
                 className={classes.bigAvatar}
               />
             </Grid>
-          </Grid>
+          </Grid> */}
+
           <Grid item sm={12} md={12} lg={9} style={{ paddingLeft: '1em' }}>
             <Grid container>
               {_.get(structure, 'nameField') ? (

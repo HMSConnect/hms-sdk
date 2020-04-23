@@ -11,6 +11,7 @@ const environment = {
     dateTime: 'YYYY/MM/DD HH:mm',
     time: 'HH:mm',
   },
+  disableAuthen: false,
 }
 
 export default environment

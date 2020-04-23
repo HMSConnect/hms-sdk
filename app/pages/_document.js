@@ -2,7 +2,6 @@ import * as React from 'react'
 import getConfig from 'next/config'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/core/styles'
-// import theme from '../src/theme'
 
 const { staticFolder } = getConfig().publicRuntimeConfig
 
@@ -13,7 +12,7 @@ class HMSWidgetSDKDocument extends Document {
 
     ctx.renderPage = () =>
       originalRenderPage({
-        enhanceApp: App => props => sheets.collect(<App {...props} />),
+        enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
       })
 
     const initialProps = await Document.getInitialProps(ctx)
@@ -77,14 +76,10 @@ class HMSWidgetSDKDocument extends Document {
             rel='stylesheet'
             href='https://fonts.googleapis.com/icon?family=Material+Icons'
           />
-          <link
+          {/* <link
             rel='stylesheet'
             href='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css'
-          />
-          <script
-            src='https://kit.fontawesome.com/e99afe3274.js'
-            crossOrigin='anonymous'
-          ></script>
+          /> */}
 
           <style>{` body { margin:0; padding:0; } `}</style>
         </Head>

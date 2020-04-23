@@ -4,6 +4,7 @@ import { Grid, makeStyles, Theme } from '@material-ui/core'
 import { GoogleAnalytics } from '@services/GoogleAnalyticsService'
 import { sendMessage } from '@utils'
 import get from 'lodash/get'
+import { useSelector } from 'react-redux'
 import routes from '../../../routes'
 import { default as RouteManager } from '../../../routes/RouteManager'
 import { IPageOptionResult } from '../../base/Pagination'
@@ -20,6 +21,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   root: {},
 }))
+
+export const PatientSearchWithConnector: React.FunctionComponent<{
+  query: IPaginationOption
+  name?: string
+}> = ({ query, name }) => {
+  const state = useSelector((state: any) => state.patientSearch)
+
+  return <PatientSearch query={query} name={name} />
+}
 
 const PatientSearch: React.FunctionComponent<{
   query: IPaginationOption

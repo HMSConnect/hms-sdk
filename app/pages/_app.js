@@ -1,19 +1,22 @@
 import * as React from 'react'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { ThemeProvider } from '@material-ui/core/styles'
 import * as _ from 'lodash'
 import App from 'next/app'
 import Head from 'next/head'
-import 'react-grid-layout/css/styles.css'
-import { Provider, connect, useSelector, useDispatch } from 'react-redux'
-import 'react-resizable/css/styles.css'
+import { Provider } from 'react-redux'
 import { AdapterManager } from '../adapters/DataAdapterManager'
+import LoadingSection from '../components/base/LoadingSection'
+import ThemeLayoutWithConnect from '../components/templates/ThemeLayout'
 import store from '../reducers-redux/index.reducer'
 import RouteManager from '../routes/RouteManager'
 import { GoogleAnalytics } from '../services/GoogleAnalyticsService'
 import { MessageListenerService } from '../services/MessageListenerService'
-import ThemeLayoutWithConnect from '../components/templates/ThemeLayout'
+
+import '@fortawesome/fontawesome-free/css/all.min.css'
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
+
 class AASApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {}
@@ -32,26 +35,7 @@ class AASApp extends App {
         _.get(props, 'router.query.isWaitForIframeLoaded') || false
       const pathName = props.router.pathname
       RouteManager.registryMode(pathName)
-
-      MessageListenerService.registerMessage('finishIframeLoading', () => {
-        this.setState({
-          ...this.state,
-          loading: false,
-        })
-      })
-
-      MessageListenerService.registerMessage('setStructure', data => {
-        _.each(data, (value, key) => {
-          const type = `SET_STRUCTURE_${_.toUpper(_.snakeCase(key))}`
-          store.dispatch({ type, payload: value })
-        })
-      })
-
-      MessageListenerService.registerMessage('setIframeName', data => {
-        MessageListenerService.setIframeName(data)
-      })
-
-      MessageListenerService.initialMessageListener()
+      this.initializeMessageService()
     }
     this.state = {
       isWaitForIframeLoaded,
@@ -66,9 +50,31 @@ class AASApp extends App {
     GoogleAnalytics.initializeGoogleGA()
   }
 
+  initializeMessageService = () => {
+    MessageListenerService.registerMessage('finishIframeLoading', () => {
+      this.setState({
+        ...this.state,
+        loading: false,
+      })
+    })
+
+    MessageListenerService.registerMessage('setStructure', (data) => {
+      _.each(data, (value, key) => {
+        const type = `SET_STRUCTURE_${_.toUpper(_.snakeCase(key))}`
+        store.dispatch({ type, payload: value })
+      })
+    })
+
+    MessageListenerService.registerMessage('setIframeName', (data) => {
+      MessageListenerService.setIframeName(data)
+    })
+
+    MessageListenerService.initialMessageListener()
+  }
+
   render() {
     const { Component, pageProps } = this.props
-    const { theme, isWaitForIframeLoaded, loading } = this.state
+    const { isWaitForIframeLoaded, loading } = this.state
     return (
       <>
         <Provider store={store}>
@@ -78,10 +84,9 @@ class AASApp extends App {
           <ThemeLayoutWithConnect defaultTheme='normal'>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-
             {isWaitForIframeLoaded ? (
               loading ? (
-                <div>Loading...</div>
+                <LoadingSection />
               ) : (
                 <Component {...pageProps} />
               )

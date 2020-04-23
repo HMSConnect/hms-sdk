@@ -1,10 +1,10 @@
 import { IWidgetGroup } from '@config'
 import {
-  allergyIntoleranceCriticalityOption,
-  allergyIntoleranceTypeOption,
+  carePlanStatusOption,
   claimStatusOption,
   conditionClinicalStatusOption,
   conditionVerificationStatusOption,
+  encounterStatusOption,
   immunizationStatusOption,
   medicationRequestStatusOption,
 } from '../patient'
@@ -231,6 +231,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'encounterId',
         },
       ],
+
       value: 'patient-summary',
     },
     {
@@ -245,6 +246,67 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
+        },
+      ],
+      structure: [
+        {
+          name: 'patientDemographic',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Address',
+              type: 'boolean',
+              value: 'addressField',
+            },
+            {
+              defaultValue: true,
+              label: 'Age',
+              type: 'boolean',
+              value: 'ageField',
+            },
+            {
+              defaultValue: true,
+              label: 'DOB',
+              type: 'boolean',
+              value: 'dobField',
+            },
+            {
+              defaultValue: true,
+              label: 'Email',
+              type: 'boolean',
+              value: 'emailField',
+            },
+            {
+              defaultValue: true,
+              label: 'Gender',
+              type: 'boolean',
+              value: 'genderField',
+            },
+            {
+              defaultValue: true,
+              label: 'Icon',
+              type: 'boolean',
+              value: 'iconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Language',
+              type: 'boolean',
+              value: 'languageField',
+            },
+            {
+              defaultValue: true,
+              label: 'Name',
+              type: 'boolean',
+              value: 'nameField',
+            },
+            {
+              defaultValue: true,
+              label: 'Phone',
+              type: 'boolean',
+              value: 'phoneField',
+            },
+          ],
         },
       ],
       value: 'patient-demographic',
@@ -275,10 +337,54 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'isRouteable',
         },
         {
+          choices: [{ label: 'None', value: '' }].concat(encounterStatusOption),
           defaultValue: '',
           label: 'InitialFilter[status]',
-          type: 'text',
+          type: 'options',
           value: 'initialFilter[status]',
+        },
+      ],
+      structure: [
+        {
+          name: 'patientEncounterTimeline',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Filter Icon',
+              type: 'boolean',
+              value: 'filterIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Class Code',
+              type: 'boolean',
+              value: 'classCodeField',
+            },
+            {
+              defaultValue: true,
+              label: 'Diagnosis',
+              type: 'boolean',
+              value: 'diagnosisField',
+            },
+            {
+              defaultValue: true,
+              label: 'Pactitioner Code',
+              type: 'boolean',
+              value: 'practitionerField',
+            },
+            {
+              defaultValue: true,
+              label: 'TypeCureField',
+              type: 'boolean',
+              value: 'typeCureField',
+            },
+          ],
         },
       ],
       value: 'patient-encounter-timeline',
@@ -441,53 +547,53 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       ],
       value: 'patient-immunization-table',
     },
-    // {
-    //   document: require('@assets/embedded-widget/patient-info/patient-medication-request-table.md')
-    //     .default,
-    //   label: 'Patient Medication Request Table',
-    //   parameters: [
-    //     // {
-    //     //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
-    //     //   label: 'Patient ID',
-    //     //   type: 'text',
-    //     //   value: 'patientId',
-    //     // },
-    //   ],
-    //   path: '/embedded-widget/patient-info/medication-request-table',
-    //   queryParams: [
-    //     {
-    //       defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
-    //       label: 'Patient ID',
-    //       type: 'text',
-    //       value: 'patientId',
-    //     },
-    //     {
-    //       defaultValue: 20,
-    //       label: 'Max',
-    //       type: 'number',
-    //       value: 'max',
-    //     },
-    //     {
-    //       defaultValue: '',
-    //       label: 'InitialFilter[medicationCodeableConcept]',
-    //       type: 'text',
-    //       value: 'initialFilter[medicationCodeableConcept]',
-    //     },
-    //     {
-    //       choices: [
-    //         {
-    //           label: 'None',
-    //           value: '',
-    //         },
-    //       ].concat(medicationRequestStatusOption),
-    //       defaultValue: '',
-    //       label: 'InitialFilter[status]',
-    //       type: 'options',
-    //       value: 'initialFilter[status]',
-    //     },
-    //   ],
-    //   value: 'patient-medication-request-table',
-    // },
+    {
+      document: require('@assets/embedded-widget/patient-info/patient-medication-request-table.md')
+        .default,
+      label: 'Patient Medication Request Table',
+      parameters: [
+        // {
+        //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+        //   label: 'Patient ID',
+        //   type: 'text',
+        //   value: 'patientId',
+        // },
+      ],
+      path: '/embedded-widget/patient-info/medication-request-table',
+      queryParams: [
+        {
+          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
+        {
+          defaultValue: '',
+          label: 'InitialFilter[medicationCodeableConcept]',
+          type: 'text',
+          value: 'initialFilter[medicationCodeableConcept]',
+        },
+        {
+          choices: [
+            {
+              label: 'None',
+              value: '',
+            },
+          ].concat(medicationRequestStatusOption),
+          defaultValue: '',
+          label: 'InitialFilter[status]',
+          type: 'options',
+          value: 'initialFilter[status]',
+        },
+      ],
+      value: 'patient-medication-request-table',
+    },
     {
       document: require('@assets/embedded-widget/patient-info/patient-procedure-table.md')
         .default,
@@ -543,10 +649,11 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'max',
         },
         {
+          choices: [{ label: 'None', value: '' }].concat(carePlanStatusOption),
           defaultValue: '',
-          label: 'InitialFilter[code]',
-          type: 'text',
-          value: 'initialFilter[code]',
+          label: 'InitialFilter[status]',
+          type: 'options',
+          value: 'initialFilter[status]',
         },
       ],
       value: 'patient-care-plan-table',
@@ -587,28 +694,28 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       ],
       value: 'patient-claim-table',
     },
-    // {
-    //   document: require('@assets/embedded-widget/patient-info/patient-imaging-study-table.md')
-    //     .default,
-    //   label: 'Patient Imaging Study Table',
-    //   parameters: [],
-    //   path: '/embedded-widget/patient-info/imaging-study-table',
-    //   queryParams: [
-    //     {
-    //       defaultValue: '03c2e1b5-9fe0-4735-bc7d-a54c449bfdae',
-    //       label: 'Patient ID',
-    //       type: 'text',
-    //       value: 'patientId',
-    //     },
-    //     {
-    //       defaultValue: 20,
-    //       label: 'Max',
-    //       type: 'number',
-    //       value: 'max',
-    //     },
-    //   ],
-    //   value: 'patient-imaging-study-table',
-    // },
+    {
+      document: require('@assets/embedded-widget/patient-info/patient-imaging-study-table.md')
+        .default,
+      label: 'Patient Imaging Study Table',
+      parameters: [],
+      path: '/embedded-widget/patient-info/imaging-study-table',
+      queryParams: [
+        {
+          defaultValue: '03c2e1b5-9fe0-4735-bc7d-a54c449bfdae',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
+      ],
+      value: 'patient-imaging-study-table',
+    },
     {
       document: require('@assets/embedded-widget/patient-info/patient-summary-cards.md')
         .default,

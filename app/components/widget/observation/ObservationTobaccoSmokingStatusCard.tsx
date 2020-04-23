@@ -27,7 +27,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   footerContainer: { height: 36, color: theme.palette.text.secondary },
   headerCard: {
-    backgroundColor: theme.palette.septenary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.septenary?.dark
+        : theme.palette?.septenary?.light,
     color: theme.palette.septenary?.main || '',
   },
   hover: {
@@ -37,14 +40,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     textDecoration: 'none',
   },
   iconCard: {
-    color: theme.palette.septenary?.dark || '',
+    color:
+      theme.palette.type === 'dark'
+        ? theme.palette?.septenary?.main
+        : theme.palette?.septenary?.dark,
   },
   infoIcon: {
     color: '#1976d2',
     zoom: 0.7,
   },
   selectedCard: {
-    backgroundColor: '#ddd4',
+    backgroundColor: theme.palette.action.selected,
     border: '2px solid #00b0ff',
     borderRadius: 4,
   },
@@ -73,7 +79,10 @@ export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionCom
   }))
   return (
     <ObservationTobaccoSmokingStatusCard
-      key={`ObservationTobaccoSmokingStatusCard${get(state, 'encounterId')}`}
+      key={`ObservationBloodPressureCard${
+        encounterId ||
+        get(state, 'observationTobaccoSmokingStatusCard.encounterId')
+      }`}
       patientId={
         patientId || state.observationTobaccoSmokingStatusCard.patientId
       }

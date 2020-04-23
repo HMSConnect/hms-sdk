@@ -3,8 +3,9 @@
 # Create new Widget
 To create new widget and release it to use via iframe, you can follow this step
 1. HMS use nextjs to serve file so our process for create new widget same as create page for nextjs. By Create widget in `pages` folder. In our design, demo app will create in `pages` folder, widget is created in `pages/embedded-widget`.
-2. For widget's definition, if your widget need to use service's object you can inject it by use `BootstrapWrapper`. BootstrapWrapper's props is 'dependencies' which receive array of name of service that follow in `config/widget_dependencies.json` 
+2. For widget's definition, if your widget need to use service's object you can inject it by use `components/init/BootstrapWrapper`. BootstrapWrapper's props is 'dependencies' which receive array of name of service that follow in `config/widget_dependencies.json` 
 ```tsx
+  // pages/embedded-widget/patient-demographic.tsx
     <BootstrapWrapper dependencies={['patient', 'allergy_intolerance']}>
       <>
         <CssBaseline />
@@ -26,8 +27,9 @@ example for use service
     return patientService.load(patientId)
 ```
 
-1. Widget need to add `getInitialProps` for get query string
+3. Widget need to add `getInitialProps` for get query string
 ```ts
+  // pages/embedded-widget/patient-demographic.tsx
     export interface IStatelessPage<P = {}> extends React.SFC<P> {
         getInitialProps?: (ctx: any) => Promise<P>
     }
@@ -59,8 +61,9 @@ example for use service
 (Optional) In HMS, we support our widget with redux by follow there step
 
 5. Create new reducer in folder `reducers-redux`
-6. If you want to config structure from iframe you need to define structure config in inital state in reducer. and add action type start with `SET_STRUCTURE_`
+6. If you want to config `setStructure` from iframe you need to define structure config in inital state in reducer. and add action type `SET_STRUCTURE_<Widget Name>`. In `Widget Name` is `important` cause when you use function `setStructure` in your html file. You need to send object that key is widget name and value is your structure
 ```ts
+// reducers-redux/patientDemographic.reducer.ts
 type PatientDemographicType =
   | 'INIT_PATIENT_SUMMARY'
   | 'SET_STRUCTURE_PATIENT_DEMOGRAPHIC'
@@ -94,7 +97,8 @@ const patientDemographic = (
   }
 }
 ```
-7. Import your reducer in `reducers-redux/index.reducer.ts`
+example use with iframe-sdk follow by [this link](iframe-sdk-implement.md)
+1. Import your reducer in `reducers-redux/index.reducer.ts`
 
 (Optional) To apply theme in widget. We use `meterial-ui` for config and provide theme
 
@@ -127,6 +131,7 @@ const <NewWidget>: React.FunctionComponent<{
 Hms-widget use `material-ui` for style and theme provider. you can set theme by follow these step
 1. Create new theme file in `styles` folder by use `createMuiTheme` function from `material-ui`
 ```ts
+// styles/newStyle.ts
 createMuiTheme({
   palette: {
     action: {
@@ -157,6 +162,7 @@ createMuiTheme({
 ```
 2. (Optional) Meterial-ui provide limit pallette so if you want to add more, you can add in `styles/ThemeManager.ts` 
 ```ts
+// styles/ThemeManager.ts
 declare module '@material-ui/core/styles/createPalette' {
   interface PaletteOptions {
     tertiary?: SimplePaletteColorOptions

@@ -11,7 +11,7 @@ import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import { createStore } from 'redux'
 import patientDemographic, {
   patientDemographicInitialState,
-} from '@app/reducers-redux/patientDemographic.reducer'
+} from '@app/reducers-redux/patient/patientDemographic.reducer'
 
 jest.mock('@components/hooks/usePatient', () => ({
   __esModule: true,
@@ -97,7 +97,7 @@ describe('<PatientInfoDetail />', () => {
 
   it('render PatientInfoDetail', () => {
     const { queryAllByText, getByText } = renderWithRedux(
-      <PatientInfoDetail query={mockQuery} />,
+      <PatientInfoDetail patientId={'1'} />,
       {
         initialState: {},
         store: createStore(patientDemographic, {
@@ -116,7 +116,7 @@ describe('<PatientInfoDetail />', () => {
       isLoading: true,
     }))
     const { queryAllByText, getByText } = renderWithRedux(
-      <PatientInfoDetail query={mockQuery} />,
+      <PatientInfoDetail patientId={'1'} />,
       {
         initialState: {},
         store: createStore(patientDemographic, {
@@ -137,7 +137,7 @@ describe('<PatientInfoDetail />', () => {
     }))
 
     const { queryAllByText, getByText } = renderWithRedux(
-      <PatientInfoDetail query={mockQuery} />,
+      <PatientInfoDetail patientId={'1'} />,
       {
         initialState: {},
         store: createStore(patientDemographic, {
@@ -163,7 +163,7 @@ describe('<PatientInfoDetail />', () => {
       isLoading: false,
     }))
     const { queryAllByText, getByText } = renderWithRedux(
-      <PatientInfoDetail query={mockQuery} />,
+      <PatientInfoDetail patientId={'1'} />,
       {
         initialState: {},
         store: createStore(patientDemographic, {

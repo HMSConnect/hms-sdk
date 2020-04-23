@@ -1,8 +1,8 @@
 import * as React from 'react'
 
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
-import observationTobaccoSmokingStatusCard from '@app/reducers-redux/observationTobaccoSmokingStatusCard.reducer'
-import patientSummaryCards from '@app/reducers-redux/patientSummaryCards.reducer'
+import observationTobaccoSmokingStatusCard from '@app/reducers-redux/observation/observationTobaccoSmokingStatusCard.reducer'
+import patientSummaryCards from '@app/reducers-redux/patient/patientSummaryCards.reducer'
 import useObservationList from '@components/hooks/useObservationList'
 import ObservationTobaccoSmokingStatusCard, {
   ObservationTobaccoSmokingStatusCardWithConnector,

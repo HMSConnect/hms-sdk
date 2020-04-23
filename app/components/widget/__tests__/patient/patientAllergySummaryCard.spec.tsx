@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
-import patientAllergySummaryCard from '@app/reducers-redux/patientAllergySummaryCard.reducer'
+import patientAllergySummaryCard from '@app/reducers-redux/patient/patientAllergySummaryCard.reducer'
 import useResourceList from '@components/hooks/useResourceList'
 import PatientAllergySummerCard, {
   PatientAllergySummerCardWithConnector,

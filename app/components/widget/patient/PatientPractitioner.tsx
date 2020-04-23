@@ -56,16 +56,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const PatientPractitionerWithConnector: React.FunctionComponent = () => {
+export const PatientPractitionerWithConnector: React.FunctionComponent<{
+  encounterId?: string
+  maxDisplay?: number
+  mouseTrackCategory?: string
+  name?: string
+}> = ({ encounterId, maxDisplay, mouseTrackCategory, name }) => {
   const state = useSelector((state: any) => state.patientPractitioner)
   return (
-    // <TrackerMouseClick>
     <PatientPractitioner
-      encounterId={state?.encounterId}
-      mouseTrackCategory={state?.mouseTrackCategory}
-      maxDisplay={state?.maxDisplay}
+      encounterId={encounterId || state?.encounterId}
+      mouseTrackCategory={mouseTrackCategory || state?.mouseTrackCategory}
+      maxDisplay={maxDisplay || state?.maxDisplay}
+      name={name}
     />
-    // </TrackerMouseClick>
   )
 }
 
@@ -88,12 +92,14 @@ const PatientPractitioner: React.FunctionComponent<{
   customOnClickEvent?: any
   mouseTrackCategory?: string
   mouseTrackLabel?: string
+  name?: string
 }> = ({
   encounterId,
   maxDisplay,
   customOnClickEvent,
   mouseTrackCategory = 'patient_practitioner',
   mouseTrackLabel = 'patient_practitioner',
+  name = 'patientPractitioner',
 }) => {
   const classes = useStyles({})
   const { data, error, isLoading } = useEncounter(encounterId)

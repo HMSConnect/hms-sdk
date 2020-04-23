@@ -19,6 +19,7 @@ import { HMSService } from '@services/HMSServiceFactory'
 import ImagingStudyService from '@services/ImagingStudyService'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -46,6 +47,37 @@ export interface ITableCellProp {
   bodyCell: IBodyCellProp
 }
 
+export const PatientImagingStudyTableWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  name?: string
+  isInitialize?: boolean
+  max?: number
+  initialFilter?: IImagingStudyListFilterQuery
+}> = ({
+  patientId,
+  mouseTrackCategory,
+  name,
+  isInitialize,
+  max,
+  initialFilter,
+}) => {
+  const state = useSelector((state: any) => state.PatientImagingStudyTable)
+
+  return (
+    <PatientImagingStudyTable
+      patientId={patientId || _.get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      isInitialize={isInitialize || true}
+      max={max}
+      initialFilter={initialFilter}
+      name={name}
+    />
+  )
+}
+
 const PatientImagingStudyTable: React.FunctionComponent<{
   patientId: any
   isInitialize?: boolean
@@ -55,10 +87,12 @@ const PatientImagingStudyTable: React.FunctionComponent<{
   name?: string
   mouseTrackCategory?: string
   mouseTrackLabel?: string
+  isContainer?: boolean
 }> = ({
   resourceList,
   patientId,
   max = 20,
+  isContainer = true,
   isInitialize,
   initialFilter: customInitialFilter = {
     patientId,
@@ -131,7 +165,11 @@ const PatientImagingStudyTable: React.FunctionComponent<{
     setIsMore,
     setResult,
     isMore,
-  } = useInfinitScroll(null, fetchMoreAsync, resourceList)
+  } = useInfinitScroll(
+    isContainer ? myscroll.current : null,
+    fetchMoreAsync,
+    resourceList,
+  )
 
   React.useEffect(() => {
     if (isInitialize) {

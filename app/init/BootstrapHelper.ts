@@ -11,16 +11,17 @@ class BootstrapHelper {
         if (Service) {
           if (serviceName.startsWith('$')) {
             // $ = default class config
-            // TODO: discuss how to define service name?
+            /**
+             * example
+             * $ALLERGY_INTOLERANCE => allergy_intolerance
+             */
             HMSService.register(
-              _.chain(serviceName)
-                .replace('$', '')
-                .snakeCase()
-                .value(),
+              _.chain(serviceName).replace('$', '').snakeCase().value(),
               Service,
             )
           } else {
-            // TODO: create class from object
+            throw new Error(`not support service name ${serviceName}`)
+            // TODO: maybe support create class from object
           }
         } else {
           throw new Error(`can't get service name ${serviceName}.`)
@@ -38,15 +39,18 @@ class BootstrapHelper {
           const ValidatorClazz = validator.clazz
           if (validatorName.startsWith('$')) {
             // $ = default class config
+            /**
+             * example
+             * $SFHIR_ALLERGY_INTOLERANCE_V1 => SFHIR_ALLERGY_INTOLERANCE_V1
+             */
             ValidatorManager.register(
-              _.chain(validatorName)
-                .replace('$', '')
-                .value(),
+              _.chain(validatorName).replace('$', '').value(),
               new ValidatorClazz(),
               validator.priority,
             )
           } else {
-            // TODO: create class from object
+            throw new Error(`not support validator name ${validatorName}`)
+            // TODO: maybe support create class from object
           }
         } else {
           throw new Error(`can't get validator name ${validatorName}.`)

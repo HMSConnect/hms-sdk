@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientPractitioner from '@components/widget/patient/PatientPractitioner'
+import { PatientPractitionerWithConnector } from '@components/widget/patient/PatientPractitioner'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -23,7 +23,7 @@ const PatientPractitionerCardWidget: IStatelessPage<{
       <>
         <CssBaseline />
         <div style={{ height: '100vh' }}>
-          <PatientPractitioner
+          <PatientPractitionerWithConnector
             encounterId={get(query, 'encounterId')}
             maxDisplay={get(query, 'maxDisplay')}
           />

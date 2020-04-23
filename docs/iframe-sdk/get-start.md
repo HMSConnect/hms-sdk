@@ -18,7 +18,7 @@
 | ----------------- | ----------------------------------------------------------------------------- | ------------------------------------------------ |
 | init              | IInitObject                                                                   | Initial for create iframe                        |
 | setParams         | any                                                                           | params for selected widget                       |
-| setStructure      | any                                                                           | structure for render widget                      |
+| setStructure      | {`name of widget which define in hms-widget reducers`: value}                 | structure for render widget                      |
 | setTheme          | `normal` `dark` or `invert`                                                   | theme for render                                 |
 | setCustomizeTheme | [ThemeOptions](https://v4-8-3.material-ui.com/customization/theming/), string | Name of widget for emit event                    |
 | onMessage         | function                                                                      | Function callback when iframe got event response |
@@ -169,9 +169,9 @@ object response
           }
         });
       });
-d
+
       window.messageListenerService.addExtendMessagelistener(() => {
-        console.log("event CALl :");
+        console.log("exend message event call :");
       });
     </script>
   </body>

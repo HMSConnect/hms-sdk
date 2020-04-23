@@ -1,6 +1,6 @@
 import patientSummaryCards, {
   patientSummaryCardsInitialState,
-} from '@app/reducers-redux/patientSummaryCards.reducer'
+} from '@app/reducers-redux/patient/patientSummaryCards.reducer'
 import * as React from 'react'
 
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'

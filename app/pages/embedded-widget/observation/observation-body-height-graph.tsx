@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import ObservationBodyHeightGraph from '@components/widget/observation/ObservationBodyHeightGraph'
+import { ObservationBodyHeightGraphWithConnector } from '@components/widget/observation/ObservationBodyHeightGraph'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -20,9 +20,10 @@ const ObservationBodyHeightGraphWidget: IStatelessPage<{
     <BootstrapWrapper dependencies={['patient', 'observation']}>
       <>
         <CssBaseline />
-        <ObservationBodyHeightGraph
+        <ObservationBodyHeightGraphWithConnector
           patientId={get(query, 'patientId')}
           optionStyle={get(query, 'optionStyle')}
+          max={get(query, 'max')}
         />
       </>
     </BootstrapWrapper>

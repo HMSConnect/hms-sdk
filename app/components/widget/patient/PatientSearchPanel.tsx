@@ -12,7 +12,7 @@ import {
 import { hexToRgb } from '@material-ui/core/styles'
 import ClearIcon from '@material-ui/icons/Clear'
 import SearchIcon from '@material-ui/icons/Search'
-
+import { useSelector } from 'react-redux'
 import PatientFilterBar, {
   IPatientFilterValue,
 } from '../../templates/patient/PatientFilterBar'
@@ -52,6 +52,25 @@ const useStyles = makeStyles((theme: Theme) => ({
   searchBar: {},
 }))
 
+export const PatientSearchPanelWithConnector: React.FunctionComponent<{
+  initialFilter: IPatientFilterValue
+  onSearchSubmit: (filter: IPatientFilterValue) => void
+  onPaginationReset?: (event: React.MouseEvent) => void
+  onHightlightChange?: (value: string) => void
+  name?: string
+}> = ({ initialFilter, onSearchSubmit, onPaginationReset, name }) => {
+  const state = useSelector((state: any) => state.patientSearchPanel)
+
+  return (
+    <PatientSearchPanel
+      initialFilter={initialFilter}
+      onSearchSubmit={onSearchSubmit}
+      onPaginationReset={onPaginationReset}
+      name={name}
+    />
+  )
+}
+
 const PatientSearchPanel: React.FunctionComponent<{
   initialFilter: IPatientFilterValue
   onSearchSubmit: (filter: IPatientFilterValue) => void
@@ -72,7 +91,7 @@ const PatientSearchPanel: React.FunctionComponent<{
   }, [initialFilter])
 
   const handleFilterChange = (type: string, value: any): void => {
-    setFilter(prevFilter => ({
+    setFilter((prevFilter) => ({
       ...prevFilter,
       [type]: value,
     }))

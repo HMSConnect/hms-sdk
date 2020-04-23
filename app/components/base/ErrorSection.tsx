@@ -1,16 +1,27 @@
-import { Grid, Typography } from '@material-ui/core'
 import * as React from 'react'
 
+import { Grid, makeStyles, Theme, Typography } from '@material-ui/core'
+const useStyles = makeStyles((theme: Theme) => {
+  return {
+    background: {
+      backgroundColor:
+        theme.palette.type === 'dark'
+          ? theme.palette.error?.dark || '#ffcdd2'
+          : theme.palette.error?.light || '#ffcdd2',
+    },
+  }    
+})
 const ErrorSection: React.FunctionComponent<{
   error: Error | string
 }> = ({ error }) => {
+  const classes = useStyles()
   return (
     <Grid
       container
       direction='column'
       justify='center'
       alignItems='center'
-      style={{ backgroundColor: '#ffcdd2' }}
+      className={classes.background}
     >
       <Grid item>
         <Typography variant='body1'>Something went wrong</Typography>

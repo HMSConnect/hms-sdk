@@ -15,10 +15,10 @@ for (var i = 0; i < scripts.length; ++i) {
   }
 }
 
-var loadJsFile = function(src, callback) {
+var loadJsFile = function (src, callback) {
   let script = document.createElement("script");
   script.src = src;
-  script.onload = function() {
+  script.onload = function () {
     if (callback) callback();
   };
   script.type = "text/javascript";
@@ -37,12 +37,12 @@ class MessageListenerServiceFactory {
   }
 
   initialMessageListener() {
-    window.addEventListener("message", event => {
+    window.addEventListener("message", (event) => {
       if (this.origin && event.origin !== this.origin) return;
       if (event.data.eventType === "embedded-widget") {
         const iframeName = event.data.iframeName;
         const listener = this.register.find(
-          data => data.iframeName === iframeName
+          (data) => data.iframeName === iframeName
         );
         if (listener) {
           listener.listener(event.data);
@@ -81,10 +81,10 @@ class HmsWidgetFactory {
     href: "https://hms-widget.bonmek.com",
     pathPrefix: "embedded-widget",
     isFirstRender: true,
-    structure: {}
+    structure: {},
   };
 
-  init = config => {
+  init = (config) => {
     const divElement = document.getElementById(config.selector);
     this.iframeObject.selector = config.selector;
     this.iframeObject.name = config.name;
@@ -108,10 +108,10 @@ class HmsWidgetFactory {
     divElement.appendChild(this.iframeObject.iframeElement);
   };
 
-  setParams = params => {
+  setParams = (params) => {
     const qs = queryStringify({
       ...params,
-      isWaitForIframeLoaded: true
+      isWaitForIframeLoaded: true,
     });
     this.iframeObject.qs = qs;
     if (!this.iframeObject.isFirstRender) {
@@ -119,7 +119,7 @@ class HmsWidgetFactory {
     }
   };
 
-  setTheme = theme => {
+  setTheme = (theme) => {
     this.iframeObject.theme = theme;
     if (!this.iframeObject.isFirstRender) {
       this.render();
@@ -133,17 +133,17 @@ class HmsWidgetFactory {
     }
   };
 
-  setStructure = structure => {
+  setStructure = (structure) => {
     this.iframeObject.structure = {
       ...this.iframeObject.structure,
-      ...structure
+      ...structure,
     };
     if (!this.iframeObject.isFirstRender) {
       this.render();
     }
   };
 
-  render = initSetup => {
+  render = (initSetup) => {
     if (initSetup) {
       initSetup();
     }
@@ -151,7 +151,11 @@ class HmsWidgetFactory {
       this.iframeObject.iframeElement.onload = () =>
         this.onIframeLoaded(this.iframeObject);
       const url = `${this.iframeObject.src}${
-        this.iframeObject.qs ? `?${this.iframeObject.qs}` : ""
+        this.iframeObject.qs
+          ? `?${this.iframeObject.qs}`
+          : `?${queryStringify({
+              isWaitForIframeLoaded: true,
+            })}`
       }`;
       console.info(
         "this.iframeObject.src :",
@@ -166,13 +170,13 @@ class HmsWidgetFactory {
     }
   };
 
-  onIframeLoaded = iframeObject => {
+  onIframeLoaded = (iframeObject) => {
     const actions = [
       "finishIframeLoading",
       "setTheme",
       "setCustomTheme",
       "setIframeName",
-      "setStructure"
+      "setStructure",
     ];
     const messageEvent = createMessageEvents(
       iframeObject.iframeElement,
@@ -189,7 +193,7 @@ class HmsWidgetFactory {
     messageEvent.finishIframeLoading();
   };
 
-  onMessage = callback => {
+  onMessage = (callback) => {
     messageListenerService.registerMessage(
       this.iframeObject.selector,
       callback
@@ -197,11 +201,11 @@ class HmsWidgetFactory {
   };
 }
 
-window.hmsWidgetAsyncInit = function(callback) {
+window.hmsWidgetAsyncInit = function (callback) {
   const hmswidgetObject = new HmsWidgetFactory();
   loadJsFile(`${domain}/message-utils.min.js`);
   loadJsFile(`${domain}/stringify.min.js`, () => {
-    hmswidgetObject.render(function() {
+    hmswidgetObject.render(function () {
       callback(hmswidgetObject);
     });
   });

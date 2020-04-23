@@ -42,6 +42,7 @@ import { parse, stringify } from 'qs'
 import '../../github-markdown.css'
 import routes from '../../routes'
 import clsx from 'clsx'
+import WidgetManagerStructure from '@components/templates/widget-manager/WidgetManagerStructure'
 
 const md = MarkdownIt({ html: true })
 
@@ -171,7 +172,7 @@ const WidgetManager: IStatelessPage<{
     dispatch,
   ] = React.useReducer(widgetReducer, widgetState)
 
-  const { parameters, queryParams, url } = iframeState
+  const { parameters, queryParams, url, structure } = iframeState
 
   React.useEffect(() => {
     window.addEventListener('message', msgListener, false)
@@ -185,7 +186,11 @@ const WidgetManager: IStatelessPage<{
   React.useEffect(() => {
     if (query) {
       const selectedWidget = findWidget(query.widget)
-      const newQueryParams = initialQueryParams(selectedWidget)
+      const newQueryParams = {
+        ...initialQueryParams(selectedWidget),
+        isWaitForIframeLoaded: true,
+      }
+      const newStructure = initialStructure(selectedWidget)
       const url = createURL(selectedWidget, null, newQueryParams)
 
       dispatch({
@@ -193,6 +198,7 @@ const WidgetManager: IStatelessPage<{
           iframeState: {
             parameters: initialParameter(selectedWidget),
             queryParams: newQueryParams,
+            structure: newStructure,
             url,
           },
           selectedWidget,
@@ -230,7 +236,7 @@ const WidgetManager: IStatelessPage<{
 
   const findWidget = (widgetValue: string) => {
     const findWidget = _.chain(WIDGET_GROUP)
-      .map(widget => widget.child)
+      .map((widget) => widget.child)
       .flatten()
       .find((widget: any) => _.toLower(widget.value) === _.toLower(widgetValue))
       .value()
@@ -251,7 +257,7 @@ const WidgetManager: IStatelessPage<{
         url = _.replace(url, `:${key}`, value)
       })
     } else {
-      _.each(selectedWidget.parameters, parameter => {
+      _.each(selectedWidget.parameters, (parameter) => {
         url = _.replace(url, `:${parameter.value}`, parameter.defaultValue)
       })
     }
@@ -292,6 +298,23 @@ const WidgetManager: IStatelessPage<{
     )
   }
 
+  const initialStructure = (selectedWidget: any) => {
+    return _.reduce(
+      _.get(selectedWidget, 'structure'),
+      (acc, s) => {
+        return {
+          ...acc,
+          [s.name]: createMapping(
+            _.get(s, 'structure'),
+            'value',
+            'defaultValue',
+          ),
+        }
+      },
+      {},
+    )
+  }
+
   const createMapping = (object: any, key: string, value: string) => {
     return _.chain(object)
       .reduce((acc, item) => {
@@ -310,6 +333,13 @@ const WidgetManager: IStatelessPage<{
     })
   }
 
+  const handleStructureChange = (name: string, type: string, value: any) => {
+    dispatch({
+      payload: { name, type, value },
+      type: 'IFRAME_STRUCTURE_CHANGE',
+    })
+  }
+
   const handleParameterChange = (type: string, value: any) => {
     dispatch({
       payload: { type, value },
@@ -322,9 +352,20 @@ const WidgetManager: IStatelessPage<{
       ? (_.get(iframeRef, 'current') as HTMLIFrameElement)
       : null
     if (iframeObject && iframeObject.contentWindow) {
-      iframeObject.contentWindow.onpopstate = (event: any) => {
-        // setURLText(event.state.url)
-      }
+      const newStructureData = structure
+      iframeObject.contentWindow.postMessage(
+        {
+          action: 'setStructure',
+          data: newStructureData,
+        },
+        '*',
+      )
+      iframeObject.contentWindow.postMessage(
+        {
+          action: 'finishIframeLoading',
+        },
+        '*',
+      )
     }
   }
 
@@ -364,7 +405,6 @@ const WidgetManager: IStatelessPage<{
   }
 
   const handleIFrameReset = (event: React.MouseEvent) => {
-    // TODO: iframe reset
     dispatch({ type: 'IFRAME_RESET' })
 
     if (selectedWidget) {
@@ -470,18 +510,24 @@ const WidgetManager: IStatelessPage<{
                   <Grid item xs={3}>
                     <Paper className={classes.parameterLayout}>
                       <form onSubmit={handleSubmitURL}>
-                        <WidgetManagerParameter
+                        {/* <WidgetManagerParameter
                           parameters={parameters}
                           selectedWidget={selectedWidget}
                           onParameterChange={handleParameterChange}
                           type='parameters'
                           label='Parameters'
-                        />
+                        /> */}
                         <WidgetManagerParameter
                           parameters={queryParams}
                           selectedWidget={selectedWidget}
                           onParameterChange={handleQueryParamChange}
                           type='queryParams'
+                        />
+                        <WidgetManagerStructure
+                          structures={structure}
+                          selectedWidget={selectedWidget}
+                          onParameterChange={handleStructureChange}
+                          type='structure'
                         />
                         <Grid container justify='flex-end'>
                           <Fab

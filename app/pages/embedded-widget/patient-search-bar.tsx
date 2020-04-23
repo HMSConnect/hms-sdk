@@ -5,7 +5,7 @@ import Tracker from '@components/base/Tracker'
 import { IPaginationOption } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
-import PatientSearchPanel from '@components/widget/patient/PatientSearchPanel'
+import { PatientSearchPanelWithConnector } from '@components/widget/patient/PatientSearchPanel'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import RouteManager from '@routes/RouteManager'
@@ -92,7 +92,7 @@ const PatientSearchBarWidget: IStatelessPage<{
       <Tracker>
         <>
           <CssBaseline />
-          <PatientSearchPanel
+          <PatientSearchPanelWithConnector
             initialFilter={pagination.filter}
             onSearchSubmit={handleSearchSubmit}
             onPaginationReset={handlePaginationReset}

@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientAllergyIntoleranceTable from '@components/widget/patient/PatientAllergyIntoleranceTable'
+import { PatientAllergyIntoleranceTableWithConnector } from '@components/widget/patient/PatientAllergyIntoleranceTable'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -20,13 +20,20 @@ const PatientAllergyIntoleranceTableWidget: IStatelessPage<{
     <BootstrapWrapper dependencies={['patient', 'allergy_intolerance']}>
       <>
         <CssBaseline />
-        <PatientAllergyIntoleranceTable
+        <PatientAllergyIntoleranceTableWithConnector
           patientId={get(query, 'patientId') || '-1'}
           max={get(query, 'max')}
           isInitialize={get(query, 'isInitialize') || true}
           initialFilter={get(query, 'initialFilter')}
           name={get(query, 'name')}
         />
+        {/* <PatientAllergyIntoleranceTable
+          patientId={get(query, 'patientId') || '-1'}
+          max={get(query, 'max')}
+          isInitialize={get(query, 'isInitialize') || true}
+          initialFilter={get(query, 'initialFilter')}
+          name={get(query, 'name')}
+        /> */}
       </>
     </BootstrapWrapper>
   )

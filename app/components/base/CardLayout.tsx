@@ -11,10 +11,11 @@ import {
 import ToolbarWithFilter from './ToolbarWithFilter'
 
 const useStyles = makeStyles((theme: Theme) => ({
-  headerCardTitle: {
-    color: 'grey',
+  headerCardTitle: {},
+  headerContainer: {
+    backgroundColor: theme.palette.secondary.main,
+    height: 64,
   },
-  headerContainer: { height: 64, backgroundColor: '#ddd4' },
   paperContainer: {
     display: 'flex',
     flexDirection: 'column',

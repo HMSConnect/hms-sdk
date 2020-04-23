@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import patientAllergyList from '@app/reducers-redux/patientAllergyList.reducer'
+import patientAllergyList from '@app/reducers-redux/patient/patientAllergyList.reducer'
 import { renderWithRedux } from '@app/reducers-redux/__mocks__/renderWithRedux'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
 import { render } from '@testing-library/react'

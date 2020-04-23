@@ -1,9 +1,9 @@
-import React from 'react'
-
 import GridLayoutWithComponentSelector from '@components/base/GridLayoutWithComponentSelector'
+import { OBSERVATION_CODE } from '@config/observation'
 import { makeStyles } from '@material-ui/core'
 import * as _ from 'lodash'
-import { useDispatch } from 'react-redux'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { IEnhancedTableProps } from '../../base/EnhancedTableHead'
 import { ObservationBloodPressureCardWithConnector } from '../observation/ObservationBloodPressureCard'
 import { ObservationBodyMeasurementCardWithConnector } from '../observation/ObservationBodyMeasurementCard'
@@ -26,7 +26,6 @@ import { PatientMedicationSummaryCardWithConnector } from './PatientMedicationSu
 import { PatientPractitionerWithConnector } from './PatientPractitioner'
 import { PatientProcedureTableWithConnector } from './PatientProcedureTable'
 import { PatientSummaryCardsWithConnector } from './PatientSummaryCards'
-import { OBSERVATION_CODE } from '@config/observation'
 
 export interface IPatientTableProps {
   entry: any[]
@@ -205,6 +204,20 @@ const defaultItems = _.chain(componentResource)
   })
   .value()
 
+export const PatientSummaryWithConnector: React.FunctionComponent<{
+  patientId: string
+  encounterId: string
+  name?: string
+}> = ({ patientId, encounterId, name }) => {
+  const state = useSelector((state: any) => state.patientSummary)
+  return (
+    <PatientSummary
+      patientId={patientId}
+      encounterId={encounterId}
+      name={name}
+    />
+  )
+}
 const PatientSummary: React.FunctionComponent<{
   patientId: string
   encounterId: string

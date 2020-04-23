@@ -4,9 +4,9 @@ import clone from 'lodash/clone'
 
 export const generateDarkAndLight = (
   pallete: SimplePaletteColorOptions,
-  isDarkMode: boolean = false,
   lightShade: number = 0.75,
   darkShade: number = 0.3,
+  isDarkMode: boolean = false,
 ) => {
   const newPallete: any = clone(pallete)
   if (isDarkMode) {

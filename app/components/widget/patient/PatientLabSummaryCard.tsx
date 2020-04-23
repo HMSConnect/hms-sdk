@@ -14,7 +14,9 @@ import {
   Typography,
 } from '@material-ui/core'
 import clsx from 'clsx'
+import * as _ from 'lodash'
 import get from 'lodash/get'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -30,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   hover: {
     '&:hover': {
-      backgroundColor: '#ddd4',
+      backgroundColor: theme.palette.action.hover,
     },
     textDecoration: 'none',
   },
@@ -39,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     zoom: 0.7,
   },
   selectedCard: {
-    backgroundColor: '#ddd4',
+    backgroundColor: theme.palette.action.selected,
     border: '2px solid #00b0ff',
     borderRadius: 4,
   },
@@ -47,6 +49,24 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 'normal',
   },
 }))
+
+export const PatientLabSummaryCardWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  name?: string
+}> = ({ patientId, mouseTrackCategory, name }) => {
+  const state = useSelector((state: any) => state.patientLabSummaryCard)
+
+  return (
+    <PatientLabSummaryCard
+      patientId={patientId || _.get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      name={name}
+    />
+  )
+}
 
 const PatientLabSummaryCard: React.FunctionComponent<any> = ({
   patientId,

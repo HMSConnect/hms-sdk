@@ -1,6 +1,10 @@
 import React from 'react'
 
 import {
+  initialPatientCarePlanTableStructure,
+  IPatientCarePlanTableStructure,
+} from '@app/reducers-redux/patient/patientCarePlanTable.reducer'
+import {
   tableWithFilterReducer,
   tableWithFilterState,
 } from '@app/reducers/tableWithFilter.reducer'
@@ -45,22 +49,45 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const PatientCarePlanTableWithConnector: React.FunctionComponent<any> = () => {
+export const PatientCarePlanTableWithConnector: React.FunctionComponent<{
+  patientId?: string
+  mouseTrackCategory?: string
+  name?: string
+  isInitialize?: boolean
+  max?: number
+  initialFilter?: ICarePlanListFilterQuery
+  isContainer?: boolean
+}> = ({
+  patientId,
+  mouseTrackCategory,
+  name,
+  isInitialize,
+  max,
+  initialFilter,
+  isContainer,
+}) => {
   const state = useSelector((state: any) => state.patientCarePlanTable)
 
   return (
     <PatientCarePlanTable
-      patientId={_.get(state, 'patientId')}
-      mouseTrackCategory={_.get(state, 'mouseTrackCategory')}
-      max={_.get(state, 'max')}
-      initialFilter={_.get(state, 'initialFilter')}
-      isInitialize={true}
+      patientId={patientId || _.get(state, 'patientId')}
+      mouseTrackCategory={
+        mouseTrackCategory || _.get(state, 'mouseTrackCategory')
+      }
+      isInitialize={isInitialize || true}
+      max={max}
+      initialFilter={initialFilter}
+      isContainer={isContainer}
+      name={name}
+      structure={_.get(state, 'structure')}
+      // name={`${name || ''}CarePlanTable`}
     />
   )
 }
 
 const PatientCarePlanTable: React.FunctionComponent<{
   patientId: any
+  structure?: IPatientCarePlanTableStructure
   isInitialize?: boolean
   resourceList?: any[]
   isContainer?: boolean
@@ -72,6 +99,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
 }> = ({
   resourceList,
   patientId,
+  structure = initialPatientCarePlanTableStructure,
   max = 20,
   isInitialize,
   isContainer = true,
@@ -391,7 +419,11 @@ const PatientCarePlanTable: React.FunctionComponent<{
           <ToolbarWithFilter
             title={'Care Plan'}
             onClickIcon={showModal}
-            Icon={<Icon className='fas fa-solar-panel' />}
+            Icon={
+              _.get(structure, 'headerIcon') ? (
+                <Icon className='fas fa-solar-panel' />
+              ) : null
+            }
             filterActive={countFilterActive(submitedFilter, initialFilter, [
               'periodStart_lt',
               'patientId',

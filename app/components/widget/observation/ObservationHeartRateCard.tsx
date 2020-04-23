@@ -30,7 +30,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   footerContainer: { height: 36, color: theme.palette.text.secondary },
   headerCard: {
-    backgroundColor: theme.palette.quaternary?.light || '',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette?.quaternary?.dark
+        : theme.palette?.quaternary?.light,
     color: theme.palette.quaternary?.main || '',
   },
   hover: {
@@ -40,7 +43,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     textDecoration: 'none',
   },
   iconCard: {
-    color: theme.palette.quaternary?.dark || '',
+    color:
+      theme.palette.type === 'dark'
+        ? theme.palette?.quaternary?.main
+        : theme.palette?.quaternary?.dark,
   },
   selectedCard: {
     backgroundColor: theme.palette.action.selected,
@@ -76,7 +82,9 @@ export const ObservationHeartRateCardWithConnector: React.FunctionComponent<{
 
   return (
     <ObservationHeartRateCard
-      key={`ObservationHeartRateCard${_.get(state, 'encounterId')}`}
+      key={`ObservationBloodPressureCard${
+        encounterId || _.get(state, 'observationHeartRateCard.encounterId')
+      }`}
       patientId={patientId || state.observationHeartRateCard.patientId}
       encounterId={encounterId || state.observationHeartRateCard.encounterId}
       onClick={handleCardClick}
