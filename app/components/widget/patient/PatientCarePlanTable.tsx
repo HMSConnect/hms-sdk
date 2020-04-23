@@ -430,7 +430,7 @@ const PatientCarePlanTable: React.FunctionComponent<{
               'category',
             ])}
             option={{
-              additionButton: (
+              additionButton: structure.filterGroupByField ? (
                 <FormControlLabel
                   value='start'
                   control={
@@ -448,7 +448,8 @@ const PatientCarePlanTable: React.FunctionComponent<{
                   label='Group By Category'
                   labelPlacement='start'
                 />
-              ),
+              ) : null,
+              isHideIcon: structure.filterIconField ? false : true,
             }}
           >
             {renderModal}

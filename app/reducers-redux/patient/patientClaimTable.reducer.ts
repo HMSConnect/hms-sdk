@@ -1,13 +1,17 @@
-type PatientClaimTableType = 'SET_STRUCTURE_PATIENT_CONDITION_TABLE'
+type PatientClaimTableType = 'SET_STRUCTURE_PATIENT_CLAIM_TABLE'
 
 interface IPatientClaimTableAction {
   type: PatientClaimTableType
   payload: any
 }
 
-export interface IPatientClaimTableStructure {}
+export interface IPatientClaimTableStructure {
+  filterIconField: boolean
+}
 
-export const initialPatientClaimTableStructure: IPatientClaimTableStructure = {}
+export const initialPatientClaimTableStructure: IPatientClaimTableStructure = {
+  filterIconField: true,
+}
 
 const initialState: any = {
   structure: initialPatientClaimTableStructure,
@@ -17,7 +21,7 @@ const patientClaimTable = (
   action: IPatientClaimTableAction,
 ) => {
   switch (action.type) {
-    case 'SET_STRUCTURE_PATIENT_CONDITION_TABLE':
+    case 'SET_STRUCTURE_PATIENT_CLAIM_TABLE':
       return {
         ...state,
         structure: {

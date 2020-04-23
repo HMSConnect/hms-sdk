@@ -7,6 +7,8 @@ import {
   encounterStatusOption,
   immunizationStatusOption,
   medicationRequestStatusOption,
+  allergyIntoleranceTypeOption,
+  allergyIntoleranceCriticalityOption,
 } from '../patient'
 
 const patientEmbeddedWidgetConfig: IWidgetGroup = {
@@ -389,58 +391,72 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       ],
       value: 'patient-encounter-timeline',
     },
-    // {
-    //   document: require('@assets/embedded-widget/patient-info/patient-allergy-intolerance-table.md')
-    //     .default,
-    //   label: 'Patient AllergyIntolerance Table',
-    //   parameters: [],
-    //   path: '/embedded-widget/patient-info/allergy-intolerance-table',
-    //   queryParams: [
-    //     {
-    //       defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
-    //       label: 'Patient ID',
-    //       type: 'text',
-    //       value: 'patientId',
-    //     },
-    //     {
-    //       defaultValue: 20,
-    //       label: 'Max',
-    //       type: 'number',
-    //       value: 'max',
-    //     },
-    //     {
-    //       defaultValue: '',
-    //       label: 'InitialFilter[name]',
-    //       type: 'text',
-    //       value: 'InitialFilter[codeText]',
-    //     },
-    //     {
-    //       choices: [
-    //         {
-    //           label: 'None',
-    //           value: '',
-    //         },
-    //       ].concat(allergyIntoleranceTypeOption),
-    //       defaultValue: '',
-    //       label: 'InitialFilter[type]',
-    //       type: 'options',
-    //       value: 'initialFilter[type]',
-    //     },
-    //     {
-    //       choices: [
-    //         {
-    //           label: 'None',
-    //           value: '',
-    //         },
-    //       ].concat(allergyIntoleranceCriticalityOption),
-    //       defaultValue: '',
-    //       label: 'InitialFilter[criticality]',
-    //       type: 'options',
-    //       value: 'initialFilter[criticality]',
-    //     },
-    //   ],
-    //   value: 'patient-allergy-intolerance-table',
-    // },
+    {
+      document: require('@assets/embedded-widget/patient-info/patient-allergy-intolerance-table.md')
+        .default,
+      label: 'Patient AllergyIntolerance Table',
+      parameters: [],
+      path: '/embedded-widget/patient-info/allergy-intolerance-table',
+      queryParams: [
+        {
+          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          label: 'Patient ID',
+          type: 'text',
+          value: 'patientId',
+        },
+        {
+          defaultValue: 20,
+          label: 'Max',
+          type: 'number',
+          value: 'max',
+        },
+        {
+          defaultValue: '',
+          label: 'InitialFilter[name]',
+          type: 'text',
+          value: 'InitialFilter[codeText]',
+        },
+        {
+          choices: [
+            {
+              label: 'None',
+              value: '',
+            },
+          ].concat(allergyIntoleranceTypeOption),
+          defaultValue: '',
+          label: 'InitialFilter[type]',
+          type: 'options',
+          value: 'initialFilter[type]',
+        },
+        {
+          choices: [
+            {
+              label: 'None',
+              value: '',
+            },
+          ].concat(allergyIntoleranceCriticalityOption),
+          defaultValue: '',
+          label: 'InitialFilter[criticality]',
+          type: 'options',
+          value: 'initialFilter[criticality]',
+        },
+      ],
+      structure: [
+        {
+          name: 'patientAllergyIntoleranceTable',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Filter Icon',
+              type: 'boolean',
+              value: 'filterIconField',
+            },
+        
+          ],
+        },
+      ],
+      value: 'patient-allergy-intolerance-table',
+    },
     {
       document: require('@assets/embedded-widget/patient-info/patient-condition-table.md')
         .default,
@@ -498,6 +514,25 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'initialFilter[verificationStatus]',
         },
       ],
+      structure: [
+        {
+          name: 'patientConditionTable',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Filter Icon',
+              type: 'boolean',
+              value: 'filterIconField',
+            },
+          ],
+        },
+      ],
       value: 'patient-condition-table',
     },
     {
@@ -543,6 +578,31 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           label: 'InitialFilter[status]',
           type: 'options',
           value: 'initialFilter[status]',
+        },
+      ],
+      structure: [
+        {
+          name: 'patientImmunizationTable',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Filter Icon',
+              type: 'boolean',
+              value: 'filterIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Filter Group By Icon',
+              type: 'boolean',
+              value: 'filterGroupByField',
+            },
+          ],
         },
       ],
       value: 'patient-immunization-table',
@@ -592,6 +652,19 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'initialFilter[status]',
         },
       ],
+      structure: [
+        {
+          name: 'patientMedicationRequestTable',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Filter Icon',
+              type: 'boolean',
+              value: 'filterIconField',
+            },
+          ],
+        },
+      ],
       value: 'patient-medication-request-table',
     },
     {
@@ -627,6 +700,25 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'initialFilter[code]',
         },
       ],
+      structure: [
+        {
+          name: 'patientProcedureTable',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Filter Icon',
+              type: 'boolean',
+              value: 'filterIconField',
+            },
+          ],
+        },
+      ],
       value: 'patient-procedure-table',
     },
     {
@@ -654,6 +746,25 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           label: 'InitialFilter[status]',
           type: 'options',
           value: 'initialFilter[status]',
+        },
+      ],
+      structure: [
+        {
+          name: 'patientCarePlanTable',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Filter Icon',
+              type: 'boolean',
+              value: 'filterIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Filter Group By Icon',
+              type: 'boolean',
+              value: 'filterGroupByField',
+            },
+          ],
         },
       ],
       value: 'patient-care-plan-table',
@@ -690,6 +801,19 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           label: 'InitialFilter[status]',
           type: 'options',
           value: 'initialFilter[status]',
+        },
+      ],
+      structure: [
+        {
+          name: 'patientClaimTable',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Filter Icon',
+              type: 'boolean',
+              value: 'filterIconField',
+            },
+          ],
         },
       ],
       value: 'patient-claim-table',
@@ -764,6 +888,19 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           value: 'max',
         },
       ],
+      structure: [
+        {
+          name: 'patientAllergyList',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+          ],
+        },
+      ],
       value: 'patient-allergy-list-card',
     },
     {
@@ -785,6 +922,19 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
           label: 'Max',
           type: 'number',
           value: 'max',
+        },
+      ],
+      structure: [
+        {
+          name: 'patientMedicationList',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+          ],
         },
       ],
       value: 'patient-medication-request-list-card',

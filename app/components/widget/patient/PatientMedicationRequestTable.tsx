@@ -1,6 +1,10 @@
 import React from 'react'
 
 import {
+  initialPatientMedicationRequestTableStructure,
+  IPatientMedicationRequestTableStructure,
+} from '@app/reducers-redux/patient/patientMedicationRequestTable.reducer'
+import {
   tableWithFilterReducer,
   tableWithFilterState,
 } from '@app/reducers/tableWithFilter.reducer'
@@ -76,12 +80,14 @@ export const PatientMedicationRequestTableWithConnector: React.FunctionComponent
       max={max}
       initialFilter={initialFilter}
       name={name}
+      structure={state.structure}
     />
   )
 }
 
 const PatientMedicationRequestTable: React.FunctionComponent<{
   patientId: any
+  structure?: IPatientMedicationRequestTableStructure
   isInitialize?: boolean
   resourceList?: any[]
   max?: number
@@ -92,6 +98,7 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
 }> = ({
   resourceList,
   patientId,
+  structure = initialPatientMedicationRequestTableStructure,
   isInitialize,
   max = 20,
   initialFilter: customInitialFilter = {
@@ -283,7 +290,7 @@ const PatientMedicationRequestTable: React.FunctionComponent<{
               'authoredOn_lt',
             ])}
             option={{
-              isHideIcon: false,
+              isHideIcon: structure.filterIconField ? false : true,
             }}
           >
             {renderModal}

@@ -1,6 +1,10 @@
 import * as React from 'react'
 
 import { cardClick } from '@app/actions/patientsummaryCards.action'
+import {
+  initialObservationHeartRateCardStructure,
+  IObservationHeartRateCardStructure,
+} from '@app/reducers-redux/observation/observationHeartRateCard.reducer'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
@@ -9,16 +13,11 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { Grid, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
-import { lighten } from '@material-ui/core/styles'
 import { sendMessage } from '@utils'
 import clsx from 'clsx'
 import _ from 'lodash'
 import get from 'lodash/get'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  IObservationHeartRateCardStructure,
-  initialObservationHeartRateCardStructure,
-} from '@app/reducers-redux/observation/observationHeartRateCard.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {

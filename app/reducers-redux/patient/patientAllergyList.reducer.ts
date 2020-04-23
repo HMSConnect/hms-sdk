@@ -1,6 +1,6 @@
 type PatientAlleryListListType =
   | 'INIT_PATIENT_SUMMARY'
-  | 'SET_STRUCTURE_PATIENT_DEMOGRAPHIC'
+  | 'SET_STRUCTURE_PATIENT_ALLERGY_LIST'
 
 interface IPatientAlleryListListAction {
   type: PatientAlleryListListType
@@ -8,11 +8,11 @@ interface IPatientAlleryListListAction {
 }
 
 export interface IPatientAlleryListListStructure {
-  headerIcon: boolean
+  headerIconField: boolean
 }
 
 export const initialPatientAllergyListStructure: IPatientAlleryListListStructure = {
-  headerIcon: true,
+  headerIconField: true,
 }
 
 export const initialState: any = {
@@ -29,7 +29,7 @@ const patientAllergyList = (
         ...action.payload.patientAllergyList,
       }
 
-    case 'SET_STRUCTURE_PATIENT_DEMOGRAPHIC':
+    case 'SET_STRUCTURE_PATIENT_ALLERGY_LIST':
       return {
         ...state,
         structure: {

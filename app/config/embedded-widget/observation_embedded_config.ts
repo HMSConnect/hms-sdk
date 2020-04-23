@@ -681,6 +681,54 @@ export const observationWidgetConfig: IWidgetGroup = {
           value: 'selectedCard',
         },
       ],
+      structure: [
+        {
+          name: 'observationBloodPressureGraph',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+            {
+              defaultValue: true,
+              label: 'Summary',
+              type: 'boolean',
+              value: 'summaryField',
+            },
+          ],
+        },
+        {
+          name: 'observationBodyHeightGraph',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+            {
+              defaultValue: true,
+              label: 'Summary',
+              type: 'boolean',
+              value: 'summaryField',
+            },
+          ],
+        },
+      ],
       value: 'observation-history-graph',
     },
   ],

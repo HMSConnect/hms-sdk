@@ -1,6 +1,10 @@
 import * as React from 'react'
 
 import {
+  initialObservationSummaryGraphStructure,
+  IObservationSummaryGraphStructure,
+} from '@app/reducers-redux/observation/observationSummaryGraph.reducer'
+import {
   tableWithFilterReducer,
   tableWithFilterState,
 } from '@app/reducers/tableWithFilter.reducer'
@@ -30,7 +34,6 @@ import { parse } from '@utils'
 import { scaleTime } from 'd3-scale'
 import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
-import { initialObservationSummaryGraphStructure, IObservationSummaryGraphStructure } from '@app/reducers-redux/observation/observationSummaryGraph.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {

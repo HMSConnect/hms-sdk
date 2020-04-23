@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { cardClick } from '@app/actions/patientsummaryCards.action'
+import { IObservationTemperatureCardStructure } from '@app/reducers-redux/observation/observationTemperatureCard.reducer'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
@@ -9,14 +10,12 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { Grid, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
-import { lighten } from '@material-ui/core/styles'
+import observationTemperatureCard from '@pages/embedded-widget/observation/observation-temperature-card'
 import { sendMessage } from '@utils'
 import clsx from 'clsx'
 import _ from 'lodash'
 import get from 'lodash/get'
 import { useDispatch, useSelector } from 'react-redux'
-import { IObservationTemperatureCardStructure } from '@app/reducers-redux/observation/observationTemperatureCard.reducer'
-import observationTemperatureCard from '@pages/embedded-widget/observation/observation-temperature-card'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {

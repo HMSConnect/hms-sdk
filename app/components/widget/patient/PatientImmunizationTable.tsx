@@ -1,6 +1,10 @@
 import React from 'react'
 
 import {
+  initialPatientImmunizationTableStructure,
+  IPatientImmunizationTableStructure,
+} from '@app/reducers-redux/patient/patientImmunizationTable.reducer'
+import {
   tableWithFilterReducer,
   tableWithFilterState,
 } from '@app/reducers/tableWithFilter.reducer'
@@ -22,7 +26,6 @@ import {
   Checkbox,
   FormControlLabel,
   Icon,
-  lighten,
   makeStyles,
   Theme,
 } from '@material-ui/core'
@@ -95,12 +98,14 @@ export const PatientImmunizationTableWithConnector: React.FunctionComponent<{
       isInitialize={isInitialize || true}
       isContainer={isContainer}
       name={name}
+      structure={state.structure}
     />
   )
 }
 
 const PatientImmunizationTable: React.FunctionComponent<{
   patientId: any
+  structure?: IPatientImmunizationTableStructure
   isInitialize?: boolean
   resourceList?: any[]
   isContainer?: boolean
@@ -112,6 +117,7 @@ const PatientImmunizationTable: React.FunctionComponent<{
 }> = ({
   resourceList,
   patientId,
+  structure = initialPatientImmunizationTableStructure,
   max = 20,
   isInitialize,
   isContainer = true,
@@ -429,14 +435,18 @@ const PatientImmunizationTable: React.FunctionComponent<{
           <ToolbarWithFilter
             title={'Immunization'}
             onClickIcon={showModal}
-            Icon={<Icon className='fas fa-syringe' />}
+            Icon={
+              structure.headerIconField ? (
+                <Icon className='fas fa-syringe' />
+              ) : null
+            }
             filterActive={countFilterActive(submitedFilter, initialFilter, [
               'date_lt',
               'patientId',
               'vaccineCode',
             ])}
             option={{
-              additionButton: (
+              additionButton: structure.filterGroupByField ? (
                 <FormControlLabel
                   value='start'
                   control={
@@ -454,8 +464,9 @@ const PatientImmunizationTable: React.FunctionComponent<{
                   label='Group By Type'
                   labelPlacement='start'
                 />
-              ),
+              ) : null,
               headerClass: classes.headerCard,
+              isHideIcon: structure.filterIconField ? false : true,
               // style: {
               //   backgroundColor: lighten('#afb42b', 0.85),
               //   color: '#afb42b',

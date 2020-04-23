@@ -4,9 +4,13 @@ interface IPatientAllergyIntoleranceTableAction {
   type: PatientAllergyIntoleranceTableType
   payload: any
 }
-export interface IPatientAllergyIntoleranceTableStrucutre {}
+export interface IPatientAllergyIntoleranceTableStrucutre {
+  filterIconField: boolean
+}
 
-export const initialPatientAllergyIntoleranceTableStructure: IPatientAllergyIntoleranceTableStrucutre = {}
+export const initialPatientAllergyIntoleranceTableStructure: IPatientAllergyIntoleranceTableStrucutre = {
+  filterIconField: true
+}
 
 export const initialState: any = {
   structure: initialPatientAllergyIntoleranceTableStructure,

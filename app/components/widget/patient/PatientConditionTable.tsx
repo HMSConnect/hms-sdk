@@ -297,13 +297,13 @@ const PatientConditionTable: React.FunctionComponent<{
             title={'Condition'}
             onClickIcon={showModal}
             Icon={
-              _.get(structure, 'headerIcon') ? (
+              _.get(structure, 'headerIconField') ? (
                 <Icon className='fas fa-clipboard' />
               ) : null
             }
             option={{
               headerClass: classes.headerCard,
-              isHideIcon: false,
+              isHideIcon: _.get(structure, 'filterIconField') ? false : true,
             }}
             filterActive={countFilterActive(submitedFilter, initialFilter, [
               'onsetDateTime_lt',

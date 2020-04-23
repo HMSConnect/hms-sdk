@@ -1,5 +1,9 @@
 import * as React from 'react'
 
+import {
+  initialObservationBodyWeightGraphStructure,
+  IObservationBodyWeightGraphStructure,
+} from '@app/reducers-redux/observation/observationBodyWeightGraph.reducer'
 import ErrorSection from '@components/base/ErrorSection'
 import GraphBase from '@components/base/GraphBase'
 import LoadingSection from '@components/base/LoadingSection'
@@ -21,10 +25,6 @@ import { scaleTime } from 'd3-scale'
 import maxBy from 'lodash/maxBy'
 import { useSelector } from 'react-redux'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
-import {
-  IObservationBodyWeightGraphStructure,
-  initialObservationBodyWeightGraphStructure,
-} from '@app/reducers-redux/observation/observationBodyWeightGraph.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {

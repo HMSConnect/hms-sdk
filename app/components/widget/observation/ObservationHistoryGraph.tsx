@@ -4,12 +4,24 @@ import { OBSERVATION_CODE } from '@config/observation'
 import { makeStyles, Paper, Typography } from '@material-ui/core'
 import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
-import ObservationBloodPressureGraph from './ObservationBloodPressureGraph'
-import ObservationBodyHeightGraph from './ObservationBodyHeightGraph'
-import ObservationBodyMassIndexGraph from './ObservationBodyMassIndexGraph'
-import ObservationBodyTemperatureGraph from './ObservationBodyTemperatureGraph'
-import ObservationBodyWeightGraph from './ObservationBodyWeightGraph'
-import ObservationHeartRateGraph from './ObservationHeartRateGraph'
+import ObservationBloodPressureGraph, {
+  ObservationBloodPressureGraphWithConnector,
+} from './ObservationBloodPressureGraph'
+import ObservationBodyHeightGraph, {
+  ObservationBodyHeightGraphWithConnector,
+} from './ObservationBodyHeightGraph'
+import ObservationBodyMassIndexGraph, {
+  ObservationBodyMassIndexGraphWithConnector,
+} from './ObservationBodyMassIndexGraph'
+import ObservationBodyTemperatureGraph, {
+  ObservationBodyTemperatureGraphWithConnector,
+} from './ObservationBodyTemperatureGraph'
+import ObservationBodyWeightGraph, {
+  ObservationBodyWeightGraphWithConnector,
+} from './ObservationBodyWeightGraph'
+import ObservationHeartRateGraph, {
+  ObservationHeartRateGraphWithConnector,
+} from './ObservationHeartRateGraph'
 
 const useStyles = makeStyles((theme) => ({
   virtalSignCard: {
@@ -60,44 +72,43 @@ const ObservationHistoryGraph: React.FunctionComponent<{
   const renderGraph = (selected: string) => {
     switch (selected) {
       case OBSERVATION_CODE.BODY_WEIGHT.value:
-        console.log('BODY_WEIGHT :>> ', OBSERVATION_CODE.BODY_WEIGHT)
         return (
-          <ObservationBodyWeightGraph
+          <ObservationBodyWeightGraphWithConnector
             patientId={patientId}
             mouseTrackCategory={mouseTrackCategory}
           />
         )
       case OBSERVATION_CODE.BODY_HEIGHT.value:
         return (
-          <ObservationBodyHeightGraph
+          <ObservationBodyHeightGraphWithConnector
             patientId={patientId}
             mouseTrackCategory={mouseTrackCategory}
           />
         )
       case OBSERVATION_CODE.BODY_MASS_INDEX.value:
         return (
-          <ObservationBodyMassIndexGraph
+          <ObservationBodyMassIndexGraphWithConnector
             patientId={patientId}
             mouseTrackCategory={mouseTrackCategory}
           />
         )
       case OBSERVATION_CODE.BLOOD_PRESSURE.value:
         return (
-          <ObservationBloodPressureGraph
+          <ObservationBloodPressureGraphWithConnector
             patientId={patientId}
             mouseTrackCategory={mouseTrackCategory}
           />
         )
       case OBSERVATION_CODE.BODY_TEMPERATURE.value:
         return (
-          <ObservationBodyTemperatureGraph
+          <ObservationBodyTemperatureGraphWithConnector
             patientId={patientId}
             mouseTrackCategory={mouseTrackCategory}
           />
         )
       case OBSERVATION_CODE.HEART_RATE.value:
         return (
-          <ObservationHeartRateGraph
+          <ObservationHeartRateGraphWithConnector
             patientId={patientId}
             mouseTrackCategory={mouseTrackCategory}
           />

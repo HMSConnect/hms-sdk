@@ -1,5 +1,9 @@
 import * as React from 'react'
 
+import {
+  initialPatientMedicationListStructure,
+  IPatientMedicationListStructure,
+} from '@app/reducers-redux/patient/patientMedicationList.reducer'
 import ErrorSection from '@components/base/ErrorSection'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import TrackerMouseClick from '@components/base/TrackerMouseClick'
@@ -11,7 +15,6 @@ import {
 import {
   CircularProgress,
   Icon,
-  lighten,
   List,
   ListItem,
   ListItemIcon,
@@ -74,12 +77,14 @@ export const PatientMedicationListWithConnector: React.FunctionComponent<{
       initialFilter={initialFilter}
       isContainer={isContainer}
       name={name}
+      structure={patientMedicationListState.structure}
     />
   )
 }
 
 const PatientMedicationList: React.FunctionComponent<{
   patientId: any
+  structure?: IPatientMedicationListStructure
   isInitialize?: boolean
   resourceList?: any[]
   max?: number
@@ -91,6 +96,7 @@ const PatientMedicationList: React.FunctionComponent<{
 }> = ({
   resourceList,
   patientId,
+  structure = initialPatientMedicationListStructure,
   max = 20,
   isInitialize,
   isContainer = true,
@@ -177,7 +183,11 @@ const PatientMedicationList: React.FunctionComponent<{
         <div className={classes.toolbar}>
           <ToolbarWithFilter
             title={'Medication Request'}
-            Icon={<Icon className='fas fa-pills' />}
+            Icon={
+              structure.headerIconField ? (
+                <Icon className='fas fa-pills' />
+              ) : null
+            }
             option={{
               headerClass: classes.headerCard,
               isHideIcon: true,

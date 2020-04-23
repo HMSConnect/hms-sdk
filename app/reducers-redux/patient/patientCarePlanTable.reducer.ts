@@ -8,11 +8,13 @@ interface IPatientCarePlanTableAction {
 }
 
 export interface IPatientCarePlanTableStructure {
-  headerIcon: boolean
+  filterGroupByField: boolean
+  filterIconField: boolean
 }
 
 export const initialPatientCarePlanTableStructure: IPatientCarePlanTableStructure = {
-  headerIcon: true,
+  filterGroupByField: true,
+  filterIconField: true,
 }
 
 const initialState: any = {

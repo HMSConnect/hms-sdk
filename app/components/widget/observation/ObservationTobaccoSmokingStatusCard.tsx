@@ -1,5 +1,9 @@
 import React from 'react'
 
+import {
+  initialObservationTobaccoSmokingStatusCardStructure,
+  IObservationTobaccoSmokingStatusCardStructure,
+} from '@app/reducers-redux/observation/observationTobaccoSmokingStatusCard.reducer'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
@@ -12,10 +16,6 @@ import { sendMessage } from '@utils'
 import clsx from 'clsx'
 import get from 'lodash/get'
 import { useSelector } from 'react-redux'
-import {
-  IObservationTobaccoSmokingStatusCardStructure,
-  initialObservationTobaccoSmokingStatusCardStructure,
-} from '@app/reducers-redux/observation/observationTobaccoSmokingStatusCard.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
