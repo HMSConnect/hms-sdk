@@ -15,6 +15,8 @@ import clsx from 'clsx'
 import _ from 'lodash'
 import get from 'lodash/get'
 import { useDispatch, useSelector } from 'react-redux'
+import { IObservationTemperatureCardStructure } from '@app/reducers-redux/observation/observationTemperatureCard.reducer'
+import observationTemperatureCard from '@pages/embedded-widget/observation/observation-temperature-card'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -44,9 +46,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   iconCard: {
     color:
-        theme.palette.type === 'dark'
-          ? theme.palette?.senary?.main
-          : theme.palette?.senary?.dark,
+      theme.palette.type === 'dark'
+        ? theme.palette?.senary?.main
+        : theme.palette?.senary?.dark,
   },
   infoIcon: {
     color: '#1976d2',
@@ -105,6 +107,7 @@ export const ObservationTemperatureCardWithConnector: React.FunctionComponent<{
       onClick={handleCardClick}
       selectedCard={_.get(state, 'patientSummaryCards.selectedCard')}
       isSelectable={isSelectable}
+      structure={state.observationTemperatureCard.structure}
     />
   )
 }
@@ -112,6 +115,7 @@ export const ObservationTemperatureCardWithConnector: React.FunctionComponent<{
 const ObservationTemperatureCard: React.FunctionComponent<{
   patientId: string
   encounterId: string
+  structure?: IObservationTemperatureCardStructure
   onClick?: any
   selectedCard?: any
   mouseTrackCategory?: string
@@ -120,6 +124,7 @@ const ObservationTemperatureCard: React.FunctionComponent<{
 }> = ({
   patientId,
   encounterId,
+  structure = observationTemperatureCard,
   onClick,
   selectedCard,
   mouseTrackCategory = 'observaion_temperature_card',
@@ -170,6 +175,7 @@ const ObservationTemperatureCard: React.FunctionComponent<{
           onClick={handleCardClick}
           selectedCard={selectedCard}
           isSelectable={isSelectable}
+          structure={structure}
         />
       </div>
     </TrackerMouseClick>
@@ -179,18 +185,21 @@ const ObservationTemperatureCard: React.FunctionComponent<{
 export default ObservationTemperatureCard
 export const ObservationTemperatureCardView: React.FunctionComponent<{
   observation: any
+  structure: IObservationTemperatureCardStructure
   onClick?: any
   selectedCard?: any
   isSelectable?: boolean
-}> = ({ observation, onClick, selectedCard, isSelectable }) => {
+}> = ({ observation, structure, onClick, selectedCard, isSelectable }) => {
   const classes = useStyles()
   return (
     <CardLayout
       header='Temperature'
       Icon={
-        <Icon
-          className={clsx('fas fa-thermometer-quarter', classes.iconCard)}
-        />
+        structure.headerIconField ? (
+          <Icon
+            className={clsx('fas fa-thermometer-quarter', classes.iconCard)}
+          />
+        ) : null
       }
       option={{
         headerClass: classes.headerCard,
@@ -250,16 +259,18 @@ export const ObservationTemperatureCardView: React.FunctionComponent<{
           </Typography>
         </Grid>
       </Grid>
-      <Grid
-        container
-        justify='center'
-        alignContent='center'
-        className={classes.footerContainer}
-      >
-        <Typography variant='body2'>
-          {get(observation, 'issued') || ''}
-        </Typography>
-      </Grid>
+      {structure.dateTimeField ? (
+        <Grid
+          container
+          justify='center'
+          alignContent='center'
+          className={classes.footerContainer}
+        >
+          <Typography variant='body2'>
+            {get(observation, 'issued') || ''}
+          </Typography>
+        </Grid>
+      ) : null}
     </CardLayout>
   )
 }

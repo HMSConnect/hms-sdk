@@ -7,9 +7,15 @@ interface IObservationTobaccoSmokingStatusCardAction {
   payload: any
 }
 
-export interface IObservationTobaccoSmokingStatusCardStructure {}
+export interface IObservationTobaccoSmokingStatusCardStructure {
+  headerIconField: boolean
+  dateTimeField: boolean
+}
 
-export const initialObservationTobaccoSmokingStatusCardStructure: IObservationTobaccoSmokingStatusCardStructure = {}
+export const initialObservationTobaccoSmokingStatusCardStructure: IObservationTobaccoSmokingStatusCardStructure = {
+  dateTimeField: true,
+  headerIconField: true,
+}
 const observationTobaccoSmokingStatusCardInitialState: any = {
   structure: initialObservationTobaccoSmokingStatusCardStructure,
 }

@@ -1,5 +1,9 @@
 import * as React from 'react'
 
+import {
+  initialObservationBodyHeightGraphStructure,
+  IObservationBodyHeightGraphStructure,
+} from '@app/reducers-redux/observation/observationBodyHeightGraph.reducer'
 import ErrorSection from '@components/base/ErrorSection'
 import GraphBase from '@components/base/GraphBase'
 import LoadingSection from '@components/base/LoadingSection'
@@ -51,18 +55,21 @@ export const ObservationBodyHeightGraphWithConnector: React.FunctionComponent<{
       max={max}
       mouseTrackCategory={mouseTrackCategory}
       optionStyle={optionStyle}
+      structure={state.structure}
     />
   )
 }
 
 const ObservationBodyHeightGraph: React.FunctionComponent<{
   patientId: string
+  structure?: IObservationBodyHeightGraphStructure
   max?: number
   optionStyle?: IOptionsStyleGraphOption
   mouseTrackCategory?: string
   mouseTrackLabel?: string
 }> = ({
   patientId,
+  structure = initialObservationBodyHeightGraphStructure,
   max = 20,
   optionStyle,
   mouseTrackCategory = 'observation_body_height_graph',
@@ -93,6 +100,7 @@ const ObservationBodyHeightGraph: React.FunctionComponent<{
         <ObservationBodyHeightGraphViewWithTheme
           observationList={observationList}
           optionStyle={optionStyle}
+          structure={structure}
         />
       </div>
     </TrackerMouseClick>
@@ -103,9 +111,10 @@ export default ObservationBodyHeightGraph
 
 export const ObservationBodyHeightGraphView: React.FunctionComponent<{
   observationList: any
+  structure: IObservationBodyHeightGraphStructure
   theme?: any
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ observationList, optionStyle, theme }) => {
+}> = ({ observationList, structure, optionStyle, theme }) => {
   const lastData: any = maxBy(observationList, 'issuedDate')
 
   const classes = useStyles()
@@ -113,7 +122,11 @@ export const ObservationBodyHeightGraphView: React.FunctionComponent<{
     <>
       <ToolbarWithFilter
         title={'Body Height'}
-        Icon={<Icon className={'fas fa-chart-area'} />}
+        Icon={
+          structure.headerIconField ? (
+            <Icon className={'fas fa-chart-area'} />
+          ) : null
+        }
         option={{
           headerClass: classes.headerCard,
           isHideIcon: true,
@@ -148,27 +161,31 @@ export const ObservationBodyHeightGraphView: React.FunctionComponent<{
           />
           <Divider />
         </div>
-        <div className={classes.summaryContainer}>
-          {lastData ? (
-            <>
-              {' '}
-              <Typography variant='body1' style={{}}>
-                {lastData.issued}
+        {structure.summaryField ? (
+          <div className={classes.summaryContainer}>
+            {lastData ? (
+              <>
+                {' '}
+                {structure.dateTimeField ? (
+                  <Typography variant='body1' style={{}}>
+                    {lastData.issued}
+                  </Typography>
+                ) : null}
+                <Typography
+                  variant='body1'
+                  style={{ fontSize: '1.5rem', color: '#00b0ff' }}
+                >
+                  {lastData.value}
+                  {lastData.unit}
+                </Typography>
+              </>
+            ) : (
+              <Typography variant='h6' style={{}}>
+                N/A
               </Typography>
-              <Typography
-                variant='body1'
-                style={{ fontSize: '1.5rem', color: '#00b0ff' }}
-              >
-                {lastData.value}
-                {lastData.unit}
-              </Typography>
-            </>
-          ) : (
-            <Typography variant='h6' style={{}}>
-              N/A
-            </Typography>
-          )}
-        </div>
+            )}
+          </div>
+        ) : null}
       </div>
       {/* </Paper> */}
     </>

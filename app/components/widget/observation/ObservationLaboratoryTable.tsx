@@ -19,6 +19,10 @@ import ObservationService from '@services/ObservationService'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
+import {
+  IObservationLaboratoryTableStructure,
+  initialObservationLaboratoryTableStructure,
+} from '@app/reducers-redux/observation/observationLaboratoryTable.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
@@ -93,12 +97,14 @@ export const ObservationLaboratoryTableWithConnector: React.FunctionComponent<{
         mouseTrackCategory || _.get(state, 'mouseTrackCategory')
       }
       isContainer={isContainer}
+      structure={state.structure}
     />
   )
 }
 
 const ObservationLaboratoryTable: React.FunctionComponent<{
   patientId: any
+  structure?: IObservationLaboratoryTableStructure
   encounterId?: any
   isInitialize?: boolean
   isContainer?: boolean
@@ -111,6 +117,7 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
 }> = ({
   resourceList,
   patientId,
+  structure = initialObservationLaboratoryTableStructure,
   encounterId,
   isInitialize = true,
   isContainer = true,
@@ -203,7 +210,11 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
         <div className={classes.toolbar}>
           <ToolbarWithFilter
             title={'Laboratory Results'}
-            Icon={<Icon className='fas fa-vial' />}
+            Icon={
+              structure.headerIconField ? (
+                <Icon className='fas fa-vial' />
+              ) : null
+            }
             filterActive={countFilterActive(submitedFilter, initialFilter, [
               'patientId',
               'periodStart_lt',

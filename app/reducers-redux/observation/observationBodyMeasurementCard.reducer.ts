@@ -7,9 +7,15 @@ interface IObservationBodyMeasurementCardAction {
   payload: any
 }
 
-export interface IObservationBodyMeasurementCardStructure {}
+export interface IObservationBodyMeasurementCardStructure {
+  headerIconField: boolean
+  dateTimeField: boolean
+}
 
-export const initialObservationBodyMeasurementCardStructure: IObservationBodyMeasurementCardStructure = {}
+export const initialObservationBodyMeasurementCardStructure: IObservationBodyMeasurementCardStructure = {
+  dateTimeField: true,
+  headerIconField: true,
+}
 
 export const observationBodyMeasurementCardInitialState: any = {
   structure: initialObservationBodyMeasurementCardStructure,

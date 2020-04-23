@@ -22,6 +22,10 @@ import get from 'lodash/get'
 import maxBy from 'lodash/maxBy'
 import { useSelector } from 'react-redux'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
+import {
+  IObservationHeartRateGraphStructure,
+  initialObservationHeartRateGraphStructure,
+} from '@app/reducers-redux/observation/observationHeartRateGraph.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
@@ -53,18 +57,21 @@ export const ObservationHeartRateGraphWithConnector: React.FunctionComponent<{
       max={max}
       mouseTrackCategory={mouseTrackCategory}
       optionStyle={optionStyle}
+      structure={state.structure}
     />
   )
 }
 
 const ObservationHeartRateGraph: React.FunctionComponent<{
   patientId: string
+  structure?: IObservationHeartRateGraphStructure
   max?: number
   optionStyle?: IOptionsStyleGraphOption
   mouseTrackCategory?: string
   mouseTrackLabel?: string
 }> = ({
   patientId,
+  structure = initialObservationHeartRateGraphStructure,
   max = 20,
   optionStyle,
   mouseTrackCategory = 'observation_heart_rate_graph',
@@ -96,6 +103,7 @@ const ObservationHeartRateGraph: React.FunctionComponent<{
         <ObservationHeartRateGraphViewWithTheme
           observationList={observationList}
           optionStyle={optionStyle}
+          structure={structure}
         />
       </div>
     </TrackerMouseClick>
@@ -106,9 +114,10 @@ export default ObservationHeartRateGraph
 
 export const ObservationHeartRateGraphView: React.FunctionComponent<{
   observationList: any
+  structure: IObservationHeartRateGraphStructure
   theme?: any
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ observationList, optionStyle, theme }) => {
+}> = ({ observationList, structure, optionStyle, theme }) => {
   const lastData: any = maxBy(observationList, 'issuedDate')
 
   const classes = useStyles()
@@ -116,7 +125,11 @@ export const ObservationHeartRateGraphView: React.FunctionComponent<{
     <>
       <ToolbarWithFilter
         title={'Heart Rate'}
-        Icon={<Icon className={'fas fa-chart-area'} />}
+        Icon={
+          structure.headerIconField ? (
+            <Icon className={'fas fa-chart-area'} />
+          ) : null
+        }
         option={{
           headerClass: classes.headerCard,
           isHideIcon: true,
@@ -151,27 +164,31 @@ export const ObservationHeartRateGraphView: React.FunctionComponent<{
           />
           <Divider />
         </div>
-        <div className={classes.summaryContainer}>
-          {lastData ? (
-            <>
-              {' '}
-              <Typography variant='body1' style={{}}>
-                {get(lastData, 'issued')}
+        {structure.summaryField ? (
+          <div className={classes.summaryContainer}>
+            {lastData ? (
+              <>
+                {' '}
+                {structure.dateTimeField ? (
+                  <Typography variant='body1' style={{}}>
+                    {get(lastData, 'issued')}
+                  </Typography>
+                ) : null}
+                <Typography
+                  variant='body1'
+                  style={{ fontSize: '1.5rem', color: '#c2185b' }}
+                >
+                  {Number(get(lastData, 'value')).toFixed(0) || 'N/A'}
+                  {get(lastData, 'unit')}
+                </Typography>
+              </>
+            ) : (
+              <Typography variant='h6' style={{}}>
+                N/A
               </Typography>
-              <Typography
-                variant='body1'
-                style={{ fontSize: '1.5rem', color: '#c2185b' }}
-              >
-                {Number(get(lastData, 'value')).toFixed(0) || 'N/A'}
-                {get(lastData, 'unit')}
-              </Typography>
-            </>
-          ) : (
-            <Typography variant='h6' style={{}}>
-              N/A
-            </Typography>
-          )}
-        </div>
+            )}
+          </div>
+        ) : null}
       </div>
       {/* </Paper> */}
     </>

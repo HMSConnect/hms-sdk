@@ -22,6 +22,10 @@ import { sendMessage } from '@utils'
 import clsx from 'clsx'
 import * as _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
+import {
+  IObservationBodyMeasurementCardStructure,
+  initialObservationBodyMeasurementCardStructure,
+} from '@app/reducers-redux/observation/observationBodyMeasurementCard.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -111,12 +115,14 @@ export const ObservationBodyMeasurementCardWithConnector: React.FunctionComponen
       onClick={handleCardClick}
       selectedCard={_.get(state, 'patientSummaryCards.selectedCard')}
       isSelectable={isSelectable}
+      structure={state.observationBodyMeasurementCard.structure}
     />
   )
 }
 
 const ObservationBodyMeasurementCard: React.FunctionComponent<{
   patientId: string
+  structure?: IObservationBodyMeasurementCardStructure
   encounterId?: string
   onClick?: any
   selectedCard?: any
@@ -125,6 +131,7 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
   isSelectable?: boolean
 }> = ({
   patientId,
+  structure = initialObservationBodyMeasurementCardStructure,
   encounterId,
   onClick,
   selectedCard,
@@ -178,6 +185,7 @@ const ObservationBodyMeasurementCard: React.FunctionComponent<{
           onClick={handleCardClick}
           selectedCard={selectedCard}
           isSelectable={isSelectable}
+          structure={structure}
         />
       </div>
     </TrackerMouseClick>
@@ -188,15 +196,20 @@ export default ObservationBodyMeasurementCard
 
 const ObservationBodyMeasurementCardView: React.FunctionComponent<{
   observations: any
+  structure: IObservationBodyMeasurementCardStructure
   onClick?: any
   selectedCard?: any
   isSelectable?: boolean
-}> = ({ observations, onClick, selectedCard, isSelectable }) => {
+}> = ({ observations, onClick, structure, selectedCard, isSelectable }) => {
   const classes = useStyles()
   return (
     <CardLayout
       header='Body Measurement'
-      Icon={<Icon className={clsx('fas fa-male', classes.iconCard)} />}
+      Icon={
+        structure.headerIconField ? (
+          <Icon className={clsx('fas fa-male', classes.iconCard)} />
+        ) : null
+      }
       option={{
         headerClass: classes.headerCard,
         isHideIcon: true,
@@ -439,18 +452,20 @@ const ObservationBodyMeasurementCardView: React.FunctionComponent<{
           </Tooltip>
         </Grid>
       </Grid>
-      <Grid
-        container
-        justify='center'
-        alignContent='center'
-        className={classes.footerContainer}
-      >
-        <Typography variant='body2'>
-          {observations
-            ? _.get(_.maxBy(observations, 'issuedDate'), 'issued')
-            : ''}
-        </Typography>
-      </Grid>
+      {structure.dateTimeField ? (
+        <Grid
+          container
+          justify='center'
+          alignContent='center'
+          className={classes.footerContainer}
+        >
+          <Typography variant='body2'>
+            {observations
+              ? _.get(_.maxBy(observations, 'issuedDate'), 'issued')
+              : ''}
+          </Typography>
+        </Grid>
+      ) : null}
     </CardLayout>
   )
 }

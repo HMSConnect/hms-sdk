@@ -30,6 +30,7 @@ import { parse } from '@utils'
 import { scaleTime } from 'd3-scale'
 import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
+import { initialObservationSummaryGraphStructure, IObservationSummaryGraphStructure } from '@app/reducers-redux/observation/observationSummaryGraph.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
@@ -81,12 +82,22 @@ export const ObservationSummaryGraphWithConnector: React.FunctionComponent<{
           'medium',
         ],
       }}
+      structure={state.structure}
     />
   )
 }
 
-const ObservationSummaryGraph: React.FunctionComponent<any> = ({
+const ObservationSummaryGraph: React.FunctionComponent<{
+  patientId: string
+  structure?: IObservationSummaryGraphStructure
+  initialFilter?: any
+  max?: number
+  optionsGraph?: any
+  mouseTrackCategory?: string
+  mouseTrackLabel?: string
+}> = ({
   patientId,
+  structure = initialObservationSummaryGraphStructure,
   initialFilter: customInitialFilter = {
     codes: undefined,
     encounterId: undefined,
@@ -315,7 +326,6 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
   if (isLoading || isPatientLoading) {
     return <LoadingSection />
   }
-
   if (!submitedFilter.codes) {
     return (
       <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
@@ -323,13 +333,18 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
           <ToolbarWithFilter
             title={'Summary Graph'}
             onClickIcon={showModal}
-            Icon={<Icon className={'fas fa-chart-line'} />}
+            Icon={
+              structure.headerIconField ? (
+                <Icon className={'fas fa-chart-line'} />
+              ) : null
+            }
             option={{
               style: {
                 backgroundColor: lighten('#7e57c2', 0.85),
                 color: '#7e57c2',
                 height: '13%',
               },
+              isHideIcon: structure.filterIconField ? false : true,
             }}
           >
             {renderModal}
@@ -357,12 +372,14 @@ const ObservationSummaryGraph: React.FunctionComponent<any> = ({
         <ToolbarWithFilter
           title={'Summary Graph'}
           onClickIcon={showModal}
-          Icon={<Icon className={'fas fa-chart-line'} />}
+          Icon={
+            structure.headerIconField ? (
+              <Icon className={'fas fa-chart-line'} />
+            ) : null
+          }
           option={{
             headerClass: classes.headerCard,
-            style: {
-              // height: '10%',
-            },
+            isHideIcon: structure.filterIconField ? false : true,
           }}
         >
           {renderModal}

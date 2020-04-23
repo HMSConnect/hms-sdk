@@ -12,6 +12,10 @@ import { sendMessage } from '@utils'
 import clsx from 'clsx'
 import get from 'lodash/get'
 import { useSelector } from 'react-redux'
+import {
+  IObservationTobaccoSmokingStatusCardStructure,
+  initialObservationTobaccoSmokingStatusCardStructure,
+} from '@app/reducers-redux/observation/observationTobaccoSmokingStatusCard.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -95,6 +99,7 @@ export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionCom
       }
       selectedCard={get(state, 'patientSummaryCards.selectedCard')}
       isSelectable={isSelectable}
+      structure={state.observationTobaccoSmokingStatusCard.structure}
     />
   )
 }
@@ -102,6 +107,7 @@ export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionCom
 const ObservationTobaccoSmokingStatusCard: React.FunctionComponent<{
   patientId: string
   encounterId: string
+  structure?: IObservationTobaccoSmokingStatusCardStructure
   onClick?: any
   selectedCard?: any
   mouseTrackCategory?: string
@@ -110,6 +116,7 @@ const ObservationTobaccoSmokingStatusCard: React.FunctionComponent<{
 }> = ({
   patientId,
   encounterId,
+  structure = initialObservationTobaccoSmokingStatusCardStructure,
   onClick,
   mouseTrackCategory = 'observaion_tobacco_smoking_status_card',
   mouseTrackLabel = 'observaion_tobacco_smoking_status_card',
@@ -160,6 +167,7 @@ const ObservationTobaccoSmokingStatusCard: React.FunctionComponent<{
           onClick={handleCardClick}
           isSelectable={isSelectable}
           selectedCard={selectedCard}
+          structure={structure}
         />
       </div>
     </TrackerMouseClick>
@@ -170,15 +178,20 @@ export default ObservationTobaccoSmokingStatusCard
 
 const ObservationTabacoSmokingStatusCardView: React.FunctionComponent<{
   observation: any
+  structure: IObservationTobaccoSmokingStatusCardStructure
   onClick?: any
   selectedCard?: any
   isSelectable?: boolean
-}> = ({ observation, onClick, selectedCard, isSelectable }) => {
+}> = ({ observation, structure, onClick, selectedCard, isSelectable }) => {
   const classes = useStyles()
   return (
     <CardLayout
       header='Tobacco Smoking Status'
-      Icon={<Icon className={clsx('fas fa-smoking', classes.iconCard)} />}
+      Icon={
+        structure.headerIconField ? (
+          <Icon className={clsx('fas fa-smoking', classes.iconCard)} />
+        ) : null
+      }
       option={{
         headerClass: classes.headerCard,
         isHideIcon: true,
@@ -237,16 +250,18 @@ const ObservationTabacoSmokingStatusCardView: React.FunctionComponent<{
           </Typography>
         </Grid>
       </Grid>
-      <Grid
-        container
-        justify='center'
-        alignContent='center'
-        className={classes.footerContainer}
-      >
-        <Typography variant='body2'>
-          {get(observation, 'issued') || ''}
-        </Typography>
-      </Grid>
+      {structure.dateTimeField ? (
+        <Grid
+          container
+          justify='center'
+          alignContent='center'
+          className={classes.footerContainer}
+        >
+          <Typography variant='body2'>
+            {get(observation, 'issued') || ''}
+          </Typography>
+        </Grid>
+      ) : null}
     </CardLayout>
   )
 }

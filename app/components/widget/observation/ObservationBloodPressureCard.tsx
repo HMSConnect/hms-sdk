@@ -1,6 +1,10 @@
 import * as React from 'react'
 
 import { cardClick } from '@app/actions/patientsummaryCards.action'
+import {
+  initialObservationBloodPressureCardStructure,
+  IObservationBloodPressureCardStructure,
+} from '@app/reducers-redux/observation/observationBloodPressureCard.reducer'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
@@ -120,12 +124,14 @@ export const ObservationBloodPressureCardWithConnector: React.FunctionComponent<
       onClick={handleCardClick}
       selectedCard={_.get(state, 'patientSummaryCards.selectedCard')}
       isSelectable={isSelectable}
+      structure={state.observationBloodPressureCard.structure}
     />
   )
 }
 
 const ObservationBloodPressureCard: React.FunctionComponent<{
   patientId: string
+  structure?: IObservationBloodPressureCardStructure
   encounterId?: string
   onClick?: any
   isSelectable?: boolean
@@ -134,6 +140,7 @@ const ObservationBloodPressureCard: React.FunctionComponent<{
   mouseTrackLabel?: string
 }> = ({
   patientId,
+  structure = initialObservationBloodPressureCardStructure,
   encounterId,
   onClick,
   isSelectable = true,
@@ -186,6 +193,7 @@ const ObservationBloodPressureCard: React.FunctionComponent<{
           onClick={handleCardClick}
           selectedCard={selectedCard}
           isSelectable={isSelectable}
+          structure={structure}
         />
       </div>
     </TrackerMouseClick>
@@ -196,15 +204,20 @@ export default ObservationBloodPressureCard
 
 export const ObservationBloodPressureCardView: React.FunctionComponent<{
   observation: any
+  structure: IObservationBloodPressureCardStructure
   onClick?: any
   selectedCard?: string
   isSelectable?: boolean
-}> = ({ observation, onClick, selectedCard, isSelectable }) => {
+}> = ({ observation, structure, onClick, selectedCard, isSelectable }) => {
   const classes = useStyles()
   return (
     <CardLayout
       header='Blood Pressure'
-      Icon={<Icon className={clsx('fas fa-stethoscope', classes.iconCard)} />}
+      Icon={
+        structure.headerIconField ? (
+          <Icon className={clsx('fas fa-stethoscope', classes.iconCard)} />
+        ) : null
+      }
       option={{
         headerClass: classes.headerCard,
         isHideIcon: true,
@@ -317,14 +330,16 @@ export const ObservationBloodPressureCardView: React.FunctionComponent<{
           </Typography>
         </Grid>
       </Grid>
-      <Grid
-        container
-        justify='center'
-        alignContent='center'
-        className={classes.footerContainer}
-      >
-        <Typography variant='body2'>{get(observation, 'issued')}</Typography>
-      </Grid>
+      {structure.dateTimeField ? (
+        <Grid
+          container
+          justify='center'
+          alignContent='center'
+          className={classes.footerContainer}
+        >
+          <Typography variant='body2'>{get(observation, 'issued')}</Typography>
+        </Grid>
+      ) : null}
     </CardLayout>
   )
 }

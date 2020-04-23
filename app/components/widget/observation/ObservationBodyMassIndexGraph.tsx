@@ -1,5 +1,9 @@
 import * as React from 'react'
 
+import {
+  initialObservationBodyMassIndexGraphStructure,
+  IObservationBodyMassIndexGraphStructure,
+} from '@app/reducers-redux/observation/observationBodyMassIndexGraph.reducer'
 import ErrorSection from '@components/base/ErrorSection'
 import GraphBase from '@components/base/GraphBase'
 import LoadingSection from '@components/base/LoadingSection'
@@ -52,18 +56,21 @@ export const ObservationBodyMassIndexGraphWithConnector: React.FunctionComponent
       max={max}
       mouseTrackCategory={mouseTrackCategory}
       optionStyle={optionStyle}
+      structure={state.structure}
     />
   )
 }
 
 const ObservationBodyMassIndexGraph: React.FunctionComponent<{
   patientId: string
+  structure?: IObservationBodyMassIndexGraphStructure
   max?: number
   optionStyle?: IOptionsStyleGraphOption
   mouseTrackCategory?: string
   mouseTrackLabel?: string
 }> = ({
   patientId,
+  structure = initialObservationBodyMassIndexGraphStructure,
   max = 20,
   optionStyle,
   mouseTrackCategory = 'observaion_body_mass_index_graph',
@@ -94,6 +101,7 @@ const ObservationBodyMassIndexGraph: React.FunctionComponent<{
         <ObservationBodyMassIndexGraphViewWithTheme
           observationList={observationList}
           optionStyle={optionStyle}
+          structure={structure}
         />
       </div>
     </TrackerMouseClick>
@@ -104,9 +112,10 @@ export default ObservationBodyMassIndexGraph
 
 export const ObservationBodyMassIndexGraphView: React.FunctionComponent<{
   observationList: any
+  structure: IObservationBodyMassIndexGraphStructure
   theme?: any
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ observationList, optionStyle, theme }) => {
+}> = ({ observationList, structure, optionStyle, theme }) => {
   const lastData: any = maxBy(observationList, 'issuedDate')
 
   const classes = useStyles()
@@ -114,7 +123,11 @@ export const ObservationBodyMassIndexGraphView: React.FunctionComponent<{
     <>
       <ToolbarWithFilter
         title={'Body Mass Index'}
-        Icon={<Icon className={'fas fa-chart-area'} />}
+        Icon={
+          structure.headerIconField ? (
+            <Icon className={'fas fa-chart-area'} />
+          ) : null
+        }
         option={{
           headerClass: classes.headerCard,
           isHideIcon: true,
@@ -149,27 +162,31 @@ export const ObservationBodyMassIndexGraphView: React.FunctionComponent<{
           />
           <Divider />
         </div>
-        <div className={classes.summaryContainer}>
-          {lastData ? (
-            <>
-              {' '}
-              <Typography variant='body1' style={{}}>
-                {lastData.issued}
+        {structure.summaryField ? (
+          <div className={classes.summaryContainer}>
+            {lastData ? (
+              <>
+                {' '}
+                {structure.dateTimeField ? (
+                  <Typography variant='body1' style={{}}>
+                    {lastData.issued}
+                  </Typography>
+                ) : null}
+                <Typography
+                  variant='body1'
+                  style={{ fontSize: '1.5rem', color: '#ff3d00' }}
+                >
+                  {lastData.value}
+                  {lastData.unit}
+                </Typography>
+              </>
+            ) : (
+              <Typography variant='h6' style={{}}>
+                N/A
               </Typography>
-              <Typography
-                variant='body1'
-                style={{ fontSize: '1.5rem', color: '#ff3d00' }}
-              >
-                {lastData.value}
-                {lastData.unit}
-              </Typography>
-            </>
-          ) : (
-            <Typography variant='h6' style={{}}>
-              N/A
-            </Typography>
-          )}
-        </div>
+            )}
+          </div>
+        ) : null}
       </div>
 
       {/* </Paper> */}
