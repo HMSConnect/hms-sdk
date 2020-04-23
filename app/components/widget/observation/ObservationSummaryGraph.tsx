@@ -75,8 +75,8 @@ export const ObservationSummaryGraphWithConnector: React.FunctionComponent<{
   const state = useSelector((state: any) => state.observationSummaryGraph)
   return (
     <ObservationSummaryGraph
-      patientId={patientId || state.patientId}
-      mouseTrackCategory={state.mouseTrackCategory}
+      patientId={patientId || state?.patientId}
+      mouseTrackCategory={state?.mouseTrackCategory}
       optionsGraph={{
         standardSizeForResizeLegendToBottom: [
           'xsmall',
@@ -85,7 +85,7 @@ export const ObservationSummaryGraphWithConnector: React.FunctionComponent<{
           'medium',
         ],
       }}
-      structure={state.structure}
+      structure={state?.structure}
     />
   )
 }

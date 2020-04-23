@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { initialObservationHeartRateGraphStructure, IObservationHeartRateGraphStructure } from '@app/reducers-redux/observation/observationHeartRateGraph.reducer'
 import ErrorSection from '@components/base/ErrorSection'
 import GraphBase from '@components/base/GraphBase'
 import LoadingSection from '@components/base/LoadingSection'
@@ -9,23 +10,13 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
-import {
-  Divider,
-  Icon,
-  makeStyles,
-  Theme,
-  Typography,
-  withTheme,
-} from '@material-ui/core'
+import { Divider, Icon, makeStyles, Theme, Typography, withTheme } from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
 import get from 'lodash/get'
 import maxBy from 'lodash/maxBy'
 import { useSelector } from 'react-redux'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
-import {
-  IObservationHeartRateGraphStructure,
-  initialObservationHeartRateGraphStructure,
-} from '@app/reducers-redux/observation/observationHeartRateGraph.reducer'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
@@ -53,11 +44,11 @@ export const ObservationHeartRateGraphWithConnector: React.FunctionComponent<{
   const state = useSelector((state: any) => state.observationHeartRateGraph)
   return (
     <ObservationHeartRateGraph
-      patientId={patientId || state.patientId}
+      patientId={patientId || state?.patientId}
       max={max}
       mouseTrackCategory={mouseTrackCategory}
       optionStyle={optionStyle}
-      structure={state.structure}
+      structure={state?.structure}
     />
   )
 }

@@ -88,18 +88,18 @@ export const ObservationTobaccoSmokingStatusCardWithConnector: React.FunctionCom
         get(state, 'observationTobaccoSmokingStatusCard.encounterId')
       }`}
       patientId={
-        patientId || state.observationTobaccoSmokingStatusCard.patientId
+        patientId || state?.observationTobaccoSmokingStatusCard?.patientId
       }
       encounterId={
-        encounterId || state.observationTobaccoSmokingStatusCard.encounterId
+        encounterId || state?.observationTobaccoSmokingStatusCard?.encounterId
       }
       mouseTrackCategory={
         mouseTrackCategory ||
-        state.observationTobaccoSmokingStatusCard.mouseTrackCategory
+        state?.observationTobaccoSmokingStatusCard?.mouseTrackCategory
       }
       selectedCard={get(state, 'patientSummaryCards.selectedCard')}
       isSelectable={isSelectable}
-      structure={state.observationTobaccoSmokingStatusCard.structure}
+      structure={state?.observationTobaccoSmokingStatusCard?.structure}
     />
   )
 }

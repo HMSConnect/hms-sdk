@@ -1,6 +1,10 @@
 import * as React from 'react'
 
 import { cardClick } from '@app/actions/patientsummaryCards.action'
+import {
+  initialObservationBodyMeasurementCardStructure,
+  IObservationBodyMeasurementCardStructure,
+} from '@app/reducers-redux/observation/observationBodyMeasurementCard.reducer'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
@@ -17,15 +21,10 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core'
-import { lighten } from '@material-ui/core/styles'
 import { sendMessage } from '@utils'
 import clsx from 'clsx'
 import * as _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  IObservationBodyMeasurementCardStructure,
-  initialObservationBodyMeasurementCardStructure,
-} from '@app/reducers-redux/observation/observationBodyMeasurementCard.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   bodyCard: {
@@ -104,18 +103,18 @@ export const ObservationBodyMeasurementCardWithConnector: React.FunctionComponen
         encounterId ||
         _.get(state, 'observationBodyMeasurementCard.encounterId')
       }`}
-      patientId={patientId || state.observationBodyMeasurementCard.patientId}
+      patientId={patientId || state?.observationBodyMeasurementCard?.patientId}
       encounterId={
-        encounterId || state.observationBodyMeasurementCard.encounterId
+        encounterId || state?.observationBodyMeasurementCard?.encounterId
       }
       mouseTrackCategory={
         mouseTrackCategory ||
-        state.observationBodyMeasurementCard.mouseTrackCategory
+        state?.observationBodyMeasurementCard?.mouseTrackCategory
       }
       onClick={handleCardClick}
       selectedCard={_.get(state, 'patientSummaryCards.selectedCard')}
       isSelectable={isSelectable}
-      structure={state.observationBodyMeasurementCard.structure}
+      structure={state?.observationBodyMeasurementCard?.structure}
     />
   )
 }

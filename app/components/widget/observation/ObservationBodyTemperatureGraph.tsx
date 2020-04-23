@@ -54,11 +54,11 @@ export const ObservationBodyTemperatureGraphWithConnector: React.FunctionCompone
   )
   return (
     <ObservationBodyTemperatureGraph
-      patientId={patientId || state.patientId}
+      patientId={patientId || state?.patientId}
       max={max}
       mouseTrackCategory={mouseTrackCategory}
       optionStyle={optionStyle}
-      structure={state.structure}
+      structure={state?.structure}
     />
   )
 }

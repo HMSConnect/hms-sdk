@@ -52,11 +52,11 @@ export const ObservationBodyWeightGraphWithConnector: React.FunctionComponent<{
   const state = useSelector((state: any) => state.observationBodyWeightGraph)
   return (
     <ObservationBodyWeightGraph
-      patientId={patientId || state.patientId}
+      patientId={patientId || state?.patientId}
       max={max}
       mouseTrackCategory={mouseTrackCategory}
       optionStyle={optionStyle}
-      structure={state.structure}
+      structure={state?.structure}
     />
   )
 }

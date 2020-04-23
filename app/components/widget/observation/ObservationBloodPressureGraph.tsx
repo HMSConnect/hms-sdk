@@ -70,11 +70,11 @@ export const ObservationBloodPressureGraphWithConnector: React.FunctionComponent
   const state = useSelector((state: any) => state.observationBloodPressureGraph)
   return (
     <ObservationBloodPressureGraph
-      patientId={patientId || state.patientId}
+      patientId={patientId || state?.patientId}
       max={max}
       mouseTrackCategory={mouseTrackCategory}
       optionStyle={optionStyle}
-      structure={state.structure}
+      structure={state?.structure}
     />
   )
 }

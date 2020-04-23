@@ -88,15 +88,15 @@ export const ObservationHeartRateCardWithConnector: React.FunctionComponent<{
       key={`ObservationBloodPressureCard${
         encounterId || _.get(state, 'observationHeartRateCard.encounterId')
       }`}
-      patientId={patientId || state.observationHeartRateCard.patientId}
-      encounterId={encounterId || state.observationHeartRateCard.encounterId}
+      patientId={patientId || state?.observationHeartRateCard?.patientId}
+      encounterId={encounterId || state?.observationHeartRateCard?.encounterId}
       onClick={handleCardClick}
       selectedCard={_.get(state, 'patientSummaryCards.selectedCard')}
       mouseTrackCategory={
-        mouseTrackCategory || state.observationHeartRateCard.mouseTrackCategory
+        mouseTrackCategory || state?.observationHeartRateCard?.mouseTrackCategory
       }
       isSelectable={isSelectable}
-      structure={state.observationHeartRateCard.structure}
+      structure={state?.observationHeartRateCard?.structure}
     />
   )
 }
