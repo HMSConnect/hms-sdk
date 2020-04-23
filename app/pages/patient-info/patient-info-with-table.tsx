@@ -2,9 +2,12 @@ import * as React from 'react'
 
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientInfoDetail from '@components/widget/patient/PatientInfoDetail'
+import PatientInfoDetail, {
+  PatientInfoDetailWithConnector,
+} from '@components/widget/patient/PatientInfoDetail'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
+import get from 'lodash/get'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -38,7 +41,12 @@ const PatientInfoView: IStatelessPage<{
       <>
         <CssBaseline />
         <Typography component='div'>
-          <PatientInfoDetail query={query} />
+          <PatientInfoDetailWithConnector
+            patientId={get(query, 'patientId')}
+            menuNavigate={get(query, 'menuNavigate')}
+            max={get(query, 'max')}
+            name={get(query, 'name')}
+          />
         </Typography>
       </>
     </BootstrapWrapper>
