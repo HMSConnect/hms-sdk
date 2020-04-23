@@ -25,7 +25,7 @@ export const initialPatientDemographicStructure: IPatientDemographicStructure = 
   dobField: true,
   emailField: true,
   genderField: true,
-  iconField: true,
+  iconField: false,
   languageField: true,
   nameField: true,
   phoneField: true,
