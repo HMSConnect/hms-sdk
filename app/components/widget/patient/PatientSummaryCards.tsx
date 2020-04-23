@@ -49,8 +49,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export const PatientSummaryCardsWithConnector: React.FunctionComponent<{
-  patientId: string
-  encounterId: string
+  patientId?: string
+  encounterId?: string
   name?: string
   isSelectable?: boolean
 }> = ({ patientId, encounterId, name, isSelectable }) => {
