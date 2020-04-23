@@ -567,14 +567,16 @@ const WidgetManager: IStatelessPage<{
                         onParameterChange={handleStructureChange}
                         type='structure'
                       />
-                      <Grid
-                        container
-                        className={classes.structureJsonContainer}
-                      >
-                        <Grid item xs='auto' style={{ width: '100%' }}>
-                          <pre>{JSON.stringify(structure, null, 2)}</pre>
+                      {!_.isEmpty(structure) ? (
+                        <Grid
+                          container
+                          className={classes.structureJsonContainer}
+                        >
+                          <Grid item xs='auto' style={{ width: '100%' }}>
+                            <pre>{JSON.stringify(structure, null, 2)}</pre>
+                          </Grid>
                         </Grid>
-                      </Grid>
+                      ) : null}
                     </Paper>
                   </Grid>
                 )}
