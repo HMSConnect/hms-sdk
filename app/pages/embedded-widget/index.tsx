@@ -30,6 +30,7 @@ import {
   TextField,
   Theme,
   Typography,
+  darken,
 } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
@@ -130,10 +131,16 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(4),
     },
     parameterLayout: {
-      height: '100%',
+      // height: '100%',
+      overflow: 'auto',
+      height: '75vh',
       padding: theme.spacing(2),
     },
     root: {},
+    structureJsonContainer: {
+      backgroundColor: darken(theme.palette.background.paper, 0.06),
+      width: '100%',
+    },
     tabContainer: {
       backgroundColor: theme.palette.background.paper || '',
     },
@@ -332,6 +339,21 @@ const WidgetManager: IStatelessPage<{
       type: 'IFRAME_QUERY_PARAMS_CHANGE',
     })
   }
+  React.useEffect(() => {
+    const iframeObject = _.get(iframeRef, 'current')
+      ? (_.get(iframeRef, 'current') as HTMLIFrameElement)
+      : null
+    if (iframeObject && iframeObject.contentWindow) {
+      const newStructureData = structure
+      iframeObject.contentWindow.postMessage(
+        {
+          action: 'setStructure',
+          data: newStructureData,
+        },
+        '*',
+      )
+    }
+  }, [structure])
 
   const handleStructureChange = (name: string, type: string, value: any) => {
     dispatch({
@@ -523,12 +545,7 @@ const WidgetManager: IStatelessPage<{
                           onParameterChange={handleQueryParamChange}
                           type='queryParams'
                         />
-                        <WidgetManagerStructure
-                          structures={structure}
-                          selectedWidget={selectedWidget}
-                          onParameterChange={handleStructureChange}
-                          type='structure'
-                        />
+
                         <Grid container justify='flex-end'>
                           <Fab
                             variant='extended'
@@ -544,6 +561,20 @@ const WidgetManager: IStatelessPage<{
                           </Fab>
                         </Grid>
                       </form>
+                      <WidgetManagerStructure
+                        structures={structure}
+                        selectedWidget={selectedWidget}
+                        onParameterChange={handleStructureChange}
+                        type='structure'
+                      />
+                      <Grid
+                        container
+                        className={classes.structureJsonContainer}
+                      >
+                        <Grid item xs='auto' style={{ width: '100%' }}>
+                          <pre>{JSON.stringify(structure, null, 2)}</pre>
+                        </Grid>
+                      </Grid>
                     </Paper>
                   </Grid>
                 )}

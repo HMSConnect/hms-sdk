@@ -2,7 +2,7 @@ import environment from '@environment'
 import * as _ from 'lodash'
 import qs from 'qs'
 import { MessageListenerService } from '@services/MessageListenerService'
-
+import defaultsDeep from 'lodash/defaultsDeep'
 interface IPostMessage {
   message?: string
   name?: string
@@ -16,7 +16,7 @@ interface IPostMessage {
 export function toNaturalName(s: string) {
   return _.chain(s)
     .words()
-    .map(v => _.capitalize(v))
+    .map((v) => _.capitalize(v))
     .join(' ')
     .value()
 }
@@ -84,7 +84,7 @@ export const validQueryParams = (
   prefixError = 'Need the',
 ) => {
   return _.chain(neededParams)
-    .filter(value => !_.get(queryParams, value))
+    .filter((value) => !_.get(queryParams, value))
     .map((v, k) => {
       return `${prefixError} ${v}`
     })
