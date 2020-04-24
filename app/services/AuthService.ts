@@ -4,14 +4,43 @@ import cookie from 'js-cookie'
 import decode from 'jwt-decode'
 import nextCookie from 'next-cookies'
 import routes from '../routes'
+import { HMSService } from './HMSServiceFactory'
+import intersection from 'lodash/intersection'
+import auth from '@app/reducers-redux/auth.reducer'
 
+const hmshealthapi = require('@hmsconnect/hmshealthapi')
+
+interface IAuthData {
+  isAuthenticated: boolean
+  token?: string
+  expires?: number
+  refresh_token?: string
+  scope?: string
+}
 class AuthService {
+  hms: any
   defaultAdatper: IAdapter | null = null
   AUTH_ACCESS_TOKEN_KEY = 'hms_access_token'
   AUTH_REFRESH_TOKEN_KEY = 'hms_refresh_token'
+  private authData: IAuthData = { isAuthenticated: false }
+
+  constructor() {
+    this.hms = hmshealthapi()
+  }
+
+  getAuthData() {
+    return this.authData
+  }
+
+  getHms() {
+    return this.hms
+  }
 
   setDefaultAdapter(adapter: IAdapter) {
     this.defaultAdatper = adapter
+    if (this.defaultAdatper.setConfig) {
+      this.defaultAdatper.setConfig(this.hms)
+    }
   }
 
   getToken = (ctx: any) => {
@@ -25,7 +54,7 @@ class AuthService {
     return 'awdawdawd'
   }
 
-  assignAuthDataIfApplicable = (ctx: any, onInvalidToken?: any) => {
+  handleRequestWidget = (ctx: any, onInvalidToken?: any) => {
     const token = this.getToken(ctx)
     // If there's no token, it means the user is not logged in.
     // if (!token || !this.validToken(token)) {
@@ -37,7 +66,38 @@ class AuthService {
       }
       return
     }
+    this.assignAuthDataWithToken(token)
     return token
+  }
+
+  assignAuthDataIfApplicable = (token: string, refresh_token: string) => {
+    if (token) {
+      this.assignAuthDataWithToken(token)
+      if (this.authData.isAuthenticated) {
+        this.authData.refresh_token = refresh_token
+      }
+    }
+  }
+
+  assignAuthDataWithToken = (token: string) => {
+    if (token) {
+      this.authData = {
+        isAuthenticated: true,
+        token,
+      }
+    } else {
+      this.authData = { isAuthenticated: false }
+    }
+    // const decoded: any = decode(token)
+    // let remaining_ms = decoded.exp * 1000 - new Date().getTime()
+    // if (remaining_ms > 0) {
+    //   this.authData = {
+    //     isAuthenticated: true,
+    //     token,
+    //   }
+    // } else {
+    //   this.authData = { isAuthenticated: false }
+    // }
   }
 
   redirect = (ctx: any, url?: string) => {
@@ -63,25 +123,39 @@ class AuthService {
     return true
   }
 
+  isGranted(ifAnyGranted: any): boolean {
+    if (!this.authData.isAuthenticated) {
+      return false
+    }
+
+    if (!ifAnyGranted) {
+      return true
+    }
+    // return intersection([], ifAnyGranted).length > 0
+    return true
+  }
+
   handleAuthChanged = () => {
     // to handle refresh_token
   }
 
   login = async (authData: any, successCallback?: any, errorCallBack?: any) => {
     try {
-      if (!this.defaultAdatper) {
-        return
-      }
-      // const json: any = await this.defaultAdatper.doRequest(
-      //   `api/login`,
-      //   authData,
-      // )
-      // const token = json.token
-      const token = this.getMockToken()
-      cookie.set(this.AUTH_ACCESS_TOKEN_KEY, token)
-      if (successCallback) {
-        successCallback()
-      }
+      this.hms.Initial(
+        {
+          ...authData,
+          client_id: '',
+        },
+        (error: any, response: any) => {
+          if (error) {
+            throw new Error(error)
+          }
+          this.handleLoginResult(response)
+          if (successCallback) {
+            successCallback()
+          }
+        },
+      )
     } catch (e) {
       console.info('error: ', e)
       if (errorCallBack) {
@@ -90,10 +164,16 @@ class AuthService {
     }
   }
 
+  handleLoginResult = (result: any) => {
+    cookie.set(this.AUTH_ACCESS_TOKEN_KEY, result.access_token)
+    cookie.set(this.AUTH_REFRESH_TOKEN_KEY, result.refresh_token)
+    this.assignAuthDataIfApplicable(result.access_token, result.refresh_token)
+  }
+
   logout = (callback?: any) => {
+    this.authData = { isAuthenticated: false }
     cookie.remove(this.AUTH_ACCESS_TOKEN_KEY)
     // to support logging out from all windows
-    console.info('logout: ')
     window.localStorage.setItem('logout', Date.now().toString())
     if (callback) {
       callback()

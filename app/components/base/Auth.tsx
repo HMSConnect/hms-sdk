@@ -43,11 +43,7 @@ export const withAuthSync = (WrappedComponent: any) => {
         AuthService.redirect(ctx, '/login')
       }
     }
-    const token = AuthService.assignAuthDataIfApplicable(
-      ctx,
-      callbackIfEmbeddedWidget,
-    )
-
+    const token = AuthService.handleRequestWidget(ctx, callbackIfEmbeddedWidget)
     return { ...componentProps, token }
   }
 

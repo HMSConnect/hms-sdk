@@ -105,7 +105,7 @@ const Login: React.FunctionComponent<any> = () => {
             type='password'
             className={classes.fullWidth}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              handleOnAuthDataChange('username', event.target.value)
+              handleOnAuthDataChange('password', event.target.value)
             }
             inputProps={{
               'data-testid': 'password-login-page',
