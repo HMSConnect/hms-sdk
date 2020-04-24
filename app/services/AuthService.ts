@@ -1,12 +1,8 @@
 import IAdapter from '@adapters/IAdapter'
-
+import environment from '@environment'
 import cookie from 'js-cookie'
-import decode from 'jwt-decode'
 import nextCookie from 'next-cookies'
 import routes from '../routes'
-import { HMSService } from './HMSServiceFactory'
-import intersection from 'lodash/intersection'
-import auth from '@app/reducers-redux/auth.reducer'
 
 const hmshealthapi = require('@hmsconnect/hmshealthapi')
 
@@ -50,24 +46,6 @@ class AuthService {
     return token || cookies[this.AUTH_ACCESS_TOKEN_KEY]
   }
 
-  getMockToken = () => {
-    return 'awdawdawd'
-  }
-
-  handleRequestWidget = (ctx: any, onInvalidToken?: any) => {
-    const token = this.getToken(ctx)
-    // If there's no token, it means the user is not logged in.
-    // if (!token || !this.validToken(token)) {
-    if (!token) {
-      if (onInvalidToken) {
-        onInvalidToken()
-      }
-      return
-    }
-    this.assignAuthDataWithToken(token)
-    return token
-  }
-
   assignAuthDataIfApplicable = (token: string, refresh_token: string) => {
     if (token) {
       this.assignAuthDataWithToken(token)
@@ -97,21 +75,17 @@ class AuthService {
     }
   }
 
-  validToken = (token?: string, refreshToken?: string | null) => {
+  isValidToken = (token?: string, refreshToken?: string | null) => {
     // check token time
     if (!token) {
       return false
+    } else {
+      return true
     }
-    const decoded: any = decode(token)
-    const remainingMs = decoded.exp * 1000 - new Date().getTime()
-    // console.info('remainingMs awdawd :', remainingMs)
-    if (remainingMs <= 0) {
-      return false
-    }
-    return true
   }
 
   isGranted(ifAnyGranted: any, isRedirect = false): boolean {
+    // check granted
     if (!this.authData.isAuthenticated) {
       return false
     }
@@ -119,12 +93,7 @@ class AuthService {
     if (!ifAnyGranted) {
       return true
     }
-    // return intersection([], ifAnyGranted).length > 0
     return true
-  }
-
-  handleAuthChanged = () => {
-    // to handle refresh_token
   }
 
   login = async (authData: any, successCallback?: any, errorCallBack?: any) => {
@@ -132,7 +101,7 @@ class AuthService {
       this.hms.Initial(
         {
           ...authData,
-          client_id: '',
+          client_id: environment.auth.client_id,
         },
         (error: any, response: any) => {
           if (error) {

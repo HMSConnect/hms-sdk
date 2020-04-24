@@ -12,6 +12,9 @@ const environment = {
     time: 'HH:mm',
   },
   disableAuthen: false,
+  auth: {
+    client_id: '',
+  },
 }
 
 export default environment

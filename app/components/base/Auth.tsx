@@ -4,7 +4,7 @@ import environment from '@environment'
 import AuthService from '@services/AuthService'
 import routes from '../../routes'
 
-export const withAuthSync = (WrappedComponent: any) => {
+export const withAuthSync = (WrappedComponent: any, ifAnyGranted?: any[]) => {
   const Wrapper: any = (props: any) => {
     const syncLogout = (event: any) => {
       if (event.key === 'logout') {
@@ -26,7 +26,7 @@ export const withAuthSync = (WrappedComponent: any) => {
     return <WrappedComponent {...props} />
   }
 
-  Wrapper.getInitialProps = async (ctx: any) => {
+  Wrapper.getInitialProps = async (ctx: any, token: string) => {
     let callbackIfEmbeddedWidget
     const componentProps =
       WrappedComponent.getInitialProps &&
@@ -43,7 +43,13 @@ export const withAuthSync = (WrappedComponent: any) => {
         AuthService.redirect(ctx, '/login')
       }
     }
-    const token = AuthService.handleRequestWidget(ctx, callbackIfEmbeddedWidget)
+    if (
+      !AuthService.isValidToken(token) ||
+      !AuthService.isGranted(ifAnyGranted)
+    ) {
+      AuthService.redirect(ctx, '/login')
+      return
+    }
     return { ...componentProps, token }
   }
 

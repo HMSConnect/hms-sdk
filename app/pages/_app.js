@@ -23,7 +23,7 @@ class AASApp extends App {
     let pageProps = {}
     const token = AuthService.getToken(ctx)
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx)
+      pageProps = await Component.getInitialProps(ctx, token)
     }
     return { pageProps, token }
   }
