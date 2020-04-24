@@ -22,6 +22,10 @@ import { HMSService } from '@services/HMSServiceFactory'
 import { countFilterActive, sendMessage } from '@utils'
 import * as _ from 'lodash'
 import { useSelector } from 'react-redux'
+import {
+  IPatientAllergyIntoleranceTableStrucutre,
+  initialPatientAllergyIntoleranceTableStructure,
+} from '@app/reducers-redux/patient/patientAllergyIntoleranceTable.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -67,12 +71,14 @@ export const PatientAllergyIntoleranceTableWithConnector: React.FunctionComponen
       initialFilter={initialFilter}
       isInitialize={isInitialize || true}
       name={name}
+      structure={state.structure}
     />
   )
 }
 
 const PatientAllergyIntoleranceTable: React.FunctionComponent<{
   patientId: string
+  structure?: IPatientAllergyIntoleranceTableStrucutre
   isInitialize?: boolean
   resourceList?: any[]
   max?: number
@@ -83,6 +89,7 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
 }> = ({
   resourceList,
   patientId,
+  structure = initialPatientAllergyIntoleranceTableStructure,
   max = 20,
   isInitialize = true,
   initialFilter: customInitialFilter = {
@@ -274,7 +281,7 @@ const PatientAllergyIntoleranceTable: React.FunctionComponent<{
               'patientId',
             ])}
             option={{
-              isHideIcon: false,
+              isHideIcon: structure.filterIconField ? false : true,
             }}
           >
             {renderModal}

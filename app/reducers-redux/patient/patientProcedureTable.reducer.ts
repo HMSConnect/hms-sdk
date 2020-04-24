@@ -7,9 +7,15 @@ interface IPatientProcedureTableAction {
   payload: any
 }
 
-export interface IPatientProcedureTableStructure {}
+export interface IPatientProcedureTableStructure {
+  filterIconField: boolean
+  headerIconField: boolean
+}
 
-export const initialPatientProcedureTableStructure: IPatientProcedureTableStructure = {}
+export const initialPatientProcedureTableStructure: IPatientProcedureTableStructure = {
+  filterIconField: true,
+  headerIconField: true,
+}
 
 const initialState: any = {
   structure: initialPatientProcedureTableStructure,

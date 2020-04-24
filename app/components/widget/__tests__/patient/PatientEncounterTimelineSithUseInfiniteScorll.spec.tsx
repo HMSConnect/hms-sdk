@@ -66,7 +66,6 @@ describe('<PatientEncounterTimeline With useInfinitescroll>', () => {
       })
     }
     jest.spyOn(EncounterServiceMock, 'list').mockImplementation((params) => {
-      console.log('params :', params)
       listSpyon.call(params)
       return Promise.resolve(results)
     })

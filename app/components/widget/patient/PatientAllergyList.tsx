@@ -232,7 +232,7 @@ const PatientAllergyList: React.FunctionComponent<{
           <ToolbarWithFilter
             title={'Allergies'}
             Icon={
-              _.get(structure, 'headerIcon') ? (
+              _.get(structure, 'headerIconField') ? (
                 <Icon className='fas fa-allergies' />
               ) : null
             }

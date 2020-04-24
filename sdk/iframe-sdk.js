@@ -89,6 +89,7 @@ class HmsWidgetFactory {
     this.iframeObject.selector = config.selector;
     this.iframeObject.name = config.name;
     this.iframeObject.iframeElement = document.createElement("iframe");
+    this.iframeObject.iframeElement.style.border = "none"
     this.iframeObject.iframeElement.setAttribute(
       "width",
       config.width || this.iframeObject.width

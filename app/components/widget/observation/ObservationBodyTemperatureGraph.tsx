@@ -21,6 +21,10 @@ import { scaleTime } from 'd3-scale'
 import maxBy from 'lodash/maxBy'
 import { useSelector } from 'react-redux'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
+import {
+  IObservationBodyTemperatureGraphStructure,
+  initialObservationBodyTemperatureGraphStructure,
+} from '@app/reducers-redux/observation/observationBodyTemperatureGraph.reducer'
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
@@ -50,22 +54,25 @@ export const ObservationBodyTemperatureGraphWithConnector: React.FunctionCompone
   )
   return (
     <ObservationBodyTemperatureGraph
-      patientId={patientId || state.patientId}
+      patientId={patientId || state?.patientId}
       max={max}
       mouseTrackCategory={mouseTrackCategory}
       optionStyle={optionStyle}
+      structure={state?.structure}
     />
   )
 }
 
 const ObservationBodyTemperatureGraph: React.FunctionComponent<{
   patientId: string
+  structure?: IObservationBodyTemperatureGraphStructure
   max?: number
   optionStyle?: IOptionsStyleGraphOption
   mouseTrackCategory?: string
   mouseTrackLabel?: string
 }> = ({
   patientId,
+  structure = initialObservationBodyTemperatureGraphStructure,
   max = 20,
   optionStyle,
   mouseTrackCategory = 'observation_body_temperature_graph',
@@ -96,6 +103,7 @@ const ObservationBodyTemperatureGraph: React.FunctionComponent<{
         <ObservationBodyTemperatureGraphViewWithTheme
           observationList={observationList}
           optionStyle={optionStyle}
+          structure={structure}
         />
       </div>
     </TrackerMouseClick>
@@ -106,9 +114,10 @@ export default ObservationBodyTemperatureGraph
 
 export const ObservationBodyTemperatureGraphView: React.FunctionComponent<{
   observationList: any
+  structure: IObservationBodyTemperatureGraphStructure
   theme?: any
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ observationList, optionStyle, theme }) => {
+}> = ({ observationList, structure, optionStyle, theme }) => {
   const lastData: any = maxBy(observationList, 'issuedDate')
 
   const classes = useStyles()
@@ -116,7 +125,11 @@ export const ObservationBodyTemperatureGraphView: React.FunctionComponent<{
     <>
       <ToolbarWithFilter
         title={'Body Temperature'}
-        Icon={<Icon className={'fas fa-chart-area'} />}
+        Icon={
+          structure.headerIconField ? (
+            <Icon className={'fas fa-chart-area'} />
+          ) : null
+        }
         option={{
           headerClass: classes.headerCard,
           isHideIcon: true,
@@ -151,27 +164,31 @@ export const ObservationBodyTemperatureGraphView: React.FunctionComponent<{
           />
           <Divider />
         </div>
-        <div className={classes.summaryContainer}>
-          {lastData ? (
-            <>
-              {' '}
-              <Typography variant='body1' style={{}}>
-                {lastData.issued}
+        {structure.summaryField ? (
+          <div className={classes.summaryContainer}>
+            {lastData ? (
+              <>
+                {' '}
+                {structure.dateTimeField ? (
+                  <Typography variant='body1' style={{}}>
+                    {lastData.issued}
+                  </Typography>
+                ) : null}
+                <Typography
+                  variant='body1'
+                  style={{ fontSize: '1.5rem', color: '#afb42b' }}
+                >
+                  {lastData.value}
+                  {lastData.unit}
+                </Typography>
+              </>
+            ) : (
+              <Typography variant='h6' style={{}}>
+                N/A
               </Typography>
-              <Typography
-                variant='body1'
-                style={{ fontSize: '1.5rem', color: '#afb42b' }}
-              >
-                {lastData.value}
-                {lastData.unit}
-              </Typography>
-            </>
-          ) : (
-            <Typography variant='h6' style={{}}>
-              N/A
-            </Typography>
-          )}
-        </div>
+            )}
+          </div>
+        ) : null}
       </div>
       {/* </Paper> */}
     </>

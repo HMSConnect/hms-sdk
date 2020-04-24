@@ -1,6 +1,10 @@
 import React from 'react'
 
 import {
+  initialPatientProcedureTableStructure,
+  IPatientProcedureTableStructure,
+} from '@app/reducers-redux/patient/patientProcedureTable.reducer'
+import {
   tableWithFilterReducer,
   tableWithFilterState,
 } from '@app/reducers/tableWithFilter.reducer'
@@ -77,12 +81,14 @@ export const PatientProcedureTableWithConnector: React.FunctionComponent<{
       isInitialize={isInitialize || true}
       isContainer={isContainer}
       name={name}
+      structure={state.structure}
     />
   )
 }
 
 const PatientProcedureTable: React.FunctionComponent<{
   patientId: any
+  structure?: IPatientProcedureTableStructure
   isInitialize?: boolean
   resourceList?: any[]
   isContainer?: boolean
@@ -94,6 +100,7 @@ const PatientProcedureTable: React.FunctionComponent<{
 }> = ({
   resourceList,
   patientId,
+  structure = initialPatientProcedureTableStructure,
   isInitialize,
   max = 20,
   isContainer = true,
@@ -269,13 +276,17 @@ const PatientProcedureTable: React.FunctionComponent<{
           <ToolbarWithFilter
             title={'Procedure'}
             onClickIcon={showModal}
-            Icon={<Icon className='fas fa-procedures' />}
+            Icon={
+              structure.headerIconField ? (
+                <Icon className='fas fa-procedures' />
+              ) : null
+            }
             filterActive={countFilterActive(submitedFilter, initialFilter, [
               'patientId',
               'periodStart_lt',
             ])}
             option={{
-              isHideIcon: false,
+              isHideIcon: structure.filterIconField ? false : true,
             }}
           >
             {renderModal}

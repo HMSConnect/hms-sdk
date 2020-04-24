@@ -7,9 +7,17 @@ interface IObservationBodyMassIndexGraphAction {
   payload: any
 }
 
-export interface IObservationBodyMassIndexGraphStructure {}
+export interface IObservationBodyMassIndexGraphStructure {
+  dateTimeField: boolean
+  headerIconField: boolean
+  summaryField: boolean
+}
 
-export const initialObservationBodyMassIndexGraphStructure: IObservationBodyMassIndexGraphStructure = {}
+export const initialObservationBodyMassIndexGraphStructure: IObservationBodyMassIndexGraphStructure = {
+  dateTimeField: true,
+  headerIconField: true,
+  summaryField: true,
+}
 
 export const observationBodyMassIndexGraphInitialState: any = {
   structure: initialObservationBodyMassIndexGraphStructure,

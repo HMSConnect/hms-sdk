@@ -8,11 +8,13 @@ interface IPatientConditionTableAction {
 }
 
 export interface IPatientConditionTableStructure {
-  headerIcon: boolean
+  filterIconField: boolean
+  headerIconField: boolean
 }
 
 export const initialPatientConditionTableStructure: IPatientConditionTableStructure = {
-  headerIcon: true,
+  filterIconField: true,
+  headerIconField: true,
 }
 
 const initialState: any = {

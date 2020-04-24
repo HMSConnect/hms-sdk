@@ -1,5 +1,9 @@
 import * as React from 'react'
 
+import {
+  initialObservationBloodPressureGraphStructure,
+  IObservationBloodPressureGraphStructure,
+} from '@app/reducers-redux/observation/observationBloodPressureGraph.reducer'
 import ErrorSection from '@components/base/ErrorSection'
 import GraphBase from '@components/base/GraphBase'
 import LoadingSection from '@components/base/LoadingSection'
@@ -66,22 +70,25 @@ export const ObservationBloodPressureGraphWithConnector: React.FunctionComponent
   const state = useSelector((state: any) => state.observationBloodPressureGraph)
   return (
     <ObservationBloodPressureGraph
-      patientId={patientId || state.patientId}
+      patientId={patientId || state?.patientId}
       max={max}
       mouseTrackCategory={mouseTrackCategory}
       optionStyle={optionStyle}
+      structure={state?.structure}
     />
   )
 }
 
 const ObservationBloodPressureGraph: React.FunctionComponent<{
   patientId: string
+  structure?: IObservationBloodPressureGraphStructure
   max?: number
   optionStyle?: IOptionsStyleGraphOption
   mouseTrackCategory?: string
   mouseTrackLabel?: string
 }> = ({
   patientId,
+  structure = initialObservationBloodPressureGraphStructure,
   max = 20,
   optionStyle,
   mouseTrackCategory = 'observation_blood_pressure_graph',
@@ -114,6 +121,7 @@ const ObservationBloodPressureGraph: React.FunctionComponent<{
         <ObservationBloodPressureGraphViewWithTheme
           observationList={observationList}
           optionStyle={optionStyle}
+          structure={structure}
         />
       </div>
     </TrackerMouseClick>
@@ -124,9 +132,10 @@ export default ObservationBloodPressureGraph
 
 export const ObservationBloodPressureGraphView: React.FunctionComponent<{
   observationList: any
+  structure: IObservationBloodPressureGraphStructure
   theme?: any
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ observationList, optionStyle = {}, theme }) => {
+}> = ({ observationList, structure, optionStyle = {}, theme }) => {
   const lastData: any = maxBy(observationList, 'issuedDate')
 
   const classes = useStyles()
@@ -134,7 +143,11 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
     <>
       <ToolbarWithFilter
         title={'Blood Pressure'}
-        Icon={<Icon className={'fas fa-chart-area'} />}
+        Icon={
+          structure.headerIconField ? (
+            <Icon className={'fas fa-chart-area'} />
+          ) : null
+        }
         option={{
           headerClass: classes.headerCard,
           isHideIcon: true,
@@ -168,28 +181,30 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
           />
           <Divider />
         </div>
-        <div className={classes.summaryContainer}>
-          {lastData ? (
-            <>
-              {' '}
-              <Typography variant='body1' style={{}}>
-                {lastData.issued}
-              </Typography>
-              <Typography
-                variant='body1'
-                className={classes.summaryContent}
-                style={{ fontSize: '1.5rem' }}
-              >
-                {lastData.value}
-                {lastData.unit}
-              </Typography>
-            </>
-          ) : (
-            <Typography variant='h6' style={{}}>
-              N/A
-            </Typography>
-          )}
-        </div>
+        {structure.summaryField ? (
+          <div className={classes.summaryContainer}>
+            {lastData ? (
+              <>
+                {' '}
+                {structure.dateTimeField ? (
+                  <Typography variant='body1' style={{}}>
+                    {lastData.issued}
+                  </Typography>
+                ) : null}
+                <Typography
+                  variant='body1'
+                  className={classes.summaryContent}
+                  style={{ fontSize: '1.5rem' }}
+                >
+                  {lastData.value}
+                  {lastData.unit}
+                </Typography>
+              </>
+            ) : (
+              <Typography variant='h6'>N/A</Typography>
+            )}
+          </div>
+        ) : null}
       </div>
     </>
   )

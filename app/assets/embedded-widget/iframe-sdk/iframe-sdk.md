@@ -6,7 +6,7 @@ Installation
 ``` html
 <script
     type="text/javascript"
-    src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@eb2f898e993bbbf30e2fa54593dab266e37045ee/sdk/iframe-sdk.min.js"
+    src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@3528ecc5679e6c32090094d21bfb3fddea767583/sdk/iframe-sdk.min.js"
 ></script>
 ```
 

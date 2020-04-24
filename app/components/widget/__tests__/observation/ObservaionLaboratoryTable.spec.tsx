@@ -101,7 +101,9 @@ describe('<ObservationLaboratoryTable />', () => {
       {
         initialState: {},
         store: createStore(observationLaboratoryTable, {
-          patientSummaryCards: {},
+          observationLaboratoryTable: {
+            structure: {},
+          },
         }),
       },
     )

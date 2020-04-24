@@ -1,6 +1,10 @@
 import React from 'react'
 
 import {
+  initialPatientClaimTableStructure,
+  IPatientClaimTableStructure,
+} from '@app/reducers-redux/patient/patientClaimTable.reducer'
+import {
   tableWithFilterReducer,
   tableWithFilterState,
 } from '@app/reducers/tableWithFilter.reducer'
@@ -77,12 +81,14 @@ export const PatientClaimTableWithConnector: React.FunctionComponent<{
       max={max}
       initialFilter={initialFilter}
       name={name}
+      structure={state.structure}
     />
   )
 }
 
 const PatientClaimTable: React.FunctionComponent<{
   patientId: any
+  structure?: IPatientClaimTableStructure
   isInitialize?: boolean
   resourceList?: any[]
   max?: number
@@ -93,6 +99,7 @@ const PatientClaimTable: React.FunctionComponent<{
 }> = ({
   resourceList,
   patientId,
+  structure = initialPatientClaimTableStructure,
   max = 20,
   isInitialize,
   initialFilter: customInitialFilter = {
@@ -270,7 +277,7 @@ const PatientClaimTable: React.FunctionComponent<{
               'patientId',
             ])}
             option={{
-              isHideIcon: false,
+              isHideIcon: structure.filterIconField ? false : true,
             }}
           >
             {renderModal}

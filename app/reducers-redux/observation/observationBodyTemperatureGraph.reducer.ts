@@ -7,9 +7,17 @@ interface IObservationBodyTemperatureGraphAction {
   payload: any
 }
 
-export interface IObservationBodyTemperatureGraphStructure {}
+export interface IObservationBodyTemperatureGraphStructure {
+  dateTimeField: boolean
+  headerIconField: boolean
+  summaryField: boolean
+}
 
-export const initialObservationBodyTemperatureGraphStructure: IObservationBodyTemperatureGraphStructure = {}
+export const initialObservationBodyTemperatureGraphStructure: IObservationBodyTemperatureGraphStructure = {
+  dateTimeField: true,
+  headerIconField: true,
+  summaryField: true,
+}
 export const observationBodyTemperatureGraphInitialState: any = {
   structure: initialObservationBodyTemperatureGraphStructure,
 }

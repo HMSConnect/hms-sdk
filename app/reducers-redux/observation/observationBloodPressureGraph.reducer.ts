@@ -1,13 +1,23 @@
-type ObservationBloodPressureGraphType = 'INIT_PATIENT_SUMMARY' | 'SET_STRUCTURE_OBSERVATION_BLOOD_PRESSURE_GRAPH'
+type ObservationBloodPressureGraphType =
+  | 'INIT_PATIENT_SUMMARY'
+  | 'SET_STRUCTURE_OBSERVATION_BLOOD_PRESSURE_GRAPH'
 
 interface IObservationBloodPressureGraphAction {
   type: ObservationBloodPressureGraphType
   payload: any
 }
 
-export interface IObservationBloodPressureGraphStructure {}
+export interface IObservationBloodPressureGraphStructure {
+  dateTimeField: boolean
+  headerIconField: boolean
+  summaryField: boolean
+}
 
-export const initialObservationBloodPressureGraphStructure: IObservationBloodPressureGraphStructure = {}
+export const initialObservationBloodPressureGraphStructure: IObservationBloodPressureGraphStructure = {
+  dateTimeField: true,
+  headerIconField: true,
+  summaryField: true,
+}
 
 export const observationBloodPressureGraphInitialState: any = {
   structure: initialObservationBloodPressureGraphStructure,

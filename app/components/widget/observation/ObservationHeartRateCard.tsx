@@ -1,6 +1,10 @@
 import * as React from 'react'
 
 import { cardClick } from '@app/actions/patientsummaryCards.action'
+import {
+  initialObservationHeartRateCardStructure,
+  IObservationHeartRateCardStructure,
+} from '@app/reducers-redux/observation/observationHeartRateCard.reducer'
 import CardLayout from '@components/base/CardLayout'
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
@@ -9,7 +13,6 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { Grid, Icon, makeStyles, Theme, Typography } from '@material-ui/core'
-import { lighten } from '@material-ui/core/styles'
 import { sendMessage } from '@utils'
 import clsx from 'clsx'
 import _ from 'lodash'
@@ -85,20 +88,22 @@ export const ObservationHeartRateCardWithConnector: React.FunctionComponent<{
       key={`ObservationBloodPressureCard${
         encounterId || _.get(state, 'observationHeartRateCard.encounterId')
       }`}
-      patientId={patientId || state.observationHeartRateCard.patientId}
-      encounterId={encounterId || state.observationHeartRateCard.encounterId}
+      patientId={patientId || state?.observationHeartRateCard?.patientId}
+      encounterId={encounterId || state?.observationHeartRateCard?.encounterId}
       onClick={handleCardClick}
       selectedCard={_.get(state, 'patientSummaryCards.selectedCard')}
       mouseTrackCategory={
-        mouseTrackCategory || state.observationHeartRateCard.mouseTrackCategory
+        mouseTrackCategory || state?.observationHeartRateCard?.mouseTrackCategory
       }
       isSelectable={isSelectable}
+      structure={state?.observationHeartRateCard?.structure}
     />
   )
 }
 
 const ObservationHeartRateCard: React.FunctionComponent<{
   patientId: string
+  structure?: IObservationHeartRateCardStructure
   encounterId?: string
   max?: number
   onClick?: any
@@ -108,6 +113,7 @@ const ObservationHeartRateCard: React.FunctionComponent<{
   isSelectable?: boolean
 }> = ({
   patientId,
+  structure = initialObservationHeartRateCardStructure,
   encounterId,
   max = 20,
   onClick,
@@ -160,6 +166,7 @@ const ObservationHeartRateCard: React.FunctionComponent<{
           onClick={handleCardClick}
           selectedCard={selectedCard}
           isSelectable={isSelectable}
+          structure={structure}
         />
       </div>
     </TrackerMouseClick>
@@ -170,19 +177,22 @@ export default ObservationHeartRateCard
 
 export const ObservationHeartRateCardView: React.FunctionComponent<{
   observation: any
+  structure: IObservationHeartRateCardStructure
   onClick?: any
   selectedCard?: any
   isSelectable?: boolean
-}> = ({ observation, onClick, selectedCard, isSelectable }) => {
+}> = ({ observation, structure, onClick, selectedCard, isSelectable }) => {
   const classes = useStyles()
   return (
     <CardLayout
       header='Heart Rate'
       Icon={
-        <Icon
-          style={{ paddingRight: 5 }}
-          className={clsx('fas fa-heartbeat', classes.iconCard)}
-        />
+        structure.headerIconField ? (
+          <Icon
+            style={{ paddingRight: 5 }}
+            className={clsx('fas fa-heartbeat', classes.iconCard)}
+          />
+        ) : null
       }
       option={{
         headerClass: classes.headerCard,
@@ -239,14 +249,16 @@ export const ObservationHeartRateCardView: React.FunctionComponent<{
           </Typography>
         </Grid>
       </Grid>
-      <Grid
-        container
-        justify='center'
-        alignContent='center'
-        className={classes.footerContainer}
-      >
-        <Typography variant='body2'>{get(observation, 'issued')}</Typography>
-      </Grid>
+      {structure.dateTimeField ? (
+        <Grid
+          container
+          justify='center'
+          alignContent='center'
+          className={classes.footerContainer}
+        >
+          <Typography variant='body2'>{get(observation, 'issued')}</Typography>
+        </Grid>
+      ) : null}
     </CardLayout>
   )
 }

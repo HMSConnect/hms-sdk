@@ -7,9 +7,15 @@ interface IObservationHeartRateCardAction {
   payload: any
 }
 
-export interface IObservationHeartRateCardStructure {}
+export interface IObservationHeartRateCardStructure {
+  headerIconField: boolean
+  dateTimeField: boolean
+}
 
-export const initialObservationHeartRateCardStructure: IObservationHeartRateCardStructure = {}
+export const initialObservationHeartRateCardStructure: IObservationHeartRateCardStructure = {
+  dateTimeField: true,
+  headerIconField: true,
+}
 export const observationHeartRateCardInitialState: any = {
   structure: initialObservationHeartRateCardStructure,
 }

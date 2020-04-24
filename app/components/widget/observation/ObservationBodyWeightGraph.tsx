@@ -1,5 +1,9 @@
 import * as React from 'react'
 
+import {
+  initialObservationBodyWeightGraphStructure,
+  IObservationBodyWeightGraphStructure,
+} from '@app/reducers-redux/observation/observationBodyWeightGraph.reducer'
 import ErrorSection from '@components/base/ErrorSection'
 import GraphBase from '@components/base/GraphBase'
 import LoadingSection from '@components/base/LoadingSection'
@@ -48,22 +52,25 @@ export const ObservationBodyWeightGraphWithConnector: React.FunctionComponent<{
   const state = useSelector((state: any) => state.observationBodyWeightGraph)
   return (
     <ObservationBodyWeightGraph
-      patientId={patientId || state.patientId}
+      patientId={patientId || state?.patientId}
       max={max}
       mouseTrackCategory={mouseTrackCategory}
       optionStyle={optionStyle}
+      structure={state?.structure}
     />
   )
 }
 
 const ObservationBodyWeightGraph: React.FunctionComponent<{
   patientId: string
+  structure?: IObservationBodyWeightGraphStructure
   max?: number
   optionStyle?: IOptionsStyleGraphOption
   mouseTrackCategory?: string
   mouseTrackLabel?: string
 }> = ({
   patientId,
+  structure = initialObservationBodyWeightGraphStructure,
   max = 20,
   optionStyle,
   mouseTrackCategory = 'observation_body_weight_graph',
@@ -95,6 +102,7 @@ const ObservationBodyWeightGraph: React.FunctionComponent<{
         <ObservationBodyWeightGraphViewWithTheme
           observationList={observationList}
           optionStyle={optionStyle}
+          structure={structure}
         />
       </div>
     </TrackerMouseClick>
@@ -105,9 +113,10 @@ export default ObservationBodyWeightGraph
 
 export const ObservationBodyWeightGraphView: React.FunctionComponent<{
   observationList: any
+  structure: IObservationBodyWeightGraphStructure
   theme?: any
   optionStyle?: IOptionsStyleGraphOption
-}> = ({ observationList, optionStyle, theme }) => {
+}> = ({ observationList, structure, optionStyle, theme }) => {
   const lastData: any = maxBy(observationList, 'issuedDate')
 
   const classes = useStyles()
@@ -115,7 +124,11 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
     <>
       <ToolbarWithFilter
         title={'Body Weight'}
-        Icon={<Icon className={'fas fa-chart-area'} />}
+        Icon={
+          structure.headerIconField ? (
+            <Icon className={'fas fa-chart-area'} />
+          ) : null
+        }
         option={{
           headerClass: classes.headerCard,
           isHideIcon: true,
@@ -150,27 +163,31 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
           />
           <Divider />
         </div>
-        <div className={classes.summaryContainer}>
-          {lastData ? (
-            <>
-              {' '}
-              <Typography variant='body1' style={{}}>
-                {lastData.issued}
+        {structure.summaryField ? (
+          <div className={classes.summaryContainer}>
+            {lastData ? (
+              <>
+                {' '}
+                {structure.dateTimeField ? (
+                  <Typography variant='body1' style={{}}>
+                    {lastData.issued}
+                  </Typography>
+                ) : null}
+                <Typography
+                  variant='body1'
+                  style={{ fontSize: '1.5rem', color: '#3d5afe' }}
+                >
+                  {lastData.value}
+                  {lastData.unit}
+                </Typography>
+              </>
+            ) : (
+              <Typography variant='h6' style={{}}>
+                N/A
               </Typography>
-              <Typography
-                variant='body1'
-                style={{ fontSize: '1.5rem', color: '#3d5afe' }}
-              >
-                {lastData.value}
-                {lastData.unit}
-              </Typography>
-            </>
-          ) : (
-            <Typography variant='h6' style={{}}>
-              N/A
-            </Typography>
-          )}
-        </div>
+            )}
+          </div>
+        ) : null}
       </div>
       {/* </Paper> */}
     </>

@@ -1,10 +1,12 @@
 import React from 'react'
 
+import {
+  initialObservationLaboratoryTableStructure,
+  IObservationLaboratoryTableStructure,
+} from '@app/reducers-redux/observation/observationLaboratoryTable.reducer'
 import { IHeaderCellProps } from '@components/base/EnhancedTableHead'
 import ErrorSection from '@components/base/ErrorSection'
-import { FormModalContent, useModal } from '@components/base/Modal'
 import TableBase from '@components/base/TableBase'
-import TableFilterPanel from '@components/base/TableFilterPanel'
 import ToolbarWithFilter from '@components/base/ToolbarWithFilter'
 import TrackerMouseClick from '@components/base/TrackerMouseClick'
 import useInfinitScroll from '@components/hooks/useInfinitScroll'
@@ -13,7 +15,6 @@ import {
   mergeWithObservationInitialFilterQuery,
 } from '@data-managers/ObservationDataManager'
 import { Icon, makeStyles, Theme, Typography } from '@material-ui/core'
-import { lighten } from '@material-ui/core/styles'
 import { HMSService } from '@services/HMSServiceFactory'
 import ObservationService from '@services/ObservationService'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
@@ -93,12 +94,14 @@ export const ObservationLaboratoryTableWithConnector: React.FunctionComponent<{
         mouseTrackCategory || _.get(state, 'mouseTrackCategory')
       }
       isContainer={isContainer}
+      structure={state.structure}
     />
   )
 }
 
 const ObservationLaboratoryTable: React.FunctionComponent<{
   patientId: any
+  structure?: IObservationLaboratoryTableStructure
   encounterId?: any
   isInitialize?: boolean
   isContainer?: boolean
@@ -111,6 +114,7 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
 }> = ({
   resourceList,
   patientId,
+  structure = initialObservationLaboratoryTableStructure,
   encounterId,
   isInitialize = true,
   isContainer = true,
@@ -203,7 +207,11 @@ const ObservationLaboratoryTable: React.FunctionComponent<{
         <div className={classes.toolbar}>
           <ToolbarWithFilter
             title={'Laboratory Results'}
-            Icon={<Icon className='fas fa-vial' />}
+            Icon={
+              structure.headerIconField ? (
+                <Icon className='fas fa-vial' />
+              ) : null
+            }
             filterActive={countFilterActive(submitedFilter, initialFilter, [
               'patientId',
               'periodStart_lt',

@@ -7,9 +7,17 @@ interface IPatientImmunizationTableAction {
   payload: any
 }
 
-export interface IPatientImmunizationTableStructure {}
+export interface IPatientImmunizationTableStructure {
+  filterGroupByField: boolean
+  filterIconField: boolean
+  headerIconField: boolean
+}
 
-export const initialPatientImmunizationTableStructure: IPatientImmunizationTableStructure = {}
+export const initialPatientImmunizationTableStructure: IPatientImmunizationTableStructure = {
+  filterGroupByField: true,
+  filterIconField: true,
+  headerIconField: true,
+}
 const initialState: any = {
   structure: initialPatientImmunizationTableStructure,
 }

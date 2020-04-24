@@ -28,6 +28,25 @@ export const observationWidgetConfig: IWidgetGroup = {
           value: 'isSelectable',
         },
       ],
+      structure: [
+        {
+          name: 'observationBloodPressureCard',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+          ],
+        },
+      ],
       value: 'observation-blood-pressure-card',
     },
     {
@@ -54,6 +73,25 @@ export const observationWidgetConfig: IWidgetGroup = {
           label: 'Is Selectable',
           type: 'boolean',
           value: 'isSelectable',
+        },
+      ],
+      structure: [
+        {
+          name: 'observationTemperatureCard',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+          ],
         },
       ],
       value: 'observation-temperature-card',
@@ -84,6 +122,25 @@ export const observationWidgetConfig: IWidgetGroup = {
           value: 'isSelectable',
         },
       ],
+      structure: [
+        {
+          name: 'observationTobaccoSmokingStatusCard',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+          ],
+        },
+      ],
       value: 'observation-tobacco-smoking-status-card',
     },
     {
@@ -110,6 +167,25 @@ export const observationWidgetConfig: IWidgetGroup = {
           label: 'Is Selectable',
           type: 'boolean',
           value: 'isSelectable',
+        },
+      ],
+      structure: [
+        {
+          name: 'observationBodyMeasurementCard',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+          ],
         },
       ],
       value: 'observation-body-measurement-card',
@@ -140,6 +216,25 @@ export const observationWidgetConfig: IWidgetGroup = {
           value: 'isSelectable',
         },
       ],
+      structure: [
+        {
+          name: 'observationHeartRateCard',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+          ],
+        },
+      ],
       value: 'observation-heart-rate-card',
     },
     {
@@ -160,6 +255,31 @@ export const observationWidgetConfig: IWidgetGroup = {
           label: 'Max',
           type: 'number',
           value: 'max',
+        },
+      ],
+      structure: [
+        {
+          name: 'observationBloodPressureGraph',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+            {
+              defaultValue: true,
+              label: 'Summary',
+              type: 'boolean',
+              value: 'summaryField',
+            },
+          ],
         },
       ],
       value: 'observaion-blood-pressure-graph',
@@ -184,6 +304,31 @@ export const observationWidgetConfig: IWidgetGroup = {
           value: 'max',
         },
       ],
+      structure: [
+        {
+          name: 'observationBodyHeightGraph',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+            {
+              defaultValue: true,
+              label: 'Summary',
+              type: 'boolean',
+              value: 'summaryField',
+            },
+          ],
+        },
+      ],
       value: 'observaion-body-height-graph',
     },
     {
@@ -204,6 +349,31 @@ export const observationWidgetConfig: IWidgetGroup = {
           label: 'Max',
           type: 'number',
           value: 'max',
+        },
+      ],
+      structure: [
+        {
+          name: 'observationBodyTemperatureGraph',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+            {
+              defaultValue: true,
+              label: 'Summary',
+              type: 'boolean',
+              value: 'summaryField',
+            },
+          ],
         },
       ],
       value: 'observaion-body-weight-graph',
@@ -228,6 +398,31 @@ export const observationWidgetConfig: IWidgetGroup = {
           value: 'max',
         },
       ],
+      structure: [
+        {
+          name: 'observationBodyMassIndexGraph',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+            {
+              defaultValue: true,
+              label: 'Summary',
+              type: 'boolean',
+              value: 'summaryField',
+            },
+          ],
+        },
+      ],
       value: 'observaion-body-mass-index-graph',
     },
     {
@@ -250,6 +445,31 @@ export const observationWidgetConfig: IWidgetGroup = {
           value: 'max',
         },
       ],
+      structure: [
+        {
+          name: 'observationBodyTemperatureGraph',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+            {
+              defaultValue: true,
+              label: 'Summary',
+              type: 'boolean',
+              value: 'summaryField',
+            },
+          ],
+        },
+      ],
       value: 'observaion-body-temperature-graph',
     },
     {
@@ -270,6 +490,31 @@ export const observationWidgetConfig: IWidgetGroup = {
           label: 'Max',
           type: 'number',
           value: 'max',
+        },
+      ],
+      structure: [
+        {
+          name: 'observationHeartRateGraph',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+            {
+              defaultValue: true,
+              label: 'Summary',
+              type: 'boolean',
+              value: 'summaryField',
+            },
+          ],
         },
       ],
       value: 'observaion-heart-rate-graph',
@@ -298,6 +543,19 @@ export const observationWidgetConfig: IWidgetGroup = {
           label: 'Max',
           type: 'number',
           value: 'max',
+        },
+      ],
+      structure: [
+        {
+          name: 'observationLaboratoryTable',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+          ],
         },
       ],
       value: 'patient-observaion-laboratory-table',
@@ -357,6 +615,25 @@ export const observationWidgetConfig: IWidgetGroup = {
           value: 'patientId',
         },
       ],
+      structure: [
+        {
+          name: 'observationSummaryGraph',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Filter Icon',
+              type: 'boolean',
+              value: 'filterIconField',
+            },
+          ],
+        },
+      ],
       value: 'observation-summary-card',
     },
     {
@@ -402,6 +679,54 @@ export const observationWidgetConfig: IWidgetGroup = {
           label: 'SelectedCard',
           type: 'options',
           value: 'selectedCard',
+        },
+      ],
+      structure: [
+        {
+          name: 'observationBloodPressureGraph',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+            {
+              defaultValue: true,
+              label: 'Summary',
+              type: 'boolean',
+              value: 'summaryField',
+            },
+          ],
+        },
+        {
+          name: 'observationBodyHeightGraph',
+          structure: [
+            {
+              defaultValue: true,
+              label: 'Header Icon',
+              type: 'boolean',
+              value: 'headerIconField',
+            },
+            {
+              defaultValue: true,
+              label: 'Date Time',
+              type: 'boolean',
+              value: 'dateTimeField',
+            },
+            {
+              defaultValue: true,
+              label: 'Summary',
+              type: 'boolean',
+              value: 'summaryField',
+            },
+          ],
         },
       ],
       value: 'observation-history-graph',

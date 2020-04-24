@@ -1,17 +1,25 @@
 type ObservationHeartRateGraphType =
   | 'INIT_PATIENT_SUMMARY'
-  | 'SET_STRUCTURE_OBSERVATION_BODY_TEMPERATURE_GRAPH'
+  | 'SET_STRUCTURE_OBSERVATION_HEART_RATE_GRAPH'
 
 interface IObservationHeartRateGraphAction {
   type: ObservationHeartRateGraphType
   payload: any
 }
 
-export interface IObservationHeartRateGraphStructure {}
+export interface IObservationHeartRateGraphStructure {
+  dateTimeField: boolean
+  headerIconField: boolean
+  summaryField: boolean
+}
 
-export const initialObservationHeartRateGraphStructure: IObservationHeartRateGraphStructure = {}
+export const initialObservationHeartRateGraphStructure: IObservationHeartRateGraphStructure = {
+  dateTimeField: true,
+  headerIconField: true,
+  summaryField: true,
+}
 export const observationHeartRateGraphInitialState: any = {
-  structure: {},
+  structure: initialObservationHeartRateGraphStructure,
 }
 const observationHeartRateGraph = (
   state = observationHeartRateGraphInitialState,
@@ -23,7 +31,7 @@ const observationHeartRateGraph = (
         ...state,
         ...action.payload.observationHeartRateGraph,
       }
-    case 'SET_STRUCTURE_OBSERVATION_BODY_TEMPERATURE_GRAPH':
+    case 'SET_STRUCTURE_OBSERVATION_HEART_RATE_GRAPH':
       return {
         ...state,
         structure: {
