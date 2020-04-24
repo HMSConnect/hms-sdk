@@ -61,8 +61,6 @@ class AuthService {
     if (!token) {
       if (onInvalidToken) {
         onInvalidToken()
-      } else {
-        this.redirect(ctx)
       }
       return
     }
@@ -88,16 +86,6 @@ class AuthService {
     } else {
       this.authData = { isAuthenticated: false }
     }
-    // const decoded: any = decode(token)
-    // let remaining_ms = decoded.exp * 1000 - new Date().getTime()
-    // if (remaining_ms > 0) {
-    //   this.authData = {
-    //     isAuthenticated: true,
-    //     token,
-    //   }
-    // } else {
-    //   this.authData = { isAuthenticated: false }
-    // }
   }
 
   redirect = (ctx: any, url?: string) => {
@@ -123,7 +111,7 @@ class AuthService {
     return true
   }
 
-  isGranted(ifAnyGranted: any): boolean {
+  isGranted(ifAnyGranted: any, isRedirect = false): boolean {
     if (!this.authData.isAuthenticated) {
       return false
     }
