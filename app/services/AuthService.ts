@@ -86,9 +86,9 @@ class AuthService {
 
   isGranted(ifAnyGranted: any, isRedirect = false): boolean {
     // check granted
-    if (!this.authData.isAuthenticated) {
-      return false
-    }
+    // if (!this.authData.isAuthenticated) {
+    //   return false
+    // }
 
     if (!ifAnyGranted) {
       return true
