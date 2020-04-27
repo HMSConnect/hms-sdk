@@ -195,7 +195,7 @@ const WidgetManager: IStatelessPage<{
       const selectedWidget = findWidget(query.widget)
       const newQueryParams = {
         ...initialQueryParams(selectedWidget),
-        isWaitForIframeLoaded: true,
+        // isWaitForIframeLoaded: true,
       }
       const newStructure = initialStructure(selectedWidget)
       const url = createURL(selectedWidget, null, newQueryParams)
