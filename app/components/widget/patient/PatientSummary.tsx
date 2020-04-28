@@ -166,7 +166,7 @@ const componentResource: any = {
   },
   patientMedicationSummaryCard: {
     component: PatientMedicationSummaryCardWithConnector,
-    defaultPosition: { x: 0, y: 45 },
+    defaultPosition: { x: 4, y: 43 },
     layout: { h: 2, w: 2, isCard: true },
   },
   // patientInfoDashboard: {

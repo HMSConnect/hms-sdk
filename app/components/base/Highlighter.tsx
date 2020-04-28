@@ -6,7 +6,8 @@ import split from 'lodash/split'
 const Highlighter: React.FunctionComponent<{
   highlightText: string
   text: string
-}> = ({ highlightText, text }) => {
+  optionStyle?: any
+}> = ({ highlightText, text, optionStyle }) => {
   const charecters = split(text, new RegExp(`(${highlightText})`, 'gi'))
   return (
     <>
@@ -15,7 +16,10 @@ const Highlighter: React.FunctionComponent<{
           key={i}
           style={
             part.toLowerCase() === highlightText.toLowerCase()
-              ? { color: 'blue', backgroundColor: 'yellow' }
+              ? {
+                  color: optionStyle?.color || 'blue',
+                  backgroundColor: optionStyle?.backgroundColor || 'yellow',
+                }
               : {}
           }
           data-testid={i + ''}

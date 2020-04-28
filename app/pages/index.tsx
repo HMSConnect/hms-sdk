@@ -80,6 +80,9 @@ export default function App() {
             <ListItemLink onClick={() => routeNavigate('embedded-widget')}>
               <ListItemText primary='Embedded Widget' />
             </ListItemLink>
+            <ListItemLink onClick={() => routeNavigate('landing')}>
+              <ListItemText primary='Landing' />
+            </ListItemLink>
           </List>
         </Paper>
       </Grid>

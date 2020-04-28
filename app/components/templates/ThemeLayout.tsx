@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 class ThemeLayout extends React.Component<any> {
   componentDidMount() {
     ThemeManager.setDefaultTheme(this.props.defaultTheme)
-    this.props.setTheme(this.props.defaultTheme)
+    this.props.setTheme(this.props.themeApp.themeName)
     if (typeof window !== 'undefined') {
       MessageListenerService.registerMessage('setTheme', (data: any) => {
         this.props.setTheme(data)
