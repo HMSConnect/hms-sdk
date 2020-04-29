@@ -1,0 +1,39 @@
+{
+  "widget": [
+    {
+      "label": "Patient Demographic",
+      "path": "/embedded-widget?widget=patient-demographic",
+      "pathImage": "../../../../static/images/gallery/patientDemographic.png"
+    },
+    {
+      "label": "Patient Encounter Timeline",
+      "path": "/embedded-widget?widget=patient-encounter-timeline",
+      "pathImage": "../../../../static/images/gallery/encounter.png"
+    },
+    {
+      "label": "Patient Search",
+      "path": "/embedded-widget?widget=patient-search",
+      "pathImage": "../../../../static/images/gallery/patientSearchDark.png"
+    },
+    {
+      "label": "Observation BloodPressure Graph",
+      "path": "/embedded-widget?widget=observaion-blood-pressure-graph",
+      "pathImage": "../../../../static/images/gallery/bloodPressureGraph.png"
+    },
+    {
+      "label": "Observation Body Measurement Card",
+      "path": "/embedded-widget?widget=observation-body-measurement-card",
+      "pathImage": "../../../../static/images/gallery/bodyMeasurementCard.png"
+    },
+    {
+      "label": "Observation Summary Graph",
+      "path": "/embedded-widget?widget=observation-summary-graph",
+      "pathImage": "../../../../static/images/gallery/summaryGraphDark.png"
+    },
+    {
+      "label": "Patient Condition Table",
+      "path": "/embedded-widget?widget=patient-condition-table",
+      "pathImage": "../../../../static/images/gallery/condition.png"
+    }
+  ]
+}

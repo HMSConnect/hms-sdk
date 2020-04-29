@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: 'flex',
       overflow: 'hidden',
+      background: theme.palette.secondary.light,
     },
     container: {
       marginTop: theme.spacing(10),

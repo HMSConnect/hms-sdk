@@ -76,11 +76,11 @@ const Installation: React.FunctionComponent<any> = (props) => {
   return (
     <section className={classes.root}>
       <Container className={classes.container}>
-        <img
+        {/* <img
           src='../../../../static/images/landingCurvyLines.png'
           className={classes.curvyLines}
           alt='curvy lines'
-        />
+        /> */}
         <Typography
           variant='h4'
           marked='center'
@@ -110,5 +110,6 @@ const Installation: React.FunctionComponent<any> = (props) => {
 }
 
 export default Installation
-const installationHtml =
-  '<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@3528ecc5679e6c32090094d21bfb3fddea767583/sdk/iframe-sdk.min.js"></script>'
+const installationHtml = `<script type="text/javascript" 
+  src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@3528ecc5679e6c32090094d21bfb3fddea767583/sdk/iframe-sdk.min.js">
+</script>`

@@ -1,34 +1,24 @@
+import clsx from 'clsx'
 import React from 'react'
+import Highlight from 'react-highlight.js'
 
-import {
-  // {Button as MatButton},
-  Button as MatButton,
-  Tab,
-  Tabs,
-  Collapse,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  IconButton,
-} from '@material-ui/core'
+import { Collapse, IconButton, Tab, Tabs } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
-import clsx from 'clsx'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+
 import AppBar from '../modules/AppBar'
 import Button from '../modules/Button'
 import TabPanel from '../modules/Tabpanel'
-import Typography from '../modules/Typography'
 import Toolbar from '../modules/Toolbar'
-import ExpandLess from '@material-ui/icons/ExpandLess'
-import ExpandMore from '@material-ui/icons/ExpandMore'
-import Highlight from 'react-highlight.js'
+import Typography from '../modules/Typography'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      background: theme.palette.secondary.light,
+      // background: theme.palette.secondary.light,
       display: 'flex',
       overflow: 'hidden',
     },
@@ -115,11 +105,11 @@ const CustomWidget: React.FunctionComponent<any> = (props) => {
   return (
     <section className={classes.root}>
       <Container className={classes.container}>
-        <img
+        {/* <img
           src='../../../../static/images/landingCurvyLines.png'
           className={classes.curvyLines}
           alt='curvy lines'
-        />
+        /> */}
         <Typography
           variant='h4'
           marked='center'
