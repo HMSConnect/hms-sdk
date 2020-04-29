@@ -11,12 +11,14 @@ export interface IObservationHeartRateGraphStructure {
   dateTimeField: boolean
   headerIconField: boolean
   summaryField: boolean
+  valueField: boolean
 }
 
 export const initialObservationHeartRateGraphStructure: IObservationHeartRateGraphStructure = {
   dateTimeField: true,
   headerIconField: true,
   summaryField: true,
+  valueField: true,
 }
 export const observationHeartRateGraphInitialState: any = {
   structure: initialObservationHeartRateGraphStructure,

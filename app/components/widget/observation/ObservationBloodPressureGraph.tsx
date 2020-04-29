@@ -181,16 +181,16 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
           />
           <Divider />
         </div>
-        {structure.summaryField ? (
-          <div className={classes.summaryContainer}>
-            {lastData ? (
-              <>
-                {' '}
-                {structure.dateTimeField ? (
-                  <Typography variant='body1' style={{}}>
-                    {lastData.issued}
-                  </Typography>
-                ) : null}
+        <div className={classes.summaryContainer}>
+          {lastData ? (
+            <>
+              {' '}
+              {structure.dateTimeField ? (
+                <Typography variant='body1' style={{}}>
+                  {lastData.issued}
+                </Typography>
+              ) : null}
+              {structure.valueField ? (
                 <Typography
                   variant='body1'
                   className={classes.summaryContent}
@@ -199,12 +199,12 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
                   {lastData.value}
                   {lastData.unit}
                 </Typography>
-              </>
-            ) : (
-              <Typography variant='h6'>N/A</Typography>
-            )}
-          </div>
-        ) : null}
+              ) : null}
+            </>
+          ) : (
+            <Typography variant='h6'>N/A</Typography>
+          )}
+        </div>
       </div>
     </>
   )
