@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       overflow: 'hidden',
     },
+    appBar: {
+      borderRadius: '10px 10px 0px 0px',
+    },
     container: {
       marginTop: theme.spacing(10),
       marginBottom: theme.spacing(15),
@@ -76,6 +79,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: 55,
       marginTop: theme.spacing(4),
       marginBottom: theme.spacing(4),
+      borderRadius: '6px',
     },
     curvyLines: {
       pointerEvents: 'none',
@@ -91,6 +95,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     highlight: {
       fontSize: 16,
+      '& code': {
+        borderRadius: '0px 0px 6px 6px ',
+      },
+      '& pre': {
+        margin: 0,
+      },
     },
     tabsContainer: {
       fontSize: 24,
@@ -100,8 +110,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 )
-// linear-gradient(to left bottom, hsl(96, 100%, 85%) 0%,hsl(149, 100%, 85%) 100%)
-// #42b983
 const CustomWidget: React.FunctionComponent<any> = (props) => {
   const classes = useStyles()
   return (
@@ -178,7 +186,7 @@ const CustomWidgetPanel: React.FunctionComponent<any> = () => {
 
   return (
     <>
-      <AppBar position='static'>
+      <AppBar position='static' className={classes.appBar}>
         <Toolbar>
           <Tabs
             value={value}

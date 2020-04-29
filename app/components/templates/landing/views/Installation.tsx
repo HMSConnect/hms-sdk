@@ -26,18 +26,14 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
       alignItems: 'center',
     },
-    mdContainer: {
+    highlight: {
+      fontSize: 18,
+      '& code': {
+        borderRadius: '6px',
+      },
       '& pre': {
-        color: '#24292e',
-        fontSize: 18,
+        margin: 0,
       },
-      '& th': {
-        color: '#24292e',
-      },
-      '& td': {
-        color: '#24292e',
-      },
-      color: theme.palette.text.primary,
     },
     item: {
       display: 'flex',
@@ -72,9 +68,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     float: {
       zIndex: 10,
-    },
-    highlight: {
-      fontSize: 18,
     },
   }),
 )
