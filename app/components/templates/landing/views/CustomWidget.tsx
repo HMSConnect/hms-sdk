@@ -1,36 +1,29 @@
+import clsx from 'clsx'
 import React from 'react'
+import Highlight from 'react-highlight.js'
 
-import {
-  // {Button as MatButton},
-  Button as MatButton,
-  Tab,
-  Tabs,
-  Collapse,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  IconButton,
-} from '@material-ui/core'
+import { Collapse, IconButton, Tab, Tabs } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
-import clsx from 'clsx'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+
 import AppBar from '../modules/AppBar'
 import Button from '../modules/Button'
 import TabPanel from '../modules/Tabpanel'
-import Typography from '../modules/Typography'
 import Toolbar from '../modules/Toolbar'
-import ExpandLess from '@material-ui/icons/ExpandLess'
-import ExpandMore from '@material-ui/icons/ExpandMore'
-import Highlight from 'react-highlight.js'
+import Typography from '../modules/Typography'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      background: theme.palette.secondary.light,
+      // background: theme.palette.secondary.light,
       display: 'flex',
       overflow: 'hidden',
+    },
+    appBar: {
+      borderRadius: '10px 10px 0px 0px',
     },
     container: {
       marginTop: theme.spacing(10),
@@ -76,6 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: 55,
       marginTop: theme.spacing(4),
       marginBottom: theme.spacing(4),
+      borderRadius: '6px',
     },
     curvyLines: {
       pointerEvents: 'none',
@@ -91,6 +85,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     highlight: {
       fontSize: 16,
+      '& code': {
+        borderRadius: '0px 0px 6px 6px ',
+      },
+      '& pre': {
+        margin: 0,
+      },
     },
     tabsContainer: {
       fontSize: 24,
@@ -100,18 +100,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 )
-// linear-gradient(to left bottom, hsl(96, 100%, 85%) 0%,hsl(149, 100%, 85%) 100%)
-// #42b983
 const CustomWidget: React.FunctionComponent<any> = (props) => {
   const classes = useStyles()
   return (
     <section className={classes.root}>
       <Container className={classes.container}>
-        <img
+        {/* <img
           src='../../../../static/images/landingCurvyLines.png'
           className={classes.curvyLines}
           alt='curvy lines'
-        />
+        /> */}
         <Typography
           variant='h4'
           marked='center'
@@ -178,7 +176,7 @@ const CustomWidgetPanel: React.FunctionComponent<any> = () => {
 
   return (
     <>
-      <AppBar position='static'>
+      <AppBar position='static' className={classes.appBar}>
         <Toolbar>
           <Tabs
             value={value}

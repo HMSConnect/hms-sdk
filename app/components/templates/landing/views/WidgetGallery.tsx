@@ -1,89 +1,94 @@
 import React from 'react'
-
-import ButtonBase from '@material-ui/core/ButtonBase'
-import Container from '@material-ui/core/Container'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
+import {
+  withStyles,
+  makeStyles,
+  Theme,
+  createStyles,
+} from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import Container from '@material-ui/core/Container'
 import Typography from '../modules/Typography'
-import { Link } from '@material-ui/core'
+import Button from '../modules/Button'
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
+import {
+  IconButton,
+  Collapse,
+  Link,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  CardActions,
+} from '@material-ui/core'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+import {
+  widgetGalleryPatientConfig,
+  widgetGalleryObservationConfig,
+} from '@config/embedded-widget'
+import { IWidgetGroup } from '@config'
 
+import * as _ from 'lodash'
+
+import WIDGET_GALLERY from '../widgetGallery.json'
+import routes from '../../../../routes'
+
+const lengthDefault = 6
+const WIDGET_DEFAULT_GROUP = _.slice(WIDGET_GALLERY.widget, 0, lengthDefault)
+const WIDGET_COLLASP_GROUP = _.slice(
+  WIDGET_GALLERY.widget,
+  lengthDefault,
+  WIDGET_GALLERY.widget.length,
+)
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    images: {
-      display: 'flex',
-      marginTop: theme.spacing(8),
-      flexWrap: 'wrap',
-    },
-    imageWrapper: {
-      display: 'block',
-      padding: 0,
-      position: 'relative',
-      borderRadius: 0,
-      border: '0.4px solid currentColor',
-      height: '40vh',
-      [theme.breakpoints.down('sm')]: {
-        height: 150,
-        width: '100% !important',
-      },
-      '&:hover': {
-        zIndex: 1,
-      },
-      '&:hover $imageBackdrop': {
-        opacity: 0.15,
-      },
-      '&:hover $imageMarked': {
-        opacity: 0,
-      },
-      '&:hover $imageTitle': {
-        border: '4px solid currentColor',
-      },
-    },
-    imageButton: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: theme.palette.common.white,
-    },
-    imageSrc: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      backgroundSize: 'cover',
-      // backgroundRepeat: 'no-repeat',
-      // backgroundPosition: 'center 40%'
-    },
-    imageBackdrop: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      background: theme.palette.common.black,
-      opacity: 0.3,
-      transition: theme.transitions.create('opacity'),
-    },
-    imageTitle: {
-      position: 'relative',
-      padding: `${theme.spacing(2)}px ${theme.spacing(4)}px 14px`,
-    },
-    imageMarked: {
-      height: 3,
-      width: 18,
-      background: theme.palette.common.white,
-      position: 'absolute',
-      bottom: -2,
-      left: 'calc(50% - 9px)',
-      transition: theme.transitions.create('opacity'),
-    },
     root: {
+      display: 'flex',
+      background: theme.palette.secondary.light,
+      overflow: 'hidden',
+    },
+    container: {
+      marginTop: theme.spacing(10),
+      marginBottom: theme.spacing(15),
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      // alignItems: 'center',
+    },
+    item: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: theme.spacing(0, 5),
+    },
+    title: {
+      marginBottom: theme.spacing(10),
+    },
+    number: {
+      fontSize: 24,
+      fontFamily: theme.typography.fontFamily,
+      color: theme.palette.secondary.main,
+      fontWeight: theme.typography.fontWeightMedium,
+    },
+    image: {
+      height: 55,
+      marginTop: theme.spacing(4),
       marginBottom: theme.spacing(4),
+    },
+    icon: {
+      zoom: 1.5,
+    },
+    iconContainer: {
+      marginTop: theme.spacing(4),
+    },
+    curvyLines: {
+      pointerEvents: 'none',
+      position: 'absolute',
+      top: -180,
+      opacity: 0.7,
+    },
+    button: {
       marginTop: theme.spacing(8),
     },
   }),
@@ -91,97 +96,104 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const WidgetGallery: React.FunctionComponent<any> = (props) => {
   const classes = useStyles()
+  const [open, setOpen] = React.useState(false)
 
-  const images = [
-    {
-      clickPath: '/embedded-widget?widget=patient-demographic',
-      title: 'Demographic',
-      url: '../../../../static/images/gallery/patientDemographic.png',
-      width: '40%',
-    },
-    {
-      clickPath: '/embedded-widget?widget=patient-encounter-timeline',
-      title: 'Encounter',
-      url: '../../../../static/images/gallery/encounter.png',
-      width: '60%',
-    },
-    {
-      clickPath: '/embedded-widget?widget=patient-search',
-      title: 'Search',
-      url: '../../../../static/images/gallery/patientSearchDark.png',
-      width: '35%',
-    },
+  const handleClickShow = () => {
+    setOpen(!open)
+  }
 
-    {
-      clickPath: '/embedded-widget?widget=observaion-blood-pressure-graph',
-      title: 'Graph',
-      url: '../../../../static/images/gallery/bloodPressureGraph.png',
-      width: '38%',
-    },
-    {
-      clickPath: '/embedded-widget?widget=observation-body-measurement-card',
-      title: 'Observation Card',
-      url: '../../../../static/images/gallery/bodyMeasurementCard.png',
-      width: '27%',
-    },
-    {
-      clickPath: '/embedded-widget?widget=patient-condition-table',
-      title: 'Table',
-      url: '../../../../static/images/gallery/condition.png',
-      width: '40%',
-    },
-    {
-      clickPath: '/embedded-widget?widget=observation-summary-graph',
-      title: 'Summary',
-      url: '../../../../static/images/gallery/summaryGraphDark.png',
-      width: '60%',
-    },
-    // {
-    //   url:
-    //     'https://images.unsplash.com/photo-1518136247453-74e7b5265980?auto=format&fit=crop&w=400&q=80',
-    //   title: 'Reading',
-    //   width: '40%',
-    // },
-  ]
-
+  const handleCardClick = (path: string) => {
+    routes.Router.pushRoute(path)
+  }
+  const preventDefault = (event: React.SyntheticEvent) => event.preventDefault()
   return (
-    <Container className={classes.root} component='section'>
-      <Typography variant='h4' marked='center' align='center' component='h2'>
-        <b>Widget Gallery</b>
-      </Typography>
-      <div className={classes.images}>
-        {images.map((image) => (
-          <ButtonBase
-            key={image.title}
-            className={classes.imageWrapper}
-            style={{
-              width: image.width,
-            }}
+    <section className={classes.root}>
+      <Container className={classes.container}>
+        {/* <img
+          src='../../../../static/images/landingCurvyLines.png'
+          className={classes.curvyLines}
+          alt='curvy lines'
+        /> */}
+        <Typography
+          variant='h4'
+          marked='center'
+          className={classes.title}
+          component='h2'
+          align='center'
+        >
+          <b>Widget Gallery</b>
+        </Typography>
+        <Grid container spacing={5}>
+          {_.map(WIDGET_DEFAULT_GROUP, (widget: any, index) => (
+            <Grid
+              item
+              xs={12}
+              md={4}
+              key={`default-${index}`}
+              style={{ zIndex: 10 }}
+            >
+              <Card>
+                <CardActionArea onClick={() => handleCardClick(widget.path)}>
+                  <CardMedia
+                    component='img'
+                    alt='Contemplative Reptile'
+                    height='230'
+                    image={widget.pathImage}
+                    title='Contemplative Reptile'
+                    style={{ borderBottom: '1px solid black' }}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant='h5' component='h2'>
+                      {widget.label}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          ))}
+          <Grid item xs={12} md={12}>
+            <Collapse in={open} timeout='auto' unmountOnExit>
+              <Grid container spacing={5}>
+                {_.map(WIDGET_COLLASP_GROUP, (widget: any, index) => (
+                  <Grid item xs={12} md={4} key={`default-${index}`}>
+                    <Card>
+                      <CardActionArea
+                        onClick={() => handleCardClick(widget.path)}
+                      >
+                        <CardMedia
+                          component='img'
+                          alt='Contemplative Reptile'
+                          height='230'
+                          image={widget.pathImage}
+                          title='Contemplative Reptile'
+                          style={{ borderBottom: '1px solid black' }}
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant='h5' component='h2'>
+                            {widget.label}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Collapse>
+          </Grid>
+        </Grid>
+        <Typography align='center' className={classes.iconContainer}>
+          <IconButton
+            edge='end'
+            aria-label='show all'
+            onClick={() => handleClickShow()}
+            className={classes.icon}
           >
-            <Link href={`${image.clickPath}`}>
-              <div
-                className={classes.imageSrc}
-                style={{
-                  backgroundImage: `url(${image.url})`,
-                }}
-              />
-              <div className={classes.imageBackdrop} />
-              <div className={classes.imageButton}>
-                <Typography
-                  component='h3'
-                  variant='h6'
-                  color='inherit'
-                  className={classes.imageTitle}
-                >
-                  {image.title}
-                  <div className={classes.imageMarked} />
-                </Typography>
-              </div>
-            </Link>
-          </ButtonBase>
-        ))}
-      </div>
-    </Container>
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </IconButton>
+        </Typography>
+      </Container>
+    </section>
   )
 }
+
 export default WidgetGallery

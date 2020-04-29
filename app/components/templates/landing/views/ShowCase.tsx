@@ -10,13 +10,14 @@ import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import Typography from '../modules/Typography'
 import Button from '../modules/Button'
-import { Link } from '@material-ui/core'
+import { Link, Card, Paper } from '@material-ui/core'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: 'flex',
       overflow: 'hidden',
+      background: theme.palette.secondary.light,
     },
     container: {
       marginTop: theme.spacing(10),
@@ -91,16 +92,18 @@ const ShowCase: React.FunctionComponent<any> = (props) => {
               </Typography>
             </Grid>
           </Grid>
-          <Grid container >
+          <Grid container>
             <Grid item xs={12} md={12}>
-              <div className={classes.item}>
-                <img
-                  src='../../../../static/images/patientSummary.png'
-                  alt='suitcase'
-                  className={classes.image}
-                  style={{ height: '100%', width: '100%' }}
-                />
-              </div>
+              <Paper elevation={3}>
+                <div className={classes.item}>
+                  <img
+                    src='../../../../static/images/patientSummary.png'
+                    alt='suitcase'
+                    className={classes.image}
+                    style={{ height: '100%', width: '100%' }}
+                  />
+                </div>
+              </Paper>
             </Grid>
           </Grid>
         </div>

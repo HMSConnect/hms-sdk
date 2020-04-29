@@ -16,6 +16,7 @@ import MarkdownIt from 'markdown-it'
 import clsx from 'clsx'
 import Highlight from 'react-highlight.js'
 import Highlighter from '@components/base/Highlighter'
+import { Paper } from '@material-ui/core'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,6 +24,11 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       // backgroundColor: '#fff5f8',
       overflow: 'hidden',
+    },
+    paperContainer: {
+      height: '100%',
+      display: 'flex',
+      justifyContent: 'center',
     },
     container: {
       marginTop: theme.spacing(10),
@@ -63,6 +69,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     highlight: {
       fontSize: 16,
+      '& code': {
+        borderRadius: '6px',
+      },
+      '& pre': {
+        margin: 0,
+      },
     },
     curvyLines: {
       pointerEvents: 'none',
@@ -106,14 +118,16 @@ const Usage: React.FunctionComponent<any> = (props) => {
         <br />
         <Grid container spacing={5}>
           <Grid className={classes.gridCellContainer} item xs={12} md={6}>
-            <div className={clsx(classes.item)}>
+            <Paper
+              elevation={3}
+              className={clsx(classes.item, classes.paperContainer)}
+            >
               <img
                 src='../../../../static/images/demographic.png'
                 alt='suitcase'
                 className={classes.image}
-                style={{ height: '100%' }}
               />
-            </div>
+            </Paper>
           </Grid>
           <Grid
             className={clsx(classes.gridCellContainer, classes.highlight)}
@@ -151,13 +165,16 @@ const Usage: React.FunctionComponent<any> = (props) => {
         <br />
         <Grid container spacing={5}>
           <Grid className={classes.gridImportantContainer} item xs={12} md={6}>
-            <div className={clsx(classes.item)}>
+            <Paper
+              elevation={3}
+              className={clsx(classes.item, classes.paperContainer)}
+            >
               <img
                 src='../../../../static/images/patientSearchHigilight.png'
                 alt='suitcase'
-                style={{ height: '100%', width: '100%' }}
+                style={{ width: '100%' }}
               />
-            </div>
+            </Paper>
           </Grid>
           <Grid
             className={clsx(classes.gridImportantContainer, classes.highlight)}
