@@ -10,8 +10,8 @@ function Copyright() {
   return (
     <React.Fragment>
       {'© '}
-      <Link color='inherit' href='https://material-ui.com/'>
-        Your Website
+      <Link color='inherit' href='/patient-search'>
+        HMS-widget
       </Link>{' '}
       {new Date().getFullYear()}
     </React.Fragment>
@@ -115,10 +115,12 @@ export default function AppFooter() {
             </Typography>
             <ul className={classes.list}>
               <li className={classes.listItem}>
-                <Link href='/premium-themes/onepirate/terms/'>Terms</Link>
+                {/* <Link href='/premium-themes/onepirate/terms/'>Terms</Link> */}
+                Terms
               </li>
               <li className={classes.listItem}>
-                <Link href='/premium-themes/onepirate/privacy/'>Privacy</Link>
+                {/* <Link href='/premium-themes/onepirate/privacy/'>Privacy</Link> */}
+                Privacy
               </li>
             </ul>
           </Grid>

@@ -3,10 +3,15 @@ import * as React from 'react'
 import map from 'lodash/map'
 import split from 'lodash/split'
 
+interface IHighlighterOptionStyle {
+  backgroundColor?: string
+  color?: string
+}
+
 const Highlighter: React.FunctionComponent<{
   highlightText: string
   text: string
-  optionStyle?: any
+  optionStyle?: IHighlighterOptionStyle
 }> = ({ highlightText, text, optionStyle }) => {
   const charecters = split(text, new RegExp(`(${highlightText})`, 'gi'))
   return (
