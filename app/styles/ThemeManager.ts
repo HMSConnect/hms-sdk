@@ -74,6 +74,9 @@ class ThemeManager {
     return _.reduce(
       themeObject,
       (acc, value: any, key: string) => {
+        if (!value.main) {
+          return { ...acc, [key]: _.cloneDeep(value) }
+        }
         const themeWithDarkLight = generateDarkAndLight(value)
         const themeObject: any = themeWithDarkLight
         if (_.has(value, 'dark')) {

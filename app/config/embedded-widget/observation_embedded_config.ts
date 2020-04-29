@@ -634,7 +634,7 @@ export const observationWidgetConfig: IWidgetGroup = {
           ],
         },
       ],
-      value: 'observation-summary-card',
+      value: 'observation-summary-graph',
     },
     {
       document: require('@assets/embedded-widget/observation/observation-history-graph.md')

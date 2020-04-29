@@ -76,6 +76,12 @@ class HMSWidgetSDKDocument extends Document {
             rel='stylesheet'
             href='https://fonts.googleapis.com/icon?family=Material+Icons'
           />
+
+          <link
+            rel='stylesheet'
+            href='https://highlightjs.org/static/demo/styles/railscasts.css'
+          />
+        
           {/* <link
             rel='stylesheet'
             href='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css'
