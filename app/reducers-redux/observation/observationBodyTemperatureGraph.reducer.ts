@@ -11,12 +11,14 @@ export interface IObservationBodyTemperatureGraphStructure {
   dateTimeField: boolean
   headerIconField: boolean
   summaryField: boolean
+  valueField: boolean
 }
 
 export const initialObservationBodyTemperatureGraphStructure: IObservationBodyTemperatureGraphStructure = {
   dateTimeField: true,
   headerIconField: true,
   summaryField: true,
+  valueField: true,
 }
 export const observationBodyTemperatureGraphInitialState: any = {
   structure: initialObservationBodyTemperatureGraphStructure,
