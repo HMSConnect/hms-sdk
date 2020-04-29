@@ -96,38 +96,26 @@ const Installation: React.FunctionComponent<any> = (props) => {
         >
           <b>Installation</b>
         </Typography>
-        <div className={classes.float}>
-          <Grid container spacing={5}>
-            <Grid item xs={12} md={12}>
-              <div className={classes.item}>
-                <Typography variant='h5' align='center'>
-                  HMS-widget is prepare to use by add script to your html file
-                  <br />
-                </Typography>
-              </div>
-              <div className={classes.highlight}>
-                <Highlight language={'html'}>{installationHtml}</Highlight>
-              </div>
-            </Grid>
-            {/* <Grid item xs={12} md={6}>
-              <div className={classes.item}>
-                <div className={classes.number}>2.</div>
-                <img
-                  src='/static/themes/onepirate/productHowItWorks2.svg'
-                  alt='graph'
-                  className={classes.image}
-                />
-                <Typography variant='h5' align='center'>
-                  Enjoy Hms-Widget
-                </Typography>
-              </div>
-            </Grid> */}
+        <Grid container spacing={5} className={classes.float}>
+          <Grid item xs={12} md={12}>
+            <div className={classes.item}>
+              <Typography variant='h5' align='center'>
+                HMS-widget is prepare to use by add script to your html file
+                <br />
+              </Typography>
+            </div>
           </Grid>
-        </div>
+          <Grid item xs={12} md={12}>
+            <div className={classes.highlight}>
+              <Highlight language={'html'}>{installationHtml}</Highlight>
+            </div>
+          </Grid>
+        </Grid>
       </Container>
     </section>
   )
 }
 
 export default Installation
-const installationHtml = `<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@3528ecc5679e6c32090094d21bfb3fddea767583/sdk/iframe-sdk.min.js"></script>`
+const installationHtml =
+  '<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@3528ecc5679e6c32090094d21bfb3fddea767583/sdk/iframe-sdk.min.js"></script>'

@@ -120,42 +120,43 @@ const CustomWidget: React.FunctionComponent<any> = (props) => {
         >
           <b>Customize the widget</b>
         </Typography>
-        <div className={classes.float}>
-          <Grid container spacing={5}>
-            <Grid item xs={12} md={12}>
-              <div className={classes.item}>
-                <Typography variant='h5' align='center'>
-                  HMS Widget provide some method for user can custom
-                  independently such as color, font or show/hide some attribute.
-                </Typography>
-                <Button
-                  color='secondary'
-                  size='large'
-                  variant='contained'
-                  className={classes.button}
-                  href='/embedded-widget?widget=get-started'
-                >
-                  More info
-                </Button>
-              </div>
-            </Grid>
+        <Grid container spacing={5} className={classes.float}>
+          <Grid item xs={12} md={12}>
+            <div className={classes.item}>
+              <Typography variant='h5' align='center'>
+                HMS Widget provide some method for user can custom independently
+                such as color, font or show/hide some attribute.
+              </Typography>
+              <Button
+                color='secondary'
+                size='large'
+                variant='contained'
+                className={classes.button}
+                href='/embedded-widget?widget=get-started'
+              >
+                More info
+              </Button>
+            </div>
           </Grid>
+        </Grid>
 
-          <Grid container spacing={5}>
-            <Grid item xs={12} md={12}>
-              <div className={clsx(classes.item)}>
-                <img
-                  src='../../../../static/images/patientDemographicCustom.png'
-                  alt='suitcase'
-                  className={classes.image}
-                  style={{ height: '100%' }}
-                />
-              </div>
-            </Grid>
+        <Grid container spacing={5} className={classes.float}>
+          <Grid item xs={12} md={12}>
+            <div className={clsx(classes.item)}>
+              <img
+                src='../../../../static/images/patientDemographicCustom.png'
+                alt='suitcase'
+                className={classes.image}
+                style={{ height: '100%' }}
+              />
+            </div>
           </Grid>
-
-          <CustomWidgetPanel />
-        </div>
+        </Grid>
+        <Grid container spacing={5} className={classes.float}>
+          <Grid item xs={12} md={12}>
+            <CustomWidgetPanel />
+          </Grid>
+        </Grid>
       </Container>
     </section>
   )

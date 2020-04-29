@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       border: '0.4px solid currentColor',
       height: '40vh',
       [theme.breakpoints.down('sm')]: {
-        height: 100,
+        height: 150,
         width: '100% !important',
       },
       '&:hover': {
