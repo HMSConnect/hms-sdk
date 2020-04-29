@@ -33,6 +33,7 @@ import * as _ from 'lodash'
 
 import WIDGET_GALLERY from '../widgetGallery.json'
 import routes from '../../../../routes'
+import Truncate from '@components/base/Truncate'
 
 const lengthDefault = 6
 const WIDGET_DEFAULT_GROUP = _.slice(WIDGET_GALLERY.widget, 0, lengthDefault)
@@ -108,6 +109,7 @@ const WidgetGallery: React.FunctionComponent<any> = (props) => {
   const preventDefault = (event: React.SyntheticEvent) => event.preventDefault()
   return (
     <section className={classes.root}>
+      <a id='widget-gallery' />
       <Container className={classes.container}>
         {/* <img
           src='../../../../static/images/landingCurvyLines.png'
@@ -136,15 +138,15 @@ const WidgetGallery: React.FunctionComponent<any> = (props) => {
                 <CardActionArea onClick={() => handleCardClick(widget.path)}>
                   <CardMedia
                     component='img'
-                    alt='Contemplative Reptile'
+                    alt={widget.label}
                     height='230'
                     image={widget.pathImage}
-                    title='Contemplative Reptile'
+                    title={widget.label}
                     style={{ borderBottom: '1px solid black' }}
                   />
                   <CardContent>
                     <Typography gutterBottom variant='h5' component='h2'>
-                      {widget.label}
+                      <Truncate size={1}>{widget.label}</Truncate>
                     </Typography>
                   </CardContent>
                 </CardActionArea>
@@ -162,15 +164,15 @@ const WidgetGallery: React.FunctionComponent<any> = (props) => {
                       >
                         <CardMedia
                           component='img'
-                          alt='Contemplative Reptile'
+                          alt={widget.label}
                           height='230'
                           image={widget.pathImage}
-                          title='Contemplative Reptile'
+                          title={widget.label}
                           style={{ borderBottom: '1px solid black' }}
                         />
                         <CardContent>
                           <Typography gutterBottom variant='h5' component='h2'>
-                            {widget.label}
+                            <Truncate size={1}>{widget.label}</Truncate>
                           </Typography>
                         </CardContent>
                       </CardActionArea>
