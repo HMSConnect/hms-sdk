@@ -111,45 +111,42 @@ const AvailableWidget: React.FunctionComponent<any> = (props) => {
         >
           <b>Available Widget</b>
         </Typography>
-
-        <div>
-          <Grid container spacing={5}>
-            {_.map(WIDGET_DEFAULT_GROUP, (widget: any, index) => (
-              <Grid item xs={12} md={4} key={`default-${index}`}>
-                <div className={classes.item}>
-                  <Typography component='div' variant='h5' align='center'>
-                    <Link
-                      href={`/embedded-widget?widget=${widget.value}`}
-                      color='textPrimary'
-                    >
-                      {widget.label}
-                    </Link>
-                  </Typography>
-                </div>
-              </Grid>
-            ))}
-            <Grid item xs={12} md={12}>
-              <Collapse in={open} timeout='auto' unmountOnExit>
-                <Grid container spacing={5}>
-                  {_.map(WIDGET_COLLASP_GROUP, (widget: any, index) => (
-                    <Grid item xs={12} md={4} key={`default-${index}`}>
-                      <div className={classes.item}>
-                        <Typography component='a' variant='h5' align='center'>
-                          <Link
-                            href={`/embedded-widget?widget=${widget.value}`}
-                            color='textPrimary'
-                          >
-                            {widget.label}
-                          </Link>
-                        </Typography>
-                      </div>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Collapse>
+        <Grid container spacing={5}>
+          {_.map(WIDGET_DEFAULT_GROUP, (widget: any, index) => (
+            <Grid item xs={12} md={4} key={`default-${index}`}>
+              <div className={classes.item}>
+                <Typography component='div' variant='h5' align='center'>
+                  <Link
+                    href={`/embedded-widget?widget=${widget.value}`}
+                    color='textPrimary'
+                  >
+                    {widget.label}
+                  </Link>
+                </Typography>
+              </div>
             </Grid>
+          ))}
+          <Grid item xs={12} md={12}>
+            <Collapse in={open} timeout='auto' unmountOnExit>
+              <Grid container spacing={5}>
+                {_.map(WIDGET_COLLASP_GROUP, (widget: any, index) => (
+                  <Grid item xs={12} md={4} key={`default-${index}`}>
+                    <div className={classes.item}>
+                      <Typography component='a' variant='h5' align='center'>
+                        <Link
+                          href={`/embedded-widget?widget=${widget.value}`}
+                          color='textPrimary'
+                        >
+                          {widget.label}
+                        </Link>
+                      </Typography>
+                    </div>
+                  </Grid>
+                ))}
+              </Grid>
+            </Collapse>
           </Grid>
-        </div>
+        </Grid>
         <Typography align='center' className={classes.iconContainer}>
           <IconButton
             edge='end'
