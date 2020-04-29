@@ -118,7 +118,7 @@ const Usage: React.FunctionComponent<any> = (props) => {
             <Grid className={classes.gridCellContainer} item xs={12} md={6}>
               <div className={clsx(classes.item)}>
                 <img
-                  src='../../../../static/images/patientDemographic.png'
+                  src='../../../../static/images/demographic.png'
                   alt='suitcase'
                   className={classes.image}
                   style={{ height: '100%' }}
