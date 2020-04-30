@@ -91,12 +91,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 )
-
 const Usage: React.FunctionComponent<any> = (props) => {
   const classes = useStyles()
   const theme: Theme = useTheme()
   return (
     <section className={classes.root}>
+      <a id='usage' />
       <Container className={classes.container}>
         <Typography
           variant='h4'

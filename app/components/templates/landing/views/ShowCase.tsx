@@ -63,6 +63,7 @@ const ShowCase: React.FunctionComponent<any> = (props) => {
   const classes = useStyles()
   return (
     <section className={classes.root}>
+      <a id='show-case' />
       <Container className={classes.container}>
         <Typography
           variant='h4'
