@@ -1,0 +1,113 @@
+# Demo app implement with iframe
+
+Example code
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/gh/HMSConnect/hms-widget-sdk@3528ecc5679e6c32090094d21bfb3fddea767583/sdk/iframe-sdk.min.js"
+    ></script>
+  </head>
+  <body>
+    <div style="display: flex;">
+      <div id="widget-example1">
+        --- iframe rendered here 1 ---
+        <br />
+      </div>
+      <div id="widget-example2">
+        --- iframe rendered here 2 ---
+        <br />
+      </div>
+      <div id="widget-example3">
+        --- iframe rendered here 3 ---
+        <br />
+      </div>
+    </div>
+
+    <script>
+      const encounterTimeline = window.hmsWidgetAsyncInit(function (hmsWidget) {
+        hmsWidget.init({
+          selector: 'widget-example1',
+          widgetPath: 'patient-info/encounter-timeline',
+          width: '500px',
+          height: '400px',
+        })
+
+        hmsWidget.setParams({
+          patientId: '0debf275-d585-4897-a8eb-25726def1ed5',
+          max: 20,
+          isRouteable: false,
+        })
+        hmsWidget.setCustomizeTheme(
+          // use theme name dark with custom
+          {
+            palette: {
+              primary: { main: '#03a9f4' },
+              secondary: { main: '#00bfa5' },
+              nonary: { main: '#00bfa5' },
+            },
+          },
+          'dark',
+        )
+        hmsWidget.onMessage(handleEncounterTimelineEvent)
+      })
+
+      const summaryCards = window.hmsWidgetAsyncInit(function (hmsWidget) {
+        hmsWidget.init({
+          selector: 'widget-example2',
+          widgetPath: 'patient-info/summary-cards',
+          width: '500px',
+          height: '400px',
+        })
+
+        hmsWidget.setParams({
+          patientId: '0debf275-d585-4897-a8eb-25726def1ed5',
+          encounterId: '3898f0f9-385e-478d-be25-5f05719e80af',
+          isSelectable: false,
+        })
+      })
+
+      const bodyMeasurementCard = window.hmsWidgetAsyncInit(function (
+        hmsWidget,
+      ) {
+        hmsWidget.init({
+          selector: 'widget-example3',
+          widgetPath: 'observation/body-measurement-card',
+          width: '500px',
+          height: '400px',
+        })
+
+        hmsWidget.setParams({
+          patientId: '0debf275-d585-4897-a8eb-25726def1ed5',
+          encounterId: '3898f0f9-385e-478d-be25-5f05719e80af',
+          isSelectable: false,
+        })
+        hmsWidget.setTheme('invert')
+      })
+
+      function handleEncounterTimelineEvent(data) {
+        if (data.message === 'handleEncounterSelect') {
+          summaryCards.setParams({
+            patientId: '0debf275-d585-4897-a8eb-25726def1ed5',
+            encounterId: data.params.encounterId,
+            isSelectable: false,
+          })
+          console.log('data.params.encounterId :', data.params.encounterId)
+          bodyMeasurementCard.setParams({
+            patientId: '0debf275-d585-4897-a8eb-25726def1ed5',
+            encounterId: data.params.encounterId,
+            isSelectable: false,
+          })
+        }
+      }
+    </script>
+  </body>
+</html>
+
+
+```
+Description code
+1. If you are new user, please read [Getting started with HMS Widget](/embedded-widget?widget=get-started)
+2. If user iteract with HMS-widget it will post message throug window message listener. User can use that event to interact with another HMS-widget
