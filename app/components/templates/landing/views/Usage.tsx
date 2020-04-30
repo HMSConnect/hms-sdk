@@ -62,8 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: theme.typography.fontWeightMedium,
     },
     image: {
-      height: 300,
-      width: 300,
+      width: '100%',
       marginTop: theme.spacing(4),
       marginBottom: theme.spacing(4),
     },
@@ -123,7 +122,7 @@ const Usage: React.FunctionComponent<any> = (props) => {
               className={clsx(classes.item, classes.paperContainer)}
             >
               <img
-                src='../../../../static/images/demographic.png'
+                src='../../../../static/images/demographicUsage.png'
                 alt='suitcase'
                 className={classes.image}
               />
@@ -172,7 +171,7 @@ const Usage: React.FunctionComponent<any> = (props) => {
               <img
                 src='../../../../static/images/patientSearchHigilight.png'
                 alt='suitcase'
-                style={{ width: '100%' }}
+                className={classes.image}
               />
             </Paper>
           </Grid>

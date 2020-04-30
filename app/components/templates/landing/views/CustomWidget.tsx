@@ -66,7 +66,8 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: theme.typography.fontWeightMedium,
     },
     image: {
-      height: 55,
+      height: '100%',
+      width: '100%',
       marginTop: theme.spacing(4),
       marginBottom: theme.spacing(4),
       borderRadius: '6px',
@@ -104,7 +105,7 @@ const CustomWidget: React.FunctionComponent<any> = (props) => {
   const classes = useStyles()
   return (
     <section className={classes.root}>
-        <a id='custom-widget' />
+      <a id='custom-widget' />
       <Container className={classes.container}>
         {/* <img
           src='../../../../static/images/landingCurvyLines.png'
@@ -139,14 +140,13 @@ const CustomWidget: React.FunctionComponent<any> = (props) => {
           </Grid>
         </Grid>
 
-        <Grid container spacing={5} className={classes.float}>
-          <Grid item xs={12} md={12}>
+        <Grid container spacing={5} className={classes.float} justify='center'>
+          <Grid item xs={12} md={6}>
             <div className={clsx(classes.item)}>
               <img
                 src='../../../../static/images/patientDemographicCustom.png'
                 alt='suitcase'
                 className={classes.image}
-                style={{ height: '100%' }}
               />
             </div>
           </Grid>
