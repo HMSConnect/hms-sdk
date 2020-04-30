@@ -88,7 +88,7 @@ const ShowCase: React.FunctionComponent<any> = (props) => {
           </Grid>
           <Grid container spacing={5}>
             <Grid item xs={12} md={12}>
-              <Typography variant='body1' align='left'>
+              <Typography variant='body1' align='center'>
                 Patient Summary, widget include all patient's information
               </Typography>
             </Grid>

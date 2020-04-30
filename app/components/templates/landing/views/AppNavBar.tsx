@@ -45,6 +45,7 @@ const styles = (theme: Theme) => ({
     color: theme.palette.common.white,
   },
   right: {
+    height: '100%',
     flex: 1,
     display: 'flex',
     justifyContent: 'flex-end',
@@ -73,7 +74,7 @@ const styles = (theme: Theme) => ({
     lineStyleType: 'none',
   },
   linkItem: {
-    padding: '14px 16px',
+    padding: '20px 16px',
     height: '100%',
     display: 'block',
     '&:hover': {
@@ -87,7 +88,9 @@ const styles = (theme: Theme) => ({
     display: 'block',
     // textAlign: 'center',
   },
-  childLink: {},
+  childLink: {
+    fontSize: 18,
+  },
   hide: {
     display: 'none',
   },
@@ -150,6 +153,7 @@ const AppAppBar: React.FunctionComponent<any> = ({ classes, window }) => {
                 classes.linkItem,
                 classes.childLink,
               )}
+              component='div'
               onClick={(event: React.MouseEvent<HTMLDivElement>) =>
                 handleClick(event, '#installation')
               }
@@ -163,6 +167,7 @@ const AppAppBar: React.FunctionComponent<any> = ({ classes, window }) => {
                 classes.linkItem,
                 classes.childLink,
               )}
+              component='div'
               onClick={(event: React.MouseEvent<HTMLDivElement>) =>
                 handleClick(event, '#usage')
               }
@@ -176,6 +181,7 @@ const AppAppBar: React.FunctionComponent<any> = ({ classes, window }) => {
                 classes.linkItem,
                 classes.childLink,
               )}
+              component='div'
               onClick={(event: React.MouseEvent<HTMLDivElement>) =>
                 handleClick(event, '#widget-gallery')
               }
@@ -189,6 +195,7 @@ const AppAppBar: React.FunctionComponent<any> = ({ classes, window }) => {
                 classes.linkItem,
                 classes.childLink,
               )}
+              component='div'
               onClick={(event: React.MouseEvent<HTMLDivElement>) =>
                 handleClick(event, '#custom-widget')
               }
@@ -202,6 +209,7 @@ const AppAppBar: React.FunctionComponent<any> = ({ classes, window }) => {
                 classes.linkItem,
                 classes.childLink,
               )}
+              component='div'
               onClick={(event: React.MouseEvent<HTMLDivElement>) =>
                 handleClick(event, '#show-case')
               }
@@ -250,6 +258,7 @@ const AppBarMenu: React.FunctionComponent<any> = ({
             onClick={(event: React.MouseEvent<HTMLDivElement>) =>
               onClick(event, menu.path)
             }
+            component='div'
           >
             <ListItem button onClick={() => onClose()}>
               <ListItemText primary={menu.label} />
