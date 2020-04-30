@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: theme.typography.fontWeightMedium,
     },
     image: {
-      height: 300,
+      width: '100%',
       marginTop: theme.spacing(4),
       marginBottom: theme.spacing(4),
     },
@@ -171,7 +171,7 @@ const Usage: React.FunctionComponent<any> = (props) => {
               <img
                 src='../../../../static/images/patientSearchHigilight.png'
                 alt='suitcase'
-                style={{ width: '100%' }}
+                className={classes.image}
               />
             </Paper>
           </Grid>
