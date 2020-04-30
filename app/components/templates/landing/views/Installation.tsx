@@ -75,6 +75,7 @@ const Installation: React.FunctionComponent<any> = (props) => {
   const classes = useStyles()
   return (
     <section className={classes.root}>
+      <a id='installation' />
       <Container className={classes.container}>
         {/* <img
           src='../../../../static/images/landingCurvyLines.png'

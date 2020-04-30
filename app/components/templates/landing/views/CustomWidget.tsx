@@ -104,6 +104,7 @@ const CustomWidget: React.FunctionComponent<any> = (props) => {
   const classes = useStyles()
   return (
     <section className={classes.root}>
+        <a id='custom-widget' />
       <Container className={classes.container}>
         {/* <img
           src='../../../../static/images/landingCurvyLines.png'
