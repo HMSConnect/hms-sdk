@@ -74,26 +74,34 @@ const ShowCase: React.FunctionComponent<any> = (props) => {
           <b>ShowCase</b>
         </Typography>
         <div>
-          <Grid container spacing={5}>
+          <Grid container spacing={10}>
             <Grid item xs={12} md={12}>
-              <Typography variant='h5' align='center'>
-                <Link
-                  href={`/embedded-widget?widget=patient-summary`}
-                  color='inherit'
+              <div className={classes.item}>
+                <Typography
+                  variant='h5'
+                  align='center'
+                  className={classes.item}
                 >
-                  Patient Summary
-                </Link>
-              </Typography>
+                  <Link
+                    href={`/embedded-widget?widget=patient-summary`}
+                    color='inherit'
+                  >
+                    Patient Summary
+                  </Link>
+                </Typography>
+              </div>
+            </Grid>
+          </Grid>
+          <Grid container spacing={10}>
+            <Grid item xs={12} md={12}>
+              <div className={classes.item}>
+                <Typography variant='body1' align='center'>
+                  Patient Summary, widget include all patient's information
+                </Typography>
+              </div>
             </Grid>
           </Grid>
           <Grid container spacing={5}>
-            <Grid item xs={12} md={12}>
-              <Typography variant='body1' align='center'>
-                Patient Summary, widget include all patient's information
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid container>
             <Grid item xs={12} md={12}>
               <Paper elevation={3}>
                 <div className={classes.item}>
