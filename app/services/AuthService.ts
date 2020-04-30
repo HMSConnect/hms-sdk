@@ -76,7 +76,7 @@ class AuthService {
   }
 
   isValidToken = (token?: string, refreshToken?: string | null) => {
-    // check token time
+    // TODO: check token time
     if (!token) {
       return false
     } else {
@@ -85,7 +85,7 @@ class AuthService {
   }
 
   isGranted(ifAnyGranted: any, isRedirect = false): boolean {
-    // check granted
+    // TODO: check granted
     // if (!this.authData.isAuthenticated) {
     //   return false
     // }
