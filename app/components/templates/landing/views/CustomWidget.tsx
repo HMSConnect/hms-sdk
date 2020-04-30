@@ -26,16 +26,16 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '10px 10px 0px 0px',
     },
     container: {
-      marginTop: theme.spacing(10),
-      marginBottom: theme.spacing(15),
-      position: 'relative',
-      display: 'flex',
-      flexDirection: 'column',
       alignItems: 'center',
+      flexDirection: 'column',
+      display: 'flex',
+      marginBottom: theme.spacing(15),
+      marginTop: theme.spacing(10),
+      position: 'relative',
     },
     gridCellContainer: {
-      overflow: 'auto',
       height: '400px',
+      overflow: 'auto',
     },
     mdContainer: {
       '& pre': {
@@ -51,17 +51,17 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.text.primary,
     },
     item: {
+      alignItems: 'center',
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center',
       padding: theme.spacing(0, 5),
     },
     title: {
       marginBottom: theme.spacing(10),
     },
     number: {
-      fontSize: 24,
       fontFamily: theme.typography.fontFamily,
+      fontSize: 24,
       color: theme.palette.secondary.main,
       fontWeight: theme.typography.fontWeightMedium,
     },
@@ -107,11 +107,6 @@ const CustomWidget: React.FunctionComponent<any> = (props) => {
     <section className={classes.root}>
       <a id='custom-widget' />
       <Container className={classes.container}>
-        {/* <img
-          src='../../../../static/images/landingCurvyLines.png'
-          className={classes.curvyLines}
-          alt='curvy lines'
-        /> */}
         <Typography
           variant='h4'
           marked='center'
