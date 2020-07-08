@@ -10,13 +10,13 @@ interface IObservationBodyHeightGraphAction {
 export interface IObservationBodyHeightGraphStructure {
   dateTimeField: boolean
   headerIconField: boolean
-  summaryField: boolean
+  valueField: boolean
 }
 
 export const initialObservationBodyHeightGraphStructure: IObservationBodyHeightGraphStructure = {
   dateTimeField: true,
   headerIconField: true,
-  summaryField: true,
+  valueField: true,
 }
 
 export const observationBodyHeightGraphInitialState: any = {

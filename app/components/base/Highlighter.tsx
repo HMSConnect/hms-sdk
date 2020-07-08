@@ -3,10 +3,16 @@ import * as React from 'react'
 import map from 'lodash/map'
 import split from 'lodash/split'
 
+interface IHighlighterOptionStyle {
+  backgroundColor?: string
+  color?: string
+}
+
 const Highlighter: React.FunctionComponent<{
   highlightText: string
   text: string
-}> = ({ highlightText, text }) => {
+  optionStyle?: IHighlighterOptionStyle
+}> = ({ highlightText, text, optionStyle }) => {
   const charecters = split(text, new RegExp(`(${highlightText})`, 'gi'))
   return (
     <>
@@ -15,7 +21,10 @@ const Highlighter: React.FunctionComponent<{
           key={i}
           style={
             part.toLowerCase() === highlightText.toLowerCase()
-              ? { color: 'blue', backgroundColor: 'yellow' }
+              ? {
+                  color: optionStyle?.color || 'blue',
+                  backgroundColor: optionStyle?.backgroundColor || 'yellow',
+                }
               : {}
           }
           data-testid={i + ''}

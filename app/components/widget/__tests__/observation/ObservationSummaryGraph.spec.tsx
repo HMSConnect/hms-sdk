@@ -211,7 +211,9 @@ describe('<ObservationSummaryGraph />', () => {
     const { queryByText, getByTestId, getByText } = render(
       <ObservationSummaryGraph
         patientId={'1'}
-        selection={{ bloodPressure: true, bodyMassIndex: true }}
+        initialFilter={{
+          selection: { bloodPressure: true, bodyMassIndex: true },
+        }}
       />,
     )
 

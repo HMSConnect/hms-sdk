@@ -1,6 +1,9 @@
 import * as React from 'react'
 
-import { initialObservationHeartRateGraphStructure, IObservationHeartRateGraphStructure } from '@app/reducers-redux/observation/observationHeartRateGraph.reducer'
+import {
+  initialObservationHeartRateGraphStructure,
+  IObservationHeartRateGraphStructure,
+} from '@app/reducers-redux/observation/observationHeartRateGraph.reducer'
 import ErrorSection from '@components/base/ErrorSection'
 import GraphBase from '@components/base/GraphBase'
 import LoadingSection from '@components/base/LoadingSection'
@@ -10,13 +13,19 @@ import useObservationList from '@components/hooks/useObservationList'
 import { OBSERVATION_CODE } from '@config/observation'
 import { IObservationListFilterQuery } from '@data-managers/ObservationDataManager'
 import { ArgumentScale, ValueScale } from '@devexpress/dx-react-chart'
-import { Divider, Icon, makeStyles, Theme, Typography, withTheme } from '@material-ui/core'
+import {
+  Divider,
+  Icon,
+  makeStyles,
+  Theme,
+  Typography,
+  withTheme,
+} from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
 import get from 'lodash/get'
 import maxBy from 'lodash/maxBy'
 import { useSelector } from 'react-redux'
 import { IOptionsStyleGraphOption } from './ObservationBloodPressureGraph'
-
 
 const useStyles = makeStyles((theme: Theme) => ({
   headerCard: {
@@ -155,16 +164,16 @@ export const ObservationHeartRateGraphView: React.FunctionComponent<{
           />
           <Divider />
         </div>
-        {structure.summaryField ? (
-          <div className={classes.summaryContainer}>
-            {lastData ? (
-              <>
-                {' '}
-                {structure.dateTimeField ? (
-                  <Typography variant='body1' style={{}}>
-                    {get(lastData, 'issued')}
-                  </Typography>
-                ) : null}
+        <div className={classes.summaryContainer}>
+          {lastData ? (
+            <>
+              {' '}
+              {structure.dateTimeField ? (
+                <Typography variant='body1' style={{}}>
+                  {get(lastData, 'issued')}
+                </Typography>
+              ) : null}
+              {structure.valueField ? (
                 <Typography
                   variant='body1'
                   style={{ fontSize: '1.5rem', color: '#c2185b' }}
@@ -172,14 +181,14 @@ export const ObservationHeartRateGraphView: React.FunctionComponent<{
                   {Number(get(lastData, 'value')).toFixed(0) || 'N/A'}
                   {get(lastData, 'unit')}
                 </Typography>
-              </>
-            ) : (
-              <Typography variant='h6' style={{}}>
-                N/A
-              </Typography>
-            )}
-          </div>
-        ) : null}
+              ) : null}
+            </>
+          ) : (
+            <Typography variant='h6' style={{}}>
+              N/A
+            </Typography>
+          )}
+        </div>
       </div>
       {/* </Paper> */}
     </>

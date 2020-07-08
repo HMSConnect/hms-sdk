@@ -44,6 +44,7 @@ import '../../github-markdown.css'
 import routes from '../../routes'
 import clsx from 'clsx'
 import WidgetManagerStructure from '@components/templates/widget-manager/WidgetManagerStructure'
+import TabPanel from '@components/base/Tabpanel'
 
 const md = MarkdownIt({ html: true })
 
@@ -195,7 +196,7 @@ const WidgetManager: IStatelessPage<{
       const selectedWidget = findWidget(query.widget)
       const newQueryParams = {
         ...initialQueryParams(selectedWidget),
-        isWaitForIframeLoaded: true,
+        // isWaitForIframeLoaded: true,
       }
       const newStructure = initialStructure(selectedWidget)
       const url = createURL(selectedWidget, null, newQueryParams)
@@ -666,22 +667,22 @@ const WidgetManager: IStatelessPage<{
   )
 }
 
-const TabPanel: React.FunctionComponent<{
-  value: any
-  index: number
-}> = ({ value, index, children }) => {
-  return (
-    <Typography
-      component='div'
-      role='tabpanel'
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </Typography>
-  )
-}
+// const TabPanel: React.FunctionComponent<{
+//   value: any
+//   index: number
+// }> = ({ value, index, children }) => {
+//   return (
+//     <Typography
+//       component='div'
+//       role='tabpanel'
+//       hidden={value !== index}
+//       id={`simple-tabpanel-${index}`}
+//       aria-labelledby={`simple-tab-${index}`}
+//     >
+//       {value === index && <Box p={3}>{children}</Box>}
+//     </Typography>
+//   )
+// }
 
 WidgetManager.getInitialProps = async ({ req, res, query }) => {
   return {

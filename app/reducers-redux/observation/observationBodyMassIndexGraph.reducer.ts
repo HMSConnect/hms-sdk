@@ -10,13 +10,13 @@ interface IObservationBodyMassIndexGraphAction {
 export interface IObservationBodyMassIndexGraphStructure {
   dateTimeField: boolean
   headerIconField: boolean
-  summaryField: boolean
+  valueField: boolean
 }
 
 export const initialObservationBodyMassIndexGraphStructure: IObservationBodyMassIndexGraphStructure = {
   dateTimeField: true,
   headerIconField: true,
-  summaryField: true,
+  valueField: true,
 }
 
 export const observationBodyMassIndexGraphInitialState: any = {

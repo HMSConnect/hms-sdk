@@ -163,16 +163,16 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
           />
           <Divider />
         </div>
-        {structure.summaryField ? (
-          <div className={classes.summaryContainer}>
-            {lastData ? (
-              <>
-                {' '}
-                {structure.dateTimeField ? (
-                  <Typography variant='body1' style={{}}>
-                    {lastData.issued}
-                  </Typography>
-                ) : null}
+        <div className={classes.summaryContainer}>
+          {lastData ? (
+            <>
+              {' '}
+              {structure.dateTimeField ? (
+                <Typography variant='body1' style={{}}>
+                  {lastData.issued}
+                </Typography>
+              ) : null}
+              {structure.valueField ? (
                 <Typography
                   variant='body1'
                   style={{ fontSize: '1.5rem', color: '#3d5afe' }}
@@ -180,14 +180,14 @@ export const ObservationBodyWeightGraphView: React.FunctionComponent<{
                   {lastData.value}
                   {lastData.unit}
                 </Typography>
-              </>
-            ) : (
-              <Typography variant='h6' style={{}}>
-                N/A
-              </Typography>
-            )}
-          </div>
-        ) : null}
+              ) : null}
+            </>
+          ) : (
+            <Typography variant='h6' style={{}}>
+              N/A
+            </Typography>
+          )}
+        </div>
       </div>
       {/* </Paper> */}
     </>

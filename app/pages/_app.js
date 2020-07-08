@@ -84,7 +84,7 @@ class AASApp extends App {
           <Head>
             <title>HMS Widget SDK</title>
           </Head>
-          <ThemeLayoutWithConnect defaultTheme='normal'>
+          <ThemeLayoutWithConnect>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             {isWaitForIframeLoaded ? (

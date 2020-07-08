@@ -10,13 +10,13 @@ interface IObservationBloodPressureGraphAction {
 export interface IObservationBloodPressureGraphStructure {
   dateTimeField: boolean
   headerIconField: boolean
-  summaryField: boolean
+  valueField: boolean
 }
 
 export const initialObservationBloodPressureGraphStructure: IObservationBloodPressureGraphStructure = {
   dateTimeField: true,
   headerIconField: true,
-  summaryField: true,
+  valueField: true,
 }
 
 export const observationBloodPressureGraphInitialState: any = {
