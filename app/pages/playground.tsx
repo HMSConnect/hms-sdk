@@ -12,15 +12,7 @@ function Playground() {
   return (
     <div>
       <h1>Example Playground</h1>
-      <BootstrapWrapper
-        dependencies={[
-          'patient',
-          'care_plan',
-          'allergy_intolerance',
-          'condition',
-          'claim',
-        ]}
-      >
+      <BootstrapWrapper dependencies={['patient']}>
         <div>
           <List />
         </div>
@@ -35,13 +27,14 @@ function List() {
     const patientService = HMSService.getService('patient') as AbstractService
     patientService
       .list({
-        id: '0debf275-d585-4897-a8eb-25726def1ed5',
+        hn:
+          'YzhEdWyHNbggHrfZpowcQ3-ndSs8gsQXMdkr2HNSFMYAJ-Zhzd7SkM8VtPGLwtrARSqFeM5tJkuPWA2pwYMxvtTMr5',
       })
       .then((result) => {
         setData(result)
       })
   }, [])
-  return <div>{JSON.stringify(data, null, 2)}</div>
+  return <pre>{JSON.stringify(data, null, 2)}</pre>
 }
 
 export default withAuthSync(Playground)

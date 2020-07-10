@@ -1,7 +1,7 @@
 {
   "patient": {
     "services": ["$PATIENT"],
-    "validators": ["$SFHIR_PATIENT_V1"]
+    "validators": ["$HMS_PATIENT_V2.4x", "$SFHIR_PATIENT_V1"]
   },
   "encounter": {
     "services": ["$ENCOUNTER"],

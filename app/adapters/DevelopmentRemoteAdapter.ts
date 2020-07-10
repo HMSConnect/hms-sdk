@@ -10,7 +10,7 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
   async setConfig(hms: any) {
     hms.SetConfig({
       endpoints: {
-        get_domain_resource: '/sandbox/sfhir/stu3',
+        get_domain_resource: '/sandbox/api/v2',
         get_version: '/sandbox/version',
       },
       host: this.host,
@@ -30,9 +30,13 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
     return hms
       .get(resource, headers, stringify(params))
       .then((response: any) => {
+        if (response.error) {
+          throw new Error(response.error)
+        }
+
         return {
-          schema: { version: 1.0, standard: 'SFHIR', resourceType: resource },
-          ...response,
+          ...response.data,
+          totalCount: response.totalCount ? response.totalCount : undefined,
         }
       })
   }

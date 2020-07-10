@@ -13,7 +13,7 @@ const environment = {
   },
   disableAuthen: false,
   auth: {
-    client_id: '',
+    client_id: 'U490lixNTl1kv20thVvjDGa0',
   },
 }
 
