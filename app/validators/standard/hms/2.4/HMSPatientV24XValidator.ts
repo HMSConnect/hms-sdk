@@ -1,6 +1,8 @@
 import IValidator from '@validators/IValidator'
 import get from 'lodash/get'
 import map from 'lodash/map'
+import last from 'lodash/last'
+import split from 'lodash/split'
 
 class HMSPatientV24XValidator implements IValidator {
   isValid(schema: any): boolean {
@@ -12,7 +14,8 @@ class HMSPatientV24XValidator implements IValidator {
   }
 
   parse(patient: any): any {
-    // console.log(patient)
+    // console.log("//////given///////");
+    // console.log(patient);
 
     const age = patient
       ? patient.birthDate
@@ -23,44 +26,23 @@ class HMSPatientV24XValidator implements IValidator {
         : 'Unknown'
       : 'Unknown'
     const identifier: any = {}
-
-    // identifier['id'] = { systemCode: 'ID', value: patient.id }
-    // patient.identifier.map((o: any, oIndex: number) => {
-    //   if (
-    //     o.hasOwnProperty('type') &&
-    //     o.type.hasOwnProperty('coding') &&
-    //     Array.isArray(o.type.coding) &&
-    //     o.type.coding.length > 0
-    //   ) {
-    //     if (o.value) {
-    //       identifier[o.type.coding[0].code.toLowerCase()] = {
-    //         systemCode: o.type.coding[0].code,
-    //         value: o.value ? o.value : 'Unknown',
-    //       }
-    //     }
-    //   } else {
-    //     const code = o.system.split('/').pop()
-    //     identifier[code] = {
-    //       systemCode: code,
-    //       value: o.value,
-    //     }
-    //   }
-    // })
-
     const communication = map(patient.communication, (com) =>
-      get(com, 'language.text'),
+      get(com, 'language'),
     )
+    const name = get(last(patient.name), 'text')
+    const prefix = get(last(patient.name), 'prefix')
+    const address = get(last(patient.address), 'text')
 
     const compileStandard = {
-      name: patient.name.text,
-      prefix: patient.name.prefix,
+      name: name,
+      prefix: prefix,
       age,
       gender: patient.gender,
-      address: [patient.address],
+      address: address,
       birthDate: patient.birthDate,
       communication,
       deceasedDateTime: patient.deceasedDateTime,
-      email: patient.email,
+      email: patient.email, // no data
       identifier,
       telecom: patient.telecom,
     }

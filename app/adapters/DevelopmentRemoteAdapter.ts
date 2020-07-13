@@ -2,6 +2,7 @@ import AuthService from '@services/AuthService'
 import { AxiosResponse } from 'axios'
 import { stringify } from 'qs'
 import AbstractAdapter from './AbstractAdapter'
+import _ from 'lodash'
 export default class DevelopmentRemoteAdapter extends AbstractAdapter {
   constructor(host: string) {
     super(host, 'dev_remote')
@@ -28,16 +29,38 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
     }
     const hms = AuthService.getHms()
     return hms
-      .get(resource, headers, stringify(params))
+      .get(resource, headers, this.toJson(params))
       .then((response: any) => {
         if (response.error) {
           throw new Error(response.error)
         }
-
         return {
-          ...response.data,
+          ...this.fromJson(response.data),
           totalCount: response.totalCount ? response.totalCount : undefined,
         }
       })
+  }
+
+  private toJson(params: any) {
+    const filter = params?.filter || {}
+    this.renameEntry(filter, 'patientId', 'hn')
+    this.renameEntry(filter, 'encounterId', 'en')
+    this.renameEntry(params, 'max', '_count')
+    if (params.filter) {
+      delete params['filter']
+    }
+    delete filter['code']
+    return stringify({ ...params, ...filter })
+  }
+  private fromJson(data: any) {
+    const response = data
+    this.renameEntry(response, 'hn', 'patientId')
+    return response
+  }
+  private renameEntry(object: any = {}, oldKey: string, newKey: string) {
+    if (object[oldKey]) {
+      object[newKey] = object[oldKey]
+      delete object[oldKey]
+    }
   }
 }
