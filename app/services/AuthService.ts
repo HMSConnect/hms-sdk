@@ -4,8 +4,7 @@ import cookie from 'js-cookie'
 import nextCookie from 'next-cookies'
 import routes from '../routes'
 
-const hmshealthapi = require('@hmsconnect/hmshealthapi')
-
+export type IAuthLoginCallback = (error: any, response: any) => void
 interface IAuthData {
   isAuthenticated: boolean
   token?: string
@@ -14,29 +13,25 @@ interface IAuthData {
   scope?: string
 }
 class AuthService {
-  hms: any
+  authChannel: BroadcastChannel | null = null
+
   defaultAdatper: IAdapter | null = null
   AUTH_ACCESS_TOKEN_KEY = 'hms_access_token'
   AUTH_REFRESH_TOKEN_KEY = 'hms_refresh_token'
   private authData: IAuthData = { isAuthenticated: false }
 
   constructor() {
-    this.hms = hmshealthapi()
+    if (typeof window !== 'undefined') {
+      this.authChannel = new BroadcastChannel('auth')
+    }
   }
 
   getAuthData() {
     return this.authData
   }
 
-  getHms() {
-    return this.hms
-  }
-
   setDefaultAdapter(adapter: IAdapter) {
     this.defaultAdatper = adapter
-    if (this.defaultAdatper.setConfig) {
-      this.defaultAdatper.setConfig(this.hms)
-    }
   }
 
   getToken = (ctx: any) => {
@@ -46,7 +41,7 @@ class AuthService {
     return token || cookies[this.AUTH_ACCESS_TOKEN_KEY]
   }
 
-  assignAuthDataIfApplicable = (token: string, refresh_token: string) => {
+  assignAuthDataIfApplicable = (token: string, refresh_token?: string) => {
     if (token) {
       this.assignAuthDataWithToken(token)
       if (this.authData.isAuthenticated) {
@@ -98,21 +93,20 @@ class AuthService {
 
   login = async (authData: any, successCallback?: any, errorCallBack?: any) => {
     try {
-      this.hms.Initial(
-        {
-          ...authData,
-          client_id: environment.auth.client_id,
-        },
-        (error: any, response: any) => {
+      if (this.defaultAdatper && this.defaultAdatper.login) {
+        this.defaultAdatper.login(authData, (error: any, response: any) => {
           if (error) {
             throw new Error(error)
           }
           this.handleLoginResult(response)
+          if(this.authChannel){
+            this.authChannel.postMessage({ message: 'LOGIN' })
+          }
           if (successCallback) {
             successCallback()
           }
-        },
-      )
+        })
+      }
     } catch (e) {
       console.info('error: ', e)
       if (errorCallBack) {
@@ -127,17 +121,16 @@ class AuthService {
     this.assignAuthDataIfApplicable(result.access_token, result.refresh_token)
   }
 
-  logout = (callback?: any) => {
+  logout = (callback?: any, isFormEvent = false) => {
     this.authData = { isAuthenticated: false }
     cookie.remove(this.AUTH_ACCESS_TOKEN_KEY)
-    // to support logging out from all windows
-    window.localStorage.setItem('logout', Date.now().toString())
     if (callback) {
       callback()
     } else {
       routes.Router.pushRoute('/login')
     }
   }
+
 }
 
 export default new AuthService()

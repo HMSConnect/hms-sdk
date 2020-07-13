@@ -1,21 +1,38 @@
-import AuthService from '@services/AuthService'
+import environment from '@environment'
+import AuthService, { IAuthLoginCallback } from '@services/AuthService'
 import { AxiosResponse } from 'axios'
 import { stringify } from 'qs'
 import AbstractAdapter from './AbstractAdapter'
 import _ from 'lodash'
+const hmshealthapi = require('@hmsconnect/hmshealthapi')
+
+interface IDevelopmentRemoteAuth {
+  username: string
+  password: string
+}
+
 export default class DevelopmentRemoteAdapter extends AbstractAdapter {
+  hms: any
   constructor(host: string) {
     super(host, 'dev_remote')
-  }
-
-  async setConfig(hms: any) {
-    hms.SetConfig({
+    this.hms = hmshealthapi()
+    this.hms.SetConfig({
       endpoints: {
         get_domain_resource: '/sandbox/api/v2',
         get_version: '/sandbox/version',
       },
       host: this.host,
     })
+  }
+
+  async login(authData: IDevelopmentRemoteAuth, callback: IAuthLoginCallback) {
+    this.hms.Initial(
+      {
+        ...authData,
+        client_id: environment.auth.client_id,
+      },
+      callback,
+    )
   }
 
   async doRequest(resource: string, params: any): Promise<AxiosResponse<any>> {
@@ -27,8 +44,7 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
     const headers = {
       Authorization: `Bearer ${authData.token}`,
     }
-    const hms = AuthService.getHms()
-    return hms
+    return this.hms
       .get(resource, headers, this.toJson(params))
       .then((response: any) => {
         if (response.error) {

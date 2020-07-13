@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import {
   Button,
   createStyles,
@@ -13,7 +11,11 @@ import {
 import RouteManager from '@routes/RouteManager'
 import AuthService from '@services/AuthService'
 import clsx from 'clsx'
+import * as _ from 'lodash'
+import { useRouter } from 'next/router'
+import * as React from 'react'
 import routes from '../../routes'
+
 // import test from '../../static/images'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,6 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Login: React.FunctionComponent<any> = () => {
   const classes = useStyles()
+  const router = useRouter()
 
   const [authData, setAuthData] = React.useState({
     password: '',
@@ -57,13 +60,13 @@ const Login: React.FunctionComponent<any> = () => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     await AuthService.login(authData, () => {
-      const path = RouteManager.getPath('/')
+      const path = RouteManager.getPath(_.get(router, 'query.backTo') || '/')
       routes.Router.pushRoute(path)
     })
   }
 
   const handleOnAuthDataChange = (type: string, value: string) => {
-    setAuthData(prev => ({
+    setAuthData((prev) => ({
       ...prev,
       [type]: value,
     }))
@@ -138,5 +141,7 @@ const Login: React.FunctionComponent<any> = () => {
     </div>
   )
 }
+
+
 
 export default Login
