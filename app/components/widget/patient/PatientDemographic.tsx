@@ -137,15 +137,7 @@ export const PatientDemographicView: React.FunctionComponent<{
             <Grid container>
               {_.get(structure, 'nameField') ? (
                 <Typography variant='h4' className={classes.nameTitle}>
-                  {_.isArray(_.get(info, 'name.prefix'))
-                    ? _.join(_.get(info, 'name.prefix'), ' ')
-                    : _.get(info, 'name.prefix')}{' '}
-                  {_.isArray(_.get(info, 'name.given'))
-                    ? _.join(_.get(info, 'name.given'), ' ')
-                    : _.get(info, 'name.given')}{' '}
-                  {_.isArray(_.get(info, 'name.family'))
-                    ? _.join(_.get(info, 'name.family'), ' ')
-                    : _.get(info, 'name.family')}
+                  {_.get(info, 'name')}
                 </Typography>
               ) : null}
             </Grid>
@@ -304,16 +296,7 @@ export const PatientDemographicView: React.FunctionComponent<{
                       variant='body1'
                       className={classes.contentText}
                     >
-                      {_.get(info, 'address')
-                        ? `${
-                            _.isArray(_.get(info, 'address[0].line'))
-                              ? _.join(_.get(info, 'address[0].line'), ' ')
-                              : _.get(info, 'address[0].line')
-                          } ${_.get(info, 'address[0].postalCode')} ${_.get(
-                            info,
-                            'address[0].city',
-                          )} ${_.get(info, 'address[0].country')}`
-                        : 'Unknow'}
+                      {_.get(info, 'address') ? info.address : 'Unknow'}
                     </Typography>
                   </Grid>
                 ) : null}

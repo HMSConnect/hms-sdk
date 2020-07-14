@@ -11,7 +11,11 @@ import MedicationRequestService from '@services/MedicationRequestService'
 import ObservationService from '@services/ObservationService'
 import PatientService from '@services/PatientService'
 import ProcedureService from '@services/ProcedureService'
+import HMSAllergyIntoleranceV24XValidator from '@validators/standard/hms/2.4/HMSAllergyIntoleranceV24XValidator'
+import HMSConditionV24XValidator from '@validators/standard/hms/2.4/HMSConditionV24XValidator'
+import HMSEncounterV24XValidator from '@validators/standard/hms/2.4/HMSEncounterV24XValidator'
 import HMSPatientV24XValidator from '@validators/standard/hms/2.4/HMSPatientV24XValidator'
+import HMSProcedureV24XValidator from '@validators/standard/hms/2.4/HMSProcedureV2.4XValidator'
 import SFHIRAllergyIntoleranceV1Validator from '@validators/standard/sfhir/SFHIRAllergyIntoleranceV1Validator'
 import SFHIRCarePlanV1Validator from '@validators/standard/sfhir/SFHIRCarePlanV1Validator'
 import SFHIRClaimV1Validator from '@validators/standard/sfhir/SFHIRClaimV1Validator'
@@ -35,9 +39,8 @@ import {
   conditionVerificationStatusOption,
   encounterStatusOption,
   immunizationStatusOption,
-  medicationRequestStatusOption
+  medicationRequestStatusOption,
 } from './patient'
-import HMSEncounterV24XValidator from '@validators/standard/hms/2.4/HMSEncounterV24XValidator'
 
 export interface IWidgetPatameter {
   type: 'text' | 'boolean' | 'number' | 'options'
@@ -92,9 +95,13 @@ export const validatorConfig = {
     clazz: SFHIRAllergyIntoleranceV1Validator,
     priority: 1,
   },
+  ['$HMS_ALLERGY_INTOLERANCE_V2.4x']: {
+    clazz: HMSAllergyIntoleranceV24XValidator,
+    priority: 1,
+  },
   ['$SFHIR_PATIENT_V1']: { clazz: SFHIRPatientV1Validator, priority: 1 },
-  ['$HMS_PATIENT_V2.4x']: { clazz: HMSPatientV24XValidator, priority: 1},
-  ['$HMS_ENCOUNTER_V2.4x']: { clazz: HMSEncounterV24XValidator, priority: 1},
+  ['$HMS_PATIENT_V2.4x']: { clazz: HMSPatientV24XValidator, priority: 1 },
+  ['$HMS_ENCOUNTER_V2.4x']: { clazz: HMSEncounterV24XValidator, priority: 1 },
   ['$SFHIR_CARE_PLAN_V1']: { clazz: SFHIRCarePlanV1Validator, priority: 2 },
   ['$SFHIR_DIAGNOSTIC_REPORT_V1']: {
     clazz: SFHIRDiagnosticReportV1Validator,
@@ -117,6 +124,10 @@ export const validatorConfig = {
     clazz: SFHIRClaimV1Validator,
     priority: 1,
   },
+  ['$HMS_CONDITION_V2.4x']: {
+    clazz: HMSConditionV24XValidator,
+    priority: 1,
+  },
   ['$SFHIR_CONDITION_V1']: {
     clazz: SFHIRConditionV1Validator,
     priority: 1,
@@ -131,6 +142,10 @@ export const validatorConfig = {
   },
   ['$SFHIR_PROCEDURE_V1']: {
     clazz: SFHIRProcedureV1Validator,
+    priority: 1,
+  },
+  ['$HMS_PROCEDURE_V2.4x']: {
+    clazz: HMSProcedureV24XValidator,
     priority: 1,
   },
   ['$SFHIR_MEDICATION_REQUEST_V1']: {

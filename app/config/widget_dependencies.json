@@ -13,7 +13,7 @@
   },
   "allergy_intolerance": {
     "services": ["$ALLERGY_INTOLERANCE"],
-    "validators": ["$SFHIR_ALLERGY_INTOLERANCE_V1"]
+    "validators": ["$HMS_ALLERGY_INTOLERANCE_V2.4x","$SFHIR_ALLERGY_INTOLERANCE_V1"]
   },
   "observation": {
     "services": ["$OBSERVATION"],
@@ -25,7 +25,7 @@
   },
   "condition": {
     "services": ["$CONDITION"],
-    "validators": ["$SFHIR_CONDITION_V1"]
+    "validators": ["$HMS_CONDITION_V2.4x","$SFHIR_CONDITION_V1"]
   },
   "imaging_study": {
     "services": ["$IMAGING_STUDY"],
@@ -37,7 +37,7 @@
   },
   "procedure": {
     "services": ["$PROCEDURE"],
-    "validators": ["$SFHIR_PROCEDURE_V1"]
+    "validators": ["$HMS_PROCEDURE_V2.4x","$SFHIR_PROCEDURE_V1"]
   },
   "medication_request": {
     "services": ["$MEDICATION_REQUEST"],
