@@ -45,7 +45,7 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
       Authorization: `Bearer ${authData.token}`,
     }
     return this.hms
-      .get(resource, headers, this.toJson(params))
+      .get(this.toSnakeCase(resource), headers, this.toJson(params))
       .then((response: any) => {
         if (response.error) {
           throw new Error(response.error)
@@ -78,5 +78,8 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
       object[newKey] = object[oldKey]
       delete object[oldKey]
     }
+  }
+  private toSnakeCase(text: string){
+    return _.snakeCase(text)
   }
 }
