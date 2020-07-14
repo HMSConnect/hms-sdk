@@ -37,6 +37,7 @@ import {
   immunizationStatusOption,
   medicationRequestStatusOption
 } from './patient'
+import HMSEncounterV24XValidator from '@validators/standard/hms/2.4/HMSEncounterV24XValidator'
 
 export interface IWidgetPatameter {
   type: 'text' | 'boolean' | 'number' | 'options'
@@ -93,7 +94,8 @@ export const validatorConfig = {
   },
   ['$SFHIR_PATIENT_V1']: { clazz: SFHIRPatientV1Validator, priority: 1 },
   ['$HMS_PATIENT_V2.4x']: { clazz: HMSPatientV24XValidator, priority: 1},
-  ['$SFHIR_CARE_PLAN_V1']: { clazz: SFHIRCarePlanV1Validator, priority: 1 },
+  ['$HMS_ENCOUNTER_V2.4x']: { clazz: HMSEncounterV24XValidator, priority: 1},
+  ['$SFHIR_CARE_PLAN_V1']: { clazz: SFHIRCarePlanV1Validator, priority: 2 },
   ['$SFHIR_DIAGNOSTIC_REPORT_V1']: {
     clazz: SFHIRDiagnosticReportV1Validator,
     priority: 1,
