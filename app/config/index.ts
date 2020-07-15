@@ -39,7 +39,7 @@ import {
 } from './patient'
 import HMSAllergyIntoleranceV24XValidator from '@validators/standard/hms/2.4/HMSAllergyIntoleranceV24XValidator'
 import HMSConditionV24XValidator from '@validators/standard/hms/2.4/HMSConditionV24XValidator'
-import HMSProcedureV24XValidator from '@validators/standard/hms/2.4/HMSProcedureV2.4XValidator'
+import HMSProcedureV24XValidator from '@validators/standard/hms/2.4/HMSProcedureV24XValidator'
 
 export interface IWidgetPatameter {
   type: 'text' | 'boolean' | 'number' | 'options'
