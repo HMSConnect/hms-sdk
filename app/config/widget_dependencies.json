@@ -5,7 +5,7 @@
   },
   "encounter": {
     "services": ["$ENCOUNTER"],
-    "validators": ["$SFHIR_ENCOUNTER_V1"]
+    "validators": ["$HMS_ENCOUNTER_V2.4x","$SFHIR_ENCOUNTER_V1"]
   },
   "diagnostic_report": {
     "services": ["$DIAGNOSTIC_REPORT"],
