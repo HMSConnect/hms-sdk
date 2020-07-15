@@ -45,6 +45,7 @@ class HMSPatientV24XValidator implements IValidator {
       email: patient.email, // no data
       identifier,
       telecom: patient.telecom,
+      id: get(patient, 'hn')
     }
     return compileStandard
   }

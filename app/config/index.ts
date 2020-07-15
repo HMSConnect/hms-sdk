@@ -12,6 +12,7 @@ import ObservationService from '@services/ObservationService'
 import PatientService from '@services/PatientService'
 import ProcedureService from '@services/ProcedureService'
 import HMSAllergyIntoleranceV24XValidator from '@validators/standard/hms/2.4/HMSAllergyIntoleranceV24XValidator'
+import HMSCarePlanV24XValidator from '@validators/standard/hms/2.4/HMSCarePlanV24XValidator'
 import HMSConditionV24XValidator from '@validators/standard/hms/2.4/HMSConditionV24XValidator'
 import HMSEncounterV24XValidator from '@validators/standard/hms/2.4/HMSEncounterV24XValidator'
 import HMSPatientV24XValidator from '@validators/standard/hms/2.4/HMSPatientV24XValidator'
@@ -41,6 +42,8 @@ import {
   immunizationStatusOption,
   medicationRequestStatusOption,
 } from './patient'
+import HMSPractitionerV24XValidator from '@validators/standard/hms/2.4/HMSPractitionerV24XValidator'
+import PractitionerService from '@services/PractitionerService'
 
 export interface IWidgetPatameter {
   type: 'text' | 'boolean' | 'number' | 'options'
@@ -88,6 +91,7 @@ export const serviceConfig = {
   ['$PROCEDURE']: { clazz: ProcedureService },
   ['$MEDICATION_REQUEST']: { clazz: MedicationRequestService },
   ['$CARE_PLAN']: { clazz: CarePlanService },
+  ['$PRACTITIONER']: { clazz: PractitionerService },
 }
 
 export const validatorConfig = {
@@ -102,7 +106,8 @@ export const validatorConfig = {
   ['$SFHIR_PATIENT_V1']: { clazz: SFHIRPatientV1Validator, priority: 1 },
   ['$HMS_PATIENT_V2.4x']: { clazz: HMSPatientV24XValidator, priority: 1 },
   ['$HMS_ENCOUNTER_V2.4x']: { clazz: HMSEncounterV24XValidator, priority: 1 },
-  ['$SFHIR_CARE_PLAN_V1']: { clazz: SFHIRCarePlanV1Validator, priority: 2 },
+  ['$SFHIR_CARE_PLAN_V1']: { clazz: SFHIRCarePlanV1Validator, priority: 1 },
+  ['$HMS_CARE_PLAN_V2.4x']: { clazz: HMSCarePlanV24XValidator, priority: 2 },
   ['$SFHIR_DIAGNOSTIC_REPORT_V1']: {
     clazz: SFHIRDiagnosticReportV1Validator,
     priority: 1,
@@ -119,6 +124,10 @@ export const validatorConfig = {
   ['$SFHIR_PRACTITIONER_V1']: {
     clazz: SFHIRPractitionerV1Validator,
     priority: 1,
+  },
+  ['$HMS_PRACTITIONER_V2.4X']: {
+    clazz: HMSPractitionerV24XValidator,
+    priority: 2,
   },
   ['$SFHIR_CLAIM_V1']: {
     clazz: SFHIRClaimV1Validator,
