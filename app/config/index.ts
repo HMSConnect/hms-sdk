@@ -16,7 +16,7 @@ import HMSCarePlanV24XValidator from '@validators/standard/hms/2.4/HMSCarePlanV2
 import HMSConditionV24XValidator from '@validators/standard/hms/2.4/HMSConditionV24XValidator'
 import HMSEncounterV24XValidator from '@validators/standard/hms/2.4/HMSEncounterV24XValidator'
 import HMSPatientV24XValidator from '@validators/standard/hms/2.4/HMSPatientV24XValidator'
-import HMSProcedureV24XValidator from '@validators/standard/hms/2.4/HMSProcedureV2.4XValidator'
+import HMSProcedureV24XValidator from '@validators/standard/hms/2.4/HMSProcedureV24XValidator'
 import SFHIRAllergyIntoleranceV1Validator from '@validators/standard/sfhir/SFHIRAllergyIntoleranceV1Validator'
 import SFHIRCarePlanV1Validator from '@validators/standard/sfhir/SFHIRCarePlanV1Validator'
 import SFHIRClaimV1Validator from '@validators/standard/sfhir/SFHIRClaimV1Validator'
