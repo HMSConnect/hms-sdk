@@ -68,10 +68,16 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
 
     this.renameField(newParams, 'max', '_count')
     this.renameField(newParams, 'page', '_page')
-    this.removeMultiField(newParams, ['offset', 'filter'])
+    this.removeMultiField(newParams, [
+      'filter',
+      'offset',
+      'withDiagnosis',
+      'withOrganization',
+      'withPractitioner',
+    ])
 
     this.sortFieldCoverter(newParams)
-    return stringify({ ...newParams, ...filter })
+    return stringify({ ...params, ...filter })
   }
   private fromJson(data: any) {
     const response = data

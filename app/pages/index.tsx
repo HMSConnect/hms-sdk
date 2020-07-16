@@ -15,6 +15,7 @@ import RouteManager from '@routes/RouteManager'
 import * as _ from 'lodash'
 import getConfig from 'next/config'
 import routes from '../routes'
+import { withAuthSync } from '@components/base/Auth'
 
 const config = getConfig()
 const staticFolder = _.get(config, 'publicRuntimeConfig.staticFolder')
@@ -34,7 +35,7 @@ function ListItemLink(props: any) {
   return <ListItem button component='a' {...props} />
 }
 
-export default function App() {
+export function App() {
   const classes = useStyles()
   const brandObjs = {
     favicon: {
@@ -89,3 +90,5 @@ export default function App() {
     </React.Fragment>
   )
 }
+
+export default withAuthSync(App)
