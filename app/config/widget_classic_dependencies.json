@@ -9,7 +9,7 @@
   },
   "diagnostic_report": {
     "services": ["$DIAGNOSTIC_REPORT"],
-    "validators": ["$SFHIR_DIAGNOSTIC_REPORT_V1", "$SFHIR_OBSERVATION_V1"]
+    "validators": []
   },
   "allergy_intolerance": {
     "services": ["$ALLERGY"],
@@ -17,42 +17,42 @@
   },
   "observation": {
     "services": ["$OBSERVATION"],
-    "validators": ["$SFHIR_OBSERVATION_V1"]
+    "validators": []
   },
   "claim": {
     "services": ["$CLAIM"],
-    "validators": ["$SFHIR_CLAIM_V1"]
+    "validators": []
   },
   "condition": {
     "services": ["$CONDITION"],
-    "validators": ["$HMS_CONDITION_V2.4x", "$SFHIR_CONDITION_V1"]
+    "validators": ["$HMS_CONDITION_V2.4x"]
   },
   "imaging_study": {
     "services": ["$IMAGING_STUDY"],
-    "validators": ["$SFHIR_IMAGING_STUDY_V1"]
+    "validators": []
   },
   "immunization": {
     "services": ["$IMMUNIZATION"],
-    "validators": ["$SFHIR_IMMUNIZATION_V1"]
+    "validators": []
   },
   "procedure": {
     "services": ["$PROCEDURE"],
-    "validators": ["$HMS_PROCEDURE_V2.4x", "$SFHIR_PROCEDURE_V1"]
+    "validators": ["$HMS_PROCEDURE_V2.4x"]
   },
   "medication_request": {
     "services": ["$MEDICATION_REQUEST"],
-    "validators": ["$SFHIR_MEDICATION_REQUEST_V1"]
+    "validators": []
   },
   "care_plan": {
     "services": ["$CARE_PLAN"],
-    "validators": ["$HMS_CARE_PLAN_V2.4x", "$SFHIR_CARE_PLAN_V1"]
+    "validators": ["$HMS_CARE_PLAN_V2.4x"]
   },
   "organization": {
     "services": [],
-    "validators": ["$SFHIR_ORGANIZATION_V1"]
+    "validators": []
   },
   "practitioner": {
     "services": ["$PRACTITIONER"],
-    "validators": ["$HMS_PRACTITIONER_V2.4X", "$SFHIR_PRACTITIONER_V1"]
+    "validators": ["$HMS_PRACTITIONER_V2.4X"]
   }
 }
