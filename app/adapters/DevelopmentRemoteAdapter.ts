@@ -62,9 +62,25 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
     this.renameEntry(filter, 'patientId', 'hn')
     this.renameEntry(filter, 'encounterId', 'en')
     this.renameEntry(params, 'max', '_count')
+    if (params.withDiagnosis) {
+      delete params['withDiagnosis']
+    }
+    if (params.withOrganization) {
+      delete params['withOrganization']
+    }
+    if (params.withPractitioner) {
+      delete params['withPractitioner']
+    }
+    if (params._count) {
+      delete params['_count']
+    }
+    if (filter.status) {
+      delete filter['status']
+    }
     if (params.filter) {
       delete params['filter']
     }
+    delete filter['status']
     delete filter['code']
     return stringify({ ...params, ...filter })
   }
@@ -79,7 +95,7 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
       delete object[oldKey]
     }
   }
-  private toSnakeCase(text: string){
+  private toSnakeCase(text: string) {
     return _.snakeCase(text)
   }
 }
