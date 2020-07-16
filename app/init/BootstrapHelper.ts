@@ -4,10 +4,11 @@ import ValidatorManager from '@validators/ValidatorManager'
 import * as _ from 'lodash'
 
 class BootstrapHelper {
-  registerServices(services: string[]) {
+  registerServices(services: string[], depName?: string) {
     for (const serviceName of services) {
       if (!HMSService.isExist(serviceName)) {
         const Service = _.get(serviceConfig, `${serviceName}.clazz`)
+        const resource = _.get(serviceConfig, `${serviceName}.resource`)
         if (Service) {
           if (serviceName.startsWith('$')) {
             // $ = default class config
@@ -15,10 +16,12 @@ class BootstrapHelper {
              * example
              * $ALLERGY_INTOLERANCE => allergy_intolerance
              */
-            HMSService.register(
-              _.chain(serviceName).replace('$', '').snakeCase().value(),
-              Service,
-            )
+            const name = _.chain(serviceName)
+              .replace('$', '')
+              .snakeCase()
+              .value()
+
+            HMSService.register(depName || name, Service, resource || name)
           } else {
             throw new Error(`not support service name ${serviceName}`)
             // TODO: maybe support create class from object

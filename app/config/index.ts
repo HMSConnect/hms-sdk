@@ -1,5 +1,6 @@
 import DevelopmentAdapter from '@adapters/DevelopmentAdapter'
 import AllergyIntoleranceService from '@services/AllergyIntoleranceService'
+import AllergyService from '@services/AllergyService'
 import CarePlanService from '@services/CarePlanService'
 import ClaimService from '@services/ClaimService'
 import ConditionService from '@services/ConditionService'
@@ -10,12 +11,14 @@ import ImmunizationService from '@services/ImmunizationService'
 import MedicationRequestService from '@services/MedicationRequestService'
 import ObservationService from '@services/ObservationService'
 import PatientService from '@services/PatientService'
+import PractitionerService from '@services/PractitionerService'
 import ProcedureService from '@services/ProcedureService'
-import HMSAllergyIntoleranceV24XValidator from '@validators/standard/hms/2.4/HMSAllergyIntoleranceV24XValidator'
+import HMSAllergyV24XValidator from '@validators/standard/hms/2.4/HMSAllergyV24XValidator'
 import HMSCarePlanV24XValidator from '@validators/standard/hms/2.4/HMSCarePlanV24XValidator'
 import HMSConditionV24XValidator from '@validators/standard/hms/2.4/HMSConditionV24XValidator'
 import HMSEncounterV24XValidator from '@validators/standard/hms/2.4/HMSEncounterV24XValidator'
 import HMSPatientV24XValidator from '@validators/standard/hms/2.4/HMSPatientV24XValidator'
+import HMSPractitionerV24XValidator from '@validators/standard/hms/2.4/HMSPractitionerV24XValidator'
 import HMSProcedureV24XValidator from '@validators/standard/hms/2.4/HMSProcedureV24XValidator'
 import SFHIRAllergyIntoleranceV1Validator from '@validators/standard/sfhir/SFHIRAllergyIntoleranceV1Validator'
 import SFHIRCarePlanV1Validator from '@validators/standard/sfhir/SFHIRCarePlanV1Validator'
@@ -42,8 +45,6 @@ import {
   immunizationStatusOption,
   medicationRequestStatusOption,
 } from './patient'
-import HMSPractitionerV24XValidator from '@validators/standard/hms/2.4/HMSPractitionerV24XValidator'
-import PractitionerService from '@services/PractitionerService'
 
 export interface IWidgetPatameter {
   type: 'text' | 'boolean' | 'number' | 'options'
@@ -92,6 +93,8 @@ export const serviceConfig = {
   ['$MEDICATION_REQUEST']: { clazz: MedicationRequestService },
   ['$CARE_PLAN']: { clazz: CarePlanService },
   ['$PRACTITIONER']: { clazz: PractitionerService },
+
+  ['$ALLERGY']: { clazz: AllergyService },
 }
 
 export const validatorConfig = {
@@ -99,10 +102,7 @@ export const validatorConfig = {
     clazz: SFHIRAllergyIntoleranceV1Validator,
     priority: 1,
   },
-  ['$HMS_ALLERGY_INTOLERANCE_V2.4x']: {
-    clazz: HMSAllergyIntoleranceV24XValidator,
-    priority: 1,
-  },
+  ['$HMS_ALLERGY_V2.4x']: { clazz: HMSAllergyV24XValidator, priority: 1 },
   ['$SFHIR_PATIENT_V1']: { clazz: SFHIRPatientV1Validator, priority: 1 },
   ['$HMS_PATIENT_V2.4x']: { clazz: HMSPatientV24XValidator, priority: 1 },
   ['$HMS_ENCOUNTER_V2.4x']: { clazz: HMSEncounterV24XValidator, priority: 1 },

@@ -1,9 +1,9 @@
 import environment from '@environment'
 import AuthService, { IAuthLoginCallback } from '@services/AuthService'
 import { AxiosResponse } from 'axios'
+import _ from 'lodash'
 import { stringify } from 'qs'
 import AbstractAdapter from './AbstractAdapter'
-import _ from 'lodash'
 const hmshealthapi = require('@hmsconnect/hmshealthapi')
 
 interface IDevelopmentRemoteAuth {
@@ -58,28 +58,70 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
   }
 
   private toJson(params: any) {
-    const filter = params?.filter || {}
-    this.renameEntry(filter, 'patientId', 'hn')
-    this.renameEntry(filter, 'encounterId', 'en')
-    this.renameEntry(params, 'max', '_count')
-    if (params.filter) {
-      delete params['filter']
-    }
-    delete filter['code']
-    return stringify({ ...params, ...filter })
+    const newParams = _.cloneDeep(params)
+    const filter = newParams?.filter || {}
+    this.filterFieldConverter(filter)
+    this.renameField(filter, 'patientId', 'hn')
+    this.renameField(filter, 'encounterId', 'en')
+    this.renameField(filter, 'assertedDate', 'onsetDatetime') // allergy
+    this.removeField(filter, 'code')
+
+    this.renameField(newParams, 'max', '_count')
+    this.renameField(newParams, 'page', '_page')
+    this.removeMultiField(newParams, ['offset', 'filter'])
+
+    this.sortFieldCoverter(newParams)
+    return stringify({ ...newParams, ...filter })
   }
   private fromJson(data: any) {
     const response = data
-    this.renameEntry(response, 'hn', 'patientId')
+    this.renameField(response, 'hn', 'patientId')
     return response
   }
-  private renameEntry(object: any = {}, oldKey: string, newKey: string) {
-    if (object[oldKey]) {
-      object[newKey] = object[oldKey]
-      delete object[oldKey]
+
+  private renameField(field: any = {}, oldKey: string, newKey: string) {
+    if (this.isExistField(field, oldKey)) {
+      field[newKey] = field[oldKey]
+      delete field[oldKey]
     }
   }
-  private toSnakeCase(text: string){
+
+  private removeField(field: any = {}, fieldKey: string) {
+    delete field[fieldKey]
+  }
+
+  private removeMultiField(filed: any = {}, fieldKeys: string[]) {
+    for (const fieldKey of fieldKeys) {
+      this.removeField(filed, fieldKey)
+    }
+  }
+
+  private filterFieldConverter(filter: any = {}) {
+    for (const [fieldKey, value] of Object.entries(filter)) {
+      const [fieldName, filterField] = _.split(fieldKey, '_')
+      if (filterField) {
+        filter[fieldName] = value ? filterField + value : value
+        this.removeField(filter, fieldKey)
+      }
+    }
+  }
+
+  private sortFieldCoverter(field: any = {}) {
+    if (
+      this.isExistField(field, 'sort') &&
+      this.isExistField(field?.sort, 'orderBy')
+    ) {
+      const pipe = field.sort?.order === 'desc' ? '-' : ''
+      field._sort = `${pipe}${field?.sort?.orderBy}`
+      this.removeField(field, 'sort')
+    }
+  }
+
+  private isExistField(field: any = {}, fieldKey: string) {
+    return !(field[fieldKey] === null || field[fieldKey] === undefined)
+  }
+
+  private toSnakeCase(text: string) {
     return _.snakeCase(text)
   }
 }
