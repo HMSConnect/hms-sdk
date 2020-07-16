@@ -77,7 +77,7 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
     ])
 
     this.sortFieldCoverter(newParams)
-    return stringify({ ...params, ...filter })
+    return stringify({ ...newParams, ...filter })
   }
   private fromJson(data: any) {
     const response = data
