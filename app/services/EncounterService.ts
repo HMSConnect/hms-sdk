@@ -59,13 +59,28 @@ class EncounterService extends AbstractService {
       const participant = await practitionerService.list({
         employeeId,
       })
-      const displayNames: any = []
-      console.log(participant)
+      const displayParticipants: any = []
       _.map(participant.data, (participantItem) => {
-        displayNames.push({ name: [{ given: [participantItem.displayName] }] })
+        displayParticipants.push({
+          name: [{ given: [participantItem.displayName] }],
+        })
       })
-      // console.log( _.get(_.last(participant.data),"displayName"));
-      data.participant = displayNames
+      data.participant = displayParticipants
+    }
+    if (params.withDiagnosis) {
+      const diagnosisService = HMSService.getService(
+        'diagnosis',
+      ) as AbstractService
+      const diagnosis = await diagnosisService.list({
+        en: data.id,
+      })
+      const displayDiagnosis: any = []
+      _.map(diagnosis.data, (diagnosisItem) => {
+        displayDiagnosis.push({
+          codeText: _.get(_.last(diagnosisItem.code), 'display'),
+        })
+      })
+      data.diagnosis = displayDiagnosis
     }
     return data
   }

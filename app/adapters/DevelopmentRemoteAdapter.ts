@@ -75,7 +75,7 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
       'withOrganization',
       'withPractitioner',
     ])
-
+    delete filter["status"]
     this.sortFieldCoverter(newParams)
     return stringify({ ...newParams, ...filter })
   }

@@ -45,6 +45,8 @@ import {
   immunizationStatusOption,
   medicationRequestStatusOption,
 } from './patient'
+import DiagnosisService from '@services/DiagnosisService'
+import HMSDiagnosisV24XValidator from '@validators/standard/hms/2.4/HMSDiagnosisV24XValidator'
 
 export interface IWidgetPatameter {
   type: 'text' | 'boolean' | 'number' | 'options'
@@ -95,6 +97,7 @@ export const serviceConfig = {
   ['$PRACTITIONER']: { clazz: PractitionerService },
 
   ['$ALLERGY']: { clazz: AllergyService },
+  ['$DIAGNOSIS']: { clazz: DiagnosisService },
 }
 
 export const validatorConfig = {
@@ -108,6 +111,7 @@ export const validatorConfig = {
   ['$HMS_ENCOUNTER_V2.4x']: { clazz: HMSEncounterV24XValidator, priority: 1 },
   ['$SFHIR_CARE_PLAN_V1']: { clazz: SFHIRCarePlanV1Validator, priority: 1 },
   ['$HMS_CARE_PLAN_V2.4x']: { clazz: HMSCarePlanV24XValidator, priority: 2 },
+  ['$HMS_DIAGNOSIS_V2.4x']: { clazz: HMSDiagnosisV24XValidator, priority: 1 },
   ['$SFHIR_DIAGNOSTIC_REPORT_V1']: {
     clazz: SFHIRDiagnosticReportV1Validator,
     priority: 1,

@@ -20,6 +20,7 @@ export type DependencyType =
   | 'care_plan'
   | 'organization'
   | 'practitioner'
+  | 'diagnosis'
 
 type DependencyMode = 'sfhir' | 'classic'
 

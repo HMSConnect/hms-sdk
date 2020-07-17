@@ -15,6 +15,10 @@
     "services": ["$ALLERGY"],
     "validators": ["$HMS_ALLERGY_V2.4x"]
   },
+  "diagnosis": {
+    "services": ["$DIAGNOSIS"],
+    "validators": ["$HMS_DIAGNOSIS_V2.4x"]
+  },
   "observation": {
     "services": ["$OBSERVATION"],
     "validators": ["$SFHIR_OBSERVATION_V1"]
