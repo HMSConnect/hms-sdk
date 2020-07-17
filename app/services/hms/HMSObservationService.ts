@@ -35,12 +35,23 @@ export default class HMSObservationService extends ObservationService {
       'laboratory',
     ) as HMSLaboratoryService
     const mapParam = this.mapParam(params)
-    const vitalSignResult = await vitalSignService.list(mapParam)
-    const labResult = await labService.list(mapParam)
+    const categoryCode = _.get(params, 'filter.categoryCode')
+    let results = []
+    if (categoryCode === 'laboratory') {
+      const labResult = await labService.list({})
+      results = labResult.data
+    } else if (categoryCode === 'vital-sign') {
+      const vitalSignResult = await vitalSignService.list(mapParam)
+      results = vitalSignResult.data
+    } else {
+      const vitalSignResult = await vitalSignService.list(mapParam)
+      const labResult = await labService.list(mapParam)
+      results = _.concat(labResult.data, vitalSignResult.data)
+    }
 
     return {
-      data: _.concat(labResult.data, vitalSignResult.data),
-      total: labResult.data.length + vitalSignResult.data.length,
+      data: results,
+      total: results.length,
     }
   }
 
