@@ -4,8 +4,12 @@ import AllergyService from '@services/AllergyService'
 import CarePlanService from '@services/CarePlanService'
 import ClaimService from '@services/ClaimService'
 import ConditionService from '@services/ConditionService'
+import DiagnosisService from '@services/DiagnosisService'
 import DiagnosticReportService from '@services/DiagnosticReportService'
 import EncounterService from '@services/EncounterService'
+import HMSLaboratoryService from '@services/hms/HMSLaboratoryService'
+import HMSObservationService from '@services/hms/HMSObservationService'
+import HMSVitalSignService from '@services/hms/HMSVitalSignService'
 import ImagingStudyService from '@services/ImagingStudyService'
 import ImmunizationService from '@services/ImmunizationService'
 import MedicationRequestService from '@services/MedicationRequestService'
@@ -16,10 +20,13 @@ import ProcedureService from '@services/ProcedureService'
 import HMSAllergyV24XValidator from '@validators/standard/hms/2.4/HMSAllergyV24XValidator'
 import HMSCarePlanV24XValidator from '@validators/standard/hms/2.4/HMSCarePlanV24XValidator'
 import HMSConditionV24XValidator from '@validators/standard/hms/2.4/HMSConditionV24XValidator'
+import HMSDiagnosisV24XValidator from '@validators/standard/hms/2.4/HMSDiagnosisV24XValidator'
 import HMSEncounterV24XValidator from '@validators/standard/hms/2.4/HMSEncounterV24XValidator'
+import HMSLaboratoryV24XValidator from '@validators/standard/hms/2.4/HMSLaboratoryV24XValidator'
 import HMSPatientV24XValidator from '@validators/standard/hms/2.4/HMSPatientV24XValidator'
 import HMSPractitionerV24XValidator from '@validators/standard/hms/2.4/HMSPractitionerV24XValidator'
 import HMSProcedureV24XValidator from '@validators/standard/hms/2.4/HMSProcedureV24XValidator'
+import HMSVitalSignV24XValidator from '@validators/standard/hms/2.4/HMSVitalSignV24XValidator'
 import SFHIRAllergyIntoleranceV1Validator from '@validators/standard/sfhir/SFHIRAllergyIntoleranceV1Validator'
 import SFHIRCarePlanV1Validator from '@validators/standard/sfhir/SFHIRCarePlanV1Validator'
 import SFHIRClaimV1Validator from '@validators/standard/sfhir/SFHIRClaimV1Validator'
@@ -45,8 +52,6 @@ import {
   immunizationStatusOption,
   medicationRequestStatusOption,
 } from './patient'
-import DiagnosisService from '@services/DiagnosisService'
-import HMSDiagnosisV24XValidator from '@validators/standard/hms/2.4/HMSDiagnosisV24XValidator'
 
 export interface IWidgetPatameter {
   type: 'text' | 'boolean' | 'number' | 'options'
@@ -86,6 +91,7 @@ export const serviceConfig = {
   ['$DIAGNOSTIC_REPORT']: { clazz: DiagnosticReportService },
   ['$ENCOUNTER']: { clazz: EncounterService },
   ['$PATIENT']: { clazz: PatientService },
+  ['$HMS_OBSERVATION']: { clazz: HMSObservationService },
   ['$OBSERVATION']: { clazz: ObservationService },
   ['$CLAIM']: { clazz: ClaimService },
   ['$CONDITION']: { clazz: ConditionService },
@@ -98,9 +104,13 @@ export const serviceConfig = {
 
   ['$ALLERGY']: { clazz: AllergyService },
   ['$DIAGNOSIS']: { clazz: DiagnosisService },
+  ['$HMS_VITAL_SIGN']: { clazz: HMSVitalSignService },
+  ['$HMS_LABORATORY']: { clazz: HMSLaboratoryService },
 }
 
 export const validatorConfig = {
+  ['$HMS_VITAL_SIGN_V2.4x']: { clazz: HMSVitalSignV24XValidator, priority: 2 },
+  ['$HMS_LABORATORY_V2.4x']: { clazz: HMSLaboratoryV24XValidator, priority: 2 },
   ['$SFHIR_ALLERGY_INTOLERANCE_V1']: {
     clazz: SFHIRAllergyIntoleranceV1Validator,
     priority: 1,

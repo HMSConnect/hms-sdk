@@ -36,7 +36,7 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
   }
 
   async doRequest(resource: string, params: any): Promise<AxiosResponse<any>> {
-    // console.info(`requesting for ${resource} with params = `, params)
+    console.info(`requesting for ${resource} with params = `, params)
     const authData = AuthService.getAuthData()
     if (!authData.isAuthenticated) {
       return Promise.reject(new Error('not auth'))
@@ -52,7 +52,7 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
         }
         return {
           ...this.fromJson(response.data),
-          totalCount: response.totalCount ? response.totalCount : undefined,
+          totalCount: response.total ? response.total : 0,
         }
       })
   }
@@ -73,6 +73,7 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
       'withDiagnosis',
       'withOrganization',
       'withPractitioner',
+      '_lasted'
     ])
     delete filter["status"]
     this.sortFieldCoverter(newParams)

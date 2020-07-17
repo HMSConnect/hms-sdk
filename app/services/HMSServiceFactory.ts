@@ -16,7 +16,8 @@ class HMSServiceFactory {
   isExist(name: string) {
     return !_.isUndefined(this.registry.get(name))
   }
-  getService(name: DependencyType, adapter?: IAdapter): IService | undefined {
+  getService(name: string, adapter?: IAdapter): IService | undefined {
+  // getService(name: DependencyType, adapter?: IAdapter): IService | undefined {
     let instance = this.instances.get(name)
     if (!instance) {
       const serviceCreator = this.registry.get(name)

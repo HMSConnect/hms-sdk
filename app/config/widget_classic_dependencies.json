@@ -20,7 +20,7 @@
     "validators": ["$HMS_DIAGNOSIS_V2.4x"]
   },
   "observation": {
-    "services": ["$OBSERVATION"],
+    "services": ["$HMS_OBSERVATION"],
     "validators": []
   },
   "claim": {
@@ -58,5 +58,13 @@
   "practitioner": {
     "services": ["$PRACTITIONER"],
     "validators": ["$HMS_PRACTITIONER_V2.4X"]
+  },
+  "vital_sign": {
+    "services": ["$HMS_VITAL_SIGN"],
+    "validators": ["$HMS_VITAL_SIGN_V2.4x"]
+  },
+  "laboratory": {
+    "services": ["$HMS_LABORATORY"],
+    "validators": ["$HMS_LABORATORY_V2.4x"]
   }
 }
