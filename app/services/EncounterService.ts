@@ -65,7 +65,8 @@ class EncounterService extends AbstractService {
           name: [{ given: [participantItem.displayName] }],
         })
       })
-      data.participant = displayParticipants
+
+      data.participant = participant.data
     }
     if (params.withDiagnosis) {
       const diagnosisService = HMSService.getService(
@@ -74,13 +75,7 @@ class EncounterService extends AbstractService {
       const diagnosis = await diagnosisService.list({
         en: data.id,
       })
-      const displayDiagnosis: any = []
-      _.map(diagnosis.data, (diagnosisItem) => {
-        displayDiagnosis.push({
-          codeText: _.get(_.last(diagnosisItem.code), 'display'),
-        })
-      })
-      data.diagnosis = displayDiagnosis
+      data.diagnosis = diagnosis.data
     }
     return data
   }

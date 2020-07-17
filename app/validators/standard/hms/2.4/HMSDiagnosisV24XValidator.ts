@@ -2,6 +2,7 @@ import environment from '@environment'
 import IValidator from '@validators/IValidator'
 import { get, last, snakeCase } from 'lodash'
 import moment from 'moment'
+import * as _ from 'lodash'
 
 class HMSDiagnosisV24XValidator implements IValidator {
   isValid(schema: any): boolean {
@@ -13,7 +14,8 @@ class HMSDiagnosisV24XValidator implements IValidator {
   }
 
   parse(data: any): any {
-    return data
+    const codeText = _.get(_.last(data.code), 'display')
+    return { ...data, codeText }
   }
 }
 

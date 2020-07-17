@@ -11,9 +11,8 @@ class HMSPractitionerV24XValidator implements IValidator {
   }
 
   parse(practitioner: any): any {
-    console.log('practitioner')
     return {
-      name: _.get(_.last(practitioner.name), 'text'),
+      name: [{ given: [_.get(_.last(practitioner.name), 'text')] }],
       displayName: _.get(_.last(practitioner.name), 'text'),
       employeeId: _.get(practitioner, 'employeeId'),
       active: _.get(practitioner, 'active'),
