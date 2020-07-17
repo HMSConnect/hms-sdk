@@ -22,7 +22,7 @@ export type DependencyType =
   | 'practitioner'
   | 'diagnosis'
 
-type DependencyMode = 'sfhir' | 'classic'
+export type DependencyMode = 'sfhir' | 'classic'
 
 const BootstrapWrapper: React.FunctionComponent<{
   dependencies: DependencyType[]
@@ -31,6 +31,7 @@ const BootstrapWrapper: React.FunctionComponent<{
 }> = ({ dependencies, mode = 'sfhir', children }) => {
   const [isLoading, setIsLoading] = React.useState(true)
   React.useEffect(() => {
+    console.info('mode=', mode)
     for (const dependencyName of dependencies) {
       const dependency =
         mode === 'sfhir'

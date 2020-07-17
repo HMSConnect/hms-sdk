@@ -1,8 +1,7 @@
 import IValidator from '@validators/IValidator'
 import get from 'lodash/get'
-import map from 'lodash/map'
 import last from 'lodash/last'
-import split from 'lodash/split'
+import map from 'lodash/map'
 
 class HMSPatientV24XValidator implements IValidator {
   isValid(schema: any): boolean {
@@ -34,18 +33,18 @@ class HMSPatientV24XValidator implements IValidator {
     const address = get(last(patient.address), 'text')
 
     const compileStandard = {
-      name: name,
-      prefix: prefix,
+      address,
       age,
-      gender: patient.gender,
-      address: address,
       birthDate: patient.birthDate,
       communication,
       deceasedDateTime: patient.deceasedDateTime,
       email: patient.email, // no data
+      gender: patient.gender,
+      id: get(patient, 'hn'),
       identifier,
+      name,
+      prefix,
       telecom: patient.telecom,
-      id: get(patient, 'hn')
     }
     return compileStandard
   }

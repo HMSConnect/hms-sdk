@@ -64,7 +64,6 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
     this.renameField(filter, 'patientId', 'hn')
     this.renameField(filter, 'encounterId', 'en')
     this.renameField(filter, 'assertedDate', 'onsetDatetime') // allergy
-    this.removeField(filter, 'code')
 
     this.renameField(newParams, 'max', '_count')
     this.renameField(newParams, 'page', '_page')
@@ -77,8 +76,14 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
     ])
     delete filter["status"]
     this.sortFieldCoverter(newParams)
-    return stringify({ ...newParams, ...filter })
+    const result = { ...newParams, ...filter }
+    this.removeAllIfNotExist(result, {
+      exceptFields: ['onsetDatetime'],
+    })
+
+    return stringify(result)
   }
+  
   private fromJson(data: any) {
     const response = data
     this.renameField(response, 'hn', 'patientId')
@@ -96,9 +101,9 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
     delete field[fieldKey]
   }
 
-  private removeMultiField(filed: any = {}, fieldKeys: string[]) {
+  private removeMultiField(field: any = {}, fieldKeys: string[]) {
     for (const fieldKey of fieldKeys) {
-      this.removeField(filed, fieldKey)
+      this.removeField(field, fieldKey)
     }
   }
 
@@ -124,10 +129,30 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
   }
 
   private isExistField(field: any = {}, fieldKey: string) {
-    return !(field[fieldKey] === null || field[fieldKey] === undefined)
+    return !(
+      field[fieldKey] === null ||
+      field[fieldKey] === undefined ||
+      field[fieldKey] === ''
+    )
   }
 
   private toSnakeCase(text: string) {
     return _.snakeCase(text)
+  }
+
+  private removeAllIfNotExist(field: any = {}, option: any) {
+    for (const [fieldKey, value] of Object.entries(field)) {
+      if (
+        !this.isExistField(field, fieldKey) &&
+        !_.includes(option.exceptFields || [], fieldKey)
+      ) {
+        this.removeField(field, fieldKey)
+      }
+
+      // specific case
+      if (fieldKey === 'gender' && value === 'all') {
+        this.removeField(field, fieldKey)
+      }
+    }
   }
 }
