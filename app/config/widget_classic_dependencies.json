@@ -28,8 +28,8 @@
     "validators": []
   },
   "condition": {
-    "services": ["$CONDITION"],
-    "validators": ["$HMS_CONDITION_V2.4x"]
+    "services": ["$DIAGNOSIS"],
+    "validators": ["$HMS_DIAGNOSIS_V2.4x"]
   },
   "imaging_study": {
     "services": ["$IMAGING_STUDY"],
