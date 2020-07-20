@@ -38,13 +38,23 @@ export default class HMSObservationService extends ObservationService {
     const categoryCode = _.get(params, 'filter.categoryCode')
     let results = []
     if (categoryCode === 'laboratory') {
-      const labResult = await labService.list({})
+      const labResult = await labService.list(mapParam)
       results = labResult.data
     } else if (categoryCode === 'vital-sign') {
       const vitalSignResult = await vitalSignService.list(mapParam)
       results = vitalSignResult.data
     } else {
       const vitalSignResult = await vitalSignService.list(mapParam)
+      // const vitalSignResult = await vitalSignService.list({
+      //   max: 100,
+      // })
+      // const vitalSignResult = await vitalSignService.list({
+      //   hn:
+      //     'aDk9A9tYw7o2uxkyMJpKBc-ndSs8gsQXMdkr2HNSFMYAJ-Zhzd7SkM8VtPGLwtrARSqFfeBvYyZFKdif4aDMDjf68i',
+      //   en:
+      //     'OaDk9A9tYw7o2uxkyMJpKBc-ndSs8gsQXMdkr2HNSFMYAJ-GbxTRfc3cfWqS83nDPzqfhWKFRhSQkhQpvim6aVxYBfD',
+      //   max: 40,
+      // })
       const labResult = await labService.list(mapParam)
       results = _.concat(labResult.data, vitalSignResult.data)
     }

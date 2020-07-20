@@ -4,6 +4,7 @@ import HMSVitalSignDataManager from '@data-managers/hms/HMSVitalSignDataManager'
 import AbstractService from '@services/AbstractService'
 import ValidatorManager from '@validators/ValidatorManager'
 import * as _ from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 
 const observationListCodeToList = [
   { code: '55284-4', value: 'Systolic BP,Diastolic BP' },
@@ -24,8 +25,9 @@ export default class HMSVitalSignService extends AbstractService {
     // console.info(`[service] loading resource list`, params)
     const newMapParam = this.mapParam(params)
     const splitName = _.split(_.get(newMapParam, 'filter.name'), ',')
-    if (splitName.length > 0) {
-      let result: any[] = []
+    if (splitName.length > 1) {
+      let data: any[] = []
+      let resultWithoutData
       for (const name of splitName) {
         const newResult = await this.dataManager.list({
           ...newMapParam,
@@ -34,12 +36,57 @@ export default class HMSVitalSignService extends AbstractService {
             name,
           },
         })
-        result = _.concat(result, this.validator(newResult).data)
+        if (!resultWithoutData) {
+          resultWithoutData = _.omit(newResult, 'data')
+        }
+        data = _.concat(data, newResult.data)
       }
-      return { data: result }
+      const resultWithAllData = {
+        ...resultWithoutData,
+        data,
+      }
+      const newResultWithComponentData = this.groupBpValue(resultWithAllData)
+      return this.validator(newResultWithComponentData)
     } else {
       const result = await this.dataManager.list(newMapParam)
-      return this.validator(result)
+      const newResultWithComponentData = this.groupBpValue(result)
+      return this.validator(newResultWithComponentData)
+    }
+  }
+
+  private groupBpValue(result: any) {
+    const dataWithGroupByHn = _.groupBy(result.data, 'hn')
+    const data = _.map(dataWithGroupByHn, (value, key) => {
+      return _.reduce(
+        value,
+        (acc: any[], v, k) => {
+          if (_.includes(v.name, 'BP')) {
+            let selectedBpObject = _.find(
+              acc,
+              (acValue: any) => acValue.name === 'BP',
+            )
+            if (!selectedBpObject) {
+              selectedBpObject = {
+                component: [],
+                issued: v.issued,
+                name: 'BP',
+                unit: v.unit,
+              }
+              acc.push(selectedBpObject)
+            }
+            selectedBpObject.component.push(v)
+          } else {
+            acc.push(v)
+          }
+          return acc
+        },
+        [],
+      )
+    })
+
+    return {
+      ...result,
+      data: _.flatten(data),
     }
   }
 
