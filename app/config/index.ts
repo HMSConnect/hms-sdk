@@ -89,27 +89,25 @@ export interface IWidgetChild {
 
 export const serviceConfig = {
   ['$ALLERGY_INTOLERANCE']: { clazz: AllergyIntoleranceService },
-  ['$DIAGNOSTIC_REPORT']: { clazz: DiagnosticReportService },
-  ['$ENCOUNTER']: { clazz: EncounterService },
-  ['$PATIENT']: { clazz: PatientService },
-  ['$HMS_OBSERVATION']: { clazz: HMSObservationService },
-  ['$OBSERVATION']: { clazz: ObservationService },
+  ['$ALLERGY']: { clazz: AllergyService },
+  ['$CARE_PLAN']: { clazz: CarePlanService },
   ['$CLAIM']: { clazz: ClaimService },
   ['$CONDITION']: { clazz: ConditionService },
+  ['$DIAGNOSIS']: { clazz: DiagnosisService },
+  ['$DIAGNOSTIC_REPORT']: { clazz: DiagnosticReportService },
+  ['$ENCOUNTER']: { clazz: EncounterService },
+  ['$HMS_CARE_PLAN']: { clazz: CarePlanService, resource: 'careplan' },
+  ['$HMS_LABORATORY']: { clazz: HMSLaboratoryService },
+  ['$HMS_MEDICATION_DISPENSE']: { clazz: MedicationRequestService, resource: 'medicationdispense'},
+  ['$HMS_OBSERVATION']: { clazz: HMSObservationService },
+  ['$HMS_VITAL_SIGN']: { clazz: HMSVitalSignService },
   ['$IMAGING_STUDY']: { clazz: ImagingStudyService },
   ['$IMMUNIZATION']: { clazz: ImmunizationService },
-  ['$PROCEDURE']: { clazz: ProcedureService },
-  ['$HMS_MEDICATION_DISPENSE']: { clazz: MedicationRequestService, resource: 'medicationdispense'},
   ['$MEDICATION_REQUEST']: { clazz: MedicationRequestService },
-  ['$CARE_PLAN']: { clazz: CarePlanService },
+  ['$OBSERVATION']: { clazz: ObservationService },
+  ['$PATIENT']: { clazz: PatientService },
   ['$PRACTITIONER']: { clazz: PractitionerService },
-
-  ['$ALLERGY']: { clazz: AllergyService },
-  ['$DIAGNOSIS']: { clazz: DiagnosisService },
-  ['$HMS_CARE_PLAN']: { clazz: CarePlanService, resource: 'careplan' },
-
-  ['$HMS_VITAL_SIGN']: { clazz: HMSVitalSignService },
-  ['$HMS_LABORATORY']: { clazz: HMSLaboratoryService },
+  ['$PROCEDURE']: { clazz: ProcedureService },
 }
 
 export const validatorConfig = {
