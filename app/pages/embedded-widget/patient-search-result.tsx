@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react'
-
 import { withAuthSync } from '@components/base/Auth'
 import { IPageOptionResult } from '@components/base/Pagination'
 import Tracker from '@components/base/Tracker'
@@ -8,14 +6,16 @@ import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
 import {
   defaultPagination,
-  PatientSearchResultWithPaginateWithConnector,
+  PatientSearchResultWithPaginateWithConnector
 } from '@components/widget/patient/PatientSearchResultWithPaginate'
+import environment from '@environment'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import RouteManager from '@routes/RouteManager'
 import { GoogleAnalytics } from '@services/GoogleAnalyticsService'
 import { parse, sendMessage } from '@utils'
 import * as _ from 'lodash'
+import React, { useEffect, useState } from 'react'
 import routes from '../../routes'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -105,7 +105,7 @@ const PatientSearchResultWidget: IStatelessPage<{
   }
 
   return (
-    <BootstrapWrapper dependencies={['patient']}>
+    <BootstrapWrapper dependencies={['patient']} mode={environment.mode}>
       <Tracker>
         <>
           <CssBaseline />

@@ -1,12 +1,12 @@
-import * as React from 'react'
-
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { PatientMedicationRequestTableWithConnector } from '@components/widget/patient/PatientMedicationRequestTable'
+import environment from '@environment'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
 import { get } from 'lodash'
+import * as React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -17,7 +17,10 @@ const PatientMedicationRequestTableWidget: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <BootstrapWrapper dependencies={['patient', 'medication_request']}>
+    <BootstrapWrapper
+      dependencies={['patient', 'medication_request']}
+      mode={environment.mode}
+    >
       <>
         <CssBaseline />
         <PatientMedicationRequestTableWithConnector

@@ -1,13 +1,11 @@
-import * as React from 'react'
-
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientInfoDetail, {
-  PatientInfoDetailWithConnector,
-} from '@components/widget/patient/PatientInfoDetail'
+import { PatientInfoDetailWithConnector } from '@components/widget/patient/PatientInfoDetail'
+import environment from '@environment'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import get from 'lodash/get'
+import * as React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -37,6 +35,7 @@ const PatientInfoView: IStatelessPage<{
         'care_plan',
         'organization',
       ]}
+      mode={environment.mode}
     >
       <>
         <CssBaseline />

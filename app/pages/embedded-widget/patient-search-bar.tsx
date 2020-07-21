@@ -1,11 +1,10 @@
-import * as React from 'react'
-
 import { withAuthSync } from '@components/base/Auth'
 import Tracker from '@components/base/Tracker'
 import { IPaginationOption } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
 import { PatientSearchPanelWithConnector } from '@components/widget/patient/PatientSearchPanel'
+import environment from '@environment'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import RouteManager from '@routes/RouteManager'
@@ -14,6 +13,8 @@ import PatientService from '@services/PatientService'
 import { parse, sendMessage } from '@utils'
 import * as _ from 'lodash'
 import qs from 'qs'
+import * as React from 'react'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -88,7 +89,7 @@ const PatientSearchBarWidget: IStatelessPage<{
   }
 
   return (
-    <BootstrapWrapper dependencies={['patient']}>
+    <BootstrapWrapper dependencies={['patient']} mode={environment.mode}>
       <Tracker>
         <>
           <CssBaseline />

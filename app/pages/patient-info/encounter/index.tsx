@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import { withAuthSync } from '@components/base/Auth'
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import MouseTrackMove from '@components/base/MouseTrackMove'
@@ -7,10 +5,12 @@ import Tracker from '@components/base/Tracker'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import AppNavBar from '@components/widget/AppNavBar'
 import PatientSummary from '@components/widget/patient/PatientSummary'
+import environment from '@environment'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import { IStatelessPage } from '@pages/patient-search'
 import get from 'lodash/get'
+import * as React from 'react'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
@@ -46,6 +46,7 @@ const PatientSummaryPage: IStatelessPage<{
           'organization',
           'practitioner',
         ]}
+        mode={environment.mode}
       >
         <Tracker>
           <MouseTrackMove category='patient_summary'>

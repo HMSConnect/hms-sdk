@@ -1,12 +1,12 @@
-import * as React from 'react'
-
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { PatientPractitionerWithConnector } from '@components/widget/patient/PatientPractitioner'
+import environment from '@environment'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
 import get from 'lodash/get'
+import * as React from 'react'
 
 // import PatientPhysician from '@components/widget/patient/PatientPhysician'
 
@@ -19,7 +19,10 @@ const PatientPractitionerCardWidget: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <BootstrapWrapper dependencies={['patient', 'encounter', 'practitioner']}>
+    <BootstrapWrapper
+      dependencies={['patient', 'encounter', 'practitioner']}
+      mode={environment.mode}
+    >
       <>
         <CssBaseline />
         <div style={{ height: '100vh' }}>
