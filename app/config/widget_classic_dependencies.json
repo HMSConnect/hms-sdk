@@ -67,8 +67,24 @@
     "services": ["$HMS_LABORATORY"],
     "validators": ["$HMS_LABORATORY_V2.4x"]
   },
-  "hms_appointment":{
+  "hms_appointment": {
     "services": ["$HMS_APPOINTMENT"],
     "validators": ["$HMS_APPOINTMENT_V2.4x"]
+  },
+  "hms_cc": {
+    "services": ["$HMS_CC"],
+    "validators": ["$HMS_CC_V2.4x"]
+  },
+  "hms_pi": {
+    "services": ["$HMS_PI"],
+    "validators": ["$HMS_PI_V2.4x"]
+  },
+  "hms_radiology": {
+    "services": ["$HMS_RADIOLOGY"],
+    "validators": ["$HMS_RADIOLOGY_V2.4x"]
+  },
+  "hms_triage": {
+    "services": ["$HMS_TRIAGE"],
+    "validators": ["$HMS_TRIAGE_V2.4x"]
   }
 }

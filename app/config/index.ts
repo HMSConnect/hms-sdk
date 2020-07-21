@@ -8,8 +8,12 @@ import DiagnosisService from '@services/DiagnosisService'
 import DiagnosticReportService from '@services/DiagnosticReportService'
 import EncounterService from '@services/EncounterService'
 import HMSAppointmentService from '@services/hms/HMSAppoinmentService'
+import HMSCcService from '@services/hms/HMSCcService'
 import HMSLaboratoryService from '@services/hms/HMSLaboratoryService'
 import HMSObservationService from '@services/hms/HMSObservationService'
+import HMSPiService from '@services/hms/HMSPiService'
+import HMSRadiologyService from '@services/hms/HMSRadiologyService'
+import HMSTriageService from '@services/hms/HMSTriageService'
 import HMSVitalSignService from '@services/hms/HMSVitalSignService'
 import ImagingStudyService from '@services/ImagingStudyService'
 import ImmunizationService from '@services/ImmunizationService'
@@ -21,14 +25,18 @@ import ProcedureService from '@services/ProcedureService'
 import HMSAllergyV24XValidator from '@validators/standard/hms/2.4/HMSAllergyV24XValidator'
 import HMSAppointmentV24XValidator from '@validators/standard/hms/2.4/HMSAppointmentV24XValidator'
 import HMSCarePlanV24XValidator from '@validators/standard/hms/2.4/HMSCarePlanV24XValidator'
+import HMSCcV24XValidator from '@validators/standard/hms/2.4/HMSCcV24XValidator'
 import HMSConditionV24XValidator from '@validators/standard/hms/2.4/HMSConditionV24XValidator'
 import HMSDiagnosisV24XValidator from '@validators/standard/hms/2.4/HMSDiagnosisV24XValidator'
 import HMSEncounterV24XValidator from '@validators/standard/hms/2.4/HMSEncounterV24XValidator'
 import HMSLaboratoryV24XValidator from '@validators/standard/hms/2.4/HMSLaboratoryV24XValidator'
 import HMSMedicationRequestV24xValidator from '@validators/standard/hms/2.4/HMSMedicationRequestV24xValidator'
 import HMSPatientV24XValidator from '@validators/standard/hms/2.4/HMSPatientV24XValidator'
+import HMSPiV24XValidator from '@validators/standard/hms/2.4/HMSPiV24XValidator'
 import HMSPractitionerV24XValidator from '@validators/standard/hms/2.4/HMSPractitionerV24XValidator'
 import HMSProcedureV24XValidator from '@validators/standard/hms/2.4/HMSProcedureV24XValidator'
+import HMSRadiologyV24XValidator from '@validators/standard/hms/2.4/HMSRadiologyV24XValidator'
+import HMSTriageV24XValidator from '@validators/standard/hms/2.4/HMSTriageV24XValidator'
 import HMSVitalSignV24XValidator from '@validators/standard/hms/2.4/HMSVitalSignV24XValidator'
 import SFHIRAllergyIntoleranceV1Validator from '@validators/standard/sfhir/SFHIRAllergyIntoleranceV1Validator'
 import SFHIRCarePlanV1Validator from '@validators/standard/sfhir/SFHIRCarePlanV1Validator'
@@ -100,9 +108,13 @@ export const serviceConfig = {
   ['$ENCOUNTER']: { clazz: EncounterService },
   ['$HMS_APPOINTMENT']: { clazz: HMSAppointmentService,resource: 'appointment' },
   ['$HMS_CARE_PLAN']: { clazz: CarePlanService, resource: 'careplan' },
+  ['$HMS_TRIAGE']: { clazz: HMSTriageService, resource: 'triage' },
+  ['$HMS_CC']: { clazz: HMSCcService, resource: 'cc' },
   ['$HMS_LABORATORY']: { clazz: HMSLaboratoryService },
   ['$HMS_MEDICATION_DISPENSE']: { clazz: MedicationRequestService, resource: 'medicationdispense'},
   ['$HMS_OBSERVATION']: { clazz: HMSObservationService },
+  ['$HMS_PI']: { clazz: HMSPiService,resource:'pi' },
+  ['$HMS_RADIOLOGY']: { clazz: HMSRadiologyService,resource:'radiology' },
   ['$HMS_VITAL_SIGN']: { clazz: HMSVitalSignService },
   ['$IMAGING_STUDY']: { clazz: ImagingStudyService },
   ['$IMMUNIZATION']: { clazz: ImmunizationService },
@@ -116,14 +128,15 @@ export const serviceConfig = {
 export const validatorConfig = {
   ['$HMS_VITAL_SIGN_V2.4x']: { clazz: HMSVitalSignV24XValidator, priority: 2 },
   ['$HMS_LABORATORY_V2.4x']: { clazz: HMSLaboratoryV24XValidator, priority: 2 },
-  ['$SFHIR_ALLERGY_INTOLERANCE_V1']: {
-    clazz: SFHIRAllergyIntoleranceV1Validator,
-    priority: 1,
-  },
+  ['$SFHIR_ALLERGY_INTOLERANCE_V1']: {clazz: SFHIRAllergyIntoleranceV1Validator,priority: 1,},
+  ['$HMS_TRIAGE_V2.4x']: { clazz: HMSTriageV24XValidator, priority: 1 },
+  ['$HMS_CC_V2.4x']: { clazz: HMSCcV24XValidator, priority: 1 },
+  ['$HMS_RADIOLOGY_V2.4x']: { clazz: HMSRadiologyV24XValidator, priority: 1 },
   ['$HMS_APPOINTMENT_V2.4x']: { clazz: HMSAppointmentV24XValidator, priority: 1 },
   ['$HMS_ALLERGY_V2.4x']: { clazz: HMSAllergyV24XValidator, priority: 1 },
   ['$SFHIR_PATIENT_V1']: { clazz: SFHIRPatientV1Validator, priority: 1 },
   ['$HMS_PATIENT_V2.4x']: { clazz: HMSPatientV24XValidator, priority: 1 },
+  ['$HMS_PI_V2.4x']: { clazz: HMSPiV24XValidator, priority: 1 },
   ['$HMS_ENCOUNTER_V2.4x']: { clazz: HMSEncounterV24XValidator, priority: 1 },
   ['$SFHIR_CARE_PLAN_V1']: { clazz: SFHIRCarePlanV1Validator, priority: 1 },
   ['$HMS_CARE_PLAN_V2.4x']: { clazz: HMSCarePlanV24XValidator, priority: 1 },

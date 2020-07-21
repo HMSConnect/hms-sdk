@@ -22,6 +22,10 @@ export type DependencyType =
   | 'practitioner'
   | 'diagnosis'
   | 'hms_appointment'
+  | 'hms_cc'
+  | 'hms_pi'
+  | 'hms_radiology'
+  | 'hms_triage'
 
 export type DependencyMode = 'sfhir' | 'classic'
 
