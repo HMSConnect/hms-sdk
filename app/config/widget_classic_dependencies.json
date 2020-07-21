@@ -66,5 +66,9 @@
   "laboratory": {
     "services": ["$HMS_LABORATORY"],
     "validators": ["$HMS_LABORATORY_V2.4x"]
+  },
+  "hms_appointment":{
+    "services": ["$HMS_APPOINTMENT"],
+    "validators": ["$HMS_APPOINTMENT_V2.4x"]
   }
 }

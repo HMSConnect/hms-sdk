@@ -21,6 +21,7 @@ export type DependencyType =
   | 'organization'
   | 'practitioner'
   | 'diagnosis'
+  | 'hms_appointment'
 
 export type DependencyMode = 'sfhir' | 'classic'
 
