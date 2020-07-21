@@ -31,7 +31,7 @@ class HMSVitalSignV24XValidator implements IValidator {
       valueModal: data.component
         ? _.chain(data.component)
             .map((c: any) => ({
-              code: c.name,
+              code: this.convertValueModalName(c.name),
               value: c.value,
             }))
             .value()
@@ -41,6 +41,21 @@ class HMSVitalSignV24XValidator implements IValidator {
               value: data.value,
             },
           ],
+    }
+  }
+  private convertValueModalName(name: string) {
+    switch (name) {
+      case 'Systolic BP':
+        return 'Systolic Blood Pressure'
+        break
+
+      case 'Diastolic BP':
+        return 'Diastolic Blood Pressure'
+        break
+
+      default:
+        return name
+        break
     }
   }
 }
