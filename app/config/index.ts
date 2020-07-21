@@ -27,6 +27,7 @@ import HMSPatientV24XValidator from '@validators/standard/hms/2.4/HMSPatientV24X
 import HMSPractitionerV24XValidator from '@validators/standard/hms/2.4/HMSPractitionerV24XValidator'
 import HMSProcedureV24XValidator from '@validators/standard/hms/2.4/HMSProcedureV24XValidator'
 import HMSVitalSignV24XValidator from '@validators/standard/hms/2.4/HMSVitalSignV24XValidator'
+import HMSMedicationRequestV24xValidator from '@validators/standard/hms/2.4/HMSMedicationRequestV24xValidator'
 import SFHIRAllergyIntoleranceV1Validator from '@validators/standard/sfhir/SFHIRAllergyIntoleranceV1Validator'
 import SFHIRCarePlanV1Validator from '@validators/standard/sfhir/SFHIRCarePlanV1Validator'
 import SFHIRClaimV1Validator from '@validators/standard/sfhir/SFHIRClaimV1Validator'
@@ -98,12 +99,15 @@ export const serviceConfig = {
   ['$IMAGING_STUDY']: { clazz: ImagingStudyService },
   ['$IMMUNIZATION']: { clazz: ImmunizationService },
   ['$PROCEDURE']: { clazz: ProcedureService },
+  ['$HMS_MEDICATION_DISPENSE']: { clazz: MedicationRequestService, resource: 'medicationdispense'},
   ['$MEDICATION_REQUEST']: { clazz: MedicationRequestService },
   ['$CARE_PLAN']: { clazz: CarePlanService },
   ['$PRACTITIONER']: { clazz: PractitionerService },
 
   ['$ALLERGY']: { clazz: AllergyService },
   ['$DIAGNOSIS']: { clazz: DiagnosisService },
+  ['$HMS_CARE_PLAN']: { clazz: CarePlanService, resource: 'careplan' },
+
   ['$HMS_VITAL_SIGN']: { clazz: HMSVitalSignService },
   ['$HMS_LABORATORY']: { clazz: HMSLaboratoryService },
 }
@@ -120,7 +124,7 @@ export const validatorConfig = {
   ['$HMS_PATIENT_V2.4x']: { clazz: HMSPatientV24XValidator, priority: 1 },
   ['$HMS_ENCOUNTER_V2.4x']: { clazz: HMSEncounterV24XValidator, priority: 1 },
   ['$SFHIR_CARE_PLAN_V1']: { clazz: SFHIRCarePlanV1Validator, priority: 1 },
-  ['$HMS_CARE_PLAN_V2.4x']: { clazz: HMSCarePlanV24XValidator, priority: 2 },
+  ['$HMS_CARE_PLAN_V2.4x']: { clazz: HMSCarePlanV24XValidator, priority: 1 },
   ['$HMS_DIAGNOSIS_V2.4x']: { clazz: HMSDiagnosisV24XValidator, priority: 1 },
   ['$SFHIR_DIAGNOSTIC_REPORT_V1']: {
     clazz: SFHIRDiagnosticReportV1Validator,
@@ -169,6 +173,10 @@ export const validatorConfig = {
   },
   ['$HMS_PROCEDURE_V2.4x']: {
     clazz: HMSProcedureV24XValidator,
+    priority: 1,
+  },
+  ['$HMS_MEDICATION_REQUEST_V2.4x']: {
+    clazz: HMSMedicationRequestV24xValidator,
     priority: 1,
   },
   ['$SFHIR_MEDICATION_REQUEST_V1']: {

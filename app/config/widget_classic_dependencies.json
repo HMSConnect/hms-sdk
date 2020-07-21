@@ -44,11 +44,11 @@
     "validators": ["$HMS_PROCEDURE_V2.4x"]
   },
   "medication_request": {
-    "services": ["$MEDICATION_REQUEST"],
-    "validators": []
+    "services": ["$HMS_MEDICATION_DISPENSE"],
+    "validators": ["$HMS_MEDICATION_REQUEST_V2.4x"]
   },
   "care_plan": {
-    "services": ["$CARE_PLAN"],
+    "services": ["$HMS_CARE_PLAN"],
     "validators": ["$HMS_CARE_PLAN_V2.4x"]
   },
   "organization": {
