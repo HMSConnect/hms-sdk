@@ -14,7 +14,6 @@ class HMSVitalSignV24XValidator implements IValidator {
 
   parse(data: any): any {
     // console.log('data :>> ', data)
-
     return {
       display: _.get(data, 'name'),
       status: _.get(data, 'status'),
@@ -27,18 +26,18 @@ class HMSVitalSignV24XValidator implements IValidator {
         ? moment.default(_.get(data, 'issued')).toDate()
         : null,
       unit: _.get(data, 'unit'),
-      value: _.get(data, 'value'),
+      value: Number(_.get(data, 'value')),
       valueModal: data.component
         ? _.chain(data.component)
             .map((c: any) => ({
               code: this.convertValueModalName(c.name),
-              value: c.value,
+              value: Number(c.value),
             }))
             .value()
         : [
             {
               code: data.name,
-              value: data.value,
+              value: Number(data.value),
             },
           ],
     }

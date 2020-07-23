@@ -137,7 +137,6 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
   optionStyle?: IOptionsStyleGraphOption
 }> = ({ observationList, structure, optionStyle = {}, theme }) => {
   const lastData: any = maxBy(observationList, 'issuedDate')
-
   const classes = useStyles()
   return (
     <>
@@ -175,7 +174,7 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
             }}
             options={{
               ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
-              ValueScale: <ValueScale modifyDomain={() => [40, 150]} />,
+              ValueScale: <ValueScale modifyDomain={() => [0, 150]} />,
               type: 'area',
             }}
           />
