@@ -1,5 +1,3 @@
-import React from 'react'
-
 import {
   initialPatientProcedureTableStructure,
   IPatientProcedureTableStructure,
@@ -25,6 +23,7 @@ import { HMSService } from '@services/HMSServiceFactory'
 import ProcedureService from '@services/ProcedureService'
 import { countFilterActive, sendMessage, validQueryParams } from '@utils'
 import * as _ from 'lodash'
+import React from 'react'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -113,13 +112,11 @@ const PatientProcedureTable: React.FunctionComponent<{
   mouseTrackCategory = 'patient_procedure_table',
   mouseTrackLabel = 'patient_procedure_table',
 }) => {
-  
   const initialFilter = React.useMemo(() => {
     return mergeWithProcedureInitialFilterQuery(customInitialFilter, {
       patientId,
     })
   }, [customInitialFilter])
-  console.log(initialFilter);
   const [{ filter, submitedFilter }, dispatch] = React.useReducer(
     tableWithFilterReducer,
     tableWithFilterState,
@@ -135,12 +132,11 @@ const PatientProcedureTable: React.FunctionComponent<{
     newFilter: IProcedureListFilterQuery,
     max: number,
   ) => {
-    
     const procedureService = HMSService.getService(
       'procedure',
     ) as ProcedureService
     const validParams = validQueryParams(['patientId'], newFilter)
-    
+
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
     }
@@ -270,8 +266,6 @@ const PatientProcedureTable: React.FunctionComponent<{
   if (error) {
     return <ErrorSection error={error} />
   }
-  
-  console.log(data);
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
       <div
