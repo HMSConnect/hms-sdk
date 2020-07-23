@@ -1,5 +1,8 @@
 import { IWidgetGroup } from '@config'
+import { mockData } from '@config/mockData'
 import {
+  allergyIntoleranceCriticalityOption,
+  allergyIntoleranceTypeOption,
   carePlanStatusOption,
   claimStatusOption,
   conditionClinicalStatusOption,
@@ -7,8 +10,6 @@ import {
   encounterStatusOption,
   immunizationStatusOption,
   medicationRequestStatusOption,
-  allergyIntoleranceTypeOption,
-  allergyIntoleranceCriticalityOption,
 } from '../patient'
 
 const patientEmbeddedWidgetConfig: IWidgetGroup = {
@@ -176,7 +177,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       label: 'Patient Info Table',
       parameters: [
         // {
-        //   defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+        //   defaultValue: mockData.patientId,
         //   label: 'Patient ID',
         //   type: 'text',
         //   value: 'patientId',
@@ -185,7 +186,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info-with-table',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -221,13 +222,13 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-summary',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
         {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          defaultValue: mockData.encounterId,
           label: 'Encounter ID',
           type: 'text',
           value: 'encounterId',
@@ -244,7 +245,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/patient-demographic',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -321,7 +322,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/encounter-timeline',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -399,7 +400,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/allergy-intolerance-table',
       queryParams: [
         {
-          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -451,7 +452,6 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
               type: 'boolean',
               value: 'filterIconField',
             },
-        
           ],
         },
       ],
@@ -463,7 +463,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       label: 'Patient Condition Table',
       parameters: [
         // {
-        //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+        //   defaultValue: mockData.patientId,
         //   label: 'Patient ID',
         //   type: 'text',
         //   value: 'patientId',
@@ -472,7 +472,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/condition-table',
       queryParams: [
         {
-          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -541,7 +541,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       label: 'Patient Immunization Table',
       parameters: [
         // {
-        //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+        //   defaultValue: mockData.patientId,
         //   label: 'Patient ID',
         //   type: 'text',
         //   value: 'patientId',
@@ -550,7 +550,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/immunization-table',
       queryParams: [
         {
-          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -613,7 +613,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       label: 'Patient Medication Request Table',
       parameters: [
         // {
-        //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+        //   defaultValue: mockData.patientId,
         //   label: 'Patient ID',
         //   type: 'text',
         //   value: 'patientId',
@@ -622,7 +622,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/medication-request-table',
       queryParams: [
         {
-          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -673,7 +673,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       label: 'Patient Procedure Table',
       parameters: [
         // {
-        //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+        //   defaultValue: mockData.patientId,
         //   label: 'Patient ID',
         //   type: 'text',
         //   value: 'patientId',
@@ -682,7 +682,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/procedure-table',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -729,7 +729,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/care-plan-table',
       queryParams: [
         {
-          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -775,7 +775,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       label: 'Patient Claim Table',
       parameters: [
         // {
-        //   defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+        //   defaultValue: mockData.patientId,
         //   label: 'Patient ID',
         //   type: 'text',
         //   value: 'patientId',
@@ -784,7 +784,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/claim-table',
       queryParams: [
         {
-          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -826,7 +826,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/imaging-study-table',
       queryParams: [
         {
-          defaultValue: '03c2e1b5-9fe0-4735-bc7d-a54c449bfdae',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -848,13 +848,13 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/summary-cards',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
         {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          defaultValue: mockData.encounterId,
           label: 'Encounter ID',
           type: 'text',
           value: 'encounterId',
@@ -876,7 +876,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/patient-allergy-list-card',
       queryParams: [
         {
-          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -912,7 +912,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
         '/embedded-widget/patient-info/patient-medication-request-list-card',
       queryParams: [
         {
-          defaultValue: '6f8f470e-07e8-4273-ad11-6e3fdc384a09',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -947,7 +947,7 @@ const patientEmbeddedWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/patient-info/patient-practitioner-card',
       queryParams: [
         {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          defaultValue: mockData.encounterId,
           label: 'Encounter ID',
           type: 'text',
           value: 'encounterId',

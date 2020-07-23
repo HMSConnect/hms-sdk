@@ -1,8 +1,8 @@
 import IAdapter from '@adapters/IAdapter'
 import DataManager from '@data-managers/DataManager'
 import ValidatorManager from '@validators/ValidatorManager'
+import * as _ from 'lodash'
 import IService from './IService'
-
 export default abstract class AbstractService implements IService {
   dataManager: DataManager
   constructor(private resource: string, private adapter: IAdapter) {
@@ -22,7 +22,7 @@ export default abstract class AbstractService implements IService {
     if (validator) {
       return {
         ...result,
-        data: validator.parse(result.data),
+        data: validator.parse(_.last(result.data)),
       }
     } else {
       throw Error('not support this schema.')

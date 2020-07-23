@@ -52,7 +52,7 @@
     "validators": ["$SFHIR_ORGANIZATION_V1"]
   },
   "practitioner": {
-    "services": [],
+    "services": ["$PRACTITIONER"],
     "validators": ["$SFHIR_PRACTITIONER_V1"]
   }
 }

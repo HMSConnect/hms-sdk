@@ -1,10 +1,11 @@
 import LoadingSection from '@components/base/LoadingSection'
+import widgetClassicDependencies from '@config/widget_classic_dependencies.json'
 import widgetDependencies from '@config/widget_dependencies.json'
 import BootstrapHelper from '@init/BootstrapHelper'
 import get from 'lodash/get'
 import * as React from 'react'
 
-type DependencyType =
+export type DependencyType =
   | 'patient'
   | 'encounter'
   | 'diagnostic_report'
@@ -19,19 +20,34 @@ type DependencyType =
   | 'care_plan'
   | 'organization'
   | 'practitioner'
+  | 'diagnosis'
+  | 'hms_appointment'
+  | 'hms_cc'
+  | 'hms_pi'
+  | 'hms_radiology'
+  | 'hms_triage'
+
+export type DependencyMode = 'sfhir' | 'classic'
 
 const BootstrapWrapper: React.FunctionComponent<{
   dependencies: DependencyType[]
+  mode?: DependencyMode
   children: React.ReactElement
-}> = ({ dependencies, children }) => {
+}> = ({ dependencies, mode = 'sfhir', children }) => {
   const [isLoading, setIsLoading] = React.useState(true)
   React.useEffect(() => {
-    for (const depName of dependencies) {
-      const dependency = get(widgetDependencies, depName) || {}
-      BootstrapHelper.registerServices(dependency.services || [])
+    console.info('mode=', mode)
+    for (const dependencyName of dependencies) {
+      const dependency =
+        mode === 'sfhir'
+          ? get(widgetDependencies, dependencyName)
+          : get(widgetClassicDependencies, dependencyName) || {}
+      BootstrapHelper.registerServices(
+        dependency.services || [],
+        dependencyName,
+      )
       BootstrapHelper.registerValidators(dependency.validators || [])
     }
-
     setIsLoading(false)
   }, [])
 

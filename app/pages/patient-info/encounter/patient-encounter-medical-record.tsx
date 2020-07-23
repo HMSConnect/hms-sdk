@@ -1,15 +1,13 @@
-import * as React from 'react'
-
 import { withAuthSync } from '@components/base/Auth'
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientInfoDetail, {
-  PatientInfoDetailWithConnector,
-} from '@components/widget/patient/PatientInfoDetail'
+import { PatientInfoDetailWithConnector } from '@components/widget/patient/PatientInfoDetail'
+import environment from '@environment'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import { IStatelessPage } from '@pages/patient-search'
 import get from 'lodash/get'
+import * as React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -42,6 +40,7 @@ const PatientMeidicalPanel: IStatelessPage<{
           'care_plan',
           'organization',
         ]}
+        mode={environment.mode}
       >
         <>
           {/* <Container maxWidth='lg'> */}

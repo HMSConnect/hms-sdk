@@ -1,0 +1,90 @@
+{
+  "patient": {
+    "services": ["$PATIENT"],
+    "validators": ["$HMS_PATIENT_V2.4x"]
+  },
+  "encounter": {
+    "services": ["$ENCOUNTER"],
+    "validators": ["$HMS_ENCOUNTER_V2.4x"]
+  },
+  "diagnostic_report": {
+    "services": ["$DIAGNOSTIC_REPORT"],
+    "validators": []
+  },
+  "allergy_intolerance": {
+    "services": ["$ALLERGY"],
+    "validators": ["$HMS_ALLERGY_V2.4x"]
+  },
+  "diagnosis": {
+    "services": ["$DIAGNOSIS"],
+    "validators": ["$HMS_DIAGNOSIS_V2.4x"]
+  },
+  "observation": {
+    "services": ["$HMS_OBSERVATION"],
+    "validators": []
+  },
+  "claim": {
+    "services": ["$CLAIM"],
+    "validators": []
+  },
+  "condition": {
+    "services": ["$DIAGNOSIS"],
+    "validators": ["$HMS_DIAGNOSIS_V2.4x"]
+  },
+  "imaging_study": {
+    "services": ["$IMAGING_STUDY"],
+    "validators": []
+  },
+  "immunization": {
+    "services": ["$IMMUNIZATION"],
+    "validators": []
+  },
+  "procedure": {
+    "services": ["$PROCEDURE"],
+    "validators": ["$HMS_PROCEDURE_V2.4x"]
+  },
+  "medication_request": {
+    "services": ["$HMS_MEDICATION_DISPENSE"],
+    "validators": ["$HMS_MEDICATION_REQUEST_V2.4x"]
+  },
+  "care_plan": {
+    "services": ["$HMS_CARE_PLAN"],
+    "validators": ["$HMS_CARE_PLAN_V2.4x"]
+  },
+  "organization": {
+    "services": [],
+    "validators": []
+  },
+  "practitioner": {
+    "services": ["$PRACTITIONER"],
+    "validators": ["$HMS_PRACTITIONER_V2.4X"]
+  },
+  "vital_sign": {
+    "services": ["$HMS_VITAL_SIGN"],
+    "validators": ["$HMS_VITAL_SIGN_V2.4x"]
+  },
+  "laboratory": {
+    "services": ["$HMS_LABORATORY"],
+    "validators": ["$HMS_LABORATORY_V2.4x"]
+  },
+  "hms_appointment": {
+    "services": ["$HMS_APPOINTMENT"],
+    "validators": ["$HMS_APPOINTMENT_V2.4x"]
+  },
+  "hms_cc": {
+    "services": ["$HMS_CC"],
+    "validators": ["$HMS_CC_V2.4x"]
+  },
+  "hms_pi": {
+    "services": ["$HMS_PI"],
+    "validators": ["$HMS_PI_V2.4x"]
+  },
+  "hms_radiology": {
+    "services": ["$HMS_RADIOLOGY"],
+    "validators": ["$HMS_RADIOLOGY_V2.4x"]
+  },
+  "hms_triage": {
+    "services": ["$HMS_TRIAGE"],
+    "validators": ["$HMS_TRIAGE_V2.4x"]
+  }
+}

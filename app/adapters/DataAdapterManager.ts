@@ -2,27 +2,30 @@ import { adapterConfig } from '@config'
 import AuthService from '@services/AuthService'
 import { HMSService } from '@services/HMSServiceFactory'
 import * as _ from 'lodash'
-import AuthAdapter from './AuthAdapter'
+import DevelopmentRemoteAdapter from './DevelopmentRemoteAdapter'
 import DevelopmentAdapter from './DevelopmentAdapter'
 
 class DataAdapterManager {
   createAdapter(mode: string) {
     const Adapter = _.get(adapterConfig, `${mode}.clazz`)
+    let adapter
     if (Adapter) {
-      const adapter = new Adapter(
-        `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/smart-fhir`,
+      adapter = new Adapter(
+        `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}`,
       )
+      // adapter = new Adapter(
+      //   `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/smart-fhir`,
+      // )
       HMSService.setDefaultAdapter(adapter)
+      AuthService.setDefaultAdapter(adapter)
     } else {
-      const adapter = new DevelopmentAdapter(
-        `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/smart-fhir`,
-      )
-      HMSService.setDefaultAdapter(adapter)
+      adapter = new DevelopmentRemoteAdapter('https://ehie.bdms.co.th:8443')
+      // adapter = new DevelopmentAdapter(
+      //   `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}/smart-fhir`,
+      // )
     }
-    const authAdapter = new AuthAdapter(
-      `${process.env.HMS_SANDBOX_URL}${process.env.HMS_SANDBOX_PORT}`,
-    )
-    AuthService.setDefaultAdapter(authAdapter)
+    HMSService.setDefaultAdapter(adapter)
+    AuthService.setDefaultAdapter(adapter)
   }
 }
 

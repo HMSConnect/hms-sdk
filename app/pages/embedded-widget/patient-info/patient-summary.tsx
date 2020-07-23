@@ -1,13 +1,13 @@
-import * as React from 'react'
-
 import { withAuthSync } from '@components/base/Auth'
 import Tracker from '@components/base/Tracker'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { PatientSummaryWithConnector } from '@components/widget/patient/PatientSummary'
+import environment from '@environment'
 import { CssBaseline, makeStyles, Paper, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
 import get from 'lodash/get'
+import * as React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -35,6 +35,7 @@ const PatientSummaryWidget: IStatelessPage<{
         'organization',
         'practitioner',
       ]}
+      mode={environment.mode}
     >
       <Tracker>
         <>

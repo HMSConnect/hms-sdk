@@ -1,19 +1,18 @@
-import useClaimList from '@components/hooks/useClaimList'
+import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
+import AbstractService from '@services/AbstractService'
+import { HMSService } from '@services/HMSServiceFactory'
 import * as React from 'react'
-
 /**
  * This is playground zone, you can try to implement to this component.
  * and goto `/playground` to play.
  */
 
-export default function Playground() {
+function Playground() {
   return (
     <div>
       <h1>Example Playground</h1>
-      <BootstrapWrapper
-        dependencies={['allergy_intolerance', 'observation', 'claim']}
-      >
+      <BootstrapWrapper dependencies={['patient']}>
         <div>
           <List />
         </div>
@@ -23,12 +22,19 @@ export default function Playground() {
 }
 
 function List() {
-  const date = new Date('2020-01-01')
-  const { data } = useClaimList({
-    filter: {
-      billablePeriodStart_lt: date.toISOString(),
-      patientId: '6d615362-bcbd-4b31-9240-ad3b0c19f0b1',
-    },
-  })
-  return <div>{JSON.stringify(data, null, 2)}</div>
+  const [data, setData] = React.useState({})
+  React.useEffect(() => {
+    const patientService = HMSService.getService('patient') as AbstractService
+    patientService
+      .list({
+        hn:
+          'YzhEdWyHNbggHrfZpowcQ3-ndSs8gsQXMdkr2HNSFMYAJ-Zhzd7SkM8VtPGLwtrARSqFeM5tJkuPWA2pwYMxvtTMr5',
+      })
+      .then((result) => {
+        setData(result)
+      })
+  }, [])
+  return <pre>{JSON.stringify(data, null, 2)}</pre>
 }
+
+export default withAuthSync(Playground)

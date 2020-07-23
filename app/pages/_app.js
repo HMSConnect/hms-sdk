@@ -12,6 +12,7 @@ import store from '../reducers-redux/index.reducer'
 import RouteManager from '../routes/RouteManager'
 import { GoogleAnalytics } from '../services/GoogleAnalyticsService'
 import { MessageListenerService } from '../services/MessageListenerService'
+import AuthService from '../services/AuthService'
 
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import 'react-grid-layout/css/styles.css'
@@ -20,15 +21,18 @@ import 'react-resizable/css/styles.css'
 class AASApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {}
+    const { token, exp } = AuthService.getTokenAndExpiresTime(ctx)
+    console.log(exp)
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx)
+      pageProps = await Component.getInitialProps(ctx, token, exp)
     }
-    return { pageProps }
+    return { pageProps, token, exp }
   }
 
   constructor(props) {
     super(props)
     let isWaitForIframeLoaded
+    AuthService.assignAuthDataWithToken(props.token)
     if (typeof window !== 'undefined') {
       AdapterManager.createAdapter(_.get(props, 'router.query.mode'))
       isWaitForIframeLoaded =

@@ -1,8 +1,7 @@
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientDemographic, {
-  PatientDemographicWithConnector,
-} from '@components/widget/patient/PatientDemographic'
+import { PatientDemographicWithConnector } from '@components/widget/patient/PatientDemographic'
+import environment from '@environment'
 import { CssBaseline, Paper } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -12,7 +11,10 @@ const PatientInfoPanelWidget: IStatelessPage<{
   query: any
 }> = ({ query }) => {
   return (
-    <BootstrapWrapper dependencies={['patient', 'allergy_intolerance']}>
+    <BootstrapWrapper
+      dependencies={['patient', 'allergy_intolerance']}
+      mode={environment.mode}
+    >
       <>
         <CssBaseline />
         <Paper>

@@ -113,11 +113,13 @@ const PatientProcedureTable: React.FunctionComponent<{
   mouseTrackCategory = 'patient_procedure_table',
   mouseTrackLabel = 'patient_procedure_table',
 }) => {
+  
   const initialFilter = React.useMemo(() => {
     return mergeWithProcedureInitialFilterQuery(customInitialFilter, {
       patientId,
     })
   }, [customInitialFilter])
+  console.log(initialFilter);
   const [{ filter, submitedFilter }, dispatch] = React.useReducer(
     tableWithFilterReducer,
     tableWithFilterState,
@@ -126,16 +128,19 @@ const PatientProcedureTable: React.FunctionComponent<{
   React.useEffect(() => {
     dispatch({ type: 'INIT_FILTER', payload: initialFilter })
   }, [])
+
   const classes = useStyles()
 
   const fetchData = async (
     newFilter: IProcedureListFilterQuery,
     max: number,
   ) => {
+    
     const procedureService = HMSService.getService(
       'procedure',
     ) as ProcedureService
     const validParams = validQueryParams(['patientId'], newFilter)
+    
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
     }
@@ -265,7 +270,8 @@ const PatientProcedureTable: React.FunctionComponent<{
   if (error) {
     return <ErrorSection error={error} />
   }
-
+  
+  console.log(data);
   return (
     <TrackerMouseClick category={mouseTrackCategory} label={mouseTrackLabel}>
       <div
@@ -319,26 +325,26 @@ const PatientProcedureTable: React.FunctionComponent<{
               {
                 bodyCell: {
                   align: 'left',
-                  id: 'codeText',
+                  id: 'detail',
                 },
                 headCell: {
                   align: 'left',
                   disablePadding: false,
                   disableSort: true,
-                  id: 'codeText',
+                  id: 'detail',
                   label: 'Detail',
                 },
               },
               {
                 bodyCell: {
                   align: 'center',
-                  id: 'performedPeriodStartText',
+                  id: 'date',
                 },
                 headCell: {
                   align: 'center',
                   disablePadding: true,
                   disableSort: true,
-                  id: 'performedPeriodStartText',
+                  id: 'date',
                   label: 'Date',
                   styles: {
                     width: '15em',

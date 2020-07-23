@@ -1,8 +1,9 @@
 import * as React from 'react'
 
-import { IPaginationOption } from '@components/hooks/usePatientList'
+import { withAuthSync } from '@components/base/Auth'
 import Login from '@components/widget/Login'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   body: {},
@@ -16,7 +17,7 @@ export interface IStatelessPage<P = {}> extends React.SFC<P> {
 }
 
 const LoginPage: IStatelessPage<{
-  query: IPaginationOption
+  query: any
 }> = ({ query }) => {
   const classes = useStyles()
   return (
@@ -29,4 +30,11 @@ const LoginPage: IStatelessPage<{
   )
 }
 
-export default LoginPage
+LoginPage.getInitialProps = async (ctx: any) => {
+  return {
+    query: ctx.query,
+  }
+}
+
+export default withAuthSync(LoginPage)
+// export default LoginPage

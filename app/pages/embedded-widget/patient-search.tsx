@@ -1,14 +1,15 @@
-import * as React from 'react'
-
 import { withAuthSync } from '@components/base/Auth'
 import Tracker from '@components/base/Tracker'
 import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
 import { PatientSearchWithConnector } from '@components/widget/patient/PatientSearch'
+import environment from '@environment'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { parse } from '@utils'
 import * as _ from 'lodash'
+import * as React from 'react'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   body: {},
@@ -26,7 +27,7 @@ const PatientSearchWidget: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <BootstrapWrapper dependencies={['patient']}>
+    <BootstrapWrapper dependencies={['patient']} mode={environment.mode}>
       <Tracker>
         <>
           <CssBaseline />

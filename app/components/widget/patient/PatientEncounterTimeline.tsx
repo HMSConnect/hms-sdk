@@ -197,12 +197,13 @@ const PatientEncounterTimeline: React.FunctionComponent<{
     const encounterService = HMSService.getService(
       'encounter',
     ) as EncounterService
+    const newFilterWithNotNull = _.omitBy(newFilter, _.isEmpty);
     const validParams = validQueryParams(['patientId'], newFilter)
     if (!_.isEmpty(validParams)) {
       return Promise.reject(new Error(_.join(validParams, ', ')))
     }
     const newLazyLoad: IEncounterListQuery = {
-      filter: newFilter,
+      filter: newFilterWithNotNull,
       max,
       withDiagnosis: true,
       withOrganization: true,

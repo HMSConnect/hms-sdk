@@ -1,12 +1,12 @@
-import * as React from 'react'
-
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientAllergyList, { PatientAllergyListWithConnector } from '@components/widget/patient/PatientAllergyList'
+import { PatientAllergyListWithConnector } from '@components/widget/patient/PatientAllergyList'
+import environment from '@environment'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
 import { get } from 'lodash'
+import * as React from 'react'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -17,7 +17,10 @@ const PatientAllergyListCardWidget: IStatelessPage<{
 }> = ({ query }) => {
   const classes = useStyles()
   return (
-    <BootstrapWrapper dependencies={['patient', 'allergy_intolerance']}>
+    <BootstrapWrapper
+      dependencies={['patient', 'allergy_intolerance']}
+      mode={environment.mode}
+    >
       <>
         <CssBaseline />
         <PatientAllergyListWithConnector

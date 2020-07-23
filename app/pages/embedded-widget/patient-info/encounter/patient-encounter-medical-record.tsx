@@ -1,11 +1,11 @@
-import * as React from 'react'
-
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { PatientInfoDetailWithConnector } from '@components/widget/patient/PatientInfoDetail'
+import environment from '@environment'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import * as _ from 'lodash'
+import * as React from 'react'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
@@ -30,6 +30,7 @@ const PatientInfoWidget: IStatelessPage<{
         'procedure',
         'medication_request',
       ]}
+      mode={environment.mode}
     >
       <>
         <CssBaseline />

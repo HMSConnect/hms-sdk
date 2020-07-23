@@ -1,6 +1,7 @@
 import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { PatientEncounterTimelineWithConnector } from '@components/widget/patient/PatientEncounterTimeline'
+import environment from '@environment'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
@@ -27,6 +28,7 @@ const PatientEncounterTimelineWidget: IStatelessPage<{
           'procedure',
           'condition',
         ]}
+        mode={environment.mode}
       >
         <PatientEncounterTimelineWithConnector
           patientId={get(query, 'patientId')}

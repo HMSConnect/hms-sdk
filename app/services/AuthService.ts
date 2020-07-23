@@ -1,43 +1,69 @@
 import IAdapter from '@adapters/IAdapter'
-
 import cookie from 'js-cookie'
-import decode from 'jwt-decode'
+import * as moment from 'moment'
 import nextCookie from 'next-cookies'
 import routes from '../routes'
 
+export type IAuthLoginCallback = (error: any, response: any) => void
+interface IAuthData {
+  isAuthenticated: boolean
+  token?: string
+  expires?: number
+  refresh_token?: string
+  scope?: string
+}
 class AuthService {
+  authChannel: BroadcastChannel | null = null
+
   defaultAdatper: IAdapter | null = null
   AUTH_ACCESS_TOKEN_KEY = 'hms_access_token'
   AUTH_REFRESH_TOKEN_KEY = 'hms_refresh_token'
+  AUTH_EXPIRE_TIME = 'hms_expires'
+  private authData: IAuthData = { isAuthenticated: false }
+
+  constructor() {
+    if (typeof window !== 'undefined') {
+      this.authChannel = new BroadcastChannel('auth')
+    }
+  }
+
+  getAuthData() {
+    return this.authData
+  }
 
   setDefaultAdapter(adapter: IAdapter) {
     this.defaultAdatper = adapter
   }
 
-  getToken = (ctx: any) => {
+  getTokenAndExpiresTime = (ctx: any) => {
     const cookies = nextCookie(ctx)
     const token = ctx.query[this.AUTH_ACCESS_TOKEN_KEY]
+    const exp = cookies[this.AUTH_EXPIRE_TIME]
 
-    return token || cookies[this.AUTH_ACCESS_TOKEN_KEY]
-  }
-
-  getMockToken = () => {
-    return 'awdawdawd'
-  }
-
-  assignAuthDataIfApplicable = (ctx: any, onInvalidToken?: any) => {
-    const token = this.getToken(ctx)
-    // If there's no token, it means the user is not logged in.
-    // if (!token || !this.validToken(token)) {
-    if (!token) {
-      if (onInvalidToken) {
-        onInvalidToken()
-      } else {
-        this.redirect(ctx)
-      }
-      return
+    return {
+      exp,
+      token: token || cookies[this.AUTH_ACCESS_TOKEN_KEY],
     }
-    return token
+  }
+
+  assignAuthDataIfApplicable = (token: string, refresh_token?: string) => {
+    if (token) {
+      this.assignAuthDataWithToken(token)
+      if (this.authData.isAuthenticated) {
+        this.authData.refresh_token = refresh_token
+      }
+    }
+  }
+
+  assignAuthDataWithToken = (token: string) => {
+    if (token) {
+      this.authData = {
+        isAuthenticated: true,
+        token,
+      }
+    } else {
+      this.authData = { isAuthenticated: false }
+    }
   }
 
   redirect = (ctx: any, url?: string) => {
@@ -49,38 +75,45 @@ class AuthService {
     }
   }
 
-  validToken = (token?: string, refreshToken?: string | null) => {
-    // check token time
+  isValidToken = (token?: string, exp?: string) => {
+    // TODO: check token time
     if (!token) {
       return false
+    } else {
+      if (exp) {
+        return moment.default().isBefore(exp)
+      }
+      return true
     }
-    const decoded: any = decode(token)
-    const remainingMs = decoded.exp * 1000 - new Date().getTime()
-    // console.info('remainingMs awdawd :', remainingMs)
-    if (remainingMs <= 0) {
-      return false
+  }
+
+  isGranted(ifAnyGranted: any, isRedirect = false): boolean {
+    // TODO: check granted
+    // if (!this.authData.isAuthenticated) {
+    //   return false
+    // }
+
+    if (!ifAnyGranted) {
+      return true
     }
     return true
   }
 
-  handleAuthChanged = () => {
-    // to handle refresh_token
-  }
-
   login = async (authData: any, successCallback?: any, errorCallBack?: any) => {
     try {
-      if (!this.defaultAdatper) {
-        return
-      }
-      // const json: any = await this.defaultAdatper.doRequest(
-      //   `api/login`,
-      //   authData,
-      // )
-      // const token = json.token
-      const token = this.getMockToken()
-      cookie.set(this.AUTH_ACCESS_TOKEN_KEY, token)
-      if (successCallback) {
-        successCallback()
+      if (this.defaultAdatper && this.defaultAdatper.login) {
+        this.defaultAdatper.login(authData, (error: any, response: any) => {
+          if (error) {
+            throw new Error(error)
+          }
+          this.handleLoginResult(response)
+          if (this.authChannel) {
+            this.authChannel.postMessage({ message: 'LOGIN' })
+          }
+          if (successCallback) {
+            successCallback()
+          }
+        })
       }
     } catch (e) {
       console.info('error: ', e)
@@ -90,11 +123,23 @@ class AuthService {
     }
   }
 
-  logout = (callback?: any) => {
+  handleLoginResult = (result: any) => {
+    cookie.set(this.AUTH_ACCESS_TOKEN_KEY, result.access_token)
+    cookie.set(this.AUTH_REFRESH_TOKEN_KEY, result.refresh_token)
+    this.calculateExp(Number(result.expires_in))
+    this.assignAuthDataIfApplicable(result.access_token, result.refresh_token)
+  }
+
+  calculateExp = (expires_in: number) => {
+    const exp = moment.default().add(expires_in, 'seconds').toISOString()
+    cookie.set(this.AUTH_EXPIRE_TIME, exp)
+  }
+
+  logout = (callback?: any, isFormEvent = false) => {
+    this.authData = { isAuthenticated: false }
     cookie.remove(this.AUTH_ACCESS_TOKEN_KEY)
-    // to support logging out from all windows
-    console.info('logout: ')
-    window.localStorage.setItem('logout', Date.now().toString())
+    cookie.remove(this.AUTH_REFRESH_TOKEN_KEY)
+    cookie.remove(this.AUTH_EXPIRE_TIME)
     if (callback) {
       callback()
     } else {
