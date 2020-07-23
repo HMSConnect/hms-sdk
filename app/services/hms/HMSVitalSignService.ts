@@ -4,7 +4,6 @@ import HMSVitalSignDataManager from '@data-managers/hms/HMSVitalSignDataManager'
 import AbstractService from '@services/AbstractService'
 import ValidatorManager from '@validators/ValidatorManager'
 import * as _ from 'lodash'
-import isEmpty from 'lodash/isEmpty'
 
 const observationListCodeToList = [
   { code: '55284-4', value: 'Systolic BP,Diastolic BP' },
@@ -12,7 +11,7 @@ const observationListCodeToList = [
   { code: '39156-5', value: 'MassIndex' },
   { code: '8310-5', value: 'Temperature' },
   { code: '29463-7', value: 'Weight' },
-  { code: '8867-4', value: 'heart rate(age)' },
+  { code: '8867-4', value: 'Heart rate' },
   { code: '72166-2', value: 'tabacoSmokingStatue' },
 ]
 
@@ -55,26 +54,73 @@ export default class HMSVitalSignService extends AbstractService {
   }
 
   private groupBpValue(result: any) {
-    const dataWithGroupByHn = _.groupBy(result.data, 'hn')
+    const dataWithGroupByHn = _.groupBy(result.data, 'en')
     const data = _.map(dataWithGroupByHn, (value, key) => {
       return _.reduce(
         value,
         (acc: any[], v, k) => {
-          if (_.includes(v.name, 'BP')) {
+          if (_.includes(v.name, 'BP(PED)')) {
             let selectedBpObject = _.find(
               acc,
               (acValue: any) => acValue.name === 'BP',
             )
             if (!selectedBpObject) {
               selectedBpObject = {
-                component: [],
-                issued: v.issued,
-                name: 'BP',
-                unit: v.unit,
+                ...v,
+                component: [
+                  {
+                    name: 'Systolic BP(PED)',
+                    value: 0,
+                  },
+                  {
+                    name: 'Diastolic BP(PED)',
+                    value: 0,
+                  },
+                ],
+                name: 'BP(PED)',
               }
               acc.push(selectedBpObject)
             }
-            selectedBpObject.component.push(v)
+            const findComponentIndex = _.findIndex(
+              selectedBpObject.component,
+              (component: any) => _.includes(component.name, 'v.name'),
+            )
+            if (findComponentIndex >= 0) {
+              selectedBpObject.component[findComponentIndex] = v
+            } else {
+              selectedBpObject.component.push(v)
+            }
+          } else if (_.includes(v.name, 'BP')) {
+            let selectedBpObject = _.find(
+              acc,
+              (acValue: any) => acValue.name === 'BP',
+            )
+            if (!selectedBpObject) {
+              selectedBpObject = {
+                ...v,
+                component: [
+                  {
+                    name: 'Systolic BP',
+                    value: 0,
+                  },
+                  {
+                    name: 'Diastolic BP',
+                    value: 0,
+                  },
+                ],
+                name: 'BP',
+              }
+              acc.push(selectedBpObject)
+            }
+            const findComponentIndex = _.findIndex(
+              selectedBpObject.component,
+              (component: any) => _.includes(component.name, 'v.name'),
+            )
+            if (findComponentIndex >= 0) {
+              selectedBpObject.component[findComponentIndex] = v
+            } else {
+              selectedBpObject.component.push(v)
+            }
           } else {
             acc.push(v)
           }
@@ -83,7 +129,6 @@ export default class HMSVitalSignService extends AbstractService {
         [],
       )
     })
-
     return {
       ...result,
       data: _.flatten(data),

@@ -7,23 +7,27 @@ import get from 'lodash/get'
 import { stringify } from 'qs'
 import routes from '../../routes'
 
-const withAuthSyncTest = (WrappedComponent: any, ifAnyGranted?: any[], props?: any) => {
+const withAuthSyncTest = (
+  WrappedComponent: any,
+  ifAnyGranted?: any[],
+  props?: any,
+) => {
   let backTo: any
   const Wrapper: any = (props: any) => {
     const authChannel = AuthService.authChannel
-    
+
     // Listen for channel messages
-    if(authChannel){
+    if (authChannel) {
       authChannel.onmessage = (event) => {
         // Lookup existing auth key for the current tab (if any)
-  
+
         switch (event.data.message) {
           // A new tab has opened
           case 'LOGIN':
             // If the current tab has an auth access_token, broadcast it
             const path = RouteManager.getPath(get(props, 'query.backTo') || '/')
             routes.Router.pushRoute(path)
-  
+
             break
         }
       }
@@ -32,7 +36,7 @@ const withAuthSyncTest = (WrappedComponent: any, ifAnyGranted?: any[], props?: a
     return <WrappedComponent {...props} />
   }
 
-  Wrapper.getInitialProps = async (ctx: any, token: string) => {
+  Wrapper.getInitialProps = async (ctx: any, token: string, exp: any) => {
     let callbackIfEmbeddedWidget
     const pathName = get(ctx, 'pathname')
     backTo = get(ctx, 'req.url')
@@ -63,7 +67,7 @@ const withAuthSyncTest = (WrappedComponent: any, ifAnyGranted?: any[], props?: a
     if (pathName.includes('login')) {
       return { ...componentProps, token }
       // if (
-      //   !AuthService.isValidToken(token) ||
+      //   !AuthService.isValidToken(token, exp) ||
       //   !AuthService.isGranted(ifAnyGranted)
       // ) {
       //   return { ...componentProps, token }
@@ -75,7 +79,7 @@ const withAuthSyncTest = (WrappedComponent: any, ifAnyGranted?: any[], props?: a
       // }
     } else {
       if (
-        !AuthService.isValidToken(token) ||
+        !AuthService.isValidToken(token, exp) ||
         !AuthService.isGranted(ifAnyGranted)
       ) {
         AuthService.redirect(

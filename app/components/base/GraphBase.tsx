@@ -101,7 +101,7 @@ const LegendRoot: React.FunctionComponent<Legend.RootProps> = (
   )
 }
 
-const LightTooltip = withStyles(theme => ({
+const LightTooltip = withStyles((theme) => ({
   tooltip: {
     backgroundColor: '#555',
     boxShadow: theme.shadows[1],
@@ -134,7 +134,7 @@ const LegendItem: React.FunctionComponent<Legend.ItemProps> = (
   )
 }
 
-const LegendLabel: React.FunctionComponent<Legend.LabelProps> = props => {
+const LegendLabel: React.FunctionComponent<Legend.LabelProps> = (props) => {
   return (
     <Legend.Label
       {...props}
@@ -203,7 +203,7 @@ const DashLineWithCirclePoint: React.FunctionComponent<any> = (props: any) => {
     </>
   )
 }
-const TooltipArrow: React.FunctionComponent<Tooltip.ArrowProps> = props => {
+const TooltipArrow: React.FunctionComponent<Tooltip.ArrowProps> = (props) => {
   return (
     <Tooltip.Arrow
       {...props}
@@ -214,7 +214,9 @@ const TooltipArrow: React.FunctionComponent<Tooltip.ArrowProps> = props => {
   )
 }
 
-const TooltipOverley: React.FunctionComponent<Tooltip.OverlayProps> = props => {
+const TooltipOverley: React.FunctionComponent<Tooltip.OverlayProps> = (
+  props,
+) => {
   return (
     <Tooltip.Overlay
       {...props}
@@ -230,7 +232,7 @@ const TooltipOverley: React.FunctionComponent<Tooltip.OverlayProps> = props => {
   )
 }
 
-const ToolTipSheet: React.FunctionComponent<Tooltip.SheetProps> = props => {
+const ToolTipSheet: React.FunctionComponent<Tooltip.SheetProps> = (props) => {
   return (
     <Tooltip.Sheet
       {...props}
@@ -250,7 +252,7 @@ const ToolTipSheet: React.FunctionComponent<Tooltip.SheetProps> = props => {
 const TooltipContent: React.FunctionComponent<{
   graphData: any
 }> = ({ graphData }) => {
-  const TooltipContentComponent: React.FunctionComponent<any> = props => {
+  const TooltipContentComponent: React.FunctionComponent<any> = (props) => {
     const targetElement = props.targetItem
     return (
       // <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -314,7 +316,7 @@ const GraphBase: React.FunctionComponent<{
     let newValue: any[] = []
     if (!options.customPrepareGraphData) {
       newValue = _.chain(data)
-        .map(item => {
+        .map((item) => {
           const objectData = _.reduce(
             valueField ? item[valueField] : item['valueModal'],
             (acc, v) => {
@@ -414,7 +416,7 @@ export const GraphLine: React.FunctionComponent<{
 
       <ArgumentAxis />
       <ValueAxis
-        labelComponent={props => (
+        labelComponent={(props) => (
           <ValueLabel {...props} unit={options.valueUnit} />
         )}
       />
@@ -429,7 +431,7 @@ export const GraphLine: React.FunctionComponent<{
                 name={_.startCase(key)}
                 valueField={key}
                 argumentField={argumentField}
-                seriesComponent={props => (
+                seriesComponent={(props) => (
                   <DashLineWithCirclePoint
                     {...props}
                     optionstyle={MAP_COLOR_WITH_OBSERVATION[key]}
@@ -446,7 +448,7 @@ export const GraphLine: React.FunctionComponent<{
               name={_.startCase(key)}
               valueField={key}
               argumentField={argumentField}
-              seriesComponent={props => (
+              seriesComponent={(props) => (
                 <LineWithCirclePoint
                   {...props}
                   optionstyle={MAP_COLOR_WITH_OBSERVATION[key]}
@@ -504,6 +506,8 @@ export const GraphArea: React.FunctionComponent<{
       </Typography>
     )
   }
+  const selectedGraph = _.maxBy(graphData, (data: any) => Object.keys(data).length)
+
   return (
     <Chart
       height={optionStyle.height}
@@ -517,11 +521,11 @@ export const GraphArea: React.FunctionComponent<{
       <ArgumentAxis />
       <ValueAxis
         // labelComponent={(props: any) => ValueLabel(props, options.valueUnit)}
-        labelComponent={props => (
+        labelComponent={(props) => (
           <ValueLabel {...props} unit={_.get(options, 'valueUnit')} />
         )}
       />
-      {_.map(graphData[0], (value, key) => {
+      {_.map(selectedGraph, (value, key) => {
         if (key === argumentField) {
           return
         }

@@ -14,7 +14,11 @@ export default class DevelopmentAdapter extends AbstractAdapter {
   }
 
   async login(authData: IDevelopmentAuth, callback: IAuthLoginCallback) {
-    callback(null, { access_token: 'test1234', refresh_token: '' })
+    callback(null, {
+      access_token: 'test1234',
+      refresh_token: '',
+      expires_in: '86400',
+    })
   }
 
   async doRequest(resource: string, params: any): Promise<AxiosResponse<any>> {
