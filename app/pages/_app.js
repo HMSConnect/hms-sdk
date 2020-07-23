@@ -21,11 +21,12 @@ import 'react-resizable/css/styles.css'
 class AASApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {}
-    const token = AuthService.getToken(ctx)
+    const { token, exp } = AuthService.getTokenAndExpiresTime(ctx)
+    console.log(exp)
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx, token)
+      pageProps = await Component.getInitialProps(ctx, token, exp)
     }
-    return { pageProps, token }
+    return { pageProps, token, exp }
   }
 
   constructor(props) {

@@ -1,6 +1,6 @@
 import IAdapter from '@adapters/IAdapter'
-import environment from '@environment'
 import cookie from 'js-cookie'
+import * as moment from 'moment'
 import nextCookie from 'next-cookies'
 import routes from '../routes'
 
@@ -18,6 +18,7 @@ class AuthService {
   defaultAdatper: IAdapter | null = null
   AUTH_ACCESS_TOKEN_KEY = 'hms_access_token'
   AUTH_REFRESH_TOKEN_KEY = 'hms_refresh_token'
+  AUTH_EXPIRE_TIME = 'hms_expires'
   private authData: IAuthData = { isAuthenticated: false }
 
   constructor() {
@@ -34,11 +35,15 @@ class AuthService {
     this.defaultAdatper = adapter
   }
 
-  getToken = (ctx: any) => {
+  getTokenAndExpiresTime = (ctx: any) => {
     const cookies = nextCookie(ctx)
     const token = ctx.query[this.AUTH_ACCESS_TOKEN_KEY]
+    const exp = cookies[this.AUTH_EXPIRE_TIME]
 
-    return token || cookies[this.AUTH_ACCESS_TOKEN_KEY]
+    return {
+      exp,
+      token: token || cookies[this.AUTH_ACCESS_TOKEN_KEY],
+    }
   }
 
   assignAuthDataIfApplicable = (token: string, refresh_token?: string) => {
@@ -70,11 +75,14 @@ class AuthService {
     }
   }
 
-  isValidToken = (token?: string, refreshToken?: string | null) => {
+  isValidToken = (token?: string, exp?: string) => {
     // TODO: check token time
     if (!token) {
       return false
     } else {
+      if (exp) {
+        return moment.default().isBefore(exp)
+      }
       return true
     }
   }
@@ -99,7 +107,7 @@ class AuthService {
             throw new Error(error)
           }
           this.handleLoginResult(response)
-          if(this.authChannel){
+          if (this.authChannel) {
             this.authChannel.postMessage({ message: 'LOGIN' })
           }
           if (successCallback) {
@@ -118,19 +126,26 @@ class AuthService {
   handleLoginResult = (result: any) => {
     cookie.set(this.AUTH_ACCESS_TOKEN_KEY, result.access_token)
     cookie.set(this.AUTH_REFRESH_TOKEN_KEY, result.refresh_token)
+    this.calculateExp(Number(result.expires_in))
     this.assignAuthDataIfApplicable(result.access_token, result.refresh_token)
+  }
+
+  calculateExp = (expires_in: number) => {
+    const exp = moment.default().add(expires_in, 'seconds').toISOString()
+    cookie.set(this.AUTH_EXPIRE_TIME, exp)
   }
 
   logout = (callback?: any, isFormEvent = false) => {
     this.authData = { isAuthenticated: false }
     cookie.remove(this.AUTH_ACCESS_TOKEN_KEY)
+    cookie.remove(this.AUTH_REFRESH_TOKEN_KEY)
+    cookie.remove(this.AUTH_EXPIRE_TIME)
     if (callback) {
       callback()
     } else {
       routes.Router.pushRoute('/login')
     }
   }
-
 }
 
 export default new AuthService()
