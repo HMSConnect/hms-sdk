@@ -1,8 +1,8 @@
 import IValidator from '@validators/IValidator'
+import * as _ from 'lodash'
 import get from 'lodash/get'
 import last from 'lodash/last'
 import map from 'lodash/map'
-
 class HMSPatientV24XValidator implements IValidator {
   isValid(schema: any): boolean {
     return (
@@ -13,9 +13,10 @@ class HMSPatientV24XValidator implements IValidator {
   }
 
   parse(patient: any): any {
-    // console.log("//////given///////");
-    // console.log(patient);
-
+    const identifier: any = {
+      id: _.findLast(patient.identifier, { type: 'MRN' }),
+      mr: _.findLast(patient.identifier, { type: 'NID' }),
+    }
     const age = patient
       ? patient.birthDate
         ? patient.deceasedDateTime
@@ -24,11 +25,14 @@ class HMSPatientV24XValidator implements IValidator {
           : new Date().getFullYear() - patient.birthDate.split('-')[0]
         : 'Unknown'
       : 'Unknown'
-    const identifier: any = {}
     const communication = map(patient.communication, (com) =>
       get(com, 'language'),
     )
-    const name = get(last(patient.name), 'text')
+    const name = {
+      family: get(last(patient.name), 'familyName'),
+      given: [get(last(patient.name), 'givenName')],
+      text: get(last(patient.name), 'text'),
+    }
     const prefix = get(last(patient.name), 'prefix')
     const address = get(last(patient.address), 'text')
 

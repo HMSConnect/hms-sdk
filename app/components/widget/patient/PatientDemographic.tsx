@@ -137,7 +137,7 @@ export const PatientDemographicView: React.FunctionComponent<{
             <Grid container>
               {_.get(structure, 'nameField') ? (
                 <Typography variant='h4' className={classes.nameTitle}>
-                  {_.get(info, 'name')}
+                  {_.get(info, 'name.text')}
                 </Typography>
               ) : null}
             </Grid>

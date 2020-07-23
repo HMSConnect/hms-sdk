@@ -45,14 +45,14 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
       Authorization: `Bearer ${authData.token}`,
     }
     return this.hms
-      .get(this.toSnakeCase(resource), headers, this.toJson(params))
+      .get(resource, headers, this.toJson(params))
       .then((response: any) => {
         if (response.error) {
           throw new Error(response.error)
         }
         return {
           ...this.fromJson(response.data),
-          totalCount: response.total ? response.total : 0,
+          totalCount: response.data.total ? response.data.total : 0,
         }
       })
   }
@@ -73,9 +73,9 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
       'withDiagnosis',
       'withOrganization',
       'withPractitioner',
-      '_lasted'
+      '_lasted',
     ])
-    delete filter["status"]
+    delete filter['status']
     this.sortFieldCoverter(newParams)
     const result = { ...newParams, ...filter }
     this.removeAllIfNotExist(result, {
@@ -84,7 +84,6 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
 
     return stringify(result)
   }
-  
   private fromJson(data: any) {
     const response = data
     this.renameField(response, 'hn', 'patientId')
@@ -135,10 +134,6 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
       field[fieldKey] === undefined ||
       field[fieldKey] === ''
     )
-  }
-
-  private toSnakeCase(text: string) {
-    return _.snakeCase(text)
   }
 
   private removeAllIfNotExist(field: any = {}, option: any) {
