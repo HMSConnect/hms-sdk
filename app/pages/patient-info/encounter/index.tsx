@@ -45,6 +45,7 @@ const PatientSummaryPage: IStatelessPage<{
           'care_plan',
           'organization',
           'practitioner',
+          'diagnosis'
         ]}
         mode={environment.mode}
       >

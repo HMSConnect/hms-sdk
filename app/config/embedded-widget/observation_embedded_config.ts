@@ -1,4 +1,5 @@
 import { IWidgetGroup } from '@config'
+import { mockData } from '@config/mockData'
 
 export const observationWidgetConfig: IWidgetGroup = {
   child: [
@@ -10,13 +11,13 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/blood-pressure-card',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
         {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          defaultValue: mockData.encounterId,
           label: 'Encounter ID',
           type: 'text',
           value: 'encounterId',
@@ -57,13 +58,13 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/temperature-card',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
         {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          defaultValue: mockData.encounterId,
           label: 'Encounter ID',
           type: 'text',
           value: 'encounterId',
@@ -104,13 +105,13 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/tobacco-smoking-status-card',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
         {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          defaultValue: mockData.encounterId,
           label: 'Encounter ID',
           type: 'text',
           value: 'encounterId',
@@ -151,13 +152,13 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/body-measurement-card',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
         {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          defaultValue: mockData.encounterId,
           label: 'Encounter ID',
           type: 'text',
           value: 'encounterId',
@@ -198,13 +199,13 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/heart-rate-card',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
         {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          defaultValue: mockData.encounterId,
           label: 'Encounter ID',
           type: 'text',
           value: 'encounterId',
@@ -245,7 +246,7 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/blood-pressure-graph',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -292,7 +293,7 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/body-height-graph',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -339,7 +340,7 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/body-weight-graph',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -386,7 +387,7 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/body-mass-index-graph',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -433,7 +434,7 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/body-temperature-graph',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -480,7 +481,7 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/heart-rate-graph',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -527,13 +528,13 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/laboratory-table',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
         },
         {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          defaultValue: mockData.encounterId,
           label: 'Encounter ID',
           type: 'text',
           value: 'encounterId',
@@ -567,7 +568,7 @@ export const observationWidgetConfig: IWidgetGroup = {
     //   path: '/embedded-widget/observation/laboratory-card',
     //   queryParams: [
     //     {
-    //       defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+    //       defaultValue: mockData.encounterId,
     //       label: 'Encounter Id',
     //       type: 'text',
     //       value: 'encounterId',
@@ -588,7 +589,7 @@ export const observationWidgetConfig: IWidgetGroup = {
     //   path: '/embedded-widget/observation/vital-sign-card',
     //   queryParams: [
     //     {
-    //       defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+    //       defaultValue: mockData.encounterId,
     //       label: 'Encounter Id',
     //       type: 'text',
     //       value: 'encounterId',
@@ -609,7 +610,7 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/summary-graph',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',
@@ -643,7 +644,7 @@ export const observationWidgetConfig: IWidgetGroup = {
       path: '/embedded-widget/observation/history-graph',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Patient ID',
           type: 'text',
           value: 'patientId',

@@ -1,4 +1,5 @@
 import { IWidgetGroup } from '@config'
+import { mockData } from '@config/mockData'
 
 export default {
   child: [
@@ -24,13 +25,13 @@ export default {
       path: '/embedded-widget/medical-records/diagnostic-report-card',
       queryParams: [
         {
-          defaultValue: '0debf275-d585-4897-a8eb-25726def1ed5',
+          defaultValue: mockData.patientId,
           label: 'Filter[patientId]',
           type: 'text',
           value: 'patientId',
         },
         {
-          defaultValue: '3898f0f9-385e-478d-be25-5f05719e80af',
+          defaultValue: mockData.encounterId,
           label: 'Filter[Encounter ID]',
           type: 'text',
           value: 'encounterId',
