@@ -165,11 +165,11 @@ const classicComponentResource: any = {
     defaultPosition: { x: 8, y: 34 },
     layout: { h: 9, w: 12, isCard: true },
   },
-  observationTabacoSmokingstatusCard: {
-    component: ObservationTobaccoSmokingStatusCardWithConnector,
-    defaultPosition: { x: 4, y: 16 },
-    layout: { h: 4, w: 4, isCard: true },
-  },
+  // observationTabacoSmokingstatusCard: {
+  //   component: ObservationTobaccoSmokingStatusCardWithConnector,
+  //   defaultPosition: { x: 4, y: 16 },
+  //   layout: { h: 4, w: 4, isCard: true },
+  // },
   observationTemperatureCard: {
     component: ObservationTemperatureCardWithConnector,
     defaultPosition: { x: 4, y: 12 },
