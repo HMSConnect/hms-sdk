@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import ErrorSection from '@components/base/ErrorSection'
 import LoadingSection from '@components/base/LoadingSection'
 import TrackerMouseClick from '@components/base/TrackerMouseClick'
@@ -7,6 +5,7 @@ import useEncounter from '@components/hooks/useEncounter'
 import { Avatar, makeStyles, Theme, Typography } from '@material-ui/core'
 import AvatarGroup from '@material-ui/lab/AvatarGroup'
 import * as _ from 'lodash'
+import * as React from 'react'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -102,7 +101,12 @@ const PatientPractitioner: React.FunctionComponent<{
   name = 'patientPractitioner',
 }) => {
   const classes = useStyles({})
-  const { data, error, isLoading } = useEncounter(encounterId)
+  const filter = {
+    withDiagnosis: true,
+    withOrganization: true,
+    withPractitioner: true,
+  }
+  const { data, error, isLoading } = useEncounter(encounterId, filter)
   if (isLoading) {
     return <LoadingSection />
   }
