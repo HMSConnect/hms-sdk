@@ -161,6 +161,10 @@ const ObservationSummaryGraph: React.FunctionComponent<{
   } = useObservationList({
     filter: initialFilter,
     max,
+    sort: {
+      order: 'asc',
+      orderBy: 'issued',
+    }
   })
 
   const submitSearch = (filter: any) => {
@@ -407,6 +411,7 @@ const ObservationSummaryGraphView: React.FunctionComponent<any> = ({
   prepareGraphData,
   options,
 }) => {
+
   return (
     <>
       <GraphBase

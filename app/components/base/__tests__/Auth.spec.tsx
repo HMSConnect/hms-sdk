@@ -28,6 +28,14 @@ describe('<Auth />', () => {
   })
   it('render Auth', async () => {
     const getToken = jest.fn()
+    // jest.spyOn(AuthService, 'isValidToken').mockImplementation((params) => {
+    //   return true
+    // })
+    jest
+      .spyOn(AuthService, 'getTokenAndExpiresTime')
+      .mockImplementation((params: any) => {
+        return { token: 'token', exp: undefined }
+      })
     jest
       .spyOn(AuthService, 'assignAuthDataIfApplicable')
       .mockImplementation((params) => {
