@@ -70,7 +70,7 @@ class EncounterService extends AbstractService {
     }
     if (params.withDiagnosis) {
       const diagnosisService = HMSService.getService(
-        'diagnosis',
+        'diagnostic_report',
       ) as AbstractService
       const diagnosis = await diagnosisService.list({
         en: data.id,

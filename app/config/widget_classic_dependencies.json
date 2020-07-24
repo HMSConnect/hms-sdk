@@ -8,16 +8,12 @@
     "validators": ["$HMS_ENCOUNTER_V2.4x"]
   },
   "diagnostic_report": {
-    "services": ["$DIAGNOSTIC_REPORT"],
-    "validators": []
+    "services": ["$DIAGNOSIS"],
+    "validators": ["$HMS_DIAGNOSIS_V2.4x"]
   },
   "allergy_intolerance": {
     "services": ["$ALLERGY"],
     "validators": ["$HMS_ALLERGY_V2.4x"]
-  },
-  "diagnosis": {
-    "services": ["$DIAGNOSIS"],
-    "validators": ["$HMS_DIAGNOSIS_V2.4x"]
   },
   "observation": {
     "services": ["$HMS_OBSERVATION"],

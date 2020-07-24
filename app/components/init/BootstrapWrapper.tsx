@@ -20,7 +20,6 @@ export type DependencyType =
   | 'care_plan'
   | 'organization'
   | 'practitioner'
-  | 'diagnosis'
   | 'hms_appointment'
   | 'hms_cc'
   | 'hms_pi'
