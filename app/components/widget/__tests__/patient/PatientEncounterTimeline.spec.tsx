@@ -256,11 +256,12 @@ describe('PatientEncounterTimeline', () => {
       return EncounterServiceMock as EncounterService
     })
 
-    const allergyServiceListMock = jest.fn()
+    const encounterServiceListMock = jest.fn()
     jest
       .spyOn(EncounterServiceMock, 'list')
       .mockImplementation((params: any) => {
-        allergyServiceListMock(params)
+        console.log('params :>> ', params);
+        encounterServiceListMock(params)
         return Promise.resolve({
           data: [
             {
@@ -295,12 +296,11 @@ describe('PatientEncounterTimeline', () => {
     const resetButtonElement = getByTestId('modal-reset-button')
     fireEvent.click(resetButtonElement)
     await waitForDomChange()
-
-    expect(allergyServiceListMock.mock.calls[0][0].filter).toStrictEqual({
+    expect(encounterServiceListMock.mock.calls[0][0].filter).toStrictEqual({
       patientId: '1',
-      periodStart_lt: undefined,
-      status: '',
-      type: undefined,
+      // periodStart_lt: undefined,
+      // status: '',
+      // type: undefined,
     })
     expect(setResult).toBeCalledTimes(1)
   })

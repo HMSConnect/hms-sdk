@@ -86,6 +86,10 @@ const ObservationBodyWeightGraph: React.FunctionComponent<{
     {
       filter: params || {},
       max: max || 20,
+      sort: {
+        order: 'asc',
+        orderBy: 'issued',
+      }
     },
     ['patientId'],
   )
