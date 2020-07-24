@@ -62,20 +62,20 @@ export default class HMSVitalSignService extends AbstractService {
           if (_.includes(v.name, 'BP(PED)')) {
             let selectedBpObject = _.find(
               acc,
-              (acValue: any) => acValue.name === 'BP',
+              (acValue: any) => acValue.name === 'BP(PED)',
             )
             if (!selectedBpObject) {
               selectedBpObject = {
                 ...v,
                 component: [
-                  {
-                    name: 'Systolic BP(PED)',
-                    value: 0,
-                  },
-                  {
-                    name: 'Diastolic BP(PED)',
-                    value: 0,
-                  },
+                  // {
+                  //   name: 'Systolic BP(PED)',
+                  //   value: null,
+                  // },
+                  // {
+                  //   name: 'Diastolic BP(PED)',
+                  //   value: null,
+                  // },
                 ],
                 name: 'BP(PED)',
               }
@@ -83,7 +83,7 @@ export default class HMSVitalSignService extends AbstractService {
             }
             const findComponentIndex = _.findIndex(
               selectedBpObject.component,
-              (component: any) => _.includes(component.name, 'v.name'),
+              (component: any) => _.includes(component.name, v.name),
             )
             if (findComponentIndex >= 0) {
               selectedBpObject.component[findComponentIndex] = v
@@ -99,14 +99,14 @@ export default class HMSVitalSignService extends AbstractService {
               selectedBpObject = {
                 ...v,
                 component: [
-                  {
-                    name: 'Systolic BP',
-                    value: 0,
-                  },
-                  {
-                    name: 'Diastolic BP',
-                    value: 0,
-                  },
+                  // {
+                  //   name: 'Systolic BP',
+                  //   value: null,
+                  // },
+                  // {
+                  //   name: 'Diastolic BP',
+                  //   value: null,
+                  // },
                 ],
                 name: 'BP',
               }
@@ -114,7 +114,7 @@ export default class HMSVitalSignService extends AbstractService {
             }
             const findComponentIndex = _.findIndex(
               selectedBpObject.component,
-              (component: any) => _.includes(component.name, 'v.name'),
+              (component: any) => _.includes(component.name, v.name),
             )
             if (findComponentIndex >= 0) {
               selectedBpObject.component[findComponentIndex] = v

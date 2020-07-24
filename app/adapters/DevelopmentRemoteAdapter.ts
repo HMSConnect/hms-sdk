@@ -75,6 +75,10 @@ export default class DevelopmentRemoteAdapter extends AbstractAdapter {
       'withPractitioner',
       '_lasted',
     ])
+
+    this.removeMultiField(filter, [
+      'selection'
+    ])
     delete filter['status']
     this.sortFieldCoverter(newParams)
     const result = { ...newParams, ...filter }

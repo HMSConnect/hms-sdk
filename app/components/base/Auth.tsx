@@ -6,6 +6,7 @@ import AuthService from '@services/AuthService'
 import get from 'lodash/get'
 import { stringify } from 'qs'
 import routes from '../../routes'
+import includes from 'lodash/includes'
 
 const withAuthSyncTest = (
   WrappedComponent: any,
@@ -49,7 +50,7 @@ const withAuthSyncTest = (
     if (environment.disableAuthen) {
       return { ...componentProps }
     }
-    if (ctx.req && ctx.req.url.includes('embedded-widget')) {
+    if (ctx.req && includes(ctx.req.url, 'embedded-widget')) {
       callbackIfEmbeddedWidget = () => {
         AuthService.redirect(
           ctx,
@@ -64,7 +65,7 @@ const withAuthSyncTest = (
         )
       }
     }
-    if (pathName.includes('login')) {
+    if (includes(pathName, 'login')) {
       return { ...componentProps, token }
       // if (
       //   !AuthService.isValidToken(token, exp) ||

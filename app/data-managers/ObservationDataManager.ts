@@ -12,6 +12,7 @@ export interface IObservationListQuery extends IListDefaultQuery {
   filter?: IObservationListFilterQuery
   _lasted?: boolean
   max?: number
+  sort?: any
 }
 
 export interface IObservationListFilterQuery {
