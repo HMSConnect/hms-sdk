@@ -4,7 +4,7 @@ interface IMockData {
   encounterId?: string
 }
 const classicMock: IMockData = {
-  encounterId: '',
+  encounterId: 'MOCK-AD95-0892',
   patientId: 'MOCK-54569-4443',
 }
 const sfhirMock: IMockData = {
