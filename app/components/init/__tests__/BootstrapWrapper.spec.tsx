@@ -20,7 +20,20 @@ jest.mock('@config/widget_dependencies.json', () => ({
     },
   },
 }))
+jest.mock('@config/widget_classic_dependencies.json', () => ({
+  __esModule: true,
+  default: {
+    hms_pi: {
+      services: ['hms_pi'],
+      validators: ['Vpatient'],
+    },
+  },
+}))
+
 describe('<BootstrapWrapper />', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
   it('render BootstrapWrapper', () => {
     render(
       <BootstrapWrapper dependencies={['patient']}>
@@ -31,7 +44,6 @@ describe('<BootstrapWrapper />', () => {
     const registerValidatorsFn = BootstrapHelper.registerValidators as jest.Mock
     expect(registerServicesFn).toBeCalled()
     expect(registerValidatorsFn).toBeCalled()
-
     expect(registerServicesFn.mock.calls[0][0]).toStrictEqual(['patient'])
     expect(registerValidatorsFn.mock.calls[0][0]).toStrictEqual(['Vpatient'])
   })
@@ -44,7 +56,29 @@ describe('<BootstrapWrapper />', () => {
     )
     const registerServicesFn = BootstrapHelper.registerServices as jest.Mock
     const registerValidatorsFn = BootstrapHelper.registerValidators as jest.Mock
-    expect(registerServicesFn.mock.calls[1][0]).toStrictEqual([])
-    expect(registerValidatorsFn.mock.calls[1][0]).toStrictEqual([])
+
+    expect(registerServicesFn.mock.calls[0][0]).toStrictEqual([])
+    expect(registerValidatorsFn.mock.calls[0][0]).toStrictEqual([])
+  })
+
+  it('should be sfhir mode', () => {
+    render(
+      <BootstrapWrapper dependencies={['patient']} mode={'sfhir'}>
+        <ModalContentTest />
+      </BootstrapWrapper>,
+    )
+    const registerServicesFn = BootstrapHelper.registerServices as jest.Mock
+    expect(registerServicesFn).toBeCalled()
+    expect(registerServicesFn.mock.calls[0][0]).toStrictEqual(['patient'])
+  })
+  it('should be classic mode', () => {
+    render(
+      <BootstrapWrapper dependencies={['hms_pi']} mode={'classic'}>
+        <ModalContentTest />
+      </BootstrapWrapper>,
+    )
+    const registerServicesFn = BootstrapHelper.registerServices as jest.Mock
+    expect(registerServicesFn).toBeCalled()
+    expect(registerServicesFn.mock.calls[0][0]).toStrictEqual(['hms_pi'])
   })
 })

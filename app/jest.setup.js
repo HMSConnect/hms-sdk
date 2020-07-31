@@ -1,4 +1,4 @@
-const JSDOM = require('jsdom').JSDOM
+const {jsdom: JSDOM} = require('jsdom') //todo: error with 
 const jsdom = new JSDOM('<!DOCTYPE html><html>...')
 
 global.document = jsdom

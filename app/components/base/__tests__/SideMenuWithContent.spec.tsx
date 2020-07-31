@@ -95,7 +95,7 @@ describe('<SideMenuWithContent />', () => {
     const contaimserStyle1 = window.getComputedStyle(
       newContainers1 as HTMLElement,
     )
-    expect(contaimserStyle1.visibility).toBe('')
+    expect(contaimserStyle1.visibility).toBe('visible')
     expect(contaimserStyle1.transform).toBe('none')
   })
 })

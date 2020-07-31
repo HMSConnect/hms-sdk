@@ -42,10 +42,10 @@ const BootstrapWrapper: React.FunctionComponent<{
           ? get(widgetDependencies, dependencyName)
           : get(widgetClassicDependencies, dependencyName) || {}
       BootstrapHelper.registerServices(
-        dependency.services || [],
+        dependency?.services || [],
         dependencyName,
       )
-      BootstrapHelper.registerValidators(dependency.validators || [])
+      BootstrapHelper.registerValidators(dependency?.validators || [])
     }
     setIsLoading(false)
   }, [])

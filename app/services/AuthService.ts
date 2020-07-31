@@ -22,7 +22,7 @@ class AuthService {
   private authData: IAuthData = { isAuthenticated: false }
 
   constructor() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && window.BroadcastChannel) {
       this.authChannel = new BroadcastChannel('auth')
     }
   }
