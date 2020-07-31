@@ -31,6 +31,7 @@ class HMSPatientV24XValidator implements IValidator {
     const name = {
       family: get(last(patient.name), 'familyName'),
       given: [get(last(patient.name), 'givenName')],
+      prefix: [get(last(patient.name), 'prefix')],
       text: get(last(patient.name), 'text'),
     }
     const prefix = get(last(patient.name), 'prefix')

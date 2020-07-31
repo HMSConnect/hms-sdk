@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import {
   initialObservationBloodPressureGraphStructure,
   IObservationBloodPressureGraphStructure,
@@ -22,7 +20,8 @@ import {
   withTheme,
 } from '@material-ui/core'
 import { scaleTime } from 'd3-scale'
-import maxBy from 'lodash/maxBy'
+import _ from 'lodash'
+import * as React from 'react'
 import { useSelector } from 'react-redux'
 
 export interface IOptionsStyleGraphOption {
@@ -104,6 +103,10 @@ const ObservationBloodPressureGraph: React.FunctionComponent<{
     {
       filter: params || {},
       max: max || 20,
+      sort: {
+        order: 'asc',
+        orderBy: 'issued',
+      },
     },
     ['patientId'],
   )
@@ -136,8 +139,36 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
   theme?: any
   optionStyle?: IOptionsStyleGraphOption
 }> = ({ observationList, structure, optionStyle = {}, theme }) => {
-  const lastData: any = maxBy(observationList, 'issuedDate')
+  const lastData: any = _.maxBy(observationList, 'issuedDate')
   const classes = useStyles()
+
+  const prepareData = (data: any) => {
+    return _.chain(data)
+      .map((item) => {
+        const objectData: any = _.reduce(
+          item['valueModal'],
+          (acc, v) => {
+            const key = _.camelCase(v.code)
+            return {
+              ...acc,
+              [key]: v.value,
+            }
+          },
+          {},
+        )
+        if (!objectData.systolicBloodPressure) {
+          objectData.systolicBloodPressure = 0
+        }
+        if (!objectData.diastolicBloodPressure) {
+          objectData.diastolicBloodPressure = 0
+        }
+        return {
+          ...objectData,
+          issuedDate: item.issuedDate,
+        }
+      })
+      .value()
+  }
   return (
     <>
       <ToolbarWithFilter
@@ -174,6 +205,7 @@ export const ObservationBloodPressureGraphView: React.FunctionComponent<{
             }}
             options={{
               ArgumentScale: <ArgumentScale factory={scaleTime as any} />,
+              customPrepareGraphData: prepareData,
               ValueScale: <ValueScale modifyDomain={() => [0, 150]} />,
               type: 'area',
             }}

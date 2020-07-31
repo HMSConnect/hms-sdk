@@ -27,6 +27,7 @@ const PatientEncounterTimelineWidget: IStatelessPage<{
           'practitioner',
           'procedure',
           'condition',
+          'diagnostic_report'
         ]}
         mode={environment.mode}
       >

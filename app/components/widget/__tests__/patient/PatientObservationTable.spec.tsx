@@ -111,20 +111,21 @@ describe('<PatientObservationTable />', () => {
     })
 
     const testFn = jest.fn()
-    jest
-      .spyOn(React, 'useReducer')
-      .mockReturnValueOnce([
-        {
-          isGroup: false,
-        },
-        jest.fn(),
-      ])
-      .mockReturnValueOnce([
-        {
-          isGroup: true,
-        },
-        jest.fn(),
-      ])
+    // TODO fix bug spyOn useReducer
+    // jest
+    //   .spyOn(React, 'useReducer')
+    //   .mockReturnValueOnce([
+    //     {
+    //       isGroup: false,
+    //     },
+    //     jest.fn(),
+    //   ])
+    //   .mockReturnValueOnce([
+    //     {
+    //       isGroup: true,
+    //     },
+    //     jest.fn(),
+    //   ])
     jest
       .spyOn(ObservationServiceMock, 'list')
       .mockImplementation((params: any) => {
@@ -177,20 +178,21 @@ describe('<PatientObservationTable />', () => {
     })
 
     const testFn = jest.fn()
-    jest
-      .spyOn(React, 'useReducer')
-      .mockReturnValueOnce([
-        {
-          isGroup: false,
-        },
-        jest.fn(),
-      ])
-      .mockReturnValueOnce([
-        {
-          isGroup: true,
-        },
-        jest.fn(),
-      ])
+    // TODO fix bug spyOn useReducer
+    // jest
+    //   .spyOn(React, 'useReducer')
+    //   .mockReturnValueOnce([
+    //     {
+    //       isGroup: false,
+    //     },
+    //     jest.fn(),
+    //   ])
+    //   .mockReturnValueOnce([
+    //     {
+    //       isGroup: true,
+    //     },
+    //     jest.fn(),
+    //   ])
     jest
       .spyOn(ObservationServiceMock, 'list')
       .mockImplementation((params: any) => {
@@ -246,20 +248,21 @@ describe('<PatientObservationTable />', () => {
     jest.spyOn(HMSService, 'getService').mockImplementation(() => {
       return ObservationServiceMock as ObservationService
     })
-    jest
-      .spyOn(React, 'useReducer')
-      .mockReturnValueOnce([
-        {
-          isGroup: false,
-        },
-        jest.fn(),
-      ])
-      .mockReturnValueOnce([
-        {
-          isGroup: true,
-        },
-        jest.fn(),
-      ])
+    // TODO fix bug spyOn useReducer
+    // jest
+    //   .spyOn(React, 'useReducer')
+    //   .mockReturnValueOnce([
+    //     {
+    //       isGroup: false,
+    //     },
+    //     jest.fn(),
+    //   ])
+    //   .mockReturnValueOnce([
+    //     {
+    //       isGroup: true,
+    //     },
+    //     jest.fn(),
+    //   ])
     jest
       .spyOn(ObservationServiceMock, 'categoryList')
       .mockImplementation((params: any) => {

@@ -137,7 +137,16 @@ export const PatientDemographicView: React.FunctionComponent<{
             <Grid container>
               {_.get(structure, 'nameField') ? (
                 <Typography variant='h4' className={classes.nameTitle}>
-                  {_.get(info, 'name.text')}
+                  {/* {_.get(info, 'name.text')} */}
+                  {_.isArray(_.get(info, 'name.prefix'))
+                    ? _.join(_.get(info, 'name.prefix'), ' ')
+                    : _.get(info, 'name.prefix')}{' '}
+                  {_.isArray(_.get(info, 'name.given'))
+                    ? _.join(_.get(info, 'name.given'), ' ')
+                    : _.get(info, 'name.given')}{' '}
+                  {_.isArray(_.get(info, 'name.family'))
+                    ? _.join(_.get(info, 'name.family'), ' ')
+                    : _.get(info, 'name.family')}
                 </Typography>
               ) : null}
             </Grid>

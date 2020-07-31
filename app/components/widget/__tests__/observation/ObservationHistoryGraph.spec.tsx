@@ -17,7 +17,7 @@ jest.mock('@components/hooks/useObservationList', () => ({
 }))
 
 jest.mock('@devexpress/dx-react-chart-material-ui', () => {
-  const RealModule = require.requireActual(
+  const RealModule = jest.requireActual(
     '@devexpress/dx-react-chart-material-ui',
   )
   const MyModule = {

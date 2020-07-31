@@ -1,11 +1,10 @@
 import IAdapter from '@adapters/IAdapter'
 import DataManager from '@data-managers/DataManager'
 import EncounterDataManager from '@data-managers/EncounterDataManager'
-import AbstractService from './AbstractService'
 import ValidatorManager from '@validators/ValidatorManager'
-import { HMSService } from './HMSServiceFactory'
-import PractitionerService from './PractitionerService'
 import * as _ from 'lodash'
+import AbstractService from './AbstractService'
+import { HMSService } from './HMSServiceFactory'
 
 class EncounterService extends AbstractService {
   createDataManager(resource: string, adapter: IAdapter): DataManager {
@@ -14,7 +13,6 @@ class EncounterService extends AbstractService {
 
   async list(params: any): Promise<any> {
     const encounterEntryParams = _.cloneDeep(params)
-    console.info(`[service] loading resource list`, params)
     const result = await this.dataManager.list(params)
     const validator = ValidatorManager.compile(result.schema)
     if (validator) {
@@ -31,7 +29,20 @@ class EncounterService extends AbstractService {
       throw Error('not support this schema.')
     }
   }
-
+  async load(id: string, options?: any): Promise<any> {
+    const encounterEntryOptions = _.cloneDeep(options)
+    const result = await this.dataManager.load(id, options)
+    const validator = ValidatorManager.compile(result.schema)
+    if (validator) {
+      const res = result
+      const encounterRelate = validator.parse(result.data)
+      await this.mappingEnounterRelate(encounterRelate, encounterEntryOptions)
+      res.data = encounterRelate
+      return res
+    } else {
+      throw Error('not support this schema.')
+    }
+  }
   async typeList(params?: any): Promise<any> {
     const dataManager = this.dataManager as EncounterDataManager
     const result = await dataManager.typeList(params || {})
@@ -42,7 +53,6 @@ class EncounterService extends AbstractService {
   }
 
   async resourceList(id: string): Promise<any> {
-    // console.info(`[service] loading resource list`, id)
     const dataManager = this.dataManager as EncounterDataManager
     const result = await dataManager.resourceList(id)
     return {
@@ -70,7 +80,7 @@ class EncounterService extends AbstractService {
     }
     if (params.withDiagnosis) {
       const diagnosisService = HMSService.getService(
-        'diagnosis',
+        'diagnostic_report',
       ) as AbstractService
       const diagnosis = await diagnosisService.list({
         en: data.id,

@@ -66,8 +66,8 @@ describe('<PatientProcedureTable />', () => {
       <PatientProcedureTable patientId={'1'} isInitialize={true} />,
     )
 
-    expect(queryByText('Depression')).toBeTruthy()
-    expect(queryByText('ChildBirth')).toBeTruthy()
+    expect(queryByText('4411')).toBeTruthy()
+    expect(queryByText('1144')).toBeTruthy()
   })
   it('submit search data PatientProcedureTable', async () => {
     const setResult = jest.fn()
