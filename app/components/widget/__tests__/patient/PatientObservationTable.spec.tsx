@@ -111,21 +111,6 @@ describe('<PatientObservationTable />', () => {
     })
 
     const testFn = jest.fn()
-    // TODO fix bug spyOn useReducer
-    // jest
-    //   .spyOn(React, 'useReducer')
-    //   .mockReturnValueOnce([
-    //     {
-    //       isGroup: false,
-    //     },
-    //     jest.fn(),
-    //   ])
-    //   .mockReturnValueOnce([
-    //     {
-    //       isGroup: true,
-    //     },
-    //     jest.fn(),
-    //   ])
     jest
       .spyOn(ObservationServiceMock, 'list')
       .mockImplementation((params: any) => {
@@ -178,21 +163,6 @@ describe('<PatientObservationTable />', () => {
     })
 
     const testFn = jest.fn()
-    // TODO fix bug spyOn useReducer
-    // jest
-    //   .spyOn(React, 'useReducer')
-    //   .mockReturnValueOnce([
-    //     {
-    //       isGroup: false,
-    //     },
-    //     jest.fn(),
-    //   ])
-    //   .mockReturnValueOnce([
-    //     {
-    //       isGroup: true,
-    //     },
-    //     jest.fn(),
-    //   ])
     jest
       .spyOn(ObservationServiceMock, 'list')
       .mockImplementation((params: any) => {
@@ -248,21 +218,6 @@ describe('<PatientObservationTable />', () => {
     jest.spyOn(HMSService, 'getService').mockImplementation(() => {
       return ObservationServiceMock as ObservationService
     })
-    // TODO fix bug spyOn useReducer
-    // jest
-    //   .spyOn(React, 'useReducer')
-    //   .mockReturnValueOnce([
-    //     {
-    //       isGroup: false,
-    //     },
-    //     jest.fn(),
-    //   ])
-    //   .mockReturnValueOnce([
-    //     {
-    //       isGroup: true,
-    //     },
-    //     jest.fn(),
-    //   ])
     jest
       .spyOn(ObservationServiceMock, 'categoryList')
       .mockImplementation((params: any) => {

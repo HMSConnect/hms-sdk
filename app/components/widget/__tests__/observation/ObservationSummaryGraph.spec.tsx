@@ -148,26 +148,6 @@ describe('<ObservationSummaryGraph />', () => {
 
   it('add body weight graph ObsevationSummaryGraph', async () => {
     const setFilter = jest.fn()
-    const dispatch = jest.fn()
-    // TODO fix bug spyOn useReducer
-    // jest
-    //   .spyOn(React, 'useReducer')
-    //   .mockReturnValueOnce([
-    //     {
-    //       filter: {},
-    //       submitedFilter: {},
-    //     },
-    //     dispatch,
-    //   ])
-    //   .mockReturnValueOnce([
-    //     {
-    //       filter: {
-    //         selection: { bloodPressure: true, bodyMassIndex: true },
-    //       },
-    //       submitedFilter: {},
-    //     },
-    //     dispatch,
-    //   ])
 
     const useObservationListResult: any = useObservationList as any
     const results: any = {

@@ -14,6 +14,10 @@ import {
 } from '../__mocks__/GridCardSelectorMock'
 
 describe('<GridSelector /> ', () => {
+  beforeAll(() => {
+    jest.clearAllMocks()
+  })
+  
   it('render <GridSelector />', () => {
     const { getByTestId, queryByText } = render(
       <GridLayoutWithComponentSelector

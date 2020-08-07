@@ -5,7 +5,7 @@ import PatientCarePlanTable from '@components/widget/patient/PatientCarePlanTabl
 import CarePlanServiceMock from '@services/__mocks__/CarePlanServiceMock'
 import CarePlanService from '@services/CarePlanService'
 import { HMSService } from '@services/HMSServiceFactory'
-import { fireEvent, render, waitForDomChange } from '@testing-library/react'
+import { fireEvent, render, waitForDomChange, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 jest.mock('@components/hooks/useInfinitScroll', () => ({
@@ -649,7 +649,7 @@ describe('<PatientCarePlanTable />', () => {
     expect(queryByText('Test Error')).toBeTruthy()
   })
 
-  it('group/ungroup group PatientCarePlanTable', async () => {
+  it.only('group/ungroup group PatientCarePlanTable', async () => {
     const setResult = jest.fn()
     const useObservaionLaboratoryListResult: any = useInfinitScroll as any
     const results: any = {
@@ -668,21 +668,6 @@ describe('<PatientCarePlanTable />', () => {
     })
 
     const testFn = jest.fn()
-    // TODO fix bug spyOn useReducer
-    // jest
-    //   .spyOn(React, 'useReducer')
-    //   .mockReturnValueOnce([
-    //     {
-    //       isGroup: false,
-    //     },
-    //     jest.fn(),
-    //   ])
-    //   .mockReturnValueOnce([
-    //     {
-    //       isGroup: true,
-    //     },
-    //     jest.fn(),
-    //   ])
     jest
       .spyOn(CarePlanServiceMock, 'list')
       .mockImplementation((params: any) => {
@@ -723,14 +708,16 @@ describe('<PatientCarePlanTable />', () => {
 
     const groupByCheckboxElement = getByTestId('check-by-type-input')
     userEvent.click(groupByCheckboxElement)
-    await waitForDomChange()
-    expect(testFn.mock.calls[0][0].filter.category).toStrictEqual(
-      'Respiratory therapy',
-    )
+    await waitFor(() => {
+      expect(testFn.mock.calls[0][0].filter.category).toStrictEqual(
+        'Respiratory therapy',
+      )
+    })
 
     userEvent.click(groupByCheckboxElement)
-    await waitForDomChange()
-    expect(testFn.mock.calls[1][0].filter.category).toStrictEqual(undefined)
+    await waitFor(() => {
+      expect(testFn.mock.calls[1][0].filter.category).toStrictEqual(undefined)
+    })
   })
 
   it('tab change group PatientCarePlanTable', async () => {
@@ -752,21 +739,6 @@ describe('<PatientCarePlanTable />', () => {
     })
 
     const testFn = jest.fn()
-    // TODO fix bug spyOn useReducer
-    // jest
-    //   .spyOn(React, 'useReducer')
-    //   .mockReturnValueOnce([
-    //     {
-    //       isGroup: false,
-    //     },
-    //     jest.fn(),
-    //   ])
-    //   .mockReturnValueOnce([
-    //     {
-    //       isGroup: true,
-    //     },
-    //     jest.fn(),
-    //   ])
     jest
       .spyOn(CarePlanServiceMock, 'list')
       .mockImplementation((params: any) => {
@@ -837,21 +809,6 @@ describe('<PatientCarePlanTable />', () => {
     jest.spyOn(HMSService, 'getService').mockImplementation(() => {
       return CarePlanServiceMock as CarePlanService
     })
-    // TODO fix bug spyOn useReducer
-    // jest
-    //   .spyOn(React, 'useReducer')
-    //   .mockReturnValueOnce([
-    //     {
-    //       isGroup: false,
-    //     },
-    //     jest.fn(),
-    //   ])
-    //   .mockReturnValueOnce([
-    //     {
-    //       isGroup: true,
-    //     },
-    //     jest.fn(),
-    //   ])
     jest
       .spyOn(CarePlanServiceMock, 'categoryList')
       .mockImplementation((params: any) => {

@@ -5,6 +5,10 @@ import userEvent from '@testing-library/user-event'
 import GenderSelector from '../GenderSelecter'
 
 describe('PatientFilterBar', () => {
+  beforeAll(() => {
+    jest.clearAllMocks()
+  })
+  
   it('render <PatientFilterBar />', () => {
     const value = 'male'
     const onGenderChange = jest.fn()
