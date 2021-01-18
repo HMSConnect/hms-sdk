@@ -1,6 +1,3 @@
-import * as React from 'react'
-
-import { withAuthSync } from '@components/base/Auth'
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import Tracker from '@components/base/Tracker'
 import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
@@ -13,11 +10,13 @@ import {
   CssBaseline,
   makeStyles,
   Theme,
-  Typography,
+  Typography
 } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import { parse } from '@utils'
 import * as _ from 'lodash'
+import * as React from 'react'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   body: {},
@@ -90,4 +89,4 @@ export function initialPagination(query: any) {
   }
 }
 
-export default withAuthSync(PatientSearchView)
+export default PatientSearchView

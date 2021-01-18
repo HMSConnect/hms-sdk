@@ -1,6 +1,3 @@
-import * as React from 'react'
-
-import { withAuthSync } from '@components/base/Auth'
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import MouseTrackMove from '@components/base/MouseTrackMove'
 import Tracker from '@components/base/Tracker'
@@ -11,8 +8,10 @@ import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import { IStatelessPage } from '@pages/patient-search'
 import get from 'lodash/get'
+import * as React from 'react'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -89,4 +88,4 @@ PatientSummaryPage.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default withAuthSync(PatientSummaryPage)
+export default PatientSummaryPage

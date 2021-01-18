@@ -34,4 +34,4 @@ PatientInfoPanelWidget.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default withAuthSync(PatientInfoPanelWidget)
+export default PatientInfoPanelWidget

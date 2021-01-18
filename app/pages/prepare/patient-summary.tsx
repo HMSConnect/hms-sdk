@@ -1,11 +1,10 @@
-import * as React from 'react'
-
-import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PreparePatientData from '@components/widget/PreparePatientData'
 import { CssBaseline, Typography } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import * as _ from 'lodash'
+import * as React from 'react'
+
 
 const PatientInfoView: IStatelessPage<{
   query: any
@@ -28,4 +27,4 @@ PatientInfoView.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default withAuthSync(PatientInfoView)
+export default PatientInfoView

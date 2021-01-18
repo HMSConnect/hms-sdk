@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from 'react'
-
-import { withAuthSync } from '@components/base/Auth'
 import { IPageOptionResult } from '@components/base/Pagination'
 import Tracker from '@components/base/Tracker'
 import { IPaginationOption, ISortType } from '@components/hooks/usePatientList'
@@ -8,7 +5,7 @@ import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { IPatientFilterValue } from '@components/templates/patient/PatientFilterBar'
 import {
   defaultPagination,
-  PatientSearchResultWithPaginateWithConnector,
+  PatientSearchResultWithPaginateWithConnector
 } from '@components/widget/patient/PatientSearchResultWithPaginate'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
@@ -16,7 +13,9 @@ import RouteManager from '@routes/RouteManager'
 import { GoogleAnalytics } from '@services/GoogleAnalyticsService'
 import { parse, sendMessage } from '@utils'
 import * as _ from 'lodash'
+import React, { useEffect, useState } from 'react'
 import routes from '../../routes'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -148,5 +147,5 @@ export function initialPagination(query: any) {
   }
 }
 
-export default withAuthSync(PatientSearchResultWidget)
+export default PatientSearchResultWidget
 // export default PatientSearchResultWidget

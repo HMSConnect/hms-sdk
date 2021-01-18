@@ -1,11 +1,10 @@
-import * as React from 'react'
-
-import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import ObservationLaboratoryCard from '@components/widget/medical-records/ObservationLaboratoryCard'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
+import * as React from 'react'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -35,4 +34,4 @@ ObservationLaboratoryCardWidget.getInitialProps = async ({ req, res, query }) =>
   }
 }
 
-export default withAuthSync(ObservationLaboratoryCardWidget)
+export default ObservationLaboratoryCardWidget

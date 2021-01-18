@@ -1,20 +1,18 @@
-import * as React from 'react'
-
 import ThemeSelect from '@components/base/ThemeSelect'
 import environment from '@environment'
 import {
   AppBar,
-  Button,
+
   createStyles,
-  Icon,
+
   makeStyles,
   Theme,
   Toolbar,
-  Typography,
+  Typography
 } from '@material-ui/core'
-import AuthService from '@services/AuthService'
-import clsx from 'clsx'
+import * as React from 'react'
 import { useSelector } from 'react-redux'
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,10 +41,6 @@ export const AppNavBarWithConnector: React.FunctionComponent<any> = ({
 const AppNavBar: React.FunctionComponent<any> = () => {
   const classes = useStyles()
 
-  const handleLogout = (event: any) => {
-    AuthService.logout()
-  }
-
   return (
     <AppBar position='static'>
       <Toolbar>
@@ -55,22 +49,6 @@ const AppNavBar: React.FunctionComponent<any> = () => {
           <Typography variant='body1'>V. {environment.codeVersion}</Typography>
         </Typography>
         <ThemeSelect />
-        <div>
-          <Button
-            onClick={handleLogout}
-            color='inherit'
-            data-testid='logout-app-nav-bar'
-          >
-            <Icon className={clsx('fas fa-sign-out-alt', classes.icon)} />{' '}
-            <Typography
-              style={{ paddingLeft: '8px' }}
-              component='span'
-              variant='body2'
-            >
-              Logout
-            </Typography>
-          </Button>
-        </div>
       </Toolbar>
     </AppBar>
   )

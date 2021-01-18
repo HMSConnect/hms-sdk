@@ -1,15 +1,14 @@
-import * as React from 'react'
-
-import { withAuthSync } from '@components/base/Auth'
 import BreadcrumbsBase from '@components/base/BreadcrumbsBase'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientInfoDetail, {
-  PatientInfoDetailWithConnector,
+import {
+  PatientInfoDetailWithConnector
 } from '@components/widget/patient/PatientInfoDetail'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import { IStatelessPage } from '@pages/patient-search'
 import get from 'lodash/get'
+import * as React from 'react'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -79,4 +78,4 @@ PatientMeidicalPanel.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default withAuthSync(PatientMeidicalPanel)
+export default PatientMeidicalPanel

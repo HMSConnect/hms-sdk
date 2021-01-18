@@ -1,11 +1,10 @@
-import * as React from 'react'
-
-import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import PreparePatientData from '@components/widget/PreparePatientData'
 import { CssBaseline, makeStyles, Theme, Typography } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import * as _ from 'lodash'
+import * as React from 'react'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -49,4 +48,4 @@ PatientInfoWidget.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default withAuthSync(PatientInfoWidget)
+export default PatientInfoWidget

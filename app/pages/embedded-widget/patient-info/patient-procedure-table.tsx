@@ -1,14 +1,13 @@
-import * as React from 'react'
-
-import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
-import PatientProcedureTable, {
-  PatientProcedureTableWithConnector,
+import {
+  PatientProcedureTableWithConnector
 } from '@components/widget/patient/PatientProcedureTable'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
 import { get } from 'lodash'
+import * as React from 'react'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -40,4 +39,4 @@ PatientProcedureWidget.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default withAuthSync(PatientProcedureWidget)
+export default PatientProcedureWidget

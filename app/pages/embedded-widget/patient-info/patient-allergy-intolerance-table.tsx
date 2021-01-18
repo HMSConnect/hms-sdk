@@ -1,12 +1,11 @@
-import * as React from 'react'
-
-import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { PatientAllergyIntoleranceTableWithConnector } from '@components/widget/patient/PatientAllergyIntoleranceTable'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
 import { get } from 'lodash'
+import * as React from 'react'
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -49,4 +48,4 @@ PatientAllergyIntoleranceTableWidget.getInitialProps = async ({
   }
 }
 
-export default withAuthSync(PatientAllergyIntoleranceTableWidget)
+export default PatientAllergyIntoleranceTableWidget

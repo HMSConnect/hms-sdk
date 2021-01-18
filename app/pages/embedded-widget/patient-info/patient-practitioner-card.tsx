@@ -1,12 +1,11 @@
-import * as React from 'react'
-
-import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { PatientPractitionerWithConnector } from '@components/widget/patient/PatientPractitioner'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
 import { IStatelessPage } from '@pages/patient-search'
 import { parse } from '@utils'
 import get from 'lodash/get'
+import * as React from 'react'
+
 
 // import PatientPhysician from '@components/widget/patient/PatientPhysician'
 
@@ -39,4 +38,4 @@ PatientPractitionerCardWidget.getInitialProps = async ({ req, res, query }) => {
   }
 }
 
-export default withAuthSync(PatientPractitionerCardWidget)
+export default PatientPractitionerCardWidget

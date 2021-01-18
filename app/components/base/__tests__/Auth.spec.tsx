@@ -1,7 +1,6 @@
+import AuthService from '@services/AuthService'
 import { render } from '@testing-library/react'
 import * as React from 'react'
-import { withAuthSync } from '../Auth'
-import AuthService from '@services/AuthService'
 
 interface IStatelessPage<P = {}> extends React.FunctionComponent<P> {
   getInitialProps?: (ctx: any) => Promise<P>
@@ -34,7 +33,7 @@ describe('<Auth />', () => {
         getToken.call(null)
         return 'token'
       })
-    const Component = withAuthSync(PageMock)
+    const Component = PageMock
     const { queryByText } = render(<Component />)
     const props = await Component.getInitialProps({
       req: {

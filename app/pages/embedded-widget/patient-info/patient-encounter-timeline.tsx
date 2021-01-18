@@ -1,4 +1,3 @@
-import { withAuthSync } from '@components/base/Auth'
 import BootstrapWrapper from '@components/init/BootstrapWrapper'
 import { PatientEncounterTimelineWithConnector } from '@components/widget/patient/PatientEncounterTimeline'
 import { CssBaseline, makeStyles, Theme } from '@material-ui/core'
@@ -53,4 +52,4 @@ PatientEncounterTimelineWidget.getInitialProps = async ({
   }
 }
 
-export default withAuthSync(PatientEncounterTimelineWidget)
+export default PatientEncounterTimelineWidget
